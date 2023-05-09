@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_general_ci">ports_hermina</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="master_sub_area" view="standard">
+<left>32</left>
+<top>1289</top>
+<width>244</width>
+<height>197</height>
+<sql_create_table>CREATE TABLE `master_sub_area` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `area_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `area_id` (`area_id`),
+  CONSTRAINT `master_sub_area_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `master_area` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_area" view="standard">
+<left>22</left>
+<top>1039</top>
+<width>234</width>
+<height>197</height>
+<sql_create_table>CREATE TABLE `master_area` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `location_id` int(11) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `round_id` int(11) DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lokasi_id` (`location_id`),
+  KEY `round_id` (`round_id`),
+  CONSTRAINT `master_area_ibfk_1` FOREIGN KEY (`location_id`) REFERENCES `master_location` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `master_area_ibfk_2` FOREIGN KEY (`round_id`) REFERENCES `master_round` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_region" view="standard">
+<left>438</left>
+<top>395</top>
+<width>223</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `master_region` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_items" view="standard">
+<left>864</left>
+<top>899</top>
+<width>230</width>
+<height>197</height>
+<sql_create_table>CREATE TABLE `master_items` (
+  `id` bigint(8) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_branch" view="standard">
+<left>23</left>
+<top>399</top>
+<width>304</width>
+<height>299</height>
+<sql_create_table>CREATE TABLE `master_branch` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `no_telp` varchar(200) DEFAULT NULL,
+  `region_name` varchar(200) DEFAULT NULL,
+  `province_id` int(11) DEFAULT NULL,
+  `city_id` int(11) DEFAULT NULL,
+  `class` enum('A','B','C','D') DEFAULT NULL,
+  `id_branch` varchar(100) DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1' COMMENT 'status data aktif atau arsip',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `region_id` (`region_name`),
+  KEY `province_id` (`province_id`),
+  KEY `city_id` (`city_id`),
+  CONSTRAINT `master_branch_ibfk_2` FOREIGN KEY (`province_id`) REFERENCES `master_province` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `master_branch_ibfk_3` FOREIGN KEY (`city_id`) REFERENCES `master_city` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="app_login" view="standard">
+<left>20</left>
+<top>91</top>
+<width>272</width>
+<height>197</height>
+<sql_create_table>CREATE TABLE `app_login` (
+  `id` varchar(15) NOT NULL,
+  `user_id` varchar(15) DEFAULT NULL,
+  `access_token` text DEFAULT NULL,
+  `status` enum('login','logout') DEFAULT NULL,
+  `ip_address` varchar(100) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `type` enum('api','web') DEFAULT 'web',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `app_login_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_login_attempt" view="standard">
+<left>1279</left>
+<top>391</top>
+<width>132</width>
+<height>185</height>
+<sql_create_table>CREATE TABLE `app_login_attempt` (
+  `id` varchar(15) NOT NULL,
+  `nik` varchar(16) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(50) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_menu" view="standard">
+<left>1282</left>
+<top>37</top>
+<width>347</width>
+<height>311</height>
+<sql_create_table>CREATE TABLE `app_menu` (
+  `menu_id` varchar(2) NOT NULL,
+  `parent_menu_id` varchar(2) DEFAULT NULL,
+  `menu_name` varchar(50) DEFAULT NULL,
+  `menu_description` varchar(100) DEFAULT NULL,
+  `menu_url` varchar(100) DEFAULT NULL,
+  `menu_sort` int(11) unsigned DEFAULT NULL,
+  `menu_group` enum('utama','system','lainnya') DEFAULT 'utama',
+  `menu_icon` varchar(50) DEFAULT NULL COMMENT 'mdi icon class',
+  `menu_active` enum('1','0') DEFAULT '1',
+  `menu_display` enum('1','0') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_reset_password" view="standard">
+<left>1004</left>
+<top>388</top>
+<width>109</width>
+<height>189</height>
+<sql_create_table>CREATE TABLE `app_reset_password` (
+  `id` varchar(15) NOT NULL,
+  `user_id` varchar(15) DEFAULT NULL,
+  `ip_address` varchar(100) DEFAULT NULL,
+  `token` text DEFAULT NULL,
+  `status` enum('0','1') DEFAULT '1',
+  `created_date` datetime DEFAULT NULL,
+  `max_age` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `app_reset_password_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_role" view="standard">
+<left>803</left>
+<top>59</top>
+<width>242</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `app_role` (
+  `role_id` varchar(2) NOT NULL,
+  `role_name` varchar(100) DEFAULT NULL,
+  `role_description` varchar(100) DEFAULT NULL,
+  `role_permission` varchar(4) DEFAULT '1000',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_role_menu" view="standard">
+<left>1069</left>
+<top>166</top>
+<width>186</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `app_role_menu` (
+  `role_id` varchar(2) NOT NULL,
+  `menu_id` varchar(2) NOT NULL,
+  PRIMARY KEY (`menu_id`,`role_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `app_role_menu_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `app_menu` (`menu_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `app_role_menu_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_role_user" view="standard">
+<left>610</left>
+<top>207</top>
+<width>168</width>
+<height>112</height>
+<sql_create_table>CREATE TABLE `app_role_user` (
+  `role_id` varchar(2) NOT NULL,
+  `user_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `role_id` (`role_id`),
+  CONSTRAINT `app_role_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `app_role_user_ibfk_3` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_smtp_email" view="standard">
+<left>1121</left>
+<top>389</top>
+<width>147</width>
+<height>187</height>
+<sql_create_table>CREATE TABLE `app_smtp_email` (
+  `email_id` varchar(2) NOT NULL,
+  `email_name` varchar(100) DEFAULT NULL,
+  `email_address` varchar(50) DEFAULT NULL,
+  `smtp_host` varchar(50) DEFAULT NULL,
+  `smtp_port` varchar(5) DEFAULT NULL,
+  `smtp_username` varchar(50) DEFAULT NULL,
+  `smtp_password` varchar(50) DEFAULT NULL,
+  `use_smtp` enum('1','0') DEFAULT '1',
+  `use_authorization` enum('1','0') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` date DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`email_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_user" view="standard">
+<left>348</left>
+<top>55</top>
+<width>237</width>
+<height>282</height>
+<sql_create_table>CREATE TABLE `app_user` (
+  `user_id` varchar(15) NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
+  `user_password` varchar(255) NOT NULL,
+  `user_active` enum('1','0') NOT NULL DEFAULT '1',
+  `user_img_path` varchar(100) DEFAULT NULL,
+  `user_img_name` varchar(200) DEFAULT NULL,
+  `nik` varchar(16) DEFAULT NULL,
+  `no_telp` varchar(15) DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `branch_id` (`branch_id`),
+  CONSTRAINT `app_user_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `master_branch` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="app_visitor" view="standard">
+<left>873</left>
+<top>388</top>
+<width>122</width>
+<height>190</height>
+<sql_create_table>CREATE TABLE `app_visitor` (
+  `visitor_id` varchar(15) NOT NULL,
+  `visitor_ip` varchar(100) DEFAULT NULL,
+  `visitor_date` datetime DEFAULT NULL,
+  `visitor_hits` varchar(10) DEFAULT NULL,
+  `visitor_online` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`visitor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="master_city" view="standard">
+<left>726</left>
+<top>626</top>
+<width>229</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `master_city` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `province_code` int(11) DEFAULT NULL,
+  `code` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `provinsi_id` (`province_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=1037 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="master_province" view="standard">
+<left>440</left>
+<top>628</top>
+<width>227</width>
+<height>197</height>
+<sql_create_table>CREATE TABLE `master_province` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1</sql_create_table>
+</table>
+<table name="branch_items" view="standard">
+<left>454</left>
+<top>898</top>
+<width>239</width>
+<height>241</height>
+<sql_create_table>CREATE TABLE `branch_items` (
+  `id` bigint(8) NOT NULL AUTO_INCREMENT,
+  `branch_id` int(11) DEFAULT NULL,
+  `items_id` bigint(8) DEFAULT NULL,
+  `sub_area_id` int(11) DEFAULT NULL,
+  `zona` enum('JKN','Eksekutif','Tanpa Zona') DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_id` (`branch_id`),
+  KEY `sub_area_id` (`sub_area_id`),
+  KEY `items_id` (`items_id`),
+  CONSTRAINT `branch_items_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `master_branch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `branch_items_ibfk_3` FOREIGN KEY (`sub_area_id`) REFERENCES `master_sub_area` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `branch_items_ibfk_4` FOREIGN KEY (`items_id`) REFERENCES `master_items` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_round" view="standard">
+<left>743</left>
+<top>1140</top>
+<width>232</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `master_round` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `start_day` varchar(10) DEFAULT NULL,
+  `end_day` varchar(10) DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_location" view="standard">
+<left>24</left>
+<top>805</top>
+<width>232</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `master_location` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="master_assessment_component" view="standard">
+<left>1132</left>
+<top>913</top>
+<width>228</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `master_assessment_component` (
+  `id` bigint(8) NOT NULL AUTO_INCREMENT,
+  `items_id` bigint(8) DEFAULT NULL,
+  `name` text DEFAULT NULL,
+  `parameter_true` enum('Aman','Bersih','Rapih','Tampak Baru','Ramah Lingkungan') DEFAULT NULL,
+  `parameter_false` enum('Tidak Aman','Tidak Bersih','Tidak Rapih','Tidak Tampak Baru','Tidak Ramah Lingkungan') DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `master_assessment_component_ibfk_2` (`parameter_true`),
+  KEY `items_id` (`items_id`),
+  CONSTRAINT `master_assessment_component_ibfk_1` FOREIGN KEY (`items_id`) REFERENCES `master_items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="branch_assessment" view="standard">
+<left>352</left>
+<top>1433</top>
+<width>336</width>
+<height>435</height>
+<sql_create_table>CREATE TABLE `branch_assessment` (
+  `id` bigint(8) NOT NULL AUTO_INCREMENT,
+  `branch_id` int(11) DEFAULT NULL,
+  `round_id` int(11) DEFAULT NULL,
+  `checker_name` varchar(255) DEFAULT NULL COMMENT 'manager jagum',
+  `checker_approved_date` datetime DEFAULT NULL,
+  `checker_approved_by_system` datetime DEFAULT NULL,
+  `verifikator_1_name` varchar(255) DEFAULT NULL COMMENT 'wadir cabang',
+  `verifikator_1_approved_date` datetime DEFAULT NULL,
+  `verifikator_1_approved_by_system` datetime DEFAULT NULL,
+  `verifikator_2_name` varchar(255) DEFAULT NULL COMMENT 'direktur cabang',
+  `verifikator_2_approved_date` datetime DEFAULT NULL,
+  `verifikator_2_approved_by_system` datetime DEFAULT NULL,
+  `validator_name` varchar(255) DEFAULT NULL COMMENT 'kepala departemen penunjang umum',
+  `validator_view_date` datetime DEFAULT NULL,
+  `stages` enum('checker','verifikator 1','verifikator 2','validator','done') DEFAULT NULL,
+  `status` enum('belum dikerjakan','sedang dikerjakan','selesai') DEFAULT NULL,
+  `data_status` enum('0','1') DEFAULT '1',
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_id` (`branch_id`),
+  KEY `round_id` (`round_id`),
+  CONSTRAINT `branch_assessment_ibfk_1` FOREIGN KEY (`branch_id`) REFERENCES `master_branch` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `branch_assessment_ibfk_2` FOREIGN KEY (`round_id`) REFERENCES `master_round` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+<table name="branch_assessment_detail" view="standard">
+<left>733</left>
+<top>1434</top>
+<width>367</width>
+<height>408</height>
+<sql_create_table>CREATE TABLE `branch_assessment_detail` (
+  `id` bigint(8) NOT NULL AUTO_INCREMENT,
+  `branch_assessment_id` bigint(8) DEFAULT NULL,
+  `branch_items_id` bigint(8) DEFAULT NULL,
+  `assessment_component_id` bigint(8) DEFAULT NULL,
+  `score` enum('A','B','C') DEFAULT NULL,
+  `parameter` varchar(100) DEFAULT NULL,
+  `img_name` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `revision_status` enum('tidak ada revisi','ada revisi','revisi selesai') DEFAULT 'tidak ada revisi',
+  `revision_by` varchar(100) DEFAULT NULL,
+  `revision_date` datetime DEFAULT NULL,
+  `revision_description` text DEFAULT NULL,
+  `stages` enum('checker','verifikator 1','verifikator 2','approved') DEFAULT NULL,
+  `created_by` varchar(15) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_by` varchar(15) DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_assessment_id` (`branch_assessment_id`),
+  CONSTRAINT `branch_assessment_detail_ibfk_1` FOREIGN KEY (`branch_assessment_id`) REFERENCES `branch_assessment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
