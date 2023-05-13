@@ -23,14 +23,6 @@ Pengaturan Akun User
                             <div class="col-auto mt-1">
                                 <input class="form-control mr-sm-2" type="search" name="user_name" value="{{ !empty($user_name) ? $user_name : '' }}" placeholder="Nama" minlength="1">
                             </div>
-                            <div class="col-md-4 mt-1">
-                                <select class="form-control form-select mr-sm-2 select-2" name="branch_id">
-                                    <option value="" disabled selected>Pilih Rumah Sakit</option>
-                                    @foreach($rs_branch as $index => $branch)
-                                    <option value="{{$branch->id}}" @if( !empty($branch_id) && $branch_id==$branch->id ) selected @endif>{{$branch->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="col-auto mt-1">
                                 <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="search">
                                     <i class="bx bx-search-alt-2"></i>
