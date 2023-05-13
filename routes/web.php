@@ -38,6 +38,7 @@ use App\Http\Controllers\User\Home\HomeController;
 use App\Http\Controllers\Admin\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
+use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
 
 /**
@@ -182,6 +183,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/siklus/edit/{user_id}', [SiklusController::class, 'editSiklus']);
     Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
     Route::get('/admin/siklus/detail/{user_id}', [SiklusController::class, 'detailSiklus']);
+
+    //broadcast
+    Route::get('/admin/broadcast', [BroadcastController::class, 'index']);
+    // Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
+    // Route::post('/admin/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
+    // Route::get('/admin/siklus/delete-process/{user_id}', [SiklusController::class, 'deleteSiklusProcess']);
+    // Route::get('/admin/siklus/edit/{user_id}', [SiklusController::class, 'editSiklus']);
+    // Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
+    // Route::get('/admin/siklus/detail/{user_id}', [SiklusController::class, 'detailSiklus']);
 
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
