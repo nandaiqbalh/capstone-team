@@ -36,6 +36,8 @@ use App\Http\Controllers\Admin\Settings\TakeOverLoginController;
 
 use App\Http\Controllers\User\Home\HomeController;
 use App\Http\Controllers\Admin\Mahasiswa\MahasiswaController;
+use App\Http\Controllers\Admin\Topik\TimCapstoneController;
+use App\Http\Controllers\Admin\Topik\TopikController;
 use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
@@ -165,6 +167,24 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
     Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
     Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
+
+    //tim campstone 
+    Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
+    Route::get('/admin/tim-capstone/add', [TimCapstoneController::class, 'addTimCapstone']);
+    Route::post('/admin/tim-capstone/add-process', [TimCapstoneController::class, 'addTimCapstoneProcess']);
+    Route::get('/admin/tim-capstone/delete-process/{user_id}', [TimCapstoneController::class, 'deleteTimCapstoneProcess']);
+    Route::get('/admin/tim-capstone/edit/{user_id}', [TimCapstoneController::class, 'editTimCapstone']);
+    Route::post('/admin/tim-capstone/edit-process', [TimCapstoneController::class, 'editTimCapstoneProcess']);
+    Route::get('/admin/tim-capstone/detail/{user_id}', [TimCapstoneController::class, 'detailTimCapstone']);
+
+    //topik
+    Route::get('/admin/topik', [TopikController::class, 'index']);
+    Route::get('/admin/topik/add', [TopikController::class, 'addTopik']);
+    Route::post('/admin/topik/add-process', [TopikController::class, 'addTopikProcess']);
+    Route::get('/admin/topik/delete-process/{id}', [TopikController::class, 'deleteTopikProcess']);
+    Route::get('/admin/topik/edit/{id}', [TopikController::class, 'editTopik']);
+    Route::post('/admin/topik/edit-process', [TopikController::class, 'editTopikProcess']);
+
 
     //dosen
     Route::get('/admin/dosen', [DosenController::class, 'index']);
