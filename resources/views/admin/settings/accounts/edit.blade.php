@@ -80,34 +80,6 @@ Akun User
 
                 </div>
 
-                <div class="row">
-                    <div id="col-branch-id" class="col-md-6 d-none">
-                        <div class="mb-3">
-                            <label>Rumah Sakit <span class="text-danger">*</span></label>
-                            <select class="form-select select-2" id="branch_id" name="branch_id">
-                                <option value="" selected disabled>Pilih</option>
-                                @foreach($rs_branch as $branch)
-                                <option value="{{$branch->id}}" @if( old('branch_id',$account->branch_id) == $branch->id ) selected @endif>{{$branch->name}}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Hanya untuk jenis akun Checker & Verifikator</small>
-                        </div>
-                    </div>
-
-                    <div id="col-region-id" class="col-md-6 d-none">
-                        <div class="mb-3">
-                            <label>Regional <span class="text-danger">*</span></label>
-                            <select class="form-select" id="region_id" name="region_id">
-                                <option value="" selected disabled>Pilih</option>
-                                @foreach($rs_region as $region)
-                                <option value="{{$region->id}}" @if( old('region_id',$account->region_id) == $region->id ) selected @endif>{{$region->name}}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Hanya untuk jenis akun Holding Regional</small>
-                        </div>
-                    </div>
-                </div>
-
                 <br>
             </div>
             <div class="card-footer float-end">
@@ -130,14 +102,6 @@ Akun User
             $('#branch_id').prop('required', false);
         }
 
-        // holding regional
-        if (roleId == '08') {
-            $('#col-region-id').removeClass('d-none');
-            $('#region_id').prop('required', true);
-        } else {
-            $('#col-region-id').addClass('d-none');
-            $('#region_id').prop('required', false);
-        }
     });
 
     // default dr db

@@ -178,8 +178,6 @@ class AccountsController extends BaseController
         $data = [
             'account' => $account,
             'rs_role' => $rs_role,
-            'rs_branch' => Accounts::getBranch(),
-            'rs_region' => Accounts::getRegion()
         ];
 
         // if exist
@@ -222,7 +220,6 @@ class AccountsController extends BaseController
             'nomor_induk' => $request->nomor_induk,
             'no_telp' => $request->no_telp,
             'branch_id' => $request->branch_id,
-            'region_id' => $request->region_id,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
