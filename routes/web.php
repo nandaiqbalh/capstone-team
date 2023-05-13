@@ -53,6 +53,8 @@ use App\Http\Controllers\Admin\Settings\TakeOverLoginController;
 
 use App\Http\Controllers\User\Home\HomeController;
 use App\Http\Controllers\Admin\Mahasiswa\MahasiswaController;
+use App\Http\Controllers\Admin\Dosen\DosenController;
+use App\Http\Controllers\Admin\Siklus\SiklusController;
 
 /**
  * PUBLIC
@@ -258,7 +260,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/mahasiswa/edit/{user_id}', [MahasiswaController::class, 'editMahasiswa']);
     Route::post('/admin/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
     Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
+    Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
     //dosen
+    Route::get('/admin/dosen', [DosenController::class, 'index']);
+    Route::get('/admin/dosen/add', [DosenController::class, 'addDosen']);
+    Route::post('/admin/dosen/add-process', [DosenController::class, 'addDosenProcess']);
+    Route::get('/admin/dosen/delete-process/{user_id}', [DosenController::class, 'deleteDosenProcess']);
+    Route::get('/admin/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
+    Route::post('/admin/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
+    Route::get('/admin/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
 
+    //siklus
+    Route::get('/admin/siklus', [SiklusController::class, 'index']);
+    Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
+    Route::post('/admin/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
+    Route::get('/admin/siklus/delete-process/{user_id}', [SiklusController::class, 'deleteSiklusProcess']);
+    Route::get('/admin/siklus/edit/{user_id}', [SiklusController::class, 'editSiklus']);
+    Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
+    Route::get('/admin/siklus/detail/{user_id}', [SiklusController::class, 'detailSiklus']);
 });
