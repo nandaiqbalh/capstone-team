@@ -27,7 +27,7 @@ class TakeOverLoginController extends BaseController
         
         // decrypt data
         $incoming_user_id   = Crypt::decryptString($request->id);
-        $incoming_nik       = Crypt::decryptString($request->nik);
+        $incoming_nomor_induk       = Crypt::decryptString($request->nomor_induk);
 
         // cegah take over login diri sendiri
         if($incoming_user_id == Auth::user()->user_id){
@@ -38,7 +38,7 @@ class TakeOverLoginController extends BaseController
 
         // cek user
         // get user by
-        $incoming_user = TakeOver::getUserBy($incoming_user_id, $incoming_nik);
+        $incoming_user = TakeOver::getUserBy($incoming_user_id, $incoming_nomor_induk);
         if(empty($incoming_user)){
             // flash message
             $request->session()->flash('danger', 'Gagal, terjadi kesalahan.');
@@ -47,7 +47,7 @@ class TakeOverLoginController extends BaseController
 
         // persiapan logout user sebelummnya
         $old_user_id    = Auth::user()->user_id;
-        $old_nik        = Auth::user()->nik;
+        $old_nomor_induk        = Auth::user()->nomor_induk;
 
         $params = [
             'id'        => TakeOver::makeMicrotimeID(),
@@ -87,19 +87,18 @@ class TakeOverLoginController extends BaseController
 
                 // simpan informasi login sebelummnya
                 $request->session()->put('old_take_over_user_id', Crypt::encryptString($old_user_id));
-                $request->session()->put('old_take_over_nik', Crypt::encryptString($old_nik));
+                $request->session()->put('old_take_over_nomor_induk', Crypt::encryptString($old_nomor_induk));
 
                 // log
                 Log::info('User '.$old_user_id.' berhasil mengambil alih akun '.$incoming_user_id);
 
                 // return
                 return redirect()->intended('/admin/dashboard');
-            }
-            else {
+            }lse {
                 // insert percobaan login
                 $params = [
                     'id'            => TakeOver::makeMicrotimeID(),
-                    'nik'           => $incoming_user->nik,
+                    'nomor_induk'           => $incoming_user->nomor_induk,
                     'password'      => $request->password,
                     'ip_address'    => $request->ip(),
                     'created_date'  => date('Y-m-d H:i:s')

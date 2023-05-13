@@ -13,8 +13,8 @@ class TakeOver extends BaseModel
     }
 
     // get user by id
-    public static function getUserBy($user_id, $nik){
-        return DB::table('app_user')->where('user_id', $user_id)->where('nik', $nik)->where('user_active','1')->first();
+    public static function getUserBy($user_id, $nomor_induk){
+        return DB::table('app_user')->where('user_id', $user_id)->where('nomor_induk', $nomor_induk)->where('user_active','1')->first();
     }
 
     // insert login attempt
