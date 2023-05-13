@@ -23,23 +23,6 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 use App\Http\Controllers\Admin\DashboardController;
 
-/**
- * Manajer
- */
-
-use App\Http\Controllers\Admin\Manajer\Branch\BranchController;
-use App\Http\Controllers\Admin\Manajer\Branch\ItemPCController;
-use App\Http\Controllers\Admin\Manajer\Master\AsetController;
-// use App\Http\Controllers\Admin\Manajer\Register\AkunPCController as AkunManajerController;
-
-/**
- * PJ
- */
-
-use App\Http\Controllers\Admin\PJ\QRCode\QRCodeController;
-use App\Http\Controllers\Admin\PJ\Register\AkunPCController;
-use App\Http\Controllers\Admin\PJ\Register\AsetController as AsetPJController;
-use App\Http\Controllers\Admin\PJ\Register\AcaraPCController;
 
 use App\Http\Controllers\Admin\Settings\RoleController;
 use App\Http\Controllers\Admin\Settings\MenuController;
@@ -55,6 +38,10 @@ use App\Http\Controllers\User\Home\HomeController;
 use App\Http\Controllers\Admin\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Admin\Topik\TimCapstoneController;
 use App\Http\Controllers\Admin\Topik\TopikController;
+use App\Http\Controllers\Admin\Dosen\DosenController;
+use App\Http\Controllers\Admin\Siklus\SiklusController;
+use App\Http\Controllers\Admin\Broadcast\BroadcastController;
+use App\Http\Controllers\Admin\Kelompok\KelompokController;
 
 /**
  * PUBLIC
@@ -89,88 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index']);
     // --------------------------------------------------------------------------------------------
 
-    // --------------------------------------------------------------------------------------------
-    /**
-     * PJ
-     */
 
-    // Cetak QR
-    Route::get('/admin/pj/qr-code', [QRCodeController::class, 'index']);
-    // Route::get('/admin/pj/qr-code/add', [QRCodeController::class,'add']);
-    // Route::post('/admin/pj/qr-code/download-qr/{id}', [QRCodeController::class,'downloadQRCode']);
-    // Route::get('/admin/pj/qr-code/download-qr/all', [QRCodeController::class,'downloadQRCodeAll']);
-    // Route::get('/admin/pj/qr-code/detail/{id}', [QRCodeController::class,'detail']);
-    // Route::get('/admin/pj/qr-code/edit/{id}', [QRCodeController::class,'edit']);
-    // Route::post('/admin/pj/qr-code/edit-process', [QRCodeController::class,'editProcess']);
-    // Route::get('/admin/pj/qr-code/delete-process/{id}', [QRCodeController::class,'deleteProcess']);
-    // Route::get('/admin/pj/qr-code/search', [QRCodeController::class,'search']);
-
-
-    // Manajer branch
-    Route::get('/admin/manajer/cabang', [BranchController::class, 'index']);
-    Route::get('/admin/manajer/cabang/add', [BranchController::class, 'add']);
-    Route::post('/admin/manajer/cabang/add_process', [BranchController::class, 'addProcess']);
-    Route::get('/admin/manajer/cabang/edit/{id}', [BranchController::class, 'edit']);
-    Route::post('/admin/manajer/cabang/edit_process', [BranchController::class, 'editProcess']);
-    Route::get('/admin/manajer/cabang/delete_process/{id}', [BranchController::class, 'deleteProcess']);
-    Route::get('/admin/manajer/cabang/akun/{id}', [BranchController::class, 'addAkun']);
-    Route::post('/admin/manajer/cabang/akun_add_process', [BranchController::class, 'addAkunProcess']);
-    Route::get('/admin/manajer/cabang/akun/edit/{id}', [BranchController::class, 'editAkun']);
-    Route::post('/admin/manajer/cabang/akun_edit_process', [BranchController::class, 'editAkunProcess']);
-    Route::get('/admin/manajer/cabang/akun/delete_process/{id}', [BranchController::class, 'deleteAkunProcess']);
-    Route::get('/admin/manajer/cabang/search', [BranchController::class, 'search']);
-
-
-    // Manajer Aset
-    Route::get('/admin/manajer/master/aset', [AsetController::class, 'index']);
-    Route::get('/admin/manajer/master/aset/add', [AsetController::class, 'add']);
-    Route::post('/admin/manajer/master/aset/add_process', [AsetController::class, 'addProcess']);
-    Route::get('/admin/manajer/master/aset/edit/{id}', [AsetController::class, 'edit']);
-    Route::post('/admin/manajer/master/aset/edit_process', [AsetController::class, 'editProcess']);
-    Route::get('/admin/manajer/master/aset/detail/{id}', [AsetController::class, 'detail']);
-    Route::get('/admin/manajer/master/aset/delete_process/{id}', [AsetController::class, 'deleteProcess']);
-    Route::get('/admin/manajer/master/aset/search', [AsetController::class, 'search']);
-
-    Route::get('/admin/manajer/master/aset-ketentuan', [AsetController::class, 'index']);
-
-
-    // PJ Akun Bamasama
-    Route::get('/admin/pj/register/akun', [AkunPCController::class, 'index']);
-    Route::get('/admin/pj/register/akun/add', [AkunPCController::class, 'add']);
-    Route::post('/admin/pj/register/akun/add-process', [AkunPCController::class, 'addProcess']);
-    Route::get('/admin/pj/register/akun/detail/{id}', [AkunPCController::class, 'detail']);
-    Route::get('/admin/pj/register/akun/edit/{id}', [AkunPCController::class, 'edit']);
-    Route::post('/admin/pj/register/akun/edit-process', [AkunPCController::class, 'editProcess']);
-    Route::get('/admin/pj/register/akun/delete-process/{id}', [AkunPCController::class, 'deleteProcess']);
-    Route::get('/admin/pj/register/akun/search', [AkunPCController::class, 'search']);
-
-    // PJ Item Bamasama
-    Route::get('/admin/pj/register/aset', [AsetPJController::class, 'index']);
-    Route::get('/admin/pj/register/aset/add', [AsetPJController::class, 'add']);
-    Route::post('/admin/pj/register/aset/add-process', [AsetPJController::class, 'addProcess']);
-    Route::get('/admin/pj/register/aset/detail/{id}', [AsetPJController::class, 'detail']);
-    Route::get('/admin/pj/register/aset/edit/{id}', [AsetPJController::class, 'edit']);
-    Route::post('/admin/pj/register/aset/edit-process', [AsetPJController::class, 'editProcess']);
-    Route::get('/admin/pj/register/aset/delete-process/{id}', [AsetPJController::class, 'deleteProcess']);
-    Route::get('/admin/pj/register/aset/search', [AsetPJController::class, 'search']);
-
-
-    // PJ Acara PC
-    Route::get('/admin/pj/register/acara', [AcaraPCController::class, 'index']);
-    Route::get('/admin/pj/register/acara/add', [AcaraPCController::class, 'add']);
-    Route::post('/admin/pj/register/acara/add-process', [AcaraPCController::class, 'addProcess']);
-    Route::get('/admin/pj/register/acara/add-detail/{id}', [AcaraPCController::class, 'addDetail']);
-    Route::post('/admin/pj/register/acara/add-detail-process-guest', [AcaraPCController::class, 'addDetailProcessGuest']);
-    Route::post('/admin/pj/register/acara/add-detail-process-ticket', [AcaraPCController::class, 'addDetailProcessTicket']);
-    Route::post('/admin/pj/register/acara/add-detail-process-rundown', [AcaraPCController::class, 'addDetailProcessRundown']);
-    Route::get('/admin/pj/register/acara/detail/{id}', [AcaraPCController::class, 'detail']);
-    Route::get('/admin/pj/register/acara/edit/{id}', [AcaraPCController::class, 'edit']);
-    Route::post('/admin/pj/register/acara/edit-process', [AcaraPCController::class, 'editProcess']);
-    Route::get('/admin/pj/register/acara/delete-process/{id}', [AcaraPCController::class, 'deleteProcess']);
-    Route::get('/admin/pj/register/acara/delete-guest-process/{id}', [AcaraPCController::class, 'deleteGuestProcess']);
-    Route::get('/admin/pj/register/acara/delete-ticket-process/{id}', [AcaraPCController::class, 'deleteTicketProcess']);
-    Route::get('/admin/pj/register/acara/delete-rundown-process/{id}', [AcaraPCController::class, 'deleteRundownProcess']);
-    Route::get('/admin/pj/register/acara/search', [AcaraPCController::class, 'search']);
 
     // --------------------------------------------------------------------------------------------
     /**
@@ -260,6 +166,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/mahasiswa/edit/{user_id}', [MahasiswaController::class, 'editMahasiswa']);
     Route::post('/admin/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
     Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
+    Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
     //tim campstone 
     Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
@@ -279,5 +186,39 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/topik/edit-process', [TopikController::class, 'editTopikProcess']);
 
 
+    //dosen
+    Route::get('/admin/dosen', [DosenController::class, 'index']);
+    Route::get('/admin/dosen/add', [DosenController::class, 'addDosen']);
+    Route::post('/admin/dosen/add-process', [DosenController::class, 'addDosenProcess']);
+    Route::get('/admin/dosen/delete-process/{user_id}', [DosenController::class, 'deleteDosenProcess']);
+    Route::get('/admin/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
+    Route::post('/admin/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
+    Route::get('/admin/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
 
+    //siklus
+    Route::get('/admin/siklus', [SiklusController::class, 'index']);
+    Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
+    Route::post('/admin/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
+    Route::get('/admin/siklus/delete-process/{user_id}', [SiklusController::class, 'deleteSiklusProcess']);
+    Route::get('/admin/siklus/edit/{user_id}', [SiklusController::class, 'editSiklus']);
+    Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
+    Route::get('/admin/siklus/detail/{user_id}', [SiklusController::class, 'detailSiklus']);
+
+    //broadcast
+    Route::get('/admin/broadcast', [BroadcastController::class, 'index']);
+    // Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
+    // Route::post('/admin/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
+    // Route::get('/admin/siklus/delete-process/{user_id}', [SiklusController::class, 'deleteSiklusProcess']);
+    // Route::get('/admin/siklus/edit/{user_id}', [SiklusController::class, 'editSiklus']);
+    // Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
+    // Route::get('/admin/siklus/detail/{user_id}', [SiklusController::class, 'detailSiklus']);
+
+    //kelompok
+    Route::get('/admin/kelompok', [KelompokController::class, 'index']);
+    Route::get('/admin/kelompok/add', [Kelompokontroller::class, 'addSiklus']);
+    Route::post('/admin/kelompok/add-process', [KelompokController::class, 'addSiklusProcess']);
+    Route::get('/admin/kelompok/delete-process/{user_id}', [KelompokController::class, 'deleteSiklusProcess']);
+    Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);
+    Route::post('/admin/kelompok/edit-process', [KelompokController::class, 'editSiklusProcess']);
+    Route::get('/admin/kelompok/detail/{user_id}', [KelompokController::class, 'detailSiklus']);
 });

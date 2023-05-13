@@ -1,44 +1,38 @@
 <?php
 
-namespace App\Models\Admin\Mahasiswa;
+namespace App\Models\Admin\Kelompok;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class MahasiswaModel extends BaseModel
+class KelompokModel extends BaseModel
 {
     // get all data
     public static function getData()
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+        return DB::table('kelompok')
             ->get();
     }
 
     // get data with pagination
     public static function getDataWithPagination()
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+        return DB::table('kelompok as a')
+            ->select('a.*','b.user_name as dosen_name','c.nama as topik_name')
+            ->leftjoin('app_user as b','a.id_dosen','b.user_name')
+            ->leftjoin('topik as c', 'a.id_topik', 'c.id')
+            ->orderByDesc('a.id')
             ->paginate(20);
     }
 
     // get search
-    public static function getDataSearch($search)
+    public static function getDataSearch($no_kel)
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.user_name')
+            ->leftjoin('app_user as b', 'a.id_dosen', 'b.user_name')
+            ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
+            ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }
 

@@ -1,33 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Dosen;
+namespace App\Http\Controllers\Admin\Broadcast;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Dosen\DosenModel;
+use App\Models\Admin\Broadcast\BroadcastModel;
 use Illuminate\Support\Facades\Hash;
 
 
-class DosenController extends BaseController
+class BroadcastController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    //coba comment
+
     public function index()
     {
         // authorize
-        DosenModel::authorize('R');
+        BroadcastModel::authorize('R');
+        // dd(BroadcastModel::getData());
 
         // get data with pagination
-        $dt_dosen = DosenModel::getDataWithPagination();
+        $rs_broadcast = BroadcastModel::getDataWithPagination();
         // data
-        $data = ['dt_dosen' => $dt_dosen];
+        $data = ['rs_broadcast' => $rs_broadcast];
         // view
-        return view('admin.dosen.index', $data);
+        return view('admin.broadcast.index', $data);
     }
 
     /**
@@ -35,13 +39,13 @@ class DosenController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function addDosen()
+    public function addMahasiswa()
     {
         // authorize
-        DosenModel::authorize('C');
+        BroadcastModel::authorize('C');
 
         // view
-        return view('admin.dosen.add');
+        return view('admin.broadcast.add');
     }
 
     /**
@@ -50,16 +54,19 @@ class DosenController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addDosenProcess(Request $request)
+    public function addMahasiswaProcess(Request $request)
     {
 
         // authorize
-        DosenModel::authorize('C');
+        BroadcastModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
             'nama' => 'required',
-            "nip" => 'required',
+            "nim" => 'required',
+            "angkatan" => 'required',
+            "ipk" => 'required',
+            "sks" => 'required',
             "alamat" => 'required',
         ];
         $this->validate($request, $rules);
@@ -67,33 +74,36 @@ class DosenController extends BaseController
 
         // params
         // default passwordnya mahasiswa123
-        $user_id = DosenModel::makeMicrotimeID();
+        $user_id = BroadcastModel::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,
-            "nomor_induk" => $request->nip,
-            'user_password' => Hash::make('dosen12345'),
+            "nomor_induk" => $request->nim,
+            "angkatan" => $request->angkatan,
+            "ipk" => $request->ipk,
+            "sks" => $request->sks,
+            'user_password' => Hash::make('mahasiswa123'),
             "alamat" => $request->alamat,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        $insert_dosen = DosenModel::insertdosen($params);
-        if ($insert_dosen) {
+        $insert_mahasiswa = BroadcastModel::insertmahasiswa($params);
+        if ($insert_mahasiswa) {
             $params2 = [
                 'user_id' => $user_id,
-                'role_id' =>  $request->role_id,
+                'role_id' => '03'
             ];
-            DosenModel::insertrole($params2);
+            BroadcastModel::insertrole($params2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/dosen');
+            return redirect('/admin/mahasiswa');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/dosen/add')->withInput();
+            return redirect('/admin/mahasiswa/add')->withInput();
         }
     }
 
@@ -103,26 +113,26 @@ class DosenController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailDosen($id)
+    public function detailMahasiswa($user_id)
     {
         // authorize
-        DosenModel::authorize('R');
+        BroadcastModel::authorize('R');
 
         // get data with pagination
-        $dosen = DosenModel::getDataById($id);
+        $mahasiswa = BroadcastModel::getDataById($user_id);
 
         // check
-        if (empty($dosen)) {
+        if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/dosen');
+            return redirect('/admin/mahasiswa');
         }
 
         // data
-        $data = ['dosen' => $dosen];
+        $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.dosen.detail', $data);
+        return view('admin.broadcast.detail', $data);
     }
 
     /**
@@ -131,26 +141,26 @@ class DosenController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editDosen($user_id)
+    public function editMahasiswa($user_id)
     {
         // authorize
-        DosenModel::authorize('U');
+        BroadcastModel::authorize('U');
 
         // get data 
-        $dosen = DosenModel::getDataById($user_id);
+        $mahasiswa = BroadcastModel::getDataById($user_id);
 
         // check
-        if (empty($dosen)) {
+        if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/dosen');
+            return redirect('/admin/mahasiswa');
         }
 
         // data
-        $data = ['dosen' => $dosen];
+        $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.dosen.edit', $data);
+        return view('admin.broadcast.edit', $data);
     }
 
     /**
@@ -160,15 +170,18 @@ class DosenController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editDosenProcess(Request $request)
+    public function editMahasiswaProcess(Request $request)
     {
         // authorize
-        DosenModel::authorize('U');
+        BroadcastModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
             'nama' => 'required',
-            "nip" => 'required',
+            "nim" => 'required',
+            "angkatan" => 'required',
+            "ipk" => 'required',
+            "sks" => 'required',
             "alamat" => 'required',
         ];
         $this->validate($request, $rules);
@@ -176,21 +189,24 @@ class DosenController extends BaseController
         // params
         $params = [
             'user_name' => $request->nama,
-            "nomor_induk" => $request->nip,
+            "nomor_induk" => $request->nim,
+            "angkatan" => $request->angkatan,
+            "ipk" => $request->ipk,
+            "sks" => $request->sks,
             "alamat" => $request->alamat,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        if (DosenModel::update($request->user_id, $params)) {
+        if (BroadcastModel::update($request->user_id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/dosen');
+            return redirect('/admin/mahasiswa');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/dosen/edit/' . $request->user_id);
+            return redirect('/admin/mahasiswa/edit/' . $request->user_id);
         }
     }
 
@@ -200,25 +216,25 @@ class DosenController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteDosenProcess($id)
+    public function deleteMahasiswaProcess($user_id)
     {
         // authorize
-        DosenModel::authorize('D');
+        BroadcastModel::authorize('D');
 
         // get data
-        $dosen = DosenModel::getDataById($id);
+        $mahasiswa = BroadcastModel::getDataById($user_id);
 
         // if exist
-        if (!empty($dosen)) {
+        if (!empty($mahasiswa)) {
             // process
-            if (DosenModel::delete($id)) {
+            if (BroadcastModel::delete($user_id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/dosen');
+                return redirect('/admin/mahasiswa');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/dosen');
+                return redirect('/admin/settings/contoh-halaman');
             }
         } else {
             // flash message
@@ -233,24 +249,24 @@ class DosenController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function search(Request $request)
-    // {
-    //     // authorize
-    //     DosenModel::authorize('R');
+    public function searchMahasiswa(Request $request)
+    {
+        // authorize
+        BroadcastModel::authorize('R');
+        // data request
+        $user_name = $request->nama;
 
-    //     // data request
-    //     $nama = $request->nama;
-
-    //     // new search or reset
-    //     if ($request->action == 'search') {
-    //         // get data with pagination
-    //         $dosen = DosenModel::getDataSearch($nama);
-    //         // data
-    //         $data = ['rs_ch' => $dosen, 'nama' => $nama];
-    //         // view
-    //         return view('admin.settings.contoh-halaman.index', $data);
-    //     } else {
-    //         return redirect('/admin/settings/contoh-halaman');
-    //     }
-    // }
+        // new search or reset
+        if ($request->action == 'search') {
+            // get data with pagination
+            $rs_broadcast = BroadcastModel::getDataSearch($user_name);
+            // dd($rs_broadcast);
+            // data
+            $data = ['rs_broadcast' => $rs_broadcast, 'nama' => $user_name];
+            // view
+            return view('admin.broadcast.index', $data);
+        } else {
+            return redirect('/admin/mahasiswa');
+        }
+    }
 }

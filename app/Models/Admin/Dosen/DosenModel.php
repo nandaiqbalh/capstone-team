@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\Admin\Mahasiswa;
+namespace App\Models\Admin\Dosen;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class MahasiswaModel extends BaseModel
+class DosenModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -14,7 +14,8 @@ class MahasiswaModel extends BaseModel
             ->select('a.*', 'c.role_name')
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+            ->where('c.role_id', '04')
+            ->orwhere('c.role_id', '05')
             ->get();
     }
 
@@ -25,30 +26,31 @@ class MahasiswaModel extends BaseModel
             ->select('a.*', 'c.role_name')
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+            ->where('c.role_id', '04')
+            ->orwhere('c.role_id', '05')
             ->paginate(20);
     }
 
     // get search
-    public static function getDataSearch($search)
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20)->withQueryString();
-    }
+    // public static function getDataSearch($nama)
+    // {
+    //     return DB::table('app_user')->where('nama', 'LIKE', "%" . $nama . "%")->paginate(20)->withQueryString();
+    // }
 
     // get data by id
     public static function getDataById($user_id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
+        return DB::table('app_user as a')
+            ->select('a.*', 'c.role_name', 'c.role_id')
+            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
+            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->where('a.user_id', $user_id)
+            ->where('c.role_id', '04')
+            ->orwhere('c.role_id', '05')
+            ->first();
     }
 
-    public static function insertmahasiswa($params)
+    public static function insertDosen($params)
     {
         return DB::table('app_user')->insert($params);
     }

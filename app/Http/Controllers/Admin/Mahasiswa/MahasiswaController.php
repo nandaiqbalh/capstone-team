@@ -103,7 +103,7 @@ class MahasiswaController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/contoh-halaman/add')->withInput();
+            return redirect('/admin/mahasiswa/add')->withInput();
         }
     }
 
@@ -249,24 +249,24 @@ class MahasiswaController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function searchMahasiswa(Request $request)
     {
         // authorize
         MahasiswaModel::authorize('R');
-
         // data request
-        $nama = $request->nama;
+        $user_name = $request->nama;
 
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_ch = MahasiswaModel::getDataSearch($nama);
+            $rs_mahasiswa = MahasiswaModel::getDataSearch($user_name);
+            // dd($rs_mahasiswa);
             // data
-            $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
+            $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('admin.mahasiswa.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/admin/mahasiswa');
         }
     }
 }

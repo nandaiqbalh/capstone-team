@@ -31,7 +31,6 @@ class AccountsController extends BaseController
         // data
         $data = [
             'rs_accounts'   => $rs_accounts,
-            'rs_branch'     => Accounts::getBranch()
         ];
 
         // return
@@ -87,8 +86,6 @@ class AccountsController extends BaseController
         $data = [
             'rs_role' => $rs_role,
             'password' => $password,
-            'rs_branch' => Accounts::getBranch(),
-            'rs_region' => Accounts::getRegion()
         ];
 
         // return
@@ -137,7 +134,6 @@ class AccountsController extends BaseController
             'user_img_name' => 'default.png',
             'nomor_induk' => $request->nomor_induk,
             'no_telp' => $request->no_telp,
-            'region_id' => $request->region_id,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];

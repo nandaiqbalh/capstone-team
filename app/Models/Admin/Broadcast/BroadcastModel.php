@@ -1,31 +1,23 @@
 <?php
 
-namespace App\Models\Admin\Mahasiswa;
+namespace App\Models\Admin\Broadcast;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class MahasiswaModel extends BaseModel
+class BroadcastModel extends BaseModel
 {
     // get all data
     public static function getData()
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+        return DB::table('broadcast')
             ->get();
     }
 
     // get data with pagination
     public static function getDataWithPagination()
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+        return DB::table('broadcast')
             ->paginate(20);
     }
 
