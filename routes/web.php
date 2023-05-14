@@ -42,6 +42,7 @@ use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
+use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 
 /**
  * PUBLIC
@@ -168,7 +169,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
     Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
-    //tim campstone 
+    //tim campstone
     Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
     Route::get('/admin/tim-capstone/add', [TimCapstoneController::class, 'addTimCapstone']);
     Route::post('/admin/tim-capstone/add-process', [TimCapstoneController::class, 'addTimCapstoneProcess']);
@@ -221,4 +222,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);
     Route::post('/admin/kelompok/edit-process', [KelompokController::class, 'editSiklusProcess']);
     Route::get('/admin/kelompok/detail/{user_id}', [KelompokController::class, 'detailSiklus']);
+
+    //mahasiswakelompok
+    Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
+    Route::get('/mahasiswa/kelompok/add', [MahasiswaKelompokController::class, 'addSiklus']);
+    Route::post('/mahasiswa/kelompok/add-process', [MahasiswaKelompokController::class, 'addSiklusProcess']);
+    Route::get('/mahasiswa/kelompok/delete-process/{user_id}', [MahasiswaKelompokController::class, 'deleteSiklusProcess']);
+    Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
+    Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
+    Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
 });

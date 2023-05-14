@@ -24,7 +24,7 @@ class TakeOverLoginController extends BaseController
     {
         // authorize
         TakeOver::authorize('R');
-        
+
         // decrypt data
         $incoming_user_id   = Crypt::decryptString($request->id);
         $incoming_nomor_induk       = Crypt::decryptString($request->nomor_induk);
@@ -65,7 +65,7 @@ class TakeOverLoginController extends BaseController
             $request->session()->invalidate();
             // generate new token
             $request->session()->regenerateToken();
-            
+
             // -----------------------------------------------------------------------------
             // login dengan data user
             Auth::loginUsingId($incoming_user_id);
@@ -94,7 +94,7 @@ class TakeOverLoginController extends BaseController
 
                 // return
                 return redirect()->intended('/admin/dashboard');
-            }lse {
+            }else {
                 // insert percobaan login
                 $params = [
                     'id'            => TakeOver::makeMicrotimeID(),
