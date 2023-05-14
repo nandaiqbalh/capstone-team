@@ -66,7 +66,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label>ID Pengguna<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="id_pengguna" value="{{ old('id_pengguna',$account->nik) }}" minlength="6" maxlength="11" pattern="[0-9]+" required readonly disabled>
+                                                    <input type="text" class="form-control" name="id_pengguna" value="{{ old('id_pengguna',$account->nomor_induk) }}" minlength="6" maxlength="11" pattern="[0-9]+" required readonly disabled>
                                                 </div>
                                             </div>
                                         </div>

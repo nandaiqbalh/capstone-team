@@ -109,14 +109,6 @@ Akun User
             $('#branch_id').prop('required', false);
         }
 
-        // holding regional
-        if (roleId == '08') {
-            $('#col-region-id').removeClass('d-none');
-            $('#region_id').prop('required', true);
-        } else {
-            $('#col-region-id').addClass('d-none');
-            $('#region_id').prop('required', false);
-        }
     });
 </script>
 @endsection

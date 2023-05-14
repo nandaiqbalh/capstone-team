@@ -5,7 +5,7 @@ namespace App\Models\Admin\Kelompok;
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class MahasiswaModel extends BaseModel
+class KelompokModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -17,14 +17,23 @@ class MahasiswaModel extends BaseModel
     // get data with pagination
     public static function getDataWithPagination()
     {
-        return DB::table('kelompok')
+        return DB::table('kelompok as a')
+            ->select('a.*','b.user_name as dosen_name','c.nama as topik_name')
+            ->leftjoin('app_user as b','a.id_dosen','b.user_id')
+            ->leftjoin('topik as c', 'a.id_topik', 'c.id')
+            ->orderByDesc('a.id')
             ->paginate(20);
     }
 
     // get search
-    public static function getDataSearch($nama)
+    public static function getDataSearch($no_kel)
     {
-        return DB::table('app_user')->where('nama', 'LIKE', "%" . $nama . "%")->paginate(20)->withQueryString();
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.user_name')
+            ->leftjoin('app_user as b', 'a.id_dosen', 'b.user_name')
+            ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
+            ->orderByDesc('a.id')
+            ->paginate(20)->withQueryString();
     }
 
     // get data by id

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Mahasiswa\MahasiswaModel;
+use App\Models\Admin\Kelompok\KelompokModel;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -23,11 +23,12 @@ class KelompokController extends BaseController
     public function index()
     {
         // authorize
-        MahasiswaModel::authorize('R');
-        // dd(MahasiswaModel::getData());
+        KelompokModel::authorize('R');
+        // dd(KelompokModel::getData());
 
         // get data with pagination
-        $rs_kelompok = MahasiswaModel::getDataWithPagination();
+        $rs_kelompok = KelompokModel::getDataWithPagination();
+        // dd($rs_kelompok);
         // data
         $data = ['rs_kelompok' => $rs_kelompok];
         // view
@@ -42,7 +43,7 @@ class KelompokController extends BaseController
     public function addMahasiswa()
     {
         // authorize
-        MahasiswaModel::authorize('C');
+        KelompokModel::authorize('C');
 
         // view
         return view('admin.mahasiswa.add');
@@ -58,7 +59,7 @@ class KelompokController extends BaseController
     {
 
         // authorize
-        MahasiswaModel::authorize('C');
+        KelompokModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -74,7 +75,7 @@ class KelompokController extends BaseController
 
         // params
         // default passwordnya mahasiswa123
-        $user_id = MahasiswaModel::makeMicrotimeID();
+        $user_id = KelompokModel::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,
@@ -89,13 +90,13 @@ class KelompokController extends BaseController
         ];
 
         // process
-        $insert_mahasiswa = MahasiswaModel::insertmahasiswa($params);
+        $insert_mahasiswa = KelompokModel::insertmahasiswa($params);
         if ($insert_mahasiswa) {
             $params2 = [
                 'user_id' => $user_id,
                 'role_id' => '03'
             ];
-            MahasiswaModel::insertrole($params2);
+            KelompokModel::insertrole($params2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -116,10 +117,10 @@ class KelompokController extends BaseController
     public function detailMahasiswa($user_id)
     {
         // authorize
-        MahasiswaModel::authorize('R');
+        KelompokModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = MahasiswaModel::getDataById($user_id);
+        $mahasiswa = KelompokModel::getDataById($user_id);
 
         // check
         if (empty($mahasiswa)) {
@@ -144,10 +145,10 @@ class KelompokController extends BaseController
     public function editMahasiswa($user_id)
     {
         // authorize
-        MahasiswaModel::authorize('U');
+        KelompokModel::authorize('U');
 
         // get data 
-        $mahasiswa = MahasiswaModel::getDataById($user_id);
+        $mahasiswa = KelompokModel::getDataById($user_id);
 
         // check
         if (empty($mahasiswa)) {
@@ -173,7 +174,7 @@ class KelompokController extends BaseController
     public function editMahasiswaProcess(Request $request)
     {
         // authorize
-        MahasiswaModel::authorize('U');
+        KelompokModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -199,7 +200,7 @@ class KelompokController extends BaseController
         ];
 
         // process
-        if (MahasiswaModel::update($request->user_id, $params)) {
+        if (KelompokModel::update($request->user_id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/mahasiswa');
@@ -219,15 +220,15 @@ class KelompokController extends BaseController
     public function deleteMahasiswaProcess($user_id)
     {
         // authorize
-        MahasiswaModel::authorize('D');
+        KelompokModel::authorize('D');
 
         // get data
-        $mahasiswa = MahasiswaModel::getDataById($user_id);
+        $mahasiswa = KelompokModel::getDataById($user_id);
 
         // if exist
         if (!empty($mahasiswa)) {
             // process
-            if (MahasiswaModel::delete($user_id)) {
+            if (KelompokModel::delete($user_id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
                 return redirect('/admin/mahasiswa');
@@ -252,7 +253,7 @@ class KelompokController extends BaseController
     public function search(Request $request)
     {
         // authorize
-        MahasiswaModel::authorize('R');
+        KelompokModel::authorize('R');
 
         // data request
         $nama = $request->nama;
@@ -260,7 +261,7 @@ class KelompokController extends BaseController
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_ch = MahasiswaModel::getDataSearch($nama);
+            $rs_ch = KelompokModel::getDataSearch($nama);
             // data
             $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
             // view
