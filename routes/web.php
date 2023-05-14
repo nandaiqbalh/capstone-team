@@ -42,7 +42,7 @@ use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
-use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
 /**
  * PUBLIC
