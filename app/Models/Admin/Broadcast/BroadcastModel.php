@@ -26,7 +26,7 @@ class BroadcastModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
+            ->join('app_role_user as b', 'a.id', 'b.id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
@@ -35,14 +35,14 @@ class BroadcastModel extends BaseModel
     }
 
     // get data by id
-    public static function getDataById($user_id)
+    public static function getDataById($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
+        return DB::table('broadcast')->where('id', $id)->first();
     }
 
-    public static function insertmahasiswa($params)
+    public static function insertbroadcast($params)
     {
-        return DB::table('app_user')->insert($params);
+        return DB::table('broadcast')->insert($params);
     }
 
     public static function insertrole($params2)
@@ -50,13 +50,13 @@ class BroadcastModel extends BaseModel
         return DB::table('app_role_user')->insert($params2);
     }
 
-    public static function update($user_id, $params)
+    public static function update($id, $params)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
+        return DB::table('broadcast')->where('id', $id)->update($params);
     }
 
-    public static function delete($user_id)
+    public static function delete($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->delete();
+        return DB::table('broadcast')->where('id', $id)->delete();
     }
 }

@@ -38,7 +38,9 @@ Broadcast
             <br>
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <a href="{{ url('/admin/siklus/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Tambah Data
+                      </button>
                 </div>
             </div>
 
@@ -47,24 +49,26 @@ Broadcast
                     <thead class="thead-light">
                         <tr class="text-center">
                             <th width="5%">No</th>
-                            <th>Tahun Ajaran</th>
+                            <th>Nama Event</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
+                            <th>Keterangan</th>
                             <th width="18%">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($dt_siklus->count() > 0)
-                        @foreach($dt_siklus as $index => $siklus)
+                        @if($rs_broadcast->count() > 0)
+                        @foreach($rs_broadcast as $index => $broadcast)
                         <tr>
-                            <td class="text-center">{{ $index + $dt_siklus->firstItem() }}.</td>
-                            <td>{{ $siklus->tahun_ajaran }}</td>
-                            <td>{{ $siklus->tgl_mulai }}</td>
-                            <td>{{ $siklus->tgl_selesai }}</td>
+                            <td class="text-center">{{ $index + $rs_broadcast->firstItem() }}.</td>
+                            <td>{{ $broadcast->nama_event }}</td>
+                            <td>{{ $broadcast->tgl_mulai }}</td>
+                            <td>{{ $broadcast->tgl_selesai }}</td>
+                            <td>{{ $broadcast->keterangan }}</td>
                             <td class="text-center">
-                                <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <a href="{{ url('/admin/siklus/edit') }}/{{ $siklus->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <a href="{{ url('/admin/siklus/delete-process') }}/{{ $siklus->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $siklus->id }} ?')"> Hapus</a>
+                                <a href="{{ url('/admin/broadcast/detail') }}/{{ $broadcast->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                <a href="{{ url('/admin/broadcast/edit') }}/{{ $broadcast->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
+                                <a href="{{ url('/admin/broadcast/delete-process') }}/{{ $broadcast->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $broadcast->id }} ?')"> Hapus</a>
                             </td>
                         </tr>
                         @endforeach
@@ -79,14 +83,68 @@ Broadcast
             <!-- pagination -->
             <div class="row mt-3 justify-content-between">
                 <div class="col-auto mr-auto">
-                    <p>Menampilkan {{ $dt_siklus->count() }} dari total {{ $dt_siklus->total() }} data.</p>
+                    <p>Menampilkan {{ $rs_broadcast->count() }} dari total {{ $rs_broadcast->total() }} data.</p>
                 </div>
                 <div class="col-auto ">
-                    {{ $dt_siklus->links() }}
+                    {{ $rs_broadcast->links() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<!-- Button trigger modal -->
+{{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button> --}}
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Broadcast</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url('/admin/broadcast/add-process') }}" method="post" autocomplete="off">
+                {{ csrf_field()}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label >Nama Event<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama_event" value="{{ old('nama_event') }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label >Keterangan<span class="text-danger"></span></label>
+                            <input type="text" class="form-control" name="keterangan" value="{{ old('keterangan') }}">
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Tanggal Mulai<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="tgl_mulai" value="{{ old('tgl_mulai') }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label >Tanggal Selesai<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="tgl_selesai" value="{{ old('tgl_selesai') }}" required>
+                        </div>
+                    </div>
+                </div>                           
+                <br>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 @endsection

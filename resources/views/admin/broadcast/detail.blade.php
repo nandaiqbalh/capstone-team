@@ -2,21 +2,21 @@
 @extends('admin.base.app')
 
 @section('title')
-    Siklus
+    Broadcast
 @endsection
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Siklus</h5>
+                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Broadcast</h5>
                 <!-- notification -->
                 @include("template.notification")
 
                 <!-- Bordered Table -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Siklus</h5>
+                        <h5 class="mb-0">Detail Broadcast</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/admin/siklus') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/broadcast') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
                     </div>
                     <div class="card-body">
@@ -32,19 +32,24 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Tahun Ajaran</td>
+                                        <td>Nama Event</td>
                                         <td>:</td>
-                                        <td>{{ $siklus->tahun_ajaran }}</td>
+                                        <td>{{ $broadcast->nama_event }}</td>
                                     </tr>
                                     <tr>
                                         <td>Tangga Mulai</td>
                                         <td>:</td>
-                                        <td>{{ $siklus->tgl_mulai }}</td>
+                                        <td>{{ $broadcast->tgl_mulai }}</td>
                                     </tr>
                                     <tr>
                                         <td>Tangga Selesai</td>
                                         <td>:</td>
-                                        <td>{{ $siklus->tgl_selesai }}</td>
+                                        <td>{{ $broadcast->tgl_selesai }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Keterangan</td>
+                                        <td>:</td>
+                                        <td>{{ $broadcast->keterangan }}</td>
                                     </tr>
                                 </tbody>
                             </table>
