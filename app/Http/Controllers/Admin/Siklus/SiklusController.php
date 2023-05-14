@@ -81,8 +81,8 @@ class SiklusController extends BaseController
         ];
 
         // process
-        $insert_Siklus = SiklusModel::insertSiklus($params);
-        if ($insert_Siklus) {
+        $insert_siklus = SiklusModel::insertSiklus($params);
+        if ($insert_siklus) {
 
 
             // flash message

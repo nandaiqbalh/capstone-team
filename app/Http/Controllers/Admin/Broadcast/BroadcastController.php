@@ -39,7 +39,7 @@ class BroadcastController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function addMahasiswa()
+    public function addBroadcast()
     {
         // authorize
         BroadcastModel::authorize('C');
@@ -54,7 +54,7 @@ class BroadcastController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addMahasiswaProcess(Request $request)
+    public function addBroadcastProcess(Request $request)
     {
 
         // authorize
@@ -62,12 +62,9 @@ class BroadcastController extends BaseController
 
         // Validate & auto redirect when fail
         $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
+            'nama_event' => 'required',
+            'tgl_mulai' => 'required',
+            'tgl_selesai' => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -76,34 +73,25 @@ class BroadcastController extends BaseController
         // default passwordnya mahasiswa123
         $user_id = BroadcastModel::makeMicrotimeID();
         $params = [
-            'user_id' => $user_id,
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            'user_password' => Hash::make('mahasiswa123'),
-            "alamat" => $request->alamat,
+            'nama_event' => $request->nama_event,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'keterangan' => $request->keterangan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        $insert_mahasiswa = BroadcastModel::insertmahasiswa($params);
-        if ($insert_mahasiswa) {
-            $params2 = [
-                'user_id' => $user_id,
-                'role_id' => '03'
-            ];
-            BroadcastModel::insertrole($params2);
+        $insert_broadcast = BroadcastModel::insertbroadcast($params);
+        if ($insert_broadcast) {
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/broadcast');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/add')->withInput();
+            return redirect('/admin/broadcast/add')->withInput();
         }
     }
 
@@ -113,23 +101,23 @@ class BroadcastController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailMahasiswa($user_id)
+    public function detailBroadcast($id)
     {
         // authorize
         BroadcastModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = BroadcastModel::getDataById($user_id);
+        $broadcast = BroadcastModel::getDataById($id);
 
         // check
-        if (empty($mahasiswa)) {
+        if (empty($broadcast)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/broadcast');
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = ['broadcast' => $broadcast];
 
         // view
         return view('admin.broadcast.detail', $data);
@@ -141,23 +129,23 @@ class BroadcastController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editMahasiswa($user_id)
+    public function editBroadcast($id)
     {
         // authorize
         BroadcastModel::authorize('U');
 
         // get data 
-        $mahasiswa = BroadcastModel::getDataById($user_id);
+        $broadcast = BroadcastModel::getDataById($id);
 
         // check
-        if (empty($mahasiswa)) {
+        if (empty($broadcast)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/broadcast');
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = ['broadcast' => $broadcast];
 
         // view
         return view('admin.broadcast.edit', $data);
@@ -170,43 +158,38 @@ class BroadcastController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editMahasiswaProcess(Request $request)
+    public function editBroadcastProcess(Request $request)
     {
         // authorize
         BroadcastModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
+            'nama_event' => 'required',
+            'tgl_mulai' => 'required',
+            'tgl_selesai' => 'required',
         ];
         $this->validate($request, $rules);
 
         // params
         $params = [
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            "alamat" => $request->alamat,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'nama_event' => $request->nama_event,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai,
+            'keterangan' => $request->keterangan,
+            'created_by'   => Auth::user()->user_id,
+            'created_date'  => date('Y-m-d H:i:s'),
         ];
 
         // process
-        if (BroadcastModel::update($request->user_id, $params)) {
+        if (BroadcastModel::update($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/broadcast');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/edit/' . $request->user_id);
+            return redirect('/admin/broadcast/edit/' . $request->id);
         }
     }
 
@@ -216,30 +199,30 @@ class BroadcastController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteMahasiswaProcess($user_id)
+    public function deleteBroadcastProcess($id)
     {
         // authorize
         BroadcastModel::authorize('D');
 
         // get data
-        $mahasiswa = BroadcastModel::getDataById($user_id);
+        $broadcast = BroadcastModel::getDataById($id);
 
         // if exist
-        if (!empty($mahasiswa)) {
+        if (!empty($broadcast)) {
             // process
-            if (BroadcastModel::delete($user_id)) {
+            if (BroadcastModel::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
+                return redirect('/admin/broadcast');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
+                return redirect('/admin/broadcast');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/admin/broadcast');
         }
     }
 
@@ -266,7 +249,7 @@ class BroadcastController extends BaseController
             // view
             return view('admin.broadcast.index', $data);
         } else {
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/broadcast');
         }
     }
 }
