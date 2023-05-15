@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models\Admin\KelompokMahasiswa;
+namespace App\Models\Admin\Kelompok_Mahasiswa;
 
 use App\Models\Admin\BaseModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class KelompokMahasiswaModel extends BaseModel
+class MahasiswaKelompokModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -22,10 +23,10 @@ class KelompokMahasiswaModel extends BaseModel
      public static function pengecekan_kelompok_mahasiswa()
      {
         return DB::table('kelompok_mhs as a')
-            ->select('a.*','b.id as kelompok')
-            ->leftjoin('id as b','a.id_kelompok','b.id')
-            ->orderByDesc('b.id')
-            ->get();
+            ->select('a.*', 'b.*')
+            ->leftjoin('kelompok as b','a.id_kelompok','b.id')
+            -> where('a.id_mahasiswa', Auth::user()->user_id)
+            ->first();
      }
 
 

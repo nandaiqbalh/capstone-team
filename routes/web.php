@@ -42,8 +42,16 @@ use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
+<<<<<<< HEAD
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
+=======
+use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
+=======
+use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+>>>>>>> 09e947d41db4dc836929a505fe0952be1dad9516
+>>>>>>> a4442acec18557b46be138f9779a01591c71f6ec
 
 /**
  * PUBLIC
@@ -235,4 +243,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
+
+    //halaman dosen
+    Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
+    Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+
+
+
 });
