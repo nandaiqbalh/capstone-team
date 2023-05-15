@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
 
 /**
  * PUBLIC
@@ -231,4 +232,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
+
+    //halaman dosen
+    Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
+    Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+
+
+
 });
