@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 
 /**
  * PUBLIC
@@ -214,9 +215,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
     Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
+    //infopendaftaran
+    Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
+
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
-    Route::get('/admin/kelompok/add', [Kelompokontroller::class, 'addSiklus']);
+    Route::get('/admin/kelompok/add', [KelompokController::class, 'addKelompok']);
     Route::post('/admin/kelompok/add-process', [KelompokController::class, 'addSiklusProcess']);
     Route::get('/admin/kelompok/delete-process/{user_id}', [KelompokController::class, 'deleteSiklusProcess']);
     Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);

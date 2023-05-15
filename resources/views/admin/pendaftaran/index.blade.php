@@ -1,27 +1,27 @@
 @extends('admin.base.app')
 
 @section('title')
-Kelompok
+Pendaftaran
 @endsection
 
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4"> Kelompok</h5>
+    <h5 class="fw-bold py-3 mb-4"> Pendaftaran</h5>
     <!-- notification -->
     @include("template.notification")
 
     <!-- Bordered Table -->
     <div class="card">
-        <h5 class="card-header">Data Kelompok</h5>
+        <h5 class="card-header">Data Pendaftaran</h5>
 
         <div class="card-body">
             <div class="row mb-2">
                 <div class="col-md-12">
-                    <form class="form-inline" action="{{ url('/admin/kelompok/search') }}" method="get" autocomplete="off">
+                    <form class="form-inline" action="{{ url('/admin/mahasiswa/search') }}" method="get" autocomplete="off">
                         <div class="row">
                             <div class="col-auto mt-1">
-                                <input class="form-control mr-sm-2" type="search" name="nama" value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama Role" minlength="3" required>
+                                <input class="form-control mr-sm-2" type="search" name="nama" value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama" minlength="1" required>
                             </div>
                             <div class="col-auto mt-1">
                                 <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="search">
@@ -36,38 +36,31 @@ Kelompok
                 </div>
             </div>
             <br>
-            <div class="row justify-content-end mb-2">
+            {{-- <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <a href="{{ url('/admin/kelompok/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                    <a href="{{ url('/admin/mahasiswa/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr class="text-center">
                             <th width="5%">No</th>
-                            <th>Nomor Kelompok</th>
-                            <th>Judul TA</th>
+                            <th>Nama Mahasiswa</th>
+                            <th>NIM</th>
                             <th>Topik</th>
-                            <th>Dosen</th>
-                            <th width="18%">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($rs_kelompok->count() > 0)
-                        @foreach($rs_kelompok as $index => $kelompok)
+                        @if($rs_pendaftaran->count() > 0)
+                        @foreach($rs_pendaftaran as $index => $pendaftaran)
                         <tr>
-                            <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
-                            <td>{{ $kelompok->nomor_kelompok }}</td>
-                            <td>{{ $kelompok->judul_ta }}</td>
-                            <td>{{ $kelompok->topik_name }}</td>
-                            <td>{{ $kelompok->dosen_name }}</td>
-                            <td class="text-center">
-                                <a href="{{ url('/admin/kelompok/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <a href="{{ url('/admin/kelompok/edit') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <a href="{{ url('/admin/kelompok/delete-process') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $kelompok->nomor_kelompok }} ?')"> Hapus</a>
-                            </td>
+                            <td class="text-center">{{ $index + $rs_pendaftaran->firstItem() }}.</td>
+                            <td>{{ $pendaftaran->user_name }}</td>
+                            <td>{{ $pendaftaran->nomor_induk }}</td>
+                            <td>{{ $pendaftaran->nama_topik }}</td>
+                           
                         </tr>
                         @endforeach
                         @else
@@ -81,10 +74,10 @@ Kelompok
             <!-- pagination -->
             <div class="row mt-3 justify-content-between">
                 <div class="col-auto mr-auto">
-                    <p>Menampilkan {{ $rs_kelompok->count() }} dari total {{ $rs_kelompok->total() }} data.</p>
+                    <p>Menampilkan {{ $rs_pendaftaran->count() }} dari total {{ $rs_pendaftaran->total() }} data.</p>
                 </div>
                 <div class="col-auto ">
-                    {{ $rs_kelompok->links() }}
+                    {{ $rs_pendaftaran->links() }}
                 </div>
             </div>
         </div>
