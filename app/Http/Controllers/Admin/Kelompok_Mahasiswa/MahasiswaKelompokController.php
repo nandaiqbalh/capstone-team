@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin\KelompokMahasiswa;
+namespace App\Http\Controllers\Admin\Kelompok_Mahasiswa;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\KelompokMahasiswa\KelompokMahasiswaModel;
+use App\Models\Admin\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\Hash;
 
 
-class KelompokMahasiswaController extends BaseController
+class MahasiswaKelompokController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -23,15 +23,17 @@ class KelompokMahasiswaController extends BaseController
     public function index()
     {
         // authorize
-        KelompokMahasiswaModel::authorize('R');
-        // dd(KelompokMahasiswaModel::getData());
+        MahasiswaKelompokModel::authorize('R');
+        // dd(MahasiswaKelompokModel::getData());
 
         // get data with pagination
-        $kelompok_mahasiswa_pengecekan = KelompokMahasiswaModel::pengecekan_kelompok_mahasiswa();
+        $kelompok_mahasiswa_pengecekan = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa();
         // data
-        $data = ['kelompok_mahasiswa' => $kelompok_mahasiswa];
+        $data = ['kelompok_mahasiswa_pengecekan' => $kelompok_mahasiswa_pengecekan];
+        dd($data);
         // view
         return view('admin.kelompok-mahasiswa.index', $data);
+
     }
 
     /**
@@ -42,7 +44,7 @@ class KelompokMahasiswaController extends BaseController
     public function addMahasiswa()
     {
         // authorize
-        KelompokMahasiswaModel::authorize('C');
+        MahasiswaKelompokModel::authorize('C');
 
         // view
         return view('admin.mahasiswa.add');
@@ -58,7 +60,7 @@ class KelompokMahasiswaController extends BaseController
     {
 
         // authorize
-        KelompokMahasiswaModel::authorize('C');
+        MahasiswaKelompokModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -74,7 +76,7 @@ class KelompokMahasiswaController extends BaseController
 
         // params
         // default passwordnya mahasiswa123
-        $user_id = KelompokMahasiswaModel::makeMicrotimeID();
+        $user_id = MahasiswaKelompokModel::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,
@@ -89,13 +91,13 @@ class KelompokMahasiswaController extends BaseController
         ];
 
         // process
-        $insert_mahasiswa = KelompokMahasiswaModel::insertmahasiswa($params);
+        $insert_mahasiswa = MahasiswaKelompokModel::insertmahasiswa($params);
         if ($insert_mahasiswa) {
             $params2 = [
                 'user_id' => $user_id,
                 'role_id' => '03'
             ];
-            KelompokMahasiswaModel::insertrole($params2);
+            MahasiswaKelompokModel::insertrole($params2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -116,10 +118,10 @@ class KelompokMahasiswaController extends BaseController
     public function detailMahasiswa($user_id)
     {
         // authorize
-        KelompokMahasiswaModel::authorize('R');
+        MahasiswaKelompokModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = KelompokMahasiswaModel::getDataById($user_id);
+        $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
 
         // check
         if (empty($mahasiswa)) {
@@ -144,10 +146,10 @@ class KelompokMahasiswaController extends BaseController
     public function editMahasiswa($user_id)
     {
         // authorize
-        KelompokMahasiswaModel::authorize('U');
+        MahasiswaKelompokModel::authorize('U');
 
         // get data
-        $mahasiswa = KelompokMahasiswaModel::getDataById($user_id);
+        $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
 
         // check
         if (empty($mahasiswa)) {
@@ -173,7 +175,7 @@ class KelompokMahasiswaController extends BaseController
     public function editMahasiswaProcess(Request $request)
     {
         // authorize
-        KelompokMahasiswaModel::authorize('U');
+        MahasiswaKelompokModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -199,7 +201,7 @@ class KelompokMahasiswaController extends BaseController
         ];
 
         // process
-        if (KelompokMahasiswaModel::update($request->user_id, $params)) {
+        if (MahasiswaKelompokModel::update($request->user_id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/mahasiswa');
@@ -219,15 +221,15 @@ class KelompokMahasiswaController extends BaseController
     public function deleteMahasiswaProcess($user_id)
     {
         // authorize
-        KelompokMahasiswaModel::authorize('D');
+        MahasiswaKelompokModel::authorize('D');
 
         // get data
-        $mahasiswa = KelompokMahasiswaModel::getDataById($user_id);
+        $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
 
         // if exist
         if (!empty($mahasiswa)) {
             // process
-            if (KelompokMahasiswaModel::delete($user_id)) {
+            if (MahasiswaKelompokModel::delete($user_id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
                 return redirect('/admin/mahasiswa');
@@ -252,14 +254,14 @@ class KelompokMahasiswaController extends BaseController
     public function searchMahasiswa(Request $request)
     {
         // authorize
-        KelompokMahasiswaModel::authorize('R');
+        MahasiswaKelompokModel::authorize('R');
         // data request
         $user_name = $request->nama;
 
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_mahasiswa = KelompokMahasiswaModel::getDataSearch($user_name);
+            $rs_mahasiswa = MahasiswaKelompokModel::getDataSearch($user_name);
             // dd($rs_mahasiswa);
             // data
             $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
