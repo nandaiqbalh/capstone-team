@@ -28,8 +28,13 @@ class PendaftaranController extends BaseController
 
         // get data with pagination
         $rs_pendaftaran = PendaftaranModel::getDataWithPagination();
+        $rs_topik = PendaftaranModel::GetTopik();
         // data
-        $data = ['rs_pendaftaran' => $rs_pendaftaran];
+        $data = [
+            'rs_pendaftaran' => $rs_pendaftaran,
+            'rs_topik' => $rs_topik
+        ];
+
         // view
         return view('admin.pendaftaran.index', $data);
     }
@@ -39,13 +44,19 @@ class PendaftaranController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function addMahasiswa()
+    public function addPendaftaran(Request $request)
     {
         // authorize
         PendaftaranModel::authorize('C');
-
+        $id_topik = $request->id_topik;
+        $rs_mahasiswa = PendaftaranModel::getMahasiswa($id_topik);
+        $data = [
+            'rs_mahasiswa' =>  $rs_mahasiswa,
+            'id_topik' => $id_topik
+        ];
+        dd($data);
         // view
-        return view('admin.pendaftaran.add');
+        return view('admin.pendaftaran.add', $data);
     }
 
     /**

@@ -30,6 +30,23 @@ class PendaftaranModel extends BaseModel
             ->paginate(20);
     }
 
+    public static function getTopik()
+    {
+        return DB::table('topik')
+            ->get();
+    }
+
+    public static function getMahasiswa($id_topik)
+    {
+        return DB::table('app_user as a')
+            ->select('a.*', 'd.nama as nama_topik', 'd.id as id_topik')
+            ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
+            ->join('kelompok as c', 'b.id_kelompok', 'c.id')
+            ->join('topik as d', 'c.id_topik', 'd.id')
+            ->where('c.id_topik', $id_topik)
+            ->get();
+    }
+
     // get search
     public static function getDataSearch($search)
     {

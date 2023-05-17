@@ -36,11 +36,30 @@ Pendaftaran
                 </div>
             </div>
             <br>
-            {{-- <div class="row justify-content-end mb-2">
-                <div class="col-auto ">
-                    <a href="{{ url('/admin/mahasiswa/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
-                </div>
-            </div> --}}
+            <div class="col-md-12">
+                <form class="form-inline" action="{{ url('/admin/pendaftaran/add') }}" method="get" autocomplete="off">
+                    <div class="row">
+                        <div class="col-auto mt-1">
+                            <div class="mb-3">
+                                <select class="form-select" name="id_topik" required>
+                                    <option value="" disabled selected>-- Pilih --</option>
+                                    @foreach ($rs_topik as $topik)
+                                        <option value="{{$topik->id}}" @if( old('id_topik') == '{{$topik->id}}' ) selected @endif>{{$topik->nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-auto mt-1">
+                            <button class="btn btn-outline-secondary ml-1" type="submit">
+                                <i class="bx bx-plus"></i>
+                            </button>
+                        
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            
 
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">

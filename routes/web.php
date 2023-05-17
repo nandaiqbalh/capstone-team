@@ -46,7 +46,7 @@ use App\Http\Controllers\Admin\Kelompok\KelompokController;
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
-use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+// use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
 
 /**
@@ -221,6 +221,7 @@ Route::middleware(['auth'])->group(function () {
 
     //infopendaftaran
     Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
+    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
 
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
