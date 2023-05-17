@@ -65,8 +65,8 @@ Bimbingan Saya
                             <td>{{ $kelompok->dosen_name }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <a href="{{ url('/dosen/bimbingan-saya/edit') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
-                                <a href="{{ url('/dosen/bimbingan-saya/delete-process') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
+                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
+                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
                             </td>
                         </tr>
                         @endforeach

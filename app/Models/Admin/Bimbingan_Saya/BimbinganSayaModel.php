@@ -3,6 +3,7 @@
 namespace App\Models\Admin\Bimbingan_Saya;
 
 use App\Models\Admin\BaseModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BimbinganSayaModel extends BaseModel
@@ -18,9 +19,10 @@ class BimbinganSayaModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.user_name as dosen_name','c.nama as topik_name')
-            ->leftjoin('app_user as b','a.id_dosen','b.user_id')
-            ->leftjoin('topik as c', 'a.id_topik', 'c.id')
+            ->select('a.*','b.nama')
+            ->join('topik as b','a.id_topik','b.id')
+            ->where('a.id_dosen_1', Auth::user()->user_id)
+            ->orwhere('a.id_dosen_2', Auth::user()->user_id)
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -42,23 +44,10 @@ class BimbinganSayaModel extends BaseModel
         return DB::table('app_user')->where('user_id', $user_id)->first();
     }
 
-    public static function insertmahasiswa($params)
+    public static function update($id, $params)
     {
-        return DB::table('app_user')->insert($params);
+        return DB::table('kelompok')->where('id', $id)->update($params);
     }
 
-    public static function insertrole($params2)
-    {
-        return DB::table('app_role_user')->insert($params2);
-    }
-
-    public static function update($user_id, $params)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
-    }
-
-    public static function delete($user_id)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->delete();
-    }
+   
 }
