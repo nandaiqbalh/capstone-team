@@ -28,12 +28,7 @@ class BimbinganSayaController extends BaseController
         return view('admin.bimbingan-saya.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-   
+  
    
 
        
@@ -43,26 +38,26 @@ class BimbinganSayaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailMahasiswa($user_id)
+    public function detailBimbinganSaya($id)
     {
         // authorize
         BimbinganSayaModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = BimbinganSayaModel::getDataById($user_id);
+        $kelompok = BimbinganSayaModel::getDataById($id);
 
         // check
-        if (empty($mahasiswa)) {
+        if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/dosen/bimbingan-saya');
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = ['kelompok' => $kelompok];
 
         // view
-        return view('admin.mahasiswa.detail', $data);
+        return view('admin.bimbingan-saya.detail', $data);
     }
 
    
@@ -74,7 +69,7 @@ class BimbinganSayaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function terimaBimbinganSaya1($id)
+    public function terimaBimbinganSaya($id)
     {
         // authorize
         BimbinganSayaModel::authorize('U');
@@ -83,9 +78,37 @@ class BimbinganSayaController extends BaseController
 
         // params
         $params = [
-            'status_dosen_1' => 'distujui',
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'status_persetujuan' => 'disetujui',
+        ];
+
+        // process
+        if (BimbinganSayaModel::update($id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return redirect('/dosen/bimbingan-saya');
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return redirect('/dosen/bimbingan-saya' . $request->id);
+        }
+    }
+     /**
+     * Update the specified resource in storage. update status dosen 2
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tolakBimbinganSaya($id)
+    {
+        // authorize
+        BimbinganSayaModel::authorize('U');
+
+        ;
+
+        // params
+        $params = [
+            'status_persetujuan' => 'tidak disetujui',
         ];
 
         // process

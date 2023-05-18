@@ -36,13 +36,9 @@ Bimbingan Saya
                 </div>
             </div>
             <br>
-            {{-- <div class="row justify-content-end mb-2">
-                <div class="col-auto ">
-                    <a href="{{ url('/admin/kelompok/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
-                </div>
-            </div> --}}
+            
 
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr class="text-center">
@@ -51,6 +47,7 @@ Bimbingan Saya
                             <th>Judul TA</th>
                             <th>Topik</th>
                             <th>Dosen</th>
+                            <th>Status</th>
                             <th width="18%">Tindakan</th>
                         </tr>
                     </thead>
@@ -61,18 +58,26 @@ Bimbingan Saya
                             <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
                             <td>{{ $kelompok->nomor_kelompok }}</td>
                             <td>{{ $kelompok->judul_ta }}</td>
-                            <td>{{ $kelompok->topik_name }}</td>
-                            <td>{{ $kelompok->dosen_name }}</td>
+                            <td>{{ $kelompok->nama_topik }}</td>
+                            <td>{{ $kelompok->status_dosen }}</td>
+                            <td>{{ $kelompok->status_persetujuan }}</td>
+
                             <td class="text-center">
-                                <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
-                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
+                                @if($kelompok->status_persetujuan == 'disetujui') 
+                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
+                                @elseif($kelompok->status_persetujuan == 'tidak disetujui')
+                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
+                                @else
+                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
+                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
+                                @endif
+                                <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "> Detail</a>
                             </td>
                         </tr>
                         @endforeach
                         @else
                         <tr>
-                            <td class="text-center" colspan="4">Tidak ada data.</td>
+                            <td class="text-center" colspan="6">Tidak ada data.</td>
                         </tr>
                         @endif
                     </tbody>

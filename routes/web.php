@@ -238,6 +238,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
+    Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
+
+
 
 
 

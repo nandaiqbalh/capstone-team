@@ -19,10 +19,11 @@ class BimbinganSayaModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.nama')
+            ->select('a.*','b.nama as nama_topik', 'c.status_dosen','c.status_persetujuan', 'c.id as id_dosen_kelompok')
             ->join('topik as b','a.id_topik','b.id')
-            ->where('a.id_dosen_1', Auth::user()->user_id)
-            ->orwhere('a.id_dosen_2', Auth::user()->user_id)
+            ->join('dosen_kelompok as c','a.id','c.id_kelompok')
+            ->where('c.id_dosen', Auth::user()->user_id)
+            // ->orwhere('a.id_dosen_2', Auth::user()->user_id)
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -39,14 +40,24 @@ class BimbinganSayaModel extends BaseModel
     }
 
     // get data by id
-    public static function getDataById($user_id)
+    public static function getDataById($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as nama_topik')
+            ->join('topik as b','a.id_topik', 'b.id')
+            ->where('a.id', $id)->first();
     }
-
+    public static function getMahasiswa($id)
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select()
+            ->join('app_user as b','a.id_mahasiswa', 'b.user_id')
+            ->join('kelompok as c','a.id_kelompok','c.id')
+            ->where('id', $id)->paginate(10);
+    }
     public static function update($id, $params)
     {
-        return DB::table('kelompok')->where('id', $id)->update($params);
+        return DB::table('dosen_kelompok')->where('id', $id)->update($params);
     }
 
    
