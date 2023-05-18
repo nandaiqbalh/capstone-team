@@ -36,11 +36,11 @@ Kelompok
                 </div>
             </div>
             <br>
-            {{-- <div class="row justify-content-end mb-2">
+            <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
                     <a href="{{ url('/admin/kelompok/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
                 </div>
-            </div> --}}
+            </div>
 
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">

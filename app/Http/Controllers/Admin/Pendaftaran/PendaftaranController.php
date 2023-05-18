@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Kelompok;
+namespace App\Http\Controllers\Admin\Pendaftaran;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Kelompok\KelompokModel;
+use App\Models\Admin\Pendaftaran\PendaftaranModel;
 use Illuminate\Support\Facades\Hash;
 
 
-class KelompokController extends BaseController
+class PendaftaranController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -23,16 +23,20 @@ class KelompokController extends BaseController
     public function index()
     {
         // authorize
-        KelompokModel::authorize('R');
-        // dd(KelompokModel::getData());
+        PendaftaranModel::authorize('R');
+        // dd(PendaftaranModel::getData());
 
         // get data with pagination
-        $rs_kelompok = KelompokModel::getDataWithPagination();
-        // dd($rs_kelompok);
+        $rs_pendaftaran = PendaftaranModel::getDataWithPagination();
+        $rs_topik = PendaftaranModel::GetTopik();
         // data
-        $data = ['rs_kelompok' => $rs_kelompok];
+        $data = [
+            'rs_pendaftaran' => $rs_pendaftaran,
+            'rs_topik' => $rs_topik
+        ];
+
         // view
-        return view('admin.kelompok.index', $data);
+        return view('admin.pendaftaran.index', $data);
     }
 
     /**
@@ -40,13 +44,19 @@ class KelompokController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function addKelompok()
+    public function addPendaftaran(Request $request)
     {
         // authorize
-        KelompokModel::authorize('C');
-
+        PendaftaranModel::authorize('C');
+        $id_topik = $request->id_topik;
+        $rs_mahasiswa = PendaftaranModel::getMahasiswa($id_topik);
+        $data = [
+            'rs_mahasiswa' =>  $rs_mahasiswa,
+            'id_topik' => $id_topik
+        ];
+        dd($data);
         // view
-        return view('admin.kelompok.add');
+        return view('admin.pendaftaran.add', $data);
     }
 
     /**
@@ -59,7 +69,7 @@ class KelompokController extends BaseController
     {
 
         // authorize
-        KelompokModel::authorize('C');
+        PendaftaranModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -75,7 +85,7 @@ class KelompokController extends BaseController
 
         // params
         // default passwordnya mahasiswa123
-        $user_id = KelompokModel::makeMicrotimeID();
+        $user_id = PendaftaranModel::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,
@@ -90,13 +100,13 @@ class KelompokController extends BaseController
         ];
 
         // process
-        $insert_mahasiswa = KelompokModel::insertmahasiswa($params);
+        $insert_mahasiswa = PendaftaranModel::insertmahasiswa($params);
         if ($insert_mahasiswa) {
             $params2 = [
                 'user_id' => $user_id,
                 'role_id' => '03'
             ];
-            KelompokModel::insertrole($params2);
+            PendaftaranModel::insertrole($params2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -104,7 +114,7 @@ class KelompokController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/contoh-halaman/add')->withInput();
+            return redirect('/admin/mahasiswa/add')->withInput();
         }
     }
 
@@ -117,10 +127,10 @@ class KelompokController extends BaseController
     public function detailMahasiswa($user_id)
     {
         // authorize
-        KelompokModel::authorize('R');
+        PendaftaranModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = KelompokModel::getDataById($user_id);
+        $mahasiswa = PendaftaranModel::getDataById($user_id);
 
         // check
         if (empty($mahasiswa)) {
@@ -133,7 +143,7 @@ class KelompokController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.kellompok.detail', $data);
+        return view('admin.pendaftaran.detail', $data);
     }
 
     /**
@@ -145,10 +155,10 @@ class KelompokController extends BaseController
     public function editMahasiswa($user_id)
     {
         // authorize
-        KelompokModel::authorize('U');
+        PendaftaranModel::authorize('U');
 
         // get data 
-        $mahasiswa = KelompokModel::getDataById($user_id);
+        $mahasiswa = PendaftaranModel::getDataById($user_id);
 
         // check
         if (empty($mahasiswa)) {
@@ -161,7 +171,7 @@ class KelompokController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.kellompok.edit', $data);
+        return view('admin.pendaftaran.edit', $data);
     }
 
     /**
@@ -174,7 +184,7 @@ class KelompokController extends BaseController
     public function editMahasiswaProcess(Request $request)
     {
         // authorize
-        KelompokModel::authorize('U');
+        PendaftaranModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -200,7 +210,7 @@ class KelompokController extends BaseController
         ];
 
         // process
-        if (KelompokModel::update($request->user_id, $params)) {
+        if (PendaftaranModel::update($request->user_id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/mahasiswa');
@@ -220,15 +230,15 @@ class KelompokController extends BaseController
     public function deleteMahasiswaProcess($user_id)
     {
         // authorize
-        KelompokModel::authorize('D');
+        PendaftaranModel::authorize('D');
 
         // get data
-        $mahasiswa = KelompokModel::getDataById($user_id);
+        $mahasiswa = PendaftaranModel::getDataById($user_id);
 
         // if exist
         if (!empty($mahasiswa)) {
             // process
-            if (KelompokModel::delete($user_id)) {
+            if (PendaftaranModel::delete($user_id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
                 return redirect('/admin/mahasiswa');
@@ -250,24 +260,24 @@ class KelompokController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function searchMahasiswa(Request $request)
     {
         // authorize
-        KelompokModel::authorize('R');
-
+        PendaftaranModel::authorize('R');
         // data request
-        $nama = $request->nama;
+        $user_name = $request->nama;
 
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_ch = KelompokModel::getDataSearch($nama);
+            $rs_pendaftaran = PendaftaranModel::getDataSearch($user_name);
+            // dd($rs_pendaftaran);
             // data
-            $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
+            $data = ['rs_pendaftaran' => $rs_pendaftaran, 'nama' => $user_name];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('admin.pendaftaran.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/admin/mahasiswa');
         }
     }
 }

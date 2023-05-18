@@ -42,9 +42,13 @@ use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
+
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
 //use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+// use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+
 
 /**
  * PUBLIC
@@ -216,9 +220,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
     Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
+    //infopendaftaran
+    Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
+    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
+
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
-    Route::get('/admin/kelompok/add', [Kelompokontroller::class, 'addSiklus']);
+    Route::get('/admin/kelompok/add', [KelompokController::class, 'addKelompok']);
     Route::post('/admin/kelompok/add-process', [KelompokController::class, 'addSiklusProcess']);
     Route::get('/admin/kelompok/delete-process/{user_id}', [KelompokController::class, 'deleteSiklusProcess']);
     Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);
@@ -246,4 +254,5 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+    Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
 });
