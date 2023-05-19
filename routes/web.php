@@ -46,6 +46,7 @@ use App\Http\Controllers\Admin\Kelompok\KelompokController;
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
+//use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 // use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
 
@@ -244,5 +245,15 @@ Route::middleware(['auth'])->group(function () {
 
     //halaman dosen
     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
+    Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
+    Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
+    Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
+
+
+
+
+
+
+
     Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
 });
