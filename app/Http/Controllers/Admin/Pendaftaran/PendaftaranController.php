@@ -34,7 +34,7 @@ class PendaftaranController extends BaseController
             'rs_pendaftaran' => $rs_pendaftaran,
             'rs_topik' => $rs_topik
         ];
-
+        // dd($data);
         // view
         return view('admin.pendaftaran.index', $data);
     }
@@ -49,12 +49,16 @@ class PendaftaranController extends BaseController
         // authorize
         PendaftaranModel::authorize('C');
         $id_topik = $request->id_topik;
+        $user_id = $request->user_id;
+        $get_topik = PendaftaranModel::getTopikbyid($id_topik);
         $rs_mahasiswa = PendaftaranModel::getMahasiswa($id_topik);
+        $rs_dosen = PendaftaranModel::getDosen($user_id);
         $data = [
             'rs_mahasiswa' =>  $rs_mahasiswa,
-            'id_topik' => $id_topik
+            'get_topik' =>  $get_topik,
+            'rs_dosen' => $rs_dosen
         ];
-        dd($data);
+        // dd($data);
         // view
         return view('admin.pendaftaran.add', $data);
     }
@@ -65,7 +69,7 @@ class PendaftaranController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addMahasiswaProcess(Request $request)
+    public function addPendaftaranProcess(Request $request)
     {
 
         // authorize
@@ -73,28 +77,26 @@ class PendaftaranController extends BaseController
 
         // Validate & auto redirect when fail
         $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
+            'id_topik' => 'required',
+            'nomor_kelompok' => 'required',
+            'id_mahasiswa' => 'required',
+            'id_dosen' => 'required',
+
         ];
         $this->validate($request, $rules);
 
 
         // params
         // default passwordnya mahasiswa123
-        $user_id = PendaftaranModel::makeMicrotimeID();
+
         $params = [
-            'user_id' => $user_id,
+            'id_topik' => $user_id,
             'user_name' => $request->nama,
             "nomor_induk" => $request->nim,
             "angkatan" => $request->angkatan,
             "ipk" => $request->ipk,
             "sks" => $request->sks,
             'user_password' => Hash::make('mahasiswa123'),
-            "alamat" => $request->alamat,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];

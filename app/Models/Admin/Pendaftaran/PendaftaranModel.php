@@ -18,15 +18,14 @@ class PendaftaranModel extends BaseModel
             ->get();
     }
 
-    // get data with pagination
+    // get data with pagination Pendataran mahasiswa yang belum punya kelompok
     public static function getDataWithPagination()
     {
         return DB::table('app_user as a')
-            ->select('a.*', 'f.nama as nama_topik')
-            ->join('kelompok_mhs as d', 'a.user_id', 'd.id_mahasiswa')
-            ->leftjoin('kelompok as e', 'd.id_kelompok', 'e.id')
-            ->leftjoin('topik as f', 'e.id_topik', 'f.id')
-            ->where('d.id_kelompok', NULL)
+            ->select('a.*', 'c.nama as nama_topik')
+            ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
+            ->leftjoin('topik as c', 'b.id_topik', 'c.id')
+            ->where('b.id_kelompok', NULL)
             ->paginate(20);
     }
 
@@ -36,14 +35,27 @@ class PendaftaranModel extends BaseModel
             ->get();
     }
 
+    public static function getTopikbyid($id_topik)
+    {
+        return DB::table('topik')
+            ->where('id', $id_topik)
+            ->first();
+    }
+
     public static function getMahasiswa($id_topik)
     {
         return DB::table('app_user as a')
-            ->select('a.*', 'd.nama as nama_topik', 'd.id as id_topik')
+            ->select('a.*', 'c.nama as nama_topik', 'c.id as id_topik')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
-            ->join('kelompok as c', 'b.id_kelompok', 'c.id')
-            ->join('topik as d', 'c.id_topik', 'd.id')
-            ->where('c.id_topik', $id_topik)
+            ->join('topik as c', 'b.id_topik', 'c.id')
+            ->where('b.id_topik', $id_topik)
+            ->get();
+    }
+
+    public static function getDosen($user_id)
+    {
+        return DB::table('app_user')
+            ->where('user_id', '04')
             ->get();
     }
 

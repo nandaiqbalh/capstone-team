@@ -7,7 +7,7 @@ Pendaftaran
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4"> Pendaftaran</h5>
+    <h5 class="fw-bold py-3 mb-4">Pendaftaran</h5>
     <!-- notification -->
     @include("template.notification")
 
@@ -16,8 +16,8 @@ Pendaftaran
         <h5 class="card-header">Data Pendaftaran</h5>
 
         <div class="card-body">
-            <div class="row mb-2">
-                <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
                     <form class="form-inline" action="{{ url('/admin/mahasiswa/search') }}" method="get" autocomplete="off">
                         <div class="row">
                             <div class="col-auto mt-1">
@@ -34,33 +34,32 @@ Pendaftaran
                         </div>
                     </form>
                 </div>
-            </div>
-            <br>
-            <div class="col-md-12">
-                <form class="form-inline" action="{{ url('/admin/pendaftaran/add') }}" method="get" autocomplete="off">
-                    <div class="row">
-                        <div class="col-auto mt-1">
-                            <div class="mb-3">
-                                <select class="form-select" name="id_topik" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($rs_topik as $topik)
-                                        <option value="{{$topik->id}}" @if( old('id_topik') == '{{$topik->id}}' ) selected @endif>{{$topik->nama}}</option>
-                                    @endforeach
-                                </select>
+                <div class="col-md-6">
+                    <form class="form-inline" action="{{ url('/admin/pendaftaran/add') }}" method="get" autocomplete="off">
+                        <div class="row">
+                            <div class="col-auto mt-1">
+                                
+                                    <select class="form-select" name="id_topik" required>
+                                        <option value="" disabled selected>-- Pilih --</option>
+                                        @foreach ($rs_topik as $topik)
+                                            <option value="{{$topik->id}}" @if( old('id_topik') == '{{$topik->id}}' ) selected @endif>{{$topik->nama}}</option>
+                                        @endforeach
+                                    </select>
+                               
+                            </div>
+                            <div class="col-auto mt-1">
+                                <button class="btn btn-outline-secondary ml-1" type="submit">
+                                    <i class="bx bx-plus"></i>
+                                </button>
+                            
                             </div>
                         </div>
-                        <div class="col-auto mt-1">
-                            <button class="btn btn-outline-secondary ml-1" type="submit">
-                                <i class="bx bx-plus"></i>
-                            </button>
-                        
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
 
-            
 
+            <br>
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -79,7 +78,6 @@ Pendaftaran
                             <td>{{ $pendaftaran->user_name }}</td>
                             <td>{{ $pendaftaran->nomor_induk }}</td>
                             <td>{{ $pendaftaran->nama_topik }}</td>
-                           
                         </tr>
                         @endforeach
                         @else

@@ -222,6 +222,7 @@ Route::middleware(['auth'])->group(function () {
     //infopendaftaran
     Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
     Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
+    Route::get('/admin/pendaftaran/add-process', [PendaftaranController::class, 'addPendaftaranProcess']);
 
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
