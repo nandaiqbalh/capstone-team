@@ -42,11 +42,9 @@ use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
-<<<<<<< HEAD
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
-use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
+// use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
 // use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
-=======
 
 use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
@@ -54,7 +52,6 @@ use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
 //use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 // use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
->>>>>>> 3079538dd2bd07e928623d636470764684cc1e61
 
 /**
  * PUBLIC
