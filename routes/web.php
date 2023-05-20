@@ -44,12 +44,12 @@ use App\Http\Controllers\Admin\Broadcast\BroadcastController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 // use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
-// use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
-use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+// use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
-//use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+// use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 // use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
 
@@ -239,8 +239,8 @@ Route::middleware(['auth'])->group(function () {
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
-    Route::get('/mahasiswa/kelompok/add', [MahasiswaKelompokController::class, 'addSiklus']);
-    Route::post('/mahasiswa/kelompok/add-process', [MahasiswaKelompokController::class, 'addSiklusProcess']);
+    Route::post('/mahasiswa/kelompok/add-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
+    Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
     Route::get('/mahasiswa/kelompok/delete-process/{user_id}', [MahasiswaKelompokController::class, 'deleteSiklusProcess']);
     Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);

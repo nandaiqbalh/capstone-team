@@ -18,9 +18,9 @@ class KelompokModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.user_name as dosen_name','c.nama as topik_name')
-            ->leftjoin('app_user as b','a.id_dosen','b.user_id')
-            ->leftjoin('topik as c', 'a.id_topik', 'c.id')
+            ->select('a.*','b.nama as topik_name')
+            // ->leftjoin('app_user as b','a.id_dosen','b.user_id')
+            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->orderByDesc('a.id')
             ->paginate(20);
     }

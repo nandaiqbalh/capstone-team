@@ -48,6 +48,32 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr class="text-center">
+                                        <th width="5%">No</th>
+                                        <th width="5%">Nama Mahasiswa</th>
+                                        <th>NIM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($rs_mahasiswa->count() > 0)
+                                    @foreach($rs_mahasiswa as $index => $kelompok)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}.</td>
+                                        <td>{{ $kelompok->user_name }}</td>
+                                        <td>{{ $kelompok->nomor_induk }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                    <tr>
+                                        <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

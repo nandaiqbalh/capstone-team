@@ -24,31 +24,41 @@ class MahasiswaKelompokController extends BaseController
     {
         // authorize
         MahasiswaKelompokModel::authorize('R');
-        // dd(MahasiswaKelompokModel::getData());
 
-        // get data with pagination
-        $kelompok_mahasiswa_pengecekan = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa();
-        // data
-        $data = ['kelompok_mahasiswa_pengecekan' => $kelompok_mahasiswa_pengecekan];
-        dd($data);
+        // get data kelompok
+        $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa();
+        if ($kelompok->id_kelompok && $kelompok->id_topik_mhs) {
+            $rs_mahasiswa = MahasiswaKelompokModel::listKelompokMahasiswa($kelompok->id_kelompok);
+            $rs_dosbing = MahasiswaKelompokModel::getAkunDosbingKelompok($kelompok->id_kelompok);
+
+            // data
+            $data = [
+                'kelompok'  => $kelompok,
+                'rs_mahasiswa' => $rs_mahasiswa,
+                'rs_dosbing'=> $rs_dosbing
+            ];
+        }
+        else{
+            $getAkun = MahasiswaKelompokModel::getAkunByID(Auth::user()->user_id);
+            $rs_mahasiswa = MahasiswaKelompokModel::getAkun();
+            $rs_dosbing = MahasiswaKelompokModel::getAkunDosen();
+            $rs_topik = MahasiswaKelompokModel::getTopik();
+            // data
+            $data = [
+                'rs_topik' => $rs_topik,
+                'kelompok'  => $kelompok,
+                'getAkun' => $getAkun,
+                'rs_mahasiswa' => $rs_mahasiswa,
+                'rs_dosbing' => $rs_dosbing,
+            ];
+        }
+        
+        // dd($data);
         // view
-        return view('admin.kelompok-mahasiswa.index', $data);
+        return view('admin.kelompok-mahasiswa.detail', $data);
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function addMahasiswa()
-    {
-        // authorize
-        MahasiswaKelompokModel::authorize('C');
-
-        // view
-        return view('admin.mahasiswa.add');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -56,27 +66,13 @@ class MahasiswaKelompokController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addMahasiswaProcess(Request $request)
+    public function addKelompokProcess(Request $request)
     {
 
         // authorize
         MahasiswaKelompokModel::authorize('C');
 
-        // Validate & auto redirect when fail
-        $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
-        ];
-        $this->validate($request, $rules);
-
-
         // params
-        // default passwordnya mahasiswa123
-        $user_id = MahasiswaKelompokModel::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,

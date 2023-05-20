@@ -47,13 +47,14 @@ class BimbinganSayaModel extends BaseModel
             ->join('topik as b','a.id_topik', 'b.id')
             ->where('a.id', $id)->first();
     }
-    public static function getMahasiswa($id)
+    public static function getMahasiswa($id_kelompok)
     {
         return DB::table('kelompok_mhs as a')
-            ->select()
+            ->select('b.*')
             ->join('app_user as b','a.id_mahasiswa', 'b.user_id')
-            ->join('kelompok as c','a.id_kelompok','c.id')
-            ->where('id', $id)->paginate(10);
+            // ->join('kelompok as c','a.id_kelompok','c.id')
+            ->where('a.id_kelompok', $id_kelompok)
+            ->get();
     }
     public static function update($id, $params)
     {

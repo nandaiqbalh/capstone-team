@@ -45,6 +45,7 @@ class BimbinganSayaController extends BaseController
 
         // get data with pagination
         $kelompok = BimbinganSayaModel::getDataById($id);
+        $rs_mahasiswa = BimbinganSayaModel::getMahasiswa($kelompok->id);
 
         // check
         if (empty($kelompok)) {
@@ -54,7 +55,10 @@ class BimbinganSayaController extends BaseController
         }
 
         // data
-        $data = ['kelompok' => $kelompok];
+        $data = [
+            'kelompok' => $kelompok,
+            'rs_mahasiswa' => $rs_mahasiswa,
+        ];
 
         // view
         return view('admin.bimbingan-saya.detail', $data);
