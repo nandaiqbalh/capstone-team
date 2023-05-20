@@ -2,7 +2,7 @@
 @extends('admin.base.app')
 
 @section('title')
-    Bimbingan Saya
+    Mahasiswa
 @endsection
 
 @section('content')
@@ -14,9 +14,9 @@
                 <!-- Bordered Table -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Bimbingan Saya</h5>
+                        <h5 class="mb-0">Detail Mahasiswa</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/dosen/bimbingan-saya') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
                     </div>
                     <div class="card-body">
@@ -32,18 +32,14 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Nomor Kelompok</td>
+                                        <td>Nama</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->nomor_kelompok }}</td>
-                                    </tr>
-                                        <td>Judul TA</td>
-                                        <td>:</td>
-                                        <td>{{ $kelompok->judul_ta }}</td>
+                                        <td>{{ $mahasiswa->user_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Topik</td>
+                                        <td>NIM</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->nama_topik }}</td>    
+                                        <td>{{ $mahasiswa->nomor_induk }}</td>
                                     </tr>
                                 </tbody>
                             </table>

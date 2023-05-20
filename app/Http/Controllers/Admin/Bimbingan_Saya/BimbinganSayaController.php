@@ -12,13 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class BimbinganSayaController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    //coba comment
+    
 
     public function index()
     {
@@ -34,179 +28,98 @@ class BimbinganSayaController extends BaseController
         return view('admin.bimbingan-saya.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function addMahasiswa()
-    {
-        // authorize
-        BimbinganSayaModel::authorize('C');
+  
+   
 
-        // view
-        return view('admin.mahasiswa.add');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function addMahasiswaProcess(Request $request)
-    {
-
-        // authorize
-        BimbinganSayaModel::authorize('C');
-
-        // Validate & auto redirect when fail
-        $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
-        ];
-        $this->validate($request, $rules);
-
-
-        // params
-        // default passwordnya mahasiswa123
-        $user_id = BimbinganSayaModel::makeMicrotimeID();
-        $params = [
-            'user_id' => $user_id,
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            'user_password' => Hash::make('mahasiswa123'),
-            "alamat" => $request->alamat,
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
-        ];
-
-        // process
-        $insert_mahasiswa = BimbinganSayaModel::insertmahasiswa($params);
-        if ($insert_mahasiswa) {
-            $params2 = [
-                'user_id' => $user_id,
-                'role_id' => '03'
-            ];
-            BimbinganSayaModel::insertrole($params2);
-
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/contoh-halaman/add')->withInput();
-        }
-    }
-
+       
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailMahasiswa($user_id)
+    public function detailBimbinganSaya($id)
     {
         // authorize
         BimbinganSayaModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = BimbinganSayaModel::getDataById($user_id);
+        $kelompok = BimbinganSayaModel::getDataById($id);
 
         // check
-        if (empty($mahasiswa)) {
+        if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/dosen/bimbingan-saya');
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = ['kelompok' => $kelompok];
 
         // view
-        return view('admin.mahasiswa.detail', $data);
+        return view('admin.bimbingan-saya.detail', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editMahasiswa($user_id)
-    {
-        // authorize
-        BimbinganSayaModel::authorize('U');
-
-        // get data 
-        $mahasiswa = BimbinganSayaModel::getDataById($user_id);
-
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-
-        // data
-        $data = ['mahasiswa' => $mahasiswa];
-
-        // view
-        return view('admin.mahasiswa.edit', $data);
-    }
+   
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. update status dosen 1
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editMahasiswaProcess(Request $request)
+    public function terimaBimbinganSaya($id)
     {
         // authorize
         BimbinganSayaModel::authorize('U');
 
-        // Validate & auto redirect when fail
-        $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
-        ];
-        $this->validate($request, $rules);
+        ;
 
         // params
         $params = [
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            "alamat" => $request->alamat,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'status_persetujuan' => 'disetujui',
         ];
 
         // process
-        if (BimbinganSayaModel::update($request->user_id, $params)) {
+        if (BimbinganSayaModel::update($id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/dosen/bimbingan-saya');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/edit/' . $request->user_id);
+            return redirect('/dosen/bimbingan-saya' . $request->id);
+        }
+    }
+     /**
+     * Update the specified resource in storage. update status dosen 2
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tolakBimbinganSaya($id)
+    {
+        // authorize
+        BimbinganSayaModel::authorize('U');
+
+        ;
+
+        // params
+        $params = [
+            'status_persetujuan' => 'tidak disetujui',
+        ];
+
+        // process
+        if (BimbinganSayaModel::update($id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return redirect('/dosen/bimbingan-saya');
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return redirect('/dosen/bimbingan-saya' . $request->id);
         }
     }
 

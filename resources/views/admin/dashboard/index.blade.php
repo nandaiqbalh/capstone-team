@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="{{ asset('vendor/libs/apex-charts/apex-charts.css') }}" />
   <script src="{{ asset('vendor/libs/apex-charts/apexcharts.js') }}"></script>
     
-    <div class="container-xxl flex-grow-1 container-p-y">
+    {{-- <div class="container-xxl flex-grow-1 container-p-y">
       <div class="row">
         <div class="col-lg-12 mb-4 order-0">
           <div class="card">
@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> --}}
 
 
       <!-- SUPER ADMIN -->
