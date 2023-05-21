@@ -23,8 +23,9 @@ class MahasiswaKelompokModel extends BaseModel
      public static function pengecekan_kelompok_mahasiswa()
      {
         return DB::table('kelompok_mhs as a')
-            ->select('a.*', 'b.*')
+            ->select('a.*', 'b.*','c.nama as nama_topik')
             ->leftjoin('kelompok as b','a.id_kelompok','b.id')
+            ->join('topik as c', 'a.id_topik_mhs', 'c.id')
             ->where('a.id_mahasiswa', Auth::user()->user_id)
             ->first();
      }
@@ -32,10 +33,11 @@ class MahasiswaKelompokModel extends BaseModel
     public static function listKelompokMahasiswa($id_kelompok)
     {
         return DB::table('kelompok_mhs as a')
-        ->select('a.*','b.user_name','b.nomor_induk')
-        ->join('app_user as b','a.id_mahasiswa','b.user_id')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
+            ->select('a.*','b.user_name','b.nomor_induk')
+            ->join('app_user as b','a.id_mahasiswa','b.user_id')
+            ->where('a.id_kelompok', $id_kelompok)
+            ->whereNot('a.id_kelompok', null)
+            ->get();
     }
 
     // get akun by id user 
@@ -106,6 +108,14 @@ class MahasiswaKelompokModel extends BaseModel
             ->get();
     }
 
+    // get data topik
+    public static function getSiklusAktif()
+    {
+        return DB::table('siklus')
+            ->where('status','aktif')
+            ->get();
+    }
+
     // get data by id
     public static function getDataById($user_id)
     {
@@ -117,12 +127,30 @@ class MahasiswaKelompokModel extends BaseModel
         return DB::table('app_user')->insert($params);
     }
 
+    public static function insertDosenKelompok($params)
+    {
+        return DB::table('dosen_kelompok')->insert($params);
+    }
+    public static function insertKelompok($params)
+    {
+        return DB::table('kelompok')->insert($params);
+    }
+    public static function insertKelompokMHS($params)
+    {
+        return DB::table('kelompok_mhs')->insert($params);
+    }
+
     public static function insertrole($params2)
     {
         return DB::table('app_role_user')->insert($params2);
     }
 
     public static function update($user_id, $params)
+    {
+        return DB::table('app_user')->where('user_id', $user_id)->update($params);
+    }
+
+    public static function updateMahasiswa($user_id, $params)
     {
         return DB::table('app_user')->where('user_id', $user_id)->update($params);
     }

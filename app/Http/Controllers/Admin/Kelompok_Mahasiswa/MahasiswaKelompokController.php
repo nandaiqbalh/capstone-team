@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Models\Admin\Kelompok_Mahasiswa\MahasiswaKelompokModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -27,7 +28,8 @@ class MahasiswaKelompokController extends BaseController
 
         // get data kelompok
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa();
-        if ($kelompok->id_kelompok && $kelompok->id_topik_mhs) {
+        $rs_siklus = MahasiswaKelompokModel::getSiklusAktif();
+        if ($kelompok != null) {
             $rs_mahasiswa = MahasiswaKelompokModel::listKelompokMahasiswa($kelompok->id_kelompok);
             $rs_dosbing = MahasiswaKelompokModel::getAkunDosbingKelompok($kelompok->id_kelompok);
 
@@ -35,7 +37,8 @@ class MahasiswaKelompokController extends BaseController
             $data = [
                 'kelompok'  => $kelompok,
                 'rs_mahasiswa' => $rs_mahasiswa,
-                'rs_dosbing'=> $rs_dosbing
+                'rs_dosbing'=> $rs_dosbing,
+                'rs_siklus' => $rs_siklus,
             ];
         }
         else{
@@ -50,6 +53,7 @@ class MahasiswaKelompokController extends BaseController
                 'getAkun' => $getAkun,
                 'rs_mahasiswa' => $rs_mahasiswa,
                 'rs_dosbing' => $rs_dosbing,
+                'rs_siklus' => $rs_siklus,
             ];
         }
         
@@ -74,35 +78,151 @@ class MahasiswaKelompokController extends BaseController
 
         // params
         $params = [
-            'user_id' => $user_id,
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
+            // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan,
             "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            'user_password' => Hash::make('mahasiswa123'),
+            "sks" => $request->no_telp,
+            'no_telp' => $request->sks,
             "alamat" => $request->alamat,
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        $insert_mahasiswa = MahasiswaKelompokModel::insertmahasiswa($params);
-        if ($insert_mahasiswa) {
+        $update_mahasiswa = MahasiswaKelompokModel::updateMahasiswa(Auth::user()->user_id,$params);
+        if ($update_mahasiswa) {
             $params2 = [
-                'user_id' => $user_id,
-                'role_id' => '03'
+                "id_siklus" => $request->id_siklus,
+                'id_mahasiswa' => Auth::user()->user_id,
+                'id_topik_mhs' => $request->id_topik_mhs,
             ];
-            MahasiswaKelompokModel::insertrole($params2);
+            MahasiswaKelompokModel::insertKelompokMHS($params2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/mahasiswa/kelompok');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
             return redirect('/admin/mahasiswa/add')->withInput();
         }
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addPunyaKelompokProcess(Request $request)
+    {
+
+        // dd($request);
+        // authorize
+        MahasiswaKelompokModel::authorize('C');
+
+        // addKelompok 
+
+        $params = [
+            "id_siklus" => $request->id_siklus,
+            "judul_ta" => $request->judul_ta,
+            "id_topik" => $request->id_topik,
+            "status_kelompok" => "menunggu persetujuan",
+            "id_dosen_pembimbing_1" => $request->dosbing_1,
+            "id_dosen_pembimbing_2" => $request->dosbing_2,
+        ];
+        MahasiswaKelompokModel::insertKelompok($params);
+        $id_kelompok = DB::getPdo()->lastInsertId();
+
+        $paramsDosen1 = [
+            "id_kelompok" => $id_kelompok,
+            "id_dosen" => $request->dosbing_1,
+            "status_dosen" => "pembimbing 1",
+            "status_persetujuan" => "menunggu persetujuan",
+        ];
+        MahasiswaKelompokModel::insertDosenKelompok($paramsDosen1);
+        $paramsDosen2 = [
+            "id_kelompok" => $id_kelompok,
+            "id_dosen" => $request->dosbing_2,
+            "status_dosen" => "pembimbing 2",
+            "status_persetujuan" => "menunggu persetujuan",
+        ];
+        MahasiswaKelompokModel::insertDosenKelompok($paramsDosen2);
+
+
+        // params mahasiswa 1
+        $params1 = [
+            "angkatan" => $request->angkatan1,
+            "ipk" => $request->ipk1,
+            "sks" => $request->no_telp1,
+            'no_telp' => $request->sks1,
+            "alamat" => $request->alamat1,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // process
+        $update_mahasiswa1 = MahasiswaKelompokModel::updateMahasiswa($request->nama1, $params1);
+        if ($update_mahasiswa1) {
+            $params11 = [
+                "id_siklus" => $request->id_siklus,
+                'id_kelompok' => $id_kelompok,
+                'id_mahasiswa' => $request->nama1,
+                'id_topik_mhs' => $request->id_topik,
+            ];
+            MahasiswaKelompokModel::insertKelompokMHS($params11);
+        }
+
+        // params mahasiswa 2
+        $params2 = [
+            // 'user_id' => Auth::user()->user_id,
+            "angkatan" => $request->angkatan2,
+            "ipk" => $request->ipk2,
+            "sks" => $request->no_telp2,
+            'no_telp' => $request->sks2,
+            "alamat" => $request->alamat2,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // process
+        $update_mahasiswa2 = MahasiswaKelompokModel::updateMahasiswa($request->nama2, $params2);
+        if ($update_mahasiswa2) {
+            $params22 = [
+                "id_siklus" => $request->id_siklus,
+                'id_kelompok' => $id_kelompok,
+                'id_mahasiswa' => $request->nama2,
+                'id_topik_mhs' => $request->id_topik,
+            ];
+            MahasiswaKelompokModel::insertKelompokMHS($params22);
+        }
+
+        // params mahasiswa 3
+        $params3 = [
+            // 'user_id' => Auth::user()->user_id,
+            "angkatan" => $request->angkatan3,
+            "ipk" => $request->ipk3,
+            "sks" => $request->no_telp3,
+            'no_telp' => $request->sks3,
+            "alamat" => $request->alamat3,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // process
+        $update_mahasiswa3 = MahasiswaKelompokModel::updateMahasiswa($request->nama3, $params3);
+        if ($update_mahasiswa3) {
+            $params33 = [
+                "id_siklus" => $request->id_siklus,
+                'id_kelompok' => $id_kelompok,
+                'id_mahasiswa' => $request->nama3,
+                'id_topik_mhs' => $request->id_topik,
+            ];
+            MahasiswaKelompokModel::insertKelompokMHS($params33);
+        }
+        return redirect('/mahasiswa/kelompok');
+
     }
 
     /**

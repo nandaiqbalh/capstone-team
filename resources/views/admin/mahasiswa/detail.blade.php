@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Contoh Halaman</h5>
+                <h5 class="fw-bold py-3 mb-4">Mahasiswa</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -40,6 +40,31 @@
                                         <td>NIM</td>
                                         <td>:</td>
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Angkatan</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->angkatan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>IPK</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->ipk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SKS</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->sks }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Telpon</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->no_telp }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->alamat }}</td>
                                     </tr>
                                 </tbody>
                             </table>

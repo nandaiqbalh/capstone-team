@@ -15,7 +15,7 @@ class DosenModel extends BaseModel
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
             ->where('c.role_id', '04')
-            ->orwhere('c.role_id', '05')
+            ->orwhere('c.role_id', '02')
             ->get();
     }
 
@@ -27,7 +27,7 @@ class DosenModel extends BaseModel
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
             ->where('c.role_id', '04')
-            ->orwhere('c.role_id', '05')
+            ->orwhere('c.role_id', '02')
             ->paginate(20);
     }
 
@@ -44,9 +44,9 @@ class DosenModel extends BaseModel
             ->select('a.*', 'c.role_name', 'c.role_id')
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('a.user_id', $user_id)
             ->where('c.role_id', '04')
-            ->orwhere('c.role_id', '05')
+            ->orwhere('c.role_id', '02')
+            ->where('a.user_id', $user_id)
             ->first();
     }
 
@@ -63,6 +63,10 @@ class DosenModel extends BaseModel
     public static function update($user_id, $params)
     {
         return DB::table('app_user')->where('user_id', $user_id)->update($params);
+    }
+    public static function updaterole($user_id, $params)
+    {
+        return DB::table('app_role_user')->where('user_id', $user_id)->update($params);
     }
 
     public static function delete($user_id)

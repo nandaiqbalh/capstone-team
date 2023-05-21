@@ -184,6 +184,10 @@ class DosenController extends BaseController
 
         // process
         if (DosenModel::update($request->user_id, $params)) {
+            $params2 = [
+                'role_id' =>  $request->role,
+            ];
+            DosenModel::updaterole($request->user_id, $params2);
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/dosen');

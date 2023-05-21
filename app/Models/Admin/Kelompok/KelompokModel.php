@@ -37,9 +37,23 @@ class KelompokModel extends BaseModel
     }
 
     // get data by id
-    public static function getDataById($user_id)
+    public static function getDataById($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
+        return DB::table('kelompok as a')
+            ->select('a.*','b.nama as nama_topik')
+            ->join('topik as b','a.id_topik','b.id')
+            ->where('a.id', $id)
+            ->first();
+    }
+    // pengecekan kelompok
+    public static function listKelompokMahasiswa($id_kelompok)
+    {
+        return DB::table('kelompok_mhs as a')
+        ->select('a.*', 'b.user_name', 'b.nomor_induk','b.user_id')
+        ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->whereNot('a.id_kelompok', null)
+        ->get();
     }
 
     public static function insertmahasiswa($params)

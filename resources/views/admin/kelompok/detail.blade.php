@@ -32,15 +32,58 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Nama</td>
+                                        <td>Nomor</td>
                                         <td>:</td>
-                                        <td>{{ $mahasiswa->user_name }}</td>
+                                        <td>{{ $kelompok->nomor_kelompok }}</td>
                                     </tr>
                                     <tr>
-                                        <td>NIM</td>
+                                        <td>Judul TA</td>
                                         <td>:</td>
-                                        <td>{{ $mahasiswa->nomor_induk }}</td>
+                                        <td>{{ $kelompok->judul_ta }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Topik</td>
+                                        <td>:</td>
+                                        <td>{{ $kelompok->nama_topik }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status</td>
+                                        <td>:</td>
+                                        <td>{{ $kelompok->status_kelompok }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>List Mahasiswa</p>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr class="text-center">
+                                        <th width="5%">No</th>
+                                        <th>Nama</th>
+                                        <th>NIM</th>
+                                        <th width="18%">Tindakan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($rs_mahasiswa->count() > 0)
+                                    @foreach($rs_mahasiswa as $index => $mahasiswa)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}.</td>
+                                        <td>{{ $mahasiswa->user_name }}</td>
+                                        <td>{{ $mahasiswa->nomor_induk }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                            <a href="{{ url('/admin/mahasiswa/edit') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
+                                            <a href="{{ url('/admin/mahasiswa/delete-process') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')"> Hapus</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                    <tr>
+                                        <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>

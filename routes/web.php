@@ -235,12 +235,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kelompok/delete-process/{user_id}', [KelompokController::class, 'deleteSiklusProcess']);
     Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);
     Route::post('/admin/kelompok/edit-process', [KelompokController::class, 'editSiklusProcess']);
-    Route::get('/admin/kelompok/detail/{user_id}', [KelompokController::class, 'detailSiklus']);
+    Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
+
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
-    Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
+    Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addPunyaKelompokProcess']);
     Route::get('/mahasiswa/kelompok/delete-process/{user_id}', [MahasiswaKelompokController::class, 'deleteSiklusProcess']);
     Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);

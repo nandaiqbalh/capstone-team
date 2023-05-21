@@ -26,20 +26,30 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label >Tahun Ajaran<span class="text-danger">*</span></label>
+                                        <label >Nama - Tahun Ajaran<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="tahun_ajaran" value="{{ $siklus->tahun_ajaran }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="tgl_mulai" value="{{ $siklus->tgl_mulai }}" required>
+                                        <input type="date" class="form-control" name="tanggal_mulai" value="{{ $siklus->tanggal_mulai }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label >Tanggal Selesai<span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control" name="tgl_selesai" value="{{ $siklus->tgl_selesai }}" required>
+                                        <input type="date" class="form-control" name="tanggal_selesai" value="{{ $siklus->tanggal_selesai }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Status <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="status" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            <option value="aktif" @if( old('status',$siklus->status) == 'aktif' ) selected @endif>aktif</option>
+                                            <option value="tidak aktif" @if( old('status',$siklus->status) == 'tidak aktif' ) selected @endif>tidak aktif</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>  

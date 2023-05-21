@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="card-body">
-                        @if ($kelompok->id_kelompok && $kelompok->id_topik_mhs)
+                    @if ($kelompok != null)
                          <!-- table info -->
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover">
@@ -39,6 +39,11 @@
                                         <td>Judul TA</td>
                                         <td>:</td>
                                         <td>{{ $kelompok->judul_ta }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Topik</td>
+                                        <td>:</td>
+                                        <td>{{ $kelompok->nama_topik }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -101,7 +106,7 @@
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td class="text-center" colspan="4">Tidak ada data.</td>
+                                        <td class="text-center" colspan="5">Tidak ada data.</td>
                                     </tr>
                                     @endif
                                 </tbody>
@@ -172,7 +177,7 @@
                                 <div class="col-md-6">
                                    <div class="mb-3">
                                        <label>Pilih Topik <span class="text-danger">*</span></label>
-                                       <select class="form-select" name="jenis_kelamin" required>
+                                       <select class="form-select" name="id_topik_mhs" required>
                                            <option value="" disabled selected>-- Pilih --</option>
                                            @foreach ($rs_topik as $topik)
                                            <option value="{{$topik->id}}">{{$topik->nama}}</option>
@@ -180,6 +185,17 @@
                                        </select>
                                    </div>
                                </div>
+                               <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label>Pilih Siklus <span class="text-danger">*</span></label>
+                                            <select class="form-select select-2" name="id_siklus" required>
+                                                <option value="" disabled selected>-- Pilih --</option>
+                                                @foreach ($rs_siklus as $siklus)
+                                                <option value="{{$siklus->id}}">{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Alamat<span class="text-danger">*</span></label>
@@ -188,13 +204,13 @@
                                 </div>
                             </div>
                                 <br>
-                                <button type="submit" class="btn btn-primary float-end">Simpan</button>
+                                <button type="submit" class="btn btn-primary float-end">Daftar</button>
                             </form>
                         </div>
 
 
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <form action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}" method="post" autocomplete="off">
+                            <form action="{{ url('/mahasiswa/kelompok/add-punya-kelompok-process') }}" method="post" autocomplete="off">
                                 {{ csrf_field()}}
                                 <div class="row">
                                     <div class="col-md-6">
@@ -222,16 +238,27 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label >Judul TA<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="judul_ta" value="{{ old('judul_ta') }}" required>
+                                            <input type="text" class="form-control" name="judul_ta" value="{{ old('judul_ta') }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Pilih Topik <span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="topik_id" required>
+                                            <select class="form-select select-2" name="id_topik" required>
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_topik as $topik)
                                                 <option value="{{$topik->id}}">{{$topik->nama}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label>Pilih Siklus <span class="text-danger">*</span></label>
+                                            <select class="form-select select-2" name="id_siklus" required>
+                                                <option value="" disabled selected>-- Pilih --</option>
+                                                @foreach ($rs_siklus as $siklus)
+                                                <option value="{{$siklus->id}}">{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -303,7 +330,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label >Nama<span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="nama1" required>
+                                            <select class="form-select select-2" name="nama2" >
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_mahasiswa as $mahasiswa)
                                                 <option value="{{$mahasiswa->user_id}}">{{$mahasiswa->user_name}}</option>
@@ -314,7 +341,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>NIM<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="nim2" value="{{ old('nim2') }}" required>
+                                            <input type="number" class="form-control" name="nim2" value="{{ old('nim2') }}" >
                                         </div>
                                     </div>
                                 </div>
@@ -322,19 +349,19 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label >Angkatan<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="angkatan2" value="{{ old('angkatan2') }}" required>
+                                            <input type="number" class="form-control" name="angkatan2" value="{{ old('angkatan2') }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label >IPK<span class="text-danger">*</span></label>
-                                            <input type="number" step='any' class="form-control" name="ipk2" value="{{ old('ipk2') }}" required>
+                                            <input type="number" step='any' class="form-control" name="ipk2" value="{{ old('ipk2') }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>SKS<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="sks2" value="{{ old('sks2') }}" required>
+                                            <input type="number" class="form-control" name="sks2" value="{{ old('sks2') }}" >
                                         </div>
                                     </div>
                                     
@@ -343,13 +370,13 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>No Telp<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="no_telp2" value="{{ old('no_telp2') }}" required>
+                                            <input type="number" class="form-control" name="no_telp2" value="{{ old('no_telp2') }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Alamat<span class="text-danger">*</span></label>
-                                            <textarea class="form-control" name="alamat2" placeholder="Tulis Alamat" id="floatingTextarea" required></textarea>
+                                            <textarea class="form-control" name="alamat2" placeholder="Tulis Alamat" id="floatingTextarea" ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +388,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label >Nama<span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="nama1" required>
+                                            <select class="form-select select-2" name="nama3" >
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_mahasiswa as $mahasiswa)
                                                 <option value="{{$mahasiswa->user_id}}">{{$mahasiswa->user_name}}</option>
@@ -372,7 +399,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>NIM<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="nim3" value="{{ old('nim3') }}" required>
+                                            <input type="number" class="form-control" name="nim3" value="{{ old('nim3') }}" >
                                         </div>
                                     </div>
                                 </div>
@@ -380,19 +407,19 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label >Angkatan<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="angkatan3" value="{{ old('angkatan3') }}" required>
+                                            <input type="number" class="form-control" name="angkatan3" value="{{ old('angkatan3') }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label >IPK<span class="text-danger">*</span></label>
-                                            <input type="number" step='any' class="form-control" name="ipk3" value="{{ old('ipk3') }}" required>
+                                            <input type="number" step='any' class="form-control" name="ipk3" value="{{ old('ipk3') }}" >
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>SKS<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="sks3" value="{{ old('sks3') }}" required>
+                                            <input type="number" class="form-control" name="sks3" value="{{ old('sks3') }}" >
                                         </div>
                                     </div>
                                     
@@ -401,14 +428,14 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>No Telp<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="no_telp3" value="{{ old('no_telp3') }}" required>
+                                            <input type="number" class="form-control" name="no_telp3" value="{{ old('no_telp3') }}" >
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Alamat<span class="text-danger">*</span></label>
-                                            <textarea class="form-control" name="alamat3" placeholder="Tulis Alamat" id="floatingTextarea" required></textarea>
+                                            <textarea class="form-control" name="alamat3" placeholder="Tulis Alamat" id="floatingTextarea"></textarea>
                                         </div>
                                     </div>
                                 </div>

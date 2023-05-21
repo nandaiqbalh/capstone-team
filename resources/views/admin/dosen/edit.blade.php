@@ -44,7 +44,7 @@
                                         <label>Role <span class="text-danger">*</span></label>
                                         <select class="form-select" name="role" required>
                                             <option value="" disabled selected>-- Pilih --</option>
-                                            <option value="05" @if( $dosen->role_id == '05' ) selected @endif>Tim Capstone</option>
+                                            <option value="02" @if( $dosen->role_id == '02' ) selected @endif>Tim Capstone</option>
                                             <option value="04" @if( $dosen->role_id == '04' ) selected @endif>Dosen</option>
                                         </select>
                                     </div>

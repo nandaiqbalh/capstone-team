@@ -24,7 +24,7 @@ class PendaftaranModel extends BaseModel
         return DB::table('app_user as a')
             ->select('a.*', 'c.nama as nama_topik')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
-            ->leftjoin('topik as c', 'b.id_topik', 'c.id')
+            ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->where('b.id_kelompok', NULL)
             ->paginate(20);
     }
@@ -47,8 +47,8 @@ class PendaftaranModel extends BaseModel
         return DB::table('app_user as a')
             ->select('a.*', 'c.nama as nama_topik', 'c.id as id_topik')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
-            ->join('topik as c', 'b.id_topik', 'c.id')
-            ->where('b.id_topik', $id_topik)
+            ->join('topik as c', 'b.id_topik_mhs', 'c.id')
+            ->where('b.id_topik_mhs', $id_topik)
             ->get();
     }
 

@@ -114,26 +114,30 @@ class KelompokController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailMahasiswa($user_id)
+    public function detailKelompok($id)
     {
         // authorize
         KelompokModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = KelompokModel::getDataById($user_id);
+        $kelompok = KelompokModel::getDataById($id);
+        $rs_mahasiswa = KelompokModel::listKelompokMahasiswa($id);
 
         // check
-        if (empty($mahasiswa)) {
+        if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/kelompok');
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = [
+            'kelompok' => $kelompok,
+            'rs_mahasiswa' => $rs_mahasiswa,
+        ];
 
         // view
-        return view('admin.kellompok.detail', $data);
+        return view('admin.kelompok.detail', $data);
     }
 
     /**
@@ -161,7 +165,7 @@ class KelompokController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.kellompok.edit', $data);
+        return view('admin.kelompok.edit', $data);
     }
 
     /**

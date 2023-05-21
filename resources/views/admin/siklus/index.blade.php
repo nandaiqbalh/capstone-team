@@ -47,9 +47,10 @@ Siklus
                     <thead class="thead-light">
                         <tr class="text-center">
                             <th width="5%">No</th>
-                            <th>Tahun Ajaran</th>
+                            <th>Nama - Tahun Ajaran</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
+                            <th>Status</th>
                             <th width="18%">Tindakan</th>
                         </tr>
                     </thead>
@@ -59,8 +60,9 @@ Siklus
                         <tr>
                             <td class="text-center">{{ $index + $dt_siklus->firstItem() }}.</td>
                             <td>{{ $siklus->tahun_ajaran }}</td>
-                            <td>{{ $siklus->tgl_mulai }}</td>
-                            <td>{{ $siklus->tgl_selesai }}</td>
+                            <td>{{ $siklus->tanggal_mulai }}</td>
+                            <td>{{ $siklus->tanggal_selesai }}</td>
+                            <td>{{ $siklus->status }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/siklus/edit') }}/{{ $siklus->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
