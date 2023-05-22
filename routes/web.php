@@ -41,16 +41,16 @@ use App\Http\Controllers\Admin\Topik\TopikController;
 use App\Http\Controllers\Admin\Dosen\DosenController;
 use App\Http\Controllers\Admin\Siklus\SiklusController;
 use App\Http\Controllers\Admin\Broadcast\BroadcastController;
+use App\Http\Controllers\Admin\JadwalPendaftaranKelompok\JadwalPendaftaranKelompokController;
+use App\Http\Controllers\Admin\JadwalSidangProposal\JadwalSidangProposalController;
+use App\Http\Controllers\Admin\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
-// use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
-// use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
+
 use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
-use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
-// use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
-// use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+
 
 
 /**
@@ -222,11 +222,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/broadcast/edit/{user_id}', [BroadcastController::class, 'editBroadcast']);
     Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
     Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
+    
+    //pendaftaran
+    //kelompok
+    Route::get('/admin/jadwal-pendaftaran/kelompok', [JadwalPendaftaranKelompokController::class, 'index']);
+    // Route::get('/admin/jadwal-pendaftaran/kelompok/add', [JadwalPendaftaranKelompokController::class, 'addBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/kelompok/add-process', [JadwalPendaftaranKelompokController::class, 'addJadwalPendaftaranKelompokProcess']);
+    Route::get('/admin/jadwal-pendaftaran/kelompok/delete-process/{id}', [JadwalPendaftaranKelompokController::class, 'deleteJadwalPendaftaranKelompokProcess']);
+    // Route::get('/admin/jadwal-pendaftaran/kelompok/edit/{user_id}', [JadwalPendaftaranKelompokController::class, 'editBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/kelompok/edit-process', [JadwalPendaftaranKelompokController::class, 'editJadwalPendaftaranKelompokProcess']);
+    // Route::get('/admin/jadwal-pendaftaran/kelompok/detail/{user_id}', [JadwalPendaftaranKelompokController::class, 'detailBroadcast']);
 
-    //infopendaftaran
-    Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
-    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
-    Route::get('/admin/pendaftaran/add-process', [PendaftaranController::class, 'addPendaftaranProcess']);
+    //expo
+    Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
+    Route::get('/admin/jadwal-pendaftaran/expo/add', [JadwalExpoController::class, 'addBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/expo/add-process', [JadwalExpoController::class, 'addBroadcastProcess']);
+    Route::get('/admin/jadwal-pendaftaran/expo/delete-process/{id}', [JadwalExpoController::class, 'deleteBroadcastProcess']);
+    Route::get('/admin/jadwal-pendaftaran/expo/edit/{user_id}', [JadwalExpoController::class, 'editBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/expo/edit-process', [JadwalExpoController::class, 'editBroadcastProcess']);
+    Route::get('/admin/jadwal-pendaftaran/expo/detail/{user_id}', [JadwalExpoController::class, 'detailBroadcast']);
+
 
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);

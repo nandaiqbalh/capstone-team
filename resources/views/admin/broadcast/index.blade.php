@@ -40,7 +40,7 @@ Broadcast
                 <div class="col-auto ">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Tambah Data
-                      </button>
+                    </button>
                 </div>
             </div>
 
@@ -119,7 +119,7 @@ Broadcast
                                 </form>
                               </div>
                             </div>
-                          </div>
+                        </div>
                         @endforeach
                         @else
                         <tr>

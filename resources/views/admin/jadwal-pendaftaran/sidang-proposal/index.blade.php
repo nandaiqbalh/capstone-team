@@ -1,23 +1,23 @@
 @extends('admin.base.app')
 
 @section('title')
-Mahasiswa
+Pendaftaran
 @endsection
 
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4"> Mahasiswa</h5>
+    <h5 class="fw-bold py-3 mb-4">Pendaftaran</h5>
     <!-- notification -->
     @include("template.notification")
 
     <!-- Bordered Table -->
     <div class="card">
-        <h5 class="card-header">Data Mahasiswa</h5>
+        <h5 class="card-header">Data Pendaftaran</h5>
 
         <div class="card-body">
-            <div class="row mb-2">
-                <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
                     <form class="form-inline" action="{{ url('/admin/mahasiswa/search') }}" method="get" autocomplete="off">
                         <div class="row">
                             <div class="col-auto mt-1">
@@ -34,36 +34,50 @@ Mahasiswa
                         </div>
                     </form>
                 </div>
-            </div>
-            <br>
-            <div class="row justify-content-end mb-2">
-                <div class="col-auto ">
-                    <a href="{{ url('/admin/mahasiswa/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                <div class="col-md-6">
+                    <form class="form-inline" action="{{ url('/admin/pendaftaran/add') }}" method="get" autocomplete="off">
+                        <div class="row">
+                            <div class="col-auto mt-1">
+                                
+                                    <select class="form-select" name="id_topik" required>
+                                        <option value="" disabled selected>-- Pilih --</option>
+                                        @foreach ($rs_topik as $topik)
+                                            <option value="{{$topik->id}}" @if( old('id_topik') == '{{$topik->id}}' ) selected @endif>{{$topik->nama}}</option>
+                                        @endforeach
+                                    </select>
+                               
+                            </div>
+                            <div class="col-auto mt-1">
+                                <button class="btn btn-outline-secondary ml-1" type="submit">
+                                    <i class="bx bx-plus"></i>
+                                </button>
+                            
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
+
+            <br>
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr class="text-center">
                             <th width="5%">No</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th width="18%">Tindakan</th>
+                            <th>Nama Mahasiswa</th>
+                            <th>NIM</th>
+                            <th>Topik</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($rs_mahasiswa->count() > 0)
-                        @foreach($rs_mahasiswa as $index => $mahasiswa)
+                        @if($rs_pendaftaran->count() > 0)
+                        @foreach($rs_pendaftaran as $index => $pendaftaran)
                         <tr>
-                            <td class="text-center">{{ $index + $rs_mahasiswa->firstItem() }}.</td>
-                            <td>{{ $mahasiswa->user_name }}</td>
-                            <td>{{ $mahasiswa->role_name }}</td>
-                            <td class="text-center">
-                                <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <a href="{{ url('/admin/mahasiswa/edit') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <a href="{{ url('/admin/mahasiswa/delete-process') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')"> Hapus</a>
-                            </td>
+                            <td class="text-center">{{ $index + $rs_pendaftaran->firstItem() }}.</td>
+                            <td>{{ $pendaftaran->user_name }}</td>
+                            <td>{{ $pendaftaran->nomor_induk }}</td>
+                            <td>{{ $pendaftaran->nama_topik }}</td>
                         </tr>
                         @endforeach
                         @else
@@ -77,10 +91,10 @@ Mahasiswa
             <!-- pagination -->
             <div class="row mt-3 justify-content-between">
                 <div class="col-auto mr-auto">
-                    <p>Menampilkan {{ $rs_mahasiswa->count() }} dari total {{ $rs_mahasiswa->total() }} data.</p>
+                    <p>Menampilkan {{ $rs_pendaftaran->count() }} dari total {{ $rs_pendaftaran->total() }} data.</p>
                 </div>
                 <div class="col-auto ">
-                    {{ $rs_mahasiswa->links() }}
+                    {{ $rs_pendaftaran->links() }}
                 </div>
             </div>
         </div>

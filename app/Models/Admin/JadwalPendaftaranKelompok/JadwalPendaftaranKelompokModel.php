@@ -1,37 +1,37 @@
 <?php
 
-namespace App\Models\Admin\Pendaftaran;
+namespace App\Models\Admin\JadwalPendaftaranKelompok;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class PendaftaranModel extends BaseModel
+class JadwalPendaftaranKelompokModel extends BaseModel
 {
     // get all data
-    public static function getData()
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'b.')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->get();
-    }
+    // public static function getData()
+    // {
+    //     return DB::table('app_user as a')
+    //         ->select('a.*', 'b.')
+    //         ->join('app_role_user as b', 'a.user_id', 'b.user_id')
+    //         ->join('app_role as c', 'b.role_id', 'c.role_id')
+    //         ->where('c.role_id', '03')
+    //         ->get();
+    // }
 
     // get data with pagination Pendataran mahasiswa yang belum punya kelompok
     public static function getDataWithPagination()
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.nama as nama_topik')
-            ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
-            ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
-            ->where('b.id_kelompok', NULL)
+        return DB::table('pendaftaran_capstone as a')
+            ->select('a.*','b.id as siklus_id', 'b.tahun_ajaran')
+            ->join('siklus as b', 'a.siklus_id', 'b.id')
+            ->where('b.status', 'aktif')
             ->paginate(20);
     }
 
-    public static function getTopik()
+    public static function getSiklus()
     {
-        return DB::table('topik')
+        return DB::table('siklus')
+            ->where('status','aktif')
             ->get();
     }
 
@@ -73,28 +73,22 @@ class PendaftaranModel extends BaseModel
     }
 
     // get data by id
-    public static function getDataById($user_id)
+    public static function getDataById($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
+        return DB::table('pendaftaran_capstone')->where('id', $id)->first();
     }
 
-    public static function insertPendaftaran($params)
+    public static function insertJadwalPendaftaranKelompok($params)
     {
-        return DB::table('app_user')->insert($params);
+        return DB::table('pendaftaran_capstone')->insert($params);
+    }
+    public static function updateJadwalPendaftaranKelompok($id, $params)
+    {
+        return DB::table('pendaftaran_capstone')->where('id', $id)->update($params);
     }
 
-    public static function insertrole($params2)
+    public static function deleteJadwalPendaftaranKelompok($id)
     {
-        return DB::table('app_role_user')->insert($params2);
-    }
-
-    public static function update($user_id, $params)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
-    }
-
-    public static function delete($user_id)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->delete();
+        return DB::table('pendaftaran_capstone')->where('id', $id)->delete();
     }
 }

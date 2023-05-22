@@ -185,17 +185,17 @@
                                        </select>
                                    </div>
                                </div>
-                               <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label>Pilih Siklus <span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="id_siklus" required>
-                                                <option value="" disabled selected>-- Pilih --</option>
-                                                @foreach ($rs_siklus as $siklus)
-                                                <option value="{{$siklus->id}}">{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Pilih Siklus <span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_siklus" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_siklus as $siklus)
+                                            <option value="{{$siklus->id}}">{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Alamat<span class="text-danger">*</span></label>
