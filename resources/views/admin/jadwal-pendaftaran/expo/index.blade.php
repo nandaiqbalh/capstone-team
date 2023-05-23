@@ -1,63 +1,30 @@
 @extends('admin.base.app')
 
 @section('title')
-Pendaftaran
+Jadwal Pendaftaran Kelompok
 @endsection
 
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4">Pendaftaran</h5>
+    <h5 class="fw-bold py-3 mb-4">Jadwal Pendaftaran Kelompok</h5>
     <!-- notification -->
     @include("template.notification")
 
     <!-- Bordered Table -->
     <div class="card">
-        <h5 class="card-header">Data Pendaftaran</h5>
+        <h5 class="card-header">Data Jadwal Pendaftaran Kelompok</h5>
 
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <form class="form-inline" action="{{ url('/admin/mahasiswa/search') }}" method="get" autocomplete="off">
-                        <div class="row">
-                            <div class="col-auto mt-1">
-                                <input class="form-control mr-sm-2" type="search" name="nama" value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama" minlength="1" required>
-                            </div>
-                            <div class="col-auto mt-1">
-                                <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="search">
-                                    <i class="bx bx-search-alt-2"></i>
-                                </button>
-                                <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="reset">
-                                    <i class="bx bx-reset"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <form class="form-inline" action="{{ url('/admin/pendaftaran/add') }}" method="get" autocomplete="off">
-                        <div class="row">
-                            <div class="col-auto mt-1">
-                                
-                                    <select class="form-select" name="id_topik" required>
-                                        <option value="" disabled selected>-- Pilih --</option>
-                                        @foreach ($rs_topik as $topik)
-                                            <option value="{{$topik->id}}" @if( old('id_topik') == '{{$topik->id}}' ) selected @endif>{{$topik->nama}}</option>
-                                        @endforeach
-                                    </select>
-                               
-                            </div>
-                            <div class="col-auto mt-1">
-                                <button class="btn btn-outline-secondary ml-1" type="submit">
-                                    <i class="bx bx-plus"></i>
-                                </button>
-                            
-                            </div>
-                        </div>
-                    </form>
+
+
+            <div class="row justify-content-end mb-2">
+                <div class="col-auto ">
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Tambah Data
+                    </button>
                 </div>
             </div>
-
 
             <br>
             <div class="table-responsive text-nowrap">
@@ -65,9 +32,10 @@ Pendaftaran
                     <thead class="thead-light">
                         <tr class="text-center">
                             <th width="5%">No</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>NIM</th>
-                            <th>Topik</th>
+                            <th>Siklus</th>
+                            <th>Tanggal Mulai</th>
+                            <th>Tanggal Selesai</th>
+                            <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,10 +43,65 @@ Pendaftaran
                         @foreach($rs_pendaftaran as $index => $pendaftaran)
                         <tr>
                             <td class="text-center">{{ $index + $rs_pendaftaran->firstItem() }}.</td>
-                            <td>{{ $pendaftaran->user_name }}</td>
-                            <td>{{ $pendaftaran->nomor_induk }}</td>
-                            <td>{{ $pendaftaran->nama_topik }}</td>
+                            <td>{{ $pendaftaran->tahun_ajaran }}</td>
+                            <td>{{ $pendaftaran->tanggal_mulai }}</td>
+                            <td>{{ $pendaftaran->tanggal_selesai }}</td>
+                            <td class="text-center">
+                                {{-- <a href="{{ url('/admin/jadwal-pendaftaran/kelompok/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
+                                <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}"> Ubah</button>
+                                <a href="{{ url('/admin/jadwal-pendaftaran/kelompok/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a>
+                            </td>
                         </tr>
+                        {{-- modal edit --}}
+                        <div class="modal fade" id="exampleModal{{ $pendaftaran->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Tambah Broadcast</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url('/admin/jadwal-pendaftaran/kelompok/edit-process') }}" method="post" autocomplete="off">
+                                        {{ csrf_field()}}
+                                        <input type="hidden" name="id" value="{{ $pendaftaran->id }}">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label>Pilih Siklus <span class="text-danger">*</span></label>
+                                                    <select class="form-select" name="siklus_id" required>
+                                                        <option value="" disabled selected>-- Pilih --</option>
+                                                        @foreach ($rs_siklus as $siklus)
+                                                        <option value="{{$siklus->id}}" @if ($siklus->id == $pendaftaran->siklus_id ) selected @endif >{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label>Tanggal Mulai<span class="text-danger">*</span></label>
+                                                    <input type="date" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai',$pendaftaran->tanggal_mulai) }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label >Tanggal Selesai<span class="text-danger">*</span></label>
+                                                    <input type="date" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai',$pendaftaran->tanggal_selesai) }}" required>
+                                                </div>
+                                            </div>
+                                        </div>                             
+                                        <br>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
                         @endforeach
                         @else
                         <tr>
@@ -98,6 +121,56 @@ Pendaftaran
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Jadwal Pendaftaran Kelompok</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url('/admin/jadwal-pendaftaran/kelompok/add-process') }}" method="post" autocomplete="off">
+                {{ csrf_field()}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Pilih Siklus <span class="text-danger">*</span></label>
+                            <select class="form-select" name="siklus_id" required>
+                                <option value="" disabled selected>-- Pilih --</option>
+                                @foreach ($rs_siklus as $siklus)
+                                <option value="{{$siklus->id}}">{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Tanggal Mulai<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label >Tanggal Selesai<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" required>
+                        </div>
+                    </div>
+                </div>                           
+                <br>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+      </div>
     </div>
 </div>
 

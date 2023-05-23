@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\BaseController;
 use App\Models\Admin\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use PDO;
 
 class MahasiswaKelompokController extends BaseController
 {
@@ -72,6 +72,7 @@ class MahasiswaKelompokController extends BaseController
      */
     public function addKelompokProcess(Request $request)
     {
+        // dd($request['angkatan']);
 
         // authorize
         MahasiswaKelompokModel::authorize('C');
@@ -94,9 +95,60 @@ class MahasiswaKelompokController extends BaseController
             $params2 = [
                 "id_siklus" => $request->id_siklus,
                 'id_mahasiswa' => Auth::user()->user_id,
-                'id_topik_mhs' => $request->id_topik_mhs,
+                'status_individu' => 'menunggu persetujuan',
             ];
             MahasiswaKelompokModel::insertKelompokMHS($params2);
+            $insert_id = DB::getPdo()->lastInsertId();
+
+            $paramS = [
+                'id_mahasiswa' => Auth::user()->user_id,
+                'id_kel_mhs' => $insert_id,
+                'peminatan' => 'Software & Database',
+                'prioritas' => $request->s,
+            ];
+
+            MahasiswaKelompokModel::insertPeminatan($paramS);
+
+            $paramE = [
+                'id_mahasiswa' => Auth::user()->user_id,
+                'id_kel_mhs' => $insert_id,
+                'peminatan' => 'Embedded System & Robotics',
+                'prioritas' => $request->e,
+            ];
+
+            MahasiswaKelompokModel::insertPeminatan($paramE);
+
+            $paramC = [
+                'id_mahasiswa' => Auth::user()->user_id,
+                'id_kel_mhs' => $insert_id,
+                'peminatan' => 'Computer Network & Security',
+                'prioritas' => $request->c,
+            ];
+
+            MahasiswaKelompokModel::insertPeminatan($paramC);
+
+            $paramM = [
+                'id_mahasiswa' => Auth::user()->user_id,
+                'id_kel_mhs' => $insert_id,
+                'peminatan' => 'Multimedia & Game',
+                'prioritas' => $request->m,
+            ];
+
+            MahasiswaKelompokModel::insertPeminatan($paramM);
+
+            $rs_topik = MahasiswaKelompokModel::getTopik();
+            foreach ($rs_topik as $key => $value) {
+                $param = [
+                    'id_mahasiswa'  => Auth::user()->user_id,
+                    'id_kel_mhs'    => $insert_id,
+                    'id_topik'     => $value->id,
+                    'prioritas' => $request[$value->id],
+                    'created_by'   => Auth::user()->user_id,
+                    'created_date'  => date('Y-m-d H:i:s')
+                ];
+
+                MahasiswaKelompokModel::insertTopikMHS($param);
+            }
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');

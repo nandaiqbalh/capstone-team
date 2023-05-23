@@ -33,7 +33,11 @@
                                     <tr>
                                         <td>Nomor Kelompok</td>
                                         <td>:</td>
+                                        @if ($kelompok->nomor_kelompok==null)
+                                        <td>Dalam Proses Peninjauan</td>
+                                        @else
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td>Judul TA</td>
@@ -118,7 +122,6 @@
                         <h5 class="mb-0">Anda Belum Memiliki Kelompok, Silahkan Daftar Terlebih dahulu</h5>
                     <br>
 
-                    
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Daftar Individu</button>
@@ -165,7 +168,6 @@
                                         <input type="number" class="form-control" name="sks" value="{{ old('sks',$getAkun->sks) }}" required>
                                     </div>
                                 </div>
-                                
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -174,17 +176,7 @@
                                         <input type="number" class="form-control" name="no_telp" value="{{ old('sks',$getAkun->no_telp) }}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                   <div class="mb-3">
-                                       <label>Pilih Topik <span class="text-danger">*</span></label>
-                                       <select class="form-select" name="id_topik_mhs" required>
-                                           <option value="" disabled selected>-- Pilih --</option>
-                                           @foreach ($rs_topik as $topik)
-                                           <option value="{{$topik->id}}">{{$topik->nama}}</option>
-                                           @endforeach
-                                       </select>
-                                   </div>
-                               </div>
+                                
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Pilih Siklus <span class="text-danger">*</span></label>
@@ -196,11 +188,98 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Alamat<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" name="alamat" placeholder="Tulis Alamat" id="floatingTextarea" required>{{$getAkun->alamat}}</textarea>
-                                    </div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Software & Database</th>
+                                            <th scope="col">Embedded System & Robotics</th>
+                                            <th scope="col">Computer Network & Security</th>
+                                            <th scope="col">Multimedia & Game</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            <th scope="row">1</th>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios1" value="1" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios1" value="1" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios1" value="1" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios1" value="1" ></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios2" value="2" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios2" value="2" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios2" value="2" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios2" value="2" ></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios3" value="3" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios3" value="3" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios3" value="3" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios3" value="3" ></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">4</th>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios4" value="4" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios4" value="4" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios4" value="4" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios4" value="4" ></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">#</th>
+                                            @foreach ($rs_topik as $topik) 
+                                            <th scope="col">{{$topik->nama}}</th>
+                                            @endforeach
+                                            
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            <th scope="row">1</th>
+                                            @foreach ($rs_topik as $topik) 
+                                                <td style="text-align: center">
+                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="1" >
+                                                </td>
+                                            @endforeach
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                            @foreach ($rs_topik as $topik) 
+                                                <td style="text-align: center">
+                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="2" >
+                                                </td>
+                                            @endforeach
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                            @foreach ($rs_topik as $topik) 
+                                                <td style="text-align: center">
+                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="3" >
+                                                </td>
+                                            @endforeach
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">4</th>
+                                            @foreach ($rs_topik as $topik) 
+                                                <td style="text-align: center">
+                                                    <input class="form-check-input" type="radio" name="topik{{$topik->id}}" id="topik{{$topik->id}}" value="4" >
+                                                </td>
+                                            @endforeach
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                                 <br>

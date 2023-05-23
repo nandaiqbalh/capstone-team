@@ -25,7 +25,11 @@ class MahasiswaKelompokModel extends BaseModel
         return DB::table('kelompok_mhs as a')
             ->select('a.*', 'b.*','c.nama as nama_topik')
             ->leftjoin('kelompok as b','a.id_kelompok','b.id')
-            ->join('topik as c', 'a.id_topik_mhs', 'c.id')
+            ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
+            // ->where(function ($query) {
+            //     $query->where('a.status_individu', 'menuggu persetujuan')
+            //         ->orWhere('a.status_individu', 'disetujui');
+            // })
             ->where('a.id_mahasiswa', Auth::user()->user_id)
             ->first();
      }
@@ -140,6 +144,14 @@ class MahasiswaKelompokModel extends BaseModel
         return DB::table('kelompok_mhs')->insert($params);
     }
 
+    public static function insertPeminatan($params)
+    {
+        return DB::table('peminatan')->insert($params);
+    }
+    public static function insertTopikMHS($params)
+    {
+        return DB::table('topik_mhs')->insert($params);
+    }
     public static function insertrole($params2)
     {
         return DB::table('app_role_user')->insert($params2);

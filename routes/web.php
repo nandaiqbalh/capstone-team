@@ -45,6 +45,7 @@ use App\Http\Controllers\Admin\JadwalPendaftaranKelompok\JadwalPendaftaranKelomp
 use App\Http\Controllers\Admin\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\Admin\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
+use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 
 use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
@@ -226,12 +227,18 @@ Route::middleware(['auth'])->group(function () {
     //pendaftaran
     //kelompok
     Route::get('/admin/jadwal-pendaftaran/kelompok', [JadwalPendaftaranKelompokController::class, 'index']);
-    // Route::get('/admin/jadwal-pendaftaran/kelompok/add', [JadwalPendaftaranKelompokController::class, 'addBroadcast']);
     Route::post('/admin/jadwal-pendaftaran/kelompok/add-process', [JadwalPendaftaranKelompokController::class, 'addJadwalPendaftaranKelompokProcess']);
     Route::get('/admin/jadwal-pendaftaran/kelompok/delete-process/{id}', [JadwalPendaftaranKelompokController::class, 'deleteJadwalPendaftaranKelompokProcess']);
-    // Route::get('/admin/jadwal-pendaftaran/kelompok/edit/{user_id}', [JadwalPendaftaranKelompokController::class, 'editBroadcast']);
     Route::post('/admin/jadwal-pendaftaran/kelompok/edit-process', [JadwalPendaftaranKelompokController::class, 'editJadwalPendaftaranKelompokProcess']);
-    // Route::get('/admin/jadwal-pendaftaran/kelompok/detail/{user_id}', [JadwalPendaftaranKelompokController::class, 'detailBroadcast']);
+
+    //sidang proposal
+    Route::get('/admin/jadwal-pendaftaran/sidang-proposal', [JadwalSidangProposalController::class, 'index']);
+    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/add', [JadwalSidangProposalController::class, 'addBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/sidang-proposal/add-process', [JadwalSidangProposalController::class, 'addBroadcastProcess']);
+    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteBroadcastProcess']);
+    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/edit/{user_id}', [JadwalSidangProposalController::class, 'editBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/sidang-proposal/edit-process', [JadwalSidangProposalController::class, 'editBroadcastProcess']);
+    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/detail/{user_id}', [JadwalSidangProposalController::class, 'detailBroadcast']);
 
     //expo
     Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
@@ -251,6 +258,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);
     Route::post('/admin/kelompok/edit-process', [KelompokController::class, 'editSiklusProcess']);
     Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
+
+
+    //pendaftaran caps individu
+    Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
+    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addKelompok']);
+    Route::post('/admin/kelompok/add-process', [PendaftaranController::class, 'addSiklusProcess']);
+    Route::get('/admin/kelompok/delete-process/{user_id}', [PendaftaranController::class, 'deleteSiklusProcess']);
+    Route::get('/admin/kelompok/edit/{user_id}', [PendaftaranController::class, 'editSiklus']);
+    Route::post('/admin/kelompok/edit-process', [PendaftaranController::class, 'editSiklusProcess']);
+    Route::get('/admin/kelompok/detail/{id}', [PendaftaranController::class, 'detailKelompok']);
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
