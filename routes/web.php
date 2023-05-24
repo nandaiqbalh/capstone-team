@@ -51,6 +51,7 @@ use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
+use App\Http\Controllers\Admin\Pengujian\PengujianController;
 
 
 
@@ -233,8 +234,7 @@ Route::middleware(['auth'])->group(function () {
 
     //sidang proposal
     Route::get('/admin/jadwal-pendaftaran/sidang-proposal', [JadwalSidangProposalController::class, 'index']);
-    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/add', [JadwalSidangProposalController::class, 'addBroadcast']);
-    Route::post('/admin/jadwal-pendaftaran/sidang-proposal/add-process', [JadwalSidangProposalController::class, 'addBroadcastProcess']);
+    Route::post('/admin/jadwal-pendaftaran/sidang-proposal/add-process', [JadwalSidangProposalController::class, 'addJadwalSidangProposalProcess']);
     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteBroadcastProcess']);
     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/edit/{user_id}', [JadwalSidangProposalController::class, 'editBroadcast']);
     Route::post('/admin/jadwal-pendaftaran/sidang-proposal/edit-process', [JadwalSidangProposalController::class, 'editBroadcastProcess']);
@@ -287,5 +287,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
+
+    //halaman dosen
+    Route::get('/dosen/pengujian', [PengujianController::class, 'index']);
+    Route::get('/dosen/pengujian/terima/{id}', [PengujianController::class, 'terimaPengujian']);
+    Route::get('/dosen/pengujian/tolak/{id}', [PengujianController::class, 'tolakPengujian']);
+    Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
     // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
 });

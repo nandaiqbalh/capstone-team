@@ -28,10 +28,12 @@ class JadwalSidangProposalController extends BaseController
         // get data with pagination
         $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
         $rs_siklus = JadwalSidangProposalModel::getSiklus();
+        $rs_kelompok = JadwalSidangProposalModel::getSiklus();
         // data
         $data = [
             'rs_sidang' => $rs_sidang,
-            'rs_siklus' => $rs_siklus
+            'rs_siklus' => $rs_siklus,
+            'rs_kelompok' => $rs_kelompok
         ];
         // dd($data);
         // view
@@ -57,6 +59,7 @@ class JadwalSidangProposalController extends BaseController
             'siklus_id' => $request->siklus_id,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
+            'ruangan' => $request->ruangan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
@@ -68,11 +71,11 @@ class JadwalSidangProposalController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok/add')->withInput();
+            return redirect('/admin/jadwal-pendaftaran/sidang-proposal/add')->withInput();
         }
     }
 
@@ -95,6 +98,7 @@ class JadwalSidangProposalController extends BaseController
             'siklus_id' => $request->siklus_id,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
+            'ruangan' => $request->ruangan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
@@ -103,11 +107,11 @@ class JadwalSidangProposalController extends BaseController
         if (JadwalSidangProposalModel::updateJadwalSidangProposal($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok/edit/' . $request->user_id);
+            return redirect('/admin/jadwal-pendaftaran/sidang-proposal/edit/' . $request->user_id);
         }
     }
 
@@ -131,16 +135,16 @@ class JadwalSidangProposalController extends BaseController
             if (JadwalSidangProposalModel::deleteJadwalSidangProposal($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/jadwal-pendaftaran/kelompok');
+                return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/jadwal-pendaftaran/kelompok');
+                return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
         }
     }
 
@@ -167,7 +171,7 @@ class JadwalSidangProposalController extends BaseController
             // view
             return view('admin.pendaftaran.index', $data);
         } else {
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
         }
     }
 }

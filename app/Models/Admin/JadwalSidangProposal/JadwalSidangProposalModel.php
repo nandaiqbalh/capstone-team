@@ -24,7 +24,7 @@ class JadwalSidangProposalModel extends BaseModel
         return DB::table('jadwal_sidang_proposal as a')
             ->select('a.*','b.id as siklus_id', 'b.tahun_ajaran','c.nomor_kelompok')
             ->join('siklus as b', 'a.siklus_id', 'b.id')
-            ->join('kelompok as c','a.id_kelompok','c.id')
+            ->leftjoin('kelompok as c','a.id_kelompok','c.id')
             ->where('b.status', 'aktif')
             ->paginate(20);
     }

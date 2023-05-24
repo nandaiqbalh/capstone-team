@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Admin\Bimbingan_Saya;
+namespace App\Models\Admin\Pengujian;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class BimbinganSayaModel extends BaseModel
+class PengujianModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -19,13 +19,14 @@ class BimbinganSayaModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.nama as nama_topik', 'c.status_dosen','c.status_persetujuan', 'c.id as id_dosen_kelompok')
+            ->select('a.*','b.nama as nama_topik', 'c.status_dosen','c.status_persetujuan', 'c.id as id_dosen_kelompok','d.tanggal_mulai','d.tanggal_selesai','d.ruangan')
             ->join('topik as b','a.id_topik','b.id')
             ->join('dosen_kelompok as c','a.id','c.id_kelompok')
+            ->join('jadwal_sidang_proposal as d','a.id','d.id_kelompok')
             ->where('c.id_dosen', Auth::user()->user_id)
             ->where(function ($query) {
-                $query->where('c.status_dosen', 'pembimbing 1')
-                    ->orWhere('c.status_dosen', 'pembimbing 2');
+                $query->where('c.status_dosen', 'penguji 1')
+                    ->orWhere('c.status_dosen', 'penguji 2');
             })
             ->orderByDesc('a.id')
             ->paginate(20);

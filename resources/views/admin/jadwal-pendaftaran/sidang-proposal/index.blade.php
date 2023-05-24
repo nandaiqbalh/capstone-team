@@ -36,6 +36,7 @@ Jadwal Sidang Proposal
                             <th>Nomor Kelompok</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
+                            <th>Ruangan</th>
                             <th>Tindakan</th>
                         </tr>
                     </thead>
@@ -48,10 +49,11 @@ Jadwal Sidang Proposal
                             <td>{{ $pendaftaran->nomor_kelompok }}</td>
                             <td>{{ $pendaftaran->tanggal_mulai }}</td>
                             <td>{{ $pendaftaran->tanggal_selesai }}</td>
+                            <td>{{ $pendaftaran->ruangan }}</td>
                             <td class="text-center">
-                                {{-- <a href="{{ url('/admin/jadwal-pendaftaran/kelompok/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
+                                {{-- <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
                                 <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}"> Ubah</button>
-                                <a href="{{ url('/admin/jadwal-pendaftaran/kelompok/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a>
+                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a>
                             </td>
                         </tr>
                         {{-- modal edit --}}
@@ -63,7 +65,7 @@ Jadwal Sidang Proposal
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ url('/admin/jadwal-pendaftaran/kelompok/edit-process') }}" method="post" autocomplete="off">
+                                    <form action="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit-process') }}" method="post" autocomplete="off">
                                         {{ csrf_field()}}
                                         <input type="hidden" name="id" value="{{ $pendaftaran->id }}">
                                         <div class="row">
@@ -83,13 +85,19 @@ Jadwal Sidang Proposal
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                                    <input type="date" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai',$pendaftaran->tanggal_mulai) }}" required>
+                                                    <input type="datetime-local" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai',$pendaftaran->tanggal_mulai) }}" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label >Tanggal Selesai<span class="text-danger">*</span></label>
-                                                    <input type="date" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai',$pendaftaran->tanggal_selesai) }}" required>
+                                                    <input type="datetime-local" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai',$pendaftaran->tanggal_selesai) }}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label >Ruangan<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="ruangan" value="{{ old('ruangan',$pendaftaran->ruangan) }}" required>
                                                 </div>
                                             </div>
                                         </div>                             
@@ -135,7 +143,7 @@ Jadwal Sidang Proposal
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url('/admin/jadwal-pendaftaran/kelompok/add-process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/add-process') }}" method="post" autocomplete="off">
                 {{ csrf_field()}}
                 <div class="row">
                     <div class="col-md-6">
@@ -154,13 +162,19 @@ Jadwal Sidang Proposal
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" required>
+                            <input type="datetime-local" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label >Tanggal Selesai<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" required>
+                            <input type="datetime-local" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label >Ruangan<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="ruangan" value="{{ old('ruangan') }}" required>
                         </div>
                     </div>
                 </div>                           
