@@ -18,9 +18,10 @@ class KelompokModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.nama as topik_name')
-            // ->leftjoin('app_user as b','a.id_dosen','b.user_id')
+            ->select('a.*','b.nama as topik_name','c.tahun_ajaran')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c','a.id_siklus','c.id')
+            ->where('c.status','aktif')
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -29,9 +30,11 @@ class KelompokModel extends BaseModel
     public static function getDataSearch($no_kel)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.user_name')
-            ->leftjoin('app_user as b', 'a.id_dosen', 'b.user_name')
+            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
+            ->where('c.status', 'aktif')
             ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }
@@ -40,10 +43,41 @@ class KelompokModel extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.nama as nama_topik')
+            ->select('a.*','b.nama as nama_topik','c.tahun_ajaran')
             ->join('topik as b','a.id_topik','b.id')
+            ->join('siklus as c','a.id_siklus','c.id')
             ->where('a.id', $id)
             ->first();
+    }
+
+        // get data by id
+    public static function getKelompokMhs($id_mahasiswa,$id)
+    {
+        return DB::table('kelompok_mhs')
+            ->where('id_kelompok', $id)
+            ->where('id_mahasiswa', $id_mahasiswa)
+            ->first();
+    }
+    public static function getKelompokDosen($id_mahasiswa, $id)
+    {
+        return DB::table('dosen_kelompok')
+        ->where('id_kelompok', $id)
+        ->where('id_dosen', $id_mahasiswa)
+        ->first();
+    }
+
+    public static function deleteKelompokMhs($id)
+    {
+        return DB::table('kelompok_mhs')
+            ->where('id', $id)
+            ->update(['id_kelompok'=> null]);
+    }
+    public static function deleteDosenMhs($id_dosen, $id)
+    {
+        return DB::table('dosen_kelompok')
+        ->where('id_kelompok', $id)
+        ->where('id_dosen', $id_dosen)
+        ->delete();
     }
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
@@ -56,23 +90,32 @@ class KelompokModel extends BaseModel
         ->get();
     }
 
-    public static function insertmahasiswa($params)
+    public static function listKelompokMahasiswaNokel($id_topik)
     {
-        return DB::table('app_user')->insert($params);
+        return DB::table('kelompok_mhs as a')
+        ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_id')
+        ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
+        ->where('a.id_topik_mhs', $id_topik)
+        ->where('a.id_kelompok', null)
+        ->get();
     }
 
-    public static function insertrole($params2)
+    // pengecekan Dosbing
+    public static function listDosbing($id_kelompok)
     {
-        return DB::table('app_role_user')->insert($params2);
+        return DB::table('dosen_kelompok as a')
+        ->select('a.*', 'b.user_name','b.user_id', 'b.nomor_induk')
+        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->get();
     }
 
-    public static function update($user_id, $params)
+    public static function updateKelompokMHS($user_id, $params)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
+        return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
     }
-
-    public static function delete($user_id)
+    public static function deleteKelompok($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->delete();
+        return DB::table('kelompok')->where('id', $id)->delete();
     }
 }

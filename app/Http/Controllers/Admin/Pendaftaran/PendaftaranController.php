@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
 use App\Models\Admin\Pendaftaran\PendaftaranModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -55,14 +56,48 @@ class PendaftaranController extends BaseController
         $get_topik = PendaftaranModel::getTopikbyid($id_topik);
         $rs_mahasiswa = PendaftaranModel::getMahasiswa($id_topik);
         $rs_dosen = PendaftaranModel::getDosen($user_id);
+        $rs_siklus = PendaftaranModel::getSiklusAktif();
         $data = [
             'rs_mahasiswa' =>  $rs_mahasiswa,
             'get_topik' =>  $get_topik,
-            'rs_dosen' => $rs_dosen
+            'rs_dosen' => $rs_dosen,
+            'rs_siklus' => $rs_siklus
         ];
         // dd($data);
         // view
         return view('admin.pendaftaran.add', $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateMhsTopikProcess(Request $request)
+    {
+        // authorize
+        PendaftaranModel::authorize('U');
+
+        // params
+        $params = [
+            'id_topik_mhs' => $request->id_topik,
+            'status_individu' => 'disetujui',
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+        // dd($params);
+        // process
+        if (PendaftaranModel::updateMhsTopik($request->user_id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return redirect('/admin/pendaftaran/');
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return redirect('/admin/pendaftaran/' . $request->user_id);
+        }
     }
 
     /**
@@ -74,51 +109,75 @@ class PendaftaranController extends BaseController
     public function addPendaftaranProcess(Request $request)
     {
 
+        // dd($request);
         // authorize
         PendaftaranModel::authorize('C');
-
-        // Validate & auto redirect when fail
-        $rules = [
-            'id_topik' => 'required',
-            'nomor_kelompok' => 'required',
-            'id_mahasiswa' => 'required',
-            'id_dosen' => 'required',
-
-        ];
-        $this->validate($request, $rules);
-
-
         // params
-        // default passwordnya mahasiswa123
 
         $params = [
-            'id_topik' => $user_id,
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            'user_password' => Hash::make('mahasiswa123'),
+            'id_topik' => $request->id_topik,
+            'nomor_kelompok' => $request->nomor_kelompok,
+            'id_siklus' => $request->id_siklus,
+            'judul_ta' => $request->judul_ta,
+            'id_dosen_pembimbing_1' => $request->id_dosen1,
+            'id_dosen_pembimbing_2' => $request->id_dosen2,
+            'status_kelompok' => 'disetujui',
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        $insert_mahasiswa = PendaftaranModel::insertmahasiswa($params);
-        if ($insert_mahasiswa) {
-            $params2 = [
-                'user_id' => $user_id,
-                'role_id' => '03'
+        $insertKelompok = PendaftaranModel::insertPendaftaranKelompok($params);
+        if ($insertKelompok) {
+            $id_kelompok = DB::getPdo()->lastInsertId();
+            $paramMhs1 = [
+                'id_kelompok' => $id_kelompok,
+                'id_siklus' => $request->id_siklus,
+                // 'id_mahasiswa' => $request->id_mahasiswa1,
+                'id_topik_mhs' => $request->id_topik,
+                'status_individu' => 'disetujui',
             ];
-            PendaftaranModel::insertrole($params2);
+            PendaftaranModel::updateKelompokMHS($request->id_mahasiswa1, $paramMhs1);
+            $paramMhs2 = [
+                'id_kelompok' => $id_kelompok,
+                'id_siklus' => $request->id_siklus,
+                'id_topik_mhs' => $request->id_topik,
+                'status_individu' => 'disetujui',
+            ];
+            PendaftaranModel::updateKelompokMHS($request->id_mahasiswa3, $paramMhs2);
+            $paramMhs3 = [
+                'id_kelompok' => $id_kelompok,
+                'id_siklus' => $request->id_siklus,
+                'id_topik_mhs' => $request->id_topik,
+                'status_individu' => 'disetujui',
+            ];
+            PendaftaranModel::updateKelompokMHS($request->id_mahasiswa3, $paramMhs3);
+
+            // insert dosen 
+            $paramDosen1 = [
+                'id_kelompok' => $id_kelompok,
+                'id_dosen' => $request->id_dosen1,
+                'status_dosen' => 'menunggu persetujuan',
+                'status_persetujuan' => 'menunggu persetujuan',
+                'status_dosen' => 'pembimbing 1',
+            ];
+            PendaftaranModel::insertDosenKelompok($paramDosen1);
+
+            $paramDosen2 = [
+                'id_kelompok' => $id_kelompok,
+                'id_dosen' => $request->id_dosen2,
+                'status_persetujuan' => 'menunggu persetujuan',
+                'status_dosen' => 'pembimbing 2',
+            ];
+            PendaftaranModel::insertDosenKelompok($paramDosen2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/kelompok');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/add')->withInput();
+            return redirect('/admin/pendaftaran/add')->withInput();
         }
     }
 

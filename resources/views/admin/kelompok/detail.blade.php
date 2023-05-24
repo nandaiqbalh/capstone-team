@@ -54,7 +54,14 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p>List Mahasiswa</p>
+                        <div class="row justify-content-end mb-2">
+                            <div class="col-auto ">
+                                <button type="button" class="btn btn-primary btn-xs float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Tambah Mahasiswa
+                                </button>
+                            </div>
+                        </div>
+                        <h6>List Mahasiswa</h6>
                         <div class="table-responsive text-nowrap">
                             <table class="table table-bordered">
                                 <thead class="thead-light">
@@ -74,8 +81,7 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/mahasiswa/edit') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                            <a href="{{ url('/admin/mahasiswa/delete-process') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')"> Hapus</a>
+                                            <a href="{{ url('/admin/kelompok/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')"> Hapus</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -87,7 +93,71 @@
                                 </tbody>
                             </table>
                         </div>
+                        <br>
+                        <h6 class="mb-0">List Dosen Pembimbing</h6>
+                        <br>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr class="text-center">
+                                        <th width="5%">No</th>
+                                        <th>Nama Dosbing</th>
+                                        <th>NIP/NIDN</th>
+                                        <th>Posisi</th>
+                                        <th>Status Persetujuan</th>
+                                        <th>Tindakan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($rs_dosbing->count() > 0)
+                                    @foreach($rs_dosbing as $index => $dosbing)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}.</td>
+                                        <td>{{ $dosbing->user_name }}</td>
+                                        <td>{{ $dosbing->nomor_induk }}</td>
+                                        <td>{{ $dosbing->status_dosen }}</td>
+                                        <td>{{ $dosbing->status_persetujuan }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ url('/admin/dosen/detail') }}/{{ $dosbing->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                            <a href="{{ url('/admin/kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $dosbing->user_name }} ?')"> Hapus</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                    <tr>
+                                        <td class="text-center" colspan="5">Tidak ada data.</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Mahasiswa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url('/admin/kelompok/add-mahasiswa-kelompok') }}" method="get" autocomplete="off">
+        <input type="hidden" name="id_kelompok" value="{{$kelompok->id}}">
+        <select class="form-select" name="id_mahasiswa_nokel" required>
+            <option value="" disabled selected>-- Pilih --</option>
+            @foreach ($rs_mahasiswa_nokel as $mahasiswa_nokel)
+                <option value="{{$mahasiswa_nokel->user_id}}" @if( old('id_mahasiswa_nokel') == '{{$mahasiswa_nokel->user_id}}' ) selected @endif>{{$mahasiswa_nokel->user_name}}</option>
+            @endforeach
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

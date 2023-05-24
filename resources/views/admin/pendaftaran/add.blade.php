@@ -40,11 +40,11 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label >Nama Mahasiswa<span class="text-danger">*</span></label>
-                                        <select class="form-select select-2" name="id_mahasiswa" required>
+                                        <label>Pilih Siklus <span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_siklus" required>
                                             <option value="" disabled selected>-- Pilih --</option>
-                                            @foreach ($rs_mahasiswa as $mahasiswa)
-                                                <option value="{{$mahasiswa->user_id}}" @if( old('id_mahasiswa') == '{{$mahasiswa->user_id}}' ) selected @endif>{{$mahasiswa->user_name}}</option>
+                                            @foreach ($rs_siklus as $siklus)
+                                            <option value="{{$siklus->id}}">{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -52,7 +52,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Judul TA<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="judul_ta" value="{{ old('judul_ta') }}" required>
+                                        <input type="text" class="form-control" name="judul_ta" value="{{ old('judul_ta') }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -75,6 +75,42 @@
                                             <option value="" disabled selected>-- Pilih --</option>
                                             @foreach ($rs_dosen as $dosen)
                                                 <option value="{{$dosen->user_id}}" @if( old('id_dosen2') == '{{$dosen->user_id}}' ) selected @endif>{{$dosen->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>List Mahasiswa</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label >Nama Mahasiswa 1<span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_mahasiswa1" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_mahasiswa as $mahasiswa)
+                                                <option value="{{$mahasiswa->user_id}}" @if( old('id_mahasiswa1') == '{{$mahasiswa->user_id}}' ) selected @endif>{{$mahasiswa->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label >Nama Mahasiswa 2<span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_mahasiswa2" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_mahasiswa as $mahasiswa)
+                                                <option value="{{$mahasiswa->user_id}}" @if( old('id_mahasiswa2') == '{{$mahasiswa->user_id}}' ) selected @endif>{{$mahasiswa->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label >Nama Mahasiswa 3<span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_mahasiswa3" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_mahasiswa as $mahasiswa)
+                                                <option value="{{$mahasiswa->user_id}}" @if( old('id_mahasiswa3') == '{{$mahasiswa->user_id}}' ) selected @endif>{{$mahasiswa->user_name}}</option>
                                             @endforeach
                                         </select>
                                     </div>

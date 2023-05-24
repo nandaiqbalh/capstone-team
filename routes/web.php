@@ -252,22 +252,25 @@ Route::middleware(['auth'])->group(function () {
 
     //kelompok
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
-    Route::get('/admin/kelompok/add', [KelompokController::class, 'addKelompok']);
-    Route::post('/admin/kelompok/add-process', [KelompokController::class, 'addSiklusProcess']);
-    Route::get('/admin/kelompok/delete-process/{user_id}', [KelompokController::class, 'deleteSiklusProcess']);
-    Route::get('/admin/kelompok/edit/{user_id}', [KelompokController::class, 'editSiklus']);
+    Route::get('/admin/kelompok/search', [KelompokController::class, 'search']);
+    Route::get('/admin/kelompok/add-mahasiswa-kelompok', [KelompokController::class, 'addMahasiswaKelompok']);
+    Route::get('/admin/kelompok/delete-process/{id}', [KelompokController::class, 'deleteKelompokProcess']);
+    Route::get('/admin/kelompok/edit/{id}', [KelompokController::class, 'editSiklus']);
     Route::post('/admin/kelompok/edit-process', [KelompokController::class, 'editSiklusProcess']);
     Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
+
+    Route::get('/admin/kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokController::class, 'deleteKelompokMahasiswaProcess']);
+    Route::get('/admin/kelompok/delete-dosen-process/{id_dosen}/{id}', [KelompokController::class, 'deleteKelompokDosenProcess']);
 
 
     //pendaftaran caps individu
     Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
-    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addKelompok']);
-    Route::post('/admin/kelompok/add-process', [PendaftaranController::class, 'addSiklusProcess']);
-    Route::get('/admin/kelompok/delete-process/{user_id}', [PendaftaranController::class, 'deleteSiklusProcess']);
-    Route::get('/admin/kelompok/edit/{user_id}', [PendaftaranController::class, 'editSiklus']);
-    Route::post('/admin/kelompok/edit-process', [PendaftaranController::class, 'editSiklusProcess']);
-    Route::get('/admin/kelompok/detail/{id}', [PendaftaranController::class, 'detailKelompok']);
+    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
+    Route::post('/admin/pendaftaran/add-process', [PendaftaranController::class, 'addPendaftaranProcess']);
+    Route::get('/admin/pendaftaran/update-mahasiswa-topik', [PendaftaranController::class, 'updateMhsTopikProcess']);
+    // Route::get('/admin/kelompok/edit/{user_id}', [PendaftaranController::class, 'editSiklus']);
+    // Route::post('/admin/kelompok/edit-process', [PendaftaranController::class, 'editSiklusProcess']);
+    // Route::get('/admin/kelompok/detail/{id}', [PendaftaranController::class, 'detailKelompok']);
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
@@ -284,12 +287,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
-
-
-
-
-
-
-
-    Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+    // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
 });
