@@ -40,6 +40,22 @@ class JadwalSidangProposalController extends BaseController
         return view('admin.jadwal-pendaftaran.sidang-proposal.index', $data);
     }
 
+    public function addJadwalSidangProposal()
+    {
+        // authorize
+        JadwalSidangProposalModel::authorize('C');
+        $rs_siklus = JadwalSidangProposalModel::getSiklus();
+        $rs_kelompok = JadwalSidangProposalModel::getSiklus();
+
+        $data = [
+            'rs_siklus' => $rs_siklus,
+            'rs_kelompok' => $rs_kelompok
+        ];
+
+        // view
+        return view('admin.jadwal-pendaftaran.sidang-proposal.add', $data);
+    }
+
 
     /**
      * Store a newly created resource in storage.
