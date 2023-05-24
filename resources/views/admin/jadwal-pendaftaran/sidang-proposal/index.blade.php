@@ -18,15 +18,14 @@ Jadwal Sidang Proposal
         <div class="card-body">
 
 
-            <div class="row justify-content-end mb-2">
-                <div class="col-auto ">
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Tambah Data
-                    </button>
-                </div>
-            </div>
 
             <br>
+
+            <div class="row justify-content-end mb-2">
+                <div class="col-auto ">
+                    <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                </div>
+            </div>
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -135,7 +134,7 @@ Jadwal Sidang Proposal
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -188,6 +187,6 @@ Jadwal Sidang Proposal
         </form>
       </div>
     </div>
-</div>
+</div> --}}
 
 @endsection
