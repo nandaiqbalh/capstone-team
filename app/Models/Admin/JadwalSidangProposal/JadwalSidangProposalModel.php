@@ -70,7 +70,7 @@ class JadwalSidangProposalModel extends BaseModel
             ->where('c.role_id', '03')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
             // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20)->withQueryString();
+            ->paginate(20);
     }
 
     // get data by id

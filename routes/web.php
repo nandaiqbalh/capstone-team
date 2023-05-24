@@ -49,6 +49,8 @@ use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 
 use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
 
+use App\Http\Controllers\Admin\UploadFile\UploadFileController;
+
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
 use App\Http\Controllers\Admin\Pengujian\PengujianController;
@@ -274,13 +276,30 @@ Route::middleware(['auth'])->group(function () {
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
-
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
     Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addPunyaKelompokProcess']);
     Route::get('/mahasiswa/kelompok/delete-process/{user_id}', [MahasiswaKelompokController::class, 'deleteSiklusProcess']);
     Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
+
+    //mahasiswaFile
+    Route::get('/mahasiswa/file-upload', [UploadFileController::class, 'index']);
+    Route::post('/mahasiswa/file-upload/upload-makalah', [UploadFileController::class, 'uploadMakalahProcess']);
+    Route::post('/mahasiswa/file-upload/upload-laporan', [UploadFileController::class, 'uploadLaporanProcess']);
+
+    Route::post('/mahasiswa/file-upload/upload-c100', [UploadFileController::class, 'uploadC100Process']);
+    Route::post('/mahasiswa/file-upload/upload-c200', [UploadFileController::class, 'uploadC200Process']);
+    Route::post('/mahasiswa/file-upload/upload-c300', [UploadFileController::class, 'uploadC300Process']);
+    Route::post('/mahasiswa/file-upload/upload-c400', [UploadFileController::class, 'uploadC400Process']);
+    Route::post('/mahasiswa/file-upload/upload-c500', [UploadFileController::class, 'uploadC500Process']);
+
+    Route::post('/mahasiswa/file-upload/add-kelompok-process', [UploadFileController::class, 'addKelompokProcess']);
+    Route::post('/mahasiswa/file-upload/add-punya-kelompok-process', [UploadFileController::class, 'addPunyaKelompokProcess']);
+    Route::get('/mahasiswa/file-upload/delete-process/{user_id}', [UploadFileController::class, 'deleteSiklusProcess']);
+    Route::get('/mahasiswa/file-upload/edit/{user_id}', [UploadFileController::class, 'editSiklus']);
+    Route::post('/mahasiswa/file-upload/edit-process', [UploadFileController::class, 'editSiklusProcess']);
+    Route::get('/mahasiswa/file-upload/detail/{user_id}', [UploadFileController::class, 'detailSiklus']);
 
     //halaman dosen
     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
