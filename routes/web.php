@@ -294,4 +294,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/pengujian/tolak/{id}', [PengujianController::class, 'tolakPengujian']);
     Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
     // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+    
 });

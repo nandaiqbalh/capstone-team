@@ -18,7 +18,7 @@ Pengujian
         <div class="card-body">
             <div class="row mb-2">
                 <div class="col-md-12">
-                    <form class="form-inline" action="{{ url('/admin/kelompok/search') }}" method="get" autocomplete="off">
+                    <form class="form-inline" action="{{ url('/dosen/pengujian') }}" method="get" autocomplete="off">
                         <div class="row">
                             <div class="col-auto mt-1">
                                 <input class="form-control mr-sm-2" type="search" name="nama" value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama Role" minlength="3" required>
@@ -48,6 +48,7 @@ Pengujian
                             <th>Topik</th>
                             <th>Dosen</th>
                             <th>Status</th>
+                            <th>Ruangan</th>
                             <th width="18%">Tindakan</th>
                         </tr>
                     </thead>
@@ -61,17 +62,19 @@ Pengujian
                             <td>{{ $kelompok->nama_topik }}</td>
                             <td>{{ $kelompok->status_dosen }}</td>
                             <td>{{ $kelompok->status_persetujuan }}</td>
+                            <td>{{ $kelompok->ruangan }}</td>
+
 
                             <td class="text-center">
                                 @if($kelompok->status_persetujuan == 'disetujui') 
-                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
+                                <a href="{{ url('/dosen/pengujian/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
                                 @elseif($kelompok->status_persetujuan == 'tidak disetujui')
-                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
+                                <a href="{{ url('/dosen/pengujian/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
                                 @else
-                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
-                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
+                                <a href="{{ url('/dosen/pengujian/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>
+                                <a href="{{ url('/dosen/pengujian/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
                                 @endif
-                                <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "> Detail</a>
+                                <a href="{{ url('/dosen/pengujian/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "> Detail</a>
                             </td>
                         </tr>
                         @endforeach

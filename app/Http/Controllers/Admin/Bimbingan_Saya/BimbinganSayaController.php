@@ -127,39 +127,7 @@ class BimbinganSayaController extends BaseController
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteMahasiswaProcess($user_id)
-    {
-        // authorize
-        BimbinganSayaModel::authorize('D');
-
-        // get data
-        $mahasiswa = BimbinganSayaModel::getDataById($user_id);
-
-        // if exist
-        if (!empty($mahasiswa)) {
-            // process
-            if (BimbinganSayaModel::delete($user_id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
-        }
-    }
-
+  
     /**
      * Search data.
      *
