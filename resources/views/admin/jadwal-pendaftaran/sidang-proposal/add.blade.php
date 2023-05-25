@@ -34,6 +34,41 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Pilih Kelompok <span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_kelompok" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_kelompok as $kelompok)
+                                            <option value="{{$kelompok->id}}">{{$kelompok->nomor_kelompok}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Pilih Dosen Penguji 1 <span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_dosen_1" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_dosen as $dosen)
+                                            <option value="{{$dosen->user_id}}">{{$dosen->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Pilih Dosen Penguji 2 <span class="text-danger">*</span></label>
+                                        <select class="form-select select-2" name="id_dosen_2" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_dosen as $dosen)
+                                            <option value="{{$dosen->user_id}}">{{$dosen->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div> 
                             <div class="row">
                                 <div class="col-md-6">
@@ -59,8 +94,7 @@
                             
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                         </div>
                     </form>
                         

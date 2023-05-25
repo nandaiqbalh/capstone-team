@@ -21,21 +21,20 @@ class DashboardController extends BaseController
         Dashmo::authorize('R');
 
         // get data with pagination
-        $rs_tenant = Dashmo::getTenantSaldoAll();
-        // dd($saldo);
+        $rs_broadcast = Dashmo::getBroadcast();
+        $rs_jad_kel = Dashmo::getJadwalCap();
+        $rs_jad_sidang = Dashmo::getJadwalSidang();
+        $rs_jad_expo = Dashmo::getJadwalExpo();
+        // dd($rs_broadcast);
 
         
         // data
 
         $data = [
-            'rs_tenant' => $rs_tenant,
-            'rs_transaction' => collect($data_transaksi_detail),
-            'semua_saldo' => array_sum($saldo_all),
-            'saldo_tenant' => array_sum($saldo_tenant),
-            'margin_aba' => array_sum($margin_aba_arr),
-            'margin_olk' => array_sum($margin_olk_arr),
-            'saldo_markup' => array_sum($saldo_markup),
-            'saldo_ppn' => array_sum($saldo_ppn),
+            'rs_broadcast' => $rs_broadcast,
+            'rs_jad_kel' => $rs_jad_kel,
+            'rs_jad_sidang' => $rs_jad_sidang,
+            'rs_jad_expo' => $rs_jad_expo,
         ];
 
         //view
