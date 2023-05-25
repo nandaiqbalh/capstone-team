@@ -112,7 +112,7 @@
                             <p>{{$item->keterangan}}
                               <br>
                               @if ($item->link_pendukung != null)
-                              <a href="{!!$item->link_pendukung!!}" class="btn btn-primary float-end">Link</a>
+                              <a href="http://{{($item->link_pendukung)}}" class="btn btn-primary float-end">Link</a>
                               <br>
                               @endif
                             </p>
