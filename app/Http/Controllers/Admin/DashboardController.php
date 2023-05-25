@@ -18,13 +18,28 @@ class DashboardController extends BaseController
     {
         // authorize
         Dashmo::authorize('R');
-        
-        // get user role id
-        $role_id = Dashmo::getUserRoleId();
+        Dashmo::authorize('R');
 
+        // get data with pagination
+        $rs_tenant = Dashmo::getTenantSaldoAll();
+        // dd($saldo);
+
+        
+        // data
+
+        $data = [
+            'rs_tenant' => $rs_tenant,
+            'rs_transaction' => collect($data_transaksi_detail),
+            'semua_saldo' => array_sum($saldo_all),
+            'saldo_tenant' => array_sum($saldo_tenant),
+            'margin_aba' => array_sum($margin_aba_arr),
+            'margin_olk' => array_sum($margin_olk_arr),
+            'saldo_markup' => array_sum($saldo_markup),
+            'saldo_ppn' => array_sum($saldo_ppn),
+        ];
 
         //view
-        return view('admin.dashboard.index');
+        return view('admin.dashboard.index', $data);
     }
 
     // -------------------------------------------------
