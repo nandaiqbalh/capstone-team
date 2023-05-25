@@ -129,7 +129,9 @@ class MahasiswaController extends BaseController
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = [
+            'mahasiswa' => $mahasiswa
+        ];
 
         // view
         return view('admin.mahasiswa.detail', $data);

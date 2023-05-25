@@ -2,12 +2,12 @@
 @extends('admin.base.app')
 
 @section('title')
-    Mahasiswa
+    Kelompok
 @endsection
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Contoh Halaman</h5>
+                <h5 class="fw-bold py-3 mb-4">Detail Kelompok</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -132,6 +132,110 @@
                             </table>
                         </div>
                     </div>
+
+                    {{-- c series  --}}
+                                        
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload C100</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$kelompok->file_name_c100}}" readonly>
+                                                <a href="{{url('/file/kelompok/c100')}}/{{$kelompok->file_name_c100}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload C200</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$kelompok->file_name_c200}}" readonly>
+                                                <a href="{{url('/file/kelompok/c200')}}/{{$kelompok->file_name_c200}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload C300</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$kelompok->file_name_c300}}" readonly>
+                                                <a href="{{url('/file/kelompok/c300')}}/{{$kelompok->file_name_c300}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload C400</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$kelompok->file_name_c400}}" readonly>
+                                                <a href="{{url('/file/kelompok/c400')}}/{{$kelompok->file_name_c400}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload C500</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$kelompok->file_name_c500}}" readonly>
+                                                <a href="{{url('/file/kelompok/c500')}}/{{$kelompok->file_name_c500}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {{-- c series end  --}}
                 </div>
             </div>
 

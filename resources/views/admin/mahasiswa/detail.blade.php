@@ -70,6 +70,46 @@
                             </table>
                         </div>
                     </div>
+                    {{-- upload file mhs  --}}
+                                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload Makalah</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$mahasiswa->file_name_makalah}}" readonly>
+                                                <a href="{{url('/file/mahasiswa/makalah')}}/{{$mahasiswa->file_name_makalah}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload Laporan TA</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$mahasiswa->file_name_laporan_ta}}" readonly>
+                                                <a href="{{url('/file/mahasiswa/laporan-ta')}}/{{$mahasiswa->file_name_laporan_ta}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- upload file end  --}}
                 </div>
             </div>
 @endsection
