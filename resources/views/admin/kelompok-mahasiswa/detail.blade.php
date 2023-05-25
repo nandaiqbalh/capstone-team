@@ -191,6 +191,24 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="jenis_kelamin" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            <option value="Laki - laki" @if( $getAkun->jenis_kelamin == 'Laki - laki' ) selected @endif>Laki - laki</option>
+                                            <option value="Perempuan" @if( $getAkun->jenis_kelamin == 'Perempuan' ) selected @endif>Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Email<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" name="email" value="{{$getAkun->user_email}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     Pilih Skala Prioritas Peminatan
                                     <table class="table">
                                         <thead>
@@ -352,10 +370,10 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label >Nama<span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="nama1" required>
+                                            <select class="form-select select-2" name="nama1" readonly>
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_mahasiswa as $mahasiswa)
-                                                <option value="{{$mahasiswa->user_id}}">{{$mahasiswa->user_name}}</option>
+                                                <option value="{{$mahasiswa->user_id}}"@if( $getAkun->user_id == $mahasiswa->user_id ) selected @endif>{{$mahasiswa->user_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -363,7 +381,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>NIM<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="nim1" value="{{ old('nim1') }}" required>
+                                            <input type="number" class="form-control" name="nim1" value="{{$getAkun->nomor_induk}}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -371,19 +389,19 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label >Angkatan<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="angkatan1" value="{{ old('angkatan1') }}" required>
+                                            <input type="number" class="form-control" name="angkatan1" value="{{$getAkun->angkatan}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label >IPK<span class="text-danger">*</span></label>
-                                            <input type="number" step='any' class="form-control" name="ipk1" value="{{ old('ipk1') }}" required>
+                                            <input type="number" step='any' class="form-control" name="ipk1" value="{{$getAkun->ipk}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>SKS<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="sks1" value="{{ old('sks1') }}" required>
+                                            <input type="number" class="form-control" name="sks1" value="{{$getAkun->sks}}" required>
                                         </div>
                                     </div>
                                     
@@ -392,13 +410,23 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>No Telp<span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="no_telp1" value="{{ old('no_telp1') }}" required>
+                                            <input type="number" class="form-control" name="no_telp1" value="{{$getAkun->no_telp}}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label>Alamat<span class="text-danger">*</span></label>
-                                            <textarea class="form-control" name="alamat1" placeholder="Tulis Alamat" id="floatingTextarea" required></textarea>
+                                            <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="jenis_kelamin1" required>
+                                                <option value="" disabled selected>-- Pilih --</option>
+                                                <option value="Laki - laki" @if( $getAkun->jenis_kelamin == 'Laki - laki' ) selected @endif>Laki - laki</option>
+                                                <option value="Perempuan" @if( $getAkun->jenis_kelamin == 'Perempuan' ) selected @endif>Perempuan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label>Email<span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" name="email1" value="{{$getAkun->user_email}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -456,8 +484,18 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label>Alamat<span class="text-danger">*</span></label>
-                                            <textarea class="form-control" name="alamat2" placeholder="Tulis Alamat" id="floatingTextarea" ></textarea>
+                                            <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="jenis_kelamin2" required>
+                                                <option value="" disabled selected>-- Pilih --</option>
+                                                <option value="Laki - laki">Laki - laki</option>
+                                                <option value="Perempuan">Perempuan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label>Email<span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" name="email2" value="" required>
                                         </div>
                                     </div>
                                 </div>
@@ -512,11 +550,20 @@
                                             <input type="number" class="form-control" name="no_telp3" value="{{ old('no_telp3') }}" >
                                         </div>
                                     </div>
-                                    
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label>Alamat<span class="text-danger">*</span></label>
-                                            <textarea class="form-control" name="alamat3" placeholder="Tulis Alamat" id="floatingTextarea"></textarea>
+                                            <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="jenis_kelamin3" required>
+                                                <option value="" disabled selected>-- Pilih --</option>
+                                                <option value="Laki - laki">Laki - laki</option>
+                                                <option value="Perempuan">Perempuan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label>Email<span class="text-danger">*</span></label>
+                                            <input type="email" class="form-control" name="email3" value="" required>
                                         </div>
                                     </div>
                                 </div>
