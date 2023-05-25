@@ -4,6 +4,7 @@
               <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 80%;">
             </a>
 
+
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
               <i class="bx bx-chevron-left bx-sm align-middle"></i>
             </a>
