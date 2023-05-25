@@ -44,12 +44,13 @@ class DashboardModel extends BaseModel
     }
     public static function getJadwalExpo()
     {
-        return DB::table('pendaftaran_expo as a')
+        return DB::table('jadwal_expo as a')
             ->select('a.tanggal_mulai', 'a.tanggal_selesai')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
-            ->join('kelompok as c', 'a.id_kelompok', 'c.id')
-            ->join('kelompok_mhs as d', 'c.id', 'd.id_kelompok')
-            ->where('d.id_mahasiswa', Auth::user()->user_id)
+            ->join('pendaftaran_expo as c', 'a.id', 'c.id_expo')
+            ->join('kelompok as d', 'c.id_kelompok', 'd.id')
+            ->join('kelompok_mhs as e', 'd.id', 'e.id_kelompok')
+            ->where('e.id_mahasiswa', Auth::user()->user_id)
             ->where('b.status', 'aktif')
             ->get();
     }
