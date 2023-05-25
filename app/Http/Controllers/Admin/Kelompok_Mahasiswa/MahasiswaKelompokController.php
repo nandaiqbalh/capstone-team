@@ -37,11 +37,10 @@ class MahasiswaKelompokController extends BaseController
             $data = [
                 'kelompok'  => $kelompok,
                 'rs_mahasiswa' => $rs_mahasiswa,
-                'rs_dosbing'=> $rs_dosbing,
+                'rs_dosbing' => $rs_dosbing,
                 'rs_siklus' => $rs_siklus,
             ];
-        }
-        else{
+        } else {
             $getAkun = MahasiswaKelompokModel::getAkunByID(Auth::user()->user_id);
             $rs_mahasiswa = MahasiswaKelompokModel::getAkun();
             $rs_dosbing = MahasiswaKelompokModel::getAkunDosen();
@@ -56,11 +55,10 @@ class MahasiswaKelompokController extends BaseController
                 'rs_siklus' => $rs_siklus,
             ];
         }
-        
+
         // dd($data);
         // view
         return view('admin.kelompok-mahasiswa.detail', $data);
-
     }
 
 
@@ -82,15 +80,15 @@ class MahasiswaKelompokController extends BaseController
             // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan,
             "ipk" => $request->ipk,
-            "sks" => $request->no_telp,
-            'no_telp' => $request->sks,
+            "sks" => $request->sks,
+            'no_telp' => $request->no_telp,
             "alamat" => $request->alamat,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        $update_mahasiswa = MahasiswaKelompokModel::updateMahasiswa(Auth::user()->user_id,$params);
+        $update_mahasiswa = MahasiswaKelompokModel::updateMahasiswa(Auth::user()->user_id, $params);
         if ($update_mahasiswa) {
             $params2 = [
                 "id_siklus" => $request->id_siklus,
@@ -274,7 +272,6 @@ class MahasiswaKelompokController extends BaseController
             MahasiswaKelompokModel::insertKelompokMHS($params33);
         }
         return redirect('/mahasiswa/kelompok');
-
     }
 
     /**
