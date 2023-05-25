@@ -16,29 +16,11 @@ Broadcast
         <h5 class="card-header">Data Broadcast</h5>
 
         <div class="card-body">
-            <div class="row mb-2">
-                <div class="col-md-12">
-                    <form class="form-inline" action="{{ url('/admin/settings/contoh-halaman/search') }}" method="get" autocomplete="off">
-                        <div class="row">
-                            <div class="col-auto mt-1">
-                                <input class="form-control mr-sm-2" type="search" name="nama" value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama Role" minlength="3" required>
-                            </div>
-                            <div class="col-auto mt-1">
-                                <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="search">
-                                    <i class="bx bx-search-alt-2"></i>
-                                </button>
-                                <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="reset">
-                                    <i class="bx bx-reset"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            
             <br>
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Tambah Data
                     </button>
                 </div>
@@ -108,7 +90,15 @@ Broadcast
                                                     <input type="date" class="form-control" name="tgl_selesai" value="{{ old('tgl_selesai',$broadcast->tgl_selesai) }}" required>
                                                 </div>
                                             </div>
-                                        </div>                           
+                                        </div> 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label >Link Pendukung</label>
+                                                    <input type="text" class="form-control" name="link_pendukung" value="{{ old('link_pendukung',$broadcast->link_pendukung) }}" >
+                                                </div>
+                                            </div>
+                                        </div>                            
                                         <br>
                                         
                                     </div>
@@ -181,12 +171,20 @@ Broadcast
                             <input type="date" class="form-control" name="tgl_selesai" value="{{ old('tgl_selesai') }}" required>
                         </div>
                     </div>
+                </div>  
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label >Link Pendukung</label>
+                            <input type="text" class="form-control" name="link_pendukung" value="{{ old('link_pendukung') }}" >
+                        </div>
+                    </div>
                 </div>                           
                 <br>
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
                 <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
         </form>

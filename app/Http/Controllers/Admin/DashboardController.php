@@ -18,13 +18,27 @@ class DashboardController extends BaseController
     {
         // authorize
         Dashmo::authorize('R');
-        
-        // get user role id
-        $role_id = Dashmo::getUserRoleId();
+        Dashmo::authorize('R');
 
+        // get data with pagination
+        $rs_broadcast = Dashmo::getBroadcast();
+        $rs_jad_kel = Dashmo::getJadwalCap();
+        $rs_jad_sidang = Dashmo::getJadwalSidang();
+        $rs_jad_expo = Dashmo::getJadwalExpo();
+        // dd($rs_broadcast);
+
+        
+        // data
+
+        $data = [
+            'rs_broadcast' => $rs_broadcast,
+            'rs_jad_kel' => $rs_jad_kel,
+            'rs_jad_sidang' => $rs_jad_sidang,
+            'rs_jad_expo' => $rs_jad_expo,
+        ];
 
         //view
-        return view('admin.dashboard.index');
+        return view('admin.dashboard.index', $data);
     }
 
     // -------------------------------------------------

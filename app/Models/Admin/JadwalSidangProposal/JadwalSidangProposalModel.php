@@ -35,12 +35,29 @@ class JadwalSidangProposalModel extends BaseModel
             ->where('status','aktif')
             ->get();
     }
+    public static function getKelompok()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*')
+            ->join('siklus as b','a.id_siklus','b.id')
+            ->where('b.status', 'aktif')
+            ->whereNotNull('a.nomor_kelompok')
+            ->get();
+    }
 
     public static function getTopikbyid($id_topik)
     {
         return DB::table('topik')
             ->where('id', $id_topik)
             ->first();
+    }
+
+
+    public static function getjadwalSidang($id)
+    {
+        return DB::table('jadwal_sidang_proposal')
+        ->where('id', $id)
+        ->first();
     }
 
     public static function getMahasiswa($id_topik)
@@ -53,12 +70,32 @@ class JadwalSidangProposalModel extends BaseModel
             ->get();
     }
 
-    public static function getDosen($user_id)
+    public static function getDosen()
     {
-        return DB::table('app_user')
-            ->where('user_id', '04')
+        return DB::table('app_user as a')
+            ->join('app_role_user as b','a.user_id','b.user_id')
+            ->where('b.role_id', '04')
+            ->orwhere('b.role_id', '02')
             ->get();
     }
+
+    public static function getDosenPenguji1($id_kelompok)
+    {
+        return DB::table('app_user as a')
+        ->join('dosen_kelompok as b', 'a.user_id', 'b.id_dosen')
+        ->where('b.status_dosen', 'penguji 1')
+        ->where('b.id_kelompok', $id_kelompok)
+        ->first();
+    }
+    public static function getDosenPenguji2($id_kelompok)
+    {
+        return DB::table('app_user as a')
+        ->join('dosen_kelompok as b', 'a.user_id', 'b.id_dosen')
+        ->where('b.status_dosen', 'penguji 2')
+        ->where('b.id_kelompok', $id_kelompok)
+        ->first();
+    }
+
 
     // get search
     public static function getDataSearch($search)
@@ -83,9 +120,17 @@ class JadwalSidangProposalModel extends BaseModel
     {
         return DB::table('jadwal_sidang_proposal')->insert($params);
     }
+    public static function insertDosenKelompok($params)
+    {
+        return DB::table('dosen_kelompok')->insert($params);
+    }
     public static function updateJadwalSidangProposal($id, $params)
     {
         return DB::table('jadwal_sidang_proposal')->where('id', $id)->update($params);
+    }
+    public static function updateDosenKelompok($id,$params)
+    {
+        return DB::table('dosen_kelompok')->where('id', $id)->update($params);;
     }
 
     public static function deleteJadwalSidangProposal($id)

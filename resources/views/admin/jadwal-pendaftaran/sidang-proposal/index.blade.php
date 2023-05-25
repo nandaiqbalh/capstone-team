@@ -50,67 +50,11 @@ Jadwal Sidang Proposal
                             <td>{{ $pendaftaran->tanggal_selesai }}</td>
                             <td>{{ $pendaftaran->ruangan }}</td>
                             <td class="text-center">
-                                {{-- <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
-                                <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}"> Ubah</button>
-                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a>
+                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->nomor_kelompok }} ?')"> Hapus</a>
                             </td>
                         </tr>
-                        {{-- modal edit --}}
-                        <div class="modal fade" id="exampleModal{{ $pendaftaran->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Tambah Broadcast</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit-process') }}" method="post" autocomplete="off">
-                                        {{ csrf_field()}}
-                                        <input type="hidden" name="id" value="{{ $pendaftaran->id }}">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label>Pilih Siklus <span class="text-danger">*</span></label>
-                                                    <select class="form-select" name="siklus_id" required>
-                                                        <option value="" disabled selected>-- Pilih --</option>
-                                                        @foreach ($rs_siklus as $siklus)
-                                                        <option value="{{$siklus->id}}" @if ($siklus->id == $pendaftaran->siklus_id ) selected @endif >{{$siklus->tahun_ajaran}} | {{$siklus->tanggal_mulai}} sampai {{$siklus->tanggal_selesai}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                                    <input type="datetime-local" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai',$pendaftaran->tanggal_mulai) }}" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label >Tanggal Selesai<span class="text-danger">*</span></label>
-                                                    <input type="datetime-local" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai',$pendaftaran->tanggal_selesai) }}" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label >Ruangan<span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" name="ruangan" value="{{ old('ruangan',$pendaftaran->ruangan) }}" required>
-                                                </div>
-                                            </div>
-                                        </div>                             
-                                        <br>
-                                        
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </form>
-                              </div>
-                            </div>
-                        </div>
+                        
                         @endforeach
                         @else
                         <tr>

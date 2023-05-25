@@ -79,6 +79,8 @@ class MahasiswaKelompokController extends BaseController
         $params = [
             // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan,
+            "user_email" => $request->email,
+            "jenis_kelamin" => $request->jenis_kelamin,
             "ipk" => $request->ipk,
             "sks" => $request->sks,
             'no_telp' => $request->no_telp,
@@ -205,6 +207,8 @@ class MahasiswaKelompokController extends BaseController
         $params1 = [
             "angkatan" => $request->angkatan1,
             "ipk" => $request->ipk1,
+            "user_email" => $request->email1,
+            "jenis_kelamin" => $request->jenis_kelamin1,
             "sks" => $request->sks1,
             'no_telp' => $request->no_telp1,
             "alamat" => $request->alamat1,
@@ -228,6 +232,8 @@ class MahasiswaKelompokController extends BaseController
         $params2 = [
             // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan2,
+            "user_email" => $request->email2,
+            "jenis_kelamin" => $request->jenis_kelamin2,
             "ipk" => $request->ipk2,
             "sks" => $request->sks2,
             'no_telp' => $request->no_telp2,
@@ -252,6 +258,8 @@ class MahasiswaKelompokController extends BaseController
         $params3 = [
             // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan3,
+            "user_email" => $request->email3,
+            "jenis_kelamin" => $request->jenis_kelamin3,
             "ipk" => $request->ipk3,
             "sks" => $request->sks3,
             'no_telp' => $request->no_telp3,
