@@ -42,6 +42,11 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Email</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->user_email }}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Angkatan</td>
                                         <td>:</td>
                                         <td>{{ $mahasiswa->angkatan }}</td>
@@ -62,9 +67,9 @@
                                         <td>{{ $mahasiswa->no_telp }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Alamat</td>
+                                        <td>Jenis Kelamin</td>
                                         <td>:</td>
-                                        <td>{{ $mahasiswa->alamat }}</td>
+                                        <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                     </tr>
                                 </tbody>
                             </table>

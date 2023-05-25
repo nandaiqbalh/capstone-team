@@ -191,6 +191,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
+                                    Pilih Skala Prioritas Peminatan
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -235,6 +236,7 @@
                                 </div>
 
                                 <div class="col-md-6">
+                                    Pilih Skala Prioritas Topik
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -274,7 +276,7 @@
                                                 <th scope="row">4</th>
                                             @foreach ($rs_topik as $topik) 
                                                 <td style="text-align: center">
-                                                    <input class="form-check-input" type="radio" name="topik{{$topik->id}}" id="topik{{$topik->id}}" value="4" >
+                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="4" >
                                                 </td>
                                             @endforeach
                                             </tr>

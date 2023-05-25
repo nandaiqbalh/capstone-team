@@ -60,10 +60,21 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label>Alamat<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" name="alamat" placeholder="Tulis Alamat" id="floatingTextarea" required></textarea>
+                                        <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                        <select class="form-select" name="jenis_kelamin" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            <option value="Laki - laki" @if( old('jenis_kelamin') == 'Laki - laki' ) selected @endif>Laki - laki</option>
+                                            <option value="Perempuan" @if( old('jenis_kelamin') == 'Perempuan' ) selected @endif>Perempuan</option>
+                                        </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Email<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                    </div>
+                                </div>
+                                
                             </div>
                             
                             <br>

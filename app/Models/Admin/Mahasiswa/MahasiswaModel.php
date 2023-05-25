@@ -47,7 +47,7 @@ class MahasiswaModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->leftJoin('kelompok_mhs as b' ,'a.user_id', 'b.id_mahasiswa')
-            ->Join('siklus as c','b.id_siklus','c.id')
+            ->leftJoin('siklus as c','b.id_siklus','c.id')
             ->where('user_id', $user_id)->first();
     }
     
