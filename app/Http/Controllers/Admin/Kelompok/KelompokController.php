@@ -81,7 +81,7 @@ class KelompokController extends BaseController
         $rs_mahasiswa = KelompokModel::listKelompokMahasiswa($id);
         $rs_mahasiswa_nokel = KelompokModel::listKelompokMahasiswaNokel($kelompok->id_topik);
         $rs_dosbing = KelompokModel::listDosbing($id);
-        
+
 
         // check
         if (empty($kelompok)) {
@@ -102,7 +102,32 @@ class KelompokController extends BaseController
         return view('admin.kelompok.detail', $data);
     }
 
+    public function deleteKelompokProcess($id)
+    {
+        // authorize
+        KelompokModel::authorize('D');
 
+        // get data
+        $kelompok = KelompokModel::getDataById($id);
+
+        // if exist
+        if (!empty($kelompok)) {
+            // process
+            if (KelompokModel::deleteKelompok($kelompok->id)) {
+                // flash message
+                session()->flash('success', 'Data berhasil dihapus.');
+                return back();
+            } else {
+                // flash message
+                session()->flash('danger', 'Data gagal dihapus.');
+                return back();
+            }
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -110,7 +135,7 @@ class KelompokController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteKelompokMahasiswaProcess($id_mahasiswa,$id)
+    public function deleteKelompokMahasiswaProcess($id_mahasiswa, $id)
     {
         // authorize
         KelompokModel::authorize('D');

@@ -67,7 +67,7 @@ class PengujianController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function terimaBimbinganSaya($id)
+    public function terimaPengujian($id)
     {
         // authorize
         PengujianModel::authorize('U');
@@ -83,11 +83,11 @@ class PengujianController extends BaseController
         if (PengujianModel::update($id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/dosen/bimbingan-saya');
+            return redirect('/dosen/pengujian');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/dosen/bimbingan-saya' . $request->id);
+            return redirect('/dosen/pengujian' . $request->id);
         }
     }
      /**
@@ -97,7 +97,7 @@ class PengujianController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function tolakBimbinganSaya($id)
+    public function tolakPengujian($id)
     {
         // authorize
         PengujianModel::authorize('U');
@@ -113,46 +113,15 @@ class PengujianController extends BaseController
         if (PengujianModel::update($id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/dosen/bimbingan-saya');
+            return redirect('/dosen/pengujian');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/dosen/bimbingan-saya' . $request->id);
+            return redirect('/dosen/pengujian' . $request->id);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteMahasiswaProcess($user_id)
-    {
-        // authorize
-        PengujianModel::authorize('D');
-
-        // get data
-        $mahasiswa = PengujianModel::getDataById($user_id);
-
-        // if exist
-        if (!empty($mahasiswa)) {
-            // process
-            if (PengujianModel::delete($user_id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
-        }
-    }
+   
 
     /**
      * Search data.
