@@ -205,8 +205,8 @@ class MahasiswaKelompokController extends BaseController
         $params1 = [
             "angkatan" => $request->angkatan1,
             "ipk" => $request->ipk1,
-            "sks" => $request->no_telp1,
-            'no_telp' => $request->sks1,
+            "sks" => $request->sks1,
+            'no_telp' => $request->no_telp1,
             "alamat" => $request->alamat1,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
@@ -229,8 +229,8 @@ class MahasiswaKelompokController extends BaseController
             // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan2,
             "ipk" => $request->ipk2,
-            "sks" => $request->no_telp2,
-            'no_telp' => $request->sks2,
+            "sks" => $request->sks2,
+            'no_telp' => $request->no_telp2,
             "alamat" => $request->alamat2,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
@@ -253,8 +253,8 @@ class MahasiswaKelompokController extends BaseController
             // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan3,
             "ipk" => $request->ipk3,
-            "sks" => $request->no_telp3,
-            'no_telp' => $request->sks3,
+            "sks" => $request->sks3,
+            'no_telp' => $request->no_telp3,
             "alamat" => $request->alamat3,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
