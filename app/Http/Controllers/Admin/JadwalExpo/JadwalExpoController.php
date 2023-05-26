@@ -54,7 +54,7 @@ class JadwalExpoController extends BaseController
         // default passwordnya mahasiswa123
 
         $params = [
-            'siklus_id' => $request->siklus_id,
+            'id_siklus' => $request->id_siklus,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
             'created_by'   => Auth::user()->user_id,
@@ -68,11 +68,11 @@ class JadwalExpoController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/expo');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok/add')->withInput();
+            return redirect('/admin/jadwal-pendaftaran/expo')->withInput();
         }
     }
 
@@ -92,7 +92,7 @@ class JadwalExpoController extends BaseController
 
         // params
         $params = [
-            'siklus_id' => $request->siklus_id,
+            'id_siklus' => $request->id_siklus,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
             'created_by'   => Auth::user()->user_id,
@@ -103,11 +103,11 @@ class JadwalExpoController extends BaseController
         if (JadwalExpoModel::updateJadwalExpo($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/expo');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok/edit/' . $request->user_id);
+            return redirect('/admin/jadwal-pendaftaran/expo/edit/' . $request->user_id);
         }
     }
 
@@ -131,16 +131,16 @@ class JadwalExpoController extends BaseController
             if (JadwalExpoModel::deleteJadwalExpo($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/jadwal-pendaftaran/kelompok');
+                return redirect('/admin/jadwal-pendaftaran/expo');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/jadwal-pendaftaran/kelompok');
+                return redirect('/admin/jadwal-pendaftaran/expo');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/expo');
         }
     }
 
@@ -167,7 +167,7 @@ class JadwalExpoController extends BaseController
             // view
             return view('admin.pendaftaran.index', $data);
         } else {
-            return redirect('/admin/jadwal-pendaftaran/kelompok');
+            return redirect('/admin/jadwal-pendaftaran/expo');
         }
     }
 }
