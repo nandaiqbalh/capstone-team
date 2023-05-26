@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>@yield('title') - Bamasama </title>
+        <title>@yield('title') - Capstone </title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
         <meta name="author" content="Hermina">
@@ -27,11 +27,11 @@
         <script src="{{ asset('js/config.js') }}"></script>
         <link href="{{ asset('vendor/libs/select2-410/select2.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('vendor/libs/select2-bootstrap-5-theme-1.3.0/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
-        
+
         <!-- jQuery -->
         <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
         <script src="{{ asset('vendor/libs/select2-410/select2.min.js') }}"></script>
-        
+
         <script type="text/javascript">
             document.onkeydown = function(e) {
               if(event.keyCode == 123) {
@@ -100,7 +100,7 @@
         <script async defer src="https://buttons.github.io/buttons.js"></script>
 
         <script>
-            
+
             $(document).ready(function(){
                 // auto close alert
                 // window.setTimeout(function() {
