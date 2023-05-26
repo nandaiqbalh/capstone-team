@@ -10,10 +10,9 @@ class JadwalExpoModel extends BaseModel
     // get data with pagination Pendataran mahasiswa yang belum punya kelompok
     public static function getDataWithPagination()
     {
-        return DB::table('jadwal_sidang_proposal as a')
-            ->select('a.*','b.id as siklus_id', 'b.tahun_ajaran','c.nomor_kelompok')
-            ->join('siklus as b', 'a.siklus_id', 'b.id')
-            ->join('kelompok as c','a.id_kelompok','c.id')
+        return DB::table('jadwal_expo as a')
+            ->select('a.*', 'b.id as id_siklus', 'b.tahun_ajaran')
+            ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('b.status', 'aktif')
             ->paginate(20);
     }
@@ -65,20 +64,20 @@ class JadwalExpoModel extends BaseModel
     // get data by id
     public static function getDataById($id)
     {
-        return DB::table('jadwal_sidang_proposal')->where('id', $id)->first();
+        return DB::table('jadwal_expo')->where('id', $id)->first();
     }
 
     public static function insertJadwalExpo($params)
     {
-        return DB::table('jadwal_sidang_proposal')->insert($params);
+        return DB::table('jadwal_expo')->insert($params);
     }
     public static function updateJadwalExpo($id, $params)
     {
-        return DB::table('jadwal_sidang_proposal')->where('id', $id)->update($params);
+        return DB::table('jadwal_expo')->where('id', $id)->update($params);
     }
 
     public static function deleteJadwalExpo($id)
     {
-        return DB::table('jadwal_sidang_proposal')->where('id', $id)->delete();
+        return DB::table('jadwal_expo')->where('id', $id)->delete();
     }
 }
