@@ -48,6 +48,7 @@ use App\Http\Controllers\Admin\Kelompok\KelompokController;
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 
 use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
+use App\Http\Controllers\Admin\Expo_Mahasiswa\MahasiswaExpoController;
 
 use App\Http\Controllers\Admin\UploadFile\UploadFileController;
 
@@ -300,6 +301,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mahasiswa/file-upload/edit/{user_id}', [UploadFileController::class, 'editSiklus']);
     Route::post('/mahasiswa/file-upload/edit-process', [UploadFileController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/file-upload/detail/{user_id}', [UploadFileController::class, 'detailSiklus']);
+
+    //mahasiswa Expo 
+    Route::get('/mahasiswa/expo', [MahasiswaExpoController::class, 'index']);
+    Route::post('/mahasiswa/expo/daftar-process/{id}', [MahasiswaExpoController::class, 'daftar']);
+
+
+    Route::post('/mahasiswa/expo/add-kelompok-process', [MahasiswaExpoController::class, 'addKelompokProcess']);
+    Route::post('/mahasiswa/expo/add-punya-kelompok-process', [MahasiswaExpoController::class, 'addPunyaKelompokProcess']);
+    Route::get('/mahasiswa/expo/delete-process/{user_id}', [MahasiswaExpoController::class, 'deleteSiklusProcess']);
+    Route::get('/mahasiswa/expo/edit/{user_id}', [MahasiswaExpoController::class, 'editSiklus']);
+    Route::post('/mahasiswa/expo/edit-process', [MahasiswaExpoController::class, 'editSiklusProcess']);
+    Route::get('/mahasiswa/expo/detail/{user_id}', [MahasiswaExpoController::class, 'detailSiklus']);
 
     //halaman dosen
     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
