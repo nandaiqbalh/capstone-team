@@ -145,29 +145,93 @@ class JadwalExpoController extends BaseController
     }
 
     /**
-     * Search data.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function searchMahasiswa(Request $request)
+    public function detailJadwalExpo($id)
     {
         // authorize
         JadwalExpoModel::authorize('R');
-        // data request
-        $user_name = $request->nama;
 
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_expo = JadwalExpoModel::getDataSearch($user_name);
-            // dd($rs_expo);
-            // data
-            $data = ['rs_expo' => $rs_expo, 'nama' => $user_name];
-            // view
-            return view('admin.pendaftaran.index', $data);
-        } else {
+        // get data with pagination
+        $expo = JadwalExpoModel::getDataById($id);
+
+        // check
+        if (empty($expo)) {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
             return redirect('/admin/jadwal-pendaftaran/expo');
         }
+
+        $rs_kel_expo = JadwalExpoModel::getExpoDaftar($id);
+
+        // data
+        $data = [
+            'expo' => $expo,
+            'rs_kel_expo' => $rs_kel_expo
+        ];
+
+        // view
+        return view('admin.jadwal-pendaftaran.expo.detail', $data);
     }
+    /**
+     * Update the specified resource in storage. update status dosen 1
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function terimaKelompok($id)
+    {
+        // authorize
+        JadwalExpoModel::authorize('U');;
+
+        // params
+        $params = [
+            'status' => 'disetujui',
+        ];
+
+        // process
+        if (JadwalExpoModel::updateJadwalExpoKelompok($id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+    /**
+     * Update the specified resource in storage. update status dosen 2
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tolakKelompok($id)
+    {
+        // authorize
+        JadwalExpoModel::authorize('U');;
+
+        // params
+        $params = [
+            'status' => 'tidak disetujui',
+        ];
+
+        // process
+        if (JadwalExpoModel::updateJadwalExpoKelompok($id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+
+
 }

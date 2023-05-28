@@ -248,9 +248,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
     Route::post('/admin/jadwal-pendaftaran/expo/add-process', [JadwalExpoController::class, 'addJadwalExpoProcess']);
     Route::get('/admin/jadwal-pendaftaran/expo/delete-process/{id}', [JadwalExpoController::class, 'deleteJadwalExpoProcess']);
-    Route::get('/admin/jadwal-pendaftaran/expo/edit/{user_id}', [JadwalExpoController::class, 'editBroadcast']);
-    Route::post('/admin/jadwal-pendaftaran/expo/edit-process', [JadwalExpoController::class, 'editBroadcastProcess']);
-    Route::get('/admin/jadwal-pendaftaran/expo/detail/{user_id}', [JadwalExpoController::class, 'detailBroadcast']);
+    Route::post('/admin/jadwal-pendaftaran/expo/edit-process', [JadwalExpoController::class, 'editJadwalExpoProcess']);
+    Route::get('/admin/jadwal-pendaftaran/expo/detail/{user_id}', [JadwalExpoController::class, 'detailJadwalExpo']);
+
+    Route::get('/admin/jadwal-pendaftaran/expo/terima/{id}', [JadwalExpoController::class, 'terimaKelompok']);
+    Route::get('/admin/jadwal-pendaftaran/expo/tolak/{id}', [JadwalExpoController::class, 'tolakKelompok']);
+
 
 
     //kelompok

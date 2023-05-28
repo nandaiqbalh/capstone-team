@@ -47,7 +47,7 @@ Jadwal Expo
                             <td>{{ $pendaftaran->tanggal_mulai }}</td>
                             <td>{{ $pendaftaran->tanggal_selesai }}</td>
                             <td class="text-center">
-                                {{-- <a href="{{ url('/admin/jadwal-pendaftaran/expo/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
+                                <a href="{{ url('/admin/jadwal-pendaftaran/expo/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}"> Ubah</button>
                                 <a href="{{ url('/admin/jadwal-pendaftaran/expo/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a>
                             </td>
