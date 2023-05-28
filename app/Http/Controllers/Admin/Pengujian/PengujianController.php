@@ -32,7 +32,7 @@ class PengujianController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailBimbinganSaya($id)
+    public function detailPengujian($id)
     {
         // authorize
         PengujianModel::authorize('R');
@@ -45,7 +45,7 @@ class PengujianController extends BaseController
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/dosen/bimbingan-saya');
+            return redirect('/dosen/pengujian');
         }
 
         // data
