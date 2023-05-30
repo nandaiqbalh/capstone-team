@@ -1,3 +1,7 @@
+@php
+    // dd(session());
+@endphp
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -56,7 +60,6 @@
   </head>
 
   <body >
-
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
@@ -114,7 +117,20 @@
         </div>
       </div>
     </div>
-
+ <script type="text/javascript">
+        function preventBack() {
+            window.history.forward(); 
+        }
+          
+        setTimeout("preventBack()", 0);
+          
+        window.onunload = function () { null };
+    </script>
+     {{-- <script type="text/javascript">
+        if (window.history.back()) {
+          window.history.forward(); 
+        } 
+    </script> --}}
     <!-- script -->
     <script src="{{ asset('vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>
