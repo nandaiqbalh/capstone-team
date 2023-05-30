@@ -7,7 +7,7 @@ Jadwal Sidang Proposal
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4">Jadwal Sidang Proposal</h5>
+    <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Jadwal Sidang Proposal</h5>
     <!-- notification -->
     @include("template.notification")
 
@@ -50,7 +50,7 @@ Jadwal Sidang Proposal
                             <td>{{ $pendaftaran->tanggal_selesai }}</td>
                             <td>{{ $pendaftaran->ruangan }}</td>
                             <td class="text-center">
-                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                 <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->nomor_kelompok }} ?')"> Hapus</a>
                             </td>
                         </tr>

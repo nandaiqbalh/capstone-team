@@ -60,7 +60,7 @@ class DosenController extends BaseController
         $rules = [
             'nama' => 'required',
             "nip" => 'required',
-            "alamat" => 'required',
+            // "alamat" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -73,7 +73,7 @@ class DosenController extends BaseController
             'user_name' => $request->nama,
             "nomor_induk" => $request->nip,
             'user_password' => Hash::make('dosen12345'),
-            "alamat" => $request->alamat,
+            // "alamat" => $request->alamat,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
@@ -169,7 +169,7 @@ class DosenController extends BaseController
         $rules = [
             'nama' => 'required',
             "nip" => 'required',
-            "alamat" => 'required',
+            // "alamat" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -177,7 +177,7 @@ class DosenController extends BaseController
         $params = [
             'user_name' => $request->nama,
             "nomor_induk" => $request->nip,
-            "alamat" => $request->alamat,
+            // "alamat" => $request->alamat,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];

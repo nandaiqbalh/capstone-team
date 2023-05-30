@@ -2,21 +2,21 @@
 @extends('admin.base.app')
 
 @section('title')
-    Bimbingan Saya
+    Pengujian Saya
 @endsection
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Contoh Halaman</h5>
+                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Pengujian Saya</h5>
                 <!-- notification -->
                 @include("template.notification")
 
                 <!-- Bordered Table -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Bimbingan Saya</h5>
+                        <h5 class="mb-0">Detail Pengujian Saya</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/dosen/bimbingan-saya') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/dosen/pengujian') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
                     </div>
                     <div class="card-body">

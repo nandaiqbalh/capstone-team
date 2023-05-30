@@ -66,10 +66,11 @@
           <!-- Register -->
           <div class="card">
             <div class="card-body" style="margin-left:10px;margin-right:10px;">
+              <h5 class="mb-2 text-center"><b>CAPSTONE TA <br> TEKNIK KOMPUTER</b></h5>
               <!-- Logo -->
               <div class="app-brand justify-content-center">
                 <a href="{{url('/')}}" class="app-brand-link gap-2 ">
-                  <img style="height: 150px" src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid mt-5" >
+                  <img style="height: 150px" src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid" >
                 </a>
               </div>
 
