@@ -67,7 +67,6 @@ class MahasiswaController extends BaseController
             "angkatan" => 'required',
             "ipk" => 'required',
             "sks" => 'required',
-            "alamat" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -78,15 +77,17 @@ class MahasiswaController extends BaseController
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,
+            'user_email' => $request->email,
             "nomor_induk" => $request->nim,
             "angkatan" => $request->angkatan,
             "ipk" => $request->ipk,
             "sks" => $request->sks,
             'user_password' => Hash::make('mahasiswa123'),
-            "alamat" => $request->alamat,
+            "jenis_kelamin" => $request->jenis_kelamin,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
+        // dd($params);
 
         // process
         $insert_mahasiswa = MahasiswaModel::insertmahasiswa($params);
@@ -129,7 +130,9 @@ class MahasiswaController extends BaseController
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
+        $data = [
+            'mahasiswa' => $mahasiswa
+        ];
 
         // view
         return view('admin.mahasiswa.detail', $data);
@@ -182,18 +185,18 @@ class MahasiswaController extends BaseController
             "angkatan" => 'required',
             "ipk" => 'required',
             "sks" => 'required',
-            "alamat" => 'required',
         ];
         $this->validate($request, $rules);
 
         // params
         $params = [
             'user_name' => $request->nama,
+            'user_email' => $request->email,
             "nomor_induk" => $request->nim,
             "angkatan" => $request->angkatan,
             "ipk" => $request->ipk,
             "sks" => $request->sks,
-            "alamat" => $request->alamat,
+            "jenis_kelamin" => $request->jenis_kelamin,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];

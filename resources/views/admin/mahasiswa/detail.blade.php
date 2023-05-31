@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Contoh Halaman</h5>
+                <h5 class="fw-bold py-3 mb-4">Mahasiswa</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -41,10 +41,80 @@
                                         <td>:</td>
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->user_email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Angkatan</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->angkatan }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>IPK</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->ipk }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SKS</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->sks }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>No Telpon</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->no_telp }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jenis Kelamin</td>
+                                        <td>:</td>
+                                        <td>{{ $mahasiswa->jenis_kelamin }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    {{-- upload file mhs  --}}
+                                        <div class="row">
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload Makalah</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$mahasiswa->file_name_makalah}}" readonly>
+                                                <a href="{{url('/file/mahasiswa/makalah')}}/{{$mahasiswa->file_name_makalah}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <div class="card">
+                                    <h5 class="card-header">Upload Laporan TA</h5>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <i class='bx bxs-file-doc bx-lg'></i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" value="{{$mahasiswa->file_name_laporan_ta}}" readonly>
+                                                <a href="{{url('/file/mahasiswa/laporan-ta')}}/{{$mahasiswa->file_name_laporan_ta}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- upload file end  --}}
                 </div>
             </div>
 @endsection

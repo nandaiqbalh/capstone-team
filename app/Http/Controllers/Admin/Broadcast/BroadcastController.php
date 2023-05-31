@@ -70,13 +70,13 @@ class BroadcastController extends BaseController
 
 
         // params
-        // default passwordnya mahasiswa123
-        $user_id = BroadcastModel::makeMicrotimeID();
+
         $params = [
             'nama_event' => $request->nama_event,
             'tgl_mulai' => $request->tgl_mulai,
             'tgl_selesai' => $request->tgl_selesai,
             'keterangan' => $request->keterangan,
+            'link_pendukung' => $request->link_pendukung,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
@@ -177,6 +177,7 @@ class BroadcastController extends BaseController
             'tgl_mulai' => $request->tgl_mulai,
             'tgl_selesai' => $request->tgl_selesai,
             'keterangan' => $request->keterangan,
+            'link_pendukung' => $request->link_pendukung,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s'),
         ];

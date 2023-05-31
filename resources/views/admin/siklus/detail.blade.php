@@ -32,19 +32,19 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Tahun Ajaran</td>
+                                        <td>Nama - Tahun Ajaran</td>
                                         <td>:</td>
                                         <td>{{ $siklus->tahun_ajaran }}</td>
                                     </tr>
                                     <tr>
                                         <td>Tangga Mulai</td>
                                         <td>:</td>
-                                        <td>{{ $siklus->tgl_mulai }}</td>
+                                        <td>{{ $siklus->tanggal_mulai }}</td>
                                     </tr>
                                     <tr>
                                         <td>Tangga Selesai</td>
                                         <td>:</td>
-                                        <td>{{ $siklus->tgl_selesai }}</td>
+                                        <td>{{ $siklus->tanggal_selesai }}</td>
                                     </tr>
                                 </tbody>
                             </table>

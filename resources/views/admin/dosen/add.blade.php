@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Dosen</h5>
+                <h5 class="fw-bold py-3 mb-4">Tambah Data Dosen</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -43,7 +43,7 @@
                                         <label>Role <span class="text-danger">*</span></label>
                                         <select class="form-select" name="role_id" required>
                                             <option value="" disabled selected>-- Pilih --</option>
-                                            <option value="05" @if( old('role_id') == '05' ) selected @endif>Tim Capstone</option>
+                                            <option value="02" @if( old('role_id') == '02' ) selected @endif>Tim Capstone</option>
                                             <option value="04" @if( old('role_id') == '04' ) selected @endif>Dosen</option>
                                         </select>
                                     </div>

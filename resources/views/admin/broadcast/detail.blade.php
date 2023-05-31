@@ -51,6 +51,11 @@
                                         <td>:</td>
                                         <td>{{ $broadcast->keterangan }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Link</td>
+                                        <td>:</td>
+                                        <td>{{ $broadcast->link_pendukung }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

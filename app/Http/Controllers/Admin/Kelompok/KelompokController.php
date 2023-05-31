@@ -34,77 +34,34 @@ class KelompokController extends BaseController
         // view
         return view('admin.kelompok.index', $data);
     }
-
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function addKelompok()
-    {
-        // authorize
-        KelompokModel::authorize('C');
-
-        // view
-        return view('admin.kelompok.add');
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function addMahasiswaProcess(Request $request)
+    public function addMahasiswaKelompok(Request $request)
     {
-
         // authorize
-        KelompokModel::authorize('C');
-
-        // Validate & auto redirect when fail
-        $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
-        ];
-        $this->validate($request, $rules);
-
+        KelompokModel::authorize('U');
 
         // params
-        // default passwordnya mahasiswa123
-        $user_id = KelompokModel::makeMicrotimeID();
         $params = [
-            'user_id' => $user_id,
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            'user_password' => Hash::make('mahasiswa123'),
-            "alamat" => $request->alamat,
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
+            'id_kelompok' => $request->id_kelompok,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
         ];
-
+        // dd($params);
         // process
-        $insert_mahasiswa = KelompokModel::insertmahasiswa($params);
-        if ($insert_mahasiswa) {
-            $params2 = [
-                'user_id' => $user_id,
-                'role_id' => '03'
-            ];
-            KelompokModel::insertrole($params2);
-
+        if (KelompokModel::updateKelompokMHS($request->id_mahasiswa_nokel, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return back();
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/contoh-halaman/add')->withInput();
+            return back();
         }
     }
 
@@ -114,100 +71,61 @@ class KelompokController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function detailMahasiswa($user_id)
+    public function detailKelompok($id)
     {
         // authorize
         KelompokModel::authorize('R');
 
         // get data with pagination
-        $mahasiswa = KelompokModel::getDataById($user_id);
+        $kelompok = KelompokModel::getDataById($id);
+        $rs_mahasiswa = KelompokModel::listKelompokMahasiswa($id);
+        $rs_mahasiswa_nokel = KelompokModel::listKelompokMahasiswaNokel($kelompok->id_topik);
+        $rs_dosbing = KelompokModel::listDosbing($id);
+
 
         // check
-        if (empty($mahasiswa)) {
+        if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/kelompok');
         }
 
         // data
-        $data = ['mahasiswa' => $mahasiswa];
-
-        // view
-        return view('admin.kellompok.detail', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editMahasiswa($user_id)
-    {
-        // authorize
-        KelompokModel::authorize('U');
-
-        // get data 
-        $mahasiswa = KelompokModel::getDataById($user_id);
-
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-
-        // data
-        $data = ['mahasiswa' => $mahasiswa];
-
-        // view
-        return view('admin.kellompok.edit', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editMahasiswaProcess(Request $request)
-    {
-        // authorize
-        KelompokModel::authorize('U');
-
-        // Validate & auto redirect when fail
-        $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
-        ];
-        $this->validate($request, $rules);
-
-        // params
-        $params = [
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            "alamat" => $request->alamat,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+        $data = [
+            'kelompok' => $kelompok,
+            'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_dosbing' => $rs_dosbing,
+            'rs_mahasiswa_nokel' => $rs_mahasiswa_nokel
         ];
 
-        // process
-        if (KelompokModel::update($request->user_id, $params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+        // view
+        return view('admin.kelompok.detail', $data);
+    }
+
+    public function deleteKelompokProcess($id)
+    {
+        // authorize
+        KelompokModel::authorize('D');
+
+        // get data
+        $kelompok = KelompokModel::getDataById($id);
+
+        // if exist
+        if (!empty($kelompok)) {
+            // process
+            if (KelompokModel::deleteKelompok($kelompok->id)) {
+                // flash message
+                session()->flash('success', 'Data berhasil dihapus.');
+                return back();
+            } else {
+                // flash message
+                session()->flash('danger', 'Data gagal dihapus.');
+                return back();
+            }
         } else {
             // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/edit/' . $request->user_id);
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
         }
     }
 
@@ -217,30 +135,57 @@ class KelompokController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteMahasiswaProcess($user_id)
+    public function deleteKelompokMahasiswaProcess($id_mahasiswa, $id)
     {
         // authorize
         KelompokModel::authorize('D');
 
         // get data
-        $mahasiswa = KelompokModel::getDataById($user_id);
+        $mahasiswa = KelompokModel::getKelompokMhs($id_mahasiswa, $id);
 
         // if exist
         if (!empty($mahasiswa)) {
             // process
-            if (KelompokModel::delete($user_id)) {
+            if (KelompokModel::deleteKelompokMhs($mahasiswa->id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
+                return back();
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
+                return back();
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
+            return back();
+        }
+    }
+
+    public function deleteKelompokDosenProcess($id_dosen, $id)
+    {
+        // authorize
+        KelompokModel::authorize('D');
+
+        // get data
+        $dosen = KelompokModel::deleteDosenMhs($id_dosen, $id);
+
+        // if exist
+        if (!empty($dosen)) {
+            // process
+            if (KelompokModel::deleteKelompok($id_dosen, $id)) {
+                // flash message
+                session()->flash('success', 'Data berhasil dihapus.');
+                return back();
+            } else {
+                // flash message
+                session()->flash('danger', 'Data gagal dihapus.');
+                return back();
+            }
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
         }
     }
 
@@ -261,13 +206,13 @@ class KelompokController extends BaseController
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_ch = KelompokModel::getDataSearch($nama);
+            $rs_kelompok = KelompokModel::getDataSearch($nama);
             // data
-            $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
+            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('admin.kelompok.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/admin/kelompok');
         }
     }
 }

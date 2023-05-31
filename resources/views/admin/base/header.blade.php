@@ -7,7 +7,7 @@
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <!-- Search -->
-              <div class="navbar-nav align-items-center">
+              {{-- <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
                   <div id="custom-branch-title" class="bg-light p-2 rounded-1">
                     @if (Auth::user()->branch_id == null)
@@ -26,7 +26,7 @@
                   </div>
                   
                 </div>
-              </div>
+              </div> --}}
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">

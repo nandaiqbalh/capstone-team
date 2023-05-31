@@ -48,6 +48,7 @@ Mahasiswa
                         <tr class="text-center">
                             <th width="5%">No</th>
                             <th>Nama</th>
+                            <th>NIM</th>
                             <th>Jabatan</th>
                             <th width="18%">Tindakan</th>
                         </tr>
@@ -58,6 +59,7 @@ Mahasiswa
                         <tr>
                             <td class="text-center">{{ $index + $rs_mahasiswa->firstItem() }}.</td>
                             <td>{{ $mahasiswa->user_name }}</td>
+                            <td>{{ $mahasiswa->nomor_induk }}</td>
                             <td>{{ $mahasiswa->role_name }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
