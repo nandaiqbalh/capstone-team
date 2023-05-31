@@ -7,7 +7,7 @@ Broadcast
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4"> Broadcast</h5>
+    <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Broadcast</h5>
     <!-- notification -->
     @include("template.notification")
 
@@ -56,7 +56,7 @@ Broadcast
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Tambah Broadcast</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Edit Broadcast</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">

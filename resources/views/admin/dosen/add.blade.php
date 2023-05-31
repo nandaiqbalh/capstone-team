@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4">Tambah Data Dosen</h5>
+                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Dosen</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -16,7 +16,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tambah Dosen</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/admin/settings/contoh-halaman') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/dosen') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
                     </div>
                     <div class="card-body">
@@ -48,12 +48,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Alamat<span class="text-danger">*</span></label>
                                         <textarea class="form-control" name="alamat" placeholder="Tulis Alamat" id="floatingTextarea" required></textarea>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             
                             <br>

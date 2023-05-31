@@ -64,9 +64,9 @@ class MahasiswaController extends BaseController
         $rules = [
             'nama' => 'required',
             "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
+            // "angkatan" => 'required',
+            // "ipk" => 'required',
+            // "sks" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -77,13 +77,13 @@ class MahasiswaController extends BaseController
         $params = [
             'user_id' => $user_id,
             'user_name' => $request->nama,
-            'user_email' => $request->email,
             "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
+            // 'user_email' => $request->email,
+            // "angkatan" => $request->angkatan,
+            // "ipk" => $request->ipk,
+            // "sks" => $request->sks,
             'user_password' => Hash::make('mahasiswa123'),
-            "jenis_kelamin" => $request->jenis_kelamin,
+            // "jenis_kelamin" => $request->jenis_kelamin,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
@@ -182,21 +182,21 @@ class MahasiswaController extends BaseController
         $rules = [
             'nama' => 'required',
             "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
+            // "angkatan" => 'required',
+            // "ipk" => 'required',
+            // "sks" => 'required',
         ];
         $this->validate($request, $rules);
 
         // params
         $params = [
             'user_name' => $request->nama,
-            'user_email' => $request->email,
             "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            "jenis_kelamin" => $request->jenis_kelamin,
+            // 'user_email' => $request->email,
+            // "angkatan" => $request->angkatan,
+            // "ipk" => $request->ipk,
+            // "sks" => $request->sks,
+            // "jenis_kelamin" => $request->jenis_kelamin,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];

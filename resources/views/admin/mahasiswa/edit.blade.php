@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Mahasiswa</h5>
+                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Mahasiswa</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label >Angkatan<span class="text-danger">*</span></label>
@@ -74,7 +74,7 @@
                                         <input type="email" class="form-control" name="email" value="{{ $mahasiswa->user_email }}" required>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             
                             <br>
                             <button type="submit" class="btn btn-primary">Simpan</button>

@@ -64,7 +64,18 @@ class JadwalExpoModel extends BaseModel
     // get data by id
     public static function getDataById($id)
     {
-        return DB::table('jadwal_expo')->where('id', $id)->first();
+        return DB::table('jadwal_expo as a')
+            ->join('siklus as b', 'a.id_siklus', 'b.id')
+            ->where('a.id', $id)->first();
+    }
+
+    // get data by id
+    public static function getExpoDaftar($id)
+    {
+        return DB::table('pendaftaran_expo as a')
+            ->join('kelompok as b','a.id_kelompok','b.id')
+            ->where('a.id_expo', $id)
+            ->get();
     }
 
     public static function insertJadwalExpo($params)
@@ -74,6 +85,11 @@ class JadwalExpoModel extends BaseModel
     public static function updateJadwalExpo($id, $params)
     {
         return DB::table('jadwal_expo')->where('id', $id)->update($params);
+    }
+
+    public static function updateJadwalExpoKelompok($id, $params)
+    {
+        return DB::table('pendaftaran_expo')->where('id_expo', $id)->update($params);
     }
 
     public static function deleteJadwalExpo($id)

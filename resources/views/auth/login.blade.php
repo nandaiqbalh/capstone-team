@@ -1,3 +1,7 @@
+@php
+    // dd(session());
+@endphp
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -56,17 +60,17 @@
   </head>
 
   <body >
-
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
           <!-- Register -->
           <div class="card">
             <div class="card-body" style="margin-left:10px;margin-right:10px;">
+              <h5 class="mb-2 text-center"><b>CAPSTONE TA <br> TEKNIK KOMPUTER</b></h5>
               <!-- Logo -->
               <div class="app-brand justify-content-center">
                 <a href="{{url('/')}}" class="app-brand-link gap-2 ">
-                  <img style="height: 150px" src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid mt-5" >
+                  <img style="height: 150px" src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid" >
                 </a>
               </div>
 
@@ -114,7 +118,20 @@
         </div>
       </div>
     </div>
-
+ <script type="text/javascript">
+        function preventBack() {
+            window.history.forward(); 
+        }
+          
+        setTimeout("preventBack()", 0);
+          
+        window.onunload = function () { null };
+    </script>
+     {{-- <script type="text/javascript">
+        if (window.history.back()) {
+          window.history.forward(); 
+        } 
+    </script> --}}
     <!-- script -->
     <script src="{{ asset('vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('vendor/js/bootstrap.js') }}"></script>

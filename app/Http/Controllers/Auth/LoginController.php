@@ -62,7 +62,7 @@ class LoginController extends Controller
             ];
             // insert
             LoginModel::insert_app_log($params);
-
+            session()->put('login', 'true');
             // return
             return redirect()->intended('/admin/dashboard');
         } else {

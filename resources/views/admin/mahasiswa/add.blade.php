@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Mahasiswa</h5>
+                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Mahasiswa</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -16,7 +16,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tambah Mahasiswa</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/admin/settings/contoh-halaman') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
                     </div>
                     <div class="card-body">
@@ -36,11 +36,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label >Angkatan<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="angkatan" value="{{ old('angkatan') }}" required>
+                                        <input type="text" class="form-control" maxlength="4" name="angkatan" value="{{ old('angkatan') }}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -75,7 +75,7 @@
                                     </div>
                                 </div>
                                 
-                            </div>
+                            </div> --}}
                             
                             <br>
                             <button type="submit" class="btn btn-primary">Simpan</button>

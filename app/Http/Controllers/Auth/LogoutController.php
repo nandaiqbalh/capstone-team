@@ -107,6 +107,7 @@ class LogoutController extends Controller
                 $request->session()->regenerateToken();
                 // flash message
                 $request->session()->flash('success', 'Berhasil, Anda sudah keluar dari aplikasi.');
+                session()->put('login', 'false');
                 return redirect('/login');
             }
 

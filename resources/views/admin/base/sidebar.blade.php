@@ -1,8 +1,10 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo mt-2" style="justify-content:center;">
             <a href="{{url('/')}}" class="app-brand-link mt-4">
-              <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 80%;">
+              <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 25%;">
+              <span style="text-align: center" ><b> CAPSTONE TA TEKNIK KOMPUTER </b></span> 
             </a>
+
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
               <i class="bx bx-chevron-left bx-sm align-middle"></i>

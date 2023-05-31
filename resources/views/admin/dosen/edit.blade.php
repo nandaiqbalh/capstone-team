@@ -7,7 +7,7 @@
 
 @section('content')
             <div class="container-xxl flex-grow-1 container-p-y">
-                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span>Dosen</h5>
+                <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Dosen</h5>
                 <!-- notification -->
                 @include("template.notification")
 
@@ -49,12 +49,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {{-- <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Alamat<span class="text-danger">*</span></label>
                                         <textarea class="form-control" name="alamat" placeholder="Tulis Alamat" id="floatingTextarea" required>{{ $dosen->alamat }}</textarea>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             
                             <br>

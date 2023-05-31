@@ -16,6 +16,8 @@ class DashboardController extends BaseController
      */
     public function index()
     {
+        // session()->put('keyaaaaaa', 'value');
+        // dd(session('login'));
         // authorize
         Dashmo::authorize('R');
         Dashmo::authorize('R');
