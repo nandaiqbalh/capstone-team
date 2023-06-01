@@ -114,11 +114,46 @@ class KelompokModel extends BaseModel
             ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
             ->join('app_user as b', 'a.id_dosen', 'b.user_id')
             ->where('a.id_kelompok', $id_kelompok)
+            ->where('a.status_dosen','pembimbing 1')
+            ->orwhere('a.status_dosen', 'pembimbing 2')
             ->get();
+    }
+    // pengecekan Dosbing
+    public static function listDosbingAvail()
+    {
+        return DB::table('app_user as a')
+        ->select('b.*', 'a.user_name', 'a.user_id', 'a.nomor_induk')
+        ->join('app_role_user as b','a.user_id','b.user_id')
+        ->where('role_id','02')
+        ->orwhere('role_id','04')
+        ->get();
+    }
+    // pengecekan Dosbing
+    public static function checkDosbing($id_kelompok, $id_dosen)
+    {
+        return DB::table('dosen_kelompok as a')
+        ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
+        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->where('a.id_dosen', $id_dosen)
+        ->first();
+    }
+
+    public static function checkStatusDosen($id_kelompok, $status)
+    {
+        return DB::table('dosen_kelompok as a')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->where('a.status_dosen', $status)
+        ->first();
     }
 
     public static function updateKelompokMHS($user_id, $params)
     {
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
+    }
+
+    public static function insertDosenKelompok($params)
+    {
+        return DB::table('dosen_kelompok')->insert($params);
     }
 }
