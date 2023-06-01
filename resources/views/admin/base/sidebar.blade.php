@@ -1,8 +1,14 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo mt-2" style="justify-content:center;">
             <a href="{{url('/')}}" class="app-brand-link mt-4">
-              <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 25%;">
-              <span style="text-align: center" ><b> CAPSTONE TA TEKNIK KOMPUTER </b></span> 
+              <div class="row">
+                <div class="col-12 mb-3" style="text-align: center">
+                  <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 25%;">
+                </div>
+                <div class="col-12">
+                  <span><p style="text-align: center"> <strong>CAPSTONE TA TEKNIK KOMPUTER</strong></p></span> 
+                </div>
+              </div>
             </a>
 
 
