@@ -44,6 +44,7 @@ class DosenModel extends BaseModel
             ->select('a.*', 'c.role_name', 'c.role_id')
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->where('a.user_id', $user_id)
             ->where('c.role_id', '04')
             ->orwhere('c.role_id', '02')
             ->where('a.user_id', $user_id)
