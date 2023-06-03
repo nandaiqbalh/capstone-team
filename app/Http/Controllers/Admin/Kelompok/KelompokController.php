@@ -227,6 +227,45 @@ class KelompokController extends BaseController
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editKelompokProcess(Request $request)
+    {
+        // authorize
+        KelompokModel::authorize('U');
+
+        // Validate & auto redirect when fail
+        $rules = [
+            'id' => 'required',
+            "nomor_kelompok" => 'required',
+        ];
+        $this->validate($request, $rules);
+
+        // params
+        $params = [
+            "nomor_kelompok" => $request->nomor_kelompok,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // process
+        if (KelompokModel::updateKelompokNomor($request->id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+
+
+    /**
      * Search data.
      *
      * @param  \Illuminate\Http\Request  $request

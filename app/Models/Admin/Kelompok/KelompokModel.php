@@ -152,6 +152,11 @@ class KelompokModel extends BaseModel
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
     }
 
+    public static function updateKelompokNomor($id, $params)
+    {
+        return DB::table('kelompok')->where('id', $id)->update($params);
+    }
+
     public static function insertDosenKelompok($params)
     {
         return DB::table('dosen_kelompok')->insert($params);

@@ -14,7 +14,7 @@
                 <!-- Bordered Table -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Mahasiswa</h5>
+                        <h5 class="mb-0">Detail Kelompok</h5>
                         <small class="text-muted float-end">
                             <a href="{{ url('/admin/kelompok') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
@@ -34,7 +34,26 @@
                                     <tr>
                                         <td>Nomor</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        <td>
+                                            @if ($kelompok->nomor_kelompok == null)
+                                            <form action="{{ url('/admin/kelompok/edit-kelompok-process') }}" method="post" autocomplete="off">
+                                                {{ csrf_field()}}
+                                                <input type="hidden" name="id" value="{{$kelompok->id}}">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" name="nomor_kelompok" value="{{ old('nomor_kelompok') }}" placeholder="Masukan Nomor Kelompok" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            @else
+
+                                            {{ $kelompok->nomor_kelompok }}
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Judul TA</td>
