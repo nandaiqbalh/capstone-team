@@ -279,7 +279,11 @@
                     </div>
                     
                     @else
-                    Anda belum memiliki Kelompok
+                    <div class="card-body">
+                        <h6>
+                            Anda belum memiliki Kelompok
+                        </h6>
+                    </div>
                     @endif
                 </div>
             </div>
