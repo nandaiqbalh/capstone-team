@@ -68,6 +68,7 @@ Pendaftaran
                             <th>NIM</th>
                             <th>Angkatan</th>
                             <th>Topik</th>
+                            <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -88,6 +89,7 @@ Pendaftaran
                             @else
                             <td>{{ $pendaftaran->nama_topik }}</td>
                             @endif
+                            <td><a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}" class="btn btn-secondary btn-xs float-right"><i class="fas fa-plus"></i> Detail</a></td>
                         </tr>
 
                         <!-- Modal -->
