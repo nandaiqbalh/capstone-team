@@ -76,6 +76,7 @@ class PendaftaranModel extends BaseModel
             ->select('a.*')
             ->join('app_role_user as b','a.user_id','b.user_id')
             ->where('role_id', '04')
+            ->orwhere('role_id', '02')
             ->get();
     }
 
