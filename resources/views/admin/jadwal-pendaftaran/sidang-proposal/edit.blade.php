@@ -76,14 +76,14 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                        <input type="datetime-local" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai',$jadwalSidang->tanggal_mulai) }}" required>
+                                        <label>Tanggal<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="tanggal_mulai" value="{{ old('tanggal_mulai',$jadwalSidang->tanggal_mulai) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label >Tanggal Selesai<span class="text-danger">*</span></label>
-                                        <input type="datetime-local" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai',$jadwalSidang->tanggal_selesai) }}" required>
+                                        <label >Waktu<span class="text-danger">*</span></label>
+                                        <input type="time" class="form-control" name="waktu" value="{{ old('waktu',$jadwalSidang->waktu) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
