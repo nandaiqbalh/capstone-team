@@ -14,7 +14,7 @@
                 <!-- Bordered Table -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Detail Mahasiswa</h5>
+                        <h5 class="mb-0">Detail Kelompok</h5>
                         <small class="text-muted float-end">
                             <a href="{{ url('/admin/kelompok') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
                         </small>
@@ -34,7 +34,26 @@
                                     <tr>
                                         <td>Nomor</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        <td>
+                                            @if ($kelompok->nomor_kelompok == null)
+                                            <form action="{{ url('/admin/kelompok/edit-kelompok-process') }}" method="post" autocomplete="off">
+                                                {{ csrf_field()}}
+                                                <input type="hidden" name="id" value="{{$kelompok->id}}">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" name="nomor_kelompok" value="{{ old('nomor_kelompok') }}" placeholder="Masukan Nomor Kelompok" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            @else
+
+                                            {{ $kelompok->nomor_kelompok }}
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Judul TA</td>
@@ -54,13 +73,16 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row justify-content-end mb-2">
                             <div class="col-auto ">
-                                <button type="button" class="btn btn-primary btn-xs float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                @if (count($rs_mahasiswa) >= 3)
+
+                                @else
+                                <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Tambah Mahasiswa
                                 </button>
+                                @endif
                             </div>
-                        </div>
+
                         <h6>List Mahasiswa</h6>
                         <div class="table-responsive text-nowrap">
                             <table class="table table-bordered">
@@ -94,6 +116,13 @@
                             </table>
                         </div>
                         <br>
+                        @if (count($rs_dosbing) >= 2)
+
+                        @else
+                        <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal" data-bs-target="#Dosen">
+                        Tambah Dosen
+                        </button>
+                        @endif
                         <h6 class="mb-0">List Dosen Pembimbing</h6>
                         <br>
                         <div class="table-responsive text-nowrap">
@@ -239,7 +268,7 @@
                 </div>
             </div>
 
-<!-- Modal -->
+<!-- Modal Mahasiswa -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -255,6 +284,38 @@
             @foreach ($rs_mahasiswa_nokel as $mahasiswa_nokel)
                 <option value="{{$mahasiswa_nokel->user_id}}" @if( old('id_mahasiswa_nokel') == '{{$mahasiswa_nokel->user_id}}' ) selected @endif>{{$mahasiswa_nokel->user_name}}</option>
             @endforeach
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Simpan</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Dosen -->
+<div class="modal fade" id="Dosen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Dosen</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url('/admin/kelompok/add-dosen-kelompok') }}" method="get" autocomplete="off">
+        <input type="hidden" name="id_kelompok" value="{{$kelompok->id}}">
+        <select class="form-select" name="id_dosen" required>
+            <option value="" disabled selected>-- Pilih Dosen--</option>
+            @foreach ($rs_dosbing_avail as $dosbing)
+                <option value="{{$dosbing->user_id}}" @if( old('id_dosen') == '{{$dosbing->user_id}}' ) selected @endif>{{$dosbing->user_name}}</option>
+            @endforeach
+        </select>
+        <br>
+        <select class="form-select" name="status_dosen" required>
+            <option value="" disabled selected>-- Pilih Posisi--</option>
+            <option value="pembimbing 1">Pembimbing 1</option>
+            <option value="pembimbing 2">Pembimbing 2</option>
         </select>
       </div>
       <div class="modal-footer">

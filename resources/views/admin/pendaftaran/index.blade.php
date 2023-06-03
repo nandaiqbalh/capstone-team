@@ -36,17 +36,17 @@ Pendaftaran
                 </div>
                 <div class="col-md-6">
                     <form class="form-inline" action="{{ url('/admin/pendaftaran/add') }}" method="get" autocomplete="off">
-                        <div class="row">
+                        <div class="row float-end">
                             <div class="col-auto mt-1">
                                 <select class="form-select" name="id_topik" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
+                                    <option value="" disabled selected>-- Pilih Topik--</option>
                                     @foreach ($rs_topik as $topik)
                                         <option value="{{$topik->id}}" @if( old('id_topik') == '{{$topik->id}}' ) selected @endif>{{$topik->nama}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-auto mt-1">
-                                <button class="btn btn-outline-secondary ml-1" type="submit">
+                                <button class="btn btn-outline-secondary ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tambah Kelompok" type="submit">
                                     <i class="bx bx-plus"></i>
                                 </button>
                             

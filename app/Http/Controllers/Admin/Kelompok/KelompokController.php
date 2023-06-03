@@ -64,6 +64,35 @@ class KelompokController extends BaseController
             return back();
         }
     }
+    public function addDosenKelompok(Request $request)
+    {
+        // authorize
+        KelompokModel::authorize('U');
+        $cekStatusDosen = KelompokModel::checkStatusDosen( $request->id_kelompok, $request->status_dosen);
+        // dd($cekStatusDosen);
+        if ($cekStatusDosen) {
+            session()->flash('danger', 'Pembimbing Sudah ada');
+            return back();
+        }
+        // params
+        $params = [
+            'id_kelompok' => $request->id_kelompok,
+            'id_dosen' => $request->id_dosen,
+            'status_dosen' => $request->status_dosen,
+            'status_persetujuan' => 'menunggu persetujuan',
+        ];
+        // dd($params);
+        // process
+        if (KelompokModel::insertDosenKelompok($params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
 
     /**
      * Display the specified resource.
@@ -81,6 +110,18 @@ class KelompokController extends BaseController
         $rs_mahasiswa = KelompokModel::listKelompokMahasiswa($id);
         $rs_mahasiswa_nokel = KelompokModel::listKelompokMahasiswaNokel($kelompok->id_topik);
         $rs_dosbing = KelompokModel::listDosbing($id);
+        $rs_dosbing_avail = KelompokModel::listDosbingAvail();
+        $rs_dosbing_avail_arr = [];
+
+        foreach ($rs_dosbing_avail as $key => $dosbing) {
+            $check_dosen_kelompok = KelompokModel::checkDosbing($id, $dosbing->user_id);
+            if ($check_dosen_kelompok) {
+            }
+            else {
+                $rs_dosbing_avail_arr[] = $dosbing;
+            }
+        }
+        // dd($rs_dosbing_avail, $rs_dosbing_avail_arr);
 
 
         // check
@@ -95,8 +136,10 @@ class KelompokController extends BaseController
             'kelompok' => $kelompok,
             'rs_mahasiswa' => $rs_mahasiswa,
             'rs_dosbing' => $rs_dosbing,
-            'rs_mahasiswa_nokel' => $rs_mahasiswa_nokel
+            'rs_mahasiswa_nokel' => $rs_mahasiswa_nokel,
+            'rs_dosbing_avail' =>  $rs_dosbing_avail_arr
         ];
+        // dd($data);
 
         // view
         return view('admin.kelompok.detail', $data);
@@ -173,21 +216,54 @@ class KelompokController extends BaseController
         // if exist
         if (!empty($dosen)) {
             // process
-            if (KelompokModel::deleteKelompok($id_dosen, $id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
                 return back();
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return back();
-            }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
             return back();
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editKelompokProcess(Request $request)
+    {
+        // authorize
+        KelompokModel::authorize('U');
+
+        // Validate & auto redirect when fail
+        $rules = [
+            'id' => 'required',
+            "nomor_kelompok" => 'required',
+        ];
+        $this->validate($request, $rules);
+
+        // params
+        $params = [
+            "nomor_kelompok" => $request->nomor_kelompok,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // process
+        if (KelompokModel::updateKelompokNomor($request->id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+
 
     /**
      * Search data.

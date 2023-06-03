@@ -260,9 +260,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
     Route::get('/admin/kelompok/search', [KelompokController::class, 'search']);
     Route::get('/admin/kelompok/add-mahasiswa-kelompok', [KelompokController::class, 'addMahasiswaKelompok']);
+    Route::get('/admin/kelompok/add-dosen-kelompok', [KelompokController::class, 'addDosenKelompok']);
     Route::get('/admin/kelompok/delete-process/{id}', [KelompokController::class, 'deleteKelompokProcess']);
     Route::get('/admin/kelompok/edit/{id}', [KelompokController::class, 'editSiklus']);
-    Route::post('/admin/kelompok/edit-process', [KelompokController::class, 'editSiklusProcess']);
+    Route::post('/admin/kelompok/edit-kelompok-process', [KelompokController::class, 'editKelompokProcess']);
     Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
 
     Route::get('/admin/kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokController::class, 'deleteKelompokMahasiswaProcess']);
@@ -329,5 +330,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/pengujian/tolak/{id}', [PengujianController::class, 'tolakPengujian']);
     Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
     // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
-    
+
+
 });
