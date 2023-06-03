@@ -175,11 +175,11 @@ class MahasiswaKelompokController extends BaseController
         MahasiswaKelompokModel::authorize('C');
         if ($request->dosbing_1 == $request->dosbing_2) {
             session()->flash('danger', 'Dosen tidak boleh sama!');
-            return back();
+            return back()->withInput();
         }
         if ($request->nama1 == $request->nama2 || $request->nama1 == $request->nama3 || $request->nama2 == $request->nama3) {
             session()->flash('danger', 'Mahasiswa tidak boleh sama!');
-            return back();
+            return back()->withInput();
         }
 
         // addKelompok 
