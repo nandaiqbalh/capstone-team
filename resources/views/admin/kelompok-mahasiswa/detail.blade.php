@@ -370,12 +370,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label >Nama<span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="nama1" readonly>
-                                                <option value="" disabled selected>-- Pilih --</option>
-                                                @foreach ($rs_mahasiswa as $mahasiswa)
-                                                <option value="{{$mahasiswa->user_id}}"@if( $getAkun->user_id == $mahasiswa->user_id ) selected @endif>{{$mahasiswa->user_name}}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" name="nama1" value="{{ old('nama1',$getAkun->user_name) }}" readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
