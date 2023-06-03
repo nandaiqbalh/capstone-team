@@ -113,7 +113,14 @@ class PendaftaranController extends BaseController
         // authorize
         PendaftaranModel::authorize('C');
         // params
-
+        if ($request->id_dosen2 == $request->id_dosen1) {
+            session()->flash('danger', 'Dosen tidak boleh sama!');
+            return back()->withInput();
+        }
+        if ($request->id_mahasiswa1 == $request->id_mahasiswa2 || $request->id_mahasiswa1 == $request->id_mahasiswa3 || $request->id_mahasiswa2 == $request->id_mahasiswa3) {
+            session()->flash('danger', 'Mahasiswa tidak boleh sama!');
+            return back()->withInput();
+        }
         $params = [
             'id_topik' => $request->id_topik,
             'nomor_kelompok' => $request->nomor_kelompok,
