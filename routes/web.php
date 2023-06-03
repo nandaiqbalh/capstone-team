@@ -264,6 +264,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kelompok/delete-process/{id}', [KelompokController::class, 'deleteKelompokProcess']);
     Route::get('/admin/kelompok/edit/{id}', [KelompokController::class, 'editSiklus']);
     Route::post('/admin/kelompok/edit-kelompok-process', [KelompokController::class, 'editKelompokProcess']);
+    Route::post('/admin/kelompok/edit-setujui-process', [KelompokController::class, 'setujuiKelompok']);
     Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
 
     Route::get('/admin/kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokController::class, 'deleteKelompokMahasiswaProcess']);

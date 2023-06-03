@@ -268,6 +268,37 @@ class KelompokController extends BaseController
         }
     }
 
+    public function setujuiKelompok(Request $request)
+    {
+        // authorize
+        KelompokModel::authorize('U');
+
+        // Validate & auto redirect when fail
+        $rules = [
+            'id' => 'required',
+            "status_kelompok" => 'required',
+        ];
+        $this->validate($request, $rules);
+
+        // params
+        $params = [
+            "status_kelompok" => $request->status_kelompok,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // process
+        if (KelompokModel::updateKelompokNomor($request->id, $params)) {
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+
 
     /**
      * Search data.

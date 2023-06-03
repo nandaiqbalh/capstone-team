@@ -50,7 +50,6 @@
                                                 </div>
                                             </form>
                                             @else
-
                                             {{ $kelompok->nomor_kelompok }}
                                             @endif
                                         </td>
@@ -68,7 +67,26 @@
                                     <tr>
                                         <td>Status</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->status_kelompok }}</td>
+                                        <td>
+                                            @if ($kelompok->status_kelompok == 'menunggu persetujuan')
+                                            <form action="{{ url('/admin/kelompok/edit-setujui-process') }}" method="post" autocomplete="off">
+                                                {{ csrf_field()}}
+                                                <input type="hidden" name="id" value="{{$kelompok->id}}">
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        {{ $kelompok->status_kelompok }}
+                                                        <input type="hidden" class="form-control" name="status_kelompok" value="disetujui" required>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-sm btn-primary">Setujui</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            @else
+                                            {{ $kelompok->status_kelompok }}
+                                            @endif
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
