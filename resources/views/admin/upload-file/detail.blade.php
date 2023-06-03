@@ -17,6 +17,7 @@
                         <h5 class="mb-0">Detail Upload File</h5>
                     </div>
 
+                    @if ($file_mhs != null)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="card-body">
@@ -277,6 +278,9 @@
                         
                     </div>
                     
+                    @else
+                    Anda belum memiliki Kelompok
+                    @endif
                 </div>
             </div>
 @endsection
