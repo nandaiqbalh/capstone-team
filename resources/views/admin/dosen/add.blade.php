@@ -48,12 +48,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Alamat<span class="text-danger">*</span></label>
-                                        <textarea class="form-control" name="alamat" placeholder="Tulis Alamat" id="floatingTextarea" required></textarea>
-                                    </div>
-                                </div> --}}
                             </div>
                             
                             <br>
