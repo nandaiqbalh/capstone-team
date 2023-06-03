@@ -63,7 +63,7 @@ class KelompokModel extends BaseModel
     {
         return DB::table('kelompok_mhs')
         ->where('id_kelompok', $id)
-        ->first();
+        ->get();
     }
 
     public static function updateKelompokMhsAll($id)
