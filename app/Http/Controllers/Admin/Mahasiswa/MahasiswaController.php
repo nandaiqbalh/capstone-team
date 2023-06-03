@@ -128,10 +128,11 @@ class MahasiswaController extends BaseController
             session()->flash('danger', 'Data tidak ditemukan.');
             return redirect('/admin/mahasiswa');
         }
-
+        $rs_peminatan = MahasiswaModel::peminatan($user_id);
         // data
         $data = [
-            'mahasiswa' => $mahasiswa
+            'mahasiswa' => $mahasiswa,
+            'rs_peminatan'=>$rs_peminatan
         ];
 
         // view

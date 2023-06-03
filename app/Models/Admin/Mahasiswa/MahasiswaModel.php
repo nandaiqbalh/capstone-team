@@ -50,6 +50,14 @@ class MahasiswaModel extends BaseModel
             ->leftJoin('siklus as c','b.id_siklus','c.id')
             ->where('user_id', $user_id)->first();
     }
+
+    public static function peminatan($user_id)
+    {
+        return DB::table('peminatan')
+            ->where('id_mahasiswa', $user_id)
+            ->orderBy('prioritas')
+            ->get();
+    }
     
 
     public static function insertmahasiswa($params)

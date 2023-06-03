@@ -74,7 +74,33 @@
                                 </tbody>
                             </table>
                         </div>
+                        <br>
+                    @if ($rs_peminatan->count() > 0)
+                        
+                    <p>Peminatan</p>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr class="text-center">
+                                    <th width="5%">No</th>
+                                    <th>Peminatan</th>
+                                    <th>Prioritas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($rs_peminatan as $index => $peminatan)
+                                <tr>
+                                    <td class="text-center">{{ $index + 1 }}.</td>
+                                    <td>{{ $peminatan->peminatan }}</td>
+                                    <td>{{ $peminatan->prioritas }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                    @endif
+                    </div>
+                    
                     {{-- upload file mhs  --}}
                                         <div class="row">
                         <div class="col-md-6">
