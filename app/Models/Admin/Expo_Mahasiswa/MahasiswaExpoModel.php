@@ -17,6 +17,15 @@ class MahasiswaExpoModel extends BaseModel
             ->where('b.status','aktif')
             ->get();
     }
+
+    public static function kelengkapanExpo()
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.*')
+            ->join('siklus as b','a.id_siklus','b.id')
+            ->where('b.status','aktif')
+            ->first();
+    }
     // get all data
     public static function cekExpo()
     {
@@ -128,9 +137,9 @@ class MahasiswaExpoModel extends BaseModel
     }
 
     // get data by id
-    public static function getDataById($user_id)
+    public static function getDataById($id)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
+        return DB::table('kelompok_mhs')->where('id', $id)->first();
     }
 
     public static function insertmahasiswa($params)
@@ -172,5 +181,9 @@ class MahasiswaExpoModel extends BaseModel
     public static function delete($user_id)
     {
         return DB::table('app_user')->where('user_id', $user_id)->delete();
+    }
+    public static function updateKelompokMHS($id,$params)
+    {
+        return DB::table('kelompok_mhs')->where('id', $id)->update($params);
     }
 }

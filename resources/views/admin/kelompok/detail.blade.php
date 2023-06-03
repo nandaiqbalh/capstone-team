@@ -91,6 +91,8 @@
                                         <th width="5%">No</th>
                                         <th>Nama</th>
                                         <th>NIM</th>
+                                        <th>Judul TA</th>
+                                        <th>Link File</th>
                                         <th width="18%">Tindakan</th>
                                     </tr>
                                 </thead>
@@ -101,6 +103,8 @@
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
+                                        <td>{{ $mahasiswa->judul_ta_mhs }}</td>
+                                        <td><a href="https://{{ $mahasiswa->link_upload }}">Link File</a></td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <a href="{{ url('/admin/kelompok/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')"> Hapus</a>

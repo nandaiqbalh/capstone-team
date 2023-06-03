@@ -30,12 +30,14 @@ class MahasiswaExpoController extends BaseController
         $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
         // get data expo
         $rs_expo = MahasiswaExpoModel::getDataExpo();
+        $kelengkapanExpo = MahasiswaExpoModel::kelengkapanExpo();
 
         // data
         $data = [
             'id_kelompok' => $id_kelompok,
             'cekExpo' => $cekExpo,
             'rs_expo' => $rs_expo,
+            'kelengkapan'=>$kelengkapanExpo
         ];
 
         // view
@@ -132,6 +134,39 @@ class MahasiswaExpoController extends BaseController
             return view('admin.mahasiswa.index', $data);
         } else {
             return redirect('/admin/mahasiswa');
+        }
+    }
+
+    public function editProcess(Request $request)
+    {
+        // authorize
+        // dd($request);
+        MahasiswaExpoModel::authorize('D');
+        $id_kelompok = $request->id;
+        // get data
+        $kelompok = MahasiswaExpoModel::getDataById($id_kelompok);
+
+        // if exist
+        if (!empty($kelompok)) {
+            // process
+            $params = [
+                'judul_ta_mhs' => $request->judul_ta_mhs,
+                'link_upload' => $request->link_upload,
+
+            ];
+            if (MahasiswaExpoModel::updateKelompokMHS($id_kelompok, $params)) {
+                // flash message
+                session()->flash('success', 'Data berhasil dihapus.');
+                return back();
+            } else {
+                // flash message
+                session()->flash('danger', 'Data gagal dihapus.');
+                return back();
+            }
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
         }
     }
 }

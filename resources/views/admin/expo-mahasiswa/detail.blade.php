@@ -18,7 +18,34 @@
                     </div>
 
                     <div class="card-body">
+                    
                     @if ($cekExpo == null)
+                        <form action="{{ url('/mahasiswa/expo/edit-process') }}" method="post" autocomplete="off">
+                            {{ csrf_field()}}
+                            <input type="hidden" name="id" value="{{$kelengkapan->id}}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label >Judul TA Individu<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="judul_ta_mhs" value="{{ old('judul_ta_mhs',$kelengkapan->judul_ta_mhs) }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Link File<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="link_upload" value="{{ old('link_upload',$kelengkapan->link_upload) }}" required>
+                                        @if ($kelengkapan->link_upload)
+                                            <a href="https://{{$kelengkapan->link_upload}}"> <p>Lihat File</p> </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <br>
+                            <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                        </form>
+
+
                         {{-- list expo  --}}
                         <br>
                         <h5 class="mb-0">List Expo</h5>

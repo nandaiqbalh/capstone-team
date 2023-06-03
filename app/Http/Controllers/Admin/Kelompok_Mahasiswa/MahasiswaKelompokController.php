@@ -173,6 +173,14 @@ class MahasiswaKelompokController extends BaseController
         // dd($request);
         // authorize
         MahasiswaKelompokModel::authorize('C');
+        if ($request->dosbing_1 == $request->dosbing_2) {
+            session()->flash('danger', 'Dosen tidak boleh sama!');
+            return back();
+        }
+        if ($request->nama1 == $request->nama2 || $request->nama1 == $request->nama3 || $request->nama2 == $request->nama3) {
+            session()->flash('danger', 'Mahasiswa tidak boleh sama!');
+            return back();
+        }
 
         // addKelompok 
 
@@ -217,12 +225,12 @@ class MahasiswaKelompokController extends BaseController
         ];
 
         // process
-        $update_mahasiswa1 = MahasiswaKelompokModel::updateMahasiswa($request->nama1, $params1);
+        $update_mahasiswa1 = MahasiswaKelompokModel::updateMahasiswa(Auth::user()->user_id, $params1);
         if ($update_mahasiswa1) {
             $params11 = [
                 "id_siklus" => $request->id_siklus,
                 'id_kelompok' => $id_kelompok,
-                'id_mahasiswa' => $request->nama1,
+                'id_mahasiswa' => Auth::user()->user_id,
                 'id_topik_mhs' => $request->id_topik,
             ];
             MahasiswaKelompokModel::insertKelompokMHS($params11);
