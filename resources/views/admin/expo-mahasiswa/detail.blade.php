@@ -19,6 +19,7 @@
 
                     <div class="card-body">
                     
+                    @if ($cekExpo == null)
                         <form action="{{ url('/mahasiswa/expo/edit-process') }}" method="post" autocomplete="off">
                             {{ csrf_field()}}
                             <input type="hidden" name="id" value="{{$kelengkapan->id}}">
@@ -43,7 +44,6 @@
                             <br>
                             <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                         </form>
-                    @if ($cekExpo == null)
 
 
                         {{-- list expo  --}}
