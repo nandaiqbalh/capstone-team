@@ -155,6 +155,10 @@ class KelompokController extends BaseController
 
         // if exist
         if (!empty($kelompok)) {
+            $cekMhs=KelompokModel::getKelompokMhsAll($kelompok->id);
+            foreach ($cekMhs as $key => $mhs) {
+                KelompokModel::updateKelompokMhsAll($mhs->id_mahasiswa);
+            }
             // process
             if (KelompokModel::deleteKelompok($kelompok->id)) {
                 // flash message

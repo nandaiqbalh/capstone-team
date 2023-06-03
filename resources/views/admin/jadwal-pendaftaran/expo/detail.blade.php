@@ -69,10 +69,10 @@
                                         <td>{{ $pendaftaran->nomor_kelompok }}</td>
                                         <td>{{ $pendaftaran->status }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/kelompok/detail') }}/{{ $expo->id_kelompok }}" class="btn btn-outline-secondary btn-xs m-1 ">  Detail</a>
+                                            <a href="{{ url('/admin/kelompok/detail') }}/{{ $pendaftaran->id_kelompok }}" class="btn btn-outline-secondary btn-xs m-1 ">  Detail</a>
                                             @if ($pendaftaran->status=='menunggu persetujuan')
-                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/terima') }}/{{ $expo->id_pendaftaran }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">  Terima</a>
-                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/tolak') }}/{{ $expo->id_pendaftaran }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')"> Tolak</a>
+                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/terima') }}/{{ $pendaftaran->id }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">  Terima</a>
+                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/tolak') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')"> Tolak</a>
                                             @endif
                                         </td>
                                     </tr>

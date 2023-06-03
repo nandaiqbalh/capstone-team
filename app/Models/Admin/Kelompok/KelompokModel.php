@@ -58,6 +58,20 @@ class KelompokModel extends BaseModel
             ->where('id_mahasiswa', $id_mahasiswa)
             ->first();
     }
+
+    public static function getKelompokMhsAll( $id)
+    {
+        return DB::table('kelompok_mhs')
+        ->where('id_kelompok', $id)
+        ->first();
+    }
+
+    public static function updateKelompokMhsAll($id)
+    {
+        return DB::table('kelompok_mhs')
+        ->where('id_mahasiswa', $id)
+        ->update(["id_kelompok"=>null]);
+    }
     public static function getKelompokDosen($id_mahasiswa, $id)
     {
         return DB::table('dosen_kelompok')
