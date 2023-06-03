@@ -70,8 +70,8 @@
                                         <td>{{ $pendaftaran->status }}</td>
                                         <td class="text-center">
                                             @if ($pendaftaran->status=='menunggu persetujuan')
-                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/terima') }}/{{ $expo->id }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">  Terima</a>
-                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/tolak') }}/{{ $expo->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')"> Tolak</a>
+                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/terima') }}/{{ $expo->id_pendaftaran }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">  Terima</a>
+                                            <a href="{{ url('/admin/jadwal-pendaftaran/expo/tolak') }}/{{ $expo->id_pendaftaran }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')"> Tolak</a>
                                             @endif
                                         </td>
                                     </tr>
