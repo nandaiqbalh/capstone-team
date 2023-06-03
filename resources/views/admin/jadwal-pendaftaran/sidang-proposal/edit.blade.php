@@ -23,8 +23,12 @@
                         <form action="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit-process') }}" method="post" autocomplete="off">
                             {{ csrf_field()}}
                             <input type="hidden" name="id" value="{{ $jadwalSidang->id }}">
+                            @if ($dosen_penguji_1 != null)
                             <input type="hidden" name="id_dosen1" value="{{ $dosen_penguji_1->id }}">
+                            @endif
+                            @if ($dosen_penguji_2 !=null)
                             <input type="hidden" name="id_dosen2" value="{{ $dosen_penguji_2->id }}">
+                            @endif
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -50,6 +54,7 @@
                                 </div>
                             </div>
                             <div class="row">
+                                @if ($dosen_penguji_1 != null)    
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label> Dosen Penguji 1 | Status : {{$dosen_penguji_1->status_persetujuan}}</label>
@@ -61,6 +66,20 @@
                                         </select>
                                     </div>
                                 </div>
+                                @else 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label> Dosen Penguji 1 </label>
+                                        <select class="form-select select-2" name="id_dosen_1" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_dosen as $dosen)
+                                            <option value="{{$dosen->user_id}}">{{$dosen->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                @endif
+                                @if ($dosen_penguji_2 !=null)
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label> Dosen Penguji 2 | Status : {{$dosen_penguji_2->status_persetujuan}}</label>
@@ -72,6 +91,19 @@
                                         </select>
                                     </div>
                                 </div>
+                                @else
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label> Dosen Penguji 2 </label>
+                                        <select class="form-select select-2" name="id_dosen_2" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($rs_dosen as $dosen)
+                                            <option value="{{$dosen->user_id}}">{{$dosen->user_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                @endif
                             </div>    
                             <div class="row">
                                 <div class="col-md-6">

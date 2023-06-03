@@ -82,7 +82,7 @@ class JadwalSidangProposalController extends BaseController
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
-
+        
         // process
         $insert = JadwalSidangProposalModel::insertJadwalSidangProposal($params);
         if ($insert) {
@@ -123,7 +123,6 @@ class JadwalSidangProposalController extends BaseController
         $rs_dosen = JadwalSidangProposalModel::getDosen();
         $getPenguji1 = JadwalSidangProposalModel::getDosenPenguji1($jadwalSidang->id_kelompok);
         $getPenguji2 = JadwalSidangProposalModel::getDosenPenguji2($jadwalSidang->id_kelompok);
-
         $data = [
             'jadwalSidang' => $jadwalSidang,
             'dosen_penguji_1' => $getPenguji1,
@@ -150,6 +149,10 @@ class JadwalSidangProposalController extends BaseController
         // authorize
         JadwalSidangProposalModel::authorize('U');
 
+        if ($request->id_dosen_2 == $request->id_dosen_1) {
+            session()->flash('danger', 'Dosen Tidak boleh sama!');
+            return back();
+        }
         $params = [
             'siklus_id' => $request->siklus_id,
             'id_kelompok' => $request->id_kelompok,

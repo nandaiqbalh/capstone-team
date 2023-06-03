@@ -50,7 +50,7 @@ Jadwal Sidang Proposal
                             <td>{{ $pendaftaran->waktu }}</td>
                             <td>{{ $pendaftaran->ruangan }}</td>
                             <td class="text-center">
-                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
+                                <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-warning btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->nomor_kelompok }} ?')"> Hapus</a>
                             </td>
                         </tr>
