@@ -144,7 +144,7 @@ class PendaftaranController extends BaseController
                 'id_topik_mhs' => $request->id_topik,
                 'status_individu' => 'disetujui',
             ];
-            PendaftaranModel::updateKelompokMHS($request->id_mahasiswa3, $paramMhs2);
+            PendaftaranModel::updateKelompokMHS($request->id_mahasiswa2, $paramMhs2);
             $paramMhs3 = [
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
