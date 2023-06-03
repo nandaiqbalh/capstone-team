@@ -157,7 +157,7 @@ class JadwalExpoController extends BaseController
 
         // get data with pagination
         $expo = JadwalExpoModel::getDataById($id);
-
+        // dd($expo);
         // check
         if (empty($expo)) {
             // flash message
