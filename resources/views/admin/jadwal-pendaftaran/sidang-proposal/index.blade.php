@@ -33,8 +33,8 @@ Jadwal Sidang Proposal
                             <th width="5%">No</th>
                             <th>Siklus</th>
                             <th>Nomor Kelompok</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
                             <th>Ruangan</th>
                             <th>Tindakan</th>
                         </tr>
@@ -47,7 +47,7 @@ Jadwal Sidang Proposal
                             <td>{{ $pendaftaran->tahun_ajaran }}</td>
                             <td>{{ $pendaftaran->nomor_kelompok }}</td>
                             <td>{{ $pendaftaran->tanggal_mulai }}</td>
-                            <td>{{ $pendaftaran->tanggal_selesai }}</td>
+                            <td>{{ $pendaftaran->waktu }}</td>
                             <td>{{ $pendaftaran->ruangan }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>

@@ -55,7 +55,7 @@
                   <ul class="list-group">
                     @if (count($rs_jad_sidang) > 0)
                       @foreach ($rs_jad_sidang as $item)
-                      <li class="list-group-item">{{$item->tanggal_mulai}} s/d {{$item->tanggal_selesai}}</li>
+                      <li class="list-group-item">{{$item->tanggal_mulai}} {{$item->waktu}}</li>
                       @endforeach
                     @else
                     <li class="list-group-item">Jadwal Tidak Ada!</li>

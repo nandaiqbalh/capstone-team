@@ -77,7 +77,7 @@ class JadwalSidangProposalController extends BaseController
             'siklus_id' => $request->siklus_id,
             'id_kelompok' => $request->id_kelompok,
             'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'waktu' => $request->waktu,
             'ruangan' => $request->ruangan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
@@ -154,7 +154,7 @@ class JadwalSidangProposalController extends BaseController
             'siklus_id' => $request->siklus_id,
             'id_kelompok' => $request->id_kelompok,
             'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'waktu' => $request->waktu,
             'ruangan' => $request->ruangan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
