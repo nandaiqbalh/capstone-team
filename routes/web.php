@@ -183,7 +183,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
     Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
-    //tim campstone
+    //tim capstone
     Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
     Route::get('/admin/tim-capstone/add', [TimCapstoneController::class, 'addTimCapstone']);
     Route::post('/admin/tim-capstone/add-process', [TimCapstoneController::class, 'addTimCapstoneProcess']);
@@ -209,6 +209,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
     Route::post('/admin/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
     Route::get('/admin/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
+    Route::get('/admin/dosen/search', [DosenController::class, 'searchDosen']);
+
 
     //siklus
     Route::get('/admin/siklus', [SiklusController::class, 'index']);

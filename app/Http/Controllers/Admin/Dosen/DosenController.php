@@ -237,24 +237,24 @@ class DosenController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function search(Request $request)
-    // {
-    //     // authorize
-    //     DosenModel::authorize('R');
+    public function searchDosen(Request $request)
+    {
+        // authorize
+        DosenModel::authorize('R');
+        // data request
+        $user_name = $request->nama;
 
-    //     // data request
-    //     $nama = $request->nama;
-
-    //     // new search or reset
-    //     if ($request->action == 'search') {
-    //         // get data with pagination
-    //         $dosen = DosenModel::getDataSearch($nama);
-    //         // data
-    //         $data = ['rs_ch' => $dosen, 'nama' => $nama];
-    //         // view
-    //         return view('admin.settings.contoh-halaman.index', $data);
-    //     } else {
-    //         return redirect('/admin/settings/contoh-halaman');
-    //     }
-    // }
+        // new search or reset
+        if ($request->action == 'search') {
+            // get data with pagination
+            $dt_dosen = DosenModel::getDataSearch($user_name);
+            // dd($rs_mahasiswa);
+            // data
+            $data = ['dt_dosen' => $dt_dosen, 'nama' => $user_name];
+            // view
+            return view('admin.dosen.index', $data);
+        } else {
+            return redirect('/admin/dosen');
+        }
+    }
 }

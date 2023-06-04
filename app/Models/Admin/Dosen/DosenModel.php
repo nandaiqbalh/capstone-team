@@ -51,6 +51,19 @@ class DosenModel extends BaseModel
             ->first();
     }
 
+    public static function getDataSearch($search)
+    {
+        return DB::table('app_user as a')
+            ->select('a.*', 'c.role_name')
+            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
+            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->where('c.role_id', '04')
+            // ->orwhere('c.role_id', '02')
+            ->where('a.user_name', 'LIKE', "%" . $search . "%")
+            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
+            ->paginate(20)->withQueryString();
+    }
+
     public static function insertDosen($params)
     {
         return DB::table('app_user')->insert($params);

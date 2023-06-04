@@ -41,6 +41,11 @@
                                         <td>:</td>
                                         <td>{{ $dosen->nomor_induk }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>:</td>
+                                        <td>{{ $dosen->user_email }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

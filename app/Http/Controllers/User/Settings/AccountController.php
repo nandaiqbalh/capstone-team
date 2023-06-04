@@ -28,13 +28,13 @@ class AccountController extends BaseController
         $account = Account::getById(Auth::user()->user_id);
 
         // data
-        $data = ['account'=>$account];
-    
+        $data = ['account' => $account];
+
         //view
         return view('admin.settings.account.edit', $data);
     }
 
-   /**
+    /**
      * Crop Image.
      *
      * @return \Illuminate\Http\Response
@@ -44,29 +44,28 @@ class AccountController extends BaseController
         // return $request;
         $path = public_path($this->upload_path);
         $file = $request->file('user_img');
-        $new_image_name = Str::slug(Auth::user()->user_name,'-').'-'.uniqid().'.jpg';
-        
+        $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
+
         // unlink image
-        
-        $old_img = public_path($this->upload_path).Auth::user()->user_img_name;
-        if(file_exists($old_img) && Auth::user()->user_img_name != 'default.png') {
+
+        $old_img = public_path($this->upload_path) . Auth::user()->user_img_name;
+        if (file_exists($old_img) && Auth::user()->user_img_name != 'default.png') {
             unlink($old_img);
         }
 
         $upload = $file->move($path, $new_image_name);
-        if($upload){
-            $params =[
+        if ($upload) {
+            $params = [
                 'user_img_path' => $this->upload_path,
                 'user_img_name' => $new_image_name,
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];
             Account::update(Auth::user()->user_id, $params);
-            return response()->json(['status'=>1, 'msg'=>'Foto berhasil diunggah.', 'name'=>$new_image_name]);
-        }else{
-            return response()->json(['status'=>0, 'msg'=>'Upload foto gagal']);
+            return response()->json(['status' => 1, 'msg' => 'Foto berhasil diunggah.', 'name' => $new_image_name]);
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Upload foto gagal']);
         }
-        
     }
     /**
      * Update the specified resource in storage.
@@ -87,15 +86,15 @@ class AccountController extends BaseController
             'user_name' => 'required',
             'no_telp' => 'required|digits_between:10,13|numeric',
             'user_img' => 'image|mimes:jpeg,jpg,png|max:5120'
-            
+
         ];
-        $this->validate($request, $rules );
+        $this->validate($request, $rules);
 
         // $new_file_name = $request->old_user_img_name;
 
         // // cek file
         // if($request->hasFile('user_img')) {
-            
+
         //     $file = $request->file('user_img');
         //     // namafile
         //     $file_extention = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
@@ -118,7 +117,7 @@ class AccountController extends BaseController
         // }
 
         // params
-        $params =[
+        $params = [
             'user_name' => $request->user_name,
             // 'user_img_path' => $this->upload_path,
             // 'user_img_name' => $new_file_name,
@@ -133,8 +132,7 @@ class AccountController extends BaseController
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/account');
-        }
-        else {
+        } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
             return redirect('/admin/settings/account');
@@ -159,26 +157,26 @@ class AccountController extends BaseController
             'current_password' => 'required|min:8|max:20',
             'new_password' => 'required|min:8|max:20',
             'repeat_new_password' => 'required|min:8|max:20',
-            
+
         ];
-        $this->validate($request, $rules );
+        $this->validate($request, $rules);
 
         // cek current password
-        if(!Hash::check($request->current_password, Auth::user()->user_password)) {
+        if (!Hash::check($request->current_password, Auth::user()->user_password)) {
             // flash message
             session()->flash('danger', 'Password saat ini salah.');
             return redirect('/admin/settings/account');
         }
 
         // bandingkan password baru
-        if( $request->new_password != $request->repeat_new_password) {
+        if ($request->new_password != $request->repeat_new_password) {
             // flash message
             session()->flash('danger', 'Password baru tidak sesuai.');
             return redirect('/admin/settings/account');
         }
 
         // params
-        $params =[
+        $params = [
             'user_password' => Hash::make($request->new_password),
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
@@ -189,13 +187,10 @@ class AccountController extends BaseController
             // flash message
             session()->flash('success', 'Password berhasil disimpan.');
             return redirect('/logout');
-        }
-        else {
+        } else {
             // flash message
             session()->flash('danger', 'Password gagal disimpan.');
             return redirect('/admin/settings/account');
         }
     }
-
-
 }
