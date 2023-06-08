@@ -58,7 +58,8 @@ class DosenModel extends BaseModel
             ->join('app_role_user as b', 'a.user_id', 'b.user_id')
             ->join('app_role as c', 'b.role_id', 'c.role_id')
             ->where('c.role_id', '04')
-            // ->orwhere('c.role_id', '02')
+            ->where('a.user_name', 'LIKE', "%" . $search . "%")
+            ->orwhere('c.role_id', '02')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
             // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
             ->paginate(20)->withQueryString();
