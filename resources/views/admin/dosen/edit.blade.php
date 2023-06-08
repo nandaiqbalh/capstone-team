@@ -33,7 +33,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>NIP<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="nip" value="{{ $dosen->nomor_induk }}" required>
+                                        <input type="text" class="form-control" name="nip" value="{{ $dosen->nomor_induk }}" required>
                                     </div>
                                 </div>
                             </div>
