@@ -91,38 +91,12 @@ class AccountController extends BaseController
         ];
         $this->validate($request, $rules);
 
-        // $new_file_name = $request->old_user_img_name;
-
-        // // cek file
-        // if($request->hasFile('user_img')) {
-
-        //     $file = $request->file('user_img');
-        //     // namafile
-        //     $file_extention = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-        //     $new_file_name = Str::slug($request->user_name,'-').'-'.uniqid().'.'.$file_extention;
-
-        //     // upload path
-        //     $upload_path = $this->upload_path;
-
-        //     // upload process
-        //     if(!$file->move(public_path($upload_path), $new_file_name)) {
-        //         // flash message
-        //         session()->flash('danger', 'File gagal di upload.');
-        //         return redirect('/admin/settings/account');
-        //     }
-
-        //     $old_img = public_path($this->upload_path).$request->old_user_img_name;
-        //     if(file_exists($old_img) && $request->old_user_img_name != 'default.png') {
-        //         unlink($old_img);
-        //     }
-        // }
+        
 
         // params
         $params = [
             'user_name' => $request->user_name,
-            // 'user_img_path' => $this->upload_path,
-            // 'user_img_name' => $new_file_name,
-            // 'nik' => $request->id_pengguna,
+            'user_email' => $request->user_email,
             'no_telp' => $request->no_telp,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')

@@ -23,12 +23,12 @@
                         <form action="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit-process') }}" method="post" autocomplete="off">
                             {{ csrf_field()}}
                             <input type="hidden" name="id" value="{{ $jadwalSidang->id }}">
-                            @if ($dosen_penguji_1 != null)
+                            {{-- @if ($dosen_penguji_1 != null)
                             <input type="hidden" name="id_dosen1" value="{{ $dosen_penguji_1->id }}">
                             @endif
                             @if ($dosen_penguji_2 !=null)
                             <input type="hidden" name="id_dosen2" value="{{ $dosen_penguji_2->id }}">
-                            @endif
+                            @endif --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -45,7 +45,7 @@
                                     <div class="mb-3">
                                         <label>Pilih Kelompok <span class="text-danger">*</span></label>
                                         <select class="form-select select-2" name="id_kelompok" required>
-                                            <option value="" disabled selected>-- Pilih --</option>
+                                            <option value="{{$jadwalSidang->id_kelompok}}" selected>{{$jadwalSidang->nomor_kelompok}}</option>
                                             @foreach ($rs_kelompok as $kelompok)
                                             <option value="{{$kelompok->id}}" @if ($kelompok->id == $jadwalSidang->id_kelompok ) selected @endif>{{$kelompok->nomor_kelompok}}</option>
                                             @endforeach
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 @if ($dosen_penguji_1 != null)    
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -104,7 +104,7 @@
                                     </div>
                                 </div>
                                 @endif
-                            </div>    
+                            </div>     --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">

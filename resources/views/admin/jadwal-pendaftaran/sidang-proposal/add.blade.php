@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Pilih Dosen Penguji 1 <span class="text-danger">*</span></label>
@@ -69,7 +69,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>  --}}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">

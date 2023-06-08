@@ -83,7 +83,9 @@
                                 </tbody>
                             </table>
                         </div>
-                                    <br>
+
+                        {{-- list dos pem  --}}
+                        <br>
                         <h5 class="mb-0">List Dosen Pembimbing</h5>
                         <br>
                         <div class="table-responsive text-nowrap">
@@ -116,6 +118,70 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        {{-- list dos peng  --}}
+                        @if ($proposal != null)
+                        <br>
+                        <h5 class="mb-0">Sidang Proposal</h5>
+                        <br>
+                            
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="20%"></th>
+                                        <th width="5%"></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tanggal dan Waktu</td>
+                                        <td>:</td>
+                                        <td>{{ $proposal->tanggal_mulai }} {{ $proposal->waktu }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ruangan</td>
+                                        <td>:</td>
+                                        <td>{{ $proposal->ruangan }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <h5 class="mb-0">List Dosen Penguji</h5>
+                        <br>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered">
+                                <thead class="thead-light">
+                                    <tr class="text-center">
+                                        <th width="5%">No</th>
+                                        <th>Nama Dosbing</th>
+                                        <th>NIP/NIDN</th>
+                                        <th>Posisi</th>
+                                        <th>Status Persetujuan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if($rs_dospeng->count() > 0)
+                                    @foreach($rs_dospeng as $index => $dosbing)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}.</td>
+                                        <td>{{ $dosbing->user_name }}</td>
+                                        <td>{{ $dosbing->nomor_induk }}</td>
+                                        <td>{{ $dosbing->status_dosen }}</td>
+                                        <td>{{ $dosbing->status_persetujuan }}</td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                    <tr>
+                                        <td class="text-center" colspan="5">Tidak ada data.</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        @endif
                     
                     @else
                     <br>

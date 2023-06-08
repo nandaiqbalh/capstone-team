@@ -32,12 +32,16 @@ class MahasiswaKelompokController extends BaseController
         if ($kelompok != null) {
             $rs_mahasiswa = MahasiswaKelompokModel::listKelompokMahasiswa($kelompok->id_kelompok);
             $rs_dosbing = MahasiswaKelompokModel::getAkunDosbingKelompok($kelompok->id_kelompok);
+            $rs_dospeng = MahasiswaKelompokModel::getAkunDospengKelompok($kelompok->id_kelompok);
+            $proposal = MahasiswaKelompokModel::proposal($kelompok->id_kelompok);
 
             // data
             $data = [
                 'kelompok'  => $kelompok,
+                'proposal'  => $proposal,
                 'rs_mahasiswa' => $rs_mahasiswa,
                 'rs_dosbing' => $rs_dosbing,
+                'rs_dospeng' => $rs_dospeng,
                 'rs_siklus' => $rs_siklus,
             ];
         } else {

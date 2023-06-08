@@ -76,8 +76,32 @@ class MahasiswaKelompokModel extends BaseModel
         return DB::table('dosen_kelompok as a')
         ->select('a.*', 'b.user_name', 'b.nomor_induk' )
         ->join('app_user as b', 'a.id_dosen', 'b.user_id')
+        ->where('a.status_dosen', 'pembimbing 1')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->orwhere('a.status_dosen', 'pembimbing 2')
         ->where('a.id_kelompok', $id_kelompok)
         ->get();
+    }
+
+    // pengecekan kelompok penguji
+    public static function getAkunDospengKelompok($id_kelompok)
+    {
+        return DB::table('dosen_kelompok as a')
+        ->select('a.*', 'b.user_name', 'b.nomor_induk')
+        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
+        ->where('a.status_dosen', 'penguji 1')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->orwhere('a.status_dosen', 'penguji 2')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->get();
+    }
+
+    // pengecekan kelompok
+    public static function proposal($id_kelompok)
+    {
+        return DB::table('jadwal_sidang_proposal')
+        ->where('id_kelompok', $id_kelompok)
+        ->first();
     }
 
     // get data with pagination
