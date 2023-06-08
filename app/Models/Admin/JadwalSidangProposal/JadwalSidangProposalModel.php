@@ -38,9 +38,11 @@ class JadwalSidangProposalModel extends BaseModel
     public static function getKelompok()
     {
         return DB::table('kelompok as a')
-            ->select('a.*')
+            ->select('a.*','c.id as id_prop')
             ->join('siklus as b','a.id_siklus','b.id')
+            ->leftjoin('jadwal_sidang_proposal as c', 'a.id','c.id_kelompok' )
             ->where('b.status', 'aktif')
+            ->where('c.id',null)
             ->whereNotNull('a.nomor_kelompok')
             ->get();
     }
@@ -58,6 +60,16 @@ class JadwalSidangProposalModel extends BaseModel
         return DB::table('jadwal_sidang_proposal')
         ->where('id', $id)
         ->first();
+    }
+
+    public static function getjadwalSidang2($id, $kelompok_id)
+    {
+        return DB::table('jadwal_sidang_proposal as a')
+            ->select('a.*', 'b.nomor_kelompok')
+            ->join('kelompok as b', 'a.id_kelompok', 'b.id')
+            ->where('a.id', $id)
+            ->where('a.id_kelompok', $kelompok_id)
+            ->first();
     }
 
     public static function getMahasiswa($id_topik)

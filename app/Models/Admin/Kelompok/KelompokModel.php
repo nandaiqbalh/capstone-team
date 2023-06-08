@@ -26,6 +26,7 @@ class KelompokModel extends BaseModel
             ->paginate(20);
     }
 
+
     // get search
     public static function getDataSearch($no_kel)
     {
@@ -63,6 +64,12 @@ class KelompokModel extends BaseModel
     {
         return DB::table('kelompok_mhs')
         ->where('id_kelompok', $id)
+        ->get();
+    }
+
+    public static function getTopik()
+    {
+        return DB::table('topik')
         ->get();
     }
 
@@ -127,10 +134,23 @@ class KelompokModel extends BaseModel
         return DB::table('dosen_kelompok as a')
             ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
             ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-            ->where('a.id_kelompok', $id_kelompok)
             ->where('a.status_dosen','pembimbing 1')
+            ->where('a.id_kelompok', $id_kelompok)
             ->orwhere('a.status_dosen', 'pembimbing 2')
+            ->where('a.id_kelompok', $id_kelompok)
             ->get();
+    }
+
+    public static function listDospenguji($id_kelompok)
+    {
+        return DB::table('dosen_kelompok as a')
+        ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
+        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
+        ->where('a.status_dosen', 'penguji 1')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->orwhere('a.status_dosen', 'penguji 2')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->get();
     }
     // pengecekan Dosbing
     public static function listDosbingAvail()
@@ -153,11 +173,11 @@ class KelompokModel extends BaseModel
         ->first();
     }
 
-    public static function checkStatusDosen($id_kelompok, $status)
+    public static function checkStatusDosen($id_kelompok, $id_dosen)
     {
         return DB::table('dosen_kelompok as a')
         ->where('a.id_kelompok', $id_kelompok)
-        ->where('a.status_dosen', $status)
+        ->where('a.id_dosen', $id_dosen)
         ->first();
     }
 

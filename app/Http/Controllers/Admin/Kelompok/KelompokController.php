@@ -68,10 +68,10 @@ class KelompokController extends BaseController
     {
         // authorize
         KelompokModel::authorize('U');
-        $cekStatusDosen = KelompokModel::checkStatusDosen( $request->id_kelompok, $request->status_dosen);
+        $cekStatusDosen = KelompokModel::checkStatusDosen( $request->id_kelompok, $request->id_dosen);
         // dd($cekStatusDosen);
         if ($cekStatusDosen) {
-            session()->flash('danger', 'Pembimbing Sudah ada');
+            session()->flash('danger', 'Dosen Sudah ada');
             return back();
         }
         // params
@@ -107,9 +107,11 @@ class KelompokController extends BaseController
 
         // get data with pagination
         $kelompok = KelompokModel::getDataById($id);
+        $rs_topik = KelompokModel::getTopik();
         $rs_mahasiswa = KelompokModel::listKelompokMahasiswa($id);
         $rs_mahasiswa_nokel = KelompokModel::listKelompokMahasiswaNokel($kelompok->id_topik);
         $rs_dosbing = KelompokModel::listDosbing($id);
+        $rs_dospenguji = KelompokModel::listDospenguji($id);
         $rs_dosbing_avail = KelompokModel::listDosbingAvail();
         $rs_dosbing_avail_arr = [];
 
@@ -134,8 +136,10 @@ class KelompokController extends BaseController
         // data
         $data = [
             'kelompok' => $kelompok,
+            'rs_topik' => $rs_topik,
             'rs_mahasiswa' => $rs_mahasiswa,
             'rs_dosbing' => $rs_dosbing,
+            'rs_dospenguji' => $rs_dospenguji,
             'rs_mahasiswa_nokel' => $rs_mahasiswa_nokel,
             'rs_dosbing_avail' =>  $rs_dosbing_avail_arr
         ];
@@ -252,6 +256,9 @@ class KelompokController extends BaseController
         // params
         $params = [
             "nomor_kelompok" => $request->nomor_kelompok,
+            "judul_ta" => $request->judul_ta,
+            "id_topik" => $request->topik,
+            "status_kelompok" => $request->status_kelompok,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];

@@ -60,7 +60,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label>Email<span class="text-danger">*</span></label>
-                                                    <input type="email" class="form-control" name="user_email" value="{{ old('user_email',$account->user_email) }}" required readonly disabled>
+                                                    <input type="email" class="form-control" name="user_email" value="{{ old('user_email',$account->user_email) }}" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">

@@ -86,22 +86,22 @@ class JadwalSidangProposalController extends BaseController
         // process
         $insert = JadwalSidangProposalModel::insertJadwalSidangProposal($params);
         if ($insert) {
-            $paramsDos1 = [
-                'id_kelompok' => $request->id_kelompok,
-                'id_dosen' => $request->id_dosen_1,
-                'status_dosen' => 'penguji 1',
-                'status_persetujuan' => 'menunggu persetujuan',
-            ];
-            $paramsDos2 = [
-                'id_kelompok' => $request->id_kelompok,
-                'id_dosen' => $request->id_dosen_2,
-                'status_dosen' => 'penguji 2',
-                'status_persetujuan' => 'menunggu persetujuan',
-            ];
+            // $paramsDos1 = [
+            //     'id_kelompok' => $request->id_kelompok,
+            //     'id_dosen' => $request->id_dosen_1,
+            //     'status_dosen' => 'penguji 1',
+            //     'status_persetujuan' => 'menunggu persetujuan',
+            // ];
+            // $paramsDos2 = [
+            //     'id_kelompok' => $request->id_kelompok,
+            //     'id_dosen' => $request->id_dosen_2,
+            //     'status_dosen' => 'penguji 2',
+            //     'status_persetujuan' => 'menunggu persetujuan',
+            // ];
 
-            // process
-            JadwalSidangProposalModel::insertDosenKelompok($paramsDos1);
-            JadwalSidangProposalModel::insertDosenKelompok($paramsDos2);
+            // // process
+            // JadwalSidangProposalModel::insertDosenKelompok($paramsDos1);
+            // JadwalSidangProposalModel::insertDosenKelompok($paramsDos2);
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
@@ -117,6 +117,7 @@ class JadwalSidangProposalController extends BaseController
         // authorize
         JadwalSidangProposalModel::authorize('C');
         $jadwalSidang = JadwalSidangProposalModel::getjadwalSidang($id);
+        $jadwalSidang = JadwalSidangProposalModel::getjadwalSidang2($id, $jadwalSidang->id_kelompok);
         
         $rs_siklus = JadwalSidangProposalModel::getSiklus();
         $rs_kelompok = JadwalSidangProposalModel::getKelompok();
@@ -149,10 +150,10 @@ class JadwalSidangProposalController extends BaseController
         // authorize
         JadwalSidangProposalModel::authorize('U');
 
-        if ($request->id_dosen_2 == $request->id_dosen_1) {
-            session()->flash('danger', 'Dosen Tidak boleh sama!');
-            return back();
-        }
+        // if ($request->id_dosen_2 == $request->id_dosen_1) {
+        //     session()->flash('danger', 'Dosen Tidak boleh sama!');
+        //     return back();
+        // }
         $params = [
             'siklus_id' => $request->siklus_id,
             'id_kelompok' => $request->id_kelompok,
@@ -166,22 +167,22 @@ class JadwalSidangProposalController extends BaseController
         // process
         $insert = JadwalSidangProposalModel::updateJadwalSidangProposal($request->id, $params);
         if ($insert) {
-            $paramsDos1 = [
-                'id_kelompok' => $request->id_kelompok,
-                'id_dosen' => $request->id_dosen_1,
-                'status_dosen' => 'penguji 1',
-                'status_persetujuan' => 'menunggu persetujuan',
-            ];
-            $paramsDos2 = [
-                'id_kelompok' => $request->id_kelompok,
-                'id_dosen' => $request->id_dosen_2,
-                'status_dosen' => 'penguji 2',
-                'status_persetujuan' => 'menunggu persetujuan',
-            ];
+            // $paramsDos1 = [
+            //     'id_kelompok' => $request->id_kelompok,
+            //     'id_dosen' => $request->id_dosen_1,
+            //     'status_dosen' => 'penguji 1',
+            //     'status_persetujuan' => 'menunggu persetujuan',
+            // ];
+            // $paramsDos2 = [
+            //     'id_kelompok' => $request->id_kelompok,
+            //     'id_dosen' => $request->id_dosen_2,
+            //     'status_dosen' => 'penguji 2',
+            //     'status_persetujuan' => 'menunggu persetujuan',
+            // ];
 
-            // process
-            JadwalSidangProposalModel::updateDosenKelompok($request->id_dosen1, $paramsDos1);
-            JadwalSidangProposalModel::updateDosenKelompok($request->id_dosen2, $paramsDos2);
+            // // process
+            // JadwalSidangProposalModel::updateDosenKelompok($request->id_dosen1, $paramsDos1);
+            // JadwalSidangProposalModel::updateDosenKelompok($request->id_dosen2, $paramsDos2);
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
