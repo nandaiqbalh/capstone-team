@@ -83,7 +83,7 @@
                 {{ csrf_field()}}
                 <div class="mb-2">
                   <label for="email">ID Pengguna</label>
-                  <input type="text" class="form-control" name="id_pengguna" value="{{ old('id_pengguna') }}" minlength="6" maxlength="15" placeholder="" pattern="[0-9]+" required>
+                  <input type="text" class="form-control" name="id_pengguna" value="{{ old('id_pengguna') }}" minlength="6" maxlength="25" placeholder="" required>
                 </div>
                 <div class="mb-2 form-password-toggle">
                   <div class="d-flex justify-content-between">

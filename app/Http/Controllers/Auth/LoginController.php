@@ -42,7 +42,7 @@ class LoginController extends Controller
     {
         // Validate & auto redirect when fail
         $rules = [
-            'id_pengguna' => 'required|digits_between:6,15|numeric',
+            'id_pengguna' => 'required',
             'password' => 'required|min:8|max:20',
         ];
         $this->validate($request, $rules);
