@@ -156,7 +156,7 @@ class MahasiswaExpoController extends BaseController
             ];
             if (MahasiswaExpoModel::updateKelompokMHS($id_kelompok, $params)) {
                 // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
+                session()->flash('success', 'Data berhasil disimpan.');
                 return back();
             } else {
                 // flash message

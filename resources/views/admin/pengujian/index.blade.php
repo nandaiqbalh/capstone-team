@@ -19,7 +19,7 @@ Pengujian
             <div class="row mb-2">
                 <div class="col-md-12">
                     <form class="form-inline" action="{{ url('/dosen/pengujian') }}" method="get" autocomplete="off">
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-auto mt-1">
                                 <input class="form-control mr-sm-2" type="search" name="nama" value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama Role" minlength="3" required>
                             </div>
@@ -31,7 +31,7 @@ Pengujian
                                     <i class="bx bx-reset"></i>
                                 </button>
                             </div>
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
             </div>
