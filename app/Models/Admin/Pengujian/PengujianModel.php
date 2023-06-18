@@ -23,10 +23,6 @@ class PengujianModel extends BaseModel
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->join('dosen_kelompok as c', 'a.id', 'c.id_kelompok')
             ->join('jadwal_sidang_proposal as d', 'a.id', 'd.id_kelompok')
-            ->select('a.*', 'b.nama as nama_topik', 'c.status_dosen', 'c.status_persetujuan', 'c.id as id_dosen_kelompok', 'd.tanggal_mulai', 'd.waktu', 'd.ruangan')
-            ->join('topik as b', 'a.id_topik', 'b.id')
-            ->join('dosen_kelompok as c', 'a.id', 'c.id_kelompok')
-            ->join('jadwal_sidang_proposal as d', 'a.id', 'd.id_kelompok')
             ->where('c.id_dosen', Auth::user()->user_id)
             ->where(function ($query) {
                 $query->where('c.status_dosen', 'penguji 1')
