@@ -46,6 +46,8 @@ Pengujian
                             <th>Nomor Kelompok</th>
                             <th>Judul TA</th>
                             <th>Topik</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
                             <th>Dosen</th>
                             <th>Status</th>
                             <th>Ruangan</th>
@@ -60,6 +62,8 @@ Pengujian
                             <td>{{ $kelompok->nomor_kelompok }}</td>
                             <td>{{ $kelompok->judul_ta }}</td>
                             <td>{{ $kelompok->nama_topik }}</td>
+                            <td>{{ $kelompok->tanggal_mulai }}</td>
+                            <td>{{ $kelompok->waktu }}</td>
                             <td>{{ $kelompok->status_dosen }}</td>
                             <td>{{ $kelompok->status_persetujuan }}</td>
                             <td>{{ $kelompok->ruangan }}</td>
