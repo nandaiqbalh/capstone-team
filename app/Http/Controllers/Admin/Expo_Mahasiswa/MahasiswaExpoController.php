@@ -160,7 +160,7 @@ class MahasiswaExpoController extends BaseController
                 return back();
             } else {
                 // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
+                session()->flash('danger', 'Data sudah ada.');
                 return back();
             }
         } else {

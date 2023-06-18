@@ -181,6 +181,14 @@ class KelompokModel extends BaseModel
         ->first();
     }
 
+    public static function checkPosisi($id_kelompok, $status)
+    {
+        return DB::table('dosen_kelompok as a')
+        ->where('a.id_kelompok', $id_kelompok)
+        ->where('a.status_dosen', $status)
+        ->first();
+    }
+
     public static function updateKelompokMHS($user_id, $params)
     {
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);

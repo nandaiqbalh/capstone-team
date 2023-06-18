@@ -68,10 +68,12 @@ class KelompokController extends BaseController
     {
         // authorize
         KelompokModel::authorize('U');
-        $cekStatusDosen = KelompokModel::checkStatusDosen( $request->id_kelompok, $request->id_dosen);
-        // dd($cekStatusDosen);
-        if ($cekStatusDosen) {
-            session()->flash('danger', 'Dosen Sudah ada');
+        $cekDosen = KelompokModel::checkStatusDosen( $request->id_kelompok, $request->id_dosen);
+        $cekPosisi = KelompokModel::checkPosisi( $request->id_kelompok, $request->status_dosen);
+
+        // dd($cekPosisi);
+        if ($cekDosen || $cekPosisi ) {
+            session()->flash('danger', 'Dosen / Posisi Sudah ada');
             return back();
         }
         // params

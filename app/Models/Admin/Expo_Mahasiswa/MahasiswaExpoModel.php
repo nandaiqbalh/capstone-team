@@ -24,7 +24,7 @@ class MahasiswaExpoModel extends BaseModel
             ->select('a.*')
             ->join('siklus as b','a.id_siklus','b.id')
             ->where('b.status','aktif')
-            ->where('b.id_mahasiswa',Auth::user()->user_id)            
+            ->where('a.id_mahasiswa',Auth::user()->user_id)            
             ->first();
     }
     // get all data
