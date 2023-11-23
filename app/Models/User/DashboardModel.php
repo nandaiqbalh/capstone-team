@@ -21,7 +21,7 @@ class DashboardModel extends BaseModel
     public static function holdingOpRekapitulasiNilai() {
         // nilai tiap rs
         $rs_branch_nilai = DashboardModel::holdingOpRekapitulasiNilaiTiapRs();
-        
+
         // list bulan
         $rs_bulan = parent::bulanIndo();
 
@@ -37,7 +37,7 @@ class DashboardModel extends BaseModel
             //     $rs_branch_nilai->median($value),
             //     $rs_branch_nilai->average($value)
             // ] ;
-            
+
             // format tiap fungsi min, max, median, average
             // min
             // cek key ada atau tidak
@@ -107,7 +107,7 @@ class DashboardModel extends BaseModel
         // B = 0.5
         // C = 0.25
         $rs_branch_nilai = $rs_branch->each(function($item, $key) use($rs_bulan){
-            
+
             // total komponen
             $rs_total = DashboardModel::holdingOpTotalKomponenSetiapBulanBy($item->id, date('Y'));
             // total scor A B C
@@ -115,7 +115,7 @@ class DashboardModel extends BaseModel
             $score_b = DashboardModel::holdingOpTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),'B');
             $score_c = DashboardModel::holdingOpTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),'C');
             $score_belum_dinilai = DashboardModel::holdingOpTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),NULL);
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -139,7 +139,7 @@ class DashboardModel extends BaseModel
     public static function holdingOpRekapitulasiNilai3TeringgiTerendah() {
         // nilai tiap rs
         $rs_branch_nilai = DashboardModel::holdingOpRekapitulasiNilaiTiapRs();
-        
+
         // jika tidak ada rs
         // berikan nilai default
         if($rs_branch_nilai->count() < 1) {
@@ -185,7 +185,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 1
             if(array_key_exists('tertinggi_1', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_1'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[0] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[0] ?? 0
@@ -200,7 +200,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 2
             if(array_key_exists('tertinggi_2', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_2'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[1] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[1] ?? 0
@@ -215,7 +215,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 3
             if(array_key_exists('tertinggi_3', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_3'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[2] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[2] ?? 0
@@ -232,10 +232,10 @@ class DashboardModel extends BaseModel
             // data terendah
             // data tertinggi
             $arr_nilai_terendah = array_slice($data_nilai[$bulan],-3,3);
-            
+
             // tertinggi 1
             if(array_key_exists('terendah_1', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_1'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[0] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[0] ?? 0
@@ -250,7 +250,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 2
             if(array_key_exists('terendah_2', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_2'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[1] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[1] ?? 0
@@ -265,7 +265,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 3
             if(array_key_exists('terendah_3', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_3'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[2] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[2] ?? 0
@@ -342,7 +342,7 @@ class DashboardModel extends BaseModel
             $total_tidak_rapih = DashboardModel::holdingOpGetTotalKomponenParameterBy($value->id, $year,'Tidak Rapih');
             $total_tidak_tampak_baru = DashboardModel::holdingOpGetTotalKomponenParameterBy($value->id, $year,'Tidak Tampak Baru');
             $total_tidak_ramah_lingkungan = DashboardModel::holdingOpGetTotalKomponenParameterBy($value->id, $year,'Tidak Ramah Lingkungan');
-            
+
             // masukan ke dalam data penampung
             $data[$key] = [
                 'branch_name'=> $value->branch_name,
@@ -357,7 +357,7 @@ class DashboardModel extends BaseModel
 
         // ubah ke collection
         $rs_parameter = collect($data);
-        
+
         // --------------------------------------------------------------
         // hitung min,max,median,average tiap bulan seluruh rs
         // dd($rs_parameter['08']->max('persen_aman'));
@@ -393,7 +393,7 @@ class DashboardModel extends BaseModel
             round(floatval($rs_parameter->average('persen_tampak_baru')),2),
             round(floatval($rs_parameter->average('persen_ramah_lingkungan')),2),
         ];
-        
+
         return $final_data;
     }
 
@@ -426,12 +426,12 @@ class DashboardModel extends BaseModel
 
         // perhitungan
         $rs_perbaikan = $rs_branch->each(function($item, $key) use($rs_bulan,$year){
-            
+
             // total komponen
             $rs_total_komponen = DashboardModel::holdingOpTotalKomponenSetiapBulanBy($item->id, $year);
             // total scor B
             $rs_total_perbaikan = DashboardModel::holdingOpTotalKomponenScoreSetiapBulanBy($item->id, $year,'B');
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -505,7 +505,7 @@ class DashboardModel extends BaseModel
                 ];
             }
         };
-        
+
         return $final_data;
     }
 
@@ -520,12 +520,12 @@ class DashboardModel extends BaseModel
 
         // perhitungan
         $rs_perbaikan = $rs_branch->each(function($item, $key) use($rs_bulan,$year){
-            
+
             // total komponen
             $rs_total_komponen = DashboardModel::holdingOpTotalKomponenSetiapBulanBy($item->id, $year);
             // total scor B
             $rs_total_penggantian = DashboardModel::holdingOpTotalKomponenScoreSetiapBulanBy($item->id, $year,'C');
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -599,7 +599,7 @@ class DashboardModel extends BaseModel
                 ];
             }
         };
-        
+
         return $final_data;
     }
 
@@ -638,7 +638,7 @@ class DashboardModel extends BaseModel
                 }
             }
         }
-        
+
         return $final_data;
     }
 
@@ -678,7 +678,7 @@ class DashboardModel extends BaseModel
 
         // nilai tiap rs
         $rs_branch_nilai = DashboardModel::holdingRgRekapitulasiNilaiTiapRs();
-        
+
         // list bulan
         $rs_bulan = parent::bulanIndo();
 
@@ -686,7 +686,7 @@ class DashboardModel extends BaseModel
         $final_data = [];
         foreach ($rs_bulan as $key => $value) {
             // hitung menggunakan fungsi bawaan collection
-            
+
             // format tiap fungsi min, max, median, average
             // min
             // cek key ada atau tidak
@@ -746,10 +746,10 @@ class DashboardModel extends BaseModel
 
     // rekapitulasi tiap rumah sakit tiap bulan
     public static function holdingRgRekapitulasiNilaiTiapRs() {
-        
+
         // list branch
         $rs_branch = DashboardModel::getListBranchByRegional('Regional '.Auth::user()->region_id);
-        
+
         // list bulan
         $rs_bulan = parent::bulanIndo();
 
@@ -758,7 +758,7 @@ class DashboardModel extends BaseModel
         // B = 0.5
         // C = 0.25
         $rs_branch_nilai = $rs_branch->each(function($item, $key) use($rs_bulan){
-            
+
             // total komponen
             $rs_total = DashboardModel::holdingRgTotalKomponenSetiapBulanBy($item->id, date('Y'));
             // total scor A B C
@@ -766,7 +766,7 @@ class DashboardModel extends BaseModel
             $score_b = DashboardModel::holdingRgTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),'B');
             $score_c = DashboardModel::holdingRgTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),'C');
             $score_belum_dinilai = DashboardModel::holdingRgTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),NULL);
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -835,7 +835,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 1
             if(array_key_exists('tertinggi_1', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_1'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[0] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[0] ?? 0
@@ -850,7 +850,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 2
             if(array_key_exists('tertinggi_2', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_2'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[1] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[1] ?? 0
@@ -865,7 +865,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 3
             if(array_key_exists('tertinggi_3', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_3'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[2] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[2] ?? 0
@@ -882,10 +882,10 @@ class DashboardModel extends BaseModel
             // data terendah
             // data tertinggi
             $arr_nilai_terendah = array_slice($data_nilai[$bulan],-3,3);
-            
+
             // tertinggi 1
             if(array_key_exists('terendah_1', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_1'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[0] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[0] ?? 0
@@ -900,7 +900,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 2
             if(array_key_exists('terendah_2', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_2'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[1] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[1] ?? 0
@@ -915,7 +915,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 3
             if(array_key_exists('terendah_3', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_3'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[2] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[2] ?? 0
@@ -992,7 +992,7 @@ class DashboardModel extends BaseModel
             $total_tidak_rapih = DashboardModel::holdingRgGetTotalKomponenParameterBy($value->id, $year,'Tidak Rapih');
             $total_tidak_tampak_baru = DashboardModel::holdingRgGetTotalKomponenParameterBy($value->id, $year,'Tidak Tampak Baru');
             $total_tidak_ramah_lingkungan = DashboardModel::holdingRgGetTotalKomponenParameterBy($value->id, $year,'Tidak Ramah Lingkungan');
-            
+
             // masukan ke dalam data penampung
             $data[$key] = [
                 'branch_name'=> $value->branch_name,
@@ -1007,7 +1007,7 @@ class DashboardModel extends BaseModel
 
         // ubah ke collection
         $rs_parameter = collect($data);
-        
+
         // --------------------------------------------------------------
         // hitung min,max,median,average tiap bulan seluruh rs
         // dd($rs_parameter['08']->max('persen_aman'));
@@ -1043,7 +1043,7 @@ class DashboardModel extends BaseModel
             round(floatval($rs_parameter->average('persen_tampak_baru')),2),
             round(floatval($rs_parameter->average('persen_ramah_lingkungan')),2),
         ];
-        
+
         return $final_data;
     }
 
@@ -1076,12 +1076,12 @@ class DashboardModel extends BaseModel
 
         // perhitungan
         $rs_perbaikan = $rs_branch->each(function($item, $key) use($rs_bulan,$year){
-            
+
             // total komponen
             $rs_total_komponen = DashboardModel::holdingRgTotalKomponenSetiapBulanBy($item->id, $year);
             // total scor B
             $rs_total_perbaikan = DashboardModel::holdingRgTotalKomponenScoreSetiapBulanBy($item->id, $year,'B');
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -1155,7 +1155,7 @@ class DashboardModel extends BaseModel
                 ];
             }
         };
-        
+
         return $final_data;
     }
 
@@ -1170,12 +1170,12 @@ class DashboardModel extends BaseModel
 
         // perhitungan
         $rs_perbaikan = $rs_branch->each(function($item, $key) use($rs_bulan,$year){
-            
+
             // total komponen
             $rs_total_komponen = DashboardModel::holdingRgTotalKomponenSetiapBulanBy($item->id, $year);
             // total scor B
             $rs_total_penggantian = DashboardModel::holdingRgTotalKomponenScoreSetiapBulanBy($item->id, $year,'C');
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -1249,7 +1249,7 @@ class DashboardModel extends BaseModel
                 ];
             }
         };
-        
+
         return $final_data;
     }
 
@@ -1288,29 +1288,29 @@ class DashboardModel extends BaseModel
                 }
             }
         }
-        
+
         return $final_data;
     }
 
-    // get submit terlambat bulanan
-    public static function holdingRgGetListTerlambatSubmitSemuaBulan($round_id, $year ) {
-        $rs_bulan = parent::bulanIndo();
+    // // get submit terlambat bulanan
+    // public static function holdingRgGetListTerlambatSubmitSemuaBulan($round_id, $year ) {
+    //     $rs_bulan = parent::bulanIndo();
 
-        $data = [];
-        foreach ($rs_bulan as $key => $value) {
-            $data[$value] =  DB::table('branch_assessment as a')
-                ->join('master_branch as b','a.branch_id','=','b.id')
-                ->where('a.round_id', $round_id)
-                ->whereNotNull('a.verifikator_2_approved_by_system')
-                ->whereMonth('a.created_date', $key)
-                ->whereYear('a.created_date', $year)
-                ->where('a.status','selesai')
-                ->where('a.data_status','1')
-                ->where('b.region_name', 'Regional '.Auth::user()->region_id)
-                ->count('a.verifikator_2_approved_by_system');
-        }
-        return $data;
-    }
+    //     $data = [];
+    //     foreach ($rs_bulan as $key => $value) {
+    //         $data[$value] =  DB::table('branch_assessment as a')
+    //             ->join('master_branch as b','a.branch_id','=','b.id')
+    //             ->where('a.round_id', $round_id)
+    //             ->whereNotNull('a.verifikator_2_approved_by_system')
+    //             ->whereMonth('a.created_date', $key)
+    //             ->whereYear('a.created_date', $year)
+    //             ->where('a.status','selesai')
+    //             ->where('a.data_status','1')
+    //             ->where('b.region_name', 'Regional '.Auth::user()->region_id)
+    //             ->count('a.verifikator_2_approved_by_system');
+    //     }
+    //     return $data;
+    // }
 
     // list ronde
     public static function holdingRgGetListRonde() {
@@ -1321,15 +1321,15 @@ class DashboardModel extends BaseModel
             ->get();
     }
 
-    // get list branch
-    public static function getListBranchByRegional($region_name) {
-        return DB::table('master_branch as a')
-            ->select('a.id','a.name as branch_name')
-            ->where('a.region_name', $region_name)
-            ->where('a.data_status','1')
-            ->orderBy('a.name','asc')
-            ->get();
-    }
+    // // get list branch
+    // public static function getListBranchByRegional($region_name) {
+    //     return DB::table('master_branch as a')
+    //         ->select('a.id','a.name as branch_name')
+    //         ->where('a.region_name', $region_name)
+    //         ->where('a.data_status','1')
+    //         ->orderBy('a.name','asc')
+    //         ->get();
+    // }
 
     public static function holdingRgTotalPekerjaanTiapBulanByTahunByScore($month, $year, $score){
         $rs_rumah_sakit = DashboardModel::getListBranchByRegional('Regional '.Auth::user()->region_id)->pluck('id');
@@ -1385,7 +1385,7 @@ class DashboardModel extends BaseModel
                 }
             }
         }
-        
+
         return $final_data;
     }
 
@@ -1410,7 +1410,7 @@ class DashboardModel extends BaseModel
         return $data;
     }
 
-     
+
     // -------------------------------------------------------------------------------------
     /**
      * VALIDATOR
@@ -1419,7 +1419,7 @@ class DashboardModel extends BaseModel
     public static function validatorRekapitulasiNilai() {
         // nilai tiap rs
         $rs_branch_nilai = DashboardModel::validatorRekapitulasiNilaiTiapRs();
-        
+
         // list bulan
         $rs_bulan = parent::bulanIndo();
 
@@ -1435,7 +1435,7 @@ class DashboardModel extends BaseModel
             //     $rs_branch_nilai->median($value),
             //     $rs_branch_nilai->average($value)
             // ] ;
-            
+
             // format tiap fungsi min, max, median, average
             // min
             // cek key ada atau tidak
@@ -1505,7 +1505,7 @@ class DashboardModel extends BaseModel
         // B = 0.5
         // C = 0.25
         $rs_branch_nilai = $rs_branch->each(function($item, $key) use($rs_bulan){
-            
+
             // total komponen
             $rs_total = DashboardModel::validatorTotalKomponenSetiapBulanBy($item->id, date('Y'));
             // total scor A B C
@@ -1513,7 +1513,7 @@ class DashboardModel extends BaseModel
             $score_b = DashboardModel::validatorTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),'B');
             $score_c = DashboardModel::validatorTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),'C');
             $score_belum_dinilai = DashboardModel::validatorTotalKomponenScoreSetiapBulanBy($item->id, date('Y'),NULL);
-            
+
             // tambah key dan nilai persen abrt-rl
             foreach ($rs_bulan as $index => $value) {
                 // jika $rs_total[$index]
@@ -1537,7 +1537,7 @@ class DashboardModel extends BaseModel
     public static function validatorRekapitulasiNilai3TeringgiTerendah() {
         // nilai tiap rs
         $rs_branch_nilai = DashboardModel::validatorRekapitulasiNilaiTiapRs();
-        
+
         // jika tidak ada rs
         // berikan nilai default
         if($rs_branch_nilai->count() < 1) {
@@ -1583,7 +1583,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 1
             if(array_key_exists('tertinggi_1', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_1'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[0] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[0] ?? 0
@@ -1598,7 +1598,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 2
             if(array_key_exists('tertinggi_2', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_2'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[1] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[1] ?? 0
@@ -1613,7 +1613,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 3
             if(array_key_exists('tertinggi_3', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['tertinggi_3'], array(
                     'branch'=> array_keys($arr_nilai_tertinggi)[2] ?? '',
                     'nilai' => array_values($arr_nilai_tertinggi)[2] ?? 0
@@ -1630,10 +1630,10 @@ class DashboardModel extends BaseModel
             // data terendah
             // data tertinggi
             $arr_nilai_terendah = array_slice($data_nilai[$bulan],-3,3);
-            
+
             // tertinggi 1
             if(array_key_exists('terendah_1', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_1'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[0] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[0] ?? 0
@@ -1648,7 +1648,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 2
             if(array_key_exists('terendah_2', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_2'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[1] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[1] ?? 0
@@ -1663,7 +1663,7 @@ class DashboardModel extends BaseModel
 
             // tertinggi 3
             if(array_key_exists('terendah_3', $data)) {
-                // jika sudah ada 
+                // jika sudah ada
                 array_push($data['terendah_3'], array(
                     'branch'=> array_keys($arr_nilai_terendah)[2] ?? '',
                     'nilai' => array_values($arr_nilai_terendah)[2] ?? 0
@@ -1680,15 +1680,15 @@ class DashboardModel extends BaseModel
         return $data;
     }
 
-    // get list branch
-    public static function getListBranch($name) {
-        return DB::table('master_branch as a')
-            ->select('a.id','a.name as branch_name')
-            ->where('a.data_status','1')
-            ->where('a.name','LIKE','%'.$name.'%')
-            ->orderBy('a.name','asc')
-            ->get();
-    }
+    // // get list branch
+    // public static function getListBranch($name) {
+    //     return DB::table('master_branch as a')
+    //         ->select('a.id','a.name as branch_name')
+    //         ->where('a.data_status','1')
+    //         ->where('a.name','LIKE','%'.$name.'%')
+    //         ->orderBy('a.name','asc')
+    //         ->get();
+    // }
 
     // get total komponen penilaian by branch, month, year
     public static function validatorTotalKomponenSetiapBulanBy($branch_id,$year) {
@@ -1750,7 +1750,7 @@ class DashboardModel extends BaseModel
             $total_tidak_rapih = DashboardModel::validatorGetTotalKomponenParameterBy($value->id, $year,'Tidak Rapih');
             $total_tidak_tampak_baru = DashboardModel::validatorGetTotalKomponenParameterBy($value->id, $year,'Tidak Tampak Baru');
             $total_tidak_ramah_lingkungan = DashboardModel::validatorGetTotalKomponenParameterBy($value->id, $year,'Tidak Ramah Lingkungan');
-            
+
             // masukan ke dalam data penampung
             $data[$key] = [
                 'branch_name'=> $value->branch_name,
@@ -1765,7 +1765,7 @@ class DashboardModel extends BaseModel
 
         // ubah ke collection
         $rs_parameter = collect($data);
-        
+
         // --------------------------------------------------------------
         // hitung min,max,median,average tiap bulan seluruh rs
         // dd($rs_parameter['08']->max('persen_aman'));
@@ -1801,7 +1801,7 @@ class DashboardModel extends BaseModel
             round(floatval($rs_parameter->average('persen_tampak_baru')),2),
             round(floatval($rs_parameter->average('persen_ramah_lingkungan')),2),
         ];
-        
+
         return $final_data;
     }
 
@@ -1858,7 +1858,7 @@ class DashboardModel extends BaseModel
                 }
             }
         }
-        
+
         return $final_data;
     }
 
@@ -1880,7 +1880,7 @@ class DashboardModel extends BaseModel
         return $data;
     }
 
-    
+
 
     // list ronde
     public static function validatorGetListRonde() {
@@ -1958,7 +1958,7 @@ class DashboardModel extends BaseModel
                 }
             }
         }
-        
+
         return $final_data;
     }
 
@@ -1986,13 +1986,13 @@ class DashboardModel extends BaseModel
      * VERIFIKATOR
      */
 
-     
+
     // -------------------------------------------------------------------------------------
     /**
      * CHECKER
      */
 
-    //  Progres checker 
+    //  Progres checker
     public static function checkerGetListRonde() {
         return DB::table('master_round')
             ->select('id','name as round_name')
@@ -2003,7 +2003,7 @@ class DashboardModel extends BaseModel
     // get data komponen yang sudah dinilai
     public static function getDataAssessment1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2023,7 +2023,7 @@ class DashboardModel extends BaseModel
     // get data komponen yang sudah dinilai
     public static function getDataAssessment2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2043,7 +2043,7 @@ class DashboardModel extends BaseModel
     // get data komponen yang sudah dinilai
     public static function getDataAssessment3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2083,7 +2083,7 @@ class DashboardModel extends BaseModel
     // get data komponen Round 1
     public static function getKomponenRound1() {
         return DB::table('branch_assessment_detail as a')
-        ->select('h.name as nama_komponen')            
+        ->select('h.name as nama_komponen')
         ->join('branch_assessment as b','a.branch_assessment_id','b.id')
         ->join('branch_items as c','a.branch_items_id','c.id')
         ->join('master_items as d', 'c.items_id','d.id')
@@ -2103,7 +2103,7 @@ class DashboardModel extends BaseModel
 
     public static function getKomponenRound2() {
         return DB::table('branch_assessment_detail as a')
-        ->select('h.name as nama_komponen')            
+        ->select('h.name as nama_komponen')
         ->join('branch_assessment as b','a.branch_assessment_id','b.id')
         ->join('branch_items as c','a.branch_items_id','c.id')
         ->join('master_items as d', 'c.items_id','d.id')
@@ -2122,7 +2122,7 @@ class DashboardModel extends BaseModel
     //         // get data komponen Round 3
     public static function getKomponenRound3() {
         return DB::table('branch_assessment_detail as a')
-        ->select('h.name as nama_komponen')            
+        ->select('h.name as nama_komponen')
         ->join('branch_assessment as b','a.branch_assessment_id','b.id')
         ->join('branch_items as c','a.branch_items_id','c.id')
         ->join('master_items as d', 'c.items_id','d.id')
@@ -2141,7 +2141,7 @@ class DashboardModel extends BaseModel
     // get data komponen Round 4
     public static function getKomponenRound4() {
         return DB::table('branch_assessment_detail as a')
-        ->select('h.name as nama_komponen')            
+        ->select('h.name as nama_komponen')
         ->join('branch_assessment as b','a.branch_assessment_id','b.id')
         ->join('branch_items as c','a.branch_items_id','c.id')
         ->join('master_items as d', 'c.items_id','d.id')
@@ -2158,7 +2158,7 @@ class DashboardModel extends BaseModel
         ->count();
     }
 
-    //  Nilai Checker 
+    //  Nilai Checker
     // get data komponen
     public static function getNilaiCheckerAllRound($round) {
         return DB::table('branch_assessment_detail as a')
@@ -2191,7 +2191,7 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-    
+
     // get data komponen Nilai R1
     public static function getDataNilaiR1() {
         return DB::table('branch_assessment_detail as a')
@@ -2290,10 +2290,10 @@ class DashboardModel extends BaseModel
             ->count();
     }
 
-    // get data parameter R1 
+    // get data parameter R1
     public static function getParameterAmanR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2312,7 +2312,7 @@ class DashboardModel extends BaseModel
     // get data parameter R2
     public static function getParameterAmanR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2328,10 +2328,10 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-    // get data parameter R1 
+    // get data parameter R1
     public static function getParameterAmanR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2350,7 +2350,7 @@ class DashboardModel extends BaseModel
     // get data parameter R4
     public static function getParameterAmanR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2366,10 +2366,10 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-      // get data parameter BersihR1 
+      // get data parameter BersihR1
       public static function getParameterBersihR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2388,7 +2388,7 @@ class DashboardModel extends BaseModel
     // get data parameter Bersih R2
     public static function getParameterBersihR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2404,10 +2404,10 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-    // get data parameter R1 
+    // get data parameter R1
     public static function getParameterBersihR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2426,7 +2426,7 @@ class DashboardModel extends BaseModel
     // get data parameter R4
     public static function getParameterBersihR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2445,7 +2445,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R1
     public static function getParameterRapihR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2464,7 +2464,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R2
     public static function getParameterRapihR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2483,7 +2483,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R3
     public static function getParameterRapihR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2502,7 +2502,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R4
     public static function getParameterRapihR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2521,7 +2521,7 @@ class DashboardModel extends BaseModel
         // get data parameter Tampak Baru R1
     public static function getParameterTampakBaruR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2540,7 +2540,7 @@ class DashboardModel extends BaseModel
         // get data parameter Tampak Baru R2
     public static function getParameterTampakBaruR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2559,7 +2559,7 @@ class DashboardModel extends BaseModel
         // get data parameter Tampak Baru R3
     public static function getParameterTampakBaruR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2578,7 +2578,7 @@ class DashboardModel extends BaseModel
     // get data parameter Tampak Baru R4
     public static function getParameterTampakBaruR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2597,7 +2597,7 @@ class DashboardModel extends BaseModel
         // get data parameter Ramah Lingkungan R1
     public static function getParameterRamahLingkunganR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2617,7 +2617,7 @@ class DashboardModel extends BaseModel
             // get data parameter Ramah Lingkungan R2
     public static function getParameterRamahLingkunganR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2636,7 +2636,7 @@ class DashboardModel extends BaseModel
     // get data parameter Ramah Lingkungan R3
     public static function getParameterRamahLingkunganR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2655,7 +2655,7 @@ class DashboardModel extends BaseModel
     // get data parameter Ramah Lingkungan R4
     public static function getParameterRamahLingkunganR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2672,11 +2672,11 @@ class DashboardModel extends BaseModel
             ->count();
     }
 
-    
-    // get data parameter R1 
+
+    // get data parameter R1
     public static function getParameterTidakAmanR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2695,7 +2695,7 @@ class DashboardModel extends BaseModel
     // get data parameter R2
     public static function getParameterTidakAmanR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2711,10 +2711,10 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-    // get data parameter R1 
+    // get data parameter R1
     public static function getParameterTidakAmanR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2733,7 +2733,7 @@ class DashboardModel extends BaseModel
     // get data parameter R4
     public static function getParameterTidakAmanR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2749,10 +2749,10 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-      // get data parameter BersihR1 
+      // get data parameter BersihR1
       public static function getParameterTidakBersihR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2771,7 +2771,7 @@ class DashboardModel extends BaseModel
     // get data parameter Bersih R2
     public static function getParameterTidakBersihR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2787,10 +2787,10 @@ class DashboardModel extends BaseModel
             ->whereYear('a.created_date',date('Y'))
             ->count();
     }
-    // get data parameter R1 
+    // get data parameter R1
     public static function getParameterTidakBersihR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2809,7 +2809,7 @@ class DashboardModel extends BaseModel
     // get data parameter R4
     public static function getParameterTidakBersihR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2828,7 +2828,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R1
     public static function getParameterTidakRapihR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2847,7 +2847,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R2
     public static function getParameterTidakRapihR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2866,7 +2866,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R3
     public static function getParameterTidakRapihR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2885,7 +2885,7 @@ class DashboardModel extends BaseModel
     // get data parameter Rapih R4
     public static function getParameterTidakRapihR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2904,7 +2904,7 @@ class DashboardModel extends BaseModel
         // get data parameter Tampak Baru R1
     public static function getParameterTidakTampakBaruR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2923,7 +2923,7 @@ class DashboardModel extends BaseModel
         // get data parameter Tampak Baru R2
     public static function getParameterTidakTampakBaruR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2942,7 +2942,7 @@ class DashboardModel extends BaseModel
         // get data parameter Tampak Baru R3
     public static function getParameterTidakTampakBaruR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2961,7 +2961,7 @@ class DashboardModel extends BaseModel
     // get data parameter Tampak Baru R4
     public static function getParameterTidakTampakBaruR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -2980,7 +2980,7 @@ class DashboardModel extends BaseModel
         // get data parameter Ramah Lingkungan R1
     public static function getParameterTidakRamahLingkunganR1() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -3000,7 +3000,7 @@ class DashboardModel extends BaseModel
             // get data parameter Ramah Lingkungan R2
     public static function getParameterTidakRamahLingkunganR2() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -3019,7 +3019,7 @@ class DashboardModel extends BaseModel
     // get data parameter Ramah Lingkungan R3
     public static function getParameterTidakRamahLingkunganR3() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -3038,7 +3038,7 @@ class DashboardModel extends BaseModel
     // get data parameter Ramah Lingkungan R4
     public static function getParameterTidakRamahLingkunganR4() {
         return DB::table('branch_assessment_detail as a')
-            ->select('h.name as nama_komponen')            
+            ->select('h.name as nama_komponen')
             ->join('branch_assessment as b','a.branch_assessment_id','b.id')
             ->join('branch_items as c','a.branch_items_id','c.id')
             ->join('master_items as d', 'c.items_id','d.id')
@@ -3074,7 +3074,7 @@ class DashboardModel extends BaseModel
 
 
     // ===========================
-    // get data Pekerjaan All Round 
+    // get data Pekerjaan All Round
     public static function getPekerjaanAll($monthNum, $YearDate, $round_id)
     {
         return DB::table('branch_assignment_detail as a')
@@ -3088,7 +3088,7 @@ class DashboardModel extends BaseModel
             ->count();
     }
 
-    //  get data pekerjaan 
+    //  get data pekerjaan
     public static function getPekerjaanAllPie($monthNum, $YearDate, $nilai)
     {
         return DB::table('branch_assignment_detail as a')
@@ -3103,7 +3103,7 @@ class DashboardModel extends BaseModel
             ->count();
     }
 
-    // get data komponen Pekerjaan 
+    // get data komponen Pekerjaan
     public static function getPekerjaanPie($monthNum, $YearDate, $round_id, $nilai,$status)
     {
         return DB::table('branch_assignment_detail as a')

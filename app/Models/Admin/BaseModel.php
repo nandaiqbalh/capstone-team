@@ -5,7 +5,7 @@ namespace App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class BaseModel 
+class BaseModel
 {
     // make microtime ID
     public static function makeMicrotimeID() {
@@ -27,14 +27,14 @@ class BaseModel
      * @type is C,R,U,D
      */
     public static function authorize($type) {
-        
+
         // get role permission by user
         $permission = DB::table('app_role')
                         ->select('role_permission')
                         ->join('app_role_user', 'app_role.role_id','=', 'app_role_user.role_id')
                         ->where('user_id', Auth::user()->user_id)
                         ->first();
-        
+
         // cek permission
         if(!empty($permission)) {
             if($type == 'C') {
@@ -91,16 +91,6 @@ class BaseModel
         return $data;
     }
 
-    // get nama Rumah Sakit By Branch_id
-    public static function getBranch() {
-        $data = DB::table('master_branch')
-                ->select('name')
-                ->where('id', Auth::user()->branch_id)
-                ->first();
-
-        return $data;
-    }
-
     // get parent menu utama
     public static function parentMenuUtama($user_id) {
         // get data
@@ -110,13 +100,13 @@ class BaseModel
                         ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
                         ->whereNull('a.parent_menu_id')
                         ->where([
-                            ['a.menu_display','=','1'], 
-                            ['a.menu_group', '=', 'utama'], 
+                            ['a.menu_display','=','1'],
+                            ['a.menu_group', '=', 'utama'],
                             ['c.user_id', '=', $user_id],
                         ])
                         ->orderBy('a.menu_sort', 'ASC')
                         ->get();
-        
+
         // return
         return $parent_menu_utama;
     }
@@ -130,12 +120,12 @@ class BaseModel
                         ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
                         ->where([
                             ['a.parent_menu_id','=', $menu_id],
-                            ['a.menu_display','=','1'], 
-                            ['a.menu_group', '=', 'utama'], 
+                            ['a.menu_display','=','1'],
+                            ['a.menu_group', '=', 'utama'],
                             ['c.user_id', '=', $user_id],
                         ])->orderBy('a.menu_sort', 'ASC')
                         ->get();
-        
+
         // return
         return $child_menu_utama;
     }
@@ -149,13 +139,13 @@ class BaseModel
                         ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
                         ->whereNull('a.parent_menu_id')
                         ->where([
-                            ['a.menu_display','=','1'], 
-                            ['a.menu_group', '=', 'system'], 
+                            ['a.menu_display','=','1'],
+                            ['a.menu_group', '=', 'system'],
                             ['c.user_id', '=', $user_id],
                         ])
                         ->orderBy('a.menu_sort', 'ASC')
                         ->get();
-        
+
         // return
         return $parent_menu_system;
     }
@@ -169,12 +159,12 @@ class BaseModel
                         ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
                         ->where([
                             ['a.parent_menu_id','=', $menu_id],
-                            ['a.menu_display','=','1'], 
-                            ['a.menu_group', '=', 'system'], 
+                            ['a.menu_display','=','1'],
+                            ['a.menu_group', '=', 'system'],
                             ['c.user_id', '=', $user_id],
                         ])->orderBy('a.menu_sort', 'ASC')
                         ->get();
-        
+
         // return
         return $child_menu_system;
     }
@@ -187,21 +177,6 @@ class BaseModel
     // bulan indoensia
     public static function bulanIndo() {
         return array('01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember');
-    }
-
-    // get target rata-rata nilai
-    public static function getAppSupportBy($key) {
-        return DB::table('app_supports')->where('key',$key)->value('value');
-    }
-
-    // get list branch by regional
-    public static function getListBranchByRegional($region_name) {
-        return DB::table('master_branch as a')
-            ->select('a.id','a.name as branch_name')
-            ->where('a.region_name', $region_name)
-            ->where('a.data_status','1')
-            ->orderBy('a.name','asc')
-            ->get();
     }
 
 }

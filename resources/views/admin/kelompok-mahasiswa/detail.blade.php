@@ -124,7 +124,7 @@
                         <br>
                         <h5 class="mb-0">Sidang Proposal</h5>
                         <br>
-                            
+
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover">
                                 <thead class="thead-light">
@@ -143,7 +143,7 @@
                                     <tr>
                                         <td>Ruangan</td>
                                         <td>:</td>
-                                        <td>{{ $proposal->ruangan }}</td>
+                                        {{-- <td>{{ $proposal->ruangan }}</td> --}}
                                     </tr>
                                 </tbody>
                             </table>
@@ -182,7 +182,7 @@
                             </table>
                         </div>
                         @endif
-                    
+
                     @else
                     <br>
                         <h5 class="mb-0">Anda Belum Memiliki Kelompok, Silahkan Daftar Terlebih dahulu</h5>
@@ -195,7 +195,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Daftar Kelompok</button>
                         </li>
-                        
+
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -242,7 +242,7 @@
                                         <input type="number" class="form-control" name="no_telp" value="{{ old('sks',$getAkun->no_telp) }}" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Pilih Siklus <span class="text-danger">*</span></label>
@@ -325,16 +325,16 @@
                                         <thead>
                                             <tr>
                                             <th scope="col">#</th>
-                                            @foreach ($rs_topik as $topik) 
+                                            @foreach ($rs_topik as $topik)
                                             <th scope="col">{{$topik->nama}}</th>
                                             @endforeach
-                                            
+
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                             <th scope="row">1</th>
-                                            @foreach ($rs_topik as $topik) 
+                                            @foreach ($rs_topik as $topik)
                                                 <td style="text-align: center">
                                                     <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="1" >
                                                 </td>
@@ -342,7 +342,7 @@
                                             </tr>
                                             <tr>
                                                 <th scope="row">2</th>
-                                            @foreach ($rs_topik as $topik) 
+                                            @foreach ($rs_topik as $topik)
                                                 <td style="text-align: center">
                                                     <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="2" >
                                                 </td>
@@ -350,7 +350,7 @@
                                             </tr>
                                             <tr>
                                                 <th scope="row">3</th>
-                                            @foreach ($rs_topik as $topik) 
+                                            @foreach ($rs_topik as $topik)
                                                 <td style="text-align: center">
                                                     <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="3" >
                                                 </td>
@@ -358,7 +358,7 @@
                                             </tr>
                                             <tr>
                                                 <th scope="row">4</th>
-                                            @foreach ($rs_topik as $topik) 
+                                            @foreach ($rs_topik as $topik)
                                                 <td style="text-align: center">
                                                     <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="4" >
                                                 </td>
@@ -465,7 +465,7 @@
                                             <input type="number" class="form-control" name="sks1" value="{{$getAkun->sks}}" required>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -534,7 +534,7 @@
                                             <input type="number" class="form-control" name="sks2" value="{{ old('sks2') }}" >
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -602,7 +602,7 @@
                                             <input type="number" class="form-control" name="sks3" value="{{ old('sks3') }}" >
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -631,7 +631,7 @@
                                 <br>
                                 <button type="submit" class="btn btn-primary float-end">Daftar</button>
                             </form>
-                            
+
                         </div>
                     </div>
 

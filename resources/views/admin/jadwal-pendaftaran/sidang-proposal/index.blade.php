@@ -35,7 +35,7 @@ Jadwal Sidang Proposal
                             <th>Nomor Kelompok</th>
                             <th>Tanggal</th>
                             <th>Waktu</th>
-                            <th>Ruangan</th>
+                            {{-- <th>Ruangan</th> --}}
                             <th>Tindakan</th>
                         </tr>
                     </thead>
@@ -48,14 +48,14 @@ Jadwal Sidang Proposal
                             <td>{{ $pendaftaran->nomor_kelompok }}</td>
                             <td>{{ $pendaftaran->tanggal_mulai }}</td>
                             <td>{{ $pendaftaran->waktu }}</td>
-                            <td>{{ $pendaftaran->ruangan }}</td>
+                            {{-- <td>{{ $pendaftaran->ruangan }}</td> --}}
                             <td class="text-center">
                                 <a href="{{ url('/admin/kelompok/detail') }}/{{ $pendaftaran->id_kelompok }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/edit') }}/{{ $pendaftaran->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                 <a href="{{ url('/admin/jadwal-pendaftaran/sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->nomor_kelompok }} ?')"> Hapus</a>
                             </td>
                         </tr>
-                        
+
                         @endforeach
                         @else
                         <tr>
@@ -101,7 +101,7 @@ Jadwal Sidang Proposal
                             </select>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -121,9 +121,9 @@ Jadwal Sidang Proposal
                             <input type="text" class="form-control" name="ruangan" value="{{ old('ruangan') }}" required>
                         </div>
                     </div>
-                </div>                           
+                </div>
                 <br>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

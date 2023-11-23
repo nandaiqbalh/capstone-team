@@ -29,7 +29,7 @@ class DashboardController extends BaseController
         $rs_jad_expo = Dashmo::getJadwalExpo();
         // dd($rs_broadcast);
 
-        
+
         // data
 
         $data = [

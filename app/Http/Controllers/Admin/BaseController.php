@@ -58,20 +58,10 @@ class BaseController extends Controller
             $user_role = BaseModel::getUserRole('');
             View::share('role_user', $user_role->role_name);
 
-            // get Version
-            $app_version = BaseModel::getAppSupportBy('app_version');
-            View::share('app_version', $app_version);
-
             // get user role id
             $role_id = BaseModel::getUserRoleId();
             View::share('role_id', $role_id);
 
-            // get Branch Name
-            $branch_name = BaseModel::getBranch();
-            if ($branch_name) {
-                View::share('branch_name', $branch_name->name);
-            }
-            
 
             // app name
             View::share('app_name', ucwords(strtolower(str_replace('-',' ',config('app.name')))));
@@ -89,10 +79,10 @@ class BaseController extends Controller
         $two_segment = request()->segment(1).'/'.request()->segment(2);
         $three_segment = request()->segment(1).'/'.request()->segment(2).'/'.request()->segment(3);
         $four_segment = request()->segment(1).'/'.request()->segment(2).'/'.request()->segment(3).'/'.request()->segment(4);
-        
+
         // cek database
         $menu2 = BaseModel::getMenuAccessByUrl($two_segment);
-        
+
         // segment 2 admin/..
         if(empty($menu2) || $menu2 == NULL ){
 
@@ -124,7 +114,7 @@ class BaseController extends Controller
                         return abort(503);
                     }
                 }
-                
+
             }
             else {
                 // cek if menu not active
@@ -213,28 +203,7 @@ class BaseController extends Controller
         return imagejpeg($image, $imageSource, $quality);
     }
 
-    /**
-     * YOUTUBE EMBED URL
-     */
-    public function getYoutubeEmbedUrl($url)
-    {
-         $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
-         $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
-    
-        if (preg_match($longUrlRegex, $url, $matches)) {
-            $youtube_id = $matches[count($matches) - 1];
-        }
-    
-        if (preg_match($shortUrlRegex, $url, $matches)) {
-            $youtube_id = $matches[count($matches) - 1];
-        }
 
-        $url = 'https://www.youtube.com/embed/' . $youtube_id;
-
-        return $url ;
-    }
-
-    
      /**
      * SEND MAIL
      */
@@ -247,11 +216,11 @@ class BaseController extends Controller
             return true;
         } catch (Throwable $e) {
             report($e);
-            
+
             return false;
         }
 
     }
 
-    
+
 }

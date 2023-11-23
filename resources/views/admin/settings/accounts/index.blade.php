@@ -63,10 +63,7 @@ Pengaturan Akun User
                             <td>{{ $account->nomor_induk }}</td>
                             <td>
                                 {{ $account->role_name }}
-                                <br>
-                                <small>
-                                    {{ $account->branch_name }}
-                                </small>
+
                             </td>
                             <td class="text-center">
                                 @if($account->user_active == '1')

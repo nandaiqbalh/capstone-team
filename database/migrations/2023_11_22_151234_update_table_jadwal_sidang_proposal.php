@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('jadwal_sidang_proposal', function (Blueprint $table) {
             $table->string('ruangan_id');
-            $table->dropColumn('new_column');
+            $table->dropColumn('ruangan');
         });
     }
 

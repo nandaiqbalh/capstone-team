@@ -3,7 +3,7 @@
                     <div class="mb-2 mb-md-0"> Copyright © {{date('Y')}} <strong>Teknik Komputer Undip</strong> </div>
                     <div>
                         <small>
-                            {{$app_version}}
+                            {{-- {{$app_version}} --}}
                         </small>
                     </div>
                 </div>

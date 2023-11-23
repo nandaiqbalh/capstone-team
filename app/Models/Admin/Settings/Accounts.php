@@ -11,10 +11,9 @@ class Accounts extends BaseModel
     public static function getAll()
     {
         return DB::table('app_user as a')
-            ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk', 'd.name as branch_name')
+            ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk')
             ->join('app_role_user as b', 'a.user_id', '=', 'b.user_id')
             ->join('app_role as c', 'b.role_id', '=', 'c.role_id')
-            ->leftJoin('master_branch as d', 'a.branch_id', '=', 'd.id')
             ->orderBy('a.user_name', 'asc')
             ->get();
     }
@@ -23,40 +22,26 @@ class Accounts extends BaseModel
     public static function getAllPaginate()
     {
         return DB::table('app_user as a')
-            ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk', 'd.name as branch_name')
+            ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk')
             ->join('app_role_user as b', 'a.user_id', '=', 'b.user_id')
             ->join('app_role as c', 'b.role_id', '=', 'c.role_id')
-            ->leftJoin('master_branch as d', 'a.branch_id', '=', 'd.id')
             ->orderBy('a.user_name', 'asc')
             ->paginate(20);
     }
 
     // get search
-    public static function getAllSearch($user_name, $branch_id)
+    public static function getAllSearch($user_name)
     {
-        if (!empty($branch_id)) {
-            return DB::table('app_user as a')
-                ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk', 'd.name as branch_name')
-                ->join('app_role_user as b', 'a.user_id', '=', 'b.user_id')
-                ->join('app_role as c', 'b.role_id', '=', 'c.role_id')
-                ->leftJoin('master_branch as d', 'a.branch_id', '=', 'd.id')
-                ->where('user_name', 'LIKE', "%" . $user_name . "%")
-                ->where('branch_id', $branch_id)
-                ->orderBy('a.user_name', 'asc')
-                ->paginate(10)
-                ->withQueryString();
-        } else {
 
             return DB::table('app_user as a')
-                ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk', 'd.name as branch_name')
+                ->select('a.user_id', 'a.user_name', 'a.user_email', 'a.user_active', 'c.role_name', 'nomor_induk')
                 ->join('app_role_user as b', 'a.user_id', '=', 'b.user_id')
                 ->join('app_role as c', 'b.role_id', '=', 'c.role_id')
-                ->leftJoin('master_branch as d', 'a.branch_id', '=', 'd.id')
                 ->where('user_name', 'LIKE', "%" . $user_name . "%")
                 ->orderBy('a.user_name', 'asc')
                 ->paginate(10)
                 ->withQueryString();
-        }
+
     }
 
     // get data by id
@@ -114,15 +99,4 @@ class Accounts extends BaseModel
         return DB::table('app_role_user')->where('user_id', $user_id)->update($params);
     }
 
-    // get rs
-    public static function getBranch()
-    {
-        return DB::table('master_branch')->select('id', 'name')->orderBy('name', 'asc')->get();
-    }
-
-    // get region
-    public static function getRegion()
-    {
-        return DB::table('master_region')->select('id', 'name')->get();
-    }
 }
