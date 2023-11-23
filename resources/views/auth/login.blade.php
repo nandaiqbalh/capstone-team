@@ -95,11 +95,11 @@
                   </div>
                   
                   
-                </div>
+                {{-- </div>
                 <div class="d-flex flex-row-reverse">
                   <a href="{{url('/lupa-password')}}">
                   <small>Lupa Kata Sandi?</small>
-                </a></div>
+                </a></div> --}}
 
                 <div class="mb-3">
                   {!! RecaptchaV3::field('register') !!}

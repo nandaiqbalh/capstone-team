@@ -309,7 +309,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mahasiswa/file-upload/edit-process', [UploadFileController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/file-upload/detail/{user_id}', [UploadFileController::class, 'detailSiklus']);
 
-    //mahasiswa Expo 
+    //mahasiswa Expo
     Route::get('/mahasiswa/expo', [MahasiswaExpoController::class, 'index']);
     Route::post('/mahasiswa/expo/daftar-process/{id}', [MahasiswaExpoController::class, 'daftar']);
     Route::post('/mahasiswa/expo/edit-process', [MahasiswaExpoController::class, 'editProcess']);

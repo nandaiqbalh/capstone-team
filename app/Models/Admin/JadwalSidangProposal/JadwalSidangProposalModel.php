@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class JadwalSidangProposalModel extends BaseModel
 {
+
+    public function ruangSidang()
+    {
+        return $this->belongsTo(RuangSidang::class, 'ruangan_id');
+    }
     // get all data
     // public static function getData()
     // {

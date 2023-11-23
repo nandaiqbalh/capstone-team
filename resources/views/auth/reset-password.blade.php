@@ -78,7 +78,7 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label">ID Pengguna</label>
-                            <input type="text" class="form-control" name="id_pengguna" value="{{ old('id_pengguna') }}" minlength="6" maxlength="11" pattern="[0-9]+" required>
+                            <input type="text" class="form-control" name="id_pengguna" value="{{ old('id_pengguna') }}" minlength="6" maxlength="25" pattern="[0-9]+" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
