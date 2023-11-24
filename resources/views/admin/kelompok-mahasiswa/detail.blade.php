@@ -40,9 +40,9 @@
                                         @endif
                                     </tr>
                                     <tr>
-                                        <td>Judul TA</td>
+                                        <td>Judul Capstone</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->judul_ta }}</td>
+                                        <td>{{ $kelompok->judul_capstone }}</td>
                                     </tr>
                                     <tr>
                                         <td>Topik</td>
@@ -402,7 +402,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label >Judul TA<span class="text-danger">*</span></label>
+                                            <label >Judul Capstone<span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" name="judul_ta" value="{{ old('judul_ta') }}" required>
                                         </div>
                                     </div>

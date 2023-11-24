@@ -89,15 +89,15 @@
                                         <input type="text" class="form-control" name="ruangan" value="{{ old('ruangan') }}" required>
                                     </div>
                                 </div>
-                            </div>                           
+                            </div>
                             <br>
-                            
+
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                         </div>
                     </form>
-                        
+
                     </div>
                 </div>
             </div>

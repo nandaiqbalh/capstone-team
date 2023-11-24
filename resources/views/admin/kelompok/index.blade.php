@@ -44,7 +44,7 @@ Kelompok
                             <th width="5%">No</th>
                             <th>Siklus</th>
                             <th>Kelompok</th>
-                            <th>Judul TA</th>
+                            <th>Judul Capstone</th>
                             <th>Topik</th>
                             <th>Tindakan</th>
                         </tr>
@@ -56,7 +56,7 @@ Kelompok
                             <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
                             <td>{{ $kelompok->tahun_ajaran }}</td>
                             <td>{{ $kelompok->nomor_kelompok }}</td>
-                            <td>{{ $kelompok->judul_ta }}</td>
+                            <td>{{ $kelompok->judul_capstone }}</td>
                             <td>{{ $kelompok->topik_name }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/kelompok/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>

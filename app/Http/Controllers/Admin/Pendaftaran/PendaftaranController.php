@@ -160,7 +160,7 @@ class PendaftaranController extends BaseController
             ];
             PendaftaranModel::updateKelompokMHS($request->id_mahasiswa3, $paramMhs3);
 
-            // insert dosen 
+            // insert dosen
             $paramDosen1 = [
                 'id_kelompok' => $id_kelompok,
                 'id_dosen' => $request->id_dosen1,
@@ -227,7 +227,7 @@ class PendaftaranController extends BaseController
         // authorize
         PendaftaranModel::authorize('U');
 
-        // get data 
+        // get data
         $mahasiswa = PendaftaranModel::getDataById($user_id);
 
         // check

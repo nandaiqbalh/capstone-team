@@ -36,14 +36,14 @@
                                         <td>:</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                     </tr>
-                                        <td>Judul TA</td>
+                                        <td>Judul Capstone</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->judul_ta }}</td>
+                                        <td>{{ $kelompok->judul_capstone }}</td>
                                     </tr>
                                     <tr>
                                         <td>Topik</td>
                                         <td>:</td>
-                                        <td>{{ $kelompok->nama_topik }}</td>    
+                                        <td>{{ $kelompok->nama_topik }}</td>
                                     </tr>
                                 </tbody>
                             </table>

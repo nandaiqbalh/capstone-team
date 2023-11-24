@@ -50,7 +50,7 @@
                             <td>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" name="judul_ta" value="{{ old('judul_ta',$kelompok->judul_ta) }}" placeholder="Masukan Judul Project" required>
+                                        <input type="text" class="form-control" name="judul_ta" value="{{ old('judul_ta',$kelompok->judul_capstone) }}" placeholder="Masukan Judul Project" required>
                                     </div>
                                 </div>
                             </td>
@@ -114,7 +114,7 @@
                             <th width="5%">No</th>
                             <th>Nama</th>
                             <th>NIM</th>
-                            <th>Judul TA</th>
+                            <th>Judul Capstone</th>
                             <th>Link File</th>
                             <th width="18%">Tindakan</th>
                         </tr>
@@ -238,10 +238,10 @@
             </div>
         </div>
         {{-- c series  --}}
-                            
-                            
 
-                        
+
+
+
 
         <div class="row">
             <div class="col-md-6">
@@ -340,7 +340,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         {{-- c series end  --}}
     </div>

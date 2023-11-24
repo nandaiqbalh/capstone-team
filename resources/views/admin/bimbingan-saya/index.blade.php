@@ -36,7 +36,7 @@ Bimbingan Saya
                 </div>
             </div>
             <br>
-            
+
 
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -44,7 +44,7 @@ Bimbingan Saya
                         <tr class="text-center">
                             <th width="5%">No</th>
                             <th>Nomor Kelompok</th>
-                            <th>Judul TA</th>
+                            <th>Judul Capstone</th>
                             <th>Topik</th>
                             <th>Dosen</th>
                             <th>Status</th>
@@ -57,13 +57,13 @@ Bimbingan Saya
                         <tr>
                             <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
                             <td>{{ $kelompok->nomor_kelompok }}</td>
-                            <td>{{ $kelompok->judul_ta }}</td>
+                            <td>{{ $kelompok->judul_capstone }}</td>
                             <td>{{ $kelompok->nama_topik }}</td>
                             <td>{{ $kelompok->status_dosen }}</td>
                             <td>{{ $kelompok->status_persetujuan }}</td>
 
                             <td class="text-center">
-                                @if($kelompok->status_persetujuan == 'disetujui') 
+                                @if($kelompok->status_persetujuan == 'disetujui')
                                 <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menolak {{ $kelompok->nomor_kelompok }} ?')"> Tolak</a>
                                 @elseif($kelompok->status_persetujuan == 'tidak disetujui')
                                 <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $kelompok->nomor_kelompok }} ?')">  Terima</a>

@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="card-body">
-                    
+
                     @if ($cekExpo == null)
                         @if ($kelengkapan != null)
                         <form action="{{ url('/mahasiswa/expo/edit-process') }}" method="post" autocomplete="off">
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <br>
                             <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                         </form>
@@ -74,7 +74,7 @@
                                         <td>{{ $expo->tanggal_mulai }}</td>
                                         <td>{{ $expo->tanggal_selesai }}</td>
                                         <td class="text-center">
-                                            @if ($id_kelompok != null)    
+                                            @if ($id_kelompok != null)
                                             <form action="{{ url('/mahasiswa/expo/daftar-process') }}/{{ $expo->id }}" method="post" autocomplete="off">
                                             {{ csrf_field()}}
                                             <input type="hidden" name="id_kelompok" value="{{$id_kelompok}}">
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <br>
                             <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                         </form>

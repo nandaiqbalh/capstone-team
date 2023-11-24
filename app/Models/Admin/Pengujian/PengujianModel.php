@@ -19,7 +19,7 @@ class PengujianModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik', 'c.status_dosen', 'c.status_persetujuan', 'c.id as id_dosen_kelompok', 'd.tanggal_mulai', 'd.waktu', 'd.ruangan')
+            ->select('a.*', 'b.nama as nama_topik', 'c.status_dosen', 'c.status_persetujuan', 'c.id as id_dosen_kelompok', 'd.tanggal_mulai', 'd.waktu', 'd.ruangan_id')
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->join('dosen_kelompok as c', 'a.id', 'c.id_kelompok')
             ->join('jadwal_sidang_proposal as d', 'a.id', 'd.id_kelompok')

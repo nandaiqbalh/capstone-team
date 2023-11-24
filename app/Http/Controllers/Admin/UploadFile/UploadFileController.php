@@ -33,7 +33,7 @@ class UploadFileController extends BaseController
             'file_mhs'  => $file_mhs,
         ];
 
-        
+
         // dd($data);
         // view
         return view('admin.upload-file.detail', $data);
@@ -84,8 +84,8 @@ class UploadFileController extends BaseController
                 'file_path_makalah' => $upload_path
             ];
             UploadFileModel::uploadFileMHS($request->id_kel_mhs,$params);
-            
-        } 
+
+        }
 
 
         // flash message
@@ -139,7 +139,7 @@ class UploadFileController extends BaseController
         return back();
     }
 
-    // c series 
+    // c series
 
     public function uploadC100Process(Request $request)
     {
@@ -381,7 +381,7 @@ class UploadFileController extends BaseController
         // authorize
         UploadFileModel::authorize('C');
 
-        // addKelompok 
+        // addKelompok
 
         $params = [
             "id_siklus" => $request->id_siklus,

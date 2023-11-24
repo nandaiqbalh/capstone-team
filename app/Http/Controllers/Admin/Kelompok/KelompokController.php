@@ -258,7 +258,7 @@ class KelompokController extends BaseController
         // params
         $params = [
             "nomor_kelompok" => $request->nomor_kelompok,
-            "judul_ta" => $request->judul_ta,
+            "judul_capstone" => $request->judul_ta,
             "id_topik" => $request->topik,
             "status_kelompok" => $request->status_kelompok,
             'modified_by'   => Auth::user()->user_id,
