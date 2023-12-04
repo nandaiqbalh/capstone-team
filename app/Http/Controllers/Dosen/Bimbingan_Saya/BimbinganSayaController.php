@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Bimbingan_Saya;
+namespace App\Http\Controllers\Dosen\Bimbingan_Saya;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class BimbinganSayaController extends BaseController
 {
-    
+
 
     public function index()
     {
@@ -28,10 +28,10 @@ class BimbinganSayaController extends BaseController
         return view('admin.bimbingan-saya.index', $data);
     }
 
-  
-   
 
-       
+
+
+
     /**
      * Display the specified resource.
      *
@@ -64,7 +64,7 @@ class BimbinganSayaController extends BaseController
         return view('admin.bimbingan-saya.detail', $data);
     }
 
-   
+
 
     /**
      * Update the specified resource in storage. update status dosen 1
@@ -127,7 +127,7 @@ class BimbinganSayaController extends BaseController
         }
     }
 
-  
+
     /**
      * Search data.
      *

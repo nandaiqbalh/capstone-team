@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pengujian;
+namespace App\Http\Controllers\Dosen\Pengujian;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +25,7 @@ class PengujianController extends BaseController
         // view
         return view('admin.pengujian.index', $data);
     }
-       
+
     /**
      * Display the specified resource.
      *
@@ -58,7 +58,7 @@ class PengujianController extends BaseController
         return view('admin.pengujian.detail', $data);
     }
 
-   
+
 
     /**
      * Update the specified resource in storage. update status dosen 1
@@ -121,7 +121,7 @@ class PengujianController extends BaseController
         }
     }
 
-   
+
 
     /**
      * Search data.

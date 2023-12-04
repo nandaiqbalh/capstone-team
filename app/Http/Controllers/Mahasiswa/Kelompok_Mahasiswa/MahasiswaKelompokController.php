@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Kelompok_Mahasiswa;
+namespace App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

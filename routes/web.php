@@ -47,14 +47,14 @@ use App\Http\Controllers\Admin\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\Admin\Kelompok\KelompokController;
 use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
 
-use App\Http\Controllers\Admin\Kelompok_Mahasiswa\MahasiswaKelompokController;
-use App\Http\Controllers\Admin\Expo_Mahasiswa\MahasiswaExpoController;
+use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
+use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
 
 use App\Http\Controllers\Admin\UploadFile\UploadFileController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
-use App\Http\Controllers\Admin\Bimbingan_Saya\BimbinganSayaController;
-use App\Http\Controllers\Admin\Pengujian\PengujianController;
+use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;
+use App\Http\Controllers\Dosen\Pengujian\PengujianController;
 
 
 

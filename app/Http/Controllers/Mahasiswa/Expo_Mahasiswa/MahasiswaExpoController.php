@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Expo_Mahasiswa;
+namespace App\Http\Controllers\Mahasiswa\Expo_Mahasiswa;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
