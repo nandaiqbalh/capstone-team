@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('jadwal_sidang_proposal', function (Blueprint $table) {
-            $table->string('ruangan_id');
-            $table->dropColumn('ruangan');
-        });
+        // Schema::table('jadwal_sidang_proposal', function (Blueprint $table) {
+        //     $table->string('ruangan_id');
+        //     $table->dropColumn('ruangan');
+        // });
     }
 
     /**

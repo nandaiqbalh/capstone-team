@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('kelompok_mhs', function (Blueprint $table) {
-            $table->enum('progress_kelompok', ['C100', 'C200', 'C300', 'C400', 'C500', 'Expo', 'SidangTA', 'Selesai'])
-                  ->nullable();
-        });
+        // Schema::table('kelompok_mhs', function (Blueprint $table) {
+        //     $table->enum('progress_kelompok', ['C100', 'C200', 'C300', 'C400', 'C500', 'Expo', 'SidangTA', 'Selesai'])
+        //           ->nullable();
+        // });
     }
 
     /**

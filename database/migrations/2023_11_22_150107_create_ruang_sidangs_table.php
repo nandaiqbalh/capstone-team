@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ruang_sidangs', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_ruang')->nullable();
-            $table->string('nama_ruang')->nullable();
-            $table->timestamps();
-        });
+        // Schema::create('ruang_sidangs', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('kode_ruang')->nullable();
+        //     $table->string('nama_ruang')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**

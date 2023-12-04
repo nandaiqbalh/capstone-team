@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('broadcast', function (Blueprint $table) {
-            $table->text('broadcast_image_name');
-            $table->text('broadcast_image_path');
-        });
+        // Schema::table('broadcast', function (Blueprint $table) {
+        //     $table->text('broadcast_image_name');
+        //     $table->text('broadcast_image_path');
+        // });
     }
 
     /**

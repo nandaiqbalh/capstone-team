@@ -13,19 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('jadwal_sidang_t_a_s', function (Blueprint $table) {
-            $table->id();
-    $table->integer('id_kelompok');
-    $table->integer('siklus_id');
-    $table->date('tanggal');
-    $table->time('waktu');
-    $table->unsignedBigInteger('ruangan_id');
-    $table->timestamps();
+    //     Schema::create('jadwal_sidang_t_a_s', function (Blueprint $table) {
+    //         $table->id();
+    // $table->integer('id_kelompok');
+    // $table->integer('siklus_id');
+    // $table->date('tanggal');
+    // $table->time('waktu');
+    // $table->unsignedBigInteger('ruangan_id');
+    // $table->timestamps();
 
-    $table->foreign('id_kelompok')->references('id')->on('kelompok');
-    $table->foreign('siklus_id')->references('id')->on('siklus');
-    $table->foreign('ruangan_id')->references('id')->on('ruang_sidangs');
-        });
+    // $table->foreign('id_kelompok')->references('id')->on('kelompok');
+    // $table->foreign('siklus_id')->references('id')->on('siklus');
+    // $table->foreign('ruangan_id')->references('id')->on('ruang_sidangs');
+    //     });
 
 
     }
