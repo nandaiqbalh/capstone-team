@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin\Pengujian;
+namespace App\Models\Dosen\Pengujian;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\Auth;

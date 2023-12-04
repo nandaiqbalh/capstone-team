@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Pengujian\PengujianModel;
+use App\Models\Dosen\Pengujian\PengujianModel;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -23,7 +23,7 @@ class PengujianController extends BaseController
         // data
         $data = ['rs_pengujian' => $rs_pengujian];
         // view
-        return view('admin.pengujian.index', $data);
+        return view('dosen.pengujian.index', $data);
     }
 
     /**
@@ -55,7 +55,7 @@ class PengujianController extends BaseController
         ];
 
         // view
-        return view('admin.pengujian.detail', $data);
+        return view('dosen.pengujian.detail', $data);
     }
 
 
@@ -144,7 +144,7 @@ class PengujianController extends BaseController
             // data
             $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('dosen.settings.contoh-halaman.index', $data);
         } else {
             return redirect('/admin/settings/contoh-halaman');
         }

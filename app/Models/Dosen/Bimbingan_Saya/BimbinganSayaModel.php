@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin\Bimbingan_Saya;
+namespace App\Models\Dosen\Bimbingan_Saya;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\Auth;
@@ -64,5 +64,5 @@ class BimbinganSayaModel extends BaseModel
         return DB::table('dosen_kelompok')->where('id', $id)->update($params);
     }
 
-   
+
 }

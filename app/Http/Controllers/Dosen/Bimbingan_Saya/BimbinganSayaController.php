@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Bimbingan_Saya\BimbinganSayaModel;
+use App\Models\Dosen\Bimbingan_Saya\BimbinganSayaModel;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -25,7 +25,7 @@ class BimbinganSayaController extends BaseController
         // data
         $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya];
         // view
-        return view('admin.bimbingan-saya.index', $data);
+        return view('dosen.bimbingan-saya.index', $data);
     }
 
 
@@ -61,7 +61,7 @@ class BimbinganSayaController extends BaseController
         ];
 
         // view
-        return view('admin.bimbingan-saya.detail', $data);
+        return view('dosen.bimbingan-saya.detail', $data);
     }
 
 
@@ -149,7 +149,7 @@ class BimbinganSayaController extends BaseController
             // data
             $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('dosen.settings.contoh-halaman.index', $data);
         } else {
             return redirect('/admin/settings/contoh-halaman');
         }

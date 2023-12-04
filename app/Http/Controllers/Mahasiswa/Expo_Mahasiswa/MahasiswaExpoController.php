@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Expo_Mahasiswa\MahasiswaExpoModel;
+use App\Models\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,7 +41,7 @@ class MahasiswaExpoController extends BaseController
         ];
 
         // view
-        return view('admin.expo-mahasiswa.detail', $data);
+        return view('mahasiswa.expo-mahasiswa.detail', $data);
     }
 
     /**
@@ -131,7 +131,7 @@ class MahasiswaExpoController extends BaseController
             // data
             $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
             // view
-            return view('admin.mahasiswa.index', $data);
+            return view('mahasiswa.mahasiswa.index', $data);
         } else {
             return redirect('/admin/mahasiswa');
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin\Kelompok_Mahasiswa;
+namespace App\Models\Mahasiswa\Kelompok_Mahasiswa;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\Auth;
@@ -42,14 +42,14 @@ class MahasiswaKelompokModel extends BaseModel
             ->get();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunByID($user_id)
     {
         return DB::table('app_user as a')
             ->where('a.user_id', $user_id)
             ->first();
     }
-    // get akun by id user 
+    // get akun by id user
     public static function getAkun()
     {
         return DB::table('app_user as a')
@@ -59,7 +59,7 @@ class MahasiswaKelompokModel extends BaseModel
         ->get();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunDosen()
     {
         return DB::table('app_user as a')

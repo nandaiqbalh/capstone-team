@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\BaseController;
-use App\Models\Admin\Kelompok_Mahasiswa\MahasiswaKelompokModel;
+use App\Models\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use PDO;
@@ -62,7 +62,7 @@ class MahasiswaKelompokController extends BaseController
 
         // dd($data);
         // view
-        return view('admin.kelompok-mahasiswa.detail', $data);
+        return view('mahasiswa.kelompok-mahasiswa.detail', $data);
     }
 
 
@@ -319,7 +319,7 @@ class MahasiswaKelompokController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.mahasiswa.detail', $data);
+        return view('mahasiswa.mahasiswa.detail', $data);
     }
 
     /**
@@ -347,7 +347,7 @@ class MahasiswaKelompokController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.mahasiswa.edit', $data);
+        return view('mahasiswa.mahasiswa.edit', $data);
     }
 
     /**
@@ -451,7 +451,7 @@ class MahasiswaKelompokController extends BaseController
             // data
             $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
             // view
-            return view('admin.mahasiswa.index', $data);
+            return view('mahasiswa.mahasiswa.index', $data);
         } else {
             return redirect('/admin/mahasiswa');
         }

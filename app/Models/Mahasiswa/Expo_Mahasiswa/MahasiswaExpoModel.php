@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Admin\Expo_Mahasiswa;
+namespace App\Models\Mahasiswa\Expo_Mahasiswa;
 
 use App\Models\Admin\BaseModel;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +24,7 @@ class MahasiswaExpoModel extends BaseModel
             ->select('a.*')
             ->join('siklus as b','a.id_siklus','b.id')
             ->where('b.status','aktif')
-            ->where('a.id_mahasiswa',Auth::user()->user_id)            
+            ->where('a.id_mahasiswa',Auth::user()->user_id)
             ->first();
     }
     // get all data
@@ -52,7 +52,7 @@ class MahasiswaExpoModel extends BaseModel
         ->first();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function idKelompok($user_id)
     {
         return DB::table('kelompok_mhs')
@@ -61,14 +61,14 @@ class MahasiswaExpoModel extends BaseModel
     }
 
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunByID($user_id)
     {
         return DB::table('app_user as a')
             ->where('a.user_id', $user_id)
             ->first();
     }
-    // get akun by id user 
+    // get akun by id user
     public static function getAkun()
     {
         return DB::table('app_user as a')
@@ -78,7 +78,7 @@ class MahasiswaExpoModel extends BaseModel
         ->get();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunDosen()
     {
         return DB::table('app_user as a')
