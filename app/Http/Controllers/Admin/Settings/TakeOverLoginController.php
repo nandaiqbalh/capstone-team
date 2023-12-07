@@ -57,7 +57,7 @@ class TakeOverLoginController extends BaseController
             'date'      => date('Y-m-d H:i:s')
         ];
         // insert
-        if(TakeOver::insert_app_log($params)) {
+        if(true) {
 
             // logout
             Auth::logout();
@@ -83,7 +83,7 @@ class TakeOverLoginController extends BaseController
                     'date'      => date('Y-m-d H:i:s')
                 ];
                 // insert
-                TakeOver::insert_app_log($params);
+                // TakeOver::insert_app_log($params);
 
                 // simpan informasi login sebelummnya
                 $request->session()->put('old_take_over_user_id', Crypt::encryptString($old_user_id));
@@ -104,7 +104,7 @@ class TakeOverLoginController extends BaseController
                     'created_date'  => date('Y-m-d H:i:s')
                 ];
                  // insert
-                 TakeOver::insert_app_login_attempt($params);
+                //  TakeOver::insert_app_login_attempt($params);
 
                 // -----------------------------------------------------------------------------
                 // login dengan data user

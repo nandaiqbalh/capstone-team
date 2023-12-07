@@ -157,7 +157,6 @@ class KelompokModel extends BaseModel
     {
         return DB::table('app_user as a')
         ->select('b.*', 'a.user_name', 'a.user_id', 'a.nomor_induk')
-        ->join('app_role_user as b','a.user_id','b.user_id')
         ->where('role_id','02')
         ->orwhere('role_id','04')
         ->get();

@@ -7,12 +7,12 @@ use App\Models\Admin\BaseModel;
 
 class Menu extends BaseModel
 {
-    
+
     // get all data
     public static function getAll() {
         return DB::table('app_menu')->orderBy('menu_sort','ASC')->get();
     }
-    
+
     // get data with pagination
     public static function getAllPaginate() {
         return DB::table('app_menu')->orderBy('menu_sort','ASC')->paginate(20);
@@ -73,20 +73,20 @@ class Menu extends BaseModel
     }
 
     // get data role
-    public static function getRoleMenu($menu_id) {
-        return DB::table('app_role_menu')->select('role_id','menu_id')->where('menu_id',$menu_id)->get();
-    }
+    // public static function getRoleMenu($menu_id) {
+    //     return DB::table('app_role_menu')->select('role_id','menu_id')->where('menu_id',$menu_id)->get();
+    // }
 
     public static function getMenuById($menu_id) {
         return DB::table('app_menu')->select('menu_id','menu_name')->where('menu_id',$menu_id)->first();
     }
 
-    public static function insert_role_menu($params) {
-        return DB::table('app_role_menu')->insert($params);
-    }
+    // public static function insert_role_menu($params) {
+    //     return DB::table('app_role_menu')->insert($params);
+    // }
 
-    public static function delete_role_menu($id) {
-        return DB::table('app_role_menu')->where('menu_id', $id)->where('role_id','!=', '01')->delete();
-    }
-    
+    // public static function delete_role_menu($id) {
+    //     return DB::table('app_role_menu')->where('menu_id', $id)->where('role_id','!=', '01')->delete();
+    // }
+
 }
