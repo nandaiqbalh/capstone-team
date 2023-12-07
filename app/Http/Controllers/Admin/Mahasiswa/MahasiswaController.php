@@ -78,6 +78,7 @@ class MahasiswaController extends BaseController
             'user_id' => $user_id,
             'user_name' => $request->nama,
             "nomor_induk" => $request->nim,
+            "role_id" => '03',
             // 'user_email' => $request->email,
             // "angkatan" => $request->angkatan,
             // "ipk" => $request->ipk,
@@ -92,11 +93,6 @@ class MahasiswaController extends BaseController
         // process
         $insert_mahasiswa = MahasiswaModel::insertmahasiswa($params);
         if ($insert_mahasiswa) {
-            $params2 = [
-                'user_id' => $user_id,
-                'role_id' => '03'
-            ];
-            MahasiswaModel::insertrole($params2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -150,7 +146,7 @@ class MahasiswaController extends BaseController
         // authorize
         MahasiswaModel::authorize('U');
 
-        // get data 
+        // get data
         $mahasiswa = MahasiswaModel::getDataById($user_id);
 
         // check

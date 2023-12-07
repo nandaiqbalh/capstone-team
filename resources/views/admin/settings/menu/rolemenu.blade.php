@@ -41,7 +41,7 @@
                                                 <td>{{ $role->role_name }}</td>
                                                 <td class="text-center">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="{{ $role->role_id }}" value="{{ $role->role_id }}" name="role_id[]" @if(in_array($role->role_id, array_column($rs_role_menu,'role_id'))) checked @endif @if($role->role_id == '01') disabled @endif>
+                                                        <input type="checkbox" class="custom-control-input" id="{{ $role->role_id }}" value="{{ $role->role_id }}" name="role_id[]" @if(in_array($role->role_id, array_column($rs_role_menu, 'role_id'))) checked @endif>
                                                         <label class="custom-control-label" for="{{ $role->role_id }}"></label>
                                                     </div>
                                                 </td>
@@ -55,7 +55,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             <br>
                         </div>
                         <div class="card-footer float-end">

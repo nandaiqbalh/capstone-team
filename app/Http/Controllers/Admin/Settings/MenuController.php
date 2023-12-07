@@ -9,7 +9,7 @@ use App\Models\Admin\Settings\Menu;
 
 class MenuController extends BaseController
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +19,7 @@ class MenuController extends BaseController
     {
         // authorize
         Menu::authorize('R');
-        
+
         // get data with pagination
         $rs_menu = Menu::getAllPaginate();
         // data
@@ -113,6 +113,7 @@ class MenuController extends BaseController
         // params
         $params =[
             'menu_id' => $menu_id,
+            'role_id' => '01',
             'parent_menu_id' => $parent_menu_id,
             'menu_name' => $request->menu_name,
             'menu_description' => $request->menu_description,
@@ -128,17 +129,9 @@ class MenuController extends BaseController
 
         // process
         if (Menu::insert($params)) {
-            // insert to app role menu
-            // system adminitrator
-            $params = [
-                'role_id' => '01',
-                'menu_id' => $menu_id,
-            ];
-            Menu::insert_role_menu($params);
-
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/settings/menu/add');
+            return redirect('/admin/settings/menu');
         }
         else {
             // flash message
@@ -246,7 +239,7 @@ class MenuController extends BaseController
 
         // get data
         $menu = Menu::getById($id);
-    
+
         // if exist
         if(!empty($menu)) {
             // cek sub menu
@@ -311,26 +304,44 @@ class MenuController extends BaseController
      */
     public function roleMenuProcess(Request $request)
     {
+        // get data
+        $menu = Menu::getById($request->menu_id);
+        $rs_menu = Menu::getAll();
+
         // authorize
         Menu::authorize('C');
+
+        // cek if new menu
+        $parent_menu_id = $request->parent_menu_id == 'parent' ? NULL : $request->parent_menu_id;
 
         // data
         $role_id = $request->role_id;
 
         // delete role menu
-        Menu::delete_role_menu($request->menu_id);
+        Menu::delete($request->menu_id);
 
-        if(!empty($role_id)) {
+        if (!empty($role_id)) {
             // looping insert
-            for($i=0; $i < count($role_id); $i++) {
+            foreach ($role_id as $roleId) {
                 // params
-                $params =[
-                    'role_id' => $role_id[$i],
-                    'menu_id' => $request->menu_id,
+                $params = [
+                    'role_id' => $roleId,
+                    'menu_id' => $menu->menu_id,
+                    'parent_menu_id' => $parent_menu_id,
+                    'menu_name' => $menu->menu_name,
+                    'menu_description' => $menu->menu_description,
+                    'menu_url' => $menu->menu_url,
+                    'menu_sort' => $menu->menu_sort,
+                    'menu_group' => $menu->menu_group,
+                    'menu_icon' => $menu->menu_icon,
+                    'menu_active' => $menu->menu_active,
+                    'menu_display' => $menu->menu_display,
+                    'modified_by' => Auth::user()->user_id,
+                    'modified_date' => date('Y-m-d H:i:s'),
                 ];
-    
+
                 // upsert
-                Menu::insert_role_menu($params);
+                Menu::insert($params);
             }
         }
 
@@ -338,4 +349,5 @@ class MenuController extends BaseController
         session()->flash('success', 'Data berhasil disimpan.');
         return redirect('/admin/settings/menu');
     }
+
 }

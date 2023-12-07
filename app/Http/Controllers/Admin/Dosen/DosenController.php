@@ -72,6 +72,7 @@ class DosenController extends BaseController
             'user_id' => $user_id,
             'user_name' => $request->nama,
             "nomor_induk" => $request->nip,
+            'role_id' =>  $request->role_id,
             'user_password' => Hash::make('dosen12345'),
             // "alamat" => $request->alamat,
             'created_by'   => Auth::user()->user_id,
@@ -81,12 +82,6 @@ class DosenController extends BaseController
         // process
         $insert_dosen = DosenModel::insertdosen($params);
         if ($insert_dosen) {
-            $params2 = [
-                'user_id' => $user_id,
-                'role_id' =>  $request->role_id,
-            ];
-            DosenModel::insertrole($params2);
-
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/dosen');
@@ -136,7 +131,7 @@ class DosenController extends BaseController
         // authorize
         DosenModel::authorize('U');
 
-        // get data 
+        // get data
         $dosen = DosenModel::getDataById($user_id);
 
         // check
@@ -177,6 +172,7 @@ class DosenController extends BaseController
         $params = [
             'user_name' => $request->nama,
             "nomor_induk" => $request->nip,
+            'role_id' =>  $request->role,
             // "alamat" => $request->alamat,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
@@ -184,10 +180,7 @@ class DosenController extends BaseController
 
         // process
         if (DosenModel::update($request->user_id, $params)) {
-            $params2 = [
-                'role_id' =>  $request->role,
-            ];
-            DosenModel::updaterole($request->user_id, $params2);
+
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/dosen');

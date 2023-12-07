@@ -53,13 +53,11 @@ class AccountsController extends BaseController
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_accounts = Accounts::getAllSearch($user_name, $request->branch_id);
             // data
             $data = [
                 'rs_accounts'   => $rs_accounts,
                 'user_name'     => $user_name,
-                'branch_id'     => $request->branch_id,
-                'rs_branch'     => Accounts::getBranch()
+
             ];
             // view
             return view('admin.settings.accounts.index', $data);
@@ -126,6 +124,7 @@ class AccountsController extends BaseController
         $user_id = Accounts::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
+            'role_id' => $request->role_id,
             'user_name' => $request->user_name,
             'user_email' => $request->user_email,
             'user_password' => Hash::make($request->user_password),
@@ -140,12 +139,6 @@ class AccountsController extends BaseController
 
         // process
         if (Accounts::insert($params)) {
-            // insert role user
-            $params = [
-                'role_id' => $request->role_id,
-                'user_id' => $user_id,
-            ];
-            Accounts::insert_role_user($params);
 
             // send mail
             // $this->sendMail($user_id, $request->user_password);
@@ -219,7 +212,6 @@ class AccountsController extends BaseController
             'user_active' => $request->user_active,
             'nomor_induk' => $request->nomor_induk,
             'no_telp' => $request->no_telp,
-            'branch_id' => $request->branch_id,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
@@ -235,7 +227,7 @@ class AccountsController extends BaseController
                 $params = [
                     'role_id' => $request->role_id,
                 ];
-                Accounts::update_role_user($request->user_id, $params);
+                Accounts::update($request->user_id, $params);
             }
 
             // flash message
