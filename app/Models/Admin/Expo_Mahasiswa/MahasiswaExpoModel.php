@@ -24,7 +24,7 @@ class MahasiswaExpoModel extends BaseModel
             ->select('a.*')
             ->join('siklus as b','a.id_siklus','b.id')
             ->where('b.status','aktif')
-            ->where('a.id_mahasiswa',Auth::user()->user_id)            
+            ->where('a.id_mahasiswa',Auth::user()->user_id)
             ->first();
     }
     // get all data
@@ -52,7 +52,7 @@ class MahasiswaExpoModel extends BaseModel
         ->first();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function idKelompok($user_id)
     {
         return DB::table('kelompok_mhs')
@@ -61,30 +61,28 @@ class MahasiswaExpoModel extends BaseModel
     }
 
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunByID($user_id)
     {
         return DB::table('app_user as a')
             ->where('a.user_id', $user_id)
             ->first();
     }
-    // get akun by id user 
+    // get akun by id user
     public static function getAkun()
     {
         return DB::table('app_user as a')
         ->select('a.*')
-        ->join('app_role_user as b', 'a.user_id','b.user_id')
-        ->where('b.role_id','03')
+        ->where('role_id','03')
         ->get();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunDosen()
     {
         return DB::table('app_user as a')
         ->select('a.*')
-        ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-        ->where('b.role_id', '04')
+        ->where('role_id', '04')
         ->get();
     }
 
@@ -103,8 +101,7 @@ class MahasiswaExpoModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->paginate(20);
     }
@@ -114,8 +111,7 @@ class MahasiswaExpoModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
             // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
@@ -169,10 +165,10 @@ class MahasiswaExpoModel extends BaseModel
     {
         return DB::table('topik_mhs')->insert($params);
     }
-    public static function insertrole($params2)
-    {
-        return DB::table('app_role_user')->insert($params2);
-    }
+    // public static function insertrole($params2)
+    // {
+    //     return DB::table('app_role_user')->insert($params2);
+    // }
 
     public static function insertIDKelompok($params)
     {

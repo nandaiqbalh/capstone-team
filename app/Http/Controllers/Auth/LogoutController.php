@@ -30,7 +30,7 @@ class LogoutController extends Controller
             'date'      => date('Y-m-d H:i:s')
         ];
         // insert
-        if(LogoutModel::insert_app_log($params)) {
+        if(true) {
 
             // cek apakah sebelummnya login menggunakan metode take over
             if($request->session()->has('old_take_over_user_id') && $request->session()->has('old_take_over_nik')){
@@ -63,7 +63,7 @@ class LogoutController extends Controller
                         'date'      => date('Y-m-d H:i:s')
                     ];
                     // insert
-                    LogoutModel::insert_app_log($params);
+                    // LogoutModel::insert_app_log($params);
 
                     // log
                     Log::info('User '.$old_take_over_user_id.' selesai mengambil alih akun '.$user_id);
@@ -81,7 +81,7 @@ class LogoutController extends Controller
                         'created_date'  => date('Y-m-d H:i:s')
                     ];
                     // insert
-                    LogoutModel::insert_app_login_attempt($params);
+                    // LogoutModel::insert_app_login_attempt($params);
 
                     // -----------------------------------------------------------------------------
                     // login dengan data user
@@ -94,7 +94,7 @@ class LogoutController extends Controller
                     return redirect()->back();
                 }
 
-                
+
             }
             else {
                 // logout normal

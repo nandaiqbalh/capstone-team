@@ -42,31 +42,29 @@ class MahasiswaKelompokModel extends BaseModel
             ->get();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunByID($user_id)
     {
         return DB::table('app_user as a')
             ->where('a.user_id', $user_id)
             ->first();
     }
-    // get akun by id user 
+    // get akun by id user
     public static function getAkun()
     {
         return DB::table('app_user as a')
         ->select('a.*')
-        ->join('app_role_user as b', 'a.user_id','b.user_id')
-        ->where('b.role_id','03')
+        ->where('a.role_id','03')
         ->get();
     }
 
-    // get akun by id user 
+    // get akun by id user
     public static function getAkunDosen()
     {
         return DB::table('app_user as a')
         ->select('a.*')
-        ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-        ->where('b.role_id', '04')
-        ->orwhere('b.role_id', '02')
+        ->where('a.role_id', '04')
+        ->orwhere('a.role_id', '02')
         ->get();
     }
 
@@ -109,8 +107,7 @@ class MahasiswaKelompokModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->paginate(20);
     }
@@ -120,8 +117,7 @@ class MahasiswaKelompokModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
             // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
@@ -175,10 +171,10 @@ class MahasiswaKelompokModel extends BaseModel
     {
         return DB::table('topik_mhs')->insert($params);
     }
-    public static function insertrole($params2)
-    {
-        return DB::table('app_role_user')->insert($params2);
-    }
+    // public static function insertrole($params2)
+    // {
+    //     return DB::table('app_role_user')->insert($params2);
+    // }
 
     public static function update($user_id, $params)
     {

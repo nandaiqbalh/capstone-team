@@ -61,7 +61,7 @@ class LoginController extends Controller
                 'date'  => date('Y-m-d H:i:s')
             ];
             // insert
-            LoginModel::insert_app_log($params);
+            // LoginModel::insert_app_log($params);
             session()->put('login', 'true');
             // return
             return redirect()->intended('/admin/dashboard');
@@ -74,7 +74,7 @@ class LoginController extends Controller
                 'created_date'  => date('Y-m-d H:i:s')
             ];
             // insert
-            LoginModel::insert_app_login_attempt($params);
+            // LoginModel::insert_app_login_attempt($params);
 
             // flash message
             $request->session()->flash('danger', 'Masuk gagal, silahkan cek kembali ID Pengguna & Kata Sandi Anda.');

@@ -53,8 +53,7 @@ class JadwalExpoModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
             // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")

@@ -12,8 +12,7 @@ class TimCapstoneModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->get();
     }
@@ -23,8 +22,7 @@ class TimCapstoneModel extends BaseModel
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '03')
             ->paginate(20);
     }
@@ -46,10 +44,10 @@ class TimCapstoneModel extends BaseModel
         return DB::table('app_user')->insert($params);
     }
 
-    public static function insertrole($params2)
-    {
-        return DB::table('app_role_user')->insert($params2);
-    }
+    // public static function insertrole($params2)
+    // {
+    //     return DB::table('app_role_user')->insert($params2);
+    // }
 
     public static function update($user_id, $params)
     {

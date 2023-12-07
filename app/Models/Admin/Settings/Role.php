@@ -7,12 +7,12 @@ use App\Models\Admin\BaseModel;
 
 class Role extends BaseModel
 {
-    
+
     // get all data
     public static function getAll() {
         return DB::table('app_role')->get();
     }
-    
+
     // get data with pagination
     public static function getAllPaginate() {
         return DB::table('app_role')->paginate(10);
@@ -32,10 +32,9 @@ class Role extends BaseModel
     public static function getTotalUserByRoleId($role_id) {
         return DB::table('app_user as a')
             ->select('a.user_id','a.user_name','a.user_email', 'a.user_active','c.role_name')
-            ->join('app_role_user as b', 'a.user_id', '=', 'b.user_id')
-            ->join('app_role as c', 'b.role_id', '=', 'c.role_id')
+            ->join('app_role as c', 'a.role_id', '=', 'c.role_id')
             ->where('c.role_id', $role_id)
-            ->orderBy('a.created_date')        
+            ->orderBy('a.created_date')
             ->count('a.user_id');
     }
 

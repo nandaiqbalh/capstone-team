@@ -14,9 +14,10 @@ class BaseModel
 
     // get user menu access by url
     public static function getMenuAccessByUrl($url) {
+
         return DB::table('app_menu as a')
-                ->join('app_role_menu as b','a.menu_id','=','b.menu_id')
-                ->join('app_role_user as c','b.role_id','=','c.role_id')
+                ->join('app_role as b','b.role_id','=','a.role_id')
+                ->join('app_user as c','b.role_id','=','a.role_id')
                 ->where('a.menu_url', $url)
                 ->where('c.user_id', Auth::user()->user_id)
                 ->first();
@@ -31,7 +32,7 @@ class BaseModel
         // get role permission by user
         $permission = DB::table('app_role')
                         ->select('role_permission')
-                        ->join('app_role_user', 'app_role.role_id','=', 'app_role_user.role_id')
+                        ->join('app_user', 'app_role.role_id','=', 'app_user.role_id')
                         ->where('user_id', Auth::user()->user_id)
                         ->first();
 
@@ -74,7 +75,7 @@ class BaseModel
     public static function getUserRole() {
         $data = DB::table('app_role')
                 ->select('role_name')
-                ->join('app_role_user', 'app_role.role_id','=', 'app_role_user.role_id')
+                ->join('app_user', 'app_role.role_id','=', 'app_user.role_id')
                 ->where('user_id', Auth::user()->user_id)
                 ->first();
 
@@ -84,7 +85,7 @@ class BaseModel
     // user role id
     public static function getUserRoleId() {
         $data = DB::table('app_role')
-                ->join('app_role_user', 'app_role.role_id','=', 'app_role_user.role_id')
+                ->join('app_user', 'app_role.role_id','=', 'app_user.role_id')
                 ->where('user_id', Auth::user()->user_id)
                 ->value('app_role.role_id');
 
@@ -96,8 +97,7 @@ class BaseModel
         // get data
         $parent_menu_utama = DB::table('app_menu AS a')
                         ->select('a.menu_id', 'parent_menu_id', 'menu_name', 'menu_url', 'menu_icon')
-                        ->join('app_role_menu AS b', 'a.menu_id','=', 'b.menu_id')
-                        ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
+                        ->join('app_user AS c', 'a.role_id','=', 'c.role_id')
                         ->whereNull('a.parent_menu_id')
                         ->where([
                             ['a.menu_display','=','1'],
@@ -116,8 +116,7 @@ class BaseModel
         // get data
         $child_menu_utama = DB::table('app_menu AS a')
                         ->select('a.menu_id', 'parent_menu_id', 'menu_name', 'menu_url', 'menu_icon')
-                        ->join('app_role_menu AS b', 'a.menu_id','=', 'b.menu_id')
-                        ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
+                        ->join('app_user AS c', 'a.role_id','=', 'c.role_id')
                         ->where([
                             ['a.parent_menu_id','=', $menu_id],
                             ['a.menu_display','=','1'],
@@ -135,8 +134,7 @@ class BaseModel
         // get data
         $parent_menu_system = DB::table('app_menu AS a')
                         ->select('a.menu_id', 'parent_menu_id', 'menu_name', 'menu_url', 'menu_icon')
-                        ->join('app_role_menu AS b', 'a.menu_id','=', 'b.menu_id')
-                        ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
+                        ->join('app_user AS c', 'a.role_id','=', 'c.role_id')
                         ->whereNull('a.parent_menu_id')
                         ->where([
                             ['a.menu_display','=','1'],
@@ -155,8 +153,7 @@ class BaseModel
         // get data
         $child_menu_system = DB::table('app_menu AS a')
                         ->select('a.menu_id', 'parent_menu_id', 'menu_name', 'menu_url', 'menu_icon')
-                        ->join('app_role_menu AS b', 'a.menu_id','=', 'b.menu_id')
-                        ->join('app_role_user AS c', 'b.role_id','=', 'c.role_id')
+                        ->join('app_user AS c', 'a.role_id','=', 'c.role_id')
                         ->where([
                             ['a.parent_menu_id','=', $menu_id],
                             ['a.menu_display','=','1'],
