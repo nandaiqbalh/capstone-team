@@ -48,8 +48,11 @@ class AccountsController extends BaseController
         // authorize
         Accounts::authorize('R');
 
-        // data request
         $user_name = $request->user_name;
+
+        $rs_accounts = Accounts::getAllSearch($user_name);
+
+        // data request
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
