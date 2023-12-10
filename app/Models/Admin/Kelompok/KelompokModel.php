@@ -87,12 +87,16 @@ class KelompokModel extends BaseModel
             ->first();
     }
 
+    public static function deleteJadwalSidangProposal($id)
+    {
+        return DB::table('jadwal_sidang_proposal')->where('id_kelompok', $id)->delete();
+    }
+
     public static function deleteKelompok($id)
     {
-        return DB::table('kelompok')
-            ->where('id', $id)
-            ->delete();
+        return DB::table('kelompok')->where('id', $id)->delete();
     }
+
 
     public static function deleteKelompokMhs($id)
     {
@@ -156,7 +160,7 @@ class KelompokModel extends BaseModel
     public static function listDosbingAvail()
     {
         return DB::table('app_user as a')
-        ->select('b.*', 'a.user_name', 'a.user_id', 'a.nomor_induk')
+        ->select('a.user_name', 'a.user_id', 'a.nomor_induk')
         ->where('role_id','02')
         ->orwhere('role_id','04')
         ->get();

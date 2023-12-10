@@ -165,16 +165,19 @@ class KelompokController extends BaseController
             foreach ($cekMhs as $key => $mhs) {
                 KelompokModel::updateKelompokMhsAll($mhs->id_mahasiswa);
             }
+
+            if (KelompokModel::deleteJadwalSidangProposal($kelompok->id)) {
+                if (KelompokModel::deleteKelompok($kelompok->id)) {
+                    // flash message
+                    session()->flash('success', 'Data berhasil dihapus.');
+                    return back();
+                } else {
+                    // flash message
+                    session()->flash('danger', 'Data gagal dihapus.');
+                    return back();
+                }            }
             // process
-            if (KelompokModel::deleteKelompok($kelompok->id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return back();
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return back();
-            }
+
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
