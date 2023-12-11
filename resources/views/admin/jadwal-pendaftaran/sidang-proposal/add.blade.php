@@ -40,7 +40,7 @@
                                         <select class="form-select select-2" name="id_kelompok" required>
                                             <option value="" disabled selected>-- Pilih --</option>
                                             @foreach ($rs_kelompok as $kelompok)
-                                            <option value="{{$kelompok->id}}">{{$kelompok->nomor_kelompok}} | {{$kelompok->judul_ta}}</option>
+                                            <option value="{{$kelompok->id}}">{{$kelompok->nomor_kelompok}} | {{$kelompok->judul_capstone}}</option>
                                             @endforeach
                                         </select>
                                     </div>

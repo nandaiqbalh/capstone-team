@@ -101,8 +101,8 @@ class KelompokModel extends BaseModel
     public static function deleteKelompokMhs($id)
     {
         return DB::table('kelompok_mhs')
-            ->where('id', $id)
-            ->update(['id_kelompok' => null]);
+        ->where('id_mahasiswa', $id)
+        ->delete();
     }
     public static function deleteDosenMhs($id_dosen, $id)
     {

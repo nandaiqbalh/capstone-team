@@ -190,7 +190,7 @@ class MahasiswaKelompokController extends BaseController
 
         $params = [
             "id_siklus" => $request->id_siklus,
-            "judul_ta" => $request->judul_ta,
+            "judul_capstone" => $request->judul_ta,
             "id_topik" => $request->id_topik,
             "status_kelompok" => "menunggu persetujuan",
             "id_dosen_pembimbing_1" => $request->dosbing_1,

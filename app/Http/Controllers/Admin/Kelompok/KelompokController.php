@@ -163,7 +163,7 @@ class KelompokController extends BaseController
         if (!empty($kelompok)) {
             $cekMhs=KelompokModel::getKelompokMhsAll($kelompok->id);
             foreach ($cekMhs as $key => $mhs) {
-                KelompokModel::updateKelompokMhsAll($mhs->id_mahasiswa);
+                KelompokModel::deleteKelompokMhs($mhs->id_mahasiswa);
             }
 
             if (KelompokModel::deleteJadwalSidangProposal($kelompok->id)) {
@@ -175,7 +175,18 @@ class KelompokController extends BaseController
                     // flash message
                     session()->flash('danger', 'Data gagal dihapus.');
                     return back();
-                }            }
+                }
+            } else {
+                if (KelompokModel::deleteKelompok($kelompok->id)) {
+                    // flash message
+                    session()->flash('success', 'Data berhasil dihapus.');
+                    return back();
+                } else {
+                    // flash message
+                    session()->flash('danger', 'Data gagal dihapus.');
+                    return back();
+                }
+            }
             // process
 
         } else {

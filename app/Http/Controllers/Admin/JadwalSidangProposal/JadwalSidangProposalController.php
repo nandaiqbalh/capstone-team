@@ -78,11 +78,11 @@ class JadwalSidangProposalController extends BaseController
             'id_kelompok' => $request->id_kelompok,
             'tanggal_mulai' => $request->tanggal_mulai,
             'waktu' => $request->waktu,
-            'ruangan' => $request->ruangan,
+            'ruangan_id' => $request->ruangan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
-        
+
         // process
         $insert = JadwalSidangProposalModel::insertJadwalSidangProposal($params);
         if ($insert) {
@@ -118,7 +118,7 @@ class JadwalSidangProposalController extends BaseController
         JadwalSidangProposalModel::authorize('C');
         $jadwalSidang = JadwalSidangProposalModel::getjadwalSidang($id);
         $jadwalSidang = JadwalSidangProposalModel::getjadwalSidang2($id, $jadwalSidang->id_kelompok);
-        
+
         $rs_siklus = JadwalSidangProposalModel::getSiklus();
         $rs_kelompok = JadwalSidangProposalModel::getKelompok();
         $rs_dosen = JadwalSidangProposalModel::getDosen();

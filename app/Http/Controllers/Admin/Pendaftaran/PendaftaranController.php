@@ -125,7 +125,7 @@ class PendaftaranController extends BaseController
             'id_topik' => $request->id_topik,
             'nomor_kelompok' => $request->nomor_kelompok,
             'id_siklus' => $request->id_siklus,
-            'judul_ta' => $request->judul_ta,
+            'judul_capstone' => $request->judul_ta,
             'id_dosen_pembimbing_1' => $request->id_dosen1,
             'id_dosen_pembimbing_2' => $request->id_dosen2,
             'status_kelompok' => 'disetujui',
