@@ -1,4 +1,4 @@
-@extends('admin.base.app')
+@extends('tim_capstone.base.app')
 
 <!-- inject helper date indonesia -->
 @inject('dtid','App\Helpers\DateIndonesia')
