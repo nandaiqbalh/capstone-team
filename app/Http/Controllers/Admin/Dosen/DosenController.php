@@ -163,7 +163,7 @@ class DosenController extends BaseController
         // Validate & auto redirect when fail
         $rules = [
             'nama' => 'required',
-            "nip" => 'required',
+            "nip" => 'required' ,
             // "alamat" => 'required',
         ];
         $this->validate($request, $rules);

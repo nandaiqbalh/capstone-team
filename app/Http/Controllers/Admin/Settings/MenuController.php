@@ -108,10 +108,12 @@ class MenuController extends BaseController
             $parent_menu_id = $request->parent_menu_id;
         }
 
-        $menu_id = Menu::makeShortId();
+        $id = Menu::makeShortId();
+        $menu_id = Menu::makeShortMenuId();
 
         // params
         $params =[
+            'id' => $id,
             'menu_id' => $menu_id,
             'role_id' => '01',
             'parent_menu_id' => $parent_menu_id,
@@ -198,7 +200,6 @@ class MenuController extends BaseController
             $parent_menu_id = $request->parent_menu_id;
         }
 
-        // params
         $params =[
             'parent_menu_id' => $parent_menu_id,
             'menu_name' => $request->menu_name,
@@ -209,6 +210,8 @@ class MenuController extends BaseController
             'menu_icon' => $request->menu_icon,
             'menu_active' => $request->menu_active,
             'menu_display' => $request->menu_display,
+            'created_by' => Auth::user()->user_id,
+            'created_date' => date('Y-m-d H:i:s'),
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
@@ -336,6 +339,8 @@ class MenuController extends BaseController
                     'menu_icon' => $menu->menu_icon,
                     'menu_active' => $menu->menu_active,
                     'menu_display' => $menu->menu_display,
+                    'created_by' => Auth::user()->user_id,
+                    'created_date' => date('Y-m-d H:i:s'),
                     'modified_by' => Auth::user()->user_id,
                     'modified_date' => date('Y-m-d H:i:s'),
                 ];

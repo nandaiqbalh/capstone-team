@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    
+
             <div class="container-xxl flex-grow-1 container-p-y">
                 <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Menu</h5>
                 <!-- notification -->
@@ -15,7 +15,7 @@
                 <div class="card">
                     <h5 class="card-header">Data Menu</h5>
 
-                    <div class="card-body">    
+                    <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-md-12">
                                 <form class="form-inline" action="{{ url('/admin/settings/menu/search') }}" method="get" autocomplete="off">
@@ -64,9 +64,9 @@
                                             <td class="text-center">{{ $menu->menu_active ? 'Ya' : 'Tidak' }} </td>
                                             <td class="text-center">{{ $menu->menu_display ? 'Ya' : 'Tidak' }} </td>
                                             <td class="text-center">
-                                                <a href="{{ url('/admin/settings/menu/role_menu') }}/{{ $menu->menu_id }}" class="btn btn-outline-success btn-xs m-1"> Role</a>
-                                                <a href="{{ url('/admin/settings/menu/edit') }}/{{ $menu->menu_id }}" class="btn btn-outline-warning btn-xs m-1"> Ubah</a>
-                                                <a href="{{ url('/admin/settings/menu/delete_process') }}/{{ $menu->menu_id }}" class="btn btn-outline-danger btn-xs m-1" onclick="return confirm('Apakah anda ingin menghapus menu {{ $menu->menu_name }} ?')"> Hapus</a>
+                                                <a href="{{ url('/admin/settings/menu/role_menu') }}/{{ $menu->id }}" class="btn btn-outline-success btn-xs m-1"> Role</a>
+                                                <a href="{{ url('/admin/settings/menu/edit') }}/{{ $menu->id }}" class="btn btn-outline-warning btn-xs m-1"> Ubah</a>
+                                                <a href="{{ url('/admin/settings/menu/delete_process') }}/{{ $menu->id }}" class="btn btn-outline-danger btn-xs m-1" onclick="return confirm('Apakah anda ingin menghapus menu {{ $menu->menu_name }} ?')"> Hapus</a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -90,5 +90,5 @@
                     </div>
                 </div>
             </div>
-    
+
 @endsection

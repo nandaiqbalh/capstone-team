@@ -22,7 +22,7 @@
                         <div class="card-body">
                             {{ csrf_field()}}
 
-                            <input type="hidden" name="menu_id" value="{{ $menu->menu_id }}">
+                            <input type="hidden" name="menu_id" value="{{ $menu->id }}">
                             <!-- table -->
                             <div class="table-responsive">
                                 <table class="table table-bordered">

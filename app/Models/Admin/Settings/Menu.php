@@ -25,22 +25,35 @@ class Menu extends BaseModel
 
     // get data by id
     public static function getById($id) {
-        return DB::table('app_menu')->where('menu_id', $id)->first();
+        return DB::table('app_menu')->where('id', $id)->first();
     }
 
     // short id
     public static function makeShortId() {
         // get last id
-        $last_id = DB::table('app_menu')->select('menu_id')->latest('created_date')->first();
+        $last_id = DB::table('app_menu')->select('id')->latest('id')->first();
         // make new id
         if($last_id) {
-            $menu_id = str_pad($last_id->menu_id + 1,2,'0', STR_PAD_LEFT );
+            $id = str_pad($last_id->id + 1, 2, '0', STR_PAD_LEFT);
+        } else {
+            $id = str_pad(1, 2, '0', STR_PAD_LEFT);
         }
-        else {
-            $menu_id = str_pad(1,2,'0', STR_PAD_LEFT );
+        return $id;
+    }
+
+    public static function makeShortMenuId() {
+        // get last id
+        $last_id = DB::table('app_menu')->select('menu_id')->latest('id')->first();
+        // make new id
+        if($last_id) {
+            $menu_id = str_pad($last_id->menu_id + 1, 2, '0', STR_PAD_LEFT);
+        } else {
+            $menu_id = str_pad(1, 2, '0', STR_PAD_LEFT);
         }
         return $menu_id;
     }
+
+
 
     // cek sub menu
     public static function cekSubMenu($menu_id) {
@@ -59,11 +72,11 @@ class Menu extends BaseModel
     }
 
     public static function update($id, $params) {
-        return DB::table('app_menu')->where('menu_id', $id)->update($params);
+        return DB::table('app_menu')->where('id', $id)->update($params);
     }
 
     public static function delete($id) {
-        return DB::table('app_menu')->where('menu_id', $id)->delete();
+        return DB::table('app_menu')->where('id', $id)->delete();
     }
 
 
@@ -74,11 +87,11 @@ class Menu extends BaseModel
 
     // get data role
     public static function getRoleMenu($menu_id) {
-        return DB::table('app_menu')->select('role_id','menu_id')->where('menu_id',$menu_id)->get();
+        return DB::table('app_menu')->select('role_id','id')->where('id',$menu_id)->get();
     }
 
     public static function getMenuById($menu_id) {
-        return DB::table('app_menu')->select('menu_id','menu_name')->where('menu_id',$menu_id)->first();
+        return DB::table('app_menu')->select('id','menu_name')->where('id',$menu_id)->first();
     }
 
     public static function insert_role_menu($params) {
@@ -86,7 +99,7 @@ class Menu extends BaseModel
     }
 
     public static function delete_role_menu($id) {
-        return DB::table('app_menu')->where('menu_id', $id)->where('role_id','!=', '01')->delete();
+        return DB::table('app_menu')->where('id', $id)->where('role_id','!=', '01')->delete();
     }
 
 }
