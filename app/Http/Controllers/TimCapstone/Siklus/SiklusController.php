@@ -31,7 +31,7 @@ class SiklusController extends BaseController
         // data
         $data = ['dt_siklus' => $dt_siklus];
         // view
-        return view('admin.siklus.index', $data);
+        return view('tim_capstone.siklus.index', $data);
     }
 
     /**
@@ -45,7 +45,7 @@ class SiklusController extends BaseController
         SiklusModel::authorize('C');
 
         // view
-        return view('admin.siklus.add');
+        return view('tim_capstone.siklus.add');
     }
 
     /**
@@ -122,7 +122,7 @@ class SiklusController extends BaseController
         $data = ['siklus' => $siklus];
 
         // view
-        return view('admin.siklus.detail', $data);
+        return view('tim_capstone.siklus.detail', $data);
     }
 
     /**
@@ -150,7 +150,7 @@ class SiklusController extends BaseController
         $data = ['siklus' => $siklus];
 
         // view
-        return view('admin.siklus.edit', $data);
+        return view('tim_capstone.siklus.edit', $data);
     }
 
     /**
@@ -250,7 +250,7 @@ class SiklusController extends BaseController
             // data
             $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
             return redirect('/admin/settings/contoh-halaman');
         }

@@ -31,7 +31,7 @@ class BroadcastController extends BaseController
         // data
         $data = ['rs_broadcast' => $rs_broadcast];
         // view
-        return view('admin.broadcast.index', $data);
+        return view('tim_capstone.broadcast.index', $data);
     }
 
     /**
@@ -45,7 +45,7 @@ class BroadcastController extends BaseController
         BroadcastModel::authorize('C');
 
         // view
-        return view('admin.broadcast.add');
+        return view('tim_capstone.broadcast.add');
     }
 
     /**
@@ -120,7 +120,7 @@ class BroadcastController extends BaseController
         $data = ['broadcast' => $broadcast];
 
         // view
-        return view('admin.broadcast.detail', $data);
+        return view('tim_capstone.broadcast.detail', $data);
     }
 
     /**
@@ -148,7 +148,7 @@ class BroadcastController extends BaseController
         $data = ['broadcast' => $broadcast];
 
         // view
-        return view('admin.broadcast.edit', $data);
+        return view('tim_capstone.broadcast.edit', $data);
     }
 
     /**
@@ -248,7 +248,7 @@ class BroadcastController extends BaseController
             // data
             $data = ['rs_broadcast' => $rs_broadcast, 'nama' => $user_name];
             // view
-            return view('admin.broadcast.index', $data);
+            return view('tim_capstone.broadcast.index', $data);
         } else {
             return redirect('/admin/broadcast');
         }

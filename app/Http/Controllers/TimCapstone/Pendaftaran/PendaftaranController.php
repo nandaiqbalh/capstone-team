@@ -39,7 +39,7 @@ class PendaftaranController extends BaseController
         ];
         // dd($data);
         // view
-        return view('admin.pendaftaran.index', $data);
+        return view('tim_capstone.pendaftaran.index', $data);
     }
 
     /**
@@ -65,7 +65,7 @@ class PendaftaranController extends BaseController
         ];
         // dd($data);
         // view
-        return view('admin.pendaftaran.add', $data);
+        return view('tim_capstone.pendaftaran.add', $data);
     }
 
     /**
@@ -213,7 +213,7 @@ class PendaftaranController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.pendaftaran.detail', $data);
+        return view('tim_capstone.pendaftaran.detail', $data);
     }
 
     /**
@@ -241,7 +241,7 @@ class PendaftaranController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.pendaftaran.edit', $data);
+        return view('tim_capstone.pendaftaran.edit', $data);
     }
 
     /**
@@ -345,7 +345,7 @@ class PendaftaranController extends BaseController
             // data
             $data = ['rs_pendaftaran' => $rs_pendaftaran, 'nama' => $user_name];
             // view
-            return view('admin.pendaftaran.index', $data);
+            return view('tim_capstone.pendaftaran.index', $data);
         } else {
             return redirect('/admin/mahasiswa');
         }

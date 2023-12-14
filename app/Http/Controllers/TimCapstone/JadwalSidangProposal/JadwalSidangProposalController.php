@@ -37,7 +37,7 @@ class JadwalSidangProposalController extends BaseController
         ];
         // dd($data);
         // view
-        return view('admin.jadwal-pendaftaran.sidang-proposal.index', $data);
+        return view('tim_capstone.jadwal-pendaftaran.sidang-proposal.index', $data);
     }
 
     public function addJadwalSidangProposal()
@@ -55,7 +55,7 @@ class JadwalSidangProposalController extends BaseController
         ];
 
         // view
-        return view('admin.jadwal-pendaftaran.sidang-proposal.add', $data);
+        return view('tim_capstone.jadwal-pendaftaran.sidang-proposal.add', $data);
     }
 
 
@@ -134,7 +134,7 @@ class JadwalSidangProposalController extends BaseController
         ];
 
         // view
-        return view('admin.jadwal-pendaftaran.sidang-proposal.edit', $data);
+        return view('tim_capstone.jadwal-pendaftaran.sidang-proposal.edit', $data);
     }
 
 
@@ -247,7 +247,7 @@ class JadwalSidangProposalController extends BaseController
             // data
             $data = ['rs_sidang' => $rs_sidang, 'nama' => $user_name];
             // view
-            return view('admin.pendaftaran.index', $data);
+            return view('tim_capstone.pendaftaran.index', $data);
         } else {
             return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
         }

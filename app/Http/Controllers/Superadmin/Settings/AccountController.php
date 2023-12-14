@@ -31,7 +31,7 @@ class AccountController extends BaseController
         $data = ['account' => $account];
 
         //view
-        return view('admin.settings.account.edit', $data);
+        return view('tim_capstone.settings.account.edit', $data);
     }
 
     /**

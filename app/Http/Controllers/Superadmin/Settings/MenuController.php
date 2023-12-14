@@ -25,7 +25,7 @@ class MenuController extends BaseController
         // data
         $data = ['rs_menu' => $rs_menu];
         // view
-        return view('admin.settings.menu.index', $data );
+        return view('tim_capstone.settings.menu.index', $data );
     }
 
      /**
@@ -48,7 +48,7 @@ class MenuController extends BaseController
             // data
             $data = ['rs_menu' => $rs_menu, 'menu_name'=>$menu_name];
             // view
-            return view('admin.settings.menu.index', $data );
+            return view('tim_capstone.settings.menu.index', $data );
         }
         else {
             return redirect('/admin/settings/menu');
@@ -73,7 +73,7 @@ class MenuController extends BaseController
             'rs_menu' => $rs_menu,
         ];
         //view
-        return view('admin.settings.menu.add', $data);
+        return view('tim_capstone.settings.menu.add', $data);
     }
 
     /**
@@ -163,7 +163,7 @@ class MenuController extends BaseController
             'rs_menu' => $rs_menu,
         ];
         //view
-        return view('admin.settings.menu.edit', $data);
+        return view('tim_capstone.settings.menu.edit', $data);
     }
 
     /**
@@ -296,7 +296,7 @@ class MenuController extends BaseController
         ];
 
         //view
-        return view('admin.settings.menu.rolemenu', $data);
+        return view('tim_capstone.settings.menu.rolemenu', $data);
     }
 
     /**

@@ -35,7 +35,7 @@ class JadwalPendaftaranKelompokController extends BaseController
         ];
         // dd($data);
         // view
-        return view('admin.jadwal-pendaftaran.kelompok.index', $data);
+        return view('tim_capstone.jadwal-pendaftaran.kelompok.index', $data);
     }
 
 
@@ -165,7 +165,7 @@ class JadwalPendaftaranKelompokController extends BaseController
             // data
             $data = ['rs_pendaftaran' => $rs_pendaftaran, 'nama' => $user_name];
             // view
-            return view('admin.pendaftaran.index', $data);
+            return view('tim_capstone.pendaftaran.index', $data);
         } else {
             return redirect('/admin/jadwal-pendaftaran/kelompok');
         }

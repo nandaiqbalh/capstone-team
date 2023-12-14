@@ -26,7 +26,7 @@ class ContohHalamanController extends BaseController
         // data
         $data = ['rs_ch' => $rs_ch];
         // view
-        return view('admin.settings.contoh-halaman.index', $data );
+        return view('tim_capstone.settings.contoh-halaman.index', $data );
     }
 
     /**
@@ -40,7 +40,7 @@ class ContohHalamanController extends BaseController
         CHModel::authorize('C');
 
         // view
-        return view('admin.settings.contoh-halaman.add');
+        return view('tim_capstone.settings.contoh-halaman.add');
     }
 
     /**
@@ -107,7 +107,7 @@ class ContohHalamanController extends BaseController
         $data = ['ch' => $ch];
 
         // view
-        return view('admin.settings.contoh-halaman.detail', $data );
+        return view('tim_capstone.settings.contoh-halaman.detail', $data );
     }
 
     /**
@@ -135,7 +135,7 @@ class ContohHalamanController extends BaseController
         $data = ['ch' => $ch];
 
         // view
-        return view('admin.settings.contoh-halaman.edit', $data );
+        return view('tim_capstone.settings.contoh-halaman.edit', $data );
     }
 
     /**
@@ -236,7 +236,7 @@ class ContohHalamanController extends BaseController
             // data
             $data = ['rs_ch' => $rs_ch, 'nama'=>$nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data );
+            return view('tim_capstone.settings.contoh-halaman.index', $data );
         }
         else {
             return redirect('/admin/settings/contoh-halaman');

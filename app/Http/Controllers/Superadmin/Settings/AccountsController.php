@@ -34,7 +34,7 @@ class AccountsController extends BaseController
         ];
 
         // return
-        return view('admin.settings.accounts.index', $data);
+        return view('tim_capstone.settings.accounts.index', $data);
     }
 
     /**
@@ -63,7 +63,7 @@ class AccountsController extends BaseController
 
             ];
             // view
-            return view('admin.settings.accounts.index', $data);
+            return view('tim_capstone.settings.accounts.index', $data);
         } else {
             return redirect('/admin/settings/accounts');
         }
@@ -90,7 +90,7 @@ class AccountsController extends BaseController
         ];
 
         // return
-        return view('admin.settings.accounts.add', $data);
+        return view('tim_capstone.settings.accounts.add', $data);
     }
 
     /**
@@ -179,7 +179,7 @@ class AccountsController extends BaseController
         // if exist
         if (!empty($account)) {
             //view
-            return view('admin.settings.accounts.edit', $data);
+            return view('tim_capstone.settings.accounts.edit', $data);
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
@@ -308,7 +308,7 @@ class AccountsController extends BaseController
         // if exist
         if (!empty($account)) {
             //view
-            return view('admin.settings.accounts.edit-password', $data);
+            return view('tim_capstone.settings.accounts.edit-password', $data);
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');

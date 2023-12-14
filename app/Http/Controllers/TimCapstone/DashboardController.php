@@ -40,7 +40,7 @@ class DashboardController extends BaseController
         ];
 
         //view
-        return view('admin.dashboard.index', $data);
+        return view('tim_capstone.dashboard.index', $data);
     }
 
 }

@@ -27,7 +27,7 @@ class SmtpController extends BaseController
         $data = ['smtp'=>$smtp];
 
         //view
-        return view('admin.settings.smtp.edit', $data);
+        return view('tim_capstone.settings.smtp.edit', $data);
     }
 
     /**

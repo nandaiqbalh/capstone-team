@@ -31,7 +31,7 @@ class TopikController extends BaseController
         // data
         $data = ['rs_topik' => $rs_topik];
         // view
-        return view('admin.topik.index', $data);
+        return view('tim_capstone.topik.index', $data);
     }
 
     /**
@@ -45,7 +45,7 @@ class TopikController extends BaseController
        TopikModel::authorize('C');
 
         // view
-        return view('admin.topik.add');
+        return view('tim_capstone.topik.add');
     }
 
     /**
@@ -116,7 +116,7 @@ class TopikController extends BaseController
         $data = ['topik' => $topik];
 
         // view
-        return view('admin.topik.edit', $data);
+        return view('tim_capstone.topik.edit', $data);
     }
 
     /**
@@ -210,7 +210,7 @@ class TopikController extends BaseController
             // data
             $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
             return redirect('/admin/settings/contoh-halaman');
         }

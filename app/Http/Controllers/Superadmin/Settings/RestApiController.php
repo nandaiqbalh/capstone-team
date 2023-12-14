@@ -21,7 +21,7 @@ class RestApiController extends BaseController
         $data = [
             'rs_user_api_active' => $rs_user_api_active
         ];
-        return view('admin.settings.rest-api.index', $data);
+        return view('tim_capstone.settings.rest-api.index', $data);
     }
 
     /**
@@ -44,7 +44,7 @@ class RestApiController extends BaseController
             // data
             $data = ['rs_user_api_active' => $rs_user_api_active, 'user_name'=>$user_name];
             // view
-            return view('admin.settings.rest-api.index', $data );
+            return view('tim_capstone.settings.rest-api.index', $data );
         }
         else {
             return redirect('/admin/settings/rest-api');

@@ -1,5 +1,5 @@
 
-@extends('admin.base.app')
+@extends('tim_capstone.base.app')
 
 @section('title')
     Pengujian Saya

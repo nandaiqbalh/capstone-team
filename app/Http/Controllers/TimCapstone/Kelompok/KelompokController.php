@@ -32,7 +32,7 @@ class KelompokController extends BaseController
         // data
         $data = ['rs_kelompok' => $rs_kelompok];
         // view
-        return view('admin.kelompok.index', $data);
+        return view('tim_capstone.kelompok.index', $data);
     }
     /**
      * Update the specified resource in storage.
@@ -148,7 +148,7 @@ class KelompokController extends BaseController
         // dd($data);
 
         // view
-        return view('admin.kelompok.detail', $data);
+        return view('tim_capstone.kelompok.detail', $data);
     }
 
     public function deleteKelompokProcess($id)
@@ -344,7 +344,7 @@ class KelompokController extends BaseController
             // data
             $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
             // view
-            return view('admin.kelompok.index', $data);
+            return view('tim_capstone.kelompok.index', $data);
         } else {
             return redirect('/admin/kelompok');
         }

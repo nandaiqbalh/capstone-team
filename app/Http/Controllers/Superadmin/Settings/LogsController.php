@@ -57,7 +57,7 @@ class LogsController extends BaseController
             'rs_logs'=> $rs_logs
         ];
 
-        return view('admin.settings.logs.index', $data);
+        return view('tim_capstone.settings.logs.index', $data);
 
     }
 
@@ -110,7 +110,7 @@ class LogsController extends BaseController
                 'date'  => $date
             ];
 
-            return view('admin.settings.logs.index', $data);
+            return view('tim_capstone.settings.logs.index', $data);
         }
         else {
             return redirect('/admin/settings/logs');
@@ -144,7 +144,7 @@ class LogsController extends BaseController
             'rs_logs'=> LogsModel::getLogLogin()
         ];
 
-        return view('admin.settings.logs.login.index', $data);
+        return view('tim_capstone.settings.logs.login.index', $data);
 
     }
 
@@ -170,7 +170,7 @@ class LogsController extends BaseController
                 'date'  => $date
             ];
 
-            return view('admin.settings.logs.login.index', $data);
+            return view('tim_capstone.settings.logs.login.index', $data);
         }
         else {
             return redirect('/admin/settings/logs/login');
@@ -192,7 +192,7 @@ class LogsController extends BaseController
             'rs_logs'=> LogsModel::getLogLoginAttempt()
         ];
 
-        return view('admin.settings.logs.login-attempt.index', $data);
+        return view('tim_capstone.settings.logs.login-attempt.index', $data);
 
     }
 
@@ -218,7 +218,7 @@ class LogsController extends BaseController
                 'date'  => $date
             ];
 
-            return view('admin.settings.logs.login-attempt.index', $data);
+            return view('tim_capstone.settings.logs.login-attempt.index', $data);
         }
         else {
             return redirect('/admin/settings/logs/login-attempt');
@@ -240,7 +240,7 @@ class LogsController extends BaseController
             'rs_logs'=> LogsModel::getResetPassword()
         ];
 
-        return view('admin.settings.logs.reset-password.index', $data);
+        return view('tim_capstone.settings.logs.reset-password.index', $data);
 
     }
 
@@ -266,7 +266,7 @@ class LogsController extends BaseController
                 'date'  => $date
             ];
 
-            return view('admin.settings.logs.reset-password.index', $data);
+            return view('tim_capstone.settings.logs.reset-password.index', $data);
         }
         else {
             return redirect('/admin/settings/logs/reset-password');

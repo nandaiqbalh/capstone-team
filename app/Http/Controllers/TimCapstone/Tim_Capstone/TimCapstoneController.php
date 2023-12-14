@@ -31,7 +31,7 @@ class TimCapstoneController extends BaseController
         // data
         $data = ['rs_tim_capstone' => $rs_tim_capstone];
         // view
-        return view('admin.tim-capstone.index', $data);
+        return view('tim_capstone.tim-capstone.index', $data);
     }
 
     /**
@@ -45,7 +45,7 @@ class TimCapstoneController extends BaseController
         TimCapstoneModel::authorize('C');
 
         // view
-        return view('admin.mahasiswa.add');
+        return view('tim_capstone.mahasiswa.add');
     }
 
     /**
@@ -132,7 +132,7 @@ class TimCapstoneController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.mahasiswa.detail', $data);
+        return view('tim_capstone.mahasiswa.detail', $data);
     }
 
     /**
@@ -160,7 +160,7 @@ class TimCapstoneController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.mahasiswa.edit', $data);
+        return view('tim_capstone.mahasiswa.edit', $data);
     }
 
     /**
@@ -264,7 +264,7 @@ class TimCapstoneController extends BaseController
             // data
             $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
             // view
-            return view('admin.settings.contoh-halaman.index', $data);
+            return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
             return redirect('/admin/settings/contoh-halaman');
         }

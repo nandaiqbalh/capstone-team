@@ -27,7 +27,7 @@ class DosenController extends BaseController
         // data
         $data = ['dt_dosen' => $dt_dosen];
         // view
-        return view('admin.dosen.index', $data);
+        return view('tim_capstone.dosen.index', $data);
     }
 
     /**
@@ -41,7 +41,7 @@ class DosenController extends BaseController
         DosenModel::authorize('C');
 
         // view
-        return view('admin.dosen.add');
+        return view('tim_capstone.dosen.add');
     }
 
     /**
@@ -117,7 +117,7 @@ class DosenController extends BaseController
         $data = ['dosen' => $dosen];
 
         // view
-        return view('admin.dosen.detail', $data);
+        return view('tim_capstone.dosen.detail', $data);
     }
 
     /**
@@ -145,7 +145,7 @@ class DosenController extends BaseController
         $data = ['dosen' => $dosen];
 
         // view
-        return view('admin.dosen.edit', $data);
+        return view('tim_capstone.dosen.edit', $data);
     }
 
     /**
@@ -245,7 +245,7 @@ class DosenController extends BaseController
             // data
             $data = ['dt_dosen' => $dt_dosen, 'nama' => $user_name];
             // view
-            return view('admin.dosen.index', $data);
+            return view('tim_capstone.dosen.index', $data);
         } else {
             return redirect('/admin/dosen');
         }

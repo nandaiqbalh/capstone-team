@@ -36,7 +36,7 @@ class UploadFileController extends BaseController
 
         // dd($data);
         // view
-        return view('admin.upload-file.detail', $data);
+        return view('tim_capstone.upload-file.detail', $data);
 
     }
 
@@ -509,7 +509,7 @@ class UploadFileController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.mahasiswa.detail', $data);
+        return view('tim_capstone.mahasiswa.detail', $data);
     }
 
     /**
@@ -537,7 +537,7 @@ class UploadFileController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('admin.mahasiswa.edit', $data);
+        return view('tim_capstone.mahasiswa.edit', $data);
     }
 
     /**
@@ -641,7 +641,7 @@ class UploadFileController extends BaseController
             // data
             $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
             // view
-            return view('admin.mahasiswa.index', $data);
+            return view('tim_capstone.mahasiswa.index', $data);
         } else {
             return redirect('/admin/mahasiswa');
         }

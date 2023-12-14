@@ -35,7 +35,7 @@ class JadwalExpoController extends BaseController
         ];
         // dd($data);
         // view
-        return view('admin.jadwal-pendaftaran.expo.index', $data);
+        return view('tim_capstone.jadwal-pendaftaran.expo.index', $data);
     }
 
 
@@ -174,7 +174,7 @@ class JadwalExpoController extends BaseController
         ];
 
         // view
-        return view('admin.jadwal-pendaftaran.expo.detail', $data);
+        return view('tim_capstone.jadwal-pendaftaran.expo.detail', $data);
     }
     /**
      * Update the specified resource in storage. update status dosen 1

@@ -25,7 +25,7 @@ class RoleController extends BaseController
         // data
         $data = ['rs_role' => $rs_role];
         // view
-        return view('admin.settings.role.index', $data );
+        return view('tim_capstone.settings.role.index', $data );
     }
 
     /**
@@ -48,7 +48,7 @@ class RoleController extends BaseController
             // data
             $data = ['rs_role' => $rs_role, 'role_name'=>$role_name];
             // view
-            return view('admin.settings.role.index', $data );
+            return view('tim_capstone.settings.role.index', $data );
         }
         else {
             return redirect('/admin/settings/role');
@@ -66,7 +66,7 @@ class RoleController extends BaseController
         Role::authorize('C');
 
         //view
-        return view('admin.settings.role.add');
+        return view('tim_capstone.settings.role.add');
     }
 
     /**
@@ -135,7 +135,7 @@ class RoleController extends BaseController
         // if exist
         if(!empty($role)) {
             //view
-            return view('admin.settings.role.edit', ['role'=>$role]);
+            return view('tim_capstone.settings.role.edit', ['role'=>$role]);
         }
         else {
             // flash message
