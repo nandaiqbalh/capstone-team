@@ -1,36 +1,39 @@
 <?php
 
-namespace App\Models\Mahasiswa\Kelompok_Mahasiswa;
+namespace App\Models\TimCapstone\UploadFile;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class MahasiswaKelompokModel extends BaseModel
+class UploadFileModel extends BaseModel
 {
     // get all data
-    public static function getData()
+    public static function fileMHS()
     {
-        return DB::table('kelompok as a')
-            ->select('a.*','b.user_name as dosen_name','c.nama as topik_name')
-            ->leftjoin('app_user as b','a.id_dosen','b.user_id')
-            ->leftjoin('topik as c', 'a.id_topik', 'c.id')
-            ->orderByDesc('a.id')
-            ->get();
+        return DB::table('kelompok_mhs as a')
+            ->select('a.id as id_kel_mhs','a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
+            ->join('kelompok as b','a.id_kelompok','b.id')
+            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->where('c.status','aktif')
+            ->where('a.id_mahasiswa', Auth::user()->user_id)
+            ->first();
     }
 
      // pengecekan kelompok
-     public static function pengecekan_kelompok_mahasiswa()
-     {
-        return DB::table('kelompok_mhs as a')
-            ->select('a.*', 'b.*','c.nama as nama_topik')
-            ->leftjoin('kelompok as b','a.id_kelompok','b.id')
-            ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
-            ->join('siklus as d', 'a.id_siklus', 'd.id')
-            ->where('d.status', 'aktif')
-            ->where('a.id_mahasiswa', Auth::user()->user_id)
-            ->first();
-     }
+    public static function pengecekan_kelompok_mahasiswa()
+    {
+    return DB::table('kelompok_mhs as a')
+        ->select('a.*', 'b.*','c.nama as nama_topik')
+        ->leftjoin('kelompok as b','a.id_kelompok','b.id')
+        ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
+        // ->where(function ($query) {
+        //     $query->where('a.status_individu', 'menuggu persetujuan')
+        //         ->orWhere('a.status_individu', 'disetujui');
+        // })
+        ->where('a.id_mahasiswa', Auth::user()->user_id)
+        ->first();
+    }
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
     {
@@ -64,7 +67,6 @@ class MahasiswaKelompokModel extends BaseModel
         return DB::table('app_user as a')
         ->select('a.*')
         ->where('a.role_id', '04')
-        ->orwhere('a.role_id', '02')
         ->get();
     }
 
@@ -74,32 +76,8 @@ class MahasiswaKelompokModel extends BaseModel
         return DB::table('dosen_kelompok as a')
         ->select('a.*', 'b.user_name', 'b.nomor_induk' )
         ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'pembimbing 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'pembimbing 2')
         ->where('a.id_kelompok', $id_kelompok)
         ->get();
-    }
-
-    // pengecekan kelompok penguji
-    public static function getAkunDospengKelompok($id_kelompok)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk')
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'penguji 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'penguji 2')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
-    }
-
-    // pengecekan kelompok
-    public static function proposal($id_kelompok)
-    {
-        return DB::table('jadwal_sidang_proposal')
-        ->where('id_kelompok', $id_kelompok)
-        ->first();
     }
 
     // get data with pagination
@@ -121,7 +99,7 @@ class MahasiswaKelompokModel extends BaseModel
             ->where('c.role_id', '03')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
             // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20)->withQueryString();
+            ->paginate(20);
     }
 
     // get data topik
@@ -176,18 +154,14 @@ class MahasiswaKelompokModel extends BaseModel
     //     return DB::table('app_role_user')->insert($params2);
     // }
 
-    public static function update($user_id, $params)
+    public static function uploadFileMHS($id_kel_mhs, $params)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
+        return DB::table('kelompok_mhs')->where('id', $id_kel_mhs)->update($params);
     }
 
-    public static function updateMahasiswa($user_id, $params)
+    public static function uploadFileKel($id_kelompok, $params)
     {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
+        return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
     }
 
-    public static function delete($user_id)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->delete();
-    }
 }

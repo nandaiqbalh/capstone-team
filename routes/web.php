@@ -21,36 +21,36 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\TimCapstone\DashboardController;
 
 
-use App\Http\Controllers\Admin\Settings\RoleController;
-use App\Http\Controllers\Admin\Settings\MenuController;
-use App\Http\Controllers\Admin\Settings\AccountController;
-use App\Http\Controllers\Admin\Settings\AccountsController;
-use App\Http\Controllers\Admin\Settings\SmtpController;
-use App\Http\Controllers\Admin\Settings\RestApiController;
-use App\Http\Controllers\Admin\Settings\ContohHalamanController;
-use App\Http\Controllers\Admin\Settings\LogsController;
-use App\Http\Controllers\Admin\Settings\TakeOverLoginController;
+use App\Http\Controllers\Superadmin\Settings\RoleController;
+use App\Http\Controllers\Superadmin\Settings\MenuController;
+use App\Http\Controllers\Superadmin\Settings\AccountController;
+use App\Http\Controllers\Superadmin\Settings\AccountsController;
+use App\Http\Controllers\Superadmin\Settings\SmtpController;
+use App\Http\Controllers\Superadmin\Settings\RestApiController;
+use App\Http\Controllers\Superadmin\Settings\ContohHalamanController;
+use App\Http\Controllers\Superadmin\Settings\LogsController;
+use App\Http\Controllers\Superadmin\Settings\TakeOverLoginController;
 
 use App\Http\Controllers\User\Home\HomeController;
-use App\Http\Controllers\Admin\Mahasiswa\MahasiswaController;
-use App\Http\Controllers\Admin\Topik\TimCapstoneController;
-use App\Http\Controllers\Admin\Topik\TopikController;
-use App\Http\Controllers\Admin\Dosen\DosenController;
-use App\Http\Controllers\Admin\Siklus\SiklusController;
-use App\Http\Controllers\Admin\Broadcast\BroadcastController;
-use App\Http\Controllers\Admin\JadwalPendaftaranKelompok\JadwalPendaftaranKelompokController;
-use App\Http\Controllers\Admin\JadwalSidangProposal\JadwalSidangProposalController;
-use App\Http\Controllers\Admin\JadwalExpo\JadwalExpoController;
-use App\Http\Controllers\Admin\Kelompok\KelompokController;
-use App\Http\Controllers\Admin\Pendaftaran\PendaftaranController;
+use App\Http\Controllers\TimCapstone\Mahasiswa\MahasiswaController;
+use App\Http\Controllers\TimCapstone\Topik\TimCapstoneController;
+use App\Http\Controllers\TimCapstone\Topik\TopikController;
+use App\Http\Controllers\TimCapstone\Dosen\DosenController;
+use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
+use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
+use App\Http\Controllers\TimCapstone\JadwalPendaftaranKelompok\JadwalPendaftaranKelompokController;
+use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
+use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
+use App\Http\Controllers\TimCapstone\Kelompok\KelompokController;
+use App\Http\Controllers\TimCapstone\Pendaftaran\PendaftaranController;
 
 use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
 use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
 
-use App\Http\Controllers\Admin\UploadFile\UploadFileController;
+use App\Http\Controllers\TimCapstone\UploadFile\UploadFileController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;

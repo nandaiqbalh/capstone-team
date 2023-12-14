@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dosen\Bimbingan_Saya;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Dosen\Bimbingan_Saya\BimbinganSayaModel;
 use Illuminate\Support\Facades\Hash;
 

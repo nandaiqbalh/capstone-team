@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;

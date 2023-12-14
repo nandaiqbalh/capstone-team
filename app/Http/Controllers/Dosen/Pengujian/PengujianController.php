@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Dosen\Pengujian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Dosen\Pengujian\PengujianModel;
 use Illuminate\Support\Facades\Hash;
 

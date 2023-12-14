@@ -2,7 +2,7 @@
 
 namespace App\Models\Mahasiswa\Expo_Mahasiswa;
 
-use App\Models\Admin\BaseModel;
+use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
