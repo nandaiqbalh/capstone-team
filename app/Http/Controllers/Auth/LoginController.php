@@ -52,29 +52,10 @@ class LoginController extends Controller
             // regenerate session
             $request->session()->regenerate();
 
-            // log login
-            $params = [
-                'id' => LoginModel::makeMicrotimeID(),
-                'user_id'   => Auth::user()->user_id,
-                'status' => 'login',
-                'ip_address' => $request->ip(),
-                'date'  => date('Y-m-d H:i:s')
-            ];
-            // insert
-            // LoginModel::insert_app_log($params);
             session()->put('login', 'true');
             // return
             return redirect()->intended('/admin/dashboard');
         } else {
-            $params = [
-                'id' => LoginModel::makeMicrotimeID(),
-                'nomor_induk'   => $request->id_pengguna,
-                'password' => $request->password,
-                'ip_address' => $request->ip(),
-                'created_date'  => date('Y-m-d H:i:s')
-            ];
-            // insert
-            // LoginModel::insert_app_login_attempt($params);
 
             // flash message
             $request->session()->flash('danger', 'Masuk gagal, silahkan cek kembali ID Pengguna & Kata Sandi Anda.');
