@@ -27,14 +27,18 @@ use Illuminate\Support\Arr;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
-use App\Http\Controllers\Api\V1\TriggerNode\TriggerNodeController;
-use App\Http\Controllers\Api\V1\Revisi\RevisiController;
+
+Route::prefix('v1')->group(function () {
+    Route::post('/auth/login/', [LoginController::class, 'authenticate']);
+    Route::post('/auth/reset-password/', [ResetPasswordController::class, 'resetPasswordProcess']);
+    Route::get('/mahasiswa/', [LoginController::class, 'index']);
+
+});
+Route::middleware(['auth'])->group(function () {
 
 
-Route::post('/v1/auth/login/', [LoginController::class, 'authenticate']);
-Route::post('/v1/auth/reset-password/', [ResetPasswordController::class, 'resetPasswordProcess']);
-Route::get('/v1/assessment-trigger', [TriggerNodeController::class, 'Trigger']);
-Route::get('/v1/assignment-trigger', [TriggerNodeController::class, 'TriggerAssignment']);
+
+});
 
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -75,8 +79,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
         return response()->json($response)->setStatusCode(200);
     });
-    // Route::get('/v1/trigger', [TriggerNodeController::class,'Trigger']);
-    // -------------------------------------------------------------------
-    Route::post('/v1/revisi', [RevisiController::class, 'Revisi']);
-    Route::post('/v1/revisi-pekerjaan', [RevisiController::class, 'RevisiPekerjaan']);
+
 });

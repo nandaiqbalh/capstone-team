@@ -62,13 +62,6 @@ use App\Http\Controllers\Dosen\Pengujian\PengujianController;
  * PUBLIC
  */
 Route::get('', [LoginController::class, 'index'])->name('/login')->middleware('guest');
-Route::get('/home', [HomeController::class, 'index'])->name('/index')->middleware('guest');
-Route::get('/event', [HomeController::class, 'event']);
-Route::get('/event-{id}', [HomeController::class, 'eventDetail']);
-Route::get('/ticket-{id}', [HomeController::class, 'eventTicketBuy']);
-Route::post('/process-ticket', [HomeController::class, 'pesanTicket']);
-Route::get('/pesan-{id}', [HomeController::class, 'pesanTicket']);
-// Route::get('', [LoginController::class,'index'])->name('/login')->middleware('guest');
 
 /**
  * AUTH
@@ -184,13 +177,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
     //tim capstone
-    Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
-    Route::get('/admin/tim-capstone/add', [TimCapstoneController::class, 'addTimCapstone']);
-    Route::post('/admin/tim-capstone/add-process', [TimCapstoneController::class, 'addTimCapstoneProcess']);
-    Route::get('/admin/tim-capstone/delete-process/{user_id}', [TimCapstoneController::class, 'deleteTimCapstoneProcess']);
-    Route::get('/admin/tim-capstone/edit/{user_id}', [TimCapstoneController::class, 'editTimCapstone']);
-    Route::post('/admin/tim-capstone/edit-process', [TimCapstoneController::class, 'editTimCapstoneProcess']);
-    Route::get('/admin/tim-capstone/detail/{user_id}', [TimCapstoneController::class, 'detailTimCapstone']);
+    // Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
+    // Route::get('/admin/tim-capstone/add', [TimCapstoneController::class, 'addTimCapstone']);
+    // Route::post('/admin/tim-capstone/add-process', [TimCapstoneController::class, 'addTimCapstoneProcess']);
+    // Route::get('/admin/tim-capstone/delete-process/{user_id}', [TimCapstoneController::class, 'deleteTimCapstoneProcess']);
+    // Route::get('/admin/tim-capstone/edit/{user_id}', [TimCapstoneController::class, 'editTimCapstone']);
+    // Route::post('/admin/tim-capstone/edit-process', [TimCapstoneController::class, 'editTimCapstoneProcess']);
+    // Route::get('/admin/tim-capstone/detail/{user_id}', [TimCapstoneController::class, 'detailTimCapstone']);
 
     //topik
     Route::get('/admin/topik', [TopikController::class, 'index']);
