@@ -24,14 +24,14 @@ use Illuminate\Support\Arr;
  * API VERSION 1
  */
 
-use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 
 Route::prefix('v1')->group(function () {
-    Route::post('/auth/login/', [LoginController::class, 'authenticate']);
+    Route::post('/auth/login/', [ApiLoginController::class, 'authenticate']);
     Route::post('/auth/reset-password/', [ResetPasswordController::class, 'resetPasswordProcess']);
-    Route::get('/mahasiswa/', [LoginController::class, 'index']);
+    Route::get('/mahasiswa/', [ApiLoginController::class, 'index']);
 
 });
 Route::middleware(['auth'])->group(function () {

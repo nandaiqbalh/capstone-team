@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\Mahasiswa\MahasiswaModel;
 
-class LoginController extends Controller
+class ApiLoginController extends Controller
 {
 
     /**
