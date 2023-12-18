@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
-use App\Models\Api\V1\Auth\LoginModel;
-use App\Models\User;
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\TimCapstone\Mahasiswa\MahasiswaModel;
+use App\Models\Api\TimCapstone\Mahasiswa\ApiMahasiswaModel;
 
 class ApiLoginController extends Controller
 {
@@ -22,49 +21,60 @@ class ApiLoginController extends Controller
      */
 
      public function authenticate(Request $request)
+     {
+         // Validate input
+         $validator = \Validator::make($request->all(), [
+             'nomor_induk' => 'required',
+             'password' => 'required|min:8|max:20',
+         ]);
+
+         if ($validator->fails()) {
+             return response()->json(['status' => false, 'message' => 'Nomor Induk dan Password harus semuanya diisi.', 'data' => null,], 422);
+         }
+
+         // Attempt authentication
+         if (Auth::attempt(['nomor_induk' => $request->nomor_induk, 'password' => $request->password, 'user_active' => '1'])) {
+             // Get user data
+             $user = Auth::user();
+
+             // Generate and save api_token
+             $apiToken = Str::random(60); // or use Passport::apiToken() if you're using Passport version 11.x
+             $user->forceFill([
+                 'api_token' => $apiToken,
+             ])->save();
+
+             // Return success response
+             return response()->json(['status' => true, 'message' => 'Autentikasi berhasil!', 'data' => $user], 200);
+         } else {
+             // Return error response
+             return response()->json(['status' => false, 'message' => 'Autentikasi gagal! Nomor Induk atau Password tidak valid.', 'data' => null,], 401);
+         }
+     }
+
+public function index(Request $request)
 {
-    // Validate input
-    $validator = \Validator::make($request->all(), [
-        'nomor_induk' => 'required',
-        'password' => 'required|min:8|max:20',
-    ]);
+    // Mendapatkan user_id dari query parameter
+    $user_id = $request->query('user_id');
 
-    if ($validator->fails()) {
-        return response()->json(['status' => 'error', 'message' => 'Validation failed', 'errors' => $validator->errors()], 422);
-    }
-
-    // Attempt authentication
-    if (Auth::attempt(['nomor_induk' => $request->nomor_induk, 'password' => $request->password, 'user_active' => '1'])) {
-        // Regenerate session
-        // $request->session()->regenerate();
-
-        // // Set session variable
-        // session()->put('login', 'true');
-
-        // Get user data
-        $user = Auth::user();
-
-        // Return success response
-        return response()->json(['status' => 'success', 'message' => 'Authentication successful', 'data' => $user], 200);
-    } else {
-        // Return error response
-        return response()->json(['status' => 'error', 'message' => 'Authentication failed', 'errors' => ['authentication' => 'Invalid Nomor Induk or Password.']], 401);
-    }
-}
-
-public function index()
-    {
-        // authorize
-        // MahasiswaModel::authorize('R');
-
+    // authorize
+    $isAutorized = ApiMahasiswaModel::authorize('R', $user_id);
+    if (true) {
         // get data with pagination
-        $rs_mahasiswa = MahasiswaModel::getDataWithPagination();
+    $rs_mahasiswa = ApiMahasiswaModel::getDataWithPagination();
 
-        // data
-        $data = ['rs_mahasiswa' => $rs_mahasiswa];
+    // return data as JSON
+    return response()->json(['status' => true, 'data' => ['rs_mahasiswa' => $rs_mahasiswa]]);
+    } else {
+        return response()->json(['status' => false, 'message' => 'Unauthorized', 'user_id' => $user_id], 403);
 
-        // return data as JSON
-        return response()->json($data);
     }
 
+
 }
+
+
+
+
+}
+
+

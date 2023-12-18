@@ -25,59 +25,22 @@ use Illuminate\Support\Arr;
  */
 
 use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
-use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+
+// profile
+use App\Http\Controllers\Api\V1\Mahasiswa\Profile\ApiProfileController;
 
 Route::prefix('v1')->group(function () {
     Route::post('/auth/login/', [ApiLoginController::class, 'authenticate']);
+    Route::get('/auth/logout', [ApiLogoutController::class, 'logout']);
+
     Route::post('/auth/reset-password/', [ResetPasswordController::class, 'resetPasswordProcess']);
     Route::get('/mahasiswa/', [ApiLoginController::class, 'index']);
 
-});
-Route::middleware(['auth'])->group(function () {
-
-
-
-});
-
-
-Route::middleware('auth:sanctum')->group(function () {
-    // auth logoout
-    Route::get('/v1/auth/logout', [LogoutController::class, 'logout']);
-
-    // user profile
-    Route::get('/v1/user/profile', function (Request $request) {
-        $data = $request->user();
-        // unset
-        Arr::forget($data, 'created_by');
-        Arr::forget($data, 'created_date');
-        Arr::forget($data, 'modified_by');
-        Arr::forget($data, 'modified_date');
-
-        // user role
-        $role = DB::table('app_role')
-            ->join('app_role_user', 'app_role.role_id', '=', 'app_role_user.role_id')
-            ->where('user_id', $request->user()->user_id)
-            ->value('role_name');
-
-        Arr::add($data, 'user_role', $role);
-
-        // BranchName
-        $branch_name = DB::table('master_branch')
-            ->select('name as branch_name')
-            ->where('id', $request->user()->branch_id)
-            ->value('name');
-
-        Arr::add($data, 'branch_name', $branch_name);
-
-        // return json
-        $response = [
-            "status" => true,
-            "message" => 'OK',
-            "data" => $data
-        ];
-
-        return response()->json($response)->setStatusCode(200);
-    });
+    // profile
+    Route::get('/mahasiswa/profile/', [ApiProfileController::class, 'index']);
+    Route::post('/mahasiswa/profile/editProcess/', [ApiProfileController::class, 'editProcess']);
 
 });
+
