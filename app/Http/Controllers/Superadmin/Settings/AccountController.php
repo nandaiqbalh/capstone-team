@@ -46,13 +46,13 @@ class AccountController extends BaseController
         $file = $request->file('user_img');
         $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
 
-        // // unlink image
+        // unlink image
 
-        // $account = Account::getById(Auth::user()->user_id);
-        // $old_img = public_path($this->upload_path). $account->user_img_name;
-        // if(file_exists($old_img) && $account->user_img_name != 'default.png') {
-        //     unlink($old_img);
-        // }
+        $account = Account::getById(Auth::user()->user_id);
+        $old_img = public_path($this->upload_path). $account->user_img_name;
+        if(file_exists($old_img) && $account->user_img_name != 'default.png') {
+            unlink($old_img);
+        }
 
         $upload = $file->move($path, $new_image_name);
         if ($upload) {

@@ -41,6 +41,7 @@ Route::prefix('v1')->group(function () {
     // profile
     Route::get('/mahasiswa/profile/', [ApiProfileController::class, 'index']);
     Route::post('/mahasiswa/profile/editProcess/', [ApiProfileController::class, 'editProcess']);
+    Route::post('/mahasiswa/profile/editPassword/', [ApiProfileController::class, 'editPassword']);
 
 });
 
