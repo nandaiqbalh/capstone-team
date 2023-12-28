@@ -24,6 +24,7 @@ use Illuminate\Support\Arr;
  * API VERSION 1
  */
 
+use App\Http\Controllers\Api\V1\Mahasiswa\Broadcast\ApiBroadcastController;
 use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
 use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
@@ -42,6 +43,9 @@ Route::prefix('v1')->group(function () {
     Route::get('/mahasiswa/profile/', [ApiProfileController::class, 'index']);
     Route::post('/mahasiswa/profile/editProcess/', [ApiProfileController::class, 'editProcess']);
     Route::post('/mahasiswa/profile/editPassword/', [ApiProfileController::class, 'editPassword']);
+
+    Route::post('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);
+    Route::post('/mahasiswa/broadcast/{id}', [ApiBroadcastController::class, 'detailBroadcastApi']);
 
 });
 
