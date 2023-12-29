@@ -403,7 +403,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label >Judul Capstone<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="judul_ta" value="{{ old('judul_ta') }}" required>
+                                            <input type="text" class="form-control" name="judul_capstone" value="{{ old('judul_capstone') }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

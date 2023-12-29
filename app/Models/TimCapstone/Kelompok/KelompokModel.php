@@ -1,6 +1,6 @@
 <?php
 
-namespace App\TimCapstone\Admin\Kelompok;
+namespace App\Models\TimCapstone\Kelompok;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;

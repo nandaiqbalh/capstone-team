@@ -29,6 +29,9 @@ use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
 use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 
+use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokSayaController;
+
+
 // profile
 use App\Http\Controllers\Api\V1\Mahasiswa\Profile\ApiProfileController;
 
@@ -46,6 +49,11 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);
     Route::post('/mahasiswa/broadcast/{id}', [ApiBroadcastController::class, 'detailBroadcastApi']);
+
+    Route::post('/mahasiswa/kelompok/', [ApiKelompokSayaController::class, 'index']);
+    Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokSayaController::class, 'addKelompokProcess']);
+    Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [ApiKelompokSayaController::class, 'addPunyaKelompokProcess']);
+
 
 });
 
