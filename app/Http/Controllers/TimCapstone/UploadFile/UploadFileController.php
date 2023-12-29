@@ -67,6 +67,24 @@ class UploadFileController extends BaseController
             );
             $new_file_name  = 'makalah'.Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
+            $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
+            // Check if the file exists
+            if ($existingFile) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
             // cek folder
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
@@ -113,6 +131,25 @@ class UploadFileController extends BaseController
                 PATHINFO_EXTENSION
             );
             $new_file_name  = 'laporan_ta' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
+
+            $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
+            // Check if the file exists
+            if ($existingFile) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
 
             // cek folder
             if (!is_dir(public_path($upload_path))) {

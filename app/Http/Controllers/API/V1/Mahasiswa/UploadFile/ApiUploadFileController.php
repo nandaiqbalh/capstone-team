@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+
 
 class ApiUploadFileController extends Controller
 {
@@ -91,12 +93,11 @@ class ApiUploadFileController extends Controller
 
         // Check if api_token is provided
         if (empty($apiToken)) {
-            $response = [
+            return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
                 'data' => null,
-            ];
-            return response()->json($response, 400); // 400 Bad Request
+            ], 400); // 400 Bad Request
         }
 
         $userId = $request->input('user_id');
@@ -110,19 +111,18 @@ class ApiUploadFileController extends Controller
                 $isAuthorized = ApiAccountModel::authorize('C', $userId);
 
                 if (!$isAuthorized) {
-                    $response = [
+                    return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
                         'data' => null,
-                    ];
-                    return response()->json($response, 403);
+                    ], 403);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
                         // Validate the request
                         $validator = Validator::make($request->all(), [
-                            'makalah' => 'required|file|mimes:pdf|max:10240', // Example: Allow only PDF files with a maximum size of 10MB
-                            'id_mahasiswa' => 'required|exists:kelompok_mhs,id_mahasiswa', // Replace 'your_kel_mhs_table' with the actual table name
+                            'makalah' => 'required|file|mimes:pdf|max:10240',
+                            'id_mahasiswa' => 'required|exists:kelompok_mhs,id_mahasiswa',
                         ]);
 
                         // Check if validation fails
@@ -141,34 +141,70 @@ class ApiUploadFileController extends Controller
                         if ($request->hasFile('makalah')) {
                             $file = $request->file('makalah');
 
+                            $file_extention = pathinfo(
+                                $file->getClientOriginalName(),
+                                PATHINFO_EXTENSION
+                            );
+
                             // Generate a unique file name
-                            $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                            $newFileName  = 'makalah' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
                             // Check if the folder exists, if not, create it
                             if (!is_dir(public_path($uploadPath))) {
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
+                            // Check and delete the existing file
+                            $existingFile = ApiUploadFileModel::fileMHS($request->id_mahasiswa);
+
+                            // Check if the file exists
+                            if ($existingFile) {
+                                // Construct the file path
+                                $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
+
+                                // Check if the file exists before attempting to delete
+                                if (file_exists($filePath)) {
+                                    // Attempt to delete the file
+                                    if (!unlink($filePath)) {
+                                        // Return failure response if failed to delete the existing file
+                                        return response()->json([
+                                            'status' => false,
+                                            'message' => 'Gagal menghapus file lama.',
+                                        ], 500);
+                                    }
+                                }
+                            }
+
                             // Move the uploaded file to the specified path
-                            if (!$file->move(public_path($uploadPath), $newFileName)) {
+                            if ($file->move(public_path($uploadPath), $newFileName)) {
+                                // Save the new file details in the database
+                                $params = [
+                                    'file_name_makalah' => $newFileName,
+                                    'file_path_makalah' => $uploadPath,
+                                ];
+
+                                $uploadFile = ApiUploadFileModel::uploadFileMHS($request->id_mahasiswa, $params);
+
+                                if ($uploadFile) {
+                                    // Return success response
+                                    return response()->json([
+                                        'status' => true,
+                                        'message' => 'Data berhasil disimpan.',
+                                    ], 200);
+                                } else {
+                                    // Return failure response if failed to save new file details
+                                    return response()->json([
+                                        'status' => false,
+                                        'message' => 'Gagal menyimpan file.',
+                                    ], 400);
+                                }
+                            } else {
+                                // Return failure response if failed to move the uploaded file
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Makalah gagal diupload.',
                                 ], 500);
                             }
-
-                            // Save the file details in the database
-                            $params = [
-                                'file_name_makalah' => $newFileName,
-                                'file_path_makalah' => $uploadPath,
-                            ];
-
-                            ApiUploadFileModel::uploadFileMHS($request->id_mahasiswa, $params);
-
-                            return response()->json([
-                                'status' => true,
-                                'message' => 'Data berhasil disimpan.',
-                            ], 200);
                         }
 
                         return response()->json([
@@ -176,23 +212,21 @@ class ApiUploadFileController extends Controller
                             'message' => 'Makalah tidak ditemukan.',
                         ], 400);
                     } else {
-                        $response = [
+                        return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
                             'data' => null,
-                        ];
-                        return response()->json($response, 401); // 401 Unauthorized
+                        ], 401); // 401 Unauthorized
                     }
                 }
             }
         } else {
             // User not found or api_token is null
-            $response = [
+            return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
-            ];
-            return response()->json($response, 404); // 401 Unauthorized
+            ], 404); // 401 Unauthorized
         }
     }
 
@@ -259,6 +293,27 @@ class ApiUploadFileController extends Controller
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
+                            // Check and delete the existing file
+                            $existingFile = ApiUploadFileModel::fileMHS($request->id_mahasiswa);
+
+                            // Check if the file exists
+                            if ($existingFile) {
+                                // Construct the file path
+                                $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
+
+                                // Check if the file exists before attempting to delete
+                                if (file_exists($filePath)) {
+                                    // Attempt to delete the file
+                                    if (!unlink($filePath)) {
+                                        // Return failure response if failed to delete the existing file
+                                        return response()->json([
+                                            'status' => false,
+                                            'message' => 'Gagal menghapus file lama.',
+                                        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                                    }
+                                }
+                            }
+
                             // Move the uploaded file to the specified path
                             try {
                                 $file->move(public_path($uploadPath), $newFileName);
@@ -275,12 +330,19 @@ class ApiUploadFileController extends Controller
                                 'file_path_laporan_ta' => $uploadPath,
                             ];
 
-                            ApiUploadFileModel::uploadFileMHS($request->id_mahasiswa, $params);
+                            $uploadFile = ApiUploadFileModel::uploadFileMHS($request->id_mahasiswa, $params);
 
-                            return response()->json([
-                                'status' => true,
-                                'message' => 'Data berhasil disimpan.',
-                            ], Response::HTTP_OK);
+                            if ($uploadFile) {
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => 'Data berhasil disimpan.',
+                                ], Response::HTTP_OK);
+                            } else {
+                                return response()->json([
+                                    'status' => false,
+                                    'message' => 'Gagal menyimpan file.',
+                                ], Response::HTTP_BAD_REQUEST);
+                            }
                         }
 
                         return response()->json([
