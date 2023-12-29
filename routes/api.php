@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 
 use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokSayaController;
 use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
+use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileCapstoneController;
 
 
 // profile
@@ -58,6 +59,13 @@ Route::prefix('v1')->group(function () {
     Route::post('/mahasiswa/upload-file/', [ApiUploadFileController::class, 'index']);
     Route::post('/mahasiswa/upload-file/upload-makalah-process', [ApiUploadFileController::class, 'uploadMakalahProcess']);
     Route::post('/mahasiswa/upload-file/upload-laporan-process', [ApiUploadFileController::class, 'uploadLaporanProcess']);
+
+    Route::post('/mahasiswa/upload-file/upload-c100-process', [ApiUploadFileCapstoneController::class, 'uploadC100Process']);
+    Route::post('/mahasiswa/upload-file/upload-c200-process', [ApiUploadFileCapstoneController::class, 'uploadC200Process']);
+    Route::post('/mahasiswa/upload-file/upload-c300-process', [ApiUploadFileCapstoneController::class, 'uploadC300Process']);
+    Route::post('/mahasiswa/upload-file/upload-c400-process', [ApiUploadFileCapstoneController::class, 'uploadC400Process']);
+    Route::post('/mahasiswa/upload-file/upload-c500-process', [ApiUploadFileCapstoneController::class, 'uploadC500Process']);
+
 
 });
 

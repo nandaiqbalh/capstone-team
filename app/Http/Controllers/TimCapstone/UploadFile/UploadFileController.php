@@ -69,7 +69,7 @@ class UploadFileController extends BaseController
 
             $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
             // Check if the file exists
-            if ($existingFile) {
+            if ($existingFile ->file_name_makalah != null) {
                 // Construct the file path
                 $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
 
@@ -134,7 +134,7 @@ class UploadFileController extends BaseController
 
             $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
             // Check if the file exists
-            if ($existingFile) {
+            if ($existingFile ->file_name_laporan_ta !=null) {
                 // Construct the file path
                 $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
 
@@ -199,6 +199,25 @@ class UploadFileController extends BaseController
             );
             $new_file_name  = 'c100' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
+            $existingFile = UploadFileModel::getKelompokFile();
+            // Check if the file exists
+            if ($existingFile -> file_name_c100 !=null) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_c100 . '/' . $existingFile->file_name_c100);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
+
             // cek folder
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
@@ -223,6 +242,7 @@ class UploadFileController extends BaseController
         session()->flash('success', 'Data berhasil disimpan.');
         return back();
     }
+
     public function uploadC200Process(Request $request)
     {
         // dd($request['angkatan']);
@@ -244,6 +264,24 @@ class UploadFileController extends BaseController
             );
             $new_file_name  = 'c200' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
+            $existingFile = UploadFileModel::getKelompokFile();
+            // Check if the file exists
+            if ($existingFile -> file_name_c200!=null) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
             // cek folder
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
@@ -289,6 +327,24 @@ class UploadFileController extends BaseController
             );
             $new_file_name  = 'c300' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
+            $existingFile = UploadFileModel::getKelompokFile();
+            // Check if the file exists
+            if ($existingFile -> file_name_c300 !=null) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
             // cek folder
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
@@ -334,6 +390,24 @@ class UploadFileController extends BaseController
             );
             $new_file_name  = 'c400' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
+            $existingFile = UploadFileModel::getKelompokFile();
+            // Check if the file exists
+            if ($existingFile -> file_name_c400 !=null) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_c400 . '/' . $existingFile->file_name_c400);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
             // cek folder
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
@@ -379,6 +453,24 @@ class UploadFileController extends BaseController
             );
             $new_file_name  = 'c500' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
+            $existingFile = UploadFileModel::getKelompokFile();
+            // Check if the file exists
+            if ($existingFile -> file_name_c500 !=null) {
+                // Construct the file path
+                $filePath = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
+
+                // Check if the file exists before attempting to delete
+                if (file_exists($filePath)) {
+                    // Attempt to delete the file
+                    if (!unlink($filePath)) {
+                        // Return failure response if failed to delete the existing file
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal menghapus file lama.',
+                        ], 500);
+                    }
+                }
+            }
             // cek folder
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);

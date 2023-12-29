@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class UploadFileModel extends BaseModel
 {
+    public static function getKelompokFile()
+    {
+        return DB::table('kelompok as a')
+            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->where('c.status','aktif')
+            ->first();
+    }
     // get all data
     public static function fileMHS()
     {

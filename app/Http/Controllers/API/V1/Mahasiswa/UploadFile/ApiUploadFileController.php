@@ -158,7 +158,7 @@ class ApiUploadFileController extends Controller
                             $existingFile = ApiUploadFileModel::fileMHS($request->id_mahasiswa);
 
                             // Check if the file exists
-                            if ($existingFile) {
+                            if ($existingFile -> file_name_makalah != null) {
                                 // Construct the file path
                                 $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
 
@@ -297,7 +297,7 @@ class ApiUploadFileController extends Controller
                             $existingFile = ApiUploadFileModel::fileMHS($request->id_mahasiswa);
 
                             // Check if the file exists
-                            if ($existingFile) {
+                            if ($existingFile -> file_name_laporan_ta != null) {
                                 // Construct the file path
                                 $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
 
