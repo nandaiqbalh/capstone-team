@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 
 use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokSayaController;
+use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
 
 
 // profile
@@ -54,6 +55,9 @@ Route::prefix('v1')->group(function () {
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokSayaController::class, 'addKelompokProcess']);
     Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [ApiKelompokSayaController::class, 'addPunyaKelompokProcess']);
 
+    Route::post('/mahasiswa/upload-file/', [ApiUploadFileController::class, 'index']);
+    Route::post('/mahasiswa/upload-file/upload-makalah-process', [ApiUploadFileController::class, 'uploadMakalahProcess']);
+    Route::post('/mahasiswa/upload-file/upload-laporan-process', [ApiUploadFileController::class, 'uploadLaporanProcess']);
 
 });
 
