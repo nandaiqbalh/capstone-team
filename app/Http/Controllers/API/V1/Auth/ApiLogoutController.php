@@ -21,19 +21,18 @@ class ApiLogoutController extends Controller
     public function logout(Request $request)
     {
         // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        $apiToken = $request-> api_token;
 
         // Check if api_token is provided
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-                'data' => null,
             ];
             return response()->json($response, 400); // 400 Bad Request
         }
 
-        $userId = $request->input('user_id');
+        $userId = $request ->user_id;
         $user = ApiAccountModel::getById($userId);
 
         // Check if the user exists
@@ -47,7 +46,6 @@ class ApiLogoutController extends Controller
                     $response = [
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                        'data' => null,
                     ];
                     return response()->json($response, 403);
                 } else {
@@ -67,7 +65,6 @@ class ApiLogoutController extends Controller
                                 $response = [
                                     "status" => true,
                                     "message" => 'Logout berhasil!',
-                                    "data" => $user,
                                 ];
 
                                 return response()->json($response, 200);
@@ -76,7 +73,6 @@ class ApiLogoutController extends Controller
                                 $response = [
                                     "status" => true,
                                     "message" => 'Logout gagal!',
-                                    "data" => $user,
 
                                 ];
                                 return response()->json($response, 500);
@@ -87,7 +83,6 @@ class ApiLogoutController extends Controller
                             $response = [
                                 "status" => false,
                                 "message" => 'User not authenticated.',
-                                "data" => $user,
                             ];
 
                             return response()->json($response)->setStatusCode(401);
@@ -97,18 +92,22 @@ class ApiLogoutController extends Controller
                         $response = [
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                            'data' => null,
                         ];
                         return response()->json($response, 401); // 401 Unauthorized
                     }
                 }
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => 'Pengguna belum login!',
+                ];
+                return response()->json($response, 403);
             }
         } else {
             // User not found or api_token is null
             $response = [
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-                'data' => null,
             ];
             return response()->json($response, 404); // 401 Unauthorized
         }
