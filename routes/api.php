@@ -39,7 +39,7 @@ use App\Http\Controllers\Api\V1\Mahasiswa\Profile\ApiProfileController;
 
 Route::prefix('v1')->group(function () {
     Route::post('/auth/login/', [ApiLoginController::class, 'authenticate']);
-    Route::get('/auth/logout', [ApiLogoutController::class, 'logout']);
+    Route::post('/auth/logout', [ApiLogoutController::class, 'logout']);
 
     Route::post('/auth/reset-password/', [ResetPasswordController::class, 'resetPasswordProcess']);
     Route::get('/mahasiswa/', [ApiLoginController::class, 'index']);

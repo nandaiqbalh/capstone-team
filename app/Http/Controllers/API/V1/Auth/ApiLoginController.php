@@ -36,7 +36,7 @@ class ApiLoginController extends Controller
         return response()->json([
             'status' => false,
             'message' => 'Nomor Induk dan Password harus semuanya diisi.',
-        ], 422);
+        ], 200);
     }
 
     // Attempt authentication manually
@@ -60,7 +60,7 @@ class ApiLoginController extends Controller
         return response()->json([
             'status' => false,
             'message' => 'Autentikasi gagal! Nomor Induk atau Password tidak valid.',
-        ], 401);
+        ], 200);
     }
 }
 
@@ -78,7 +78,7 @@ public function index(Request $request)
     // return data as JSON
     return response()->json(['status' => true, 'data' => ['rs_mahasiswa' => $rs_mahasiswa]]);
     } else {
-        return response()->json(['status' => false, 'message' => 'Unauthorized', 'user_id' => $user_id], 403);
+        return response()->json(['status' => false, 'message' => 'Unauthorized', 'user_id' => $user_id], 200);
 
     }
 
