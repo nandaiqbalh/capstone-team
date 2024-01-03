@@ -70,6 +70,13 @@ class ApiProfileController extends Controller
                         return response()->json($response, 401); // 401 Unauthorized
                     }
                 }
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => 'Pengguna harus login terlebih dahulu!',
+                    'data' => null,
+                ];
+                return response()->json($response, 401); // 401 Unauthorized
             }
         } else {
             // User not found or api_token is null

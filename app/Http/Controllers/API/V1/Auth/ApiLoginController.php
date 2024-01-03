@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User; // Gantilah sesuai namespace dan lokasi model User Anda
+use Illuminate\Support\Facades\Hash;
+
 
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Api\TimCapstone\Mahasiswa\ApiMahasiswaModel;
@@ -21,35 +25,44 @@ class ApiLoginController extends Controller
      */
 
      public function authenticate(Request $request)
-     {
-         // Validate input
-         $validator = \Validator::make($request->all(), [
-             'nomor_induk' => 'required',
-             'password' => 'required|min:8|max:20',
-         ]);
+{
+    // Validate input
+    $validator = Validator::make($request->all(), [
+        'nomor_induk' => 'required',
+        'password' => 'required|min:8|max:20',
+    ]);
 
-         if ($validator->fails()) {
-             return response()->json(['status' => false, 'message' => 'Nomor Induk dan Password harus semuanya diisi.', 'data' => null,], 422);
-         }
+    if ($validator->fails()) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Nomor Induk dan Password harus semuanya diisi.',
+        ], 422);
+    }
 
-         // Attempt authentication
-         if (Auth::attempt(['nomor_induk' => $request->nomor_induk, 'password' => $request->password, 'user_active' => '1'])) {
-             // Get user data
-             $user = Auth::user();
+    // Attempt authentication manually
+    $user = User::where('nomor_induk', $request->nomor_induk)->first();
 
-             // Generate and save api_token
-             $apiToken = Str::random(60); // or use Passport::apiToken() if you're using Passport version 11.x
-             $user->forceFill([
-                 'api_token' => $apiToken,
-             ])->save();
+    if ($user && $user->user_active == '1' && Hash::check($request->password, $user->user_password)) {
+        // Generate and save api_token
+        $apiToken = Str::random(60); // or use Passport::apiToken() if you're using Passport version 11.x
+        $user->forceFill([
+            'api_token' => $apiToken,
+        ])->save();
 
-             // Return success response
-             return response()->json(['status' => true, 'message' => 'Autentikasi berhasil!', 'data' => $user], 200);
-         } else {
-             // Return error response
-             return response()->json(['status' => false, 'message' => 'Autentikasi gagal! Nomor Induk atau Password tidak valid.', 'data' => null,], 401);
-         }
-     }
+        // Return success response
+        return response()->json([
+            'status' => true,
+            'message' => 'Autentikasi berhasil!',
+            'data' => $user,
+        ], 200);
+    } else {
+        // Return error response
+        return response()->json([
+            'status' => false,
+            'message' => 'Autentikasi gagal! Nomor Induk atau Password tidak valid.',
+        ], 401);
+    }
+}
 
 public function index(Request $request)
 {
