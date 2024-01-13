@@ -24,7 +24,7 @@ class ApiKelompokSayaController extends Controller
                 'message' => 'Missing api_token in the request body.',
                 'data' => null,
             ];
-            return response()->json($response, 400); // 400 Bad Request
+            return response()->json($response, 200); // 400 Bad Request
         }
 
         $userId = $request->input('user_id');
@@ -43,7 +43,7 @@ class ApiKelompokSayaController extends Controller
                         'message' => 'Akses tidak sah!',
                         'data' => null,
                     ];
-                    return response()->json($response, 403);
+                    return response()->json($response, 200);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -61,14 +61,21 @@ class ApiKelompokSayaController extends Controller
                                 $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
                                 $proposal = ApiKelompokSayaModel::proposal($kelompok->id_kelompok);
 
+                                // adds
+                                $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
+                                $rs_topik = ApiKelompokSayaModel::getTopik();
+
                                 // data
                                 $data = [
                                     'kelompok' => $kelompok,
                                     'proposal' => $proposal,
+                                    'getAkun' => $getAkun,
                                     'rs_mahasiswa' => $rs_mahasiswa,
                                     'rs_dosbing' => $rs_dosbing,
                                     'rs_dospeng' => $rs_dospeng,
                                     'rs_siklus' => $rs_siklus,
+                                    'rs_topik' => $rs_topik,
+
                                 ];
                             } else {
                                 // belum memiliki kelompok
@@ -76,20 +83,28 @@ class ApiKelompokSayaController extends Controller
                                 $rs_mahasiswa = ApiKelompokSayaModel::getAkun();
                                 $rs_dosbing = ApiKelompokSayaModel::getAkunDosen();
                                 $rs_topik = ApiKelompokSayaModel::getTopik();
+
+                                // adds
+                                // $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
+
                                 // data
                                 $data = [
-                                    'rs_topik' => $rs_topik,
+
                                     'kelompok' => $kelompok,
+                                    'proposal' => null,
                                     'getAkun' => $getAkun,
                                     'rs_mahasiswa' => $rs_mahasiswa,
                                     'rs_dosbing' => $rs_dosbing,
+                                    'rs_dospeng' => null,
                                     'rs_siklus' => $rs_siklus,
+                                    'rs_topik' => $rs_topik,
+
                                 ];
                             }
 
                             return response()->json(['status' => true, 'message' => "Berhasil mendapatkan data.", 'data' => $data]);
                         } catch (\Exception $e) {
-                            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
                         }
 
                     } else {
@@ -98,7 +113,7 @@ class ApiKelompokSayaController extends Controller
                             'message' => 'Token tidak valid!',
                             'data' => null,
                         ];
-                        return response()->json($response, 401); // 401 Unauthorized
+                        return response()->json($response, 200); // 401 Unauthorized
                     }
                 }
             }
@@ -109,7 +124,7 @@ class ApiKelompokSayaController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response, 404); // 401 Unauthorized
+            return response()->json($response, 200); // 401 Unauthorized
         }
     }
 
@@ -125,7 +140,7 @@ class ApiKelompokSayaController extends Controller
                 'message' => 'Missing api_token in the request body.',
                 'data' => null,
             ];
-            return response()->json($response, 400); // 400 Bad Request
+            return response()->json($response, 200); // 400 Bad Request
         }
 
         $userId = $request->input('user_id');
@@ -144,7 +159,7 @@ class ApiKelompokSayaController extends Controller
                         'message' => 'Akses tidak sah!',
                         'data' => null,
                     ];
-                    return response()->json($response, 403);
+                    return response()->json($response, 200);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -158,7 +173,7 @@ class ApiKelompokSayaController extends Controller
                                     'message' => "Parameter '$param' kosong atau belum diisi.",
                                     'data' => null,
                                 ];
-                                return response()->json($response, 400); // 400 Bad Request
+                                return response()->json($response, 200); // 400 Bad Request
                             }
                         }
                         // Data
@@ -239,14 +254,14 @@ class ApiKelompokSayaController extends Controller
                                 }
 
                                 // response
-                                return response()->json(['status' => 'success', 'message' => 'Data berhasil disimpan.']);
+                                return response()->json(['status' => true, 'message' => 'Data berhasil disimpan.']);
                             } else {
                                 // response
-                                return response()->json(['status' => 'error', 'message' => 'Data gagal disimpan.']);
+                                return response()->json(['status' => false, 'message' => 'Data gagal disimpan.']);
                             }
                         } catch (\Exception $e) {
                             // response for unexpected errors
-                            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
 
                         }
 
@@ -257,7 +272,7 @@ class ApiKelompokSayaController extends Controller
                             'message' => 'Token tidak valid!',
                             'data' => null,
                         ];
-                        return response()->json($response, 401); // 401 Unauthorized
+                        return response()->json($response, 200); // 401 Unauthorized
                     }
                 }
             }
@@ -268,7 +283,7 @@ class ApiKelompokSayaController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response, 404); // 401 Unauthorized
+            return response()->json($response, 200); // 401 Unauthorized
         }
     }
 
@@ -284,7 +299,7 @@ class ApiKelompokSayaController extends Controller
                 'message' => 'Missing api_token in the request body.',
                 'data' => null,
             ];
-            return response()->json($response, 400); // 400 Bad Request
+            return response()->json($response, 200); // 400 Bad Request
         }
 
         $userId = $request->input('user_id');
@@ -303,7 +318,7 @@ class ApiKelompokSayaController extends Controller
                         'message' => 'Akses tidak sah!',
                         'data' => null,
                     ];
-                    return response()->json($response, 403);
+                    return response()->json($response, 200);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -322,17 +337,17 @@ class ApiKelompokSayaController extends Controller
                                     'message' => "Parameter '$param' kosong atau belum diisi.",
                                     'data' => null,
                                 ];
-                                return response()->json($response, 400); // 400 Bad Request
+                                return response()->json($response, 200); // 400 Bad Request
                             }
                         }
                         // Data
                         try {
                             if ($request->dosbing_1 == $request->dosbing_2) {
-                                return response()->json(['status' => 'error', 'message' => 'Dosen tidak boleh sama!']);
+                                return response()->json(['status' => false, 'message' => 'Dosen tidak boleh sama!']);
                             }
 
                             if ($request->nama1 == $request->nama2 || $request->nama1 == $request->nama3 || $request->nama2 == $request->nama3) {
-                                return response()->json(['status' => 'error', 'message' => 'Mahasiswa tidak boleh sama!']);
+                                return response()->json(['status' => false, 'message' => 'Mahasiswa tidak boleh sama!']);
                             }
 
                             // addKelompok
@@ -438,10 +453,10 @@ class ApiKelompokSayaController extends Controller
                                 ApiKelompokSayaModel::insertKelompokMHS($params33);
                             }
                             // response
-                            return response()->json(['status' => 'success', 'message' => 'Data berhasil disimpan.']);
+                            return response()->json(['status' => true, 'message' => 'Data berhasil disimpan.']);
                         } catch (\Exception $e) {
                             // response for unexpected errors
-                            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
                         }
 
                     } else {
@@ -450,7 +465,7 @@ class ApiKelompokSayaController extends Controller
                             'message' => 'Token tidak valid!',
                             'data' => null,
                         ];
-                        return response()->json($response, 401); // 401 Unauthorized
+                        return response()->json($response, 200); // 401 Unauthorized
                     }
                 }
             }
@@ -461,7 +476,7 @@ class ApiKelompokSayaController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response, 404); // 401 Unauthorized
+            return response()->json($response, 200); // 401 Unauthorized
         }
     }
 
