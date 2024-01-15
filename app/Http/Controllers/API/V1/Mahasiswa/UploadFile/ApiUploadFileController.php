@@ -8,9 +8,11 @@ use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
+
+use Barryvdh\DomPDF\Facade as PDF;
 
 class ApiUploadFileController extends Controller
 {
@@ -27,7 +29,7 @@ class ApiUploadFileController extends Controller
                 'message' => 'Missing api_token in the request body.',
                 'data' => null,
             ];
-            return response()->json($response, 400); // 400 Bad Request
+            return response()->json($response, 200); // 400 Bad Request
         }
 
         $userId = $request->input('user_id');
@@ -46,7 +48,7 @@ class ApiUploadFileController extends Controller
                         'message' => 'Akses tidak sah!',
                         'data' => null,
                     ];
-                    return response()->json($response, 403);
+                    return response()->json($response, 200);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -71,7 +73,7 @@ class ApiUploadFileController extends Controller
                             'message' => 'Token tidak valid!',
                             'data' => null,
                         ];
-                        return response()->json($response, 401); // 401 Unauthorized
+                        return response()->json($response, 200); // 401 Unauthorized
                     }
                 }
             }
@@ -82,7 +84,7 @@ class ApiUploadFileController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response, 404); // 401 Unauthorized
+            return response()->json($response, 200); // 401 Unauthorized
         }
     }
 
@@ -96,8 +98,7 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-                'data' => null,
-            ], 400); // 400 Bad Request
+            ], 200); // 400 Bad Request
         }
 
         $userId = $request->input('user_id');
@@ -114,8 +115,7 @@ class ApiUploadFileController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                        'data' => null,
-                    ], 403);
+                    ], 200);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -131,7 +131,7 @@ class ApiUploadFileController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], 400);
+                            ], 200);
                         }
 
                         // Upload path
@@ -170,7 +170,7 @@ class ApiUploadFileController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], 500);
+                                        ], 200);
                                     }
                                 }
                             }
@@ -196,27 +196,26 @@ class ApiUploadFileController extends Controller
                                     return response()->json([
                                         'status' => false,
                                         'message' => 'Gagal menyimpan file.',
-                                    ], 400);
+                                    ], 200);
                                 }
                             } else {
                                 // Return failure response if failed to move the uploaded file
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Makalah gagal diupload.',
-                                ], 500);
+                                ], 200);
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Makalah tidak ditemukan.',
-                        ], 400);
+                        ], 200);
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                            'data' => null,
-                        ], 401); // 401 Unauthorized
+                        ], 200); // 401 Unauthorized
                     }
                 }
             }
@@ -225,8 +224,7 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-                'data' => null,
-            ], 404); // 401 Unauthorized
+            ], 200); // 401 Unauthorized
         }
     }
 
@@ -240,8 +238,7 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-                'data' => null,
-            ], Response::HTTP_BAD_REQUEST);
+            ], 200);
         }
 
         $userId = $request->input('user_id');
@@ -258,8 +255,7 @@ class ApiUploadFileController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                        'data' => null,
-                    ], Response::HTTP_FORBIDDEN);
+                    ], 200);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -275,7 +271,7 @@ class ApiUploadFileController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], Response::HTTP_BAD_REQUEST);
+                            ], 200);
                         }
 
                         // Upload path
@@ -309,7 +305,7 @@ class ApiUploadFileController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                                        ], 200);
                                     }
                                 }
                             }
@@ -321,7 +317,7 @@ class ApiUploadFileController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
-                                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                                ], 200);
                             }
 
                             // Save the file details in the database
@@ -336,25 +332,24 @@ class ApiUploadFileController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
-                                ], Response::HTTP_OK);
+                                ], 200);
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
-                                ], Response::HTTP_BAD_REQUEST);
+                                ],200);
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
-                        ], Response::HTTP_BAD_REQUEST);
+                        ], 200);
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                            'data' => null,
-                        ], Response::HTTP_UNAUTHORIZED);
+                        ], 200);
                     }
                 }
             }
@@ -363,9 +358,79 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-                'data' => null,
-            ], Response::HTTP_NOT_FOUND);
+            ], 200);
         }
+    }
+
+    public function viewPdf(Request $request)
+    {
+         // Get api_token from the request body
+         $apiToken = $request->input('api_token');
+
+         // Check if api_token is provided
+         if (empty($apiToken)) {
+             return response()->json([
+                 'status' => false,
+                 'message' => 'Missing api_token in the request body.',
+             ], 200);
+         }
+
+         $userId = $request->input('user_id');
+         $user = ApiAccountModel::getById($userId);
+
+         // Check if the user exists
+         if ($user != null) {
+             // Attempt to authenticate the user based on api_token
+             if ($user->api_token != null) {
+                 // Authorize
+                 $isAuthorized = ApiAccountModel::authorize('C', $userId);
+
+                 if (!$isAuthorized) {
+                     return response()->json([
+                         'status' => false,
+                         'message' => 'Akses tidak sah!',
+                     ], 200);
+                 } else {
+                     // Check if the provided api_token matches the user's api_token
+                     if ($user->api_token == $apiToken) {
+
+                        $filename = $request->input('filename');
+                        $filepath = $request->input('filepath');
+
+                        $storagePath = $filepath . $filename;
+
+                        // Check if the file exists in storage
+                        if (file_exists($storagePath)) {
+                            // Read the file contents into a string
+                            $fileContents = File::get($storagePath);
+
+                            // Convert the string to base64
+                            $base64File = base64_encode($fileContents);
+
+                            return response()->json([
+                                'status' => true,
+                                'message' => 'Berhasil mendapatkan file PDF!',
+                                'data' => $base64File,
+                            ], 200);
+                        } else {
+                            // If file not found, return a 404 response
+                            return response()->json(['status' => false, 'message' => 'File tidak ditemukan'], 200);
+                        }
+                     } else {
+                         return response()->json([
+                             'status' => false,
+                             'message' => 'Token tidak valid!',
+                         ], 200);
+                     }
+                 }
+             }
+         } else {
+             // User not found or api_token is null
+             return response()->json([
+                 'status' => false,
+                 'message' => 'Pengguna tidak ditemukan!',
+             ], 200);
+         }
     }
 
 }

@@ -56,6 +56,9 @@ use App\Http\Controllers\TimCapstone\UploadFile\UploadFileController;
 use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;
 use App\Http\Controllers\Dosen\Pengujian\PengujianController;
 
+// api
+use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
+
 
 
 /**
@@ -327,5 +330,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
     // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
 
+    Route::get('/mahasiswa/view-pdf/{filename}', [ApiUploadFileController::class, 'viewPdf']);
 
 });
