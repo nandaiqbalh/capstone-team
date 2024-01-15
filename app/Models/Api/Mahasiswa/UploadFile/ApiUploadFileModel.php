@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class ApiUploadFileModel extends ApiBaseModel
 {
-    public static function getKelompokFile()
+    public static function getKelompokFile($id_kelompok)
     {
         return DB::table('kelompok as a')
             ->join('siklus as c' ,'a.id_siklus', 'c.id')
             ->where('c.status','aktif')
+            ->where('a.id', $id_kelompok)
             ->first();
     }
     // get all data

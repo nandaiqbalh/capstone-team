@@ -80,8 +80,11 @@ class ApiUploadFileCapstoneController extends Controller
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
+                            $id_kelompok = $request -> id;
+
                             // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::getKelompokFile();
+                            $existingFile = ApiUploadFileModel::getKelompokFile($id_kelompok);
+                            // dd($existingFile);
 
                             // Check if the file exists
                             if ($existingFile -> file_name_c100 != null) {
@@ -97,6 +100,8 @@ class ApiUploadFileCapstoneController extends Controller
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
                                         ], 200);
+                                    } else{
+
                                     }
                                 }
                             }
@@ -219,8 +224,10 @@ class ApiUploadFileCapstoneController extends Controller
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
+                            $id_kelompok = $request -> id;
+
                             // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::getKelompokFile();
+                            $existingFile = ApiUploadFileModel::getKelompokFile($id_kelompok);
 
                             // Check if the file exists
                             if ($existingFile -> file_name_c200 != null) {
@@ -358,9 +365,10 @@ class ApiUploadFileCapstoneController extends Controller
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
-                            // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::getKelompokFile();
+                            $id_kelompok = $request -> id;
 
+                            // Check and delete the existing file
+                            $existingFile = ApiUploadFileModel::getKelompokFile($id_kelompok);
                             // Check if the file exists
                             if ($existingFile -> file_name_c300 != null) {
                                 // Construct the file path
@@ -497,8 +505,10 @@ class ApiUploadFileCapstoneController extends Controller
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
+                            $id_kelompok = $request -> id;
+
                             // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::getKelompokFile();
+                            $existingFile = ApiUploadFileModel::getKelompokFile($id_kelompok);
 
                             // Check if the file exists
                             if ($existingFile -> file_name_c400 != null) {
@@ -636,8 +646,10 @@ class ApiUploadFileCapstoneController extends Controller
                                 mkdir(public_path($uploadPath), 0755, true);
                             }
 
+                            $id_kelompok = $request -> id;
+
                             // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::getKelompokFile();
+                            $existingFile = ApiUploadFileModel::getKelompokFile($id_kelompok);
 
                             // Check if the file exists
                             if ($existingFile -> file_name_c500 != null) {
