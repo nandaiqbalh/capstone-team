@@ -28,6 +28,51 @@
         <link href="{{ asset('vendor/libs/select2-410/select2.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('vendor/libs/select2-bootstrap-5-theme-1.3.0/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
 
+        <!-- SweetAlert CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+        <!-- SweetAlert JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+        <!-- hapus broadcast, dosen -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- SweetAlert CSS gajadi
+        <link rel="stylesheet" href="path/to/sweetalert2.min.css">
+
+        <!-- SweetAlert JS gajadi
+        <script src="path/to/sweetalert2.all.min.js"></script> -->
+
+        <!-- sweet alert gajadi
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            $(function(){
+                $(document).on('click', '#logoutt', function(e){
+                    e.preventDefault();
+                    var link = $(this).attr("href");
+                
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    });
+                    
+                })
+            });
+        </script> -->
+
         <!-- jQuery -->
         <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
         <script src="{{ asset('vendor/libs/select2-410/select2.min.js') }}"></script>

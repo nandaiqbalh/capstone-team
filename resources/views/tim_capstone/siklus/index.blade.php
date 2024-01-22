@@ -48,7 +48,27 @@ Siklus
                             <td class="text-center">
                                 <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/siklus/edit') }}/{{ $siklus->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <a href="{{ url('/admin/siklus/delete-process') }}/{{ $siklus->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $siklus->id }} ?')"> Hapus</a>
+                                <!-- <a href="{{ url('/admin/siklus/delete-process') }}/{{ $siklus->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $siklus->id }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $siklus->id }}')">Hapus</button>
+                                    <script>
+                                        function confirmDelete(siklusId) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the delete URL if confirmed
+                                                    window.location.href = "{{ url('/admin/siklus/delete-process') }}/" + siklusId;
+                                                }
+                                            });
+                                        }
+                                    </script>
                             </td>
                         </tr>
                         @endforeach

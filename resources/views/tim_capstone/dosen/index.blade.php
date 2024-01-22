@@ -62,7 +62,27 @@ Dosen
                             <td class="text-center">
                                 <a href="{{ url('/admin/dosen/detail') }}/{{ $dosen->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/dosen/edit') }}/{{ $dosen->user_id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <a href="{{ url('/admin/dosen/delete-process') }}/{{ $dosen->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $dosen->user_name }} ?')"> Hapus</a>
+                                <!-- <a href="{{ url('/admin/dosen/delete-process') }}/{{ $dosen->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $dosen->user_name }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $dosen->user_id }}', '{{ $dosen->user_name }}')">Hapus</button>
+                                    <script>
+                                        function confirmDelete(userId, userName) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the delete URL if confirmed
+                                                    window.location.href = "{{ url('/admin/dosen/delete-process') }}/" + userId;
+                                                }
+                                            });
+                                        }
+                                    </script>
                             </td>
                         </tr>
                         @endforeach

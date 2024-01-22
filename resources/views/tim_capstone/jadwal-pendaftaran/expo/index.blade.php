@@ -49,7 +49,27 @@ Jadwal Expo
                             <td class="text-center">
                                 <a href="{{ url('/admin/jadwal-pendaftaran/expo/detail') }}/{{ $pendaftaran->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}"> Ubah</button>
-                                <a href="{{ url('/admin/jadwal-pendaftaran/expo/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a>
+                                <!-- <a href="{{ url('/admin/jadwal-pendaftaran/expo/delete-process') }}/{{ $pendaftaran->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->tahun_ajaran }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $pendaftaran->id }}', '{{ $pendaftaran->tahun_ajaran }}')">Hapus</button>
+                                    <script>
+                                        function confirmDelete(pendaftaranId, tahunAjaran) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the delete URL if confirmed
+                                                    window.location.href = "{{ url('/admin/jadwal-pendaftaran/expo/delete-process') }}/" + pendaftaranId;
+                                                }
+                                            });
+                                        }
+                                    </script>
                             </td>
                         </tr>
                         {{-- modal edit --}}

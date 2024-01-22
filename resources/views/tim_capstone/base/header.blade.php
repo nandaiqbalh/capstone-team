@@ -84,10 +84,62 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{url('/logout')}}" onclick="return confirm('Apakah anda ingin keluar?')">
+                      <!-- <a class="dropdown-item" href="{{url('/logout')}}" onclick="return confirm('Apakah anda ingin keluar?')">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Keluar</span>
+                      </a> -->
+                      <a class="dropdown-item" href="#" id="logoutButton">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Keluar</span>
                       </a>
+                      <script>
+                      document.getElementById('logoutButton').addEventListener('click', function(event) {
+                        event.preventDefault(); // Mencegah perilaku default tautan
+                        konfirmasiLogout();
+                      });
+
+                      function konfirmasiLogout() {
+                        Swal.fire({
+                          title: 'Apakah Anda yakin?',
+                          text: 'Anda akan keluar dari akun Anda.',
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          cancelButtonText: 'Batal',
+                          confirmButtonText: 'Ya, Keluar!'
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            // Tindakan logout di sini
+                            window.location.href = '{{url("/logout")}}'; // Sesuaikan dengan URL logout sesuai kebutuhan
+                          }
+                        });
+                      }
+                      </script>
+
+                      <!-- <a class="dropdown-item" href="#" onclick="konfirmasiLogout()">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Keluar</span>
+                      </a>
+
+                      <script>
+                      function konfirmasiLogout() {
+                        Swal.fire({
+                          title: 'Apakah Anda yakin?',
+                          text: 'Anda akan logout dari akun Anda.',
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Ya, Logout!'
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            // Tindakan logout di sini
+                            window.location.href = '{{url("/logout")}}'; // Sesuaikan dengan URL logout sesuai kebutuhan
+                          }
+                        });
+                      }
+                      </script> -->
                     </li>
                   </ul>
                 </li>

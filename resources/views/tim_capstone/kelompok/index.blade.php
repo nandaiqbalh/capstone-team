@@ -60,7 +60,27 @@ Kelompok
                             <td>{{ $kelompok->topik_name }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/kelompok/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <a href="{{ url('/admin/kelompok/delete-process') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $kelompok->nomor_kelompok }} ?')"> Hapus</a>
+                                <!-- <a href="{{ url('/admin/kelompok/delete-process') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $kelompok->nomor_kelompok }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $kelompok->id }}', '{{ $kelompok->nomor_kelompok }}')">Hapus</button>
+                                    <script>
+                                        function confirmDelete(kelompokId, nomorKelompok) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the delete URL if confirmed
+                                                    window.location.href = "{{ url('/admin/kelompok/delete-process') }}/" + kelompokId;
+                                                }
+                                            });
+                                        }
+                                    </script>
                             </td>
                         </tr>
                         @endforeach

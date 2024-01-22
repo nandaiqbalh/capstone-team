@@ -48,7 +48,27 @@ Broadcast
                             <td class="text-center">
                                 <a href="{{ url('/admin/broadcast/detail') }}/{{ $broadcast->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $broadcast->id }}"> Ubah</button>
-                                <a href="{{ url('/admin/broadcast/delete-process') }}/{{ $broadcast->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $broadcast->id }} ?')"> Hapus</a>
+                                <!-- <a href="{{ url('/admin/broadcast/delete-process') }}/{{ $broadcast->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $broadcast->id }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $broadcast->id }}')">Hapus</button>
+                                    <script>
+                                        function confirmDelete(broadcastId) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the delete URL if confirmed
+                                                    window.location.href = "{{ url('/admin/broadcast/delete-process') }}/" + broadcastId;
+                                                }
+                                            });
+                                        }
+                                    </script>
                             </td>
                         </tr>
                         {{-- modal edit --}}
