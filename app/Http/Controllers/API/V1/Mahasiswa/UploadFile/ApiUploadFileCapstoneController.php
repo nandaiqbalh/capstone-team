@@ -24,7 +24,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-            ], 200);
+            ], );
         }
 
         $userId = $request->input('user_id');
@@ -41,7 +41,7 @@ class ApiUploadFileCapstoneController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                    ], 200);
+                    ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -57,7 +57,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], 200);
+                            ], );
                         }
 
                         // Upload path
@@ -99,7 +99,7 @@ class ApiUploadFileCapstoneController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], 200);
+                                        ], );
                                     } else{
 
                                     }
@@ -113,7 +113,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
-                                ], 200);
+                                ], );
                             }
 
                             // Save the file details in the database
@@ -128,24 +128,24 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
-                                ], 200);
+                                ], );
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
-                                ], 200);
+                                ], );
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
-                        ], 200);
+                        ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                        ], 200);
+                        ], );
                     }
                 }
             }
@@ -154,11 +154,11 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-            ], 200);
+            ], );
         }
     }
 
-    public function uploadC200Process(Request $request)
+    public function uploadCProcess(Request $request)
     {
         // Get api_token from the request body
         $apiToken = $request->input('api_token');
@@ -168,7 +168,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-            ], 200);
+            ], );
         }
 
         $userId = $request->input('user_id');
@@ -185,13 +185,13 @@ class ApiUploadFileCapstoneController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                    ], 200);
+                    ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
                         // Validate the request
                         $validator = Validator::make($request->all(), [
-                            'c200' => 'required|file|mimes:pdf|max:10240',
+                            'c' => 'required|file|mimes:pdf|max:10240',
                             'id' => 'required|exists:kelompok,id',
                         ]);
 
@@ -201,15 +201,15 @@ class ApiUploadFileCapstoneController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], 200);
+                            ], );
                         }
 
                         // Upload path
-                        $uploadPath = '/file/kelompok/c200';
+                        $uploadPath = '/file/kelompok/c';
 
                         // Upload Laporan TA
-                        if ($request->hasFile('c200')) {
-                            $file = $request->file('c200');
+                        if ($request->hasFile('c')) {
+                            $file = $request->file('c');
 
                             $file_extention = pathinfo(
                                 $file->getClientOriginalName(),
@@ -217,7 +217,7 @@ class ApiUploadFileCapstoneController extends Controller
                             );
 
                             // Generate a unique file name
-                            $newFileName  = 'c200' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
+                            $newFileName  = 'c' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
 
                             // Check if the folder exists, if not, create it
                             if (!is_dir(public_path($uploadPath))) {
@@ -230,9 +230,9 @@ class ApiUploadFileCapstoneController extends Controller
                             $existingFile = ApiUploadFileModel::getKelompokFile($id_kelompok);
 
                             // Check if the file exists
-                            if ($existingFile -> file_name_c200 != null) {
+                            if ($existingFile -> file_name_c != null) {
                                 // Construct the file path
-                                $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
+                                $filePath = public_path($existingFile->file_path_c . '/' . $existingFile->file_name_c);
 
                                 // Check if the file exists before attempting to delete
                                 if (file_exists($filePath)) {
@@ -242,7 +242,7 @@ class ApiUploadFileCapstoneController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], 200);
+                                        ], );
                                     }
                                 }
                             }
@@ -254,13 +254,13 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
-                                ], 200);
+                                ], );
                             }
 
                             // Save the file details in the database
                             $params = [
-                                'file_name_c200' => $newFileName,
-                                'file_path_c200' => $uploadPath,
+                                'file_name_c' => $newFileName,
+                                'file_path_c' => $uploadPath,
                             ];
 
                             $uploadFile = ApiUploadFileModel::uploadFileKel($request->id, $params);
@@ -269,24 +269,24 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
-                                ], 200);
+                                ], );
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
-                                ], 200);
+                                ], );
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
-                        ], 200);
+                        ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                        ], 200);
+                        ], );
                     }
                 }
             }
@@ -295,7 +295,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-            ], 200);
+            ], );
         }
     }
 
@@ -309,7 +309,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-            ], 200);
+            ], );
         }
 
         $userId = $request->input('user_id');
@@ -326,7 +326,7 @@ class ApiUploadFileCapstoneController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                    ], 200);
+                    ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -342,7 +342,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], 200);
+                            ], );
                         }
 
                         // Upload path
@@ -382,7 +382,7 @@ class ApiUploadFileCapstoneController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], 200);
+                                        ], );
                                     }
                                 }
                             }
@@ -394,7 +394,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
-                                ], 200);
+                                ], );
                             }
 
                             // Save the file details in the database
@@ -409,24 +409,24 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
-                                ], 200);
+                                ], );
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
-                                ], 200);
+                                ], );
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
-                        ], 200);
+                        ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                        ], 200);
+                        ], );
                     }
                 }
             }
@@ -435,7 +435,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-            ], 200);
+            ], );
         }
     }
 
@@ -449,7 +449,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-            ], 200);
+            ], );
         }
 
         $userId = $request->input('user_id');
@@ -466,7 +466,7 @@ class ApiUploadFileCapstoneController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                    ], 200);
+                    ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -482,7 +482,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], 200);
+                            ], );
                         }
 
                         // Upload path
@@ -523,7 +523,7 @@ class ApiUploadFileCapstoneController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], 200);
+                                        ], );
                                     }
                                 }
                             }
@@ -535,7 +535,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
-                                ], 200);
+                                ], );
                             }
 
                             // Save the file details in the database
@@ -550,24 +550,24 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
-                                ], 200);
+                                ], );
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
-                                ], 200);
+                                ], );
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
-                        ], 200);
+                        ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                        ], 200);
+                        ], );
                     }
                 }
             }
@@ -576,7 +576,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-            ], 200);
+            ], );
         }
     }
 
@@ -590,7 +590,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
-            ], 200);
+            ], );
         }
 
         $userId = $request->input('user_id');
@@ -607,7 +607,7 @@ class ApiUploadFileCapstoneController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
-                    ], 200);
+                    ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -623,7 +623,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 'status' => false,
                                 'message' => 'Validation error',
                                 'errors' => $validator->errors(),
-                            ], 200);
+                            ], );
                         }
 
                         // Upload path
@@ -664,7 +664,7 @@ class ApiUploadFileCapstoneController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
-                                        ], 200);
+                                        ], );
                                     }
                                 }
                             }
@@ -676,7 +676,7 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
-                                ], 200);
+                                ], );
                             }
 
                             // Save the file details in the database
@@ -691,24 +691,24 @@ class ApiUploadFileCapstoneController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
-                                ], 200);
+                                ], );
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
-                                ], 200);
+                                ], );
                             }
                         }
 
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
-                        ], 200);
+                        ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Token tidak valid!',
-                        ], 200);
+                        ], );
                     }
                 }
             }
@@ -717,7 +717,7 @@ class ApiUploadFileCapstoneController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
-            ], 200);
+            ], );
         }
     }
 }

@@ -30,7 +30,7 @@ class ApiProfileController extends Controller
                 'message' => 'Missing api_token in the request body.',
                 'data' => null,
             ];
-            return response()->json($response, 200); // 400 Bad Request
+            return response()->json($response); // 400 Bad Request
         }
 
         $user = ApiAccountModel::getById($userId);
@@ -48,7 +48,7 @@ class ApiProfileController extends Controller
                         'message' => 'Akses tidak sah!',
                         'data' => null,
                     ];
-                    return response()->json($response, 200);
+                    return response()->json($response);
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -67,7 +67,7 @@ class ApiProfileController extends Controller
                             'message' => 'Token tidak valid!',
                             'data' => null,
                         ];
-                        return response()->json($response, 200); // 401 Unauthorized
+                        return response()->json($response); // 401 Unauthorized
                     }
                 }
             } else {
@@ -76,7 +76,7 @@ class ApiProfileController extends Controller
                     'message' => 'Pengguna harus login terlebih dahulu!',
                     'data' => null,
                 ];
-                return response()->json($response, 200); // 401 Unauthorized
+                return response()->json($response); // 401 Unauthorized
             }
         } else {
             // User not found or api_token is null
@@ -85,7 +85,7 @@ class ApiProfileController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response, 200); // 401 Unauthorized
+            return response()->json($response); // 401 Unauthorized
         }
     }
 
@@ -102,7 +102,7 @@ class ApiProfileController extends Controller
             'message' => 'Missing api_token in the request body.',
             'data' => null,
         ];
-        return response()->json($response, 200); // 400 Bad Request
+        return response()->json($response); // 400 Bad Request
     }
 
     $userId = $request->input('user_id');
@@ -129,7 +129,7 @@ class ApiProfileController extends Controller
             $this->validate($request, $rules);
         } catch (\Illuminate\Validation\ValidationException $exception) {
             $errorMessage = $exception->validator->errors()->first();
-            return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null], 200);
+            return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null]);
         }
 
         // Initialize variables for image upload
@@ -190,7 +190,7 @@ class ApiProfileController extends Controller
                 'message' => 'Data gagal disimpan.',
                 'data' => $user,
             ];
-            return response()->json($response, 200);
+            return response()->json($response);
         }
     } else {
         $response = [
@@ -198,7 +198,7 @@ class ApiProfileController extends Controller
             'message' => 'Token tidak valid!',
             'data' => null,
         ];
-        return response()->json($response, 200); // 401 Unauthorized
+        return response()->json($response); // 401 Unauthorized
     }
 }
 
@@ -214,7 +214,7 @@ class ApiProfileController extends Controller
                  'message' => 'Missing api_token in the request body.',
                  'data' => null,
              ];
-             return response()->json($response, 200); // 400 Bad Request
+             return response()->json($response); // 400 Bad Request
          }
 
          $userId = $request->input('user_id');
@@ -238,13 +238,13 @@ class ApiProfileController extends Controller
                     $this->validate($request, $rules);
                 } catch (\Illuminate\Validation\ValidationException $exception) {
                     $errorMessage = $exception->validator->errors()->first();
-                    return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null], 200);
+                    return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null]);
                 }
 
                 // Check current password
                 $currentPasswordInputByUser = $request->input('current_password');
                 if (!Hash::check($currentPasswordInputByUser, $user->user_password)) {
-                    return response()->json(['status' => false, 'message' => 'Password saat ini salah.', 'data' => null], 200);
+                    return response()->json(['status' => false, 'message' => 'Password saat ini salah.', 'data' => null]);
                 }
 
                 $newPassword = Hash::make($request->input('new_password'));
@@ -272,7 +272,7 @@ class ApiProfileController extends Controller
                         'message' => 'Password baru gagal disimpan.',
                         'data' => $user,
                     ];
-                    return response()->json($response, 200);
+                    return response()->json($response);
                 }
 
             } else {
@@ -281,7 +281,7 @@ class ApiProfileController extends Controller
                     'message' => 'Token tidak valid!',
                     'data' => null,
                 ];
-                return response()->json($response, 200); // 401 Unauthorized
+                return response()->json($response); // 401 Unauthorized
             }
 
          } else {
@@ -291,7 +291,7 @@ class ApiProfileController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response, 200); // 401 Unauthorized
+            return response()->json($response); // 401 Unauthorized
          }
     }
 

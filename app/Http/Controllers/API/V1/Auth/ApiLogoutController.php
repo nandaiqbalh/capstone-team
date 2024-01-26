@@ -29,7 +29,7 @@ class ApiLogoutController extends Controller
                 'status' => false,
                 'message' => 'Missing api_token in the request body.',
             ];
-            return response()->json($response, 200); // 400 Bad Request
+            return response()->json($response, ); // 400 Bad Request
         }
 
         $userId = $request ->user_id;
@@ -47,7 +47,7 @@ class ApiLogoutController extends Controller
                         'status' => false,
                         'message' => 'Akses tidak sah!',
                     ];
-                    return response()->json($response, 200);
+                    return response()->json($response, );
                 } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
@@ -67,7 +67,7 @@ class ApiLogoutController extends Controller
                                     "message" => 'Logout berhasil!',
                                 ];
 
-                                return response()->json($response, 200);
+                                return response()->json($response, );
                             } else {
                                 // Response for failure
                                 $response = [
@@ -75,7 +75,7 @@ class ApiLogoutController extends Controller
                                     "message" => 'Logout gagal!',
 
                                 ];
-                                return response()->json($response, 200);
+                                return response()->json($response, );
                             }
 
                         } else {
@@ -85,7 +85,7 @@ class ApiLogoutController extends Controller
                                 "message" => 'User not authenticated.',
                             ];
 
-                            return response()->json($response)->setStatusCode(200);
+                            return response()->json($response)->setStatusCode();
                         }
 
                     } else {
@@ -93,7 +93,7 @@ class ApiLogoutController extends Controller
                             'status' => false,
                             'message' => 'Token tidak valid!',
                         ];
-                        return response()->json($response, 200); // 401 Unauthorized
+                        return response()->json($response, ); // 401 Unauthorized
                     }
                 }
             } else {
@@ -101,7 +101,7 @@ class ApiLogoutController extends Controller
                     'status' => false,
                     'message' => 'Pengguna belum login!',
                 ];
-                return response()->json($response, 200);
+                return response()->json($response, );
             }
         } else {
             // User not found or api_token is null
@@ -109,7 +109,7 @@ class ApiLogoutController extends Controller
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
             ];
-            return response()->json($response, 200); // 401 Unauthorized
+            return response()->json($response, ); // 401 Unauthorized
         }
     }
 

@@ -36,13 +36,13 @@ class ApiLoginController extends Controller
         return response()->json([
             'status' => false,
             'message' => 'Nomor Induk dan Password harus semuanya diisi.',
-        ], 200);
+        ]);
     }
 
     // Attempt authentication manually
     $user = User::where('nomor_induk', $request->nomor_induk)->first();
 
-    if ($user && $user->user_active == '1' && Hash::check($request->password, $user->user_password)) {
+    if ($user && $user->user_active == '1' && $user && $user->role_id == 03 && Hash::check($request->password, $user->user_password)) {
         // Generate and save api_token
         $apiToken = Str::random(60); // or use Passport::apiToken() if you're using Passport version 11.x
         $user->forceFill([
@@ -54,13 +54,13 @@ class ApiLoginController extends Controller
             'status' => true,
             'message' => 'Autentikasi berhasil!',
             'data' => $user,
-        ], 200);
+        ]);
     } else {
         // Return error response
         return response()->json([
             'status' => false,
             'message' => 'Autentikasi gagal! Nomor Induk atau Password tidak valid.',
-        ], 200);
+        ]);
     }
 }
 
@@ -78,7 +78,7 @@ public function index(Request $request)
     // return data as JSON
     return response()->json(['status' => true, 'data' => ['rs_mahasiswa' => $rs_mahasiswa]]);
     } else {
-        return response()->json(['status' => false, 'message' => 'Unauthorized', 'user_id' => $user_id], 200);
+        return response()->json(['status' => false, 'message' => 'Unauthorized', 'user_id' => $user_id]);
 
     }
 

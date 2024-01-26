@@ -22,7 +22,7 @@ class ApiBroadcastController extends Controller
                 'data' => ['rs_broadcast' => $rs_broadcast],
             ];
 
-            return response()->json($response, 200);
+            return response()->json($response);
         } catch (\Exception $e) {
             // Handle any exceptions
             $response = [
@@ -30,13 +30,15 @@ class ApiBroadcastController extends Controller
                 'message' => 'Error mendapatkan data.',
                 'data' => null,
             ];
-            return response()->json($response, 500); // 500 Internal Server Error
+            return response()->json($response); // 500 Internal Server Error
         }
     }
 
    // New method for API endpoint
-   public function detailBroadcastApi($id)
+   public function detailBroadcastApi(Request $request)
    {
+
+    $id = $request-> id_broadcast;
 
        $broadcast = ApiBroadcastModel::getDataById($id);
 
@@ -46,7 +48,7 @@ class ApiBroadcastController extends Controller
             'message' => 'Error mendapatkan data.',
             'data' => null,
         ];
-        return response()->json($response, 500); // 500 Internal Server Error
+        return response()->json($response); // 500 Internal Server Error
     }
 
     $response = [
@@ -55,6 +57,6 @@ class ApiBroadcastController extends Controller
         'data' => ['broadcast' => $broadcast],
     ];
 
-    return response()->json($response, 200);   }
+    return response()->json($response);   }
 
 }

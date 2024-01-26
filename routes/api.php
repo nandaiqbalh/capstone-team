@@ -49,8 +49,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/mahasiswa/profile/editProcess/', [ApiProfileController::class, 'editProcess']);
     Route::post('/mahasiswa/profile/editPassword/', [ApiProfileController::class, 'editPassword']);
 
-    Route::post('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);
-    Route::post('/mahasiswa/broadcast/{id}', [ApiBroadcastController::class, 'detailBroadcastApi']);
+    Route::get('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);
+    Route::post('/mahasiswa/broadcast/detail-broadcast', [ApiBroadcastController::class, 'detailBroadcastApi']);
 
     Route::post('/mahasiswa/kelompok/', [ApiKelompokSayaController::class, 'index']);
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokSayaController::class, 'addKelompokProcess']);
