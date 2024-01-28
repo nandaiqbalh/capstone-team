@@ -8,7 +8,8 @@ use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 
 class ApiProfileController extends Controller
@@ -294,5 +295,77 @@ class ApiProfileController extends Controller
             return response()->json($response); // 401 Unauthorized
          }
     }
+
+    public function imageProfile(Request $request)
+    {
+          // Get api_token from the request body
+          $apiToken = $request->input('api_token');
+
+          // Check if api_token is provided
+          if (empty($apiToken)) {
+              return response()->json([
+                  'status' => false,
+                  'message' => 'Missing api_token in the request body.',
+                  'data' => null
+              ], );
+          }
+
+          $userId = $request->input('user_id');
+          $user = ApiAccountModel::getById($userId);
+
+          // Check if the user exists
+          if ($user != null) {
+              // Attempt to authenticate the user based on api_token
+              if ($user->api_token != null) {
+                  // Authorize
+                  $isAuthorized = ApiAccountModel::authorize('C', $userId);
+
+                  if (!$isAuthorized) {
+                      return response()->json([
+                          'status' => false,
+                          'message' => 'Akses tidak sah!',
+                          'data' => null
+                      ], );
+                  } else {
+                      // Check if the provided api_token matches the user's api_token
+                      if ($user->api_token == $apiToken) {
+
+                        $storagePath = public_path($user->user_img_path . $user->user_img_name);
+                         // Check if the file exists in storage
+                         if (file_exists($storagePath)) {
+                             // Read the file contents into a string
+                             $fileContents = File::get($storagePath);
+
+                              // Convert the string to base64
+                            $base64File = base64_encode($fileContents);
+
+                             return response()->json([
+                                 'status' => true,
+                                 'message' => 'Berhasil mendapatkan gambar profil',
+                                 'data' => $base64File,
+                             ], );
+                         } else {
+                             // If file not found, return a 404 response
+                             return response()->json(['status' => false, 'message' => 'File tidak ditemukan', 'data' => null], );
+                         }
+                      } else {
+                          return response()->json([
+                              'status' => false,
+                              'message' => 'Token tidak valid!',
+                              'data' => null
+                          ], );
+                      }
+                  }
+              }
+          } else {
+              // User not found or api_token is null
+              return response()->json([
+                  'status' => false,
+                  'message' => 'Pengguna tidak ditemukan!',
+                  'data' => null
+              ], );
+          }
+    }
+
 
 }

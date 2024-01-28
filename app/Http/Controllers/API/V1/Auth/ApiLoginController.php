@@ -26,16 +26,17 @@ class ApiLoginController extends Controller
 
      public function authenticate(Request $request)
 {
-    // Validate input
     $validator = Validator::make($request->all(), [
         'nomor_induk' => 'required',
         'password' => 'required|min:8|max:20',
     ]);
 
     if ($validator->fails()) {
+        $errors = $validator->errors()->first();
+
         return response()->json([
             'status' => false,
-            'message' => 'Nomor Induk dan Password harus semuanya diisi.',
+            'message' => 'Terjadi kesalahan: ' . $errors,
         ]);
     }
 

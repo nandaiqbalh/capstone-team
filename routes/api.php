@@ -67,6 +67,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/mahasiswa/upload-file/upload-c500-process', [ApiUploadFileCapstoneController::class, 'uploadC500Process']);
 
     Route::post('/mahasiswa/view-pdf', [ApiUploadFileController::class, 'viewPdf']);
+    Route::post('/mahasiswa/profile/img-user', [ApiProfileController::class, 'imageProfile']);
 
 });
 
