@@ -28,7 +28,7 @@ class ApiProfileController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Tidak ada api token!',
                 'data' => null,
             ];
             return response()->json($response); // 400 Bad Request
@@ -100,7 +100,7 @@ class ApiProfileController extends Controller
     if (empty($apiToken)) {
         $response = [
             'status' => false,
-            'message' => 'Missing api_token in the request body.',
+            'message' => 'Tidak ada api token!',
             'data' => null,
         ];
         return response()->json($response); // 400 Bad Request
@@ -115,8 +115,8 @@ class ApiProfileController extends Controller
 
         // Validate only if there are request parameters
         $rules = [
-            'user_name' => 'filled|required',
-            'no_telp' => 'filled|required|digits_between:10,13|numeric',
+            'user_name' => 'filled',
+            'no_telp' => 'filled|digits_between:10,13|numeric',
             'user_email' => 'filled|email',
             'angkatan' => 'filled|numeric',
             'ipk' => 'filled|numeric',
@@ -138,15 +138,17 @@ class ApiProfileController extends Controller
         $newImageName = null;
 
         // Check if user_img is provided for update
-        if ($request->hasFile('user_img') || $request -> user_img != null) {
+        if ($request->hasFile('user_img') && $request -> user_img != null ) {
             $path = public_path($this->upload_path);
             $file = $request->file('user_img');
             $newImageName = Str::slug($user->user_name, '-') . '-' . uniqid() . '.jpg';
 
-            // Unlink (delete) the old image
-            $oldImagePath = public_path($user->user_img_path . $user->user_img_name);
-            if (file_exists($oldImagePath) && $user->user_img_name != 'default.png') {
-                unlink($oldImagePath);
+            if ($user -> user_img_name != null) {
+                // Unlink (delete) the old image
+                 $oldImagePath = public_path($user->user_img_path . $user->user_img_name);
+                if (file_exists($oldImagePath) && $user->user_img_name != 'default.png') {
+                    unlink($oldImagePath);
+                }
             }
 
             // Upload new image
@@ -212,7 +214,7 @@ class ApiProfileController extends Controller
          if (empty($apiToken)) {
              $response = [
                  'status' => false,
-                 'message' => 'Missing api_token in the request body.',
+                 'message' => 'Tidak ada api token!',
                  'data' => null,
              ];
              return response()->json($response); // 400 Bad Request
@@ -305,7 +307,7 @@ class ApiProfileController extends Controller
           if (empty($apiToken)) {
               return response()->json([
                   'status' => false,
-                  'message' => 'Missing api_token in the request body.',
+                  'message' => 'Tidak ada api token!',
                   'data' => null
               ], );
           }
@@ -331,22 +333,32 @@ class ApiProfileController extends Controller
                       if ($user->api_token == $apiToken) {
 
                         $storagePath = public_path($user->user_img_path . $user->user_img_name);
+
+                        // dd($storagePath);
                          // Check if the file exists in storage
                          if (file_exists($storagePath)) {
-                             // Read the file contents into a string
+
+                            if ($user->user_img_path != null && $user->user_img_name != null ) {
+                                  // Read the file contents into a string
                              $fileContents = File::get($storagePath);
 
-                              // Convert the string to base64
-                            $base64File = base64_encode($fileContents);
+                             // Convert the string to base64
+                           $base64File = base64_encode($fileContents);
 
-                             return response()->json([
-                                 'status' => true,
-                                 'message' => 'Berhasil mendapatkan gambar profil',
-                                 'data' => $base64File,
-                             ], );
+                            return response()->json([
+                                'status' => true,
+                                'message' => 'Berhasil mendapatkan gambar profil',
+                                'data' => $base64File,
+                            ], );
+                            } else {
+                                 // If file not found, return a 404 response
+                             return response()->json(['status' => false, 'message' => 'Anda belum upload foto profil!', 'data' => null], );
+
+                            }
+
                          } else {
                              // If file not found, return a 404 response
-                             return response()->json(['status' => false, 'message' => 'File tidak ditemukan', 'data' => null], );
+                             return response()->json(['status' => false, 'message' => 'Anda belum upload foto profil!', 'data' => null], );
                          }
                       } else {
                           return response()->json([
@@ -367,5 +379,103 @@ class ApiProfileController extends Controller
           }
     }
 
+
+    public function editPhotoProcess(Request $request)
+    {
+        // Get api_token from the request body
+        $apiToken = $request->input('api_token');
+
+        // Check if api_token is provided
+        if (empty($apiToken)) {
+            $response = [
+                'status' => false,
+                'message' => 'Tidak ada api token!',
+                'data' => null,
+            ];
+            return response()->json($response); // 400 Bad Request
+        }
+
+        $userId = $request->input('user_id');
+        $user = ApiAccountModel::getById($userId);
+
+        if ($user != null && $user->api_token == $apiToken) {
+            // Authorize
+            ApiAccountModel::authorize('U', $userId);
+
+            // Validate only if there are request parameters
+            $rules = [
+                'user_img' => 'filled|image|mimes:jpeg,jpg,png|max:5120'
+            ];
+
+            try {
+                $this->validate($request, $rules);
+            } catch (\Illuminate\Validation\ValidationException $exception) {
+                $errorMessage = $exception->validator->errors()->first();
+                return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null]);
+            }
+
+            // Initialize variables for image upload
+            $upload = false;
+            $newImageName = null;
+
+            // Check if user_img is provided for update
+            if ($request->hasFile('user_img') && $request -> user_img != null ) {
+                $path = public_path($this->upload_path);
+                $file = $request->file('user_img');
+                $newImageName = Str::slug($user->user_name, '-') . '-' . uniqid() . '.jpg';
+
+                if ($user -> user_img_name != null) {
+                    // Unlink (delete) the old image
+                     $oldImagePath = public_path($user->user_img_path . $user->user_img_name);
+                    if (file_exists($oldImagePath) && $user->user_img_name != 'default.png') {
+                        unlink($oldImagePath);
+                    }
+                }
+
+                // Upload new image
+                $upload = $file->move($path, $newImageName);
+            }
+
+            // Params
+            $params = [
+                'modified_by' => $userId,
+                'modified_date' => now(),
+            ];
+
+            // Conditionally add 'user_img_path' and 'user_img_name' based on $upload
+            if ($upload) {
+                $params['user_img_path'] = $this->upload_path;
+                $params['user_img_name'] = $newImageName;
+            }
+
+            // Process
+            if (ApiAccountModel::update($userId, $params)) {
+                $userUpdated = ApiAccountModel::getById($userId);
+
+                // Response for success
+                $response = [
+                    'status' => true,
+                    'message' => 'Photo berhasil diunggah.',
+                    'data' => $userUpdated,
+                ];
+                return response()->json($response);
+            } else {
+                // Response for failure
+                $response = [
+                    'status' => false,
+                    'message' => 'Photo gagal disimpan.',
+                    'data' => $user,
+                ];
+                return response()->json($response);
+            }
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'Token tidak valid!',
+                'data' => null,
+            ];
+            return response()->json($response); // 401 Unauthorized
+        }
+    }
 
 }

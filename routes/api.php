@@ -48,6 +48,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/mahasiswa/profile/', [ApiProfileController::class, 'index']);
     Route::post('/mahasiswa/profile/editProcess/', [ApiProfileController::class, 'editProcess']);
     Route::post('/mahasiswa/profile/editPassword/', [ApiProfileController::class, 'editPassword']);
+    Route::post('/mahasiswa/profile/editPhotoProcess/', [ApiProfileController::class, 'editPhotoProcess']);
+
 
     Route::get('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);
     Route::post('/mahasiswa/broadcast/detail-broadcast', [ApiBroadcastController::class, 'detailBroadcastApi']);
