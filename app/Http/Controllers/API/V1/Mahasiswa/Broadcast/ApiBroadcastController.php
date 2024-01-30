@@ -34,6 +34,31 @@ class ApiBroadcastController extends Controller
         }
     }
 
+    public function broadcastHome()
+    {
+        try {
+            // Get data with pagination
+            $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
+
+            // Return JSON response with successful status
+            $response = [
+                'status' => true,
+                'message' => 'Berhasil mendapatkan data.',
+                'data' => ['rs_broadcast' => $rs_broadcast],
+            ];
+
+            return response()->json($response);
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            $response = [
+                'status' => false,
+                'message' => 'Error mendapatkan data.',
+                'data' => null,
+            ];
+            return response()->json($response); // 500 Internal Server Error
+        }
+    }
+
    // New method for API endpoint
    public function detailBroadcastApi(Request $request)
    {

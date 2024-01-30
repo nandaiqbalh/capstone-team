@@ -404,14 +404,14 @@ class ApiProfileController extends Controller
 
             // Validate only if there are request parameters
             $rules = [
-                'user_img' => 'filled|image|mimes:jpeg,jpg,png|max:5120'
+                'user_img' => 'filled|required|image|mimes:jpeg,jpg,png|max:5120'
             ];
 
             try {
                 $this->validate($request, $rules);
             } catch (\Illuminate\Validation\ValidationException $exception) {
                 $errorMessage = $exception->validator->errors()->first();
-                return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null]);
+                return response()->json(['status' => false, 'message' => "Foto profil wajib diisi untuk mengubah foto profil!", 'data' => null]);
             }
 
             // Initialize variables for image upload

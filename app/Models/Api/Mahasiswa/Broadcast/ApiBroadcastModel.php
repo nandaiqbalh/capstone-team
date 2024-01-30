@@ -18,7 +18,13 @@ class ApiBroadcastModel extends ApiBaseModel
     public static function getDataWithPagination()
     {
         return DB::table('broadcast')
-            ->paginate(20);
+        ->paginate(10);
+    }
+
+    public static function getDataWithHomePagination()
+    {
+        return DB::table('broadcast')
+            ->paginate(3);
     }
 
     // get search
