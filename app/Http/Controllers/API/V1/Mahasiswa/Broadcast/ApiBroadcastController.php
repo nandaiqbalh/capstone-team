@@ -32,7 +32,7 @@ class ApiBroadcastController extends Controller
                     }
                 } else {
                     $base64Image = base64_encode(file_get_contents(public_path('img/broadcast/default_broadcast.png')));
-                    $rs_broadcast[$key]->broadcast_image_name = $base64Image;
+                    $rs_broadcast[$key]->broadcast_image_path = $base64Image;
                 }
 
             }
@@ -79,7 +79,7 @@ class ApiBroadcastController extends Controller
                     }
                 } else {
                     $base64Image = base64_encode(file_get_contents(public_path('img/broadcast/default_broadcast.png')));
-                    $rs_broadcast[$key]->broadcast_image_name = $base64Image;
+                    $rs_broadcast[$key]->broadcast_image_path = $base64Image;
                 }
 
             }
