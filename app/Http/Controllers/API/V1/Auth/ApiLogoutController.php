@@ -27,7 +27,7 @@ class ApiLogoutController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             ];
             return response()->json($response, ); // 400 Bad Request
         }
@@ -91,7 +91,7 @@ class ApiLogoutController extends Controller
                     } else {
                         $response = [
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ];
                         return response()->json($response, ); // 401 Unauthorized
                     }

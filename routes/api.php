@@ -53,7 +53,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);
     Route::get('/mahasiswa/broadcast-home/', [ApiBroadcastController::class, 'broadcastHome']);
-    Route::post('/mahasiswa/broadcast/detail-broadcast', [ApiBroadcastController::class, 'detailBroadcastApi']);
+    Route::post('/mahasiswa/detail-broadcast/', [ApiBroadcastController::class, 'detailBroadcastApi']);
 
     Route::post('/mahasiswa/kelompok/', [ApiKelompokSayaController::class, 'index']);
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokSayaController::class, 'addKelompokProcess']);

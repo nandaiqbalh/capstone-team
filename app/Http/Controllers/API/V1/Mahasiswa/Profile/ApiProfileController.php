@@ -28,7 +28,7 @@ class ApiProfileController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Tidak ada api token!',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                 'data' => null,
             ];
             return response()->json($response); // 400 Bad Request
@@ -65,7 +65,7 @@ class ApiProfileController extends Controller
                     } else {
                         $response = [
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                             'data' => null,
                         ];
                         return response()->json($response); // 401 Unauthorized
@@ -100,7 +100,7 @@ class ApiProfileController extends Controller
     if (empty($apiToken)) {
         $response = [
             'status' => false,
-            'message' => 'Tidak ada api token!',
+            'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             'data' => null,
         ];
         return response()->json($response); // 400 Bad Request
@@ -198,7 +198,7 @@ class ApiProfileController extends Controller
     } else {
         $response = [
             'status' => false,
-            'message' => 'Token tidak valid!',
+            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
             'data' => null,
         ];
         return response()->json($response); // 401 Unauthorized
@@ -214,7 +214,7 @@ class ApiProfileController extends Controller
          if (empty($apiToken)) {
              $response = [
                  'status' => false,
-                 'message' => 'Tidak ada api token!',
+                 'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                  'data' => null,
              ];
              return response()->json($response); // 400 Bad Request
@@ -281,7 +281,7 @@ class ApiProfileController extends Controller
             } else {
                 $response = [
                     'status' => false,
-                    'message' => 'Token tidak valid!',
+                    'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                     'data' => null,
                 ];
                 return response()->json($response); // 401 Unauthorized
@@ -307,7 +307,7 @@ class ApiProfileController extends Controller
           if (empty($apiToken)) {
               return response()->json([
                   'status' => false,
-                  'message' => 'Tidak ada api token!',
+                  'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                   'data' => null
               ], );
           }
@@ -363,7 +363,7 @@ class ApiProfileController extends Controller
                       } else {
                           return response()->json([
                               'status' => false,
-                              'message' => 'Token tidak valid!',
+                              'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                               'data' => null
                           ], );
                       }
@@ -389,7 +389,7 @@ class ApiProfileController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Tidak ada api token!',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                 'data' => null,
             ];
             return response()->json($response); // 400 Bad Request
@@ -471,7 +471,7 @@ class ApiProfileController extends Controller
         } else {
             $response = [
                 'status' => false,
-                'message' => 'Token tidak valid!',
+                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                 'data' => null,
             ];
             return response()->json($response); // 401 Unauthorized

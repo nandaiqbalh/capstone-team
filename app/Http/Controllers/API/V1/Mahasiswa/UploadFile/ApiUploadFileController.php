@@ -26,7 +26,7 @@ class ApiUploadFileController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                 'data' => null,
             ];
             return response()->json($response, ); // 400 Bad Request
@@ -70,7 +70,7 @@ class ApiUploadFileController extends Controller
                     } else {
                         $response = [
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                             'data' => null,
                         ];
                         return response()->json($response, ); // 401 Unauthorized
@@ -97,7 +97,7 @@ class ApiUploadFileController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
             ], ); // 400 Bad Request
         }
 
@@ -214,7 +214,7 @@ class ApiUploadFileController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], ); // 401 Unauthorized
                     }
                 }
@@ -237,7 +237,7 @@ class ApiUploadFileController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
             ], );
         }
 
@@ -348,7 +348,7 @@ class ApiUploadFileController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], );
                     }
                 }
@@ -371,7 +371,7 @@ class ApiUploadFileController extends Controller
          if (empty($apiToken)) {
              return response()->json([
                  'status' => false,
-                 'message' => 'Missing api_token in the request body.',
+                 'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
              ], );
          }
 
@@ -419,7 +419,7 @@ class ApiUploadFileController extends Controller
                      } else {
                          return response()->json([
                              'status' => false,
-                             'message' => 'Token tidak valid!',
+                             'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                          ], );
                      }
                  }

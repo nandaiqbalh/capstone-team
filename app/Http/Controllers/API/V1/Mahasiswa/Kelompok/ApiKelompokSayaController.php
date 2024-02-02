@@ -21,7 +21,7 @@ class ApiKelompokSayaController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                 'data' => null,
             ];
             return response()->json($response); // 400 Bad Request
@@ -110,7 +110,7 @@ class ApiKelompokSayaController extends Controller
                     } else {
                         $response = [
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                             'data' => null,
                         ];
                         return response()->json($response); // 401 Unauthorized
@@ -137,7 +137,7 @@ class ApiKelompokSayaController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                 'data' => null,
             ];
             return response()->json($response); // 400 Bad Request
@@ -269,7 +269,7 @@ class ApiKelompokSayaController extends Controller
                     } else {
                         $response = [
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                             'data' => null,
                         ];
                         return response()->json($response); // 401 Unauthorized
@@ -296,7 +296,7 @@ class ApiKelompokSayaController extends Controller
         if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                 'data' => null,
             ];
             return response()->json($response); // 400 Bad Request
@@ -462,7 +462,7 @@ class ApiKelompokSayaController extends Controller
                     } else {
                         $response = [
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                             'data' => null,
                         ];
                         return response()->json($response); // 401 Unauthorized

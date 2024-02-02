@@ -23,7 +23,7 @@ class ApiUploadFileCapstoneController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             ], );
         }
 
@@ -144,7 +144,7 @@ class ApiUploadFileCapstoneController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], );
                     }
                 }
@@ -167,7 +167,7 @@ class ApiUploadFileCapstoneController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             ], );
         }
 
@@ -285,7 +285,7 @@ class ApiUploadFileCapstoneController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], );
                     }
                 }
@@ -308,7 +308,7 @@ class ApiUploadFileCapstoneController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             ], );
         }
 
@@ -425,7 +425,7 @@ class ApiUploadFileCapstoneController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], );
                     }
                 }
@@ -448,7 +448,7 @@ class ApiUploadFileCapstoneController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             ], );
         }
 
@@ -566,7 +566,7 @@ class ApiUploadFileCapstoneController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], );
                     }
                 }
@@ -589,7 +589,7 @@ class ApiUploadFileCapstoneController extends Controller
         if (empty($apiToken)) {
             return response()->json([
                 'status' => false,
-                'message' => 'Missing api_token in the request body.',
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
             ], );
         }
 
@@ -707,7 +707,7 @@ class ApiUploadFileCapstoneController extends Controller
                     } else {
                         return response()->json([
                             'status' => false,
-                            'message' => 'Token tidak valid!',
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         ], );
                     }
                 }
