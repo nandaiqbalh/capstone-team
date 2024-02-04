@@ -53,49 +53,41 @@ class ApiKelompokSayaController extends Controller
                             // get data kelompok
                             $kelompok = ApiKelompokSayaModel::pengecekan_kelompok_mahasiswa($user -> user_id);
                             $rs_siklus = ApiKelompokSayaModel::getSiklusAktif();
+                            $rs_topik = ApiKelompokSayaModel::getTopik();
+                            // dd($kelompok);
 
-                            if ($kelompok != null) {
-                                // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
-                                $rs_mahasiswa = ApiKelompokSayaModel::listKelompokMahasiswa($kelompok->id_kelompok);
-                                $rs_dosbing = ApiKelompokSayaModel::getAkunDosbingKelompok($kelompok->id_kelompok);
-                                $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
-                                $proposal = ApiKelompokSayaModel::proposal($kelompok->id_kelompok);
-
-                                // adds
+                            if ($kelompok == null) {
+                                // belum memiliki kelompok
                                 $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
-                                $rs_topik = ApiKelompokSayaModel::getTopik();
 
                                 // data
                                 $data = [
+
                                     'kelompok' => $kelompok,
-                                    'proposal' => $proposal,
                                     'getAkun' => $getAkun,
-                                    'rs_mahasiswa' => $rs_mahasiswa,
-                                    'rs_dosbing' => $rs_dosbing,
-                                    'rs_dospeng' => $rs_dospeng,
+                                    'rs_mahasiswa' => null,
+                                    'rs_dosbing' => null,
+                                    'rs_dospeng' => null,
                                     'rs_siklus' => $rs_siklus,
                                     'rs_topik' => $rs_topik,
 
                                 ];
                             } else {
-                                // belum memiliki kelompok
-                                $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
-                                $rs_mahasiswa = ApiKelompokSayaModel::getAkun();
-                                $rs_dosbing = ApiKelompokSayaModel::getAkunDosen();
-                                $rs_topik = ApiKelompokSayaModel::getTopik();
+                                // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
+                                $rs_mahasiswa = ApiKelompokSayaModel::listKelompokMahasiswa($kelompok->id_kelompok);
+                                $rs_dosbing = ApiKelompokSayaModel::getAkunDosbingKelompok($kelompok->id_kelompok);
+                                $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
 
                                 // adds
-                                // $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
+                                $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
 
                                 // data
                                 $data = [
-
                                     'kelompok' => $kelompok,
-                                    'proposal' => null,
                                     'getAkun' => $getAkun,
                                     'rs_mahasiswa' => $rs_mahasiswa,
                                     'rs_dosbing' => $rs_dosbing,
-                                    'rs_dospeng' => null,
+                                    'rs_dospeng' => $rs_dospeng,
                                     'rs_siklus' => $rs_siklus,
                                     'rs_topik' => $rs_topik,
 

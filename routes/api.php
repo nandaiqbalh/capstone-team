@@ -42,7 +42,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/auth/logout', [ApiLogoutController::class, 'logout']);
 
     Route::post('/auth/reset-password/', [ResetPasswordController::class, 'resetPasswordProcess']);
-    Route::get('/mahasiswa/', [ApiLoginController::class, 'index']);
+    // Route::get('/mahasiswa/', [ApiLoginController::class, 'index']);
 
     // profile
     Route::post('/mahasiswa/profile/', [ApiProfileController::class, 'index']);
