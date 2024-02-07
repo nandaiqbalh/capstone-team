@@ -73,6 +73,18 @@
             });
         </script> -->
 
+        <!-- coba modal tolak terima dosen -->
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha384-wiBToD0TGpWhA05BcRPrlA7ggzoY5KwJhUpJsjQfBRCD5vTQ6j+MFlMj90eocFJc" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy6nq4Z9gFgp5IuakXm2E+AnDybp4QDg8Q" crossorigin="anonymous"></script>
+
+
+
+
         <!-- jQuery -->
         <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
         <script src="{{ asset('vendor/libs/select2-410/select2.min.js') }}"></script>

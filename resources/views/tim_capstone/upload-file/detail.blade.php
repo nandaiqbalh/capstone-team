@@ -19,6 +19,7 @@
 
                     @if ($file_mhs != null)
                     <div class="row">
+                        <!-- upload makalah -->
                         <div class="col-md-6">
                             <div class="card-body">
                                 <div class="card">
@@ -39,7 +40,27 @@
                                                             </div>
                                                             @if ($file_mhs->file_name_makalah)
                                                             <input type="text" class="form-control" value="{{$file_mhs->file_name_makalah}}" readonly>
-                                                            <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
+                                                            <!-- <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button> -->
+                                                            <button type="button" class="btn btn-primary float-end m-1 btn-sm" onclick="confirmUpdate1()">Ubah</button>
+                                                                <script>
+                                                                    function confirmUpdate1() {
+                                                                        // Use SweetAlert
+                                                                        Swal.fire({
+                                                                            title: 'Apakah Anda yakin ingin mengubah file makalah?',
+                                                                            icon: 'question',
+                                                                            showCancelButton: true,
+                                                                            confirmButtonColor: '#3085d6',
+                                                                            cancelButtonColor: '#d33',
+                                                                            confirmButtonText: 'Ya, ubah',
+                                                                            cancelButtonText: 'Batal'
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                // Continue with the update process
+                                                                                document.querySelector('form').submit();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                </script>
                                                             <a href="{{url('/file/mahasiswa/makalah')}}/{{$file_mhs->file_name_makalah}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                                             @else
                                                             <button type="submit" class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -54,6 +75,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- upload laporan TA -->
                         <div class="col-md-6">
                             <div class="card-body">
                                 <div class="card">
@@ -74,7 +97,27 @@
                                                             </div>
                                                             @if ($file_mhs->file_name_laporan_ta)
                                                             <input type="text" class="form-control" value="{{$file_mhs->file_name_laporan_ta}}" readonly>
-                                                            <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
+                                                            <!-- <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button> -->
+                                                            <button type="button" class="btn btn-primary float-end m-1 btn-sm" onclick="confirmUpdate()">Ubah</button>
+                                                                <script>
+                                                                    function confirmUpdate() {
+                                                                        // Use SweetAlert
+                                                                        Swal.fire({
+                                                                            title: 'Apakah Anda yakin ingin mengubah file laporan TA?',
+                                                                            icon: 'question',
+                                                                            showCancelButton: true,
+                                                                            confirmButtonColor: '#3085d6',
+                                                                            cancelButtonColor: '#d33',
+                                                                            confirmButtonText: 'Ya, ubah',
+                                                                            cancelButtonText: 'Batal'
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                // Continue with the update process
+                                                                                document.querySelector('form').submit();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                </script>
                                                             <a href="{{url('/file/mahasiswa/laporan-ta')}}/{{$file_mhs->file_name_laporan_ta}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                                             @else
                                                             <button type="submit" class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -115,6 +158,26 @@
                                                             @if ($file_mhs->file_name_c100)
                                                             <input type="text" class="form-control" value="{{$file_mhs->file_name_c100}}" readonly>
                                                             <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
+                                                            <!-- <button type="button" class="btn btn-primary float-end m-1 btn-sm" onclick="confirmUpdate()">Ubah</button>
+                                                                <!-- <script>
+                                                                    function confirmUpdate() {
+                                                                        // Use SweetAlert
+                                                                        Swal.fire({
+                                                                            title: 'Apakah Anda yakin ingin mengubah file C100?',
+                                                                            icon: 'question',
+                                                                            showCancelButton: true,
+                                                                            confirmButtonColor: '#3085d6',
+                                                                            cancelButtonColor: '#d33',
+                                                                            confirmButtonText: 'Ya, ubah',
+                                                                            cancelButtonText: 'Batal'
+                                                                        }).then((result) => {
+                                                                            if (result.isConfirmed) {
+                                                                                // Continue with the update process
+                                                                                document.querySelector('form').submit();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                </script> -->
                                                             <a href="{{url('/file/kelompok/c100')}}/{{$file_mhs->file_name_c100}}" class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                                             @else
                                                             <button type="submit" class="btn btn-primary float-end m-1 btn-sm">Simpan</button>

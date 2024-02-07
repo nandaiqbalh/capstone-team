@@ -75,10 +75,10 @@ class BimbinganSayaController extends BaseController
      */
     public function terimaBimbinganSaya($id)
     {
+
+        dd($id);
         // authorize
         BimbinganSayaModel::authorize('U');
-
-        ;
 
         // params
         $params = [
@@ -93,7 +93,7 @@ class BimbinganSayaController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/dosen/bimbingan-saya' . $request->id);
+            return redirect('/dosen/bimbingan-saya');
         }
     }
      /**
@@ -108,7 +108,7 @@ class BimbinganSayaController extends BaseController
         // authorize
         BimbinganSayaModel::authorize('U');
 
-        ;
+        dd($id);
 
         // params
         $params = [
@@ -123,9 +123,54 @@ class BimbinganSayaController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/dosen/bimbingan-saya' . $request->id);
+            return redirect('/dosen/bimbingan-saya');
         }
     }
+
+    public function terimaBimbinganSayaTest($id_dosen_kelompok)
+{
+    // authorize
+    BimbinganSayaModel::authorize('U');
+
+    // params
+    $params = [
+        'status_persetujuan' => 'disetujui',
+    ];
+
+    // process
+    if (BimbinganSayaModel::update($id_dosen_kelompok, $params)) {
+        // flash message
+        session()->flash('success', 'Data berhasil disimpan.');
+        return redirect('/dosen/bimbingan-saya');
+    } else {
+        // flash message
+        session()->flash('danger', 'Data gagal disimpan.');
+        return redirect('/dosen/bimbingan-saya');
+    }
+}
+
+public function tolakBimbinganSayaTest($id_dosen_kelompok)
+{
+    // authorize
+    BimbinganSayaModel::authorize('U');
+
+    // params
+    $params = [
+        'status_persetujuan' => 'tidak disetujui',
+    ];
+
+    // process
+    if (BimbinganSayaModel::update($id_dosen_kelompok, $params)) {
+        // flash message
+        session()->flash('success', 'Data berhasil disimpan.');
+        return redirect('/dosen/bimbingan-saya');
+    } else {
+        // flash message
+        session()->flash('danger', 'Data gagal disimpan.');
+        return redirect('/dosen/bimbingan-saya');
+    }
+}
+
 
 
     /**

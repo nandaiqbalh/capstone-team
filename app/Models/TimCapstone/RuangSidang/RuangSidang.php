@@ -4,19 +4,55 @@ namespace App\Models\TimCapstone\RuangSidang;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TimCapstone\BaseModel;
+use Illuminate\Support\Facades\DB;
 
-class RuangSidang extends Model
+class RuangSidang extends BaseModel
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'id',
-        'kode_ruang',
-        'nama_ruang',
-    ];
-
-    public function jadwalSidangProposals()
+    // get all data
+    public static function getData()
     {
-        return $this->hasMany(JadwalSidangProposal::class, 'ruangan_id');
+        return DB::table('ruang_sidangs')
+        ->get();
+
+    }
+
+    // get data with pagination
+    public static function getDataWithPagination()
+    {
+        return DB::table('ruang_sidangs')
+        ->paginate(20);
+
+    }
+
+    // get search
+    public static function getDataSearch($nama)
+    {
+        return DB::table('ruang_sidangs')->where('nama', 'LIKE', "%" . $nama . "%")->paginate(20)->withQueryString();
+    }
+
+    // get data by id
+    public static function getDataById($id)
+    {
+        return DB::table('ruang_sidangs')->where('id', $id)->first();
+    }
+
+    public static function insertruangsidang($params)
+    {
+        return DB::table('ruang_sidangs')->insert($params);
+    }
+    public static function editruangsidang($params)
+    {
+        return DB::table('ruang_sidangs')->where('id', $id)->edit($params);
+    }
+
+    public static function update($id, $params)
+    {
+        return DB::table('ruang_sidangs')->where('id', $id)->update($params);
+    }
+
+    public static function delete($id)
+    {
+        return DB::table('ruang_sidangs')->where('id', $id)->delete();
     }
 }

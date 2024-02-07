@@ -80,7 +80,27 @@ Pengaturan Akun User
                                 @endif
                                 <a href="{{ url('/admin/settings/accounts/edit_password') }}/{{ $account->user_id }}" class="btn btn-outline-success btn-xs m-1"> Password</a>
                                 <a href="{{ url('/admin/settings/accounts/edit') }}/{{ $account->user_id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <a href="{{ url('/admin/settings/accounts/delete_process') }}/{{ $account->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus Akun {{ $account->user_name }} ?')"> Hapus</a>
+                                <!-- <a href="{{ url('/admin/settings/accounts/delete_process') }}/{{ $account->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus Akun {{ $account->user_name }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $account->user_id }}', '{{ $account->user_name }}')">Hapus</button>
+                                    <script>
+                                        function confirmDelete(userId, userName) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#d33',
+                                                cancelButtonColor: '#3085d6',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the delete URL if confirmed
+                                                    window.location.href = "{{ url('/admin/settings/accounts/delete_process') }}/" + userId;
+                                                }
+                                            });
+                                        }
+                                    </script>
                             </td>
                         </tr>
                         @endforeach
@@ -121,7 +141,7 @@ Pengaturan Akun User
     </div>
 </div>
 
-<script>
+<!-- <script>
     $(".btn-take-over-login").on("click", function(e) {
         var id = $(this).data('id');
         var nomor_induk = $(this).data('nomor_induk');
@@ -147,5 +167,41 @@ Pengaturan Akun User
         }
 
     });
+</script> -->
+
+<script>
+    $(".btn-take-over-login").on("click", function(e) {
+        var id = $(this).data('id');
+        var nomor_induk = $(this).data('nomor_induk');
+        var url = "{{ url('admin/settings/take-over-login?') }}id=" + id + "&nomor_induk=" + nomor_induk;
+
+        // Use SweetAlert instead of confirm
+        Swal.fire({
+            title: 'Anda yakin ingin berganti akun?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, berganti akun',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading
+                $("#loadingModal").modal('show');
+
+                setTimeout(function() {
+                    $("#text-loading").html('Melakukan login...');
+                }, 3000);
+
+                setTimeout(function() {
+                    $("#text-loading").html('Mengambil alih akun...');
+                }, 6000);
+
+                // Take over login
+                window.open(url, "_self");
+            }
+        });
+    });
 </script>
+
 @endsection
