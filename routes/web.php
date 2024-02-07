@@ -38,6 +38,7 @@ use App\Http\Controllers\User\Home\HomeController;
 use App\Http\Controllers\TimCapstone\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\TimCapstone\Topik\TimCapstoneController;
 use App\Http\Controllers\TimCapstone\Topik\TopikController;
+use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
@@ -196,6 +197,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/topik/edit/{id}', [TopikController::class, 'editTopik']);
     Route::post('/admin/topik/edit-process', [TopikController::class, 'editTopikProcess']);
 
+    //ruang sidang
+    Route::get('/admin/ruangan', [RuangSidangController::class, 'index']);
+    Route::get('/admin/ruangan/add', [RuangSidangController::class, 'create']);
+    Route::post('/admin/ruangan/add-process', [RuangSidangController::class, 'store']);
+    Route::get('/admin/ruangan/delete-process/{id}', [RuangSidangController::class, 'delete']);
+    Route::get('/admin/ruangan/edit/{id}', [RuangSidangController::class, 'edit']);
+    Route::post('/admin/ruangan/edit-process', [RuangSidangController::class, 'update']);
 
     //dosen
     Route::get('/admin/dosen', [DosenController::class, 'index']);
@@ -322,6 +330,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
+    Route::get('/dosen/bimbingan-saya/terimatest/{id_dosen_kelompok}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
+    Route::get('/dosen/bimbingan-saya/tolaktest/{id_dosen_kelompok}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
+    
 
     //halaman dosen
     Route::get('/dosen/pengujian', [PengujianController::class, 'index']);

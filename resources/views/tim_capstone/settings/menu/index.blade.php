@@ -66,7 +66,27 @@
                                             <td class="text-center">
                                                 <a href="{{ url('/admin/settings/menu/role_menu') }}/{{ $menu->id }}" class="btn btn-outline-success btn-xs m-1"> Role</a>
                                                 <a href="{{ url('/admin/settings/menu/edit') }}/{{ $menu->id }}" class="btn btn-outline-warning btn-xs m-1"> Ubah</a>
-                                                <a href="{{ url('/admin/settings/menu/delete_process') }}/{{ $menu->id }}" class="btn btn-outline-danger btn-xs m-1" onclick="return confirm('Apakah anda ingin menghapus menu {{ $menu->menu_name }} ?')"> Hapus</a>
+                                                <!-- <a href="{{ url('/admin/settings/menu/delete_process') }}/{{ $menu->id }}" class="btn btn-outline-danger btn-xs m-1" onclick="return confirm('Apakah anda ingin menghapus menu {{ $menu->menu_name }} ?')"> Hapus</a> -->
+                                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $menu->id }}', '{{ $menu->menu_name }}')">Hapus</button>
+                                                    <script>
+                                                        function confirmDelete(menuId, menuName) {
+                                                            Swal.fire({
+                                                                title: 'Apakah Anda yakin?',
+                                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Ya, hapus!',
+                                                                cancelButtonText: 'Batal'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Redirect to the delete URL if confirmed
+                                                                    window.location.href = "{{ url('/admin/settings/menu/delete_process') }}/" + menuId;
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
                                             </td>
                                         </tr>
                                         @endforeach

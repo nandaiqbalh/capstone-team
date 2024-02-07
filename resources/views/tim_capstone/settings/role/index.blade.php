@@ -64,7 +64,27 @@
                                             <td class="text-center">
                                                 <a href="{{ url('/admin/settings/role/edit') }}/{{ $role->role_id }}" class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                                 @if($role->role_id != '01')
-                                                <a href="{{ url('/admin/settings/role/delete_process') }}/{{ $role->role_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus Role {{ $role->role_name }} ?')">Hapus</a>
+                                                <!-- <a href="{{ url('/admin/settings/role/delete_process') }}/{{ $role->role_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus Role {{ $role->role_name }} ?')">Hapus</a> -->
+                                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $role->role_id }}', '{{ $role->role_name }}')">Hapus</button>
+                                                    <script>
+                                                        function confirmDelete(roleId, roleName) {
+                                                            Swal.fire({
+                                                                title: 'Apakah Anda yakin?',
+                                                                text: "Anda tidak akan dapat mengembalikan ini!",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d33',
+                                                                cancelButtonColor: '#3085d6',
+                                                                confirmButtonText: 'Ya, hapus!',
+                                                                cancelButtonText: 'Batal'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Redirect to the delete URL if confirmed
+                                                                    window.location.href = "{{ url('/admin/settings/role/delete_process') }}/" + roleId;
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
                                                 @endif
                                             </td>
                                         </tr>
