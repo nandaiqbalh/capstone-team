@@ -73,13 +73,80 @@ class ApiKelompokSayaController extends Controller
 
                                 ];
                             } else {
+
                                 // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
-                                $rs_mahasiswa = ApiKelompokSayaModel::listKelompokMahasiswa($kelompok->id_kelompok);
-                                $rs_dosbing = ApiKelompokSayaModel::getAkunDosbingKelompok($kelompok->id_kelompok);
-                                $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
 
                                 // adds
                                 $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
+
+                                // mahasiswa
+                                $rs_mahasiswa = ApiKelompokSayaModel::listKelompokMahasiswa($kelompok->id_kelompok);
+
+                                 foreach ($rs_mahasiswa as $key =>$mahasiswa ) {
+
+                                     $storagePath = null;
+
+                                     // dd( $broadcast);
+                                     if ($mahasiswa->user_img_name != "" && $mahasiswa->user_img_name != null) {
+                                         $storagePath = public_path($mahasiswa->user_img_path . $mahasiswa->user_img_name);
+
+                                         if (file_exists($storagePath)) {
+                                             $base64Image = base64_encode(file_get_contents($storagePath));
+                                             $rs_mahasiswa[$key]->user_img_path = $base64Image;
+                                         } else {
+                                             $rs_mahasiswa[$key]->user_img_path = null;
+                                         }
+                                     } else {
+                                         $rs_mahasiswa[$key]->user_img_path = null;
+                                     }
+
+                                 }
+
+                                 // dosbing
+                                 $rs_dosbing = ApiKelompokSayaModel::getAkunDosbingKelompok($kelompok->id_kelompok);
+
+                                 foreach ($rs_dosbing as $key =>$dosbing ) {
+
+                                     $storagePath = null;
+
+                                     // dd( $broadcast);
+                                     if ($dosbing->user_img_name != "" && $dosbing->user_img_name != null) {
+                                         $storagePath = public_path($dosbing->user_img_path . $dosbing->user_img_name);
+
+                                         if (file_exists($storagePath)) {
+                                             $base64Image = base64_encode(file_get_contents($storagePath));
+                                             $rs_dosbing[$key]->user_img_path = $base64Image;
+                                         } else {
+                                             $rs_dosbing[$key]->user_img_path = null;
+                                         }
+                                     } else {
+                                         $rs_dosbing[$key]->user_img_path = null;
+                                     }
+
+                                 }
+
+                                 // dospeng
+                                 $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
+
+                                 foreach ($rs_dospeng as $key =>$dospeng ) {
+
+                                     $storagePath = null;
+
+                                     // dd( $broadcast);
+                                     if ($dospeng->user_img_name != "" && $dospeng->user_img_name != null) {
+                                         $storagePath = public_path($dospeng->user_img_path . $dospeng->user_img_name);
+
+                                         if (file_exists($storagePath)) {
+                                             $base64Image = base64_encode(file_get_contents($storagePath));
+                                             $rs_dospeng[$key]->user_img_path = $base64Image;
+                                         } else {
+                                             $rs_dospeng[$key]->user_img_path = null;
+                                         }
+                                     } else {
+                                         $rs_dospeng[$key]->user_img_path = null;
+                                     }
+
+                                 }
 
                                 // data
                                 $data = [

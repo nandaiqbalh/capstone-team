@@ -98,6 +98,8 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                'data' => null,
+
             ], ); // 400 Bad Request
         }
 
@@ -115,6 +117,8 @@ class ApiUploadFileController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
+                        'data' => null,
+
                     ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
@@ -130,7 +134,7 @@ class ApiUploadFileController extends Controller
                             return response()->json([
                                 'status' => false,
                                 'message' => 'Validation error',
-                                'errors' => $validator->errors(),
+                                'data' => null,
                             ], );
                         }
 
@@ -170,6 +174,8 @@ class ApiUploadFileController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
+                                            'data' => null,
+
                                         ], );
                                     }
                                 }
@@ -196,6 +202,8 @@ class ApiUploadFileController extends Controller
                                     return response()->json([
                                         'status' => false,
                                         'message' => 'Gagal menyimpan file.',
+                                        'data' => null,
+
                                     ], );
                                 }
                             } else {
@@ -203,6 +211,8 @@ class ApiUploadFileController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Makalah gagal diupload.',
+                                    'data' => null,
+
                                 ], );
                             }
                         }
@@ -210,11 +220,15 @@ class ApiUploadFileController extends Controller
                         return response()->json([
                             'status' => false,
                             'message' => 'Makalah tidak ditemukan.',
+                            'data' => null,
+
                         ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                            'data' => null,
+
                         ], ); // 401 Unauthorized
                     }
                 }
@@ -224,6 +238,8 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
+                'data' => null,
+
             ], ); // 401 Unauthorized
         }
     }
@@ -238,6 +254,8 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                'data' => null,
+
             ], );
         }
 
@@ -255,6 +273,8 @@ class ApiUploadFileController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'Akses tidak sah!',
+                        'data' => null,
+
                     ], );
                 } else {
                     // Check if the provided api_token matches the user's api_token
@@ -270,7 +290,7 @@ class ApiUploadFileController extends Controller
                             return response()->json([
                                 'status' => false,
                                 'message' => 'Validation error',
-                                'errors' => $validator->errors(),
+                                'data' => null,
                             ], );
                         }
 
@@ -305,6 +325,8 @@ class ApiUploadFileController extends Controller
                                         return response()->json([
                                             'status' => false,
                                             'message' => 'Gagal menghapus file lama.',
+                                            'data' => null,
+
                                         ], );
                                     }
                                 }
@@ -317,6 +339,8 @@ class ApiUploadFileController extends Controller
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Laporan gagal diupload.',
+                                    'data' => null,
+
                                 ], );
                             }
 
@@ -332,11 +356,15 @@ class ApiUploadFileController extends Controller
                                 return response()->json([
                                     'status' => true,
                                     'message' => 'Data berhasil disimpan.',
+                                    'data' => $newFileName,
+
                                 ], );
                             } else {
                                 return response()->json([
                                     'status' => false,
                                     'message' => 'Gagal menyimpan file.',
+                                    'data' => null,
+
                                 ],);
                             }
                         }
@@ -344,11 +372,15 @@ class ApiUploadFileController extends Controller
                         return response()->json([
                             'status' => false,
                             'message' => 'Laporan tidak ditemukan.',
+                            'data' => null,
+
                         ], );
                     } else {
                         return response()->json([
                             'status' => false,
                             'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                            'data' => null,
+
                         ], );
                     }
                 }
@@ -358,6 +390,8 @@ class ApiUploadFileController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Pengguna tidak ditemukan!',
+                'data' => null,
+
             ], );
         }
     }
@@ -372,6 +406,7 @@ class ApiUploadFileController extends Controller
              return response()->json([
                  'status' => false,
                  'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+
              ], );
          }
 
@@ -389,6 +424,7 @@ class ApiUploadFileController extends Controller
                      return response()->json([
                          'status' => false,
                          'message' => 'Akses tidak sah!',
+
                      ], );
                  } else {
                      // Check if the provided api_token matches the user's api_token
@@ -420,6 +456,7 @@ class ApiUploadFileController extends Controller
                          return response()->json([
                              'status' => false,
                              'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+
                          ], );
                      }
                  }

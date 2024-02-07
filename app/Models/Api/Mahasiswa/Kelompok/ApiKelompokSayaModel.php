@@ -35,7 +35,7 @@ class ApiKelompokSayaModel extends ApiBaseModel
     public static function listKelompokMahasiswa($id_kelompok)
     {
         return DB::table('kelompok_mhs as a')
-            ->select('a.*','b.user_name','b.nomor_induk')
+            ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_img_path', 'b.user_img_name' )
             ->join('app_user as b','a.id_mahasiswa','b.user_id')
             ->where('a.id_kelompok', $id_kelompok)
             ->whereNot('a.id_kelompok', null)
@@ -72,7 +72,7 @@ class ApiKelompokSayaModel extends ApiBaseModel
     public static function getAkunDosbingKelompok($id_kelompok)
     {
         return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk' )
+        ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_img_path', 'b.user_img_name' )
         ->join('app_user as b', 'a.id_dosen', 'b.user_id')
         ->where('a.status_dosen', 'pembimbing 1')
         ->where('a.id_kelompok', $id_kelompok)
@@ -85,7 +85,7 @@ class ApiKelompokSayaModel extends ApiBaseModel
     public static function getAkunDospengKelompok($id_kelompok)
     {
         return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk')
+        ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_img_path', 'b.user_img_name' )
         ->join('app_user as b', 'a.id_dosen', 'b.user_id')
         ->where('a.status_dosen', 'penguji 1')
         ->where('a.id_kelompok', $id_kelompok)
