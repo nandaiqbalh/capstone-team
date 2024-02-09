@@ -224,7 +224,7 @@ class ApiKelompokSayaController extends Controller
                     if ($user->api_token == $apiToken) {
 
                         // validasi params
-                        $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'alamat', 'id_siklus', 's', 'e', 'c', 'm'];
+                        $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'id_siklus', 's', 'e', 'c', 'm'];
                         foreach ($requiredParams as $param) {
                             if (!$request->has($param) || empty($request->input($param))) {
                                 $response = [
@@ -240,6 +240,8 @@ class ApiKelompokSayaController extends Controller
                             // params
                             $params = [
                                 "angkatan" => $request->angkatan,
+                                "user_name" => $request->user_name,
+                                "nomor_induk" => $request->nomor_induk,
                                 "user_email" => $request->email,
                                 "jenis_kelamin" => $request->jenis_kelamin,
                                 "ipk" => $request->ipk,
@@ -255,6 +257,7 @@ class ApiKelompokSayaController extends Controller
 
                             if ($update_mahasiswa) {
                                 $params2 = [
+                                    "usulan_judul_capstone" => $request->judul_capstone,
                                     "id_siklus" => $request->id_siklus,
                                     'id_mahasiswa' => $user->user_id,
                                     'status_individu' => 'menunggu persetujuan',
@@ -298,20 +301,54 @@ class ApiKelompokSayaController extends Controller
 
                                 ApiKelompokSayaModel::insertPeminatan($paramM);
 
-                                $rs_topik = ApiKelompokSayaModel::getTopik();
-                                foreach ($rs_topik as $key => $value) {
-                                    $param = [
-                                        'id_mahasiswa'  => $user->user_id,
-                                        'id_kel_mhs'    => $insert_id,
-                                        'id_topik'     => $value->id,
-                                        'prioritas' => $request[$value->id],
-                                        'created_by'   => $user->user_id,
-                                        'created_date'  => date('Y-m-d H:i:s')
-                                    ];
+                                $paramEWS = [
+                                    'id_mahasiswa' => $user->user_id,
+                                    'id_kel_mhs'    => $insert_id,
+                                    'id_topik'     => 1,
+                                    'prioritas' => $request->ews,
+                                    'id_mahasiswa' => $user->user_id,
+                                    'created_by' => $user->user_id,
+                                    'created_date'  => date('Y-m-d H:i:s')
+                                ];
 
-                                    ApiKelompokSayaModel::insertTopikMHS($param);
-                                }
+                                ApiKelompokSayaModel::insertTopikMHS($paramEWS);
 
+                                $paramBAC = [
+                                    'id_mahasiswa' => $user->user_id,
+                                    'id_kel_mhs'    => $insert_id,
+                                    'id_topik'     => 2,
+                                    'prioritas' => $request->bac,
+                                    'id_mahasiswa' => $user->user_id,
+                                    'created_by' => $user->user_id,
+
+                                    'created_date'  => date('Y-m-d H:i:s')
+                                ];
+
+                                ApiKelompokSayaModel::insertTopikMHS($paramBAC);
+
+                                $paramSMB = [
+                                    'id_mahasiswa' => $user->user_id,
+                                    'id_kel_mhs'    => $insert_id,
+                                    'id_topik'     => 3,
+                                    'prioritas' => $request->smb,
+                                    'id_mahasiswa' => $user->user_id,
+                                    'created_by' => $user->user_id,
+                                    'created_date'  => date('Y-m-d H:i:s')
+                                ];
+
+                                ApiKelompokSayaModel::insertTopikMHS($paramSMB);
+
+                                $paramSMC = [
+                                    'id_mahasiswa' => $user->user_id,
+                                    'id_kel_mhs'    => $insert_id,
+                                    'id_topik'     => 6,
+                                    'prioritas' => $request->smc,
+                                    'id_mahasiswa' => $user->user_id,
+                                    'created_by' => $user->user_id,
+                                    'created_date'  => date('Y-m-d H:i:s')
+                                ];
+
+                                ApiKelompokSayaModel::insertTopikMHS($paramSMC);
                                 // response
                                 return response()->json(['status' => true, 'message' => 'Data berhasil disimpan.']);
                             } else {

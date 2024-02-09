@@ -2,10 +2,9 @@
 
 namespace App\Models\Api\TimCapstone\Mahasiswa;
 
-use App\Models\Api\ApiBaseModel;
 use Illuminate\Support\Facades\DB;
 
-class ApiMahasiswaModel extends ApiBaseModel
+class ApiMahasiswaModel extends Model
 {
     // get all data
     public static function getData()

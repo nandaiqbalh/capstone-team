@@ -140,19 +140,49 @@ class MahasiswaKelompokController extends BaseController
 
             MahasiswaKelompokModel::insertPeminatan($paramM);
 
-            $rs_topik = MahasiswaKelompokModel::getTopik();
-            foreach ($rs_topik as $key => $value) {
-                $param = [
-                    'id_mahasiswa'  => Auth::user()->user_id,
-                    'id_kel_mhs'    => $insert_id,
-                    'id_topik'     => $value->id,
-                    'prioritas' => $request[$value->id],
-                    'created_by'   => Auth::user()->user_id,
-                    'created_date'  => date('Y-m-d H:i:s')
-                ];
+            $paramEWS = [
+                'id_mahasiswa'  => Auth::user()->user_id,
+                'id_kel_mhs'    => $insert_id,
+                'id_topik'     => 1,
+                'prioritas' => $request->ews,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
+            ];
 
-                MahasiswaKelompokModel::insertTopikMHS($param);
-            }
+            MahasiswaKelompokModel::insertTopikMHS($paramEWS);
+
+            $paramBAC = [
+                'id_mahasiswa'  => Auth::user()->user_id,
+                'id_kel_mhs'    => $insert_id,
+                'id_topik'     => 2,
+                'prioritas' => $request->bac,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
+            ];
+
+            MahasiswaKelompokModel::insertTopikMHS($paramBAC);
+
+            $paramSMB = [
+                'id_mahasiswa'  => Auth::user()->user_id,
+                'id_kel_mhs'    => $insert_id,
+                'id_topik'     => 3,
+                'prioritas' => $request->smb,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
+            ];
+
+            MahasiswaKelompokModel::insertTopikMHS($paramSMB);
+
+            $paramSMC = [
+                'id_mahasiswa'  => Auth::user()->user_id,
+                'id_kel_mhs'    => $insert_id,
+                'id_topik'     => 6,
+                'prioritas' => $request->smc,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
+            ];
+
+            MahasiswaKelompokModel::insertTopikMHS($paramSMC);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');

@@ -29,6 +29,8 @@ use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
 use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 
+use App\Http\Controllers\Api\V1\Mahasiswa\Mahasiswa\ApiMahasiswaController;
+
 use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokSayaController;
 use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
 use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileCapstoneController;
@@ -49,6 +51,9 @@ Route::prefix('v1')->group(function () {
     Route::post('/mahasiswa/profile/editProcess/', [ApiProfileController::class, 'editProcess']);
     Route::post('/mahasiswa/profile/editPassword/', [ApiProfileController::class, 'editPassword']);
     Route::post('/mahasiswa/profile/editPhotoProcess/', [ApiProfileController::class, 'editPhotoProcess']);
+
+    // mahasiswa
+    Route::post('/mahasiswa/data-mahasiswa/', [ApiMahasiswaController::class, 'index']);
 
 
     Route::get('/mahasiswa/broadcast/', [ApiBroadcastController::class, 'index']);

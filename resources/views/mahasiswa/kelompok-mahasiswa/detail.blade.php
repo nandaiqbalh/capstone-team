@@ -334,35 +334,31 @@
                                         <tbody>
                                             <tr>
                                             <th scope="row">1</th>
-                                            @foreach ($rs_topik as $topik)
-                                                <td style="text-align: center">
-                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="1" >
-                                                </td>
-                                            @endforeach
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios1" value="1" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios1" value="1" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios1" value="1" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios1" value="1" ></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">2</th>
-                                            @foreach ($rs_topik as $topik)
-                                                <td style="text-align: center">
-                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="2" >
-                                                </td>
-                                            @endforeach
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios2" value="2" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios2" value="2" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios2" value="2" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios2" value="2" ></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">3</th>
-                                            @foreach ($rs_topik as $topik)
-                                                <td style="text-align: center">
-                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="3" >
-                                                </td>
-                                            @endforeach
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios3" value="3" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios3" value="3" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios3" value="3" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios3" value="3" ></td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">4</th>
-                                            @foreach ($rs_topik as $topik)
-                                                <td style="text-align: center">
-                                                    <input class="form-check-input" type="radio" name="{{$topik->id}}" id="topik{{$topik->id}}" value="4" >
-                                                </td>
-                                            @endforeach
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios4" value="4" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios4" value="4" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios4" value="4" ></td>
+                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios4" value="4" ></td>
                                             </tr>
                                         </tbody>
                                     </table>

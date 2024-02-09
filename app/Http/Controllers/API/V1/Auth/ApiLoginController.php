@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User; // Gantilah sesuai namespace dan lokasi model User Anda
 use Illuminate\Support\Facades\Hash;
 
-
-use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Api\TimCapstone\Mahasiswa\ApiMahasiswaModel;
 
 class ApiLoginController extends Controller
@@ -65,30 +63,8 @@ class ApiLoginController extends Controller
     }
 }
 
-public function index(Request $request)
-{
-    // Mendapatkan user_id dari query parameter
-    $user_id = $request->query('user_id');
-
-    // authorize
-    $isAutorized = ApiMahasiswaModel::authorize('R', $user_id);
-    if (true) {
-        // get data with pagination
-    $rs_mahasiswa = ApiMahasiswaModel::getDataWithPagination();
-
-    // return data as JSON
-    return response()->json(['status' => true, 'data' => ['rs_mahasiswa' => $rs_mahasiswa]]);
-    } else {
-        return response()->json(['status' => false, 'message' => 'Unauthorized', 'user_id' => $user_id]);
-
-    }
-
-
 }
 
 
-
-
-}
 
 
