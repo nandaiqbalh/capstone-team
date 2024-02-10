@@ -34,17 +34,8 @@ class ApiKelompokSayaController extends Controller
         if ($user != null) {
             // Attempt to authenticate the user based on api_token
             if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('R', $userId);
 
-                if (!$isAuthorized) {
-                    $response = [
-                        'status' => false,
-                        'message' => 'Akses tidak sah!',
-                        'data' => null,
-                    ];
-                    return response()->json($response);
-                } else {
+
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
                         // Data
@@ -174,7 +165,7 @@ class ApiKelompokSayaController extends Controller
                         ];
                         return response()->json($response); // 401 Unauthorized
                     }
-                }
+
             }
         } else {
             // User not found or api_token is null
@@ -209,17 +200,9 @@ class ApiKelompokSayaController extends Controller
         if ($user != null) {
             // Attempt to authenticate the user based on api_token
             if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('C', $userId);
 
-                if (!$isAuthorized) {
-                    $response = [
-                        'status' => false,
-                        'message' => 'Akses tidak sah!',
-                        'data' => null,
-                    ];
-                    return response()->json($response);
-                } else {
+
+
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
 
@@ -247,7 +230,6 @@ class ApiKelompokSayaController extends Controller
                                 "ipk" => $request->ipk,
                                 "sks" => $request->sks,
                                 'no_telp' => $request->no_telp,
-                                "alamat" => $request->alamat,
                                 'modified_by'   => $user->user_id,
                                 'modified_date'  => now(),
                             ];
@@ -370,7 +352,7 @@ class ApiKelompokSayaController extends Controller
                         ];
                         return response()->json($response); // 401 Unauthorized
                     }
-                }
+
             }
         } else {
             // User not found or api_token is null
@@ -405,25 +387,15 @@ class ApiKelompokSayaController extends Controller
         if ($user != null) {
             // Attempt to authenticate the user based on api_token
             if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('C', $userId);
 
-                if (!$isAuthorized) {
-                    $response = [
-                        'status' => false,
-                        'message' => 'Akses tidak sah!',
-                        'data' => null,
-                    ];
-                    return response()->json($response);
-                } else {
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
                         // validasi params
                         $requiredParams = [
                             'angkatan', 'judul_capstone', 'id_topik', 'dosbing_1', 'dosbing_2',
-                            'angkatan1', 'email1', 'jenis_kelamin1', 'ipk1', 'sks1', 'no_telp1', 'alamat1',
-                            'angkatan2', 'email2', 'jenis_kelamin2', 'ipk2', 'sks2', 'no_telp2', 'alamat2',
-                            'angkatan3', 'email3', 'jenis_kelamin3', 'ipk3', 'sks3', 'no_telp3', 'alamat3',
+                            'angkatan1', 'email1', 'jenis_kelamin1', 'ipk1', 'sks1', 'no_telp1',
+                            'angkatan2', 'email2', 'jenis_kelamin2', 'ipk2', 'sks2', 'no_telp2',
+                            'angkatan3', 'email3', 'jenis_kelamin3', 'ipk3', 'sks3', 'no_telp3',
                         ];
 
                         foreach ($requiredParams as $param) {
@@ -482,7 +454,6 @@ class ApiKelompokSayaController extends Controller
                                 "jenis_kelamin" => $request->jenis_kelamin1,
                                 "sks" => $request->sks1,
                                 'no_telp' => $request->no_telp1,
-                                "alamat" => $request->alamat1,
                                 'modified_by'   => $user->user_id,
                                 'modified_date'  => date('Y-m-d H:i:s')
                             ];
@@ -507,7 +478,6 @@ class ApiKelompokSayaController extends Controller
                                 "ipk" => $request->ipk2,
                                 "sks" => $request->sks2,
                                 'no_telp' => $request->no_telp2,
-                                "alamat" => $request->alamat2,
                                 'modified_by'   => $user->user_id,
                                 'modified_date'  => date('Y-m-d H:i:s')
                             ];
@@ -532,7 +502,6 @@ class ApiKelompokSayaController extends Controller
                                 "ipk" => $request->ipk3,
                                 "sks" => $request->sks3,
                                 'no_telp' => $request->no_telp3,
-                                "alamat" => $request->alamat3,
                                 'modified_by'   => $user->user_id,
                                 'modified_date'  => date('Y-m-d H:i:s')
                             ];
@@ -563,7 +532,7 @@ class ApiKelompokSayaController extends Controller
                         ];
                         return response()->json($response); // 401 Unauthorized
                     }
-                }
+
             }
         } else {
             // User not found or api_token is null

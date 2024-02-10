@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1\Mahasiswa\Mahasiswa;
+namespace App\Http\Controllers\Api\V1\Mahasiswa\Dosen;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
-use App\Models\Api\Mahasiswa\Mahasiswa\ApiMahasiswaModel;
+use App\Models\Api\Mahasiswa\Dosen\ApiDosenModel;
 
-class ApiMahasiswaController extends Controller
+class ApiDosenController extends Controller
 {
 
     public function index(Request $request)
@@ -43,10 +43,11 @@ class ApiMahasiswaController extends Controller
                     // Check if the provided api_token matches the user's api_token
                     if ($user->api_token == $apiToken) {
                         // Data
-                        $rs_mahasiswa = ApiMahasiswaModel::getData();
+
+                        $rs_dosen = ApiDosenModel::getData();
 
                         $data = [
-                            'rs_mahasiswa' => $rs_mahasiswa,
+                            'rs_dosen' => $rs_dosen,
                         ];
                         $response = [
                             'status' => true,

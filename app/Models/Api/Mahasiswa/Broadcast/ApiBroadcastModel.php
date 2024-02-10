@@ -2,10 +2,10 @@
 
 namespace App\Models\Api\Mahasiswa\Broadcast;
 
-use App\Models\Api\ApiBaseModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ApiBroadcastModel extends ApiBaseModel
+class ApiBroadcastModel extends Model
 {
     // get all data
     public static function getData()

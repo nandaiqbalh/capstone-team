@@ -40,37 +40,26 @@ class ApiProfileController extends Controller
         if ($user != null) {
             // Attempt to authenticate the user based on api_token
             if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('U', $userId);
+                // Check if the provided api_token matches the user's api_token
+                if ($user->api_token == $apiToken) {
+                    // Data
+                    $response = [
+                        'status' => true,
+                        'message' => 'Berhasil mendapatkan data pengguna!',
+                        'data' => $user,
+                    ];
+                    // Return JSON response for the API
+                    return response()->json($response);
 
-                if (!$isAuthorized) {
+                } else {
                     $response = [
                         'status' => false,
-                        'message' => 'Akses tidak sah!',
+                        'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
                         'data' => null,
                     ];
-                    return response()->json($response);
-                } else {
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // Data
-                        $response = [
-                            'status' => true,
-                            'message' => 'Berhasil mendapatkan data pengguna!',
-                            'data' => $user,
-                        ];
-                        // Return JSON response for the API
-                        return response()->json($response);
-
-                    } else {
-                        $response = [
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                            'data' => null,
-                        ];
-                        return response()->json($response); // 401 Unauthorized
-                    }
+                    return response()->json($response); // 401 Unauthorized
                 }
+
             } else {
                 $response = [
                     'status' => false,
@@ -92,118 +81,87 @@ class ApiProfileController extends Controller
 
 
     public function editProcess(Request $request)
-{
-    // Get api_token from the request body
-    $apiToken = $request->input('api_token');
+    {
+        // Get api_token from the request body
+        $apiToken = $request->input('api_token');
 
-    // Check if api_token is provided
-    if (empty($apiToken)) {
-        $response = [
-            'status' => false,
-            'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
-            'data' => null,
-        ];
-        return response()->json($response); // 400 Bad Request
-    }
-
-    $userId = $request->input('user_id');
-    $user = ApiAccountModel::getById($userId);
-
-    if ($user != null && $user->api_token == $apiToken) {
-        // Authorize
-        ApiAccountModel::authorize('U', $userId);
-
-        // Validate only if there are request parameters
-        $rules = [
-            'user_name' => 'filled',
-            'no_telp' => 'filled|digits_between:10,13|numeric',
-            'user_email' => 'filled|email',
-            'angkatan' => 'filled|numeric',
-            'ipk' => 'filled|numeric',
-            'sks' => 'filled|numeric',
-            'jenis_kelamin' => 'filled|in:L,P',
-            'alamat' => 'filled|string',
-            'user_img' => 'filled|image|mimes:jpeg,jpg,png|max:5120'
-        ];
-
-        try {
-            $this->validate($request, $rules);
-        } catch (\Illuminate\Validation\ValidationException $exception) {
-            $errorMessage = $exception->validator->errors()->first();
-            return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null]);
-        }
-
-        // Initialize variables for image upload
-        $upload = false;
-        $newImageName = null;
-
-        // Check if user_img is provided for update
-        if ($request->hasFile('user_img') && $request -> user_img != null ) {
-            $path = public_path($this->upload_path);
-            $file = $request->file('user_img');
-            $newImageName = Str::slug($user->user_name, '-') . '-' . uniqid() . '.jpg';
-
-            if ($user -> user_img_name != null) {
-                // Unlink (delete) the old image
-                 $oldImagePath = public_path($user->user_img_path . $user->user_img_name);
-                if (file_exists($oldImagePath) && $user->user_img_name != 'default.png') {
-                    unlink($oldImagePath);
-                }
-            }
-
-            // Upload new image
-            $upload = $file->move($path, $newImageName);
-        }
-
-        // Params
-        $params = [
-            'user_name' => $request->filled('user_name') ? $request->input('user_name') : $user->user_name,
-            'user_email' => $request->filled('user_email') ? $request->input('user_email') : $user->user_email,
-            'no_telp' => $request->filled('no_telp') ? $request->input('no_telp') : $user->no_telp,
-            'angkatan' => $request->filled('angkatan') ? $request->input('angkatan') : $user->angkatan,
-            'ipk' => $request->filled('ipk') ? $request->input('ipk') : $user->ipk,
-            'sks' => $request->filled('sks') ? $request->input('sks') : $user->sks,
-            'jenis_kelamin' => $request->filled('jenis_kelamin') ? $request->input('jenis_kelamin') : $user->jenis_kelamin,
-            'alamat' => $request->filled('alamat') ? $request->input('alamat') : $user->alamat,
-            'modified_by' => $userId,
-            'modified_date' => now(),
-        ];
-
-        // Conditionally add 'user_img_path' and 'user_img_name' based on $upload
-        if ($upload) {
-            $params['user_img_path'] = $this->upload_path;
-            $params['user_img_name'] = $newImageName;
-        }
-
-        // Process
-        if (ApiAccountModel::update($userId, $params)) {
-            $userUpdated = ApiAccountModel::getById($userId);
-
-            // Response for success
-            $response = [
-                'status' => true,
-                'message' => 'Data berhasil disimpan.',
-                'data' => $userUpdated,
-            ];
-            return response()->json($response);
-        } else {
-            // Response for failure
+        // Check if api_token is provided
+        if (empty($apiToken)) {
             $response = [
                 'status' => false,
-                'message' => 'Data gagal disimpan.',
-                'data' => $user,
+                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
+                'data' => null,
             ];
-            return response()->json($response);
+            return response()->json($response); // 400 Bad Request
         }
-    } else {
-        $response = [
-            'status' => false,
-            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-            'data' => null,
-        ];
-        return response()->json($response); // 401 Unauthorized
+
+        $userId = $request->input('user_id');
+        $user = ApiAccountModel::getById($userId);
+
+        if ($user != null && $user->api_token == $apiToken) {
+            // Validate only if there are request parameters
+            $rules = [
+                'user_name' => 'filled',
+                'no_telp' => 'filled|digits_between:10,13|numeric',
+                'user_email' => 'filled|email',
+                'angkatan' => 'filled|numeric',
+                'ipk' => 'filled|numeric',
+                'sks' => 'filled|numeric',
+                'jenis_kelamin' => 'filled|in:L,P',
+                'alamat' => 'filled|string',
+            ];
+
+            try {
+                $this->validate($request, $rules);
+            } catch (\Illuminate\Validation\ValidationException $exception) {
+                $errorMessage = $exception->validator->errors()->first();
+                return response()->json(['status' => false, 'message' => $errorMessage, 'data' => null]);
+            }
+
+            // Params
+            $params = [
+                'user_name' => $request->filled('user_name') ? $request->input('user_name') : $user->user_name,
+                'user_email' => $request->filled('user_email') ? $request->input('user_email') : $user->user_email,
+                'no_telp' => $request->filled('no_telp') ? $request->input('no_telp') : $user->no_telp,
+                'angkatan' => $request->filled('angkatan') ? $request->input('angkatan') : $user->angkatan,
+                'ipk' => $request->filled('ipk') ? $request->input('ipk') : $user->ipk,
+                'sks' => $request->filled('sks') ? $request->input('sks') : $user->sks,
+                'jenis_kelamin' => $request->filled('jenis_kelamin') ? $request->input('jenis_kelamin') : $user->jenis_kelamin,
+                'alamat' => $request->filled('alamat') ? $request->input('alamat') : $user->alamat,
+                'modified_by' => $userId,
+                'modified_date' => now(),
+            ];
+
+            // Process
+            if (ApiAccountModel::update($userId, $params)) {
+                $userUpdated = ApiAccountModel::getById($userId);
+
+                // Response for success
+                $response = [
+                    'status' => true,
+                    'message' => 'Data berhasil disimpan.',
+                    'data' => $userUpdated,
+                ];
+                return response()->json($response);
+            } else {
+                // Response for failure
+                $response = [
+                    'status' => false,
+                    'message' => 'Data gagal disimpan.',
+                    'data' => $user,
+                ];
+                return response()->json($response);
+            }
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                'data' => null,
+            ];
+            return response()->json($response); // 401 Unauthorized
+        }
     }
-}
+
 
     public function editPassword(Request $request)
     {
@@ -226,9 +184,6 @@ class ApiProfileController extends Controller
          if ($user != null) {
 
             if ($apiToken == $user -> api_token) {
-
-                // Authorize
-                ApiAccountModel::authorize('U', $userId);
 
                 // Validate only if there are request parameters
                 $rules = [
@@ -318,56 +273,46 @@ class ApiProfileController extends Controller
           // Check if the user exists
           if ($user != null) {
               // Attempt to authenticate the user based on api_token
-              if ($user->api_token != null) {
-                  // Authorize
-                  $isAuthorized = ApiAccountModel::authorize('C', $userId);
+                if ($user->api_token != null) {
+                // Check if the provided api_token matches the user's api_token
+                    if ($user->api_token == $apiToken) {
 
-                  if (!$isAuthorized) {
-                      return response()->json([
-                          'status' => false,
-                          'message' => 'Akses tidak sah!',
-                          'data' => null
-                      ], );
-                  } else {
-                      // Check if the provided api_token matches the user's api_token
-                      if ($user->api_token == $apiToken) {
+                    $storagePath = public_path($user->user_img_path . $user->user_img_name);
 
-                        $storagePath = public_path($user->user_img_path . $user->user_img_name);
+                    // dd($storagePath);
+                        // Check if the file exists in storage
+                        if (file_exists($storagePath)) {
 
-                        // dd($storagePath);
-                         // Check if the file exists in storage
-                         if (file_exists($storagePath)) {
+                        if ($user->user_img_path != null && $user->user_img_name != null ) {
+                                // Read the file contents into a string
+                            $fileContents = File::get($storagePath);
 
-                            if ($user->user_img_path != null && $user->user_img_name != null ) {
-                                  // Read the file contents into a string
-                             $fileContents = File::get($storagePath);
+                            // Convert the string to base64
+                        $base64File = base64_encode($fileContents);
 
-                             // Convert the string to base64
-                           $base64File = base64_encode($fileContents);
+                        return response()->json([
+                            'status' => true,
+                            'message' => 'Berhasil mendapatkan gambar profil',
+                            'data' => $base64File,
+                        ], );
+                        } else {
+                                // If file not found, return a 404 response
+                            return response()->json(['status' => false, 'message' => 'Anda belum upload foto profil!', 'data' => null], );
 
-                            return response()->json([
-                                'status' => true,
-                                'message' => 'Berhasil mendapatkan gambar profil',
-                                'data' => $base64File,
-                            ], );
-                            } else {
-                                 // If file not found, return a 404 response
-                             return response()->json(['status' => false, 'message' => 'Anda belum upload foto profil!', 'data' => null], );
+                        }
 
-                            }
+                        } else {
+                            // If file not found, return a 404 response
+                            return response()->json(['status' => false, 'message' => 'Anda belum upload foto profil!', 'data' => null], );
+                        }
+                    } else {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                            'data' => null
+                        ], );
+                    }
 
-                         } else {
-                             // If file not found, return a 404 response
-                             return response()->json(['status' => false, 'message' => 'Anda belum upload foto profil!', 'data' => null], );
-                         }
-                      } else {
-                          return response()->json([
-                              'status' => false,
-                              'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                              'data' => null
-                          ], );
-                      }
-                  }
               }
           } else {
               // User not found or api_token is null
@@ -399,8 +344,6 @@ class ApiProfileController extends Controller
         $user = ApiAccountModel::getById($userId);
 
         if ($user != null && $user->api_token == $apiToken) {
-            // Authorize
-            ApiAccountModel::authorize('U', $userId);
 
             // Validate only if there are request parameters
             $rules = [

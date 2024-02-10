@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User; // Gantilah sesuai namespace dan lokasi model User Anda
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\Api\TimCapstone\Mahasiswa\ApiMahasiswaModel;
-
 class ApiLoginController extends Controller
 {
 

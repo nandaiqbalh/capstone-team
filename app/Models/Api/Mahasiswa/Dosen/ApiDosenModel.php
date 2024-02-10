@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models\Api\TimCapstone\Mahasiswa;
+namespace App\Models\Api\Mahasiswa\Dosen;
 
 use Illuminate\Support\Facades\DB;
+use App\Models\Api\ApiBaseModel;
 
-class ApiMahasiswaModel extends Model
+class ApiDosenModel extends ApiBaseModel
 {
     // get all data
     public static function getData()
@@ -12,7 +13,7 @@ class ApiMahasiswaModel extends Model
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
             ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
+            ->where('a.role_id', '04') // Filter berdasarkan role_id di tabel app_user
             ->get();
     }
 
