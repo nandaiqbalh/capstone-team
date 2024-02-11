@@ -18,8 +18,8 @@ class ApiDosenController extends Controller
 
     public function index(Request $request)
     {
-         // Get api_token and user_id from the request body
-        $apiToken = $request->input('api_token');
+        // Get api_token and user_id from the Authorization header
+        $apiToken = $request->header('Authorization');
         $userId = $request->input('user_id');
 
         // Check if api_token is provided
@@ -29,8 +29,22 @@ class ApiDosenController extends Controller
                 'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
                 'data' => null,
             ];
-            return response()->json($response); // 400 Bad Request
+            return response()->json($response);
         }
+
+        // Extract the token from the "Bearer" scheme if it's present
+        $tokenParts = explode(' ', $apiToken);
+
+        if (count($tokenParts) !== 2 || $tokenParts[0] !== 'Bearer') {
+            $response = [
+                'status' => false,
+                'message' => 'Token tidak valid!',
+                'data' => null,
+            ];
+            return response()->json($response);
+        }
+
+        $apiToken = $tokenParts[1];
 
         $user = ApiAccountModel::getById($userId);
 
@@ -38,41 +52,35 @@ class ApiDosenController extends Controller
         if ($user != null) {
             // Attempt to authenticate the user based on api_token
             if ($user->api_token != null) {
-
-
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // Data
-
-                        $rs_dosen = ApiDosenModel::getData();
-
-                        $data = [
-                            'rs_dosen' => $rs_dosen,
-                        ];
-                        $response = [
-                            'status' => true,
-                            'message' => 'Berhasil mendapatkan data pengguna!',
-                            'data' => $data,
-                        ];
-                        // Return JSON response for the API
-                        return response()->json($response);
-
-                    } else {
-                        $response = [
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                            'data' => null,
-                        ];
-                        return response()->json($response); // 401 Unauthorized
-                    }
-
+                // Check if the provided api_token matches the user's api_token
+                if ($user->api_token == $apiToken) {
+                    // Data
+                    $rs_dosen = ApiDosenModel::getData();
+                    $data = [
+                        'rs_dosen' => $rs_dosen,
+                    ];
+                    $response = [
+                        'status' => true,
+                        'message' => 'Berhasil mendapatkan data pengguna!',
+                        'data' => $data,
+                    ];
+                    // Return JSON response for the API
+                    return response()->json($response);
+                } else {
+                    $response = [
+                        'status' => false,
+                        'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                        'data' => null,
+                    ];
+                    return response()->json($response);
+                }
             } else {
                 $response = [
                     'status' => false,
                     'message' => 'Pengguna harus login terlebih dahulu!',
                     'data' => null,
                 ];
-                return response()->json($response); // 401 Unauthorized
+                return response()->json($response);
             }
         } else {
             // User not found or api_token is null
@@ -81,8 +89,7 @@ class ApiDosenController extends Controller
                 'message' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
-            return response()->json($response); // 401 Unauthorized
+            return response()->json($response);
         }
     }
-
 }

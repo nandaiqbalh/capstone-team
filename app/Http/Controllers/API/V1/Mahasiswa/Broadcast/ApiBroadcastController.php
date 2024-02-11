@@ -10,51 +10,37 @@ class ApiBroadcastController extends Controller
 {
 
     public function index()
-    {
-        try {
-            // Get data with pagination
-            $rs_broadcast = ApiBroadcastModel::getDataWithPagination();
+{
+    try {
+        // Get data with pagination
+        $rs_broadcast = ApiBroadcastModel::getDataWithPagination();
 
-            foreach ($rs_broadcast as $key =>$broadcast ) {
-
-                $storagePath = null;
-
-                // dd( $broadcast);
-                if ($broadcast->broadcast_image_name != "" && $broadcast->broadcast_image_name != null) {
-                    $storagePath = public_path($broadcast->broadcast_image_path . $broadcast->broadcast_image_name);
-
-                    if (file_exists($storagePath)) {
-                        $base64Image = base64_encode(file_get_contents($storagePath));
-                        $rs_broadcast[$key]->broadcast_image_path = $base64Image;
-                    } else {
-                        $base64Image = base64_encode(file_get_contents(public_path('img/broadcast/default_broadcast.png')));
-                        $rs_broadcast[$key]->broadcast_image_path = $base64Image;
-                    }
-                } else {
-                    $base64Image = base64_encode(file_get_contents(public_path('img/broadcast/default_broadcast.png')));
-                    $rs_broadcast[$key]->broadcast_image_path = $base64Image;
-                }
-
-            }
-
-            // Return JSON response with successful status
-            $response = [
-                'status' => true,
-                'message' => 'Berhasil mendapatkan data.',
-                'data' => ['rs_broadcast' => $rs_broadcast],
-            ];
-
-            return response()->json($response);
-        } catch (\Exception $e) {
-            // Handle any exceptions
-            $response = [
-                'status' => false,
-                'message' => 'Error mendapatkan data.',
-                'data' => null,
-            ];
-            return response()->json($response); // 500 Internal Server Error
+        foreach ($rs_broadcast as $key => $broadcast) {
+            $rs_broadcast[$key]->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
         }
+
+        // Return JSON response with successful status
+        $response = [
+            'status' => true,
+            'message' => 'Berhasil mendapatkan data.',
+            'data' => ['rs_broadcast' => $rs_broadcast],
+        ];
+
+        return response()->json($response);
+    } catch (\Exception $e) {
+        // Handle any exceptions
+        $response = [
+            'status' => false,
+            'message' => 'Error mendapatkan data.',
+            'data' => null,
+        ];
+
+        return response()->json($response); // 500 Internal Server Error
     }
+}
+
+
+
 
     public function broadcastHome()
     {
@@ -62,26 +48,8 @@ class ApiBroadcastController extends Controller
             // Get data with pagination
             $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
 
-            foreach ($rs_broadcast as $key =>$broadcast ) {
-
-                $storagePath = null;
-
-                // dd( $broadcast);
-                if ($broadcast->broadcast_image_name != "" && $broadcast->broadcast_image_name != null) {
-                    $storagePath = public_path($broadcast->broadcast_image_path . $broadcast->broadcast_image_name);
-
-                    if (file_exists($storagePath)) {
-                        $base64Image = base64_encode(file_get_contents($storagePath));
-                        $rs_broadcast[$key]->broadcast_image_path = $base64Image;
-                    } else {
-                        $base64Image = base64_encode(file_get_contents(public_path('img/broadcast/default_broadcast.png')));
-                        $rs_broadcast[$key]->broadcast_image_path = $base64Image;
-                    }
-                } else {
-                    $base64Image = base64_encode(file_get_contents(public_path('img/broadcast/default_broadcast.png')));
-                    $rs_broadcast[$key]->broadcast_image_path = $base64Image;
-                }
-
+            foreach ($rs_broadcast as $key => $broadcast) {
+                $rs_broadcast[$key]->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
             }
 
             // Return JSON response with successful status
@@ -99,56 +67,55 @@ class ApiBroadcastController extends Controller
                 'message' => 'Error mendapatkan data.',
                 'data' => null,
             ];
+
             return response()->json($response); // 500 Internal Server Error
         }
     }
 
+    public function detailBroadcastApi(Request $request)
+    {
+        try {
+            $id = $request->input('id');
+            $broadcast = ApiBroadcastModel::getDataById($id);
 
+            if (!empty($broadcast)) {
+                $broadcast->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
 
-
-   // New method for API endpoint
-   public function detailBroadcastApi(Request $request)
-{
-    $id = $request->input('id');
-
-    $broadcast = ApiBroadcastModel::getDataById($id);
-
-    // Inisialisasi variabel $base64Image di luar blok kondisional
-    $base64Image = '';
-
-    if (!empty($broadcast)) {
-        $storagePath = null;
-
-        if ($broadcast->broadcast_image_name != "" && $broadcast->broadcast_image_name != null) {
-            $storagePath = public_path($broadcast->broadcast_image_path . $broadcast->broadcast_image_name);
-
-            if (file_exists($storagePath)) {
-                $base64Image = base64_encode(file_get_contents($storagePath));
+                $response = [
+                    'status' => true,
+                    'message' => 'Berhasil mendapatkan data.',
+                    'data' => ['broadcast' => $broadcast],
+                ];
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => 'Error mendapatkan data.',
+                    'data' => null,
+                ];
             }
+
+            return response()->json($response);
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            $response = [
+                'status' => false,
+                'message' => 'Error mendapatkan data.',
+                'data' => null,
+            ];
+
+            return response()->json($response); // 500 Internal Server Error
         }
-
-        // Jika $base64Image masih kosong (file gambar tidak ditemukan), gunakan gambar default
-        if (empty($base64Image)) {
-            $storagePath = public_path('img/broadcast/default_broadcast.png');
-            $base64Image = base64_encode(file_get_contents($storagePath));
-        }
-
-        // Mengatur nilai broadcast_image_path dengan base64 encoded image
-        $broadcast->broadcast_image_path = $base64Image;
-
-        $response = [
-            'status' => true,
-            'message' => 'Berhasil mendapatkan data.',
-            'data' => ['broadcast' => $broadcast],
-        ];
-    } else {
-        $response = [
-            'status' => false,
-            'message' => 'Error mendapatkan data.',
-            'data' => null,
-        ];
     }
 
-    return response()->json($response);
+    private function getBroadcastImageUrl($broadcast)
+    {
+        if (!empty($broadcast->broadcast_image_name)) {
+            $imageUrl = url($broadcast->broadcast_image_path . $broadcast->broadcast_image_name);
+        } else {
+            $imageUrl = url('img/broadcast/default_broadcast.png');
+        }
+
+        return $imageUrl;
     }
+
 }
