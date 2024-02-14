@@ -10,8 +10,8 @@ class ApiBroadcastController extends Controller
 {
 
     public function index()
-{
-    try {
+    {
+        try {
         // Get data with pagination
         $rs_broadcast = ApiBroadcastModel::getDataWithPagination();
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
 use App\Models\Api\Mahasiswa\Kelompok\ApiKelompokSayaModel;
-use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 

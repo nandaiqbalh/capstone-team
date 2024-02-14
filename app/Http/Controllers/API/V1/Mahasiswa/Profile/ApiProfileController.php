@@ -272,7 +272,8 @@ class ApiProfileController extends Controller
 
                 // Response for success
                 $response = [
-                    'message' => true,
+                    'success' => true,
+                    'message' =>'Gagal',
                     'status' => 'Berhasil memperbaharui foto profil!',
                     'data' => $userUpdated,
                 ];
@@ -280,7 +281,8 @@ class ApiProfileController extends Controller
             } else {
                 // Response for failure
                 $response = [
-                    'message' => false,
+                    'success' => true,
+                    'message' =>'Gagal',
                     'status' => 'Gagal memperbaharui foto profil!',
                     'data' => $user,
                 ];
@@ -288,13 +290,13 @@ class ApiProfileController extends Controller
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
             // Token has expired
-            return response()->json(['message' => 'Gagal', 'status' => 'Token expired.', 'data' => null]);
+            return response()->json(['message' => 'Gagal', 'success' => false,'status' => 'Token expired.', 'data' => null]);
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             // Token is invalid
-            return response()->json(['message' => 'Gagal', 'status' => 'Token is invalid.', 'data' => null]);
+            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Token is invalid.', 'data' => null]);
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             // Other JWT exceptions
-            return response()->json(['message' => 'Gagal', 'status' => 'Failed to authenticate token.', 'data' => null]);
+            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Failed to authenticate token.', 'data' => null]);
         }
     }
 

@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 
-use Illuminate\Support\Facades\Hash;
-
 class ApiLogoutController extends Controller
 {
     /**

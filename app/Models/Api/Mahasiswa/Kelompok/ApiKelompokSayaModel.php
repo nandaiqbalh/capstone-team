@@ -96,28 +96,6 @@ class ApiKelompokSayaModel extends ApiBaseModel
             ->get();
     }
 
-
-    // pengecekan kelompok penguji
-    public static function getAkunDospengKelompok($id_kelompok)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_img_path', 'b.user_img_name' )
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'penguji 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'penguji 2')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
-    }
-
-    // pengecekan kelompok
-    public static function proposal($id_kelompok)
-    {
-        return DB::table('jadwal_sidang_proposal')
-        ->where('id_kelompok', $id_kelompok)
-        ->first();
-    }
-
     // get data with pagination
     public static function getDataWithPagination()
     {
