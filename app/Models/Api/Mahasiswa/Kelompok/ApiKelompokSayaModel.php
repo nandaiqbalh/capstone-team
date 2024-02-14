@@ -23,7 +23,7 @@ class ApiKelompokSayaModel extends ApiBaseModel
      public static function pengecekan_kelompok_mahasiswa($user_id)
      {
         return DB::table('kelompok_mhs as a')
-            ->select('a.*', 'b.*','c.nama as nama_topik')
+            ->select('a.id_kelompok','b.*','c.nama as nama_topik')
             ->leftjoin('kelompok as b','a.id_kelompok','b.id')
             ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
             ->join('siklus as d', 'a.id_siklus', 'd.id')
@@ -31,6 +31,7 @@ class ApiKelompokSayaModel extends ApiBaseModel
             ->where('a.id_mahasiswa', $user_id)
             ->first();
      }
+
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
     {
@@ -48,6 +49,15 @@ class ApiKelompokSayaModel extends ApiBaseModel
         return DB::table('app_user as a')
             ->where('a.user_id', $user_id)
             ->first();
+    }
+
+    public static function isAccountExist($user_id)
+    {
+        $account = DB::table('app_user as a')
+            ->where('a.user_id', $user_id)
+            ->first();
+
+        return !empty($account); // Return true if the account exists, false otherwise
     }
     // get akun by id user
     public static function getAkun()
@@ -68,18 +78,24 @@ class ApiKelompokSayaModel extends ApiBaseModel
         ->get();
     }
 
-    // pengecekan kelompok
     public static function getAkunDosbingKelompok($id_kelompok)
     {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_img_path', 'b.user_img_name' )
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'pembimbing 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'pembimbing 2')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
+        return DB::table('app_user')
+            ->join('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+            })
+            ->where('kelompok.id', '=', $id_kelompok)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
+                    WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
     }
+
 
     // pengecekan kelompok penguji
     public static function getAkunDospengKelompok($id_kelompok)
@@ -131,6 +147,19 @@ class ApiKelompokSayaModel extends ApiBaseModel
             ->get();
     }
 
+    public static function getTopikById($id)
+    {
+        return DB::table('topik')->where('id', $id)
+            ->first();
+    }
+
+    public static function getPeminatanById($id)
+    {
+        return DB::table('peminatan')->where('id', $id)
+            ->first();
+    }
+
+
     // get data topik
     public static function getSiklusAktif()
     {
@@ -150,10 +179,6 @@ class ApiKelompokSayaModel extends ApiBaseModel
         return DB::table('app_user')->insert($params);
     }
 
-    public static function insertDosenKelompok($params)
-    {
-        return DB::table('dosen_kelompok')->insert($params);
-    }
     public static function insertKelompok($params)
     {
         return DB::table('kelompok')->insert($params);
@@ -171,10 +196,6 @@ class ApiKelompokSayaModel extends ApiBaseModel
     {
         return DB::table('topik_mhs')->insert($params);
     }
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
 
     public static function update($user_id, $params)
     {

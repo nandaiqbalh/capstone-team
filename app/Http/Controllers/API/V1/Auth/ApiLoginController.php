@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
+use JWTAuth;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,44 +22,82 @@ class ApiLoginController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
-    {
-        // Validate input
-        $validator = Validator::make($request->all(), [
-            'nomor_induk' => 'required',
-            'password' => 'required|min:8|max:20',
-        ]);
 
-        if ($validator->fails()) {
-            // Return validation error response
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan: ' . $validator->errors()->first(),
-            ]);
-        }
+     public function authenticate(Request $request)
+     {
+         // Validate input
+         $validator = Validator::make($request->only('nomor_induk', 'password'), [
+             'nomor_induk' => 'required',
+             'password' => 'required|min:8|max:20',
+         ]);
 
-        // Attempt authentication manually
-        $user = User::where('nomor_induk', $request->nomor_induk)->first();
+         if ($validator->fails()) {
+             // Return validation error response
+             return response()->json([
+                 'message' => 'Gagal',
+                 'success' => false,
+                 'status' => $validator->errors()->first(),
+                 'data' => null,
+             ]);
+         }
 
-        if ($user && $user->user_active == '1' && $user->role_id == '03' && Hash::check($request->password, $user->user_password)) {
-            // Generate and save api_token
-            $apiToken = Str::random(60); // generate API Token
-            $user->forceFill([
-                'api_token' => $apiToken,
-            ])->save();
+         // Attempt authentication manually
+         $user = User::where('nomor_induk', $request->nomor_induk)->first();
 
-            // Return success response
-            return response()->json([
-                'status' => true,
-                'message' => 'Autentikasi berhasil!',
-                'data' => $user,
-            ]);
-        } else {
-            // Return error response
-            return response()->json([
-                'status' => false,
-                'message' => 'Autentikasi gagal! Nomor Induk atau Password tidak valid.',
-            ]);
-        }
-    }
+         if ($user && $user->user_active == '1' && $user->role_id == '03' && Hash::check($request->password, $user->user_password)) {
+             try {
+                 // Generate and save a new api_token
+                 $token = JWTAuth::attempt($request->only('nomor_induk', 'password'));
+
+                 if (!$token) {
+                     return response()->json([
+                         'message' => 'Gagal',
+                         'success' => false,
+                         'status' => 'Nomor Induk atau Password tidak valid.',
+                         'data' => null,
+                     ]);
+                 }
+
+                 $user->api_token = $token;
+
+                 $userImageUrl = $this->getProfileImageUrl($user);
+                 // Add the user_img_url to the user object
+                 $user->user_img_url = $userImageUrl;
+                 // Return success response
+                 return response()->json([
+                     'message' => 'Berhasil',
+                     'success' => true,
+                     'status' => 'Authentikasi berhasil.',
+                     'data' => $user,
+                 ]);
+             } catch (JWTException $e) {
+                 return response()->json([
+                     'message' => 'Gagal',
+                     'success' => false,
+                     'status' => 'Gagal membuat token!.',
+                     'data' => null,
+                 ]);
+             }
+         } else {
+             // Return error response
+             return response()->json([
+                'message' => 'Authentikasi gagal.',
+                'success' => false,
+                 'status' => 'Nomor Induk atau Password tidak valid.',
+                 'data' => null,
+             ]);
+         }
+     }
+
+     private function getProfileImageUrl($user)
+     {
+         if (!empty($user->user_img_name)) {
+             $imageUrl = url($user->user_img_path . $user->user_img_name);
+         } else {
+             $imageUrl = url('img/user/default_profile.jpg');
+         }
+
+         return $imageUrl;
+     }
+
 }

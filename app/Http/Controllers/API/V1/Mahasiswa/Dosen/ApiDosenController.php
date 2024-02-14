@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\Api\Mahasiswa\Dosen\ApiDosenModel;
 
 class ApiDosenController extends Controller
@@ -18,78 +19,49 @@ class ApiDosenController extends Controller
 
     public function index(Request $request)
     {
-        // Get api_token and user_id from the Authorization header
-        $apiToken = $request->header('Authorization');
-        $userId = $request->input('user_id');
+        try {
+            // Get the user  from the JWT token in the request headers
+            $user = JWTAuth::parseToken()->authenticate();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            $response = [
-                'status' => false,
-                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
-                'data' => null,
-            ];
-            return response()->json($response);
-        }
+            // Additional checks or actions based on the retrieved user
+            if ($user != null && $user -> user_active == 1) {
+                $rs_dosen = ApiDosenModel::getData();
 
-        // Extract the token from the "Bearer" scheme if it's present
-        $tokenParts = explode(' ', $apiToken);
+                $data = [
+                    'rs_dosen' => $rs_dosen,
+                ];
 
-        if (count($tokenParts) !== 2 || $tokenParts[0] !== 'Bearer') {
-            $response = [
-                'status' => false,
-                'message' => 'Token tidak valid!',
-                'data' => null,
-            ];
-            return response()->json($response);
-        }
+                $response = [
+                    'message' => 'Gagal',
+                    'success' => true,
+                    'status' => 'Berhasil mendapatkan data dosen!',
+                    'data' => $data,
+                ];
 
-        $apiToken = $tokenParts[1];
-
-        $user = ApiAccountModel::getById($userId);
-
-        // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
-                // Check if the provided api_token matches the user's api_token
-                if ($user->api_token == $apiToken) {
-                    // Data
-                    $rs_dosen = ApiDosenModel::getData();
-                    $data = [
-                        'rs_dosen' => $rs_dosen,
-                    ];
-                    $response = [
-                        'status' => true,
-                        'message' => 'Berhasil mendapatkan data pengguna!',
-                        'data' => $data,
-                    ];
-                    // Return JSON response for the API
-                    return response()->json($response);
-                } else {
-                    $response = [
-                        'status' => false,
-                        'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                        'data' => null,
-                    ];
-                    return response()->json($response);
-                }
+                // Return JSON response for the API
+                return response()->json($response);
             } else {
                 $response = [
-                    'status' => false,
-                    'message' => 'Pengguna harus login terlebih dahulu!',
+                    'message' => 'Gagal',
+                    'success' => false,
+                    'status' => 'Gagal mendapatkan data dosen!',
                     'data' => null,
                 ];
-                return response()->json($response);
+
+
+                return response()->json($response); // 401 Unauthorized
             }
-        } else {
-            // User not found or api_token is null
+        } catch (JWTException $e) {
             $response = [
-                'status' => false,
-                'message' => 'Pengguna tidak ditemukan!',
+                'message' => 'Gagal',
+                'success' => false,
+                'status' => 'Token is Invalid',
                 'data' => null,
             ];
-            return response()->json($response);
+
+
+            return response()->json($response, 401); // 401 Unauthorized
         }
     }
+
 }

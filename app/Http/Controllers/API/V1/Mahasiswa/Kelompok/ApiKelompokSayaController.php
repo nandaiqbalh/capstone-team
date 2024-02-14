@@ -7,542 +7,437 @@ use Illuminate\Http\Request;
 use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
 use App\Models\Api\Mahasiswa\Kelompok\ApiKelompokSayaModel;
 use Illuminate\Support\Facades\DB;
-
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 
 class ApiKelompokSayaController extends Controller
 {
     public function index(Request $request)
     {
-        // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        try {
+            // Check if the token is still valid
+            JWTAuth::checkOrFail();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            $response = [
-                'status' => false,
-                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
-                'data' => null,
-            ];
-            return response()->json($response); // 400 Bad Request
-        }
+            // Get the user from the JWT token in the request headers
+            $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $userId = $request->input('user_id');
-        $user = ApiAccountModel::getById($userId);
+            $user = ApiAccountModel::getById($jwtUser->user_id);
 
-        // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
+            // Check if the user exists
+            if ($user != null && $user->user_active == 1) {
+                // Data
+                try {
+                    // get data kelompok
+                    $kelompok = ApiKelompokSayaModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
+                    // dd($kelompok);
+                    $getAkun = ApiKelompokSayaModel::getAkunByID($user->user_id);
 
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // Data
-                        try {
+                    if ($kelompok == null) {
+                        // belum memiliki kelompok
+                        $data = [
+                            'kelompok' => $kelompok,
+                            'getAkun' => $getAkun,
+                            'rs_mahasiswa' => null,
+                            'rs_dosbing' => null,
+                        ];
 
-                            // get data kelompok
-                            $kelompok = ApiKelompokSayaModel::pengecekan_kelompok_mahasiswa($user -> user_id);
-                            $rs_siklus = ApiKelompokSayaModel::getSiklusAktif();
-                            $rs_topik = ApiKelompokSayaModel::getTopik();
-                            // dd($kelompok);
-
-                            if ($kelompok == null) {
-                                // belum memiliki kelompok
-                                $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
-
-                                // data
-                                $data = [
-
-                                    'kelompok' => $kelompok,
-                                    'getAkun' => $getAkun,
-                                    'rs_mahasiswa' => null,
-                                    'rs_dosbing' => null,
-                                    'rs_dospeng' => null,
-                                    'rs_siklus' => $rs_siklus,
-                                    'rs_topik' => $rs_topik,
-
-                                ];
-                            } else {
-
-                                // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
-
-                                // adds
-                                $getAkun = ApiKelompokSayaModel::getAkunByID($user ->user_id);
-
-                                // mahasiswa
-                                $rs_mahasiswa = ApiKelompokSayaModel::listKelompokMahasiswa($kelompok->id_kelompok);
-
-                                 foreach ($rs_mahasiswa as $key =>$mahasiswa ) {
-
-                                     $storagePath = null;
-
-                                     // dd( $broadcast);
-                                     if ($mahasiswa->user_img_name != "" && $mahasiswa->user_img_name != null) {
-                                         $storagePath = public_path($mahasiswa->user_img_path . $mahasiswa->user_img_name);
-
-                                         if (file_exists($storagePath)) {
-                                             $base64Image = base64_encode(file_get_contents($storagePath));
-                                             $rs_mahasiswa[$key]->user_img_path = $base64Image;
-                                         } else {
-                                             $rs_mahasiswa[$key]->user_img_path = null;
-                                         }
-                                     } else {
-                                         $rs_mahasiswa[$key]->user_img_path = null;
-                                     }
-
-                                 }
-
-                                 // dosbing
-                                 $rs_dosbing = ApiKelompokSayaModel::getAkunDosbingKelompok($kelompok->id_kelompok);
-
-                                 foreach ($rs_dosbing as $key =>$dosbing ) {
-
-                                     $storagePath = null;
-
-                                     // dd( $broadcast);
-                                     if ($dosbing->user_img_name != "" && $dosbing->user_img_name != null) {
-                                         $storagePath = public_path($dosbing->user_img_path . $dosbing->user_img_name);
-
-                                         if (file_exists($storagePath)) {
-                                             $base64Image = base64_encode(file_get_contents($storagePath));
-                                             $rs_dosbing[$key]->user_img_path = $base64Image;
-                                         } else {
-                                             $rs_dosbing[$key]->user_img_path = null;
-                                         }
-                                     } else {
-                                         $rs_dosbing[$key]->user_img_path = null;
-                                     }
-
-                                 }
-
-                                 // dospeng
-                                 $rs_dospeng = ApiKelompokSayaModel::getAkunDospengKelompok($kelompok->id_kelompok);
-
-                                 foreach ($rs_dospeng as $key =>$dospeng ) {
-
-                                     $storagePath = null;
-
-                                     // dd( $broadcast);
-                                     if ($dospeng->user_img_name != "" && $dospeng->user_img_name != null) {
-                                         $storagePath = public_path($dospeng->user_img_path . $dospeng->user_img_name);
-
-                                         if (file_exists($storagePath)) {
-                                             $base64Image = base64_encode(file_get_contents($storagePath));
-                                             $rs_dospeng[$key]->user_img_path = $base64Image;
-                                         } else {
-                                             $rs_dospeng[$key]->user_img_path = null;
-                                         }
-                                     } else {
-                                         $rs_dospeng[$key]->user_img_path = null;
-                                     }
-
-                                 }
-
-                                // data
-                                $data = [
-                                    'kelompok' => $kelompok,
-                                    'getAkun' => $getAkun,
-                                    'rs_mahasiswa' => $rs_mahasiswa,
-                                    'rs_dosbing' => $rs_dosbing,
-                                    'rs_dospeng' => $rs_dospeng,
-                                    'rs_siklus' => $rs_siklus,
-                                    'rs_topik' => $rs_topik,
-
-                                ];
-                            }
-
-                            return response()->json(['status' => true, 'message' => "Berhasil mendapatkan data.", 'data' => $data]);
-                        } catch (\Exception $e) {
-                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
-                        }
+                        // dd($data);
 
                     } else {
-                        $response = [
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                            'data' => null,
+                        // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
+
+                        // mahasiswa
+                        $rs_mahasiswa = ApiKelompokSayaModel::listKelompokMahasiswa($kelompok->id_kelompok);
+
+                        foreach ($rs_mahasiswa as $key => $mahasiswa) {
+                            $userImageUrl = $this->getProfileImageUrl($mahasiswa);
+                            // Add the user_img_url to the user object
+                            $mahasiswa->user_img_url = $userImageUrl;
+                        }
+
+
+                        // dosbing
+                        $rs_dosbing = ApiKelompokSayaModel::getAkunDosbingKelompok($kelompok->id_kelompok);
+                        foreach ($rs_dosbing as $key => $dosbing) {
+                            $userImageUrl = $this->getProfileImageUrl($dosbing);
+                            // Add the user_img_url to the user object
+                            $dosbing->user_img_url = $userImageUrl;
+                        }
+                        // dd($rs_dosbing);
+
+                        // data
+                        $data = [
+                            'kelompok' => $kelompok,
+                            'getAkun' => $getAkun,
+                            'rs_mahasiswa' => $rs_mahasiswa,
+                            'rs_dosbing' => $rs_dosbing,
                         ];
-                        return response()->json($response); // 401 Unauthorized
                     }
 
+                    $response = [
+                        'message' => 'OK',
+                        'status' => 'Berhasil mendapatkan data.',
+                        'success' => true,
+                        'data' => $data,
+                    ];
+                } catch (\Exception $e) {
+                    $response = [
+                        'message' => $e->getMessage(),
+                        'status' => 'Gagal mendaftar capstone!' ,
+                        'success' => false,
+                        'data' => null,
+                    ];
+                }
+            } else {
+                $response = [
+                    'message' => 'Unauthorized',
+                    'status' => 'Pengguna tidak ditemukan!',
+                    'success' => false,
+                    'data' => null,
+                ];
             }
-        } else {
-            // User not found or api_token is null
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = [
-                'status' => false,
-                'message' => 'Pengguna tidak ditemukan!',
+                'status' =>'Gagal mendaftar capstone!' ,
+                'message' => $e->getMessage(),
+                'success' => false,
                 'data' => null,
             ];
-            return response()->json($response); // 401 Unauthorized
         }
+
+        return response()->json($response);
     }
 
     public function addKelompokProcess(Request $request)
     {
-        // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        // Check if the token is still valid
+        JWTAuth::checkOrFail();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            $response = [
-                'status' => false,
-                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
-                'data' => null,
-            ];
-            return response()->json($response); // 400 Bad Request
-        }
+        // Get the user from the JWT token in the request headers
+        $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $userId = $request->input('user_id');
-        $user = ApiAccountModel::getById($userId);
+        $user = ApiAccountModel::getById($jwtUser->user_id);
 
         // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
+        if ($user != null && $user->user_active == 1) {
+            // validation params
+            $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'id_siklus', 's', 'e', 'c', 'm', 'ews', 'bac', 'smb', 'smc'];
+            foreach ($requiredParams as $param) {
+                if (!$request->has($param) || empty($request->input($param))) {
+                    $response = [
+                        'message' => 'Gagal!',
+                        'success' => false,
+                        'status' => "Parameter '$param' kosong atau belum diisi.",
+                        'data' => null,
+                    ];
+                    return response()->json($response); // 400 Bad Request
+                }
+            }
 
+            try {
+                // params
+                $params = [
+                    "angkatan" => $request->angkatan,
+                    "user_name" => $request->user_name,
+                    "nomor_induk" => $request->nomor_induk,
+                    "user_email" => $request->email,
+                    "jenis_kelamin" => $request->jenis_kelamin,
+                    "ipk" => $request->ipk,
+                    "sks" => $request->sks,
+                    'no_telp' => $request->no_telp,
+                    'modified_by'   => $user->user_id,
+                    'modified_date'  => now(),
+                ];
 
+                // process
+                $update_mahasiswa = ApiKelompokSayaModel::updateMahasiswa($user->user_id, $params);
 
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
+                if ($update_mahasiswa) {
+                    // Retrieve topik and peminatan data
+                    $topik1 = ApiKelompokSayaModel::getTopikById($request->ews);
+                    $topik2 = ApiKelompokSayaModel::getTopikById($request->bac);
+                    $topik3 = ApiKelompokSayaModel::getTopikById($request->smb);
+                    $topik4 = ApiKelompokSayaModel::getTopikById($request->smc);
 
-                        // validasi params
-                        $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'id_siklus', 's', 'e', 'c', 'm'];
-                        foreach ($requiredParams as $param) {
-                            if (!$request->has($param) || empty($request->input($param))) {
-                                $response = [
-                                    'status' => false,
-                                    'message' => "Parameter '$param' kosong atau belum diisi.",
-                                    'data' => null,
-                                ];
-                                return response()->json($response); // 400 Bad Request
-                            }
-                        }
-                        // Data
-                        try {
-                            // params
-                            $params = [
-                                "angkatan" => $request->angkatan,
-                                "user_name" => $request->user_name,
-                                "nomor_induk" => $request->nomor_induk,
-                                "user_email" => $request->email,
-                                "jenis_kelamin" => $request->jenis_kelamin,
-                                "ipk" => $request->ipk,
-                                "sks" => $request->sks,
-                                'no_telp' => $request->no_telp,
-                                'modified_by'   => $user->user_id,
-                                'modified_date'  => now(),
-                            ];
+                    $peminatan1 = ApiKelompokSayaModel::getPeminatanById($request->s);
+                    $peminatan2 = ApiKelompokSayaModel::getPeminatanById($request->e);
+                    $peminatan3 = ApiKelompokSayaModel::getPeminatanById($request->c);
+                    $peminatan4 = ApiKelompokSayaModel::getPeminatanById($request->m);
 
-                            // process
-                            $update_mahasiswa = ApiKelompokSayaModel::updateMahasiswa($user->user_id, $params);
+                    // Insert kelompok data
+                    $params2 = [
+                        'usulan_judul_capstone' => $request->judul_capstone,
+                        'id_siklus' => $request->id_siklus,
+                        'id_mahasiswa' => $user->user_id,
+                        'status_individu' => 'menunggu persetujuan',
+                        'id_topik_individu1' => $topik1->id,
+                        'id_topik_individu2' => $topik2->id,
+                        'id_topik_individu3' => $topik3->id,
+                        'id_topik_individu4' => $topik4->id,
+                        'id_peminatan_individu1' => $peminatan1->id,
+                        'id_peminatan_individu2' => $peminatan2->id,
+                        'id_peminatan_individu3' => $peminatan3->id,
+                        'id_peminatan_individu4' => $peminatan4->id,
+                    ];
 
-                            if ($update_mahasiswa) {
-                                $params2 = [
-                                    "usulan_judul_capstone" => $request->judul_capstone,
-                                    "id_siklus" => $request->id_siklus,
-                                    'id_mahasiswa' => $user->user_id,
-                                    'status_individu' => 'menunggu persetujuan',
-                                ];
-                                ApiKelompokSayaModel::insertKelompokMHS($params2);
-                                $insert_id = DB::getPdo()->lastInsertId();
+                    ApiKelompokSayaModel::insertKelompokMHS($params2);
 
-                                $paramS = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs' => $insert_id,
-                                    'peminatan' => 'Software & Database',
-                                    'prioritas' => $request->s,
-                                ];
-
-                                ApiKelompokSayaModel::insertPeminatan($paramS);
-
-                                $paramE = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs' => $insert_id,
-                                    'peminatan' => 'Embedded System & Robotics',
-                                    'prioritas' => $request->e,
-                                ];
-
-                                ApiKelompokSayaModel::insertPeminatan($paramE);
-
-                                $paramC = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs' => $insert_id,
-                                    'peminatan' => 'Computer Network & Security',
-                                    'prioritas' => $request->c,
-                                ];
-
-                                ApiKelompokSayaModel::insertPeminatan($paramC);
-
-                                $paramM = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs' => $insert_id,
-                                    'peminatan' => 'Multimedia & Game',
-                                    'prioritas' => $request->m,
-                                ];
-
-                                ApiKelompokSayaModel::insertPeminatan($paramM);
-
-                                $paramEWS = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs'    => $insert_id,
-                                    'id_topik'     => 1,
-                                    'prioritas' => $request->ews,
-                                    'id_mahasiswa' => $user->user_id,
-                                    'created_by' => $user->user_id,
-                                    'created_date'  => date('Y-m-d H:i:s')
-                                ];
-
-                                ApiKelompokSayaModel::insertTopikMHS($paramEWS);
-
-                                $paramBAC = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs'    => $insert_id,
-                                    'id_topik'     => 2,
-                                    'prioritas' => $request->bac,
-                                    'id_mahasiswa' => $user->user_id,
-                                    'created_by' => $user->user_id,
-
-                                    'created_date'  => date('Y-m-d H:i:s')
-                                ];
-
-                                ApiKelompokSayaModel::insertTopikMHS($paramBAC);
-
-                                $paramSMB = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs'    => $insert_id,
-                                    'id_topik'     => 3,
-                                    'prioritas' => $request->smb,
-                                    'id_mahasiswa' => $user->user_id,
-                                    'created_by' => $user->user_id,
-                                    'created_date'  => date('Y-m-d H:i:s')
-                                ];
-
-                                ApiKelompokSayaModel::insertTopikMHS($paramSMB);
-
-                                $paramSMC = [
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_kel_mhs'    => $insert_id,
-                                    'id_topik'     => 6,
-                                    'prioritas' => $request->smc,
-                                    'id_mahasiswa' => $user->user_id,
-                                    'created_by' => $user->user_id,
-                                    'created_date'  => date('Y-m-d H:i:s')
-                                ];
-
-                                ApiKelompokSayaModel::insertTopikMHS($paramSMC);
-                                // response
-                                return response()->json(['status' => true, 'message' => 'Data berhasil disimpan.']);
-                            } else {
-                                // response
-                                return response()->json(['status' => false, 'message' => 'Data gagal disimpan.']);
-                            }
-                        } catch (\Exception $e) {
-                            // response for unexpected errors
-                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
-
-                        }
-
-
-                    } else {
-                        $response = [
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                            'data' => null,
-                        ];
-                        return response()->json($response); // 401 Unauthorized
-                    }
-
+                    $response = [
+                        'message' => 'Berhasil',
+                        'success' => true,
+                        'status' => 'Berhasil mendaftar capstone!',
+                        'data' => null,
+                    ];
+                    // response
+                    return response()->json($response);
+                } else {
+                    // response
+                    $response = [
+                        'message' => 'Gagal!',
+                        'success' => false,
+                        'status' => 'Gagal mendaftar capstone!',
+                        'data' => null,
+                    ];
+                    return response()->json($response);
+                }
+            } catch (\Exception $e) {
+                // response for unexpected errors
+                $response = [
+                    'status' =>'Gagal mendaftar capstone!' ,
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                    'data' => null,
+                ];
+                return response()->json($response);
             }
         } else {
             // User not found or api_token is null
             $response = [
-                'status' => false,
-                'message' => 'Pengguna tidak ditemukan!',
+                'message' => 'Gagal!',
+                'success' => false,
+                'status' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
             return response()->json($response); // 401 Unauthorized
         }
     }
 
+
     public function addPunyaKelompokProcess(Request $request)
     {
-        // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        // Check if the token is still valid
+        JWTAuth::checkOrFail();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            $response = [
-                'status' => false,
-                'message' => 'Sesi anda telah berakhir, silahkan masuk terlebih dahulu.',
-                'data' => null,
-            ];
-            return response()->json($response); // 400 Bad Request
-        }
+        // Get the user from the JWT token in the request headers
+        $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $userId = $request->input('user_id');
-        $user = ApiAccountModel::getById($userId);
+        $user = ApiAccountModel::getById($jwtUser->user_id);
 
         // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
+        if ($user != null && $user->user_active == 1) {
+            // validation params
+            $requiredParams = [
+                'judul_capstone', 'id_siklus', 'id_topik', 'dosbing_1', 'dosbing_2',
+                'angkatan1', 'email1', 'jenis_kelamin1', 'ipk1', 'sks1', 'no_telp1',
+                'user_id2','angkatan2', 'email2', 'jenis_kelamin2', 'ipk2', 'sks2', 'no_telp2',
+                'user_id3','angkatan3', 'email3', 'jenis_kelamin3', 'ipk3', 'sks3', 'no_telp3',
+            ];
 
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // validasi params
-                        $requiredParams = [
-                            'angkatan', 'judul_capstone', 'id_topik', 'dosbing_1', 'dosbing_2',
-                            'angkatan1', 'email1', 'jenis_kelamin1', 'ipk1', 'sks1', 'no_telp1',
-                            'angkatan2', 'email2', 'jenis_kelamin2', 'ipk2', 'sks2', 'no_telp2',
-                            'angkatan3', 'email3', 'jenis_kelamin3', 'ipk3', 'sks3', 'no_telp3',
+             // params mahasiswa 2
+             $params2 = [
+                "angkatan" => $request->angkatan2,
+                "user_email" => $request->email2,
+                "jenis_kelamin" => $request->jenis_kelamin2,
+                "ipk" => $request->ipk2,
+                "sks" => $request->sks2,
+                'no_telp' => $request->no_telp2,
+                'modified_by'   => $user->user_id,
+                'modified_date'  => date('Y-m-d H:i:s')
+            ];
+
+            foreach ($requiredParams as $param) {
+                if (!$request->has($param) || empty($request->input($param))) {
+                    $response = [
+                        'message' => 'Gagal!',
+                        'status' => "Parameter '$param' kosong atau belum diisi.",
+                        'success' => false,
+                        'data' => null,
+                    ];
+                    return response()->json($response); // 400 Bad Request
+                }
+            }
+
+            if ($request->dosbing_1 == $request->dosbing_2) {
+                $response = [
+                    'message' => "Gagal!",
+                    'status' => "Dosen pembimbing tidak boleh sama!",
+                    'success' => false,
+                    'data' => null,
+                ];
+                return response()->json($response); // 400 Bad Request
+            }
+
+            if ($request->user_id1 == $request->user_id2 || $request->user_id1 == $request->user_id3 || $request->user_id2 == $request->user_id3) {
+                $response = [
+                    'message' => 'Gagal!',
+                    'status' => 'Mahasiswa tidak boleh sama!',
+                    'success' => false,
+                    'data' => null,
+                ];
+                return response()->json($response); // 400 Bad Request
+            }
+
+            try {
+
+                if (ApiKelompokSayaModel::isAccountExist($request -> user_id2) && ApiKelompokSayaModel::isAccountExist($request ->user_id3)) {
+                    // addKelompok
+                    $params = [
+                        "id_siklus" => $request->id_siklus,
+                        "judul_capstone" => $request->judul_capstone,
+                        "id_topik" => $request->id_topik,
+                        "status_kelompok" => 'menunggu persetujuan',
+                        "id_dosen_pembimbing_1" => $request->dosbing_1,
+                        "status_dosen_pembimbing_1" =>'menunggu persetujuan',
+                        "id_dosen_pembimbing_2" => $request->dosbing_2,
+                        "status_dosen_pembimbing_2" =>'menunggu persetujuan',
+                    ];
+
+                    ApiKelompokSayaModel::insertKelompok($params);
+                    $id_kelompok = DB::getPdo()->lastInsertId();
+
+                    // params mahasiswa 1
+                    $params1 = [
+                        "angkatan" => $request->angkatan1,
+                        "ipk" => $request->ipk1,
+                        "user_email" => $request->email1,
+                        "jenis_kelamin" => $request->jenis_kelamin1,
+                        "sks" => $request->sks1,
+                        'no_telp' => $request->no_telp1,
+                        'modified_by'   => $user->user_id,
+                        'modified_date'  => date('Y-m-d H:i:s')
+                    ];
+
+                    // process
+                    $update_mahasiswa1 = ApiKelompokSayaModel::updateMahasiswa($user->user_id, $params1);
+                    if ($update_mahasiswa1) {
+                        $params11 = [
+                            "id_siklus" => $request->id_siklus,
+                            'id_kelompok' => $id_kelompok,
+                            'id_mahasiswa' => $user->user_id,
+                            'status_individu' => 'menunggu persetujuan',
+                            'usulan_judul_capstone' => $request -> judul_capstone,
+                            'id_topik_mhs' => $request->id_topik,
                         ];
-
-                        foreach ($requiredParams as $param) {
-                            if (!$request->has($param) || empty($request->input($param))) {
-                                $response = [
-                                    'status' => false,
-                                    'message' => "Parameter '$param' kosong atau belum diisi.",
-                                    'data' => null,
-                                ];
-                                return response()->json($response); // 400 Bad Request
-                            }
-                        }
-                        // Data
-                        try {
-                            if ($request->dosbing_1 == $request->dosbing_2) {
-                                return response()->json(['status' => false, 'message' => 'Dosen tidak boleh sama!']);
-                            }
-
-                            if ($request->nama1 == $request->nama2 || $request->nama1 == $request->nama3 || $request->nama2 == $request->nama3) {
-                                return response()->json(['status' => false, 'message' => 'Mahasiswa tidak boleh sama!']);
-                            }
-
-                            // addKelompok
-                            $params = [
-                                "id_siklus" => $request->id_siklus,
-                                "judul_capstone" => $request->judul_capstone,
-                                "id_topik" => $request->id_topik,
-                                "status_kelompok" => "menunggu persetujuan",
-                                "id_dosen_pembimbing_1" => $request->dosbing_1,
-                                "id_dosen_pembimbing_2" => $request->dosbing_2,
-                            ];
-                            ApiKelompokSayaModel::insertKelompok($params);
-                            $id_kelompok = DB::getPdo()->lastInsertId();
-
-                            $paramsDosen1 = [
-                                "id_kelompok" => $id_kelompok,
-                                "id_dosen" => $request->dosbing_1,
-                                "status_dosen" => "pembimbing 1",
-                                "status_persetujuan" => "menunggu persetujuan",
-                            ];
-                            ApiKelompokSayaModel::insertDosenKelompok($paramsDosen1);
-                            $paramsDosen2 = [
-                                "id_kelompok" => $id_kelompok,
-                                "id_dosen" => $request->dosbing_2,
-                                "status_dosen" => "pembimbing 2",
-                                "status_persetujuan" => "menunggu persetujuan",
-                            ];
-                            ApiKelompokSayaModel::insertDosenKelompok($paramsDosen2);
-
-
-                            // params mahasiswa 1
-                            $params1 = [
-                                "angkatan" => $request->angkatan1,
-                                "ipk" => $request->ipk1,
-                                "user_email" => $request->email1,
-                                "jenis_kelamin" => $request->jenis_kelamin1,
-                                "sks" => $request->sks1,
-                                'no_telp' => $request->no_telp1,
-                                'modified_by'   => $user->user_id,
-                                'modified_date'  => date('Y-m-d H:i:s')
-                            ];
-
-                            // process
-                            $update_mahasiswa1 = ApiKelompokSayaModel::updateMahasiswa($user->user_id, $params1);
-                            if ($update_mahasiswa1) {
-                                $params11 = [
-                                    "id_siklus" => $request->id_siklus,
-                                    'id_kelompok' => $id_kelompok,
-                                    'id_mahasiswa' => $user->user_id,
-                                    'id_topik_mhs' => $request->id_topik,
-                                ];
-                                ApiKelompokSayaModel::insertKelompokMHS($params11);
-                            }
-
-                            // params mahasiswa 2
-                            $params2 = [
-                                "angkatan" => $request->angkatan2,
-                                "user_email" => $request->email2,
-                                "jenis_kelamin" => $request->jenis_kelamin2,
-                                "ipk" => $request->ipk2,
-                                "sks" => $request->sks2,
-                                'no_telp' => $request->no_telp2,
-                                'modified_by'   => $user->user_id,
-                                'modified_date'  => date('Y-m-d H:i:s')
-                            ];
-
-                            // process
-                            $update_mahasiswa2 = ApiKelompokSayaModel::updateMahasiswa($request->nama2, $params2);
-                            if ($update_mahasiswa2) {
-                                $params22 = [
-                                    "id_siklus" => $request->id_siklus,
-                                    'id_kelompok' => $id_kelompok,
-                                    'id_mahasiswa' => $request->nama2,
-                                    'id_topik_mhs' => $request->id_topik,
-                                ];
-                                ApiKelompokSayaModel::insertKelompokMHS($params22);
-                            }
-
-                            // params mahasiswa 3
-                            $params3 = [
-                                "angkatan" => $request->angkatan3,
-                                "user_email" => $request->email3,
-                                "jenis_kelamin" => $request->jenis_kelamin3,
-                                "ipk" => $request->ipk3,
-                                "sks" => $request->sks3,
-                                'no_telp' => $request->no_telp3,
-                                'modified_by'   => $user->user_id,
-                                'modified_date'  => date('Y-m-d H:i:s')
-                            ];
-
-                            // process
-                            $update_mahasiswa3 = ApiKelompokSayaModel::updateMahasiswa($request->nama3, $params3);
-                            if ($update_mahasiswa3) {
-                                $params33 = [
-                                    "id_siklus" => $request->id_siklus,
-                                    'id_kelompok' => $id_kelompok,
-                                    'id_mahasiswa' => $request->nama3,
-                                    'id_topik_mhs' => $request->id_topik,
-                                ];
-                                ApiKelompokSayaModel::insertKelompokMHS($params33);
-                            }
-                            // response
-                            return response()->json(['status' => true, 'message' => 'Data berhasil disimpan.']);
-                        } catch (\Exception $e) {
-                            // response for unexpected errors
-                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
-                        }
-
-                    } else {
-                        $response = [
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                            'data' => null,
-                        ];
-                        return response()->json($response); // 401 Unauthorized
+                        ApiKelompokSayaModel::insertKelompokMHS($params11);
                     }
 
+                    // params mahasiswa 2
+                    $params2 = [
+                        "angkatan" => $request->angkatan2,
+                        "user_email" => $request->email2,
+                        "jenis_kelamin" => $request->jenis_kelamin2,
+                        "ipk" => $request->ipk2,
+                        "sks" => $request->sks2,
+                        'no_telp' => $request->no_telp2,
+                        'modified_by'   => $user->user_id,
+                        'modified_date'  => date('Y-m-d H:i:s')
+                    ];
+
+                    // process
+                    $update_mahasiswa2 = ApiKelompokSayaModel::updateMahasiswa($request->user_id2, $params2);
+                    if ($update_mahasiswa2) {
+                        $params22 = [
+                            "id_siklus" => $request->id_siklus,
+                            'id_kelompok' => $id_kelompok,
+                            'id_mahasiswa' => $request->user_id2,
+                            'status_individu' => 'menunggu persetujuan',
+                            'usulan_judul_capstone' => $request -> judul_capstone,
+                            'id_topik_mhs' => $request->id_topik,
+                        ];
+                        ApiKelompokSayaModel::insertKelompokMHS($params22);
+                    }
+
+                    // params mahasiswa 3
+                    $params3 = [
+                        "angkatan" => $request->angkatan3,
+                        "user_email" => $request->email3,
+                        "jenis_kelamin" => $request->jenis_kelamin3,
+                        "ipk" => $request->ipk3,
+                        "sks" => $request->sks3,
+                        'no_telp' => $request->no_telp3,
+                        'modified_by'   => $user->user_id,
+                        'modified_date'  => date('Y-m-d H:i:s')
+                    ];
+
+                    // process
+                    $update_mahasiswa3 = ApiKelompokSayaModel::updateMahasiswa($request->user_id3, $params3);
+                    if ($update_mahasiswa3) {
+                        $params33 = [
+                            "id_siklus" => $request->id_siklus,
+                            'id_kelompok' => $id_kelompok,
+                            'id_mahasiswa' => $request->user_id3,
+                            'status_individu' => 'menunggu persetujuan',
+                            'usulan_judul_capstone' => $request -> judul_capstone,
+                            'id_topik_mhs' => $request->id_topik,
+                        ];
+                        ApiKelompokSayaModel::insertKelompokMHS($params33);
+                    }
+
+                    $response = [
+                        'message' => 'success',
+                        'success' => true,
+                        'status' => 'Berhasil mendaftar capstone!',
+                        'data' => null,
+                    ];
+                    // response
+                    return response()->json($response);
+
+                    } else {
+                        // ada pengguna yang tidak valid
+                        $response = [
+                            'message' => 'Gagal!',
+                            'success' => false,
+                            'status' => 'Pastikan semua mahasiswa merupakan mahasiswa aktif!',
+                            'data' => null,
+                        ];
+
+                        return response()->json($response);
+                    }
+
+            } catch (\Exception $e) {
+                // response for unexpected errors
+                $response = [
+                    'message' => $e->getMessage(),
+                    'success' => false,
+                    'status' =>'Gagal mendaftar capstone!' ,
+                    'data' => null,
+                ];
+
+                return response()->json($response);
             }
         } else {
             // User not found or api_token is null
             $response = [
-                'status' => false,
-                'message' => 'Pengguna tidak ditemukan!',
+                'message' => 'Gagal!',
+                'success' => false,
+                'status' => 'Pengguna tidak ditemukan!',
                 'data' => null,
             ];
             return response()->json($response); // 401 Unauthorized
         }
+    }
+
+    private function getProfileImageUrl($user)
+    {
+        if (!empty($user->user_img_name)) {
+            $imageUrl = url($user->user_img_path . $user->user_img_name);
+        } else {
+            $imageUrl = url('img/user/default_profile.jpg');
+        }
+
+        return $imageUrl;
     }
 
 }
