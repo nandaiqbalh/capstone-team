@@ -59,99 +59,44 @@ Bimbingan Saya
                             <td>{{ $kelompok->nomor_kelompok }}</td>
                             <td>{{ $kelompok->judul_capstone }}</td>
                             <td>{{ $kelompok->nama_topik }}</td>
+                            <td>{{ $kelompok->jenis_dosen }}</td>
                             <td>{{ $kelompok->status_dosen }}</td>
-                            <td>{{ $kelompok->status_persetujuan }}</td>
 
                             <td class="text-center">
-                                @if($kelompok->status_persetujuan == 'disetujui')
-                                    <a href="{{ route('dosen.bimbingan-saya.tolak', ['id_dosen_kelompok' => $kelompok->id]) }}" class="btn btn-outline-danger btn-xs m-1" onclick="showRejectConfirmation('{{ $kelompok->nomor_kelompok }}'); return false;">Tolak</a>
-                                @elseif($kelompok->status_persetujuan == 'tidak disetujui')
-                                    <a href="{{ route('dosen.bimbingan-saya.terima', ['id_dosen_kelompok' => $kelompok->id]) }}" class="btn btn-outline-primary btn-xs m-1" onclick="showAcceptConfirmation('{{ $kelompok->nomor_kelompok }}'); return false;">Terima</a>
+                                @if($kelompok->status_dosen == 'disetujui')
+                                    <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1"
+                                       onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}')"> Tolak</a>
+                                @elseif($kelompok->status_dosen == 'tidak disetujui')
+                                    <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}" class="btn btn-outline-primary btn-xs m-1"
+                                       onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}')">  Terima</a>
                                 @else
-                                    <a href="{{ route('dosen.bimbingan-saya.terima', ['id_dosen_kelompok' => $kelompok->id]) }}" class="btn btn-outline-primary btn-xs m-1" onclick="showAcceptConfirmation('{{ $kelompok->nomor_kelompok }}'); return false;">Terima</a>
-                                    <a href="{{ route('dosen.bimbingan-saya.tolak', ['id_dosen_kelompok' => $kelompok->id]) }}" class="btn btn-outline-danger btn-xs m-1 " onclick="showRejectConfirmation('{{ $kelompok->nomor_kelompok }}'); return false;">Tolak</a>
+                                    <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}" class="btn btn-outline-primary btn-xs m-1"
+                                       onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}')">  Terima</a>
+                                    <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1"
+                                       onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}')"> Tolak</a>
                                 @endif
-                                <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1 "> Detail</a>
+                                <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}" class="btn btn-outline-warning btn-xs m-1"> Detail</a>
                             </td>
-                            <!-- percobaan 2 pake modal -->
-                            <!-- Modal Tolak -->
-                            <div class="modal fade" id="tolakModal" tabindex="-1" role="dialog" aria-labelledby="tolakModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="tolakModalLabel">Konfirmasi Tolak</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah anda ingin menolak kelompok {{ $kelompok->nomor_kelompok }} ?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                            <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-danger">Tolak</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Modal Terima -->
-                            <div class="modal fade" id="terimaModal" tabindex="-1" role="dialog" aria-labelledby="terimaModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="terimaModalLabel">Konfirmasi Terima</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Apakah anda ingin menerima kelompok {{ $kelompok->nomor_kelompok }} ?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                            <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}" class="btn btn-primary">Terima</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- percobaan 1 sweetalert -->
-                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
                             <script>
-                            function showAcceptConfirmation(nomorKelompok) {
-                                Swal.fire({
-                                    title: 'Konfirmasi Terima',
-                                    text: "Apakah anda ingin menerima kelompok " + nomorKelompok + " ?",
-                                    icon: 'question',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#3085d6',
-                                    cancelButtonColor: '#d33',
-                                    confirmButtonText: 'Terima',
-                                    cancelButtonText: 'Batal'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirect to the acceptance URL
-                                        window.location.href = "{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id_dosen_kelompok }}";
-                                    }
-                                });
-                            }
-                            function showRejectConfirmation(nomorKelompok) {
-                                Swal.fire({
-                                    title: 'Konfirmasi Tolak',
-                                    text: "Apakah anda ingin menolak kelompok " + nomorKelompok + " ?",
-                                    icon: 'warning',
-                                    showCancelButton: true,
-                                    confirmButtonColor: '#d33',
-                                    cancelButtonColor: '#3085d6',
-                                    confirmButtonText: 'Tolak',
-                                    cancelButtonText: 'Batal'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirect to the rejection URL
-                                        window.location.href = "{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id_dosen_kelompok }}";
-                                    }
-                                });
-                            }
+                                function swalConfirm(nomorKelompok, url) {
+                                    Swal.fire({
+                                        title: 'Apakah Anda yakin?',
+                                        text: "Anda akan melakukan tindakan pada kelompok " + nomorKelompok + "?",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Ya, Lanjutkan!',
+                                        cancelButtonText: 'Batal'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = url;
+                                        }
+                                    });
+                                }
                             </script>
+
 
                         </tr>
                         @endforeach

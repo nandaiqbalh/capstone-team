@@ -22,6 +22,20 @@ class BimbinganSayaController extends BaseController
 
         // get data with pagination
         $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
+
+        foreach ($rs_bimbingan_saya as $bimbingan) {
+            if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                $bimbingan->jenis_dosen = 'Pembimbing 1';
+                $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_1;
+
+            } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                $bimbingan->jenis_dosen = 'Pembimbing 2';
+                $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
+
+            } else {
+                $bimbingan->jenis_dosen = 'Belum diplot';
+            }
+        }
         // data
         $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya];
         // view
@@ -73,17 +87,34 @@ class BimbinganSayaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function terimaBimbinganSaya($id)
+    public function terimaBimbinganSaya(Request $request, $id)
     {
 
-        dd($id);
         // authorize
         BimbinganSayaModel::authorize('U');
 
-        // params
-        $params = [
-            'status_persetujuan' => 'disetujui',
-        ];
+        $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
+
+        $jenis_dosen = ""; // Move the declaration outside the loop
+
+        foreach ($rs_bimbingan_saya as $bimbingan) {
+            if ($bimbingan ->id == $id) {
+                if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                    $jenis_dosen = 'Pembimbing 1';
+                    $params = [
+                        'status_dosen_pembimbing_1' => 'disetujui',
+                    ];
+                    break;
+                } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                    $jenis_dosen = 'Pembimbing 2';
+                    $params = [
+                        'status_dosen_pembimbing_2' => 'disetujui',
+                    ];
+                    break;
+                }
+            }
+        }
+
 
         // process
         if (BimbinganSayaModel::update($id, $params)) {
@@ -103,17 +134,37 @@ class BimbinganSayaController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function tolakBimbinganSaya($id)
+    public function tolakBimbinganSaya(Request $request, $id)
     {
+
         // authorize
         BimbinganSayaModel::authorize('U');
 
-        dd($id);
+        $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
 
-        // params
-        $params = [
-            'status_persetujuan' => 'tidak disetujui',
-        ];
+        $jenis_dosen = ""; // Move the declaration outside the loop
+
+        foreach ($rs_bimbingan_saya as $bimbingan) {
+            if ($bimbingan ->id == $id) {
+                if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                    $jenis_dosen = 'Pembimbing 1';
+                    $params = [
+                        'status_dosen_pembimbing_1' => 'tidak disetujui',
+                    ];
+                    break;
+                } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                    $jenis_dosen = 'Pembimbing 2';
+                    $params = [
+                        'status_dosen_pembimbing_2' => 'tidak disetujui',
+                    ];
+                    break;
+                }
+
+            }
+
+        }
+
+        // dd($params);
 
         // process
         if (BimbinganSayaModel::update($id, $params)) {
@@ -126,52 +177,6 @@ class BimbinganSayaController extends BaseController
             return redirect('/dosen/bimbingan-saya');
         }
     }
-
-    public function terimaBimbinganSayaTest($id_dosen_kelompok)
-{
-    // authorize
-    BimbinganSayaModel::authorize('U');
-
-    // params
-    $params = [
-        'status_persetujuan' => 'disetujui',
-    ];
-
-    // process
-    if (BimbinganSayaModel::update($id_dosen_kelompok, $params)) {
-        // flash message
-        session()->flash('success', 'Data berhasil disimpan.');
-        return redirect('/dosen/bimbingan-saya');
-    } else {
-        // flash message
-        session()->flash('danger', 'Data gagal disimpan.');
-        return redirect('/dosen/bimbingan-saya');
-    }
-}
-
-public function tolakBimbinganSayaTest($id_dosen_kelompok)
-{
-    // authorize
-    BimbinganSayaModel::authorize('U');
-
-    // params
-    $params = [
-        'status_persetujuan' => 'tidak disetujui',
-    ];
-
-    // process
-    if (BimbinganSayaModel::update($id_dosen_kelompok, $params)) {
-        // flash message
-        session()->flash('success', 'Data berhasil disimpan.');
-        return redirect('/dosen/bimbingan-saya');
-    } else {
-        // flash message
-        session()->flash('danger', 'Data gagal disimpan.');
-        return redirect('/dosen/bimbingan-saya');
-    }
-}
-
-
 
     /**
      * Search data.

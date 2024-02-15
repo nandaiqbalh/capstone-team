@@ -15,6 +15,7 @@ class ApiDosenModel extends ApiBaseModel
             ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('a.role_id', '04') // Filter berdasarkan role_id di tabel app_user
             ->orwhere('a.role_id', '02')
+            ->orderBy('a.user_name') // Sort the result by user_name
             ->get();
     }
 
@@ -26,6 +27,7 @@ class ApiDosenModel extends ApiBaseModel
             ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
             ->orwhere('a.role_id', '02')
+            ->orderBy('a.user_name') // Sort the result by user_name
             ->paginate(20);
     }
 

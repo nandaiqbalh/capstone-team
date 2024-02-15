@@ -20,6 +20,8 @@ class PengujianController extends BaseController
 
         // get data with pagination
         $rs_pengujian = PengujianModel::getDataWithPagination();
+
+        // dd($rs_pengujian);
         // data
         $data = ['rs_pengujian' => $rs_pengujian];
         // view

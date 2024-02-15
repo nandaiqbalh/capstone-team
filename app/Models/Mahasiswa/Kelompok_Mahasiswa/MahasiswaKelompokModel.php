@@ -71,26 +71,38 @@ class MahasiswaKelompokModel extends BaseModel
     // pengecekan kelompok
     public static function getAkunDosbingKelompok($id_kelompok)
     {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk' )
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'pembimbing 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'pembimbing 2')
-        ->where('a.id_kelompok', $id_kelompok)
+        return DB::table('app_user')
+        ->join('kelompok', function ($join) {
+            $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+        })
+        ->where('kelompok.id', '=', $id_kelompok)
+        ->orderByRaw('
+            CASE
+                WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
+                WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
+            END
+        ')
+        ->select('app_user.*')
         ->get();
     }
 
     // pengecekan kelompok penguji
     public static function getAkunDospengKelompok($id_kelompok)
     {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk')
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'penguji 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'penguji 2')
-        ->where('a.id_kelompok', $id_kelompok)
+        return DB::table('app_user')
+        ->join('kelompok', function ($join) {
+            $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
+                ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+        })
+        ->where('kelompok.id', '=', $id_kelompok)
+        ->orderByRaw('
+            CASE
+                WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
+                WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
+            END
+        ')
+        ->select('app_user.*')
         ->get();
     }
 
@@ -167,14 +179,6 @@ class MahasiswaKelompokModel extends BaseModel
     {
         return DB::table('peminatan')->insert($params);
     }
-    public static function insertTopikMHS($params)
-    {
-        return DB::table('topik_mhs')->insert($params);
-    }
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
 
     public static function update($user_id, $params)
     {

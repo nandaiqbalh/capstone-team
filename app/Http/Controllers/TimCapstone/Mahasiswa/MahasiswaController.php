@@ -124,7 +124,23 @@ class MahasiswaController extends BaseController
             session()->flash('danger', 'Data tidak ditemukan.');
             return redirect('/admin/mahasiswa');
         }
-        $rs_peminatan = MahasiswaModel::peminatan($user_id);
+        $rs_peminatan = MahasiswaModel::peminatanMahasiswa($user_id);
+
+        foreach ($rs_peminatan as $key => $peminatan) {
+            if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
+                $peminatan->prioritas = "Prioritas 1";
+            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
+                $peminatan->prioritas = "Prioritas 2";
+            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
+                $peminatan->prioritas = "Prioritas 3";
+            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
+                $peminatan->prioritas = "Prioritas 4";
+            } else {
+                $peminatan->prioritas = "Belum memilih";
+
+            }
+        }
+        // dd($mahasiswa);
         // data
         $data = [
             'mahasiswa' => $mahasiswa,

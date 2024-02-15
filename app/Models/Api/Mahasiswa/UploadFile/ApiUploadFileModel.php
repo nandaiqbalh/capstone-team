@@ -74,15 +74,6 @@ class ApiUploadFileModel extends ApiBaseModel
         ->get();
     }
 
-    // pengecekan kelompok
-    public static function getAkunDosbingKelompok($id_kelompok)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk' )
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
-    }
 
     // get data with pagination
     public static function getDataWithPagination()

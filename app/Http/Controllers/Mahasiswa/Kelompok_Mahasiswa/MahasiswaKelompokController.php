@@ -35,6 +35,19 @@ class MahasiswaKelompokController extends BaseController
             $rs_dospeng = MahasiswaKelompokModel::getAkunDospengKelompok($kelompok->id_kelompok);
             $proposal = MahasiswaKelompokModel::proposal($kelompok->id_kelompok);
 
+            foreach ($rs_dosbing as $dosbing) {
+
+                if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
+                    $dosbing->jenis_dosen = 'Pembimbing 1';
+                    $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
+                } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
+                    $dosbing->jenis_dosen = 'Pembimbing 2';
+                    $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
+                }
+
+            }
+
+            // dd($rs_dosbing);
             // data
             $data = [
                 'kelompok'  => $kelompok,
@@ -44,6 +57,9 @@ class MahasiswaKelompokController extends BaseController
                 'rs_dospeng' => $rs_dospeng,
                 'rs_siklus' => $rs_siklus,
             ];
+
+
+            // dd($data);
         } else {
             $getAkun = MahasiswaKelompokModel::getAkunByID(Auth::user()->user_id);
             $rs_mahasiswa = MahasiswaKelompokModel::getAkun();
@@ -81,7 +97,6 @@ class MahasiswaKelompokController extends BaseController
 
         // params
         $params = [
-            // 'user_id' => Auth::user()->user_id,
             "angkatan" => $request->angkatan,
             "user_email" => $request->email,
             "jenis_kelamin" => $request->jenis_kelamin,
@@ -95,94 +110,23 @@ class MahasiswaKelompokController extends BaseController
 
         // process
         $update_mahasiswa = MahasiswaKelompokModel::updateMahasiswa(Auth::user()->user_id, $params);
+
         if ($update_mahasiswa) {
             $params2 = [
-                "id_siklus" => $request->id_siklus,
-                'id_mahasiswa' => Auth::user()->user_id,
+                'usulan_judul_capstone' => $request->judul_capstone,
+                'id_siklus' => $request->id_siklus,
+                'id_mahasiswa' =>  Auth::user()->user_id,
                 'status_individu' => 'menunggu persetujuan',
+                'id_topik_individu1' => $request->ews,
+                'id_topik_individu2' => $request->bac,
+                'id_topik_individu3' => $request->smb,
+                'id_topik_individu4' => $request->smc,
+                'id_peminatan_individu1' => $request->s,
+                'id_peminatan_individu2' => $request->e,
+                'id_peminatan_individu3' => $request->c,
+                'id_peminatan_individu4' => $request->m,
             ];
             MahasiswaKelompokModel::insertKelompokMHS($params2);
-            $insert_id = DB::getPdo()->lastInsertId();
-
-            $paramS = [
-                'id_mahasiswa' => Auth::user()->user_id,
-                'id_kel_mhs' => $insert_id,
-                'peminatan' => 'Software & Database',
-                'prioritas' => $request->s,
-            ];
-
-            MahasiswaKelompokModel::insertPeminatan($paramS);
-
-            $paramE = [
-                'id_mahasiswa' => Auth::user()->user_id,
-                'id_kel_mhs' => $insert_id,
-                'peminatan' => 'Embedded System & Robotics',
-                'prioritas' => $request->e,
-            ];
-
-            MahasiswaKelompokModel::insertPeminatan($paramE);
-
-            $paramC = [
-                'id_mahasiswa' => Auth::user()->user_id,
-                'id_kel_mhs' => $insert_id,
-                'peminatan' => 'Computer Network & Security',
-                'prioritas' => $request->c,
-            ];
-
-            MahasiswaKelompokModel::insertPeminatan($paramC);
-
-            $paramM = [
-                'id_mahasiswa' => Auth::user()->user_id,
-                'id_kel_mhs' => $insert_id,
-                'peminatan' => 'Multimedia & Game',
-                'prioritas' => $request->m,
-            ];
-
-            MahasiswaKelompokModel::insertPeminatan($paramM);
-
-            $paramEWS = [
-                'id_mahasiswa'  => Auth::user()->user_id,
-                'id_kel_mhs'    => $insert_id,
-                'id_topik'     => 1,
-                'prioritas' => $request->ews,
-                'created_by'   => Auth::user()->user_id,
-                'created_date'  => date('Y-m-d H:i:s')
-            ];
-
-            MahasiswaKelompokModel::insertTopikMHS($paramEWS);
-
-            $paramBAC = [
-                'id_mahasiswa'  => Auth::user()->user_id,
-                'id_kel_mhs'    => $insert_id,
-                'id_topik'     => 2,
-                'prioritas' => $request->bac,
-                'created_by'   => Auth::user()->user_id,
-                'created_date'  => date('Y-m-d H:i:s')
-            ];
-
-            MahasiswaKelompokModel::insertTopikMHS($paramBAC);
-
-            $paramSMB = [
-                'id_mahasiswa'  => Auth::user()->user_id,
-                'id_kel_mhs'    => $insert_id,
-                'id_topik'     => 3,
-                'prioritas' => $request->smb,
-                'created_by'   => Auth::user()->user_id,
-                'created_date'  => date('Y-m-d H:i:s')
-            ];
-
-            MahasiswaKelompokModel::insertTopikMHS($paramSMB);
-
-            $paramSMC = [
-                'id_mahasiswa'  => Auth::user()->user_id,
-                'id_kel_mhs'    => $insert_id,
-                'id_topik'     => 6,
-                'prioritas' => $request->smc,
-                'created_by'   => Auth::user()->user_id,
-                'created_date'  => date('Y-m-d H:i:s')
-            ];
-
-            MahasiswaKelompokModel::insertTopikMHS($paramSMC);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -225,25 +169,12 @@ class MahasiswaKelompokController extends BaseController
             "status_kelompok" => "menunggu persetujuan",
             "id_dosen_pembimbing_1" => $request->dosbing_1,
             "id_dosen_pembimbing_2" => $request->dosbing_2,
+            "status_dosen_pembimbing_1" => "menunggu persetujuan",
+            "status_dosen_pembimbing_2" => "menunggu persetujuan",
+
         ];
         MahasiswaKelompokModel::insertKelompok($params);
         $id_kelompok = DB::getPdo()->lastInsertId();
-
-        $paramsDosen1 = [
-            "id_kelompok" => $id_kelompok,
-            "id_dosen" => $request->dosbing_1,
-            "status_dosen" => "pembimbing 1",
-            "status_persetujuan" => "menunggu persetujuan",
-        ];
-        MahasiswaKelompokModel::insertDosenKelompok($paramsDosen1);
-        $paramsDosen2 = [
-            "id_kelompok" => $id_kelompok,
-            "id_dosen" => $request->dosbing_2,
-            "status_dosen" => "pembimbing 2",
-            "status_persetujuan" => "menunggu persetujuan",
-        ];
-        MahasiswaKelompokModel::insertDosenKelompok($paramsDosen2);
-
 
         // params mahasiswa 1
         $params1 = [
@@ -265,7 +196,11 @@ class MahasiswaKelompokController extends BaseController
                 "id_siklus" => $request->id_siklus,
                 'id_kelompok' => $id_kelompok,
                 'id_mahasiswa' => Auth::user()->user_id,
+                'status_individu' => 'menunggu persetujuan',
+                'usulan_judul_capstone' => $request -> judul_capstone,
                 'id_topik_mhs' => $request->id_topik,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
             ];
             MahasiswaKelompokModel::insertKelompokMHS($params11);
         }
@@ -291,7 +226,11 @@ class MahasiswaKelompokController extends BaseController
                 "id_siklus" => $request->id_siklus,
                 'id_kelompok' => $id_kelompok,
                 'id_mahasiswa' => $request->nama2,
+                'status_individu' => 'menunggu persetujuan',
+                'usulan_judul_capstone' => $request -> judul_capstone,
                 'id_topik_mhs' => $request->id_topik,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
             ];
             MahasiswaKelompokModel::insertKelompokMHS($params22);
         }
@@ -317,7 +256,11 @@ class MahasiswaKelompokController extends BaseController
                 "id_siklus" => $request->id_siklus,
                 'id_kelompok' => $id_kelompok,
                 'id_mahasiswa' => $request->nama3,
+                'status_individu' => 'menunggu persetujuan',
+                'usulan_judul_capstone' => $request -> judul_capstone,
                 'id_topik_mhs' => $request->id_topik,
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
             ];
             MahasiswaKelompokModel::insertKelompokMHS($params33);
         }

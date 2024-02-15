@@ -106,8 +106,8 @@
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
+                                        <td>{{ $dosbing->jenis_dosen }}</td>
                                         <td>{{ $dosbing->status_dosen }}</td>
-                                        <td>{{ $dosbing->status_persetujuan }}</td>
                                     </tr>
                                     @endforeach
                                     @else
@@ -169,8 +169,8 @@
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
+                                        <td>{{ $dosbing->jenis_dosen }}</td>
                                         <td>{{ $dosbing->status_dosen }}</td>
-                                        <td>{{ $dosbing->status_persetujuan }}</td>
                                     </tr>
                                     @endforeach
                                     @else

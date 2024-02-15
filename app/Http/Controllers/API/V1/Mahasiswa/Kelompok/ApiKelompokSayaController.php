@@ -329,6 +329,8 @@ class ApiKelompokSayaController extends Controller
                             'status_individu' => 'menunggu persetujuan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
+                            'created_by'   => $user->user_id,
+                            'created_date'  => date('Y-m-d H:i:s')
                         ];
                         ApiKelompokSayaModel::insertKelompokMHS($params11);
                     }
@@ -355,6 +357,8 @@ class ApiKelompokSayaController extends Controller
                             'status_individu' => 'menunggu persetujuan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
+                            'created_by'   => $user->user_id,
+                            'created_date'  => date('Y-m-d H:i:s')
                         ];
                         ApiKelompokSayaModel::insertKelompokMHS($params22);
                     }
@@ -381,6 +385,8 @@ class ApiKelompokSayaController extends Controller
                             'status_individu' => 'menunggu persetujuan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
+                            'created_by'   => $user->user_id,
+                            'created_date'  => date('Y-m-d H:i:s')
                         ];
                         ApiKelompokSayaModel::insertKelompokMHS($params33);
                     }

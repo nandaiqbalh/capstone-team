@@ -9,6 +9,7 @@ use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\Pendaftaran\PendaftaranModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\TimCapstone\Mahasiswa\MahasiswaModel;
 
 
 class PendaftaranController extends BaseController
@@ -25,19 +26,28 @@ class PendaftaranController extends BaseController
     {
         // authorize
         PendaftaranModel::authorize('R');
-        // dd(PendaftaranModel::getData());
 
-        // get data with pagination
+        $rs_mahasiswa = MahasiswaModel::getDataWithPagination();
         $rs_pendaftaran = PendaftaranModel::getDataWithPagination();
         $rs_topik = PendaftaranModel::GetTopik();
-        $rs_topik_prioritas = PendaftaranModel::GetTopikPrioritas();
+
+        foreach ($rs_pendaftaran as $key => $mahasiswa) {
+            foreach ($rs_topik as $key => $topik) {
+                if ($topik->id == $mahasiswa->id_topik_individu1) {
+                    $mahasiswa->prioritas = $topik->nama;
+                    break; // Exit the loop once the first match is found
+                } else {
+                    $mahasiswa->prioritas = "Belum memilih";
+                }
+            }
+        }
+
         // data
         $data = [
             'rs_pendaftaran' => $rs_pendaftaran,
             'rs_topik' => $rs_topik,
-            'rs_topik_prioritas' => $rs_topik_prioritas
         ];
-        // dd($data);
+
         // view
         return view('tim_capstone.pendaftaran.index', $data);
     }
@@ -57,6 +67,8 @@ class PendaftaranController extends BaseController
         $rs_mahasiswa = PendaftaranModel::getMahasiswa($id_topik);
         $rs_dosen = PendaftaranModel::getDosen($user_id);
         $rs_siklus = PendaftaranModel::getSiklusAktif();
+
+        // dd($rs_mahasiswa);
         $data = [
             'rs_mahasiswa' =>  $rs_mahasiswa,
             'get_topik' =>  $get_topik,
@@ -126,8 +138,10 @@ class PendaftaranController extends BaseController
             'nomor_kelompok' => $request->nomor_kelompok,
             'id_siklus' => $request->id_siklus,
             'judul_capstone' => $request->judul_ta,
-            'id_dosen_pembimbing_1' => $request->id_dosen1,
-            'id_dosen_pembimbing_2' => $request->id_dosen2,
+            'id_dosen_pembimbing_1' =>$request->id_dosen1,
+            'status_dosen_pembimbing_1' => 'menunggu persetujuan',
+            'id_dosen_pembimbing_2' =>$request->id_dosen2,
+            'status_dosen_pembimbing_2' => 'menunggu persetujuan',
             'status_kelompok' => 'disetujui',
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
@@ -140,9 +154,10 @@ class PendaftaranController extends BaseController
             $paramMhs1 = [
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
-                // 'id_mahasiswa' => $request->id_mahasiswa1,
                 'id_topik_mhs' => $request->id_topik,
                 'status_individu' => 'disetujui',
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
             ];
             PendaftaranModel::updateKelompokMHS($request->id_mahasiswa1, $paramMhs1);
             $paramMhs2 = [
@@ -150,6 +165,8 @@ class PendaftaranController extends BaseController
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
                 'status_individu' => 'disetujui',
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
             ];
             PendaftaranModel::updateKelompokMHS($request->id_mahasiswa2, $paramMhs2);
             $paramMhs3 = [
@@ -157,26 +174,10 @@ class PendaftaranController extends BaseController
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
                 'status_individu' => 'disetujui',
+                'created_by'   => Auth::user()->user_id,
+                'created_date'  => date('Y-m-d H:i:s')
             ];
             PendaftaranModel::updateKelompokMHS($request->id_mahasiswa3, $paramMhs3);
-
-            // insert dosen
-            $paramDosen1 = [
-                'id_kelompok' => $id_kelompok,
-                'id_dosen' => $request->id_dosen1,
-                'status_dosen' => 'menunggu persetujuan',
-                'status_persetujuan' => 'menunggu persetujuan',
-                'status_dosen' => 'pembimbing 1',
-            ];
-            PendaftaranModel::insertDosenKelompok($paramDosen1);
-
-            $paramDosen2 = [
-                'id_kelompok' => $id_kelompok,
-                'id_dosen' => $request->id_dosen2,
-                'status_persetujuan' => 'menunggu persetujuan',
-                'status_dosen' => 'pembimbing 2',
-            ];
-            PendaftaranModel::insertDosenKelompok($paramDosen2);
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
