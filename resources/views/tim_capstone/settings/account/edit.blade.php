@@ -7,6 +7,8 @@
 
 @section('content')
             <link rel="stylesheet" href="{{ asset('ijaboCropTool/ijaboCropTool.min.css') }}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
             <div class="container-xxl flex-grow-1 container-p-y">
                 <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Pengaturan /</span> Profil Akun</h5>
                 <!-- notification -->
@@ -19,7 +21,15 @@
                             <div class="card  h-100">
                                 <div class="card-body text-center">
                                     <a href="#" class="btn-img-preview  mt-2 " data-img="{{ asset($account->user_img_path.$account->user_img_name) }}" data-bs-toggle="modal" data-bs-target="#modal-preview">
-                                        <img src="{{ asset($account->user_img_path.$account->user_img_name) }}" class="rounded-circle img-fluid" style="width: 60%;">
+                                        {{-- <img src="{{ asset($account->user_img_path.$account->user_img_name) }}" class="rounded-circle img-fluid" style="width: 60%;"> --}}
+                                        <a href="#" class="btn-img-preview  mt-2" data-img="{{ asset($account->user_img_path.$account->user_img_name) }}" data-bs-toggle="modal" data-bs-target="#modal-preview">
+                                            @if (!empty($account->user_img_name))
+                                                <img src="{{ asset($account->user_img_path.$account->user_img_name) }}" class="rounded-circle img-fluid" style="width: 60%;">
+                                            @else
+                                                <!-- Gambar default jika user_img_name kosong atau tidak ada -->
+                                                <img src="{{ asset('img/default.jpg') }}" class="rounded-circle img-fluid" style="width: 60%;">
+                                            @endif
+                                        </a>
                                     </a>
                                     <br><br><br>
                                     <input type="file" class="form-control" id="user_img" name="user_img" >
@@ -92,20 +102,38 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label>Password Saat Ini<span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" name="current_password" required>
+                                        {{-- <input type="password" class="form-control" name="current_password" required> --}}
+                                        <div class="input-group input-group-merge">
+                                            <input type="password" class="form-control" name="current_password" id="current_password" required>
+                                            <span class="input-group-text toggle-password" data-target="current_password">
+                                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label>Password Baru<span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" name="new_password" required>
+                                        {{-- <input type="password" class="form-control" name="new_password" required> --}}
+                                        <div class="input-group input-group-merge">
+                                            <input type="password" class="form-control" name="new_password" id="new_password" required>
+                                            <span class="input-group-text toggle-password" data-target="new_password">
+                                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
                                         <small class="form-text text-muted">Minimal 8 karakter, minimal mengandung angka dan huruf kapital.</small>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label>Ulangi Password Baru<span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" name="repeat_new_password" required>
+                                        {{-- <input type="password" class="form-control" name="repeat_new_password" required> --}}
+                                        <div class="input-group input-group-merge">
+                                            <input type="password" class="form-control" name="repeat_new_password" id="repeat_new_password" required>
+                                            <span class="input-group-text toggle-password" data-target="repeat_new_password">
+                                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
                                         <small class="form-text text-muted">Minimal 8 karakter, minimal mengandung angka dan huruf kapital.</small>
                                     </div>
                                 </div>
@@ -137,5 +165,30 @@
 
                 });
            </script>
+           <script>
+                // Fungsi untuk menangani toggle eye
+                function toggleEye(targetId) {
+                    var passwordInput = document.getElementById(targetId);
+                    var eyeIcon = document.querySelector('[data-target="' + targetId + '"] i');
+            
+                    if (passwordInput.type === "password") {
+                        passwordInput.type = "text";
+                        eyeIcon.classList.remove("fa-eye-slash");
+                        eyeIcon.classList.add("fa-eye");
+                    } else {
+                        passwordInput.type = "password";
+                        eyeIcon.classList.remove("fa-eye");
+                        eyeIcon.classList.add("fa-eye-slash");
+                    }
+                }
+            
+                // Menangani klik pada toggle eye
+                document.querySelectorAll('.toggle-password').forEach(function (toggle) {
+                    toggle.addEventListener('click', function () {
+                        var targetId = this.getAttribute('data-target');
+                        toggleEye(targetId);
+                    });
+                });
+            </script>
 
 @endsection
