@@ -17,6 +17,8 @@ class MahasiswaModel extends BaseModel
             ->get();
     }
 
+    
+
     // get data with pagination
     public static function getDataWithPagination()
     {

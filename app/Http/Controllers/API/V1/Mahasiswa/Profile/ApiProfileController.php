@@ -266,25 +266,31 @@ class ApiProfileController extends Controller
             if (ApiAccountModel::update($user->user_id, $params)) {
                 $userUpdated = ApiAccountModel::getById($user->user_id);
 
-                $userImageUrl = $this->getProfileImageUrl($user);
+                $userImageUrl = $this->getProfileImageUrl($userUpdated);
+
                 // Add the user_img_url to the user object
                 $userUpdated->user_img_url = $userImageUrl;
 
                 // Response for success
                 $response = [
                     'success' => true,
-                    'message' =>'Gagal',
+                    'message' =>'Berhasil',
                     'status' => 'Berhasil memperbaharui foto profil!',
                     'data' => $userUpdated,
                 ];
                 return response()->json($response);
             } else {
+                $userUpdated = ApiAccountModel::getById($user->user_id);
+                $userImageUrl = $this->getProfileImageUrl($userUpdated);
+
+                // Add the user_img_url to the user object
+                $userUpdated->user_img_url = $userImageUrl;
                 // Response for failure
                 $response = [
-                    'success' => true,
+                    'success' => false,
                     'message' =>'Gagal',
                     'status' => 'Gagal memperbaharui foto profil!',
-                    'data' => $user,
+                    'data' => $userUpdated,
                 ];
                 return response()->json($response);
             }

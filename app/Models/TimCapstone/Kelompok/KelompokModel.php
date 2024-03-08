@@ -104,12 +104,20 @@ class KelompokModel extends BaseModel
         ->where('id_mahasiswa', $id)
         ->delete();
     }
-    public static function deleteDosenMhs($id_dosen, $id)
+
+    public static function getKelompokById($id)
     {
-        return DB::table('dosen_kelompok')
-            ->where('id_kelompok', $id)
-            ->where('id_dosen', $id_dosen)
-            ->delete();
+        return DB::table('kelompok as a')
+            ->where('a.id', $id)
+            ->first();
+    }
+    public static function updateKelompok($id_dosen, $id, $params)
+    {
+        return DB::table('kelompok')
+            ->where('id', $id)
+            ->where('id_dosen_pembimbing_1', $id_dosen)
+            ->orwhere('id_dosen_pembimbing_2', $id_dosen)
+            ->update($params);
     }
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
@@ -135,26 +143,20 @@ class KelompokModel extends BaseModel
     // pengecekan Dosbing
     public static function listDosbing($id_kelompok)
     {
-        return DB::table('dosen_kelompok as a')
+        return DB::table('kelompok as a')
             ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
-            ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-            ->where('a.status_dosen','pembimbing 1')
-            ->where('a.id_kelompok', $id_kelompok)
-            ->orwhere('a.status_dosen', 'pembimbing 2')
-            ->where('a.id_kelompok', $id_kelompok)
+            ->join('app_user as b', 'a.id_dosen_pembimbing_1', 'b.user_id')
+            ->where('a.id', $id_kelompok)
             ->get();
     }
 
     public static function listDospenguji($id_kelompok)
     {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.status_dosen', 'penguji 1')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->orwhere('a.status_dosen', 'penguji 2')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
+            ->join('app_user as b', 'a.id_dosen_penguji_1', 'b.user_id')
+            ->where('a.id', $id_kelompok)
+            ->get();
     }
     // pengecekan Dosbing
     public static function listDosbingAvail()
@@ -168,12 +170,11 @@ class KelompokModel extends BaseModel
     // pengecekan Dosbing
     public static function checkDosbing($id_kelompok, $id_dosen)
     {
-        return DB::table('dosen_kelompok as a')
+        return DB::table('kelompok as a')
         ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->where('a.id_dosen', $id_dosen)
-        ->first();
+        ->join('app_user as b', 'a.id_dosen_pembimbing_1', 'b.user_id')
+        ->where('a.id', $id_kelompok)
+        ->get();
     }
 
     public static function checkStatusDosen($id_kelompok, $id_dosen)

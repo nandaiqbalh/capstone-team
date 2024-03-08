@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\Kelompok\KelompokModel;
+use App\Models\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -112,10 +113,12 @@ class KelompokController extends BaseController
         $rs_topik = KelompokModel::getTopik();
         $rs_mahasiswa = KelompokModel::listKelompokMahasiswa($id);
         $rs_mahasiswa_nokel = KelompokModel::listKelompokMahasiswaNokel($kelompok->id_topik);
-        $rs_dosbing = KelompokModel::listDosbing($id);
+        $rs_dosbing = MahasiswaKelompokModel::getAkunDosbingKelompok($id);
         $rs_dospenguji = KelompokModel::listDospenguji($id);
         $rs_dosbing_avail = KelompokModel::listDosbingAvail();
         $rs_dosbing_avail_arr = [];
+
+        // dd($rs_dosbing_avail);
 
         foreach ($rs_dosbing_avail as $key => $dosbing) {
             $check_dosen_kelompok = KelompokModel::checkDosbing($id, $dosbing->user_id);
@@ -125,8 +128,18 @@ class KelompokController extends BaseController
                 $rs_dosbing_avail_arr[] = $dosbing;
             }
         }
-        // dd($rs_dosbing_avail, $rs_dosbing_avail_arr);
 
+        foreach ($rs_dosbing as $dosbing) {
+
+            if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
+                $dosbing->jenis_dosen = 'Pembimbing 1';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
+            } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
+                $dosbing->jenis_dosen = 'Pembimbing 2';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
+            }
+
+        }
 
         // check
         if (empty($kelompok)) {
@@ -234,8 +247,28 @@ class KelompokController extends BaseController
         // authorize
         KelompokModel::authorize('D');
 
+
+        $kelompok = KelompokModel::getKelompokById($id);
+
+        $params ="";
+
+        if ($id_dosen == $kelompok -> id_dosen_pembimbing_1) {
+            $params = [
+                'id_dosen_pembimbing_1' => null,
+                'status_dosen_pembimbing_1' => null,
+            ];
+        } else if ($id_dosen == $kelompok -> id_dosen_pembimbing_2) {
+            $params = [
+                'id_dosen_pembimbing_2' => null,
+                'status_dosen_pembimbing_2' => null,
+            ];
+        } else {
+            $params = null;
+        }
+
+        // dd($params);
         // get data
-        $dosen = KelompokModel::deleteDosenMhs($id_dosen, $id);
+        $dosen = KelompokModel::updateKelompok($id_dosen, $id, $params);
 
         // if exist
         if (!empty($dosen)) {

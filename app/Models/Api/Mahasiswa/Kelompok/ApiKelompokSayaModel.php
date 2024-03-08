@@ -26,8 +26,6 @@ class ApiKelompokSayaModel extends ApiBaseModel
             ->select('a.id_kelompok','b.*','c.nama as nama_topik')
             ->leftjoin('kelompok as b','a.id_kelompok','b.id')
             ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
-            ->join('siklus as d', 'a.id_siklus', 'd.id')
-            ->where('d.status', 'aktif')
             ->where('a.id_mahasiswa', $user_id)
             ->first();
      }
@@ -96,6 +94,43 @@ class ApiKelompokSayaModel extends ApiBaseModel
             ->get();
     }
 
+    public static function getAkunDospengKelompok($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->join('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+            })
+            ->where('kelompok.id', '=', $id_kelompok)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
+                    WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
+    }
+
+    public static function getAkunDospengTa($user_id)
+    {
+        return DB::table('app_user')
+            ->join('kelompok_mhs', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta1')
+                    ->orOn('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta2');
+            })
+            ->where('kelompok_mhs.id_mahasiswa', '=', $user_id)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok_mhs.id_dosen_penguji_ta1 THEN 1
+                    WHEN app_user.user_id = kelompok_mhs.id_dosen_penguji_ta2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
+    }
+
+
     // get data with pagination
     public static function getDataWithPagination()
     {
@@ -143,7 +178,24 @@ class ApiKelompokSayaModel extends ApiBaseModel
     {
         return DB::table('siklus')
             ->where('status','aktif')
+            // ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
             ->get();
+    }
+
+    public static function getPeriodePendaftaranSiklus()
+    {
+        return DB::table('siklus')
+            ->where('status','aktif')
+            ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
+            ->get();
+    }
+
+    public static function checkApakahSiklusMasihAktif($id_siklus)
+    {
+        return DB::table('siklus')
+            ->where('status','aktif')
+            ->where('id', $id_siklus)
+            ->first();
     }
 
     // get data by id
@@ -161,6 +213,28 @@ class ApiKelompokSayaModel extends ApiBaseModel
     {
         return DB::table('kelompok')->insert($params);
     }
+
+    public static function updateKelompokById($id_kelompok, $params)
+    {
+    return DB::table('kelompok')
+        ->where('id', $id_kelompok)
+        ->update($params);
+    }
+
+    public static function getAllKelompokMhs($id_kelompok)
+    {
+        return DB::table('kelompok_mhs')
+            ->where('id_kelompok', $id_kelompok)
+            ->get();
+    }
+
+    public static function updateKelompokMhs($id_kelompok, $params)
+    {
+    return DB::table('kelompok_mhs')
+        ->where('id_kelompok', $id_kelompok)
+        ->update($params);
+    }
+
     public static function insertKelompokMHS($params)
     {
         return DB::table('kelompok_mhs')->insert($params);

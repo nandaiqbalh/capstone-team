@@ -165,10 +165,6 @@ class MahasiswaExpoModel extends BaseModel
     {
         return DB::table('topik_mhs')->insert($params);
     }
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
 
     public static function insertIDKelompok($params)
     {
