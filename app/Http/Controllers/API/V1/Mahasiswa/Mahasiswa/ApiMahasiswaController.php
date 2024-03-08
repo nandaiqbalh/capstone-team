@@ -61,7 +61,7 @@ class ApiMahasiswaController extends Controller
             ];
 
 
-            return response()->json($response, 401); // 401 Unauthorized
+            return response()->json($response);
         }
     }
 }

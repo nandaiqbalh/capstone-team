@@ -37,9 +37,6 @@ class ApiDosenController extends Controller
                     'status' => 'Berhasil mendapatkan data dosen!',
                     'data' => $data,
                 ];
-
-                // Return JSON response for the API
-                return response()->json($response);
             } else {
                 $response = [
                     'message' => 'Gagal',
@@ -47,9 +44,6 @@ class ApiDosenController extends Controller
                     'status' => 'Gagal mendapatkan data dosen!',
                     'data' => null,
                 ];
-
-
-                return response()->json($response); // 401 Unauthorized
             }
         } catch (JWTException $e) {
             $response = [
@@ -59,9 +53,8 @@ class ApiDosenController extends Controller
                 'data' => null,
             ];
 
-
-            return response()->json($response, 401); // 401 Unauthorized
         }
+        return response()->json($response);
     }
 
 }

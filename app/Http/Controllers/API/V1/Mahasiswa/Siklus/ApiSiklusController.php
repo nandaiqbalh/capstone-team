@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
 use App\Models\Api\Mahasiswa\Kelompok\ApiKelompokSayaModel;
-use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -30,17 +29,43 @@ class ApiSiklusController extends Controller
             try {
                 $rs_siklus = ApiKelompokSayaModel::getSiklusAktif();
 
-                // belum memiliki kelompok
-                $data = [
-                    'rs_siklus' => $rs_siklus,
-                ];
+                if($rs_siklus->isNotEmpty()){
 
-                $response = [
-                    'message' => 'OK',
-                    'status' => 'Berhasil mendapatkan data.',
-                    'success' => true,
-                    'data' => $data,
-                ];
+                    $periodePendaftaranCapstone = ApiKelompokSayaModel::getPeriodePendaftaranSiklus();
+
+                    if ($periodePendaftaranCapstone->isEmpty()) {
+                        $response = [
+                            'message' => 'OK',
+                            'status' => 'Belum memasuki periode pendaftaran capstone!',
+                            'success' => false,
+                            'data' => null,
+                        ];
+                    } else {
+                        $data = [
+                            'rs_siklus' => $rs_siklus,
+                            'periode_pendaftaran' => $periodePendaftaranCapstone
+                        ];
+
+                        $response = [
+                            'message' => 'OK',
+                            'status' => 'Berhasil mendapatkan data.',
+                            'success' => true,
+                            'data' => $data,
+                        ];
+
+                    }
+
+                } else {
+                    $response = [
+                        'message' => 'OK',
+                        'status' => 'Tidak ada siklus tidak aktif!',
+                        'success' => false,
+                        'data' => null,
+                    ];
+
+                }
+
+
             } catch (\Exception $e) {
                 $response = [
                     'message' => 'Internal Server Error',

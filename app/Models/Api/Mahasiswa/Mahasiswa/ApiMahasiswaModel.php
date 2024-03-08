@@ -14,6 +14,7 @@ class ApiMahasiswaModel extends ApiBaseModel
             ->select('a.*', 'c.role_name')
             ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
+            ->orderBy('a.user_name') // Sort the result by user_name
             ->get();
     }
 
@@ -25,6 +26,7 @@ class ApiMahasiswaModel extends ApiBaseModel
         ->leftJoin('kelompok_mhs as km', 'a.user_id', 'km.id_mahasiswa')
         ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
         ->whereNull('km.id_mahasiswa') // Pastikan user_id tidak terdapat pada kelompok_mhs
+        ->orderBy('a.user_name') // Sort the result by user_name
         ->get();
     }
 
@@ -41,21 +43,6 @@ class ApiMahasiswaModel extends ApiBaseModel
     // get search
     public static function getDataSearch($search)
     {
-
-        // return DB::table('app_user as a')
-        // ->select('a.*', 'c.role_name')
-        // ->join('app_role_user as b', 'a.id', 'b.id')
-        // ->join('app_role as c', 'b.role_id', 'c.role_id')
-        // ->where('c.role_id', '03')
-        // ->where('a.user_name', 'LIKE', "%" . $search . "%")
-        // // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-        // ->paginate(20)->withQueryString();
-
-        // return DB::table('app_user as a')
-        // ->select('a.*', 'c.role_name')
-        // ->join('app_role as c', 'a.role_id', 'c.role_id')
-        // ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
-        // ->paginate(20);
 
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
@@ -87,11 +74,6 @@ class ApiMahasiswaModel extends ApiBaseModel
     {
         return DB::table('app_user')->insert($params);
     }
-
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
 
     public static function update($user_id, $params)
     {

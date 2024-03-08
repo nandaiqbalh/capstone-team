@@ -75,7 +75,7 @@
                             </table>
                         </div>
                         <br>
-                    @if ($rs_peminatan->count() > 0)
+                    @if ($mahasiswa->id_peminatan_individu1 != null && $mahasiswa->id_peminatan_individu2 != null && $mahasiswa->id_peminatan_individu3 != null && $mahasiswa->id_peminatan_individu4 != null )
 
                     <p>Peminatan</p>
                     <div class="table-responsive text-nowrap">
@@ -91,7 +91,7 @@
                                 @foreach($rs_peminatan as $index => $peminatan)
                                 <tr>
                                     <td class="text-center">{{ $index + 1 }}.</td>
-                                    <td>{{ $peminatan->peminatan }}</td>
+                                    <td>{{ $peminatan->nama_peminatan }}</td>
                                     <td>{{ $peminatan->prioritas }}</td>
                                 </tr>
                                 @endforeach
@@ -102,7 +102,7 @@
                     </div>
 
                     {{-- upload file mhs  --}}
-                                        <div class="row">
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="card-body">
                                 <div class="card">

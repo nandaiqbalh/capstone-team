@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
 
@@ -33,12 +31,12 @@ class ApiLoginController extends Controller
 
          if ($validator->fails()) {
              // Return validation error response
-             return response()->json([
+             $response = [
                  'message' => 'Gagal',
                  'success' => false,
                  'status' => $validator->errors()->first(),
                  'data' => null,
-             ]);
+             ];
          }
 
          // Attempt authentication manually
@@ -50,12 +48,12 @@ class ApiLoginController extends Controller
                  $token = JWTAuth::attempt($request->only('nomor_induk', 'password'));
 
                  if (!$token) {
-                     return response()->json([
+                     $response = [
                          'message' => 'Gagal',
                          'success' => false,
                          'status' => 'Nomor Induk atau Password tidak valid.',
                          'data' => null,
-                     ]);
+                     ];
                  }
 
                  $user->api_token = $token;
@@ -63,30 +61,31 @@ class ApiLoginController extends Controller
                  $userImageUrl = $this->getProfileImageUrl($user);
                  // Add the user_img_url to the user object
                  $user->user_img_url = $userImageUrl;
-                 // Return success response
-                 return response()->json([
+
+                 $response = [
                      'message' => 'Berhasil',
                      'success' => true,
                      'status' => 'Authentikasi berhasil.',
                      'data' => $user,
-                 ]);
+                 ];
              } catch (JWTException $e) {
-                 return response()->json([
+                 $response = [
                      'message' => 'Gagal',
                      'success' => false,
                      'status' => 'Gagal membuat token!.',
                      'data' => null,
-                 ]);
+                 ];
              }
          } else {
              // Return error response
-             return response()->json([
+             $response = [
                 'message' => 'Authentikasi gagal.',
                 'success' => false,
                  'status' => 'Nomor Induk atau Password tidak valid.',
                  'data' => null,
-             ]);
+             ];
          }
+         return response()->json($response);
      }
 
      private function getProfileImageUrl($user)

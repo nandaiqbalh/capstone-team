@@ -35,10 +35,6 @@ class ApiUploadFileModel extends ApiBaseModel
         ->select('a.*', 'b.*','c.nama as nama_topik')
         ->leftjoin('kelompok as b','a.id_kelompok','b.id')
         ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
-        // ->where(function ($query) {
-        //     $query->where('a.status_individu', 'menuggu persetujuan')
-        //         ->orWhere('a.status_individu', 'disetujui');
-        // })
         ->where('a.id_mahasiswa', Auth::user()->user_id)
         ->first();
     }
@@ -78,15 +74,6 @@ class ApiUploadFileModel extends ApiBaseModel
         ->get();
     }
 
-    // pengecekan kelompok
-    public static function getAkunDosbingKelompok($id_kelompok)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk' )
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
-    }
 
     // get data with pagination
     public static function getDataWithPagination()
@@ -157,10 +144,6 @@ class ApiUploadFileModel extends ApiBaseModel
     {
         return DB::table('topik_mhs')->insert($params);
     }
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
 
     public static function uploadFileMHS($id_mahasiswa, $params)
     {
