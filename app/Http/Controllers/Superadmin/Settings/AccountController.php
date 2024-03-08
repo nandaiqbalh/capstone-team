@@ -69,25 +69,45 @@ class AccountController extends BaseController
     //     }
     // }
     public function ImgCrop(Request $request)
-{
-    $path = public_path($this->upload_path);
-    $file = $request->file('user_img');
+    {
+        $path = public_path($this->upload_path);
+        $file = $request->file('user_img');
 
-    // Periksa apakah pengguna sudah memiliki foto sebelumnya
-    $account = Account::getById(Auth::user()->user_id);
+        // Periksa apakah pengguna sudah memiliki foto sebelumnya
+        $account = Account::getById(Auth::user()->user_id);
 
-    if ($account->user_img_name && $account->user_img_name != 'default.png') {
-        // Pengguna telah mengunggah foto sebelumnya, lakukan update
-        $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
+        if ($account->user_img_name && $account->user_img_name != 'default.png') {
+            // Pengguna telah mengunggah foto sebelumnya, lakukan update
+            $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
 
-        // Hapus foto lama
-        $old_img = public_path($this->upload_path) . $account->user_img_name;
-        if (file_exists($old_img)) {
-            unlink($old_img);
+            // Hapus foto lama
+            $old_img = public_path($this->upload_path) . $account->user_img_name;
+            if (file_exists($old_img)) {
+                unlink($old_img);
+            }
+        } else {
+            // Pengguna belum pernah mengunggah foto, buat nama file baru
+            $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
         }
-    } else {
-        // Pengguna belum pernah mengunggah foto, buat nama file baru
-        $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
+
+        // Pindahkan file baru
+        $upload = $file->move($path, $new_image_name);
+
+        if ($upload) {
+            $params = [
+                'user_img_path' => $this->upload_path,
+                'user_img_name' => $new_image_name,
+                'modified_by'   => Auth::user()->user_id,
+                'modified_date' => date('Y-m-d H:i:s')
+            ];
+
+            // Perbarui informasi foto pengguna
+            Account::update(Auth::user()->user_id, $params);
+
+            return response()->json(['status' => 1, 'msg' => 'Foto berhasil diunggah.', 'name' => $new_image_name]);
+        } else {
+            return response()->json(['status' => 0, 'msg' => 'Upload foto gagal']);
+        }
     }
 
     // Pindahkan file baru

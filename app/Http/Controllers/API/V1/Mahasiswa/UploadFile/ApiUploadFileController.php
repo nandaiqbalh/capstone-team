@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 use Barryvdh\DomPDF\Facade as PDF;
 
@@ -19,418 +20,333 @@ class ApiUploadFileController extends Controller
 
     public function index(Request $request)
     {
-        // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        try {
+            // Check if the token is still valid
+            JWTAuth::checkOrFail();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            $response = [
-                'status' => false,
-                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                'data' => null,
-            ];
-            return response()->json($response, ); // 400 Bad Request
-        }
+            // Get the user from the JWT token in the request headers
+            $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $userId = $request->input('user_id');
-        $user = ApiAccountModel::getById($userId);
+            $user = ApiAccountModel::getById($jwtUser->user_id);
 
-        // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('R', $userId);
+            // Check if the user exists
+            if ($user != null && $user->user_active == 1) {
+                try {
 
-                if (!$isAuthorized) {
-                    $response = [
-                        'status' => false,
-                        'message' => 'Akses tidak sah!',
-                        'data' => null,
-                    ];
-                    return response()->json($response, );
-                } else {
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // Data
+                    // get data kelompok
+                    $file_mhs = ApiUploadFileModel::fileMHS($user->user_id);
 
-                        try {
-                            // get data kelompok
-                            $file_mhs = ApiUploadFileModel::fileMHS($user ->user_id);
+                    // data
+                    $data = ['file_mhs' => $file_mhs];
 
-                            // data
-                            $data = ['file_mhs' => $file_mhs];
+                    if ($file_mhs != null) {
 
-                            // response
-                            return response()->json(['status' => true, 'message' => "Berhasil mendapatkan data.", 'data' => $data]);
-                        } catch (\Exception $e) {
-                            // handle unexpected errors
-                            return response()->json(['status' => false, 'message' => $e->getMessage()]);
-                        }
+                        $file_mhs -> file_url_c100 = $this->getDokumenUrl($file_mhs -> file_path_c100, $file_mhs -> file_name_c100);
+                        $file_mhs -> file_url_c200 = $this->getDokumenUrl($file_mhs -> file_path_c200, $file_mhs -> file_name_c200);
+                        $file_mhs -> file_url_c300 = $this->getDokumenUrl($file_mhs -> file_path_c300, $file_mhs -> file_name_c300);
+                        $file_mhs -> file_url_c400 = $this->getDokumenUrl($file_mhs -> file_path_c400, $file_mhs -> file_name_c400);
+                        $file_mhs -> file_url_c500 = $this->getDokumenUrl($file_mhs -> file_path_c500, $file_mhs -> file_name_c500);
+                        $file_mhs -> file_url_laporan_ta = $this->getDokumenUrl($file_mhs -> file_path_laporan_ta, $file_mhs -> file_name_laporan_ta);
+                        $file_mhs -> file_url_makalah = $this->getDokumenUrl($file_mhs -> file_path_makalah, $file_mhs -> file_name_makalah);
+
+                        $response = [
+                            'message' => 'OK',
+                            'status' => 'Berhasil mendapatkan dokumen mahasiswa.',
+                            'success' => true,
+                            'data' => $data,
+                        ];
                     } else {
                         $response = [
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
+                            'status' => 'Kelompok anda belum valid.',
+                            'message' => 'Gagal mendapatkan dokumen mahasiswa.',
+                            'success' => false,
                             'data' => null,
                         ];
-                        return response()->json($response, ); // 401 Unauthorized
                     }
+
+                } catch (\Exception $e) {
+                    // handle unexpected errors
+                    $response = [
+                        'status' => 'Gagal mendapatkan dokumen mahasiswa.',
+                        'message' => 'Pengguna tidak ditemukan!',
+                        'success' => false,
+                        'data' => null,
+                    ];
                 }
+            } else {
+                $response = [
+                    'status' => 'Gagal mendapatkan dokumen mahasiswa.',
+                    'message' => 'Pengguna tidak ditemukan!',
+                    'success' => false,
+                    'data' => null,
+                ];
             }
-        } else {
-            // User not found or api_token is null
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = [
-                'status' => false,
-                'message' => 'Pengguna tidak ditemukan!',
+                'status' => 'Gagal. Autentikasi tidak berhasil.',
+                'message' => 'Gagal mengambil data!',
+                'success' => false,
                 'data' => null,
             ];
-            return response()->json($response, ); // 401 Unauthorized
         }
+
+        return response()->json($response);
     }
+
 
     public function uploadMakalahProcess(Request $request)
     {
-        // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        try {
+            // Check if the token is still valid
+            JWTAuth::checkOrFail();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-            ], ); // 400 Bad Request
-        }
+            // Get the user from the JWT token in the request headers
+            $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $userId = $request->input('user_id');
-        $user = ApiAccountModel::getById($userId);
+            $user = ApiAccountModel::getById($jwtUser->user_id);
 
-        // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('C', $userId);
+            // Check if the user exists
+            if ($user != null && $user->user_active == 1) {
 
-                if (!$isAuthorized) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Akses tidak sah!',
-                    ], );
-                } else {
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // Validate the request
-                        $validator = Validator::make($request->all(), [
-                            'makalah' => 'required|file|mimes:pdf|max:10240',
-                            'id_mahasiswa' => 'required|exists:kelompok_mhs,id_mahasiswa',
-                        ]);
+                // Validate the request
+                $validator = Validator::make($request->all(), [
+                    'makalah' => 'required|file|mimes:pdf|max:10240',
+                ]);
 
-                        // Check if validation fails
-                        if ($validator->fails()) {
-                            return response()->json([
-                                'status' => false,
-                                'message' => 'Validation error',
-                                'errors' => $validator->errors(),
-                            ], );
-                        }
-
-                        // Upload path
-                        $uploadPath = '/file/mahasiswa/makalah';
-
-                        // Upload FOTO
-                        if ($request->hasFile('makalah')) {
-                            $file = $request->file('makalah');
-
-                            $file_extention = pathinfo(
-                                $file->getClientOriginalName(),
-                                PATHINFO_EXTENSION
-                            );
-
-                            // Generate a unique file name
-                            $newFileName  = 'makalah' . Str::slug($request->nama_mahasiswa, '-') . '-' . uniqid() . '.' . $file_extention;
-
-                            // Check if the folder exists, if not, create it
-                            if (!is_dir(public_path($uploadPath))) {
-                                mkdir(public_path($uploadPath), 0755, true);
-                            }
-
-                            // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::fileMHS($request->id_mahasiswa);
-
-                            // Check if the file exists
-                            if ($existingFile -> file_name_makalah != null) {
-                                // Construct the file path
-                                $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
-
-                                // Check if the file exists before attempting to delete
-                                if (file_exists($filePath)) {
-                                    // Attempt to delete the file
-                                    if (!unlink($filePath)) {
-                                        // Return failure response if failed to delete the existing file
-                                        return response()->json([
-                                            'status' => false,
-                                            'message' => 'Gagal menghapus file lama.',
-                                        ], );
-                                    }
-                                }
-                            }
-
-                            // Move the uploaded file to the specified path
-                            if ($file->move(public_path($uploadPath), $newFileName)) {
-                                // Save the new file details in the database
-                                $params = [
-                                    'file_name_makalah' => $newFileName,
-                                    'file_path_makalah' => $uploadPath,
-                                ];
-
-                                $uploadFile = ApiUploadFileModel::uploadFileMHS($request->id_mahasiswa, $params);
-
-                                if ($uploadFile) {
-                                    // Return success response
-                                    return response()->json([
-                                        'status' => true,
-                                        'message' => 'Data berhasil disimpan.',
-                                    ], );
-                                } else {
-                                    // Return failure response if failed to save new file details
-                                    return response()->json([
-                                        'status' => false,
-                                        'message' => 'Gagal menyimpan file.',
-                                    ], );
-                                }
-                            } else {
-                                // Return failure response if failed to move the uploaded file
-                                return response()->json([
-                                    'status' => false,
-                                    'message' => 'Makalah gagal diupload.',
-                                ], );
-                            }
-                        }
-
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Makalah tidak ditemukan.',
-                        ], );
-                    } else {
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                        ], ); // 401 Unauthorized
-                    }
+                // Check if validation fails
+                if ($validator->fails()) {
+                    $response = [
+                        'status' => 'Gagal. Validasi dokumen tidak berhasil.',
+                        'message' => 'Gagal',
+                        'success' => false,
+                        'data' => null,
+                    ];
                 }
+
+                // Upload path
+                $uploadPath = '/file/mahasiswa/makalah';
+
+                // Upload
+                if ($request->hasFile('makalah')) {
+                    $file = $request->file('makalah');
+
+                    // Generate a unique file name
+                    $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                    // Check if the folder exists, if not, create it
+                    if (!is_dir(public_path($uploadPath))) {
+                        mkdir(public_path($uploadPath), 0755, true);
+                    }
+
+                    // Check and delete the existing file
+                    $existingFile = ApiUploadFileModel::fileMHS($user ->user_id);
+
+                    if ($existingFile->file_name_makalah) {
+                        $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
+
+                        if (file_exists($filePath) && !unlink($filePath)) {
+                            $response = [
+                                'status' => 'Gagal menghapus dokumen lama.',
+                                'message' => 'Gagal',
+                                'success' => false,
+                                'data' => null,
+                            ];
+                        }
+                    }
+
+                    // Move the uploaded file to the specified path
+                    if ($file->move(public_path($uploadPath), $newFileName)) {
+                        // Save the new file details in the database
+                        $urlMakalah = url($uploadPath . '/' . $newFileName);
+
+                        $params = [
+                            'file_name_makalah' => $newFileName,
+                            'file_path_makalah' => $uploadPath,
+                        ];
+
+                        $uploadFile = ApiUploadFileModel::uploadFileMHS($user->user_id, $params);
+
+                        if ($uploadFile) {
+                            $response = [
+                                'status' => 'Berhasil. Dokumen berhasil diunggah',
+                                'message' => 'Berhasil',
+                                'success' => true,
+                                'data' => $urlMakalah,
+                            ];
+                        } else {
+                            // Return failure response if failed to save new file details
+                            $response = [
+                                'status' => 'Gagal. Dokumen gagal diunggah.',
+                                'message' => 'Gagal',
+                                'success' => false,
+                                'data' => null,
+                            ];
+                        }
+                    } else {
+                        // Return failure response if failed to move the uploaded file
+                        $response = [
+                            'status' => 'Gagal. Dokumen gagal diunggah.',
+                            'message' => 'Gagal',
+                            'success' => false,
+                            'data' => null,
+                        ];
+                    }
+                } else {
+                    $response = [
+                        'status' => 'Gagal. Validasi dokumen tidak berhasil.',
+                        'message' => 'Dokumen tidak ditemukan!',
+                        'success' => false,
+                        'data' => null,
+                    ];
+                }
+
+            } else {
+                $response = [
+                    'status' => 'Gagal. Pengguna tidak ditemukan.',
+                    'message' => 'Pengguna tidak ditemukan!',
+                    'success' => false,
+                    'data' => null,
+                ];
             }
-        } else {
-            // User not found or api_token is null
-            return response()->json([
-                'status' => false,
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            $response = [
+                'status' => 'Gagal. Autentikasi tidak berhasil!',
                 'message' => 'Pengguna tidak ditemukan!',
-            ], ); // 401 Unauthorized
+                'success' => false,
+                'data' => null,
+            ];
         }
+
+        return response()->json($response);
     }
 
     public function uploadLaporanProcess(Request $request)
     {
-        // Get api_token from the request body
-        $apiToken = $request->input('api_token');
+        try {
+            // Check if the token is still valid
+            JWTAuth::checkOrFail();
 
-        // Check if api_token is provided
-        if (empty($apiToken)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-            ], );
-        }
+            // Get the user from the JWT token in the request headers
+            $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $userId = $request->input('user_id');
-        $user = ApiAccountModel::getById($userId);
+            $user = ApiAccountModel::getById($jwtUser->user_id);
 
-        // Check if the user exists
-        if ($user != null) {
-            // Attempt to authenticate the user based on api_token
-            if ($user->api_token != null) {
-                // Authorize
-                $isAuthorized = ApiAccountModel::authorize('C', $userId);
+            // Check if the user exists
+            if ($user != null && $user->user_active == 1) {
 
-                if (!$isAuthorized) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Akses tidak sah!',
-                    ], );
-                } else {
-                    // Check if the provided api_token matches the user's api_token
-                    if ($user->api_token == $apiToken) {
-                        // Validate the request
-                        $validator = Validator::make($request->all(), [
-                            'laporan_ta' => 'required|file|mimes:pdf|max:10240',
-                            'id_mahasiswa' => 'required|exists:kelompok_mhs,id_mahasiswa',
-                        ]);
+                // Validate the request
+                $validator = Validator::make($request->all(), [
+                    'laporan_ta' => 'required|file|mimes:pdf|max:10240',
+                ]);
 
-                        // Check if validation fails
-                        if ($validator->fails()) {
-                            return response()->json([
-                                'status' => false,
-                                'message' => 'Validation error',
-                                'errors' => $validator->errors(),
-                            ], );
-                        }
+                // Check if validation fails
+                if ($validator->fails()) {
+                    $response = [
+                        'status' => 'Gagal. Validasi dokumen tidak berhasil.',
+                        'message' => 'Gagal',
+                        'success' => false,
+                        'data' => null,
+                    ];
+                }
 
-                        // Upload path
-                        $uploadPath = '/file/mahasiswa/laporan-ta';
+                // Upload path
+                $uploadPath = '/file/mahasiswa/laporan-ta';
 
-                        // Upload Laporan TA
-                        if ($request->hasFile('laporan_ta')) {
-                            $file = $request->file('laporan_ta');
+                // Upload
+                if ($request->hasFile('laporan_ta')) {
+                    $file = $request->file('laporan_ta');
 
-                            // Generate a unique file name
-                            $newFileName = 'laporan_ta_' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    // Generate a unique file name
+                    $newFileName = 'laporan_ta-' . Str::slug($user ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-                            // Check if the folder exists, if not, create it
-                            if (!is_dir(public_path($uploadPath))) {
-                                mkdir(public_path($uploadPath), 0755, true);
-                            }
+                    // Check if the folder exists, if not, create it
+                    if (!is_dir(public_path($uploadPath))) {
+                        mkdir(public_path($uploadPath), 0755, true);
+                    }
 
-                            // Check and delete the existing file
-                            $existingFile = ApiUploadFileModel::fileMHS($request->id_mahasiswa);
+                    // Check and delete the existing file
+                    $existingFile = ApiUploadFileModel::fileMHS($user ->user_id);
 
-                            // Check if the file exists
-                            if ($existingFile -> file_name_laporan_ta != null) {
-                                // Construct the file path
-                                $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
+                    if ($existingFile->file_name_laporan_ta) {
+                        $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
 
-                                // Check if the file exists before attempting to delete
-                                if (file_exists($filePath)) {
-                                    // Attempt to delete the file
-                                    if (!unlink($filePath)) {
-                                        // Return failure response if failed to delete the existing file
-                                        return response()->json([
-                                            'status' => false,
-                                            'message' => 'Gagal menghapus file lama.',
-                                        ], );
-                                    }
-                                }
-                            }
-
-                            // Move the uploaded file to the specified path
-                            try {
-                                $file->move(public_path($uploadPath), $newFileName);
-                            } catch (\Exception $e) {
-                                return response()->json([
-                                    'status' => false,
-                                    'message' => 'Laporan gagal diupload.',
-                                ], );
-                            }
-
-                            // Save the file details in the database
-                            $params = [
-                                'file_name_laporan_ta' => $newFileName,
-                                'file_path_laporan_ta' => $uploadPath,
+                        if (file_exists($filePath) && !unlink($filePath)) {
+                            $response = [
+                                'status' => 'Gagal menghapus dokumen lama.',
+                                'message' => 'Gagal',
+                                'success' => false,
+                                'data' => null,
                             ];
-
-                            $uploadFile = ApiUploadFileModel::uploadFileMHS($request->id_mahasiswa, $params);
-
-                            if ($uploadFile) {
-                                return response()->json([
-                                    'status' => true,
-                                    'message' => 'Data berhasil disimpan.',
-                                ], );
-                            } else {
-                                return response()->json([
-                                    'status' => false,
-                                    'message' => 'Gagal menyimpan file.',
-                                ],);
-                            }
                         }
+                    }
 
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Laporan tidak ditemukan.',
-                        ], );
+                    // Move the uploaded file to the specified path
+                    if ($file->move(public_path($uploadPath), $newFileName)) {
+                        // Save the new file details in the database
+                        $urlDokumen = url($uploadPath . '/' . $newFileName);
+
+                        $params = [
+                            'file_name_laporan_ta' => $newFileName,
+                            'file_path_laporan_ta' => $uploadPath,
+                        ];
+
+                        $uploadFile = ApiUploadFileModel::uploadFileMHS($user->user_id, $params);
+
+                        if ($uploadFile) {
+                            $response = [
+                                'status' => 'Berhasil. Dokumen berhasil diunggah',
+                                'message' => 'Berhasil',
+                                'success' => true,
+                                'data' => $urlDokumen,
+                            ];
+                        } else {
+                            // Return failure response if failed to save new file details
+                            $response = [
+                                'status' => 'Gagal. Dokumen gagal diunggah.',
+                                'message' => 'Gagal',
+                                'success' => false,
+                                'data' => null,
+                            ];
+                        }
                     } else {
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                        ], );
+                        // Return failure response if failed to move the uploaded file
+                        $response = [
+                            'status' => 'Gagal. Dokumen gagal diunggah.',
+                            'message' => 'Gagal',
+                            'success' => false,
+                            'data' => null,
+                        ];
                     }
                 }
+
+            } else {
+                $response = [
+                    'status' => 'Gagal. Pengguna tidak ditemukan.',
+                    'message' => 'Pengguna tidak ditemukan!',
+                    'success' => false,
+                    'data' => null,
+                ];
             }
-        } else {
-            // User not found or api_token is null
-            return response()->json([
-                'status' => false,
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            $response = [
+                'status' => 'Gagal. Autentikasi tidak berhasil!',
                 'message' => 'Pengguna tidak ditemukan!',
-            ], );
+                'success' => false,
+                'data' => null,
+            ];
         }
+
+        return response()->json($response);
     }
 
-    public function viewPdf(Request $request)
+    private function getDokumenUrl($path, $name)
     {
-         // Get api_token from the request body
-         $apiToken = $request->input('api_token');
+        if (!empty($name)) {
+            $dokumenUrl = url($path . '/'. $name);
+        } else {
+            $dokumenUrl = null;
+        }
 
-         // Check if api_token is provided
-         if (empty($apiToken)) {
-             return response()->json([
-                 'status' => false,
-                 'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-             ], );
-         }
-
-         $userId = $request->input('user_id');
-         $user = ApiAccountModel::getById($userId);
-
-         // Check if the user exists
-         if ($user != null) {
-             // Attempt to authenticate the user based on api_token
-             if ($user->api_token != null) {
-                 // Authorize
-                 $isAuthorized = ApiAccountModel::authorize('C', $userId);
-
-                 if (!$isAuthorized) {
-                     return response()->json([
-                         'status' => false,
-                         'message' => 'Akses tidak sah!',
-                     ], );
-                 } else {
-                     // Check if the provided api_token matches the user's api_token
-                     if ($user->api_token == $apiToken) {
-
-                        $filename = $request->input('filename');
-                        $filepath = $request->input('filepath');
-
-                        $storagePath = $filepath . $filename;
-
-                        // Check if the file exists in storage
-                        if (file_exists($storagePath)) {
-                            // Read the file contents into a string
-                            $fileContents = File::get($storagePath);
-
-                            // Convert the string to base64
-                            $base64File = base64_encode($fileContents);
-
-                            return response()->json([
-                                'status' => true,
-                                'message' => 'Berhasil mendapatkan file PDF!',
-                                'data' => $base64File,
-                            ], );
-                        } else {
-                            // If file not found, return a 404 response
-                            return response()->json(['status' => false, 'message' => 'File tidak ditemukan'], );
-                        }
-                     } else {
-                         return response()->json([
-                             'status' => false,
-                             'message' => 'Gagal! Anda telah masuk melalui perangkat lain.',
-                         ], );
-                     }
-                 }
-             }
-         } else {
-             // User not found or api_token is null
-             return response()->json([
-                 'status' => false,
-                 'message' => 'Pengguna tidak ditemukan!',
-             ], );
-         }
+        return $dokumenUrl;
     }
-
 }
