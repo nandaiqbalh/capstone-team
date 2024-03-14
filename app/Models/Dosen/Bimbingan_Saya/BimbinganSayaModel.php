@@ -19,14 +19,10 @@ class BimbinganSayaModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.nama as nama_topik', 'c.status_dosen','c.status_persetujuan', 'c.id as id_dosen_kelompok')
+            ->select('a.*','b.nama as nama_topik')
             ->join('topik as b','a.id_topik','b.id')
-            ->join('dosen_kelompok as c','a.id','c.id_kelompok')
-            ->where('c.id_dosen', Auth::user()->user_id)
-            ->where(function ($query) {
-                $query->where('c.status_dosen', 'pembimbing 1')
-                    ->orWhere('c.status_dosen', 'pembimbing 2');
-            })
+            ->where('a.id_dosen_pembimbing_1', Auth::user()->user_id)
+            ->orWhere('a.id_dosen_pembimbing_2', Auth::user()->user_id)
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -61,7 +57,7 @@ class BimbinganSayaModel extends BaseModel
     }
     public static function update($id, $params)
     {
-        return DB::table('dosen_kelompok')->where('id', $id)->update($params);
+        return DB::table('kelompok')->where('id', $id)->update($params);
     }
 
 

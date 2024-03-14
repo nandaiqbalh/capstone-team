@@ -17,6 +17,8 @@ class MahasiswaModel extends BaseModel
             ->get();
     }
 
+    
+
     // get data with pagination
     public static function getDataWithPagination()
     {
@@ -63,14 +65,11 @@ class MahasiswaModel extends BaseModel
             ->where('user_id', $user_id)->first();
     }
 
-    public static function peminatan($user_id)
+    public static function peminatanMahasiswa()
     {
         return DB::table('peminatan')
-            ->where('id_mahasiswa', $user_id)
-            ->orderBy('prioritas')
             ->get();
     }
-
 
     public static function insertmahasiswa($params)
     {

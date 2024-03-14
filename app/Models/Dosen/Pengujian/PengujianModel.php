@@ -19,15 +19,11 @@ class PengujianModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik', 'c.status_dosen', 'c.status_persetujuan', 'c.id as id_dosen_kelompok', 'd.tanggal_mulai', 'd.waktu', 'd.ruangan_id')
+            ->select('a.*', 'b.nama as nama_topik')
             ->join('topik as b', 'a.id_topik', 'b.id')
-            ->join('dosen_kelompok as c', 'a.id', 'c.id_kelompok')
             ->join('jadwal_sidang_proposal as d', 'a.id', 'd.id_kelompok')
-            ->where('c.id_dosen', Auth::user()->user_id)
-            ->where(function ($query) {
-                $query->where('c.status_dosen', 'penguji 1')
-                    ->orWhere('c.status_dosen', 'penguji 2');
-            })
+            ->where('a.id_dosen_penguji_1', Auth::user()->user_id)
+            ->orWhere('a.id_dosen_penguji_2', Auth::user()->user_id)
             ->orderByDesc('a.id')
             ->paginate(20);
     }

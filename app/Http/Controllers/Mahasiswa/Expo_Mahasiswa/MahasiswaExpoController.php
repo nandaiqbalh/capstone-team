@@ -25,7 +25,6 @@ class MahasiswaExpoController extends BaseController
         // authorize
         MahasiswaExpoModel::authorize('R');
         $cekExpo = MahasiswaExpoModel::cekExpo();
-        // dd($cekExpo, Auth::user()->user_id);
 
         $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
         // get data expo

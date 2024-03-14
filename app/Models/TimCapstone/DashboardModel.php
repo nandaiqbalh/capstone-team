@@ -34,7 +34,7 @@ class DashboardModel extends BaseModel
     public static function getJadwalSidang()
     {
         return DB::table('jadwal_sidang_proposal as a')
-            ->select('a.tanggal_mulai', 'a.waktu')
+            ->select('a.waktu')
             ->join('siklus as b', 'a.siklus_id', 'b.id')
             ->join('kelompok as c','a.id_kelompok','c.id')
             ->join('kelompok_mhs as d', 'c.id', 'd.id_kelompok')

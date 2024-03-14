@@ -24,20 +24,6 @@ class ApiBroadcastModel extends Model
         return DB::table('broadcast')->orderBy('created_date', 'desc')->paginate(3);
     }
 
-
-
-    // get search
-    public static function getDataSearch($search)
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            ->paginate(20)->withQueryString();
-
-    }
-
     // get data by id
     public static function getDataById($id)
     {

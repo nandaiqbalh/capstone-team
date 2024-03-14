@@ -171,8 +171,8 @@
                             <td class="text-center">{{ $index + 1 }}.</td>
                             <td>{{ $dosbing->user_name }}</td>
                             <td>{{ $dosbing->nomor_induk }}</td>
+                            <td>{{ $dosbing->jenis_dosen }}</td>
                             <td>{{ $dosbing->status_dosen }}</td>
-                            <td>{{ $dosbing->status_persetujuan }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/dosen/detail') }}/{{ $dosbing->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $dosbing->user_name }} ?')"> Hapus</a>

@@ -330,9 +330,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
-    Route::get('/dosen/bimbingan-saya/terimatest/{id_dosen_kelompok}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
-    Route::get('/dosen/bimbingan-saya/tolaktest/{id_dosen_kelompok}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
-    
+    Route::get('/dosen/bimbingan-saya/terimatest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
+    Route::get('/dosen/bimbingan-saya/tolaktest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
+
 
     //halaman dosen
     Route::get('/dosen/pengujian', [PengujianController::class, 'index']);

@@ -8,67 +8,35 @@ use Illuminate\Http\Request;
 
 class ApiBroadcastController extends Controller
 {
-
     public function index()
-{
-    try {
-        // Get data with pagination
-        $rs_broadcast = ApiBroadcastModel::getDataWithPagination();
+    {
+        try {
+            $rs_broadcast = ApiBroadcastModel::getDataWithPagination();
+            $this->addImageUrlToBroadcasts($rs_broadcast);
 
-        foreach ($rs_broadcast as $key => $broadcast) {
-            $rs_broadcast[$key]->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
+            $response = $this->successResponse('Berhasil mendapatkan data.', ['rs_broadcast' => $rs_broadcast]);
+
+            return response()->json($response);
+        } catch (\Exception $e) {
+            $response = $this->failureResponse('Error mendapatkan data.');
+
+            return response()->json($response);
         }
-
-        // Return JSON response with successful status
-        $response = [
-            'status' => true,
-            'message' => 'Berhasil mendapatkan data.',
-            'data' => ['rs_broadcast' => $rs_broadcast],
-        ];
-
-        return response()->json($response);
-    } catch (\Exception $e) {
-        // Handle any exceptions
-        $response = [
-            'status' => false,
-            'message' => 'Error mendapatkan data.',
-            'data' => null,
-        ];
-
-        return response()->json($response); // 500 Internal Server Error
     }
-}
-
-
-
 
     public function broadcastHome()
     {
         try {
-            // Get data with pagination
             $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
+            $this->addImageUrlToBroadcasts($rs_broadcast);
 
-            foreach ($rs_broadcast as $key => $broadcast) {
-                $rs_broadcast[$key]->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
-            }
-
-            // Return JSON response with successful status
-            $response = [
-                'status' => true,
-                'message' => 'Berhasil mendapatkan data.',
-                'data' => ['rs_broadcast' => $rs_broadcast],
-            ];
+            $response = $this->successResponse('Berhasil mendapatkan data.', ['rs_broadcast' => $rs_broadcast]);
 
             return response()->json($response);
         } catch (\Exception $e) {
-            // Handle any exceptions
-            $response = [
-                'status' => false,
-                'message' => 'Error mendapatkan data.',
-                'data' => null,
-            ];
+            $response = $this->failureResponse('Error mendapatkan data.');
 
-            return response()->json($response); // 500 Internal Server Error
+            return response()->json($response);
         }
     }
 
@@ -81,29 +49,23 @@ class ApiBroadcastController extends Controller
             if (!empty($broadcast)) {
                 $broadcast->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
 
-                $response = [
-                    'status' => true,
-                    'message' => 'Berhasil mendapatkan data.',
-                    'data' => ['broadcast' => $broadcast],
-                ];
+                $response = $this->successResponse('Berhasil mendapatkan data.', ['broadcast' => $broadcast]);
             } else {
-                $response = [
-                    'status' => false,
-                    'message' => 'Error mendapatkan data.',
-                    'data' => null,
-                ];
+                $response = $this->failureResponse('Error mendapatkan data.');
             }
 
             return response()->json($response);
         } catch (\Exception $e) {
-            // Handle any exceptions
-            $response = [
-                'status' => false,
-                'message' => 'Error mendapatkan data.',
-                'data' => null,
-            ];
+            $response = $this->failureResponse('Error mendapatkan data.');
 
-            return response()->json($response); // 500 Internal Server Error
+            return response()->json($response);
+        }
+    }
+
+    private function addImageUrlToBroadcasts(&$broadcasts)
+    {
+        foreach ($broadcasts as $key => $broadcast) {
+            $broadcasts[$key]->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
         }
     }
 
@@ -118,4 +80,21 @@ class ApiBroadcastController extends Controller
         return $imageUrl;
     }
 
+    private function successResponse($statusMessage, $data)
+    {
+        return [
+            'success' => true,
+            'status' => $statusMessage,
+            'data' => $data,
+        ];
+    }
+
+    private function failureResponse($statusMessage)
+    {
+        return [
+            'success' => false,
+            'status' => $statusMessage,
+            'data' => null,
+        ];
+    }
 }
