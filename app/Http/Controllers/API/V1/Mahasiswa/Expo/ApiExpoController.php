@@ -4,47 +4,29 @@ namespace App\Http\Controllers\Api\V1\Mahasiswa\Expo;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\Api\Mahasiswa\Expo\ApiExpoModel;
-use App\Models\Api\Mahasiswa\Kelompok\ApiKelompokSayaModel;
 
 class ApiExpoController extends Controller
 {
-
     public function index(Request $request)
     {
         try {
-            // Get the user from the JWT token in the request headers
             $user = JWTAuth::parseToken()->authenticate();
 
-            // Additional checks or actions based on the retrieved user
-            if ($user != null && $user->user_active == 1) {
+            if ($this->validateUser($user)) {
+                $kelompok = ApiExpoModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
-                $kelompok = ApiKelompokSayaModel::pengecekan_kelompok_mahasiswa($user->user_id);
-
-                if ($kelompok != null) {
+                if ($this->validateKelompok($kelompok)) {
                     $rs_expo = ApiExpoModel::getDataExpo($user->user_id);
 
-                    // check apakah sudah ada jadwal expo?
-                    if ($rs_expo != null) {
-
-                        // check status expo
+                    if ($this->validateExpoData($rs_expo)) {
                         $cekStatusExpo = ApiExpoModel::cekStatusExpo($user->user_id);
-
                         $id_kelompok = ApiExpoModel::idKelompok($user->user_id);
-
-                        // get data expo
                         $kelengkapanExpo = ApiExpoModel::kelengkapanExpo($user->user_id);
 
-                        // data
                         $data = [
                             'id_kelompok' => $id_kelompok,
                             'kelompok' => $kelompok,
@@ -53,140 +35,107 @@ class ApiExpoController extends Controller
                             'kelengkapan' => $kelengkapanExpo
                         ];
 
-                        if ($kelompok->nomor_kelompok == null) {
-                            $response = [
-                                'message' => 'Gagal',
-                                'success' => false,
-                                'status' => 'Kelompok anda belum valid!',
-                                'data' => null,
-                            ];
-                        } else {
-
-                            $response = [
-                                'message' => 'Berhasil',
-                                'success' => true,
-                                'status' => 'Berhasil mendapatkan jadwal expo!',
-                                'data' => $data,
-                            ];
-                        }
-
+                        $response = $this->successResponse('Berhasil mendapatkan jadwal expo!', $data);
                     } else {
-                        $response = [
-                            'message' => 'Gagal',
-                            'success' => false,
-                            'status' => 'Belum ada jadwal expo!',
-                            'data' => null,
-                        ];
+                        $response = $this->failureResponse('Belum ada jadwal expo!');
                     }
                 } else {
-                    $response = [
-                        'message' => 'Gagal',
-                        'success' => false,
-                        'status' => 'Anda belum memiliki kelompok!',
-                        'data' => null,
-                    ];
+                    $response = $this->failureResponse('Anda belum memiliki kelompok!');
                 }
-
             } else {
-                $response = [
-                    'message' => 'Gagal',
-                    'success' => false,
-                    'status' => 'Pengguna tidak ditemukan!',
-                    'data' => null,
-                ];
+                $response = $this->failureResponse('Pengguna tidak ditemukan!');
             }
-
         } catch (JWTException $e) {
-            $response = [
-                'message' => 'Gagal',
-                'success' => false,
-                'status' => 'Token is Invalid',
-                'data' => null,
-            ];
+            $response = $this->failureResponse('Token is Invalid');
         }
 
         return response()->json($response);
     }
 
     public function daftarExpo(Request $request)
-{
-    try {
-        // Get the user from the JWT token in the request headers
-        $user = JWTAuth::parseToken()->authenticate();
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
 
-        // Additional checks or actions based on the retrieved user
-        if ($user != null && $user->user_active == 1) {
+            if ($this->validateUser($user)) {
+                $kelompok = ApiExpoModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
-            // Check if the user belongs to a group
-            $kelompok = ApiKelompokSayaModel::pengecekan_kelompok_mahasiswa($user->user_id);
+                if ($this->validateKelompok($kelompok)) {
+                    $registrationParams = [
+                        'id_kelompok' => $kelompok->id,
+                        'id_expo' => $request->id_expo,
+                        'status' => 'menunggu persetujuan',
+                        'created_by' => $user->user_id,
+                        'created_date' => now(),
+                    ];
 
-            if ($kelompok != null) {
-                // Registration parameters
-                $registrationParams = [
-                    'id_kelompok' => $kelompok->id,
-                    'id_expo' => $request->id_expo, // corrected typo: changed $reqeust to $request
-                    'status' => 'menunggu persetujuan',
-                    'created_by' => $user->user_id,
-                    'created_date' => now(), // Use Laravel helper function for the current date and time
-                ];
+                    DB::table('pendaftaran_expo')->updateOrInsert(
+                        ['id_kelompok' => $kelompok->id],
+                        $registrationParams
+                    );
 
-                 // Use updateOrInsert to handle both insertion and updating
-                DB::table('pendaftaran_expo')->updateOrInsert(
-                    ['id_kelompok' => $kelompok->id], // The condition to check if the record already exists
-                    $registrationParams // The data to be updated or inserted
-                );
+                    $kelompokParams = [
+                        'link_berkas_expo' => $request->link_berkas_expo,
+                    ];
 
-                // Update group link_berkas_expo
-                $kelompokParams = [
-                    'link_berkas_expo' => $request->link_berkas_expo,
-                ];
-                ApiKelompokSayaModel::updateKelompokById($kelompok->id, $kelompokParams);
+                    ApiExpoModel::updateKelompokById($kelompok->id, $kelompokParams);
 
-                // Update student's title
-                $kelompokMHSParams = [
-                    'judul_ta_mhs' => $request->judul_ta_mhs,
-                ];
-                ApiExpoModel::updateKelompokMHS($user->user_id, $kelompokMHSParams);
+                    $kelompokMHSParams = [
+                        'judul_ta_mhs' => $request->judul_ta_mhs,
+                    ];
+                    ApiExpoModel::updateKelompokMHS($user->user_id, $kelompokMHSParams);
 
-                // Check Expo registration
-                $cekStatusExpo = ApiExpoModel::cekStatusExpo($user->user_id);
+                    $cekStatusExpo = ApiExpoModel::cekStatusExpo($user->user_id);
 
-                $response = [
-                    'message' => 'Berhasil',
-                    'success' => true,
-                    'status' => 'Berhasil mendaftarkan expo!',
-                    'data' => $cekStatusExpo,
-                ];
-
+                    $response = $this->successResponse('Berhasil mendaftarkan expo!', $cekStatusExpo);
+                } else {
+                    $response = $this->failureResponse('Anda belum memiliki kelompok!');
+                }
             } else {
-                $response = [
-                    'message' => 'Gagal',
-                    'success' => false,
-                    'status' => 'Anda belum memiliki kelompok!',
-                    'data' => null,
-                ];
-
+                $response = $this->failureResponse('Gagal mendapatkan data expo!');
             }
-
-        } else {
-            $response = [
-                'message' => 'Gagal',
-                'success' => false,
-                'status' => 'Gagal mendapatkan data expo!',
-                'data' => null,
-            ];
-
+        } catch (JWTException $e) {
+            $response = $this->failureResponse('Token is Invalid');
         }
-    } catch (JWTException $e) {
-        $response = [
-            'message' => 'Gagal',
-            'success' => false,
-            'status' => 'Token is Invalid',
-            'data' => null,
-        ];
 
+        return response()->json($response);
     }
 
-    return response()->json($response);
-}
+    // Fungsi untuk validasi pengguna
+    private function validateUser($user)
+    {
+        return $user && $user->user_active == 1;
+    }
+
+    // Fungsi untuk validasi kelompok
+    private function validateKelompok($kelompok)
+    {
+        return $kelompok && $kelompok->nomor_kelompok;
+    }
+
+    // Fungsi untuk validasi data expo
+    private function validateExpoData($rs_expo)
+    {
+        return $rs_expo !== null;
+    }
+
+    // Fungsi untuk menangani respons sukses
+    private function successResponse($statusMessage, $data)
+    {
+        return [
+            'success' => true,
+            'status' => $statusMessage,
+            'data' => $data,
+        ];
+    }
+
+    // Fungsi untuk menangani respons kegagalan
+    private function failureResponse($statusMessage)
+    {
+        return [
+            'success' => false,
+            'status' => $statusMessage,
+            'data' => null,
+        ];
+    }
 }

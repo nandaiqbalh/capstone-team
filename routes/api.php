@@ -32,15 +32,15 @@ use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Mahasiswa\Mahasiswa\ApiMahasiswaController;
 use App\Http\Controllers\Api\V1\Mahasiswa\Dosen\ApiDosenController;
 
-use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokSayaController;
+use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokController;
 use App\Http\Controllers\Api\V1\Mahasiswa\Siklus\ApiSiklusController;
 use App\Http\Controllers\Api\V1\Mahasiswa\Topik\ApiTopikController;
 
-use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
-use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileCapstoneController;
+use App\Http\Controllers\Api\V1\Mahasiswa\Dokumen\ApiDokumenController;
+use App\Http\Controllers\Api\V1\Mahasiswa\Dokumen\ApiDokumenCapstoneController;
 
 use App\Http\Controllers\Api\V1\Mahasiswa\SidangProposal\ApiSidangProposalController;
-use App\Http\Controllers\Api\V1\Mahasiswa\SidangTugasAkhir\ApiSidangTugasAkhirController;
+use App\Http\Controllers\Api\V1\Mahasiswa\TugasAkhir\ApiTugasAkhirController;
 
 use App\Http\Controllers\Api\V1\Mahasiswa\Expo\ApiExpoController;
 
@@ -75,11 +75,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/mahasiswa/data-mahasiswa/', [ApiMahasiswaController::class, 'index']);
         Route::get('/mahasiswa/data-dosen/', [ApiDosenController::class, 'index']);
 
-        Route::get('/mahasiswa/kelompok/', [ApiKelompokSayaController::class, 'index']);
-        Route::post('/mahasiswa/kelompok/updateStatusForward', [ApiKelompokSayaController::class, 'updateStatusKelompokForward']);
-        Route::post('/mahasiswa/kelompok/updateStatusBackward', [ApiKelompokSayaController::class, 'updateStatusKelompokBackward']);
-        Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokSayaController::class, 'addKelompokProcess']);
-        Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [ApiKelompokSayaController::class, 'addPunyaKelompokProcess']);
+        Route::get('/mahasiswa/kelompok/', [ApiKelompokController::class, 'index']);
+        Route::post('/mahasiswa/kelompok/updateStatusForward', [ApiKelompokController::class, 'updateStatusKelompokForward']);
+        Route::post('/mahasiswa/kelompok/updateStatusBackward', [ApiKelompokController::class, 'updateStatusKelompokBackward']);
+        Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokController::class, 'addKelompokProcess']);
+        Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [ApiKelompokController::class, 'addPunyaKelompokProcess']);
 
         // siklus
         Route::get('/mahasiswa/siklus/', [ApiSiklusController::class, 'index']);
@@ -87,35 +87,32 @@ Route::prefix('v1')->group(function () {
         // topik
         Route::get('/mahasiswa/topik/', [ApiTopikController::class, 'index']);
 
-        Route::get('/mahasiswa/upload-file/', [ApiUploadFileController::class, 'index']);
-        Route::post('/mahasiswa/upload-file/upload-makalah-process', [ApiUploadFileController::class, 'uploadMakalahProcess']);
-        Route::post('/mahasiswa/upload-file/upload-laporan-process', [ApiUploadFileController::class, 'uploadLaporanProcess']);
+        Route::get('/mahasiswa/dokumen/', [ApiDokumenController::class, 'index']);
+        Route::post('/mahasiswa/dokumen/upload-makalah-process', [ApiDokumenController::class, 'uploadMakalahProcess']);
+        Route::post('/mahasiswa/dokumen/upload-laporan-process', [ApiDokumenController::class, 'uploadLaporanProcess']);
 
-        Route::post('/mahasiswa/upload-file/upload-c100-process', [ApiUploadFileCapstoneController::class, 'uploadC100Process']);
-        Route::post('/mahasiswa/upload-file/upload-c200-process', [ApiUploadFileCapstoneController::class, 'uploadC200Process']);
-        Route::post('/mahasiswa/upload-file/upload-c300-process', [ApiUploadFileCapstoneController::class, 'uploadC300Process']);
-        Route::post('/mahasiswa/upload-file/upload-c400-process', [ApiUploadFileCapstoneController::class, 'uploadC400Process']);
-        Route::post('/mahasiswa/upload-file/upload-c500-process', [ApiUploadFileCapstoneController::class, 'uploadC500Process']);
+        Route::post('/mahasiswa/dokumen/upload-c100-process', [ApiDokumenCapstoneController::class, 'uploadC100Process']);
+        Route::post('/mahasiswa/dokumen/upload-c200-process', [ApiDokumenCapstoneController::class, 'uploadC200Process']);
+        Route::post('/mahasiswa/dokumen/upload-c300-process', [ApiDokumenCapstoneController::class, 'uploadC300Process']);
+        Route::post('/mahasiswa/dokumen/upload-c400-process', [ApiDokumenCapstoneController::class, 'uploadC400Process']);
+        Route::post('/mahasiswa/dokumen/upload-c500-process', [ApiDokumenCapstoneController::class, 'uploadC500Process']);
 
-        Route::post('/mahasiswa/view-pdf', [ApiUploadFileController::class, 'viewPdf']);
+        Route::post('/mahasiswa/view-pdf', [ApiDokumenController::class, 'viewPdf']);
         Route::post('/mahasiswa/profile/img-user', [ApiProfileController::class, 'imageProfile']);
 
         // sidang proposal
-        Route::get('/mahasiswa/sidang-proposal/', [ApiSidangProposalController::class, 'index']);
         Route::get('/mahasiswa/sidang-proposal-kelompok/', [ApiSidangProposalController::class, 'sidangProposalByKelompok']);
-        Route::get('/mahasiswa/sidang-proposal-download/', [ApiSidangProposalController::class, 'downloadPdf']);
 
         // expo
         Route::get('/mahasiswa/expo/', [ApiExpoController::class, 'index']);
         Route::post('/mahasiswa/expo-daftar/', [ApiExpoController::class, 'daftarExpo']);
 
         // sidang TA
-        Route::post('/mahasiswa/sidang-tugas-akhir/updateStatusForward', [ApiSidangTugasAkhirController::class, 'updateStatusMahasiswaForward']);
-        Route::post('/mahasiswa/sidang-tugas-akhir/updateStatusBackward', [ApiSidangTugasAkhirController::class, 'updateStatusMahasiswaBackward']);
+        Route::post('/mahasiswa/sidang-tugas-akhir/updateStatusForward', [ApiTugasAkhirController::class, 'updateStatusMahasiswaForward']);
+        Route::post('/mahasiswa/sidang-tugas-akhir/updateStatusBackward', [ApiTugasAkhirController::class, 'updateStatusMahasiswaBackward']);
 
-        Route::get('/mahasiswa/sidang-tugas-akhir/', [ApiSidangTugasAkhirController::class, 'index']);
-        Route::get('/mahasiswa/sidang-tugas-akhir-mahasiswa/', [ApiSidangTugasAkhirController::class, 'sidangTugasAkhirByMahasiswa']);
-        Route::post('/mahasiswa/sidang-tugas-akhir-daftar/', [ApiSidangTugasAkhirController::class, 'daftarSidangTugasAkhir']);
+        Route::get('/mahasiswa/sidang-tugas-akhir-mahasiswa/', [ApiTugasAkhirController::class, 'sidangTugasAkhirByMahasiswa']);
+        Route::post('/mahasiswa/sidang-tugas-akhir-daftar/', [ApiTugasAkhirController::class, 'daftarSidangTugasAkhir']);
 
     });
 });

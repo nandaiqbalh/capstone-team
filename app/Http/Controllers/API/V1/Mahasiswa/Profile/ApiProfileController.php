@@ -4,78 +4,42 @@ namespace App\Http\Controllers\Api\V1\Mahasiswa\Profile;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Api\Mahasiswa\Profile\ApiAccountModel;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
+use App\Models\Api\Mahasiswa\Profile\ApiProfileModel;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ApiProfileController extends Controller
 {
-    // path store in database
+    // Path store in database
     protected $upload_path = '/img/user/';
-
 
     public function index(Request $request)
     {
         try {
-            // Check if the token is still valid
             JWTAuth::checkOrFail();
+            $user = $this->getAuthenticatedUser();
 
-            // Get the user from the JWT token in the request headers
-            $user = JWTAuth::parseToken()->authenticate();
-
-            // Check if the user exists and is active
             if ($user != null && $user->user_active == 1) {
-                // Get the profile image URL
                 $userImageUrl = $this->getProfileImageUrl($user);
-
-                // Add the user_img_url to the user object
                 $user->user_img_url = $userImageUrl;
 
-                // Response data
-                $response = [
-                    'message' => 'Berhasil',
-                    'success' => true,
-                    'status' => 'Berhasil mendapatkan profil pengguna!',
-                    'data' => $user,
-                ];
-
-                // Return JSON response for the API
-                return response()->json($response);
+                $response = $this->successResponse('Berhasil mendapatkan profil pengguna!', $user);
             } else {
-                // User not found or not active
-                $response = [
-                    'message' => 'Gagal',
-                    'success' => false,
-                    'status' => 'Gagal mendapatkan profil pengguna!',
-                    'data' => null,
-                ];
-
-                return response()->json($response); // 401 Unauthorized
+                $response = $this->failureResponse('Pengguna bukan merupakan pengguna aktif!');
             }
         } catch (JWTException $e) {
-            $response = [
-                'message' => 'Gagal',
-                'success' => false,
-                'status' => 'Gagal. Silahkan masuk terlebih dahulu!',
-                'data' => null,
-            ];
-
-            return response()->json($response); // 401 Unauthorized
+            $response = $this->failureResponse('Gagal. Silahkan masuk terlebih dahulu!');
         }
+
+        return response()->json($response);
     }
 
     public function editProcess(Request $request)
     {
         try {
-            // Authenticate user using the provided token
-            $user = JWTAuth::parseToken()->authenticate();
-
-            // Validate only if there are request parameters
+            $user = $this->getAuthenticatedUser();
             $rules = [
                 'user_name' => 'filled',
                 'no_telp' => 'filled|digits_between:10,13|numeric',
@@ -84,78 +48,33 @@ class ApiProfileController extends Controller
 
             $this->validate($request, $rules);
 
-            // Params
-            $params = [
-                'user_name' => $request->filled('user_name') ? $request->input('user_name') : $user->user_name,
-                'user_email' => $request->filled('user_email') ? $request->input('user_email') : $user->user_email,
-                'no_telp' => $request->filled('no_telp') ? $request->input('no_telp') : $user->no_telp,
-                'modified_by' => $user->user_id,
-                'modified_date' => now(),
-            ];
+            $params = $this->prepareUpdateParams($request, $user);
 
-            // Process
-            if (ApiAccountModel::update($user->user_id, $params)) {
-                $userUpdated = ApiAccountModel::getById($user->user_id);
+            if (ApiProfileModel::update($user->user_id, $params)) {
+                $userUpdated = ApiProfileModel::getById($user->user_id);
+                $userImageUrl = $this->getProfileImageUrl($userUpdated);
 
-                $userImageUrl = $this->getProfileImageUrl($user);
-                // Add the user_img_url to the user object
                 $userUpdated->user_img_url = $userImageUrl;
 
-                // Response for success
-                $response = [
-                    'message' => 'Berhasil',
-                    'success' => true,
-                    'status' => 'Profil berhasil diperbaharui!',
-                    'data' => $userUpdated,
-                ];
-                return response()->json($response);
+                $response = $this->successResponse('Profil berhasil diperbaharui!', $userUpdated);
             } else {
-                // Response for failure
-                $response = [
-                    'message' => 'Gagal',
-                    'success' => false,
-                    'status' => 'Profil gagal diperbaharui!',
-                    'data' => $user,
-                ];
-                return response()->json($response);
+                $response = $this->failureResponse('Profil gagal diperbaharui!', $user);
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            // Token has expired
-            $response = [
-                'message' => 'Gagal',
-                'success' => false,
-                'status' => 'Token is Expired',
-                'data' => null,
-            ];
-            return response()->json($response);
+            $response = $this->tokenExpiredResponse();
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            // Token is invalid
-            $response = [
-                'message' => 'Gagal',
-                'success' => false,
-                'status' => 'Token is Invalid',
-                'data' => null,
-            ];
-            return response()->json($response);
+            $response = $this->tokenInvalidResponse();
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            // Other JWT exceptions
-            $response = [
-                'message' => 'Gagal',
-                'success' => false,
-                'status' => 'Token is Expired',
-                'data' => null,
-            ];
-            return response()->json($response);
+            $response = $this->tokenExpiredResponse();
         }
+
+        return response()->json($response);
     }
 
     public function editPassword(Request $request)
     {
         try {
-            // Authenticate user using the provided token
-            $user = JWTAuth::parseToken()->authenticate();
-
-            // Validate only if there are request parameters
+            $user = $this->getAuthenticatedUser();
             $rules = [
                 'current_password' => 'required|min:8',
                 'new_password' => 'required|min:8',
@@ -164,15 +83,9 @@ class ApiProfileController extends Controller
 
             $this->validate($request, $rules);
 
-            // Check current password
             $currentPasswordInputByUser = $request->input('current_password');
             if (!Hash::check($currentPasswordInputByUser, $user->user_password)) {
-                $response = [
-                    'message' => 'Gagal',
-                    'success' => false,
-                    'status' => 'Password saat ini salah.',
-                    'data' => null,
-                ];
+                $response = $this->failureResponse('Password saat ini salah!', $user);
                 return response()->json($response);
             }
 
@@ -183,127 +96,70 @@ class ApiProfileController extends Controller
                 'modified_date' => now(),
             ];
 
-            // Process
-            if (ApiAccountModel::update($user->user_id, $params)) {
-                $userUpdated = ApiAccountModel::getById($user->user_id);
+            if (ApiProfileModel::update($user->user_id, $params)) {
+                $userUpdated = ApiProfileModel::getById($user->user_id);
+                $userImageUrl = $this->getProfileImageUrl($userUpdated);
 
-                $userImageUrl = $this->getProfileImageUrl($user);
-                // Add the user_img_url to the user object
                 $userUpdated->user_img_url = $userImageUrl;
 
-                // Response for success
-                $response = [
-                    'message' => 'Berhasil',
-                    'success' => true,
-                    'status' => 'Password baru berhasil disimpan.',
-                    'data' => $userUpdated,
-                ];
-                return response()->json($response);
+                $response = $this->successResponse('Password baru berhasil disimpan.', $userUpdated);
             } else {
-                // Response for failure
-                $response = [
-                    'message' => 'Gagal',
-                    'success' => false,
-                    'status' => 'Password baru gagal disimpan.',
-                    'data' => $user,
-                ];
-                return response()->json($response);
+                $response = $this->failureResponse('Password baru gagal disimpan!', $user);
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            // Token has expired
-            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Token expired.', 'data' => null]);
+            $response = $this->tokenExpiredResponse();
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            // Token is invalid
-            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Token is invalid.', 'data' => null]);
+            $response = $this->tokenInvalidResponse();
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            // Other JWT exceptions
-            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Failed to authenticate token.', 'data' => null]);
+            $response = $this->tokenExpiredResponse();
         }
+
+        return response()->json($response);
     }
-
-
 
     public function editPhotoProcess(Request $request)
     {
         try {
-            // Authenticate user using the provided token
-            $user = JWTAuth::parseToken()->authenticate();
-
-            // Validate only if there are request parameters
+            $user = $this->getAuthenticatedUser();
             $rules = [
-                'user_img' => 'filled|required|image|mimes:jpeg,jpg,png|max:5120'
+                'user_img' => 'filled|required|image|mimes:jpeg,jpg,png|max:5120',
             ];
 
             $this->validate($request, $rules);
 
-            // Check if user_img is provided for update
             if ($request->hasFile('user_img') && $request->user_img != null) {
-                $path = public_path($this->upload_path);
-                $file = $request->file('user_img');
-                $newImageName = Str::slug($user->user_name, '-') . '-' . uniqid() . '.jpg';
-
-                if ($user->user_img_name != null) {
-                    // Unlink (delete) the old image
-                    $oldImagePath = public_path($user->user_img_path . $user->user_img_name);
-                    if (file_exists($oldImagePath) && $user->user_img_name != 'default.png') {
-                        unlink($oldImagePath);
-                    }
-                }
-
-                // Upload new image
-                $file->move($path, $newImageName);
-
-                // Params
-                $params = [
-                    'user_img_path' => $this->upload_path,
-                    'user_img_name' => $newImageName,
-                    'modified_by' => $user->user_id,
-                    'modified_date' => now(),
-                ];
+                $params = $this->uploadAndPrepareUpdateParams($request, $user);
             }
 
-            // Process
-            if (ApiAccountModel::update($user->user_id, $params)) {
-                $userUpdated = ApiAccountModel::getById($user->user_id);
-
+            if (ApiProfileModel::update($user->user_id, $params)) {
+                $userUpdated = ApiProfileModel::getById($user->user_id);
                 $userImageUrl = $this->getProfileImageUrl($userUpdated);
 
-                // Add the user_img_url to the user object
                 $userUpdated->user_img_url = $userImageUrl;
 
-                // Response for success
-                $response = [
-                    'success' => true,
-                    'message' =>'Berhasil',
-                    'status' => 'Berhasil memperbaharui foto profil!',
-                    'data' => $userUpdated,
-                ];
-                return response()->json($response);
+                $response = $this->successResponse('Berhasil memperbaharui foto profil!', $userUpdated);
             } else {
-                $userUpdated = ApiAccountModel::getById($user->user_id);
+                $userUpdated = ApiProfileModel::getById($user->user_id);
                 $userImageUrl = $this->getProfileImageUrl($userUpdated);
 
-                // Add the user_img_url to the user object
                 $userUpdated->user_img_url = $userImageUrl;
-                // Response for failure
-                $response = [
-                    'success' => false,
-                    'message' =>'Gagal',
-                    'status' => 'Gagal memperbaharui foto profil!',
-                    'data' => $userUpdated,
-                ];
-                return response()->json($response);
+
+                $response = $this->failureResponse('Gagal memperbaharui foto profil!', $userUpdated);
             }
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            // Token has expired
-            return response()->json(['message' => 'Gagal', 'success' => false,'status' => 'Token expired.', 'data' => null]);
+            $response = $this->tokenExpiredResponse();
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            // Token is invalid
-            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Token is invalid.', 'data' => null]);
+            $response = $this->tokenInvalidResponse();
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            // Other JWT exceptions
-            return response()->json(['message' => 'Gagal', 'success' => false, 'status' => 'Failed to authenticate token.', 'data' => null]);
+            $response = $this->tokenExpiredResponse();
         }
+
+        return response()->json($response);
+    }
+
+    private function getAuthenticatedUser()
+    {
+        return JWTAuth::parseToken()->authenticate();
     }
 
     private function getProfileImageUrl($user)
@@ -315,5 +171,67 @@ class ApiProfileController extends Controller
         }
 
         return $imageUrl;
+    }
+
+    private function prepareUpdateParams(Request $request, $user)
+    {
+        return [
+            'user_name' => $request->filled('user_name') ? $request->input('user_name') : $user->user_name,
+            'user_email' => $request->filled('user_email') ? $request->input('user_email') : $user->user_email,
+            'no_telp' => $request->filled('no_telp') ? $request->input('no_telp') : $user->no_telp,
+            'modified_by' => $user->user_id,
+            'modified_date' => now(),
+        ];
+    }
+
+    private function uploadAndPrepareUpdateParams(Request $request, $user)
+    {
+        $path = public_path($this->upload_path);
+        $file = $request->file('user_img');
+        $newImageName = Str::slug($user->user_name, '-') . '-' . uniqid() . '.jpg';
+
+        if ($user->user_img_name != null) {
+            $oldImagePath = public_path($user->user_img_path . $user->user_img_name);
+            if (file_exists($oldImagePath) && $user->user_img_name != 'default.png') {
+                unlink($oldImagePath);
+            }
+        }
+
+        $file->move($path, $newImageName);
+
+        return [
+            'user_img_path' => $this->upload_path,
+            'user_img_name' => $newImageName,
+            'modified_by' => $user->user_id,
+            'modified_date' => now(),
+        ];
+    }
+
+    private function successResponse($statusMessage, $data)
+    {
+        return [
+            'success' => true,
+            'status' => $statusMessage,
+            'data' => $data,
+        ];
+    }
+
+    private function failureResponse($statusMessage, $data = null)
+    {
+        return [
+            'success' => false,
+            'status' => $statusMessage,
+            'data' => $data,
+        ];
+    }
+
+    private function tokenExpiredResponse()
+    {
+        return $this->failureResponse('Token expired.', null);
+    }
+
+    private function tokenInvalidResponse()
+    {
+        return $this->failureResponse('Token is invalid.', null);
     }
 }
