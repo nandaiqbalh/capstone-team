@@ -40,7 +40,12 @@ class ApiExpoController extends Controller
                         $response = $this->failureResponse('Belum ada jadwal expo!');
                     }
                 } else {
-                    $response = $this->failureResponse('Anda belum memiliki kelompok!');
+
+                    if ($kelompok != null && $kelompok -> nomor_kelompok == null) {
+                        $response = $this->failureResponse('Kelompok anda belum valid!');
+                    } else {
+                        $response = $this->failureResponse('Anda belum memiliki kelompok!');
+                    }
                 }
             } else {
                 $response = $this->failureResponse('Pengguna tidak ditemukan!');

@@ -30,6 +30,13 @@ class ApiSidangProposalModel extends ApiBaseModel
            ->first();
     }
 
+    public static function getDataPendaftaranMhs($user_id)
+    {
+        return DB::table('kelompok_mhs')
+            ->where('id_mahasiswa', $user_id)
+            ->first();
+    }
+
     public static function checkApakahSiklusMasihAktif($id_siklus)
     {
         return DB::table('siklus')

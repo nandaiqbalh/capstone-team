@@ -47,11 +47,8 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
-                                // Upload
                 if ($request->hasFile('c100') && $existingFile != null) {
                     $file = $request->file('c100');
-
-
 
                     // Generate a unique file name
                     $newFileName = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();

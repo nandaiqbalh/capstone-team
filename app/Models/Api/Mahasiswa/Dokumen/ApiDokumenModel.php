@@ -15,8 +15,6 @@ class ApiDokumenModel extends ApiBaseModel
     public static function getKelompokFile($id_kelompok)
     {
         return DB::table('kelompok as a')
-            ->join('siklus as c' ,'a.id_siklus','c.id')
-            ->where('c.status','aktif')
             ->where('a.id', $id_kelompok)
             ->first();
     }

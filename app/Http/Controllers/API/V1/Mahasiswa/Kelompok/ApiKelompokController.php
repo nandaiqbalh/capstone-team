@@ -51,10 +51,10 @@ class ApiKelompokController extends Controller
 
                     } else {
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
-
                         // check apakah siklusnya masih aktif atau tidak
-                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($kelompok -> id_siklus);
-                        if($isSiklusAktif == null){
+                        $dataPendaftaranMhs = ApiKelompokModel::getDataPendaftaranMhs($user -> user_id);
+                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $user ->user_id);
+                        if($isSiklusAktif -> status == 'tidak aktif'){
                             // siklus sudah tidak aktif
                             $kelompok ->id_siklus = 0;
                             $data = [
@@ -66,7 +66,7 @@ class ApiKelompokController extends Controller
                                 'rs_dospeng_ta' => null,
                             ];
 
-                            $response = $this->failureResponse('Siklus capstone sudah tidak aktif!');
+                            $response = $this->failureResponse('Siklus capstone sudah tidak aktif!', $data);
 
                         } else {
 
@@ -194,7 +194,7 @@ class ApiKelompokController extends Controller
 
                     ApiKelompokModel::insertKelompokMHS($params2);
 
-                    $response = $this->successResponse('Berhasil mendaftar capstone!', null);
+                    $response = $this->successResponse('Berhasil mendaftar capstone!', 'Berhasil!');
                 } else {
                     $response = $this->failureResponse('Gagal mendaftar capstone!');
                 }
@@ -375,7 +375,7 @@ class ApiKelompokController extends Controller
         if (!empty($user->user_img_name)) {
             $imageUrl = url($user->user_img_path . $user->user_img_name);
         } else {
-            $imageUrl = url('img/user/default_profile.jpg');
+            $imageUrl = url('img/user/defff.jpg');
         }
 
         return $imageUrl;
@@ -392,12 +392,12 @@ class ApiKelompokController extends Controller
      }
 
      // Fungsi untuk menangani respons kegagalan
-     private function failureResponse($statusMessage)
+     private function failureResponse($statusMessage, $data = null)
      {
          return [
              'success' => false,
              'status' => $statusMessage,
-             'data' => null,
+             'data' => $data,
          ];
      }
 

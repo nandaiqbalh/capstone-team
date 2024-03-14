@@ -20,7 +20,7 @@ class ApiSidangProposalController extends Controller
                 $kelompok = $this->getKelompokMahasiswa($user->user_id);
 
                 if ($kelompok != null) {
-                    $response = $this->getSidangProposalByKelompok($kelompok);
+                    $response = $this->getSidangProposalByKelompok($kelompok, $user);
                 } else {
                     $response = $this->failureResponse('Anda belum memiliki kelompok!');
                 }
@@ -44,12 +44,13 @@ class ApiSidangProposalController extends Controller
         return ApiSidangProposalModel::pengecekan_kelompok_mahasiswa($userId);
     }
 
-    private function getSidangProposalByKelompok($kelompok)
+    private function getSidangProposalByKelompok($kelompok, $user)
     {
         $rsSidang = ApiSidangProposalModel::sidangProposalByKelompok($kelompok->id);
-        $isSiklusAktif = ApiSidangProposalModel::checkApakahSiklusMasihAktif($kelompok->id_siklus);
+        $dataPendaftaranMhs = ApiSidangProposalModel::getDataPendaftaranMhs($user -> user_id);
+        $isSiklusAktif = ApiSidangProposalModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $user ->user_id);
 
-        if ($isSiklusAktif == null) {
+        if($isSiklusAktif -> status == 'tidak aktif'){
             $kelompok->id_siklus = 0;
 
             return [
