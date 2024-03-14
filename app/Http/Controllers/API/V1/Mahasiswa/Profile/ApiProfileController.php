@@ -167,7 +167,7 @@ class ApiProfileController extends Controller
         if (!empty($user->user_img_name)) {
             $imageUrl = url($user->user_img_path . $user->user_img_name);
         } else {
-            $imageUrl = url('img/user/default_profile.jpg');
+            $imageUrl = url('img/user/defff.jpg');
         }
 
         return $imageUrl;

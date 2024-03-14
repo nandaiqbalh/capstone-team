@@ -34,24 +34,27 @@ class ApiTugasAkhirController extends Controller
                 $rsSidang = ApiTugasAkhirModel::sidangTugasAkhirByMahasiswa($user->user_id);
                 $statusPendaftaran = ApiTugasAkhirModel::getStatusPendaftaran($user->user_id);
 
-                if ($kelompok != null) {
+                if ($kelompok != null ) {
                     // dd($rsSidang);
 
                     if ($kelompok -> nomor_kelompok == null) {
-                        $response = $this->failureResponse('Kelompok belum valid!');
+                        $response = $this->failureResponse('Kelompok anda belum valid!');
                     } else {
-                        if ($rsSidang == null) {
+                        if ($rsSidang == null ) {
 
-                            // BATAS PENDAFTARAN
-                            $waktubatas = strtotime($periodeAvailable->tanggal_selesai);
+                            if ($periodeAvailable != null) {
+                                    // BATAS PENDAFTARAN
+                                $waktubatas = strtotime($periodeAvailable->tanggal_selesai);
 
-                            $periodeAvailable->hari_batas = strftime('%A', $waktubatas); // Day
+                                $periodeAvailable->hari_batas = strftime('%A', $waktubatas); // Day
 
-                            // Konversi nama hari ke bahasa Indonesia
-                            $periodeAvailable->hari_batas = $this->convertDayToIndonesian($periodeAvailable->hari_batas);
+                                // Konversi nama hari ke bahasa Indonesia
+                                $periodeAvailable->hari_batas = $this->convertDayToIndonesian($periodeAvailable->hari_batas);
 
-                            $periodeAvailable->tanggal_batas = date('Y-m-d', $waktubatas); // Date
-                            $periodeAvailable->waktu_batas = date('H:i:s', $waktubatas); // Time
+                                $periodeAvailable->tanggal_batas = date('Y-m-d', $waktubatas); // Date
+                                $periodeAvailable->waktu_batas = date('H:i:s', $waktubatas); // Time
+
+                            }
 
 
                            if ($statusPendaftaran == null) {
@@ -62,7 +65,7 @@ class ApiTugasAkhirController extends Controller
                                    'status_pendaftaran' => null,
                                ];
 
-                               $response = $this->successResponse('Belum mendaftar sidang Tugas Akhir!', $data);
+                               $response = $this->failureResponse('Belum mendaftar sidang Tugas Akhir!', $data);
 
                            } else {
                                $data = [
@@ -77,6 +80,8 @@ class ApiTugasAkhirController extends Controller
 
 
                        } else {
+
+                        if ($periodeAvailable != null) {
                            // Extract day, date, and time from the "waktu" property
                            $waktuSidang = strtotime($rsSidang->waktu);
 
@@ -87,7 +92,7 @@ class ApiTugasAkhirController extends Controller
 
                            $rsSidang->tanggal_sidang = date('Y-m-d', $waktuSidang); // Date
                            $rsSidang->waktu_sidang = date('H:i:s', $waktuSidang); // Time
-
+                        }
 
                            $statusPendaftaran = ApiTugasAkhirModel::getStatusPendaftaran($user->user_id);
 
@@ -214,12 +219,12 @@ class ApiTugasAkhirController extends Controller
         ];
     }
 
-    private function failureResponse($statusMessage)
+    private function failureResponse($statusMessage, $data = null)
     {
         return [
             'success' => false,
             'status' => $statusMessage,
-            'data' => null,
+            'data' => $data,
         ];
     }
 
