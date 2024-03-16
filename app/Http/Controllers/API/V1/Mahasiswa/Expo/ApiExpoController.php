@@ -37,7 +37,7 @@ class ApiExpoController extends Controller
 
                         $response = $this->successResponse('Berhasil mendapatkan jadwal expo!', $data);
                     } else {
-                        $response = $this->failureResponse('Belum ada jadwal expo!');
+                        $response = $this->failureResponse('Belum memasuki periode expo!');
                     }
                 } else {
 
