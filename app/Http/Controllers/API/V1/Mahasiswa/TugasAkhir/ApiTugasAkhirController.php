@@ -18,7 +18,6 @@ use App\Models\Api\Mahasiswa\TugasAkhir\ApiTugasAkhirModel;
 
 class ApiTugasAkhirController extends Controller
 {
-
     public function sidangTugasAkhirByMahasiswa(Request $request)
     {
         try {
@@ -43,7 +42,7 @@ class ApiTugasAkhirController extends Controller
                         if ($rsSidang == null ) {
 
                             if ($periodeAvailable != null) {
-                                    // BATAS PENDAFTARAN
+                                // BATAS PENDAFTARAN
                                 $waktubatas = strtotime($periodeAvailable->tanggal_selesai);
 
                                 $periodeAvailable->hari_batas = strftime('%A', $waktubatas); // Day
@@ -57,55 +56,56 @@ class ApiTugasAkhirController extends Controller
                             }
 
 
-                           if ($statusPendaftaran == null) {
-                               $data = [
-                                   'kelompok' => $kelompok,
-                                   'rsSidang' => $rsSidang,
-                                   'periode' => $periodeAvailable,
-                                   'status_pendaftaran' => null,
-                               ];
+                            if ($statusPendaftaran == null) {
+                                $data = [
+                                    'kelompok' => $kelompok,
+                                    'rsSidang' => $rsSidang,
+                                    'periode' => $periodeAvailable,
+                                    'status_pendaftaran' => null,
+                                ];
 
-                               $response = $this->failureResponse('Belum mendaftar sidang Tugas Akhir!', $data);
+                                $response = $this->failureResponse('Belum mendaftar sidang Tugas Akhir!', $data);
 
-                           } else {
-                               $data = [
-                                   'kelompok' => $kelompok,
-                                   'rsSidang' => $rsSidang,
-                                   'periode' => $periodeAvailable,
-                                   'status_pendaftaran' => $statusPendaftaran,
-                               ];
-                               $response = $this->successResponse('Belum dijadwalkan untuk sidang Tugas Akhir!', $data);
+                            } else {
+                                $data = [
+                                    'kelompok' => $kelompok,
+                                    'rsSidang' => $rsSidang,
+                                    'periode' => $periodeAvailable,
+                                    'status_pendaftaran' => $statusPendaftaran,
+                                ];
 
-                           }
+                                $response = $this->failureResponse('Belum dijadwalkan untuk sidang Tugas Akhir!', $data);
+
+                            }
 
 
-                       } else {
+                        } else {
 
-                        if ($periodeAvailable != null) {
-                           // Extract day, date, and time from the "waktu" property
-                           $waktuSidang = strtotime($rsSidang->waktu);
+                            if ($periodeAvailable != null) {
+                                // Extract day, date, and time from the "waktu" property
+                                $waktuSidang = strtotime($rsSidang->waktu);
 
-                           $rsSidang->hari_sidang = strftime('%A', $waktuSidang); // Day
+                                $rsSidang->hari_sidang = strftime('%A', $waktuSidang); // Day
 
-                           // Konversi nama hari ke bahasa Indonesia
-                           $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
+                                // Konversi nama hari ke bahasa Indonesia
+                                $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
 
-                           $rsSidang->tanggal_sidang = date('Y-m-d', $waktuSidang); // Date
-                           $rsSidang->waktu_sidang = date('H:i:s', $waktuSidang); // Time
+                                $rsSidang->tanggal_sidang = date('Y-m-d', $waktuSidang); // Date
+                                $rsSidang->waktu_sidang = date('H:i:s', $waktuSidang); // Time
+                            }
+
+                            $statusPendaftaran = ApiTugasAkhirModel::getStatusPendaftaran($user->user_id);
+
+                            $data = [
+                                'kelompok' => $kelompok,
+                                'rsSidang' => $rsSidang,
+                                'periode' => $periodeAvailable,
+                                'status_pendaftaran' => $statusPendaftaran,
+                            ];
+
+                            $response = $this->successResponse('Berhasil mendapatkan jadwal sidang Tugas Akhir!', $data);
+
                         }
-
-                           $statusPendaftaran = ApiTugasAkhirModel::getStatusPendaftaran($user->user_id);
-
-                           $data = [
-                               'kelompok' => $kelompok,
-                               'rsSidang' => $rsSidang,
-                               'periode' => $periodeAvailable,
-                               'status_pendaftaran' => $statusPendaftaran,
-                           ];
-
-                           $response = $this->successResponse('Berhasil mendapatkan jadwal sidang Tugas Akhir!', $data);
-
-                       }
                     }
 
 

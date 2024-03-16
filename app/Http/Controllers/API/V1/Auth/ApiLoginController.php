@@ -43,7 +43,7 @@ class ApiLoginController extends Controller
                 return $this->authenticationErrorResponse('Gagal membuat token!');
             }
         } else {
-            return $this->authenticationErrorResponse('Nomor Induk atau Password tidak valid.');
+            return $this->authenticationErrorResponse('NIM atau Kata Sandi tidak valid.');
         }
     }
 

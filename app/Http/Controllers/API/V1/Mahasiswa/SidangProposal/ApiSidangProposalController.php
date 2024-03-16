@@ -50,7 +50,7 @@ class ApiSidangProposalController extends Controller
         $dataPendaftaranMhs = ApiSidangProposalModel::getDataPendaftaranMhs($user -> user_id);
         $isSiklusAktif = ApiSidangProposalModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $user ->user_id);
 
-        if($isSiklusAktif -> status == 'tidak aktif'){
+        if($isSiklusAktif == null || $isSiklusAktif -> status == 'tidak aktif'){
             $kelompok->id_siklus = 0;
 
             return [
@@ -69,7 +69,7 @@ class ApiSidangProposalController extends Controller
                 if ($rsSidang == null) {
                     return [
                         'success' => false,
-                        'status' => 'Belum dijadwalkan!',
+                        'status' => 'Belum ada jadwal sidang!',
                         'data' => $rsSidang,
                     ];
                 } else {
