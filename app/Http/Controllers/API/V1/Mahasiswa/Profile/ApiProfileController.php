@@ -44,6 +44,7 @@ class ApiProfileController extends Controller
                 'user_name' => 'filled',
                 'no_telp' => 'filled|digits_between:10,13|numeric',
                 'user_email' => 'filled|email',
+                'jenis_kelamin' => 'filled',
             ];
 
             $this->validate($request, $rules);
@@ -179,6 +180,7 @@ class ApiProfileController extends Controller
             'user_name' => $request->filled('user_name') ? $request->input('user_name') : $user->user_name,
             'user_email' => $request->filled('user_email') ? $request->input('user_email') : $user->user_email,
             'no_telp' => $request->filled('no_telp') ? $request->input('no_telp') : $user->no_telp,
+            'jenis_kelamin' => $request->filled('jenis_kelamin') ? $request->input('jenis_kelamin') : $user->user_name,
             'modified_by' => $user->user_id,
             'modified_date' => now(),
         ];
