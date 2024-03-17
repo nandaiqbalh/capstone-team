@@ -130,6 +130,10 @@ class ApiDokumenController extends Controller
 
                         if ($uploadFile) {
                             $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlMakalah);
+                            $statusParam = [
+                                'status_individu' => 'Mengunggah Laporan TA',
+                            ];
+                            ApiDokumenModel::uploadFileMHS($id_kelompok, $statusParam);
                         } else {
                             $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
                         }

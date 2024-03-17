@@ -176,12 +176,12 @@ class ApiKelompokController extends Controller
                     $peminatan3 = ApiKelompokModel::getPeminatanById($request->c);
                     $peminatan4 = ApiKelompokModel::getPeminatanById($request->m);
 
-                    // Insert kelompok data
+                    // Insert kelompok mhs
                     $params2 = [
                         'usulan_judul_capstone' => $request->judul_capstone,
                         'id_siklus' => $request->id_siklus,
                         'id_mahasiswa' => $user->user_id,
-                        'status_individu' => 'Pendaftaran Capstone Sedang Divalidasi',
+                        'status_individu' => 'Menunggu Pengelompokan',
                         'id_topik_individu1' => $topik1->id,
                         'id_topik_individu2' => $topik2->id,
                         'id_topik_individu3' => $topik3->id,
@@ -262,7 +262,7 @@ class ApiKelompokController extends Controller
                         "id_siklus" => $request->id_siklus,
                         "judul_capstone" => $request->judul_capstone,
                         "id_topik" => $request->id_topik,
-                        "status_kelompok" => 'Pendaftaran Capstone Sedang Divalidasi',
+                        "status_kelompok" => 'Menunggu Persetujuan Anggota',
                         "id_dosen_pembimbing_1" => $request->dosbing_1,
                         "status_dosen_pembimbing_1" =>'Menunggu Persetujuan',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
@@ -291,7 +291,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $user->user_id,
-                            'status_individu' => 'Pendaftaran Capstone Sedang Divalidasi',
+                            'status_individu' => 'Menyetujui Kelompok',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -319,7 +319,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id2,
-                            'status_individu' => 'Pendaftaran Capstone Sedang Divalidasi',
+                            'status_individu' => 'Didaftarkan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -347,7 +347,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id3,
-                            'status_individu' => 'Pendaftaran Capstone Sedang Divalidasi',
+                            'status_individu' => 'Didaftarkan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -370,6 +370,48 @@ class ApiKelompokController extends Controller
         }
         return response()->json($response);
     }
+
+
+    public function updateStatusMahasiswa(Request $request)
+    {
+        // Check if the token is still valid
+        JWTAuth::checkOrFail();
+
+        // Get the user from the JWT token in the request headers
+        $jwtUser = JWTAuth::parseToken()->authenticate();
+
+        $user = ApiKelompokModel::getAkunByID($jwtUser->user_id);
+
+        // Check if the user exists
+        if ($user != null && $user->user_active == 1) {
+            // validation params
+            $requiredParams = ['status_individu'];
+            foreach ($requiredParams as $param) {
+                if (!$request->has($param) || empty($request->input($param))) {
+                    $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi!");
+                }
+            }
+
+            try {
+                // params
+                $params = [
+                    "status_individu" => "Menyetujui Kelompok",
+                ];
+
+                // process
+                $update_kelompok_mhs = ApiKelompokModel::updateKelompokMHS($user->user_id, $params);
+
+                $response = $this->successResponse('Berhasil menyetujui status pendaftaran!', 'Berhasil!');
+
+            } catch (\Exception $e) {
+                $response = $this->failureResponse('Gagal menyetujui!');
+            }
+        } else {
+            $response = $this->failureResponse('Pengguna tidak ditemukan!');
+        }
+        return response()->json($response);
+    }
+
 
     private function getProfileImageUrl($user)
     {

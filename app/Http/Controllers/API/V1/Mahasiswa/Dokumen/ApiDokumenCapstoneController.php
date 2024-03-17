@@ -83,6 +83,11 @@ class ApiDokumenCapstoneController extends Controller
 
                         if ($uploadFile) {
                             $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc100);
+                            $statusParam = [
+                                'status_kelompok' => 'Mengunggah C100',
+                            ];
+                            ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+
                         } else {
                             $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
                         }
@@ -138,48 +143,55 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c200') && $existingFile != null) {
-                    $file = $request->file('c200');
+                    if ($existingFIle -> file_name_c100 != null) {
+                        $file = $request->file('c200');
+                        // Generate a unique file name
+                        $newFileName = 'c200-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-
-
-                    // Generate a unique file name
-                    $newFileName = 'c200-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                    // Check if the folder exists, if not, create it
-                    if (!is_dir(public_path($uploadPath))) {
-                        mkdir(public_path($uploadPath), 0755, true);
-                    }
-
-
-                    if ($existingFile->file_name_c200) {
-                        $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
-                        if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                        // Check if the folder exists, if not, create it
+                        if (!is_dir(public_path($uploadPath))) {
+                            mkdir(public_path($uploadPath), 0755, true);
                         }
-                    } else {
-                        $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
-                    }
 
-                    // Move the uploaded file to the specified path
-                    if ($file->move(public_path($uploadPath), $newFileName)) {
-                        // Save the new file details in the database
-                        $urlc200 = url($uploadPath . '/' . $newFileName);
 
-                        $params = [
-                            'file_name_c200' => $newFileName,
-                            'file_path_c200' => $uploadPath,
-                        ];
+                        if ($existingFile->file_name_c200) {
+                            $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
+                            if (file_exists($filePath) && !unlink($filePath)) {
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                            }
+                        } else {
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                        }
 
-                        $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+                        // Move the uploaded file to the specified path
+                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                            // Save the new file details in the database
+                            $urlc200 = url($uploadPath . '/' . $newFileName);
 
-                        if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc200);
+                            $params = [
+                                'file_name_c200' => $newFileName,
+                                'file_path_c200' => $uploadPath,
+                            ];
+
+                            $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+
+                            if ($uploadFile) {
+                                $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc200);
+                                $statusParam = [
+                                    'status_kelompok' => 'Mengunggah C200',
+                                ];
+                                ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+
+                            } else {
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            }
                         } else {
                             $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
                         }
                     } else {
-                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                        $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
                     }
+
                 } else {
                     $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
                 }
@@ -229,47 +241,53 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c300') && $existingFile != null) {
-                    $file = $request->file('c300');
+                    if ($existingFIle -> file_name_c200 != null) {
+                        $file = $request->file('c300');
+                        // Generate a unique file name
+                        $newFileName = 'c300-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-
-
-                    // Generate a unique file name
-                    $newFileName = 'c300-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                    // Check if the folder exists, if not, create it
-                    if (!is_dir(public_path($uploadPath))) {
-                        mkdir(public_path($uploadPath), 0755, true);
-                    }
-
-
-                    if ($existingFile->file_name_c300) {
-                        $filePath = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
-                        if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                        // Check if the folder exists, if not, create it
+                        if (!is_dir(public_path($uploadPath))) {
+                            mkdir(public_path($uploadPath), 0755, true);
                         }
-                    } else {
-                        $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
-                    }
 
-                    // Move the uploaded file to the specified path
-                    if ($file->move(public_path($uploadPath), $newFileName)) {
-                        // Save the new file details in the database
-                        $urlc300 = url($uploadPath . '/' . $newFileName);
 
-                        $params = [
-                            'file_name_c300' => $newFileName,
-                            'file_path_c300' => $uploadPath,
-                        ];
+                        if ($existingFile->file_name_c300) {
+                            $filePath = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
+                            if (file_exists($filePath) && !unlink($filePath)) {
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                            }
+                        } else {
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                        }
 
-                        $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+                        // Move the uploaded file to the specified path
+                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                            // Save the new file details in the database
+                            $urlc300 = url($uploadPath . '/' . $newFileName);
 
-                        if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc300);
+                            $params = [
+                                'file_name_c300' => $newFileName,
+                                'file_path_c300' => $uploadPath,
+                            ];
+
+                            $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+
+                            if ($uploadFile) {
+                                $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc300);
+                                $statusParam = [
+                                    'status_kelompok' => 'Mengunggah C300',
+                                ];
+                                ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+
+                            } else {
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            }
                         } else {
                             $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
                         }
                     } else {
-                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                        $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
                     }
                 } else {
                     $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
@@ -321,44 +339,54 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c400') && $existingFile != null) {
-                    $file = $request->file('c400');
-                    // Generate a unique file name
-                    $newFileName = 'c400-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    if ($existingFIle -> file_name_c300 != null) {
 
-                    // Check if the folder exists, if not, create it
-                    if (!is_dir(public_path($uploadPath))) {
-                        mkdir(public_path($uploadPath), 0755, true);
-                    }
+                        $file = $request->file('c400');
+                        // Generate a unique file name
+                        $newFileName = 'c400-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-                    if ($existingFile->file_name_c400) {
-                        $filePath = public_path($existingFile->file_path_c400 . '/' . $existingFile->file_name_c400);
-                        if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                        // Check if the folder exists, if not, create it
+                        if (!is_dir(public_path($uploadPath))) {
+                            mkdir(public_path($uploadPath), 0755, true);
                         }
-                    } else {
-                        $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
 
-                    }
+                        if ($existingFile->file_name_c400) {
+                            $filePath = public_path($existingFile->file_path_c400 . '/' . $existingFile->file_name_c400);
+                            if (file_exists($filePath) && !unlink($filePath)) {
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                            }
+                        } else {
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
 
-                    // Move the uploaded file to the specified path
-                    if ($file->move(public_path($uploadPath), $newFileName)) {
-                        // Save the new file details in the database
-                        $urlc400 = url($uploadPath . '/' . $newFileName);
+                        }
 
-                        $params = [
-                            'file_name_c400' => $newFileName,
-                            'file_path_c400' => $uploadPath,
-                        ];
+                        // Move the uploaded file to the specified path
+                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                            // Save the new file details in the database
+                            $urlc400 = url($uploadPath . '/' . $newFileName);
 
-                        $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+                            $params = [
+                                'file_name_c400' => $newFileName,
+                                'file_path_c400' => $uploadPath,
+                            ];
 
-                        if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc400);
+                            $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+
+                            if ($uploadFile) {
+                                $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc400);
+                                $statusParam = [
+                                    'status_kelompok' => 'Mengunggah C400',
+                                ];
+                                ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+
+                            } else {
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            }
                         } else {
                             $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
                         }
                     } else {
-                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                        $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C300!');
                     }
                 } else {
                     $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
@@ -410,47 +438,54 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c500') && $existingFile != null) {
-                    $file = $request->file('c500');
+                    if ($existingFIle -> file_name_c400 != null) {
 
+                        $file = $request->file('c500');
+                        // Generate a unique file name
+                        $newFileName = 'c500-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-
-                    // Generate a unique file name
-                    $newFileName = 'c500-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                    // Check if the folder exists, if not, create it
-                    if (!is_dir(public_path($uploadPath))) {
-                        mkdir(public_path($uploadPath), 0755, true);
-                    }
-
-
-                    if ($existingFile->file_name_c500) {
-                        $filePath = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
-                        if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                        // Check if the folder exists, if not, create it
+                        if (!is_dir(public_path($uploadPath))) {
+                            mkdir(public_path($uploadPath), 0755, true);
                         }
-                    } else {
-                        $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
-                    }
 
-                    // Move the uploaded file to the specified path
-                    if ($file->move(public_path($uploadPath), $newFileName)) {
-                        // Save the new file details in the database
-                        $urlc500 = url($uploadPath . '/' . $newFileName);
 
-                        $params = [
-                            'file_name_c500' => $newFileName,
-                            'file_path_c500' => $uploadPath,
-                        ];
+                        if ($existingFile->file_name_c500) {
+                            $filePath = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
+                            if (file_exists($filePath) && !unlink($filePath)) {
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                            }
+                        } else {
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                        }
 
-                        $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+                        // Move the uploaded file to the specified path
+                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                            // Save the new file details in the database
+                            $urlc500 = url($uploadPath . '/' . $newFileName);
 
-                        if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc500);
+                            $params = [
+                                'file_name_c500' => $newFileName,
+                                'file_path_c500' => $uploadPath,
+                            ];
+
+                            $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
+
+                            if ($uploadFile) {
+                                $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc500);
+                                $statusParam = [
+                                    'status_kelompok' => 'Mengunggah C500',
+                                ];
+
+                                ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+                            } else {
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            }
                         } else {
                             $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
                         }
-                    } else {
-                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                    }else{
+                        $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
                     }
                 } else {
                     $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
