@@ -35,6 +35,8 @@ class ApiKelompokModel extends ApiBaseModel
     public static function getAkunByID($user_id)
     {
         return DB::table('app_user as a')
+            ->select('a.*', 'b.status_individu')
+            ->join('kelompok_mhs as b','a.user_id','b.id_mahasiswa')
             ->where('a.user_id', $user_id)
             ->first();
     }
@@ -133,6 +135,20 @@ class ApiKelompokModel extends ApiBaseModel
             ->first();
     }
 
+    public static function getSidangProposal($id_kelompok)
+    {
+        return DB::table('jadwal_sidang_proposal')
+            ->where('id_kelompok', $id_kelompok)
+            ->first();
+    }
+
+    public static function getPendaftaranExpo($id_kelompok)
+    {
+        return DB::table('pendaftaran_expo')
+            ->where('id_kelompok', $id_kelompok)
+            ->first();
+    }
+
     public static function insertKelompok($params)
     {
         return DB::table('kelompok')->insert($params);
@@ -146,6 +162,26 @@ class ApiKelompokModel extends ApiBaseModel
     public static function updateMahasiswa($user_id, $params)
     {
         return DB::table('app_user')->where('user_id', $user_id)->update($params);
+    }
+
+    public static function updateKelompokMHS($user_id, $params)
+    {
+        return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
+    }
+
+    public static function deleteKelompok($id_kelompok)
+    {
+        return DB::table('kelompok')->where('id', $id_kelompok)->delete();
+    }
+
+    public static function deleteSidangProposal($id_kelompok)
+    {
+        return DB::table('jadwal_sidang_proposal')->where('id_kelompok', $id_kelompok)->delete();
+    }
+
+    public static function deletePendaftaranExpo($id_kelompok)
+    {
+        return DB::table('pendaftaran_expo')->where('id_kelompok', $id_kelompok)->delete();
     }
 
 }
