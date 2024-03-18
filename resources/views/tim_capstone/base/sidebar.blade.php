@@ -61,7 +61,7 @@
 
     @if($role_id == '01')
       <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">SISTEM</span>
+        <span class="menu-header-text">PENGATURAN</span>
       </li>
 
       @foreach($rs_parent_menu_system as $parent_menu_system)

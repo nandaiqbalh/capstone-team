@@ -110,25 +110,6 @@ class AccountController extends BaseController
         }
     }
 
-    // Pindahkan file baru
-    $upload = $file->move($path, $new_image_name);
-
-    if ($upload) {
-        $params = [
-            'user_img_path' => $this->upload_path,
-            'user_img_name' => $new_image_name,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date' => date('Y-m-d H:i:s')
-        ];
-
-        // Perbarui informasi foto pengguna
-        Account::update(Auth::user()->user_id, $params);
-
-        return response()->json(['status' => 1, 'msg' => 'Foto berhasil diunggah.', 'name' => $new_image_name]);
-    } else {
-        return response()->json(['status' => 0, 'msg' => 'Upload foto gagal']);
-    }
-}
     /**
      * Update the specified resource in storage.
      *

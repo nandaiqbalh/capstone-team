@@ -27,6 +27,7 @@
         <script src="{{ asset('js/config.js') }}"></script>
         <link href="{{ asset('vendor/libs/select2-410/select2.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('vendor/libs/select2-bootstrap-5-theme-1.3.0/select2-bootstrap-5-theme.min.css') }}" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
         <!-- SweetAlert CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
