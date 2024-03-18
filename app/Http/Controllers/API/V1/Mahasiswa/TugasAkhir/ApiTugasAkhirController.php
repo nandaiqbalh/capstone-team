@@ -156,7 +156,7 @@ class ApiTugasAkhirController extends Controller
                     // Registration parameters
                     $registrationParams = [
                         'id_mahasiswa' => $user->user_id,
-                        'status' => 'menunggu persetujuan',
+                        'status' => 'Mendaftar Sidang TA',
                         'created_by' => $user->user_id,
                         'created_date' => now(), // Use Laravel helper function for the current date and time
                     ];
