@@ -69,7 +69,7 @@ class ApiExpoController extends Controller
                     $registrationParams = [
                         'id_kelompok' => $kelompok->id,
                         'id_expo' => $request->id_expo,
-                        'status' => 'menunggu persetujuan',
+                        'status' => 'Mendaftar Expo',
                         'created_by' => $user->user_id,
                         'created_date' => now(),
                     ];

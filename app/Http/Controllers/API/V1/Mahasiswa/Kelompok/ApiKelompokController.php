@@ -226,7 +226,7 @@ class ApiKelompokController extends Controller
         // Get the user from the JWT token in the request headers
         $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $user = ApiKelompokModel::getAkunByID($jwtUser->user_id);
+        $user = ApiKelompokModel::getAkunBelumPunyaKelompok($jwtUser->user_id);
 
         // Check if the user exists
         if ($user != null && $user->user_active == 1) {
@@ -273,7 +273,7 @@ class ApiKelompokController extends Controller
                         'usulan_judul_capstone' => $request->judul_capstone,
                         'id_siklus' => $request->id_siklus,
                         'id_mahasiswa' => $user->user_id,
-                        'status_individu' => 'Menunggu Pengelompokan',
+                        'status_individu' => 'Menunggu Pengelompokan!',
                         'id_topik_individu1' => $topik1->id,
                         'id_topik_individu2' => $topik2->id,
                         'id_topik_individu3' => $topik3->id,
@@ -308,7 +308,7 @@ class ApiKelompokController extends Controller
         // Get the user from the JWT token in the request headers
         $jwtUser = JWTAuth::parseToken()->authenticate();
 
-        $user = ApiKelompokModel::getAkunByID($jwtUser->user_id);
+        $user = ApiKelompokModel::getAkunBelumPunyaKelompok($jwtUser->user_id);
 
         // Check if the user exists
         if ($user != null && $user->user_active == 1) {
@@ -354,11 +354,11 @@ class ApiKelompokController extends Controller
                         "id_siklus" => $request->id_siklus,
                         "judul_capstone" => $request->judul_capstone,
                         "id_topik" => $request->id_topik,
-                        "status_kelompok" => 'Menunggu Persetujuan Anggota',
+                        "status_kelompok" => 'Menunggu Persetujuan Anggota!',
                         "id_dosen_pembimbing_1" => $request->dosbing_1,
-                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan',
+                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan!',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
-                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan',
+                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan!',
                         'created_by' => $user->user_id,
                         'created_date' => now()
                     ];
@@ -385,7 +385,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $user->user_id,
-                            'status_individu' => 'Menyetujui Kelompok',
+                            'status_individu' => 'Menyetujui Kelompok!',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -413,7 +413,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id2,
-                            'status_individu' => 'Didaftarkan',
+                            'status_individu' => 'Didaftarkan!',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -441,7 +441,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id3,
-                            'status_individu' => 'Didaftarkan',
+                            'status_individu' => 'Didaftarkan!',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -510,7 +510,7 @@ class ApiKelompokController extends Controller
             try {
                 // params
                 $params = [
-                    "status_individu" => "Menyetujui Kelompok",
+                    "status_individu" => "Menyetujui Kelompok!",
                 ];
 
                 // process
@@ -525,7 +525,7 @@ class ApiKelompokController extends Controller
 
                     foreach ($rs_mahasiswa as $key => $mahasiswa) {
                         // Jika status individu bukan "menyetujui kelompok", set variabel $semuaSetuju menjadi false
-                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok") {
+                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok!") {
                             $semuaSetuju = false;
                             // Jika salah satu mahasiswa tidak setuju, Anda bisa langsung keluar dari loop
                             break;
@@ -535,7 +535,7 @@ class ApiKelompokController extends Controller
                     // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
                     if ($semuaSetuju) {
                         $paramKelompok = [
-                            "status_kelompok" => "Disetujui Anggota",
+                            "status_kelompok" => "Belum Valid!",
                         ];
                         $update_kelompok = ApiKelompokModel::updateKelompok($kelompok ->id, $paramKelompok);
                     }
