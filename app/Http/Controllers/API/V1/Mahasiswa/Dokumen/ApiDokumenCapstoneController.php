@@ -143,7 +143,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c200') && $existingFile != null) {
-                    if ($existingFIle -> file_name_c100 != null) {
+                    if ($existingFile -> file_name_c100 != null) {
                         $file = $request->file('c200');
                         // Generate a unique file name
                         $newFileName = 'c200-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -239,9 +239,8 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
-                                // Upload
                 if ($request->hasFile('c300') && $existingFile != null) {
-                    if ($existingFIle -> file_name_c200 != null) {
+                    if ($existingFile -> file_name_c200 != null) {
                         $file = $request->file('c300');
                         // Generate a unique file name
                         $newFileName = 'c300-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -339,7 +338,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c400') && $existingFile != null) {
-                    if ($existingFIle -> file_name_c300 != null) {
+                    if ($existingFile -> file_name_c300 != null) {
 
                         $file = $request->file('c400');
                         // Generate a unique file name
@@ -438,7 +437,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
                                 // Upload
                 if ($request->hasFile('c500') && $existingFile != null) {
-                    if ($existingFIle -> file_name_c400 != null) {
+                    if ($existingFile -> file_name_c400 != null) {
 
                         $file = $request->file('c500');
                         // Generate a unique file name

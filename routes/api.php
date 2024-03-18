@@ -76,9 +76,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/mahasiswa/data-dosen/', [ApiDosenController::class, 'index']);
 
         Route::get('/mahasiswa/kelompok/', [ApiKelompokController::class, 'index']);
-        Route::post('/mahasiswa/kelompok/update-status-mahasiswa', [ApiKelompokController::class, 'updateStatusMahasiswa']);
         Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokController::class, 'addKelompokProcess']);
         Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [ApiKelompokController::class, 'addPunyaKelompokProcess']);
+        Route::post('/mahasiswa/kelompok/terima-kelompok', [ApiKelompokController::class, 'terimaKelompok']);
+        Route::post('/mahasiswa/kelompok/tolak-kelompok', [ApiKelompokController::class, 'tolakKelompok']);
 
         // siklus
         Route::get('/mahasiswa/siklus/', [ApiSiklusController::class, 'index']);

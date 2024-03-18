@@ -267,6 +267,8 @@ class ApiKelompokController extends Controller
                         "status_dosen_pembimbing_1" =>'Menunggu Persetujuan',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
                         "status_dosen_pembimbing_2" =>'Menunggu Persetujuan',
+                        'created_by' => $user->user_id,
+                        'created_date' => now()
                     ];
 
                     ApiKelompokModel::insertKelompok($params);
@@ -372,7 +374,7 @@ class ApiKelompokController extends Controller
     }
 
 
-    public function updateStatusMahasiswa(Request $request)
+    public function tolakKelompok(Request $request)
     {
         // Check if the token is still valid
         JWTAuth::checkOrFail();
@@ -384,14 +386,35 @@ class ApiKelompokController extends Controller
 
         // Check if the user exists
         if ($user != null && $user->user_active == 1) {
-            // validation params
-            $requiredParams = ['status_individu'];
-            foreach ($requiredParams as $param) {
-                if (!$request->has($param) || empty($request->input($param))) {
-                    $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi!");
-                }
-            }
+           
+            try {
 
+                // process
+                $update_kelompok_mhs = ApiKelompokModel::deleteKelompokMhs($user->user_id);
+
+                $response = $this->successResponse('Berhasil menolak kelompok!', 'Berhasil!');
+
+            } catch (\Exception $e) {
+                $response = $this->failureResponse('Gagal menolak!');
+            }
+        } else {
+            $response = $this->failureResponse('Pengguna tidak ditemukan!');
+        }
+        return response()->json($response);
+    }
+
+    public function terimaKelompok(Request $request)
+    {
+        // Check if the token is still valid
+        JWTAuth::checkOrFail();
+
+        // Get the user from the JWT token in the request headers
+        $jwtUser = JWTAuth::parseToken()->authenticate();
+
+        $user = ApiKelompokModel::getAkunByID($jwtUser->user_id);
+
+        // Check if the user exists
+        if ($user != null && $user->user_active == 1) {           
             try {
                 // params
                 $params = [
@@ -411,6 +434,7 @@ class ApiKelompokController extends Controller
         }
         return response()->json($response);
     }
+
 
 
     private function getProfileImageUrl($user)
