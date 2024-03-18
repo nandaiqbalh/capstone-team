@@ -43,6 +43,13 @@ class ApiKelompokModel extends ApiBaseModel
             ->first();
     }
 
+    public static function getAkunBelumPunyaKelompok($user_id)
+    {
+        return DB::table('app_user as a')
+            ->where('a.user_id', $user_id)
+            ->first();
+    }
+
     public static function isAccountExist($user_id)
     {
         $account = DB::table('app_user as a')
@@ -169,6 +176,11 @@ class ApiKelompokModel extends ApiBaseModel
     public static function updateKelompokMHS($user_id, $params)
     {
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
+    }
+
+    public static function updateKelompok($id_kelompok, $params)
+    {
+        return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
     }
 
     public static function deleteKelompok($id_kelompok)
