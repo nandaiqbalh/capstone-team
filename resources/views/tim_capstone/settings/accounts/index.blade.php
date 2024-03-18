@@ -27,9 +27,6 @@ Pengaturan Akun User
                                 <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="search">
                                     <i class="bx bx-search-alt-2"></i>
                                 </button>
-                                <button class="btn btn-outline-secondary ml-1" type="submit" name="action" value="reset">
-                                    <i class="bx bx-reset"></i>
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -38,7 +35,7 @@ Pengaturan Akun User
 
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <a href="{{ url('/admin/settings/accounts/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                    <a href="{{ url('/admin/settings/accounts/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
                 </div>
             </div>
 
@@ -67,7 +64,7 @@ Pengaturan Akun User
                             </td>
                             <td class="text-center">
                                 @if($account->user_active == '1')
-                                <span class="text-primary">Aktif</span>
+                                <span class="text-success">Aktif</span>
                                 @else
                                 <span class="text-danger">Tidak Aktif</span>
                                 @endif
@@ -75,12 +72,11 @@ Pengaturan Akun User
                             <td>
                                 @if($role_id == '01')
                                 @if(Auth::user()->user_id != $account->user_id)
-                                <a href="#" data-id="{{ Crypt::encryptString($account->user_id) }}" data-nomor_induk="{{ Crypt::encryptString($account->nomor_induk) }}" class="btn btn-outline-secondary btn-xs m-1 btn-take-over-login"> Login</a>
+                                <a href="#" data-id="{{ Crypt::encryptString($account->user_id) }}" data-nomor_induk="{{ Crypt::encryptString($account->nomor_induk) }}" class="btn btn-outline-success btn-xs m-1 btn-take-over-login">Login</a>
                                 @endif
                                 @endif
-                                <a href="{{ url('/admin/settings/accounts/edit_password') }}/{{ $account->user_id }}" class="btn btn-outline-success btn-xs m-1"> Password</a>
+                                <a href="{{ url('/admin/settings/accounts/edit_password') }}/{{ $account->user_id }}" class="btn btn-outline-secondary btn-xs m-1"> Password</a>
                                 <a href="{{ url('/admin/settings/accounts/edit') }}/{{ $account->user_id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <!-- <a href="{{ url('/admin/settings/accounts/delete_process') }}/{{ $account->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus Akun {{ $account->user_name }} ?')"> Hapus</a> -->
                                 <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $account->user_id }}', '{{ $account->user_name }}')">Hapus</button>
                                     <script>
                                         function confirmDelete(userId, userName) {
@@ -95,7 +91,6 @@ Pengaturan Akun User
                                                 cancelButtonText: 'Batal'
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
-                                                    // Redirect to the delete URL if confirmed
                                                     window.location.href = "{{ url('/admin/settings/accounts/delete_process') }}/" + userId;
                                                 }
                                             });

@@ -38,20 +38,20 @@
                       @if(!empty(Auth::user()->user_img_name)) 
                         <img src="{{ asset(Auth::user()->user_img_path.Auth::user()->user_img_name) }}" alt class="w-px-40 h-auto rounded-circle" />
                       @else
-                        <img src="{{ asset('/img/user/default.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                        <img src="{{ asset('img/default.jpg') }}" alt class="w-px-40 h-auto rounded-circle" />
                       @endif
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="{{url('admin/settings/account')}}">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
                               @if(!empty(Auth::user()->user_img_name)) 
                                 <img src="{{ asset(Auth::user()->user_img_path.Auth::user()->user_img_name) }}" alt class="w-px-40 h-auto rounded-circle" />
                               @else
-                                <img src="{{ asset('/img/user/default.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                                <img src="{{ asset('img/default.jpg') }}" alt class="w-px-40 h-auto rounded-circle" />
                               @endif
                             </div>
                           </div>
@@ -74,7 +74,7 @@
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
-                    <li>
+                    {{-- <li>
                       <a class="dropdown-item" href="{{url('admin/settings/account')}}">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">Profil Saya</span>
@@ -82,7 +82,7 @@
                     </li>
                     <li>
                       <div class="dropdown-divider"></div>
-                    </li>
+                    </li> --}}
                     <li>
                       <!-- <a class="dropdown-item" href="{{url('/logout')}}" onclick="return confirm('Apakah anda ingin keluar?')">
                         <i class="bx bx-power-off me-2"></i>
