@@ -22,6 +22,7 @@ class ApiKelompokController extends Controller
             $jwtUser = JWTAuth::parseToken()->authenticate();
 
             $user = ApiKelompokModel::getAkunByID($jwtUser->user_id);
+            $userBelumBerkelompok = ApiKelompokModel::getAkunBelumPunyaKelompok($jwtUser->user_id);
 
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
@@ -113,6 +114,97 @@ class ApiKelompokController extends Controller
                         $response = $this->successResponse('Berhasil mendapatkan data!', $data);
                     }
                     }
+                } catch (\Exception $e) {
+                    $response = $this->failureResponse('Gagal mendapatkan data!');
+                }
+            } else if($userBelumBerkelompok != null && $userBelumBerkelompok->user_active == 1){
+                try {
+                    // get data kelompok
+                    $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($userBelumBerkelompok->user_id);
+
+                    // dd($kelompok);
+                    $getAkun = ApiKelompokModel::getAkunBelumPunyaKelompok($userBelumBerkelompok->user_id);
+
+                    $userImageUrl = $this->getProfileImageUrl($getAkun);
+                    // Add the user_img_url to the user object
+                    $getAkun->user_img_url = $userImageUrl;
+
+                    if ($kelompok == null) {
+                        // belum memiliki kelompok
+                        $data = [
+                            'kelompok' => $kelompok,
+                            'getAkun' => $getAkun,
+                            'rs_mahasiswa' => null,
+                            'rs_dosbing' => null,
+                            'rs_dospeng' => null,
+                            'rs_dospeng_ta' => null,
+                        ];
+                        $response = $this->failureResponse('Belum mendaftar capstone!');
+
+                    } else {
+                        // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
+                        // check apakah siklusnya masih aktif atau tidak
+                        $dataPendaftaranMhs = ApiKelompokModel::getDataPendaftaranMhs($userBelumBerkelompok -> user_id);
+                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $userBelumBerkelompok ->user_id);
+                        if($isSiklusAktif -> status == 'tidak aktif'){
+                            // siklus sudah tidak aktif
+                            $kelompok ->id_siklus = 0;
+                            $data = [
+                                'kelompok' => $kelompok,
+                                'getAkun' => $getAkun,
+                                'rs_mahasiswa' => null,
+                                'rs_dosbing' => null,
+                                'rs_dospeng' => null,
+                                'rs_dospeng_ta' => null,
+                            ];
+
+                            $response = $this->failureResponse('Siklus capstone sudah tidak aktif!', $data);
+
+                        } else {
+
+                            // mahasiswa
+                        $rs_mahasiswa = ApiKelompokModel::listKelompokMahasiswa($kelompok->id_kelompok);
+
+                        foreach ($rs_mahasiswa as $key => $mahasiswa) {
+                            $userImageUrl = $this->getProfileImageUrl($mahasiswa);
+                            // Add the user_img_url to the user object
+                            $mahasiswa->user_img_url = $userImageUrl;
+                        }
+
+                        // dosbing
+                        $rs_dosbing = ApiKelompokModel::getAkunDosbingKelompok($kelompok->id_kelompok);
+                        foreach ($rs_dosbing as $key => $dosbing) {
+                            $userImageUrl = $this->getProfileImageUrl($dosbing);
+                            // Add the user_img_url to the user object
+                            $dosbing->user_img_url = $userImageUrl;
+                        }
+
+                        $rs_dospeng = ApiKelompokModel::getAkunDospengKelompok($kelompok->id_kelompok);
+                        foreach ($rs_dospeng as $key => $dospeng) {
+                            $userImageUrl = $this->getProfileImageUrl($dospeng);
+                            // Add the user_img_url to the user object
+                            $dospeng->user_img_url = $userImageUrl;
+                        }
+
+                        $rs_dospeng_ta = ApiKelompokModel::getAkunDospengTa($userBelumBerkelompok -> user_id);
+                        foreach ($rs_dospeng_ta as $key => $dospeng_ta) {
+                            $userImageUrl = $this->getProfileImageUrl($dospeng_ta);
+                            // Add the user_img_url to the user object
+                            $dospeng_ta->user_img_url = $userImageUrl;
+                        }
+
+                        // data
+                        $data = [
+                            'kelompok' => $kelompok,
+                            'getAkun' => $getAkun,
+                            'rs_mahasiswa' => $rs_mahasiswa,
+                            'rs_dosbing' => $rs_dosbing,
+                            'rs_dospeng' => $rs_dospeng,
+                            'rs_dospeng_ta' => $rs_dospeng_ta,
+                        ];
+                        $response = $this->successResponse('Berhasil mendapatkan data!', $data);
+                    }
+                }
                 } catch (\Exception $e) {
                     $response = $this->failureResponse('Gagal mendapatkan data!');
                 }
@@ -386,7 +478,7 @@ class ApiKelompokController extends Controller
 
         // Check if the user exists
         if ($user != null && $user->user_active == 1) {
-           
+
             try {
 
                 // process
@@ -414,7 +506,7 @@ class ApiKelompokController extends Controller
         $user = ApiKelompokModel::getAkunByID($jwtUser->user_id);
 
         // Check if the user exists
-        if ($user != null && $user->user_active == 1) {           
+        if ($user != null && $user->user_active == 1) {
             try {
                 // params
                 $params = [
@@ -424,9 +516,34 @@ class ApiKelompokController extends Controller
                 // process
                 $update_kelompok_mhs = ApiKelompokModel::updateKelompokMHS($user->user_id, $params);
 
-                $response = $this->successResponse('Berhasil menyetujui status pendaftaran!', 'Berhasil!');
+                // Inisialisasi variabel untuk menyimpan status setuju semua atau tidak
+                $semuaSetuju = true;
+
+                if ($update_kelompok_mhs) {
+                    $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($user->user_id);
+                    $rs_mahasiswa = ApiKelompokModel::listKelompokMahasiswa($kelompok->id_kelompok);
+
+                    foreach ($rs_mahasiswa as $key => $mahasiswa) {
+                        // Jika status individu bukan "menyetujui kelompok", set variabel $semuaSetuju menjadi false
+                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok") {
+                            $semuaSetuju = false;
+                            // Jika salah satu mahasiswa tidak setuju, Anda bisa langsung keluar dari loop
+                            break;
+                        }
+                    }
+
+                    // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
+                    if ($semuaSetuju) {
+                        $paramKelompok = [
+                            "status_kelompok" => "Disetujui Anggota",
+                        ];
+                        $update_kelompok = ApiKelompokModel::updateKelompok($kelompok ->id, $paramKelompok);
+                    }
+                }
+                $response = $this->successResponse('Berhasil menyetujui kelompok!', 'Berhasil!');
 
             } catch (\Exception $e) {
+                dd($e);
                 $response = $this->failureResponse('Gagal menyetujui!');
             }
         } else {
