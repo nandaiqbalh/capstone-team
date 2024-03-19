@@ -260,6 +260,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/jadwal-pendaftaran/expo/terima/{id}', [JadwalExpoController::class, 'terimaKelompok']);
     Route::get('/admin/jadwal-pendaftaran/expo/tolak/{id}', [JadwalExpoController::class, 'tolakKelompok']);
 
+    //sidangta
+    Route::get('/admin/jadwal-pendaftaran/sidangta', [JadwalSidangTAController::class, 'index']);
+    Route::post('/admin/jadwal-pendaftaran/sidangta/add-process', [JadwalSidangTAController::class, 'addJadwalExpoProcess']);
+    Route::get('/admin/jadwal-pendaftaran/sidangta/delete-process/{id}', [JadwalSidangTAController::class, 'deleteJadwalExpoProcess']);
+    Route::post('/admin/jadwal-pendaftaran/sidangta/edit-process', [JadwalSidangTAController::class, 'editJadwalExpoProcess']);
+    Route::get('/admin/jadwal-pendaftaran/sidangta/detail/{user_id}', [JadwalSidangTAController::class, 'detailJadwalExpo']);
+
+    Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
+    Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);
+
 
 
     //kelompok
