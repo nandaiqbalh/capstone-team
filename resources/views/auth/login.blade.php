@@ -30,33 +30,6 @@
     <link rel="stylesheet" href="{{ asset('vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('vendor/css/pages/page-auth.css') }}" />
-    <script src="{{ asset('vendor/js/helpers.js') }}"></script>
-    <script src="{{ asset('js/config.js') }}"></script>
-
-    <!-- jQuery -->
-    <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
-        
-    <script type="text/javascript">
-        document.onkeydown = function(e) {
-            if(event.keyCode == 123) {
-                return false;
-            }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-                return false;
-            }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-                return false;
-            }
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-                return false;
-            }
-            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-                return false;
-            }
-        }
-    </script>
-    {{-- {!! RecaptchaV3::initJs() !!} --}}
-
   </head>
 
   <body >
@@ -73,11 +46,11 @@
                   <img style="height: 150px" src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid" >
                 </a>
               </div>
+              <!-- Text -->
               <h5 class="mb-2 text-center" style="color: blue;"><b>CAPSTONE TA <br> TEKNIK KOMPUTER</b></h5>
-
               @include("template.notification")
               <br>
-
+              <!-- Form -->
               <form id="formAuthentication" action="{{ url('/login/process') }}" method="POST">
                 {{ csrf_field()}}
                 <div class="mb-2">
@@ -101,13 +74,35 @@
                   <button class="btn btn-primary d-grid w-100" type="submit" id="btn-login">Masuk</button>
                 </div>
               </form>
-              
-            
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="{{ asset('vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('js/config.js') }}"></script>
+    <!-- jQuery -->
+    <script src="{{ asset('vendor/libs/jquery/jquery.js') }}"></script>
+    <script type="text/javascript">
+        document.onkeydown = function(e) {
+            if(event.keyCode == 123) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+        }
+    </script>
     <script type="text/javascript">
       function preventBack() {
           window.history.forward(); 
