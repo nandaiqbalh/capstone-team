@@ -58,7 +58,7 @@ class LoginController extends Controller
         } else {
 
             // flash message
-            $request->session()->flash('danger', 'Masuk gagal, silahkan cek kembali ID Pengguna & Kata Sandi Anda.');
+            $request->session()->flash('danger', 'Nomor induk atau kata sandi tidak sesuai!');
             return redirect('/login')->withInput();
         }
     }
