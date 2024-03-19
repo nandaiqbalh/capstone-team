@@ -156,7 +156,7 @@ class ApiTugasAkhirController extends Controller
                     // Registration parameters
                     $registrationParams = [
                         'id_mahasiswa' => $user->user_id,
-                        'status' => 'Mendaftar Sidang TA',
+                        'status' => 'Menunggu Validasi Jadwal!',
                         'created_by' => $user->user_id,
                         'created_date' => now(), // Use Laravel helper function for the current date and time
                     ];
@@ -171,6 +171,7 @@ class ApiTugasAkhirController extends Controller
                     $berkasParams = [
                         'link_upload' => $request->link_upload,
                         'judul_ta_mhs' => $request->judul_ta_mhs,
+                        'status_individu' => 'Menunggu Validasi Jadwal!',
                     ];
                     ApiTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams);
 

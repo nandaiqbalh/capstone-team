@@ -36,7 +36,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
 
                 }
 
@@ -63,10 +63,10 @@ class ApiDokumenCapstoneController extends Controller
                         $filePath = public_path($existingFile->file_path_c100 . '/' . $existingFile->file_name_c100);
 
                         if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                            $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                         }
                     } else {
-                        $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                        $response = $this->failureResponse('Gagal. Kelompok tidak valid!');
                     }
 
                     // Move the uploaded file to the specified path
@@ -84,22 +84,24 @@ class ApiDokumenCapstoneController extends Controller
                         if ($uploadFile) {
                             $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc100);
                             $statusParam = [
-                                'status_kelompok' => 'Mengunggah C100',
+                                'status_kelompok' => 'C100 Telah Disetujui!',
+                                'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C100!',
+                                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
                             ];
                             ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                         }
                     } else {
-                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                     }
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan.');
+                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
@@ -130,7 +132,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
 
                 }
 
@@ -157,10 +159,10 @@ class ApiDokumenCapstoneController extends Controller
                         if ($existingFile->file_name_c200) {
                             $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
                             if (file_exists($filePath) && !unlink($filePath)) {
-                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path
@@ -178,26 +180,28 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc200);
                                 $statusParam = [
-                                    'status_kelompok' => 'Mengunggah C200',
+                                    'status_kelompok' => 'C200 Telah Disetujui!',
+                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C200!',
+                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C200!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
                             } else {
-                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                         }
                     } else {
                         $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
                     }
 
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan.');
+                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
@@ -229,7 +233,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
                 }
 
                 // Upload path
@@ -254,10 +258,10 @@ class ApiDokumenCapstoneController extends Controller
                         if ($existingFile->file_name_c300) {
                             $filePath = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
                             if (file_exists($filePath) && !unlink($filePath)) {
-                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path
@@ -275,25 +279,27 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc300);
                                 $statusParam = [
-                                    'status_kelompok' => 'Mengunggah C300',
+                                    'status_kelompok' => 'C300 Telah Disetujui!',
+                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C300!',
+                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C300!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
                             } else {
-                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                         }
                     } else {
                         $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
                     }
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan.');
+                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
@@ -325,7 +331,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
 
                 }
 
@@ -352,10 +358,10 @@ class ApiDokumenCapstoneController extends Controller
                         if ($existingFile->file_name_c400) {
                             $filePath = public_path($existingFile->file_path_c400 . '/' . $existingFile->file_name_c400);
                             if (file_exists($filePath) && !unlink($filePath)) {
-                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid!');
 
                         }
 
@@ -374,25 +380,27 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc400);
                                 $statusParam = [
-                                    'status_kelompok' => 'Mengunggah C400',
+                                    'status_kelompok' => 'C400 Telah Disetujui!',
+                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C400!',
+                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C400!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
                             } else {
-                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                         }
                     } else {
                         $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C300!');
                     }
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan.');
+                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
@@ -424,7 +432,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
 
                 }
 
@@ -452,10 +460,10 @@ class ApiDokumenCapstoneController extends Controller
                         if ($existingFile->file_name_c500) {
                             $filePath = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
                             if (file_exists($filePath) && !unlink($filePath)) {
-                                $response = $this->failureResponse('Gagal menghapus dokumen lama.');
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Kelompok tidak valid.');
+                            $response = $this->failureResponse('Gagal. Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path
@@ -473,25 +481,27 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlc500);
                                 $statusParam = [
-                                    'status_kelompok' => 'Mengunggah C500',
+                                    'status_kelompok' => 'C500 Telah Disetujui!',
+                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C500!',
+                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C500!',
                                 ];
 
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
                             } else {
-                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah.');
+                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
                         }
                     }else{
                         $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
                     }
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil.');
+                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan.');
+                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
