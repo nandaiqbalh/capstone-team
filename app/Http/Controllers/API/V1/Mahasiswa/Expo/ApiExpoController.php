@@ -66,33 +66,41 @@ class ApiExpoController extends Controller
                 $kelompok = ApiExpoModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
                 if ($this->validateKelompok($kelompok)) {
-                    $registrationParams = [
-                        'id_kelompok' => $kelompok->id,
-                        'id_expo' => $request->id_expo,
-                        'status' => 'Mendaftar Expo',
-                        'created_by' => $user->user_id,
-                        'created_date' => now(),
-                    ];
 
-                    DB::table('pendaftaran_expo')->updateOrInsert(
-                        ['id_kelompok' => $kelompok->id],
-                        $registrationParams
-                    );
+                    if($kelompok -> file_name_c500 != null){
+                        $registrationParams = [
+                            'id_kelompok' => $kelompok->id,
+                            'id_expo' => $request->id_expo,
+                            'status' => 'Menunggu Validasi Expo!',
+                            'created_by' => $user->user_id,
+                            'created_date' => now(),
+                        ];
 
-                    $kelompokParams = [
-                        'link_berkas_expo' => $request->link_berkas_expo,
-                    ];
+                        DB::table('pendaftaran_expo')->updateOrInsert(
+                            ['id_kelompok' => $kelompok->id],
+                            $registrationParams
+                        );
 
-                    ApiExpoModel::updateKelompokById($kelompok->id, $kelompokParams);
+                        $kelompokParams = [
+                            'link_berkas_expo' => $request->link_berkas_expo,
+                            'status_kelompok' => "Menunggu Validasi Expo!"
+                        ];
 
-                    $kelompokMHSParams = [
-                        'judul_ta_mhs' => $request->judul_ta_mhs,
-                    ];
-                    ApiExpoModel::updateKelompokMHS($user->user_id, $kelompokMHSParams);
+                        ApiExpoModel::updateKelompokById($kelompok->id, $kelompokParams);
 
-                    $cekStatusExpo = ApiExpoModel::cekStatusExpo($user->user_id);
+                        $kelompokMHSParams = [
+                            'judul_ta_mhs' => $request->judul_ta_mhs,
+                            'status_individu' => "Menunggu Validasi Expo!"
+                        ];
+                        ApiExpoModel::updateKelompokMHS($user->user_id, $kelompokMHSParams);
 
-                    $response = $this->successResponse('Berhasil mendaftarkan expo!', $cekStatusExpo);
+                        $cekStatusExpo = ApiExpoModel::cekStatusExpo($user->user_id);
+
+                        $response = $this->successResponse('Berhasil mendaftarkan expo!', $cekStatusExpo);
+                    } else {
+                        $response = $this->failureResponse('Lengkapi Dokumen Capstone!');
+                    }
+
                 } else {
                     $response = $this->failureResponse('Anda belum memiliki kelompok!');
                 }

@@ -84,14 +84,4 @@ class Accounts extends BaseModel
         return DB::table('app_role')->select('role_id', 'role_name')->get();
     }
 
-    // public static function insert_role_user($params)
-    // {
-    //     return DB::table('app_role_user')->insert($params);
-    // }
-
-    // public static function update_role_user($user_id, $params)
-    // {
-    //     return DB::table('app_role_user')->where('user_id', $user_id)->update($params);
-    // }
-
 }
