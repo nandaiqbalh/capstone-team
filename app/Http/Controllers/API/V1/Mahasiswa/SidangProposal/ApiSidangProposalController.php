@@ -86,7 +86,7 @@ class ApiSidangProposalController extends Controller
 
         $rsSidang->hari_sidang = strftime('%A', $waktuSidang);
         $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
-        $rsSidang->tanggal_sidang = date('Y-m-d', $waktuSidang);
+        $rsSidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
         $rsSidang->waktu_sidang = date('H:i:s', $waktuSidang);
 
         $rsSidang->kelompok = $kelompok;

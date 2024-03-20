@@ -22,7 +22,26 @@ class ApiExpoController extends Controller
                 if ($this->validateKelompok($kelompok)) {
                     $rs_expo = ApiExpoModel::getDataExpo($user->user_id);
 
+
+
+
                     if ($this->validateExpoData($rs_expo)) {
+
+                        // convert
+                        $waktuExpo = strtotime($rs_expo->waktu);
+
+                        $rs_expo->hari_expo = strftime('%A', $waktuExpo);
+                        $rs_expo->hari_expo = $this->convertDayToIndonesian($rs_expo->hari_expo);
+                        $rs_expo->tanggal_expo = date('d-m-Y', $waktuExpo);
+                        $rs_expo->waktu_expo = date('H:i:s', $waktuExpo);
+
+                        $tanggalSelesai = strtotime($rs_expo->tanggal_selesai);
+
+                        $rs_expo->hari_batas = strftime('%A', $tanggalSelesai);
+                        $rs_expo->hari_batas = $this->convertDayToIndonesian($rs_expo->hari_batas);
+                        $rs_expo->tanggal_batas = date('d-m-Y', $tanggalSelesai);
+                        $rs_expo->waktu_batas = date('H:i:s', $tanggalSelesai);
+
                         $cekStatusExpo = ApiExpoModel::cekStatusExpo($user->user_id);
                         $id_kelompok = ApiExpoModel::idKelompok($user->user_id);
                         $kelengkapanExpo = ApiExpoModel::kelengkapanExpo($user->user_id);
@@ -132,6 +151,22 @@ class ApiExpoController extends Controller
         return $rs_expo !== null;
     }
 
+    private function convertDayToIndonesian($day)
+    {
+        // Mapping nama hari ke bahasa Indonesia
+        $dayMappings = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+
+        // Cek apakah nama hari ada di dalam mapping
+        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
+    }
     // Fungsi untuk menangani respons sukses
     private function successResponse($statusMessage, $data)
     {
