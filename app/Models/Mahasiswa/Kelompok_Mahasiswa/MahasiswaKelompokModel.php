@@ -49,6 +49,14 @@ class MahasiswaKelompokModel extends BaseModel
             ->where('a.user_id', $user_id)
             ->first();
     }
+
+    public static function getAkunBelumPunyaKelompok($user_id)
+    {
+        return DB::table('app_user as a')
+            ->where('a.user_id', $user_id)
+            ->first();
+    }
+
     // get akun by id user
     public static function getAkun()
     {
@@ -193,5 +201,17 @@ class MahasiswaKelompokModel extends BaseModel
     public static function delete($user_id)
     {
         return DB::table('app_user')->where('user_id', $user_id)->delete();
+    }
+
+    public static function getTopikById($id)
+    {
+        return DB::table('topik')->where('id', $id)
+            ->first();
+    }
+
+    public static function getPeminatanById($id)
+    {
+        return DB::table('peminatan')->where('id', $id)
+            ->first();
     }
 }

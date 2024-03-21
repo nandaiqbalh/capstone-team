@@ -200,18 +200,26 @@
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <form action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}" method="post" autocomplete="off">
-                                                            {{ csrf_field()}}
+                            {{ csrf_field()}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label>Judul Capstone<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="Masukkan usulan judul capstone" name="judul_capstone" value="" required>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label >Nama<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="nama" value="{{ old('nama',$getAkun->user_name) }}" readonly>
+                                        <input type="text" class="form-control" placeholder="Contoh: Maulana Yusuf Suradin" name="nama" value="{{ old('nama',$getAkun->user_name) }}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>NIM<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="nim" value="{{ old('nim',$getAkun->nomor_induk) }}" readonly>
+                                        <input type="number" class="form-control" placeholder="Contoh: 21120120140051" name="nim" value="{{ old('nim',$getAkun->nomor_induk) }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -219,19 +227,19 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label >Angkatan<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="angkatan" value="{{ old('angkatan',$getAkun->angkatan) }}" required>
+                                        <input type="number" class="form-control" placeholder="Contoh: 2020" name="angkatan" value="{{ old('angkatan',$getAkun->angkatan) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label >IPK<span class="text-danger">*</span></label>
-                                        <input type="number" step='any' class="form-control" name="ipk" value="{{ old('ipk',$getAkun->ipk) }}" required>
+                                        <input type="number" step='any' class="form-control" placeholder="Contoh: 3.87" name="ipk" value="{{ old('ipk',$getAkun->ipk) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label>SKS<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="sks" value="{{ old('sks',$getAkun->sks) }}" required>
+                                        <input type="number" class="form-control" name="sks" placeholder="Contoh: 111" value="{{ old('sks',$getAkun->sks) }}" required>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +247,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>No Telp<span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control" name="no_telp" value="{{ old('sks',$getAkun->no_telp) }}" required>
+                                        <input type="number" class="form-control" name="no_telp" placeholder="Contoh: 0831018123123" value="{{ old('sks',$getAkun->no_telp) }}" required>
                                     </div>
                                 </div>
 
@@ -269,101 +277,35 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Email<span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" name="email" value="{{$getAkun->user_email}}" required>
+                                        <input type="email" class="form-control" placeholder="Contoh: yusuf@gmail.com" name="email" value="{{$getAkun->user_email}}" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    Pilih Skala Prioritas Peminatan
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Software & Database</th>
-                                            <th scope="col">Embedded System & Robotics</th>
-                                            <th scope="col">Computer Network & Security</th>
-                                            <th scope="col">Multimedia & Game</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                            <th scope="row">1</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios1" value="1" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios1" value="1" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios1" value="1" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios1" value="1" ></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios2" value="2" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios2" value="2" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios2" value="2" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios2" value="2" ></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios3" value="3" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios3" value="3" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios3" value="3" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios3" value="3" ></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">4</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="s" id="exampleRadios4" value="4" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="e" id="exampleRadios4" value="4" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="c" id="exampleRadios4" value="4" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="m" id="exampleRadios4" value="4" ></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="mb-3">
+                                        <label>Skala Prioritas Peminatan<span class="text-danger">*</span></label>
+                                        <p>1. Software & Database <br>
+                                            2. Embedded System & Robotics <br>
+                                            3. Computer Network & Security <br>
+                                            4. Multimedia & Game</p>
+                                        <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1" name="peminatan" required>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
-                                    Pilih Skala Prioritas Topik
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                            <th scope="col">#</th>
-                                            @foreach ($rs_topik as $topik)
-                                            <th scope="col">{{$topik->nama}}</th>
-                                            @endforeach
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                            <th scope="row">1</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios1" value="1" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios1" value="1" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios1" value="1" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios1" value="1" ></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios2" value="2" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios2" value="2" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios2" value="2" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios2" value="2" ></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios3" value="3" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios3" value="3" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios3" value="3" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios3" value="3" ></td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">4</th>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="ews" id="exampleRadios4" value="4" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="bac" id="exampleRadios4" value="4" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smb" id="exampleRadios4" value="4" ></td>
-                                                <td style="text-align: center"><input class="form-check-input" type="radio" name="smc" id="exampleRadios4" value="4" ></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="mb-3">
+                                        <label>Skala Prioritas Topik<span class="text-danger">*</span></label>
+                                        <p>1. Early Warning System <br>
+                                            2. Building/area monitoring or controlling system <br>
+                                            3. Smart business/orga...latform/support system <br>
+                                            4. Smart city & transportation</p>
+                                        <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1" name="topik" required>
+                                    </div>
                                 </div>
                             </div>
+
+                            <br>
                                 <br>
                                 <button type="submit" class="btn btn-primary float-end">Daftar</button>
                             </form>

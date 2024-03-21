@@ -282,6 +282,8 @@ class ApiKelompokController extends Controller
                         'id_peminatan_individu2' => $peminatan2->id,
                         'id_peminatan_individu3' => $peminatan3->id,
                         'id_peminatan_individu4' => $peminatan4->id,
+                        'created_by'   => $user->user_id,
+                         'created_date'  => now(),
                     ];
 
                     ApiKelompokModel::insertKelompokMHS($params2);

@@ -87,51 +87,100 @@ class MahasiswaKelompokController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addKelompokProcess(Request $request)
-    {
 
-        // params
-        $params = [
-            "angkatan" => $request->angkatan,
-            "user_email" => $request->email,
-            "jenis_kelamin" => $request->jenis_kelamin,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            'no_telp' => $request->no_telp,
-            "alamat" => $request->alamat,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
+     public function addKelompokProcess(Request $request)
+     {
 
-        // process
-        $update_mahasiswa = MahasiswaKelompokModel::updateMahasiswa(Auth::user()->user_id, $params);
+         $user = MahasiswaKelompokModel::getAkunBelumPunyaKelompok(Auth::user() -> user_id);
 
-        if ($update_mahasiswa) {
-            $params2 = [
-                'usulan_judul_capstone' => $request->judul_capstone,
-                'id_siklus' => $request->id_siklus,
-                'id_mahasiswa' =>  Auth::user()->user_id,
-                'status_individu' => 'menunggu persetujuan',
-                'id_topik_individu1' => $request->ews,
-                'id_topik_individu2' => $request->bac,
-                'id_topik_individu3' => $request->smb,
-                'id_topik_individu4' => $request->smc,
-                'id_peminatan_individu1' => $request->s,
-                'id_peminatan_individu2' => $request->e,
-                'id_peminatan_individu3' => $request->c,
-                'id_peminatan_individu4' => $request->m,
-            ];
-            MahasiswaKelompokModel::insertKelompokMHS($params2);
+         // Check if the user exists
+         if ($user != null && $user->user_active == 1) {
+             // validation params
+             $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'id_siklus', 'peminatan', 'topik'];
+             foreach ($requiredParams as $param) {
+                 if (!$request->has($param) || empty($request->input($param))) {
+                    session()->flash('danger', "Parameter '$param' kosong atau belum diisi!");
+                    return back()->withInput();
 
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/mahasiswa/kelompok');
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/add')->withInput();
-        }
-    }
+                }
+             }
+
+             try {
+                 // params
+                 $params = [
+                     "angkatan" => $request->angkatan,
+                     "user_name" => Auth::user()->user_name,
+                     "nomor_induk" => Auth::user()->nomor_induk,
+                     "user_email" => $request->email,
+                     "jenis_kelamin" => $request->jenis_kelamin,
+                     "ipk" => $request->ipk,
+                     "sks" => $request->sks,
+                     'no_telp' => $request->no_telp,
+                     'modified_by'   => Auth::user()->user_id,
+                     'modified_date'  => now(),
+                 ];
+
+                 // process
+                 $update_mahasiswa = MahasiswaKelompokModel::updateMahasiswa($user->user_id, $params);
+
+                 if ($update_mahasiswa) {
+
+                    $peminatanEntered = $request ->peminatan;
+                    $peminatanArray = array_map('trim', explode(',', $peminatanEntered));
+
+                    $peminatan1 = MahasiswaKelompokModel::getPeminatanById($peminatanArray[0]);
+                    $peminatan2 = MahasiswaKelompokModel::getPeminatanById($peminatanArray[1]);
+                    $peminatan3 = MahasiswaKelompokModel::getPeminatanById($peminatanArray[2]);
+                    $peminatan4 = MahasiswaKelompokModel::getPeminatanById($peminatanArray[3]);
+
+                    $topikEntered = $request ->topik;
+                    $topikArray = array_map('trim', explode(',', $topikEntered));
+
+                    $topik1 = MahasiswaKelompokModel::getTopikById($topikArray[0]);
+                    $topik2 = MahasiswaKelompokModel::getTopikById($topikArray[1]);
+                    $topik3 = MahasiswaKelompokModel::getTopikById($topikArray[2]);
+                    $topik4 = MahasiswaKelompokModel::getTopikById($topikArray[3]);
+
+                     // Insert kelompok mhs
+                     $params2 = [
+                         'usulan_judul_capstone' => $request->judul_capstone,
+                         'id_siklus' => $request->id_siklus,
+                         'id_mahasiswa' => $user->user_id,
+                         'status_individu' => 'Menunggu Validasi Kelompok!',
+                         'id_topik_individu1' => $topik1->id,
+                         'id_topik_individu2' => $topik2->id,
+                         'id_topik_individu3' => $topik3->id,
+                         'id_topik_individu4' => $topik4->id,
+                         'id_peminatan_individu1' => $peminatan1->id,
+                         'id_peminatan_individu2' => $peminatan2->id,
+                         'id_peminatan_individu3' => $peminatan3->id,
+                         'id_peminatan_individu4' => $peminatan4->id,
+                         'created_by'   => Auth::user()->user_id,
+                         'created_date'  => now(),
+                     ];
+
+                     MahasiswaKelompokModel::insertKelompokMHS($params2);
+
+                    // flash message
+                    session()->flash('success', 'Berhasil mendaftar capstone!');
+                    return redirect('/mahasiswa/kelompok');
+                 } else {
+                     session()->flash('danger', 'Pengguna tidak ditemukan!');
+                    return back()->withInput();
+
+                 }
+             } catch (\Exception $e) {
+                 session()->flash('danger', 'Gagal mendaftar capstone!');
+                 dd($e);
+                return back()->withInput();
+
+             }
+         } else {
+            session()->flash('danger', 'Pengguna tidak ditemukan!');
+            return back()->withInput();
+
+         }
+     }
 
 
     /**
