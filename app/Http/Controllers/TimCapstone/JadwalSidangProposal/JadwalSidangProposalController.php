@@ -22,8 +22,6 @@ class JadwalSidangProposalController extends BaseController
 
     public function index()
     {
-        // authorize
-        JadwalSidangProposalModel::authorize('R');
 
         // get data with pagination
         $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
@@ -42,8 +40,6 @@ class JadwalSidangProposalController extends BaseController
 
     public function addJadwalSidangProposal()
     {
-        // authorize
-        JadwalSidangProposalModel::authorize('C');
         $rs_siklus = JadwalSidangProposalModel::getSiklus();
         $rs_kelompok = JadwalSidangProposalModel::getKelompok();
         $rs_dosen = JadwalSidangProposalModel::getDosen();
@@ -68,8 +64,6 @@ class JadwalSidangProposalController extends BaseController
     public function addJadwalSidangProposalProcess(Request $request)
     {
 
-        // authorize
-        JadwalSidangProposalModel::authorize('C');
         // params
         // dd($request);
 
@@ -114,8 +108,6 @@ class JadwalSidangProposalController extends BaseController
 
     public function editJadwalSidangProposal($id)
     {
-        // authorize
-        JadwalSidangProposalModel::authorize('C');
         $jadwalSidang = JadwalSidangProposalModel::getjadwalSidang($id);
         $jadwalSidang = JadwalSidangProposalModel::getjadwalSidang2($id, $jadwalSidang->id_kelompok);
 
@@ -147,13 +139,6 @@ class JadwalSidangProposalController extends BaseController
      */
     public function editJadwalSidangProposalProcess(Request $request)
     {
-        // authorize
-        JadwalSidangProposalModel::authorize('U');
-
-        // if ($request->id_dosen_2 == $request->id_dosen_1) {
-        //     session()->flash('danger', 'Dosen Tidak boleh sama!');
-        //     return back();
-        // }
         $params = [
             'siklus_id' => $request->siklus_id,
             'id_kelompok' => $request->id_kelompok,
@@ -201,9 +186,6 @@ class JadwalSidangProposalController extends BaseController
      */
     public function deleteJadwalSidangProposalProcess($id)
     {
-        // authorize
-        JadwalSidangProposalModel::authorize('D');
-
         // get data
         $delete = JadwalSidangProposalModel::getDataById($id);
 
@@ -234,8 +216,7 @@ class JadwalSidangProposalController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        JadwalSidangProposalModel::authorize('R');
+
         // data request
         $user_name = $request->nama;
 

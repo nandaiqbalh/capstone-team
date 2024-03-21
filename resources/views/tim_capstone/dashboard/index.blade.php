@@ -25,68 +25,6 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-4 mb-4 order-0">
-          <div class="card">
-            <div class="d-flex align-items-end row">
-              <div class="col-sm-12">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">Jadwal Pendaftaran Kelompok</h5>
-                  <ul class="list-group">
-                    @if (count($rs_jad_kel) > 0)
-                      @foreach ($rs_jad_kel as $item)
-                      <li class="list-group-item">{{$item->tanggal_mulai}} s/d {{$item->tanggal_selesai}}</li>
-                      @endforeach
-                    @else
-                    <li class="list-group-item">Jadwal Tidak Ada!</li>
-                    @endif
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4 order-0">
-          <div class="card">
-            <div class="d-flex align-items-end row">
-              <div class="col-sm-12">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">Jadwal Sidang Proposal</h5>
-                  <ul class="list-group">
-                    @if (count($rs_jad_sidang) > 0)
-                      @foreach ($rs_jad_sidang as $item)
-                      <li class="list-group-item">{{$item->tanggal_mulai}} {{$item->waktu}}</li>
-                      @endforeach
-                    @else
-                    <li class="list-group-item">Jadwal Tidak Ada!</li>
-                    @endif
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4 order-0">
-          <div class="card">
-            <div class="d-flex align-items-end row">
-              <div class="col-sm-12">
-                <div class="card-body">
-                  <h5 class="card-title text-primary">Jadwal Expo</h5>
-                  <ul class="list-group">
-                    @if (count($rs_jad_expo) > 0)
-                      @foreach ($rs_jad_expo as $item)
-                      <li class="list-group-item">{{$item->tanggal_mulai}} s/d {{$item->tanggal_selesai}}</li>
-                      @endforeach
-                    @else
-                    <li class="list-group-item">Jadwal Tidak Ada!</li>
-                    @endif
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
 

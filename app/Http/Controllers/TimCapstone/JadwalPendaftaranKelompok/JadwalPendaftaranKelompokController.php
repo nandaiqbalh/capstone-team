@@ -22,8 +22,6 @@ class JadwalPendaftaranKelompokController extends BaseController
 
     public function index()
     {
-        // authorize
-        JadwalPendaftaranKelompokModel::authorize('R');
 
         // get data with pagination
         $rs_pendaftaran = JadwalPendaftaranKelompokModel::getDataWithPagination();
@@ -48,8 +46,6 @@ class JadwalPendaftaranKelompokController extends BaseController
     public function addJadwalPendaftaranKelompokProcess(Request $request)
     {
 
-        // authorize
-        JadwalPendaftaranKelompokModel::authorize('C');
         // params
         // default passwordnya mahasiswa123
 
@@ -86,9 +82,7 @@ class JadwalPendaftaranKelompokController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function editJadwalPendaftaranKelompokProcess(Request $request)
-    {
-        // authorize
-        JadwalPendaftaranKelompokModel::authorize('U');
+{
 
         // params
         $params = [
@@ -119,8 +113,6 @@ class JadwalPendaftaranKelompokController extends BaseController
      */
     public function deleteJadwalPendaftaranKelompokProcess($id)
     {
-        // authorize
-        JadwalPendaftaranKelompokModel::authorize('D');
 
         // get data
         $delete = JadwalPendaftaranKelompokModel::getDataById($id);
@@ -152,8 +144,7 @@ class JadwalPendaftaranKelompokController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        JadwalPendaftaranKelompokModel::authorize('R');
+
         // data request
         $user_name = $request->nama;
 

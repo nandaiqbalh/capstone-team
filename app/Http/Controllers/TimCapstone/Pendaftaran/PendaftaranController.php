@@ -24,8 +24,6 @@ class PendaftaranController extends BaseController
 
     public function index()
     {
-        // authorize
-        PendaftaranModel::authorize('R');
 
         $rs_mahasiswa = MahasiswaModel::getDataWithPagination();
         $rs_pendaftaran = PendaftaranModel::getDataWithPagination();
@@ -59,8 +57,6 @@ class PendaftaranController extends BaseController
      */
     public function addPendaftaran(Request $request)
     {
-        // authorize
-        PendaftaranModel::authorize('C');
         $id_topik = $request->id_topik;
         $user_id = $request->user_id;
         $get_topik = PendaftaranModel::getTopikbyid($id_topik);
@@ -89,9 +85,6 @@ class PendaftaranController extends BaseController
      */
     public function updateMhsTopikProcess(Request $request)
     {
-        // authorize
-        PendaftaranModel::authorize('U');
-
         // params
         $params = [
             'id_topik_mhs' => $request->id_topik,
@@ -121,9 +114,6 @@ class PendaftaranController extends BaseController
     public function addPendaftaranProcess(Request $request)
     {
 
-        // dd($request);
-        // authorize
-        PendaftaranModel::authorize('C');
         // params
         if ($request->id_dosen2 == $request->id_dosen1) {
             session()->flash('danger', 'Dosen tidak boleh sama!');
@@ -197,9 +187,6 @@ class PendaftaranController extends BaseController
      */
     public function detailMahasiswa($user_id)
     {
-        // authorize
-        PendaftaranModel::authorize('R');
-
         // get data with pagination
         $mahasiswa = PendaftaranModel::getDataById($user_id);
 
@@ -225,9 +212,6 @@ class PendaftaranController extends BaseController
      */
     public function editMahasiswa($user_id)
     {
-        // authorize
-        PendaftaranModel::authorize('U');
-
         // get data
         $mahasiswa = PendaftaranModel::getDataById($user_id);
 
@@ -254,9 +238,6 @@ class PendaftaranController extends BaseController
      */
     public function editMahasiswaProcess(Request $request)
     {
-        // authorize
-        PendaftaranModel::authorize('U');
-
         // Validate & auto redirect when fail
         $rules = [
             'nama' => 'required',
@@ -300,9 +281,6 @@ class PendaftaranController extends BaseController
      */
     public function deleteMahasiswaProcess($user_id)
     {
-        // authorize
-        PendaftaranModel::authorize('D');
-
         // get data
         $mahasiswa = PendaftaranModel::getDataById($user_id);
 
@@ -333,8 +311,6 @@ class PendaftaranController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        PendaftaranModel::authorize('R');
         // data request
         $user_name = $request->nama;
 

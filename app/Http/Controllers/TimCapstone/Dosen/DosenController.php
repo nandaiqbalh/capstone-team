@@ -19,9 +19,6 @@ class DosenController extends BaseController
      */
     public function index()
     {
-        // authorize
-        DosenModel::authorize('R');
-
         // get data with pagination
         $dt_dosen = DosenModel::getDataWithPagination();
         // data
@@ -37,8 +34,6 @@ class DosenController extends BaseController
      */
     public function addDosen()
     {
-        // authorize
-        DosenModel::authorize('C');
 
         // view
         return view('tim_capstone.dosen.add');
@@ -52,9 +47,6 @@ class DosenController extends BaseController
      */
     public function addDosenProcess(Request $request)
     {
-
-        // authorize
-        DosenModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -100,8 +92,6 @@ class DosenController extends BaseController
      */
     public function detailDosen($id)
     {
-        // authorize
-        DosenModel::authorize('R');
 
         // get data with pagination
         $dosen = DosenModel::getDataById($id);
@@ -128,8 +118,6 @@ class DosenController extends BaseController
      */
     public function editDosen($user_id)
     {
-        // authorize
-        DosenModel::authorize('U');
 
         // get data
         $dosen = DosenModel::getDataById($user_id);
@@ -157,8 +145,6 @@ class DosenController extends BaseController
      */
     public function editDosenProcess(Request $request)
     {
-        // authorize
-        DosenModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -199,9 +185,6 @@ class DosenController extends BaseController
      */
     public function deleteDosenProcess($id)
     {
-        // authorize
-        DosenModel::authorize('D');
-
         // get data
         $dosen = DosenModel::getDataById($id);
 
@@ -232,8 +215,6 @@ class DosenController extends BaseController
      */
     public function searchDosen(Request $request)
     {
-        // authorize
-        DosenModel::authorize('R');
         // data request
         $user_name = $request->nama;
 

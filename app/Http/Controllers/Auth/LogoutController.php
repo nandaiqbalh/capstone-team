@@ -69,7 +69,7 @@ class LogoutController extends Controller
                     Log::info('User '.$old_take_over_user_id.' selesai mengambil alih akun '.$user_id);
 
                     // return
-                    return redirect()->intended('/admin/dashboard');
+                    return redirect()->intended('admin/dashboard');
                 }
                 else {
                     // insert percobaan login

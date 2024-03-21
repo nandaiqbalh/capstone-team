@@ -138,7 +138,7 @@
                                     <tr>
                                         <td>Tanggal dan Waktu</td>
                                         <td>:</td>
-                                        <td>{{ $proposal->tanggal_mulai }} {{ $proposal->waktu }} </td>
+                                        <td>{{ $proposal->waktu }} </td>
                                     </tr>
                                     <tr>
                                         <td>Ruangan</td>

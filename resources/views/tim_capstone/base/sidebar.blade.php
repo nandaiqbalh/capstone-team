@@ -6,7 +6,7 @@
           <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 25%;">
         </div>
         <div class="col-12">
-          <span><p style="text-align: center"> <strong>CAPSTONE TA TEKNIK KOMPUTER</strong></p></span> 
+          <span><p style="text-align: center"> <strong>CAPSTONE TA TEKNIK KOMPUTER</strong></p></span>
         </div>
       </div>
     </a>
@@ -25,7 +25,7 @@
     </li>
 
     @foreach($rs_parent_menu_utama as $parent_menu_utama)
-      
+
       @if(empty($rs_child_menu_utama[$parent_menu_utama->menu_id]))
       <li class="menu-item @if($url_segment == $parent_menu_utama->menu_url ) active @endif">
         <a href="{{url($parent_menu_utama->menu_url)}}" class="menu-link">

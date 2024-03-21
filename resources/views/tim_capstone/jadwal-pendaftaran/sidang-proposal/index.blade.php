@@ -46,7 +46,7 @@ Jadwal Sidang Proposal
                             <td class="text-center">{{ $index + $rs_sidang->firstItem() }}.</td>
                             <td>{{ $pendaftaran->tahun_ajaran }}</td>
                             <td>{{ $pendaftaran->nomor_kelompok }}</td>
-                            <td>{{ $pendaftaran->tanggal_mulai }}</td>
+                            <td>{{ $pendaftaran->waktu }}</td>
                             <td>{{ $pendaftaran->waktu }}</td>
                             {{-- <td>{{ $pendaftaran->ruangan }}</td> --}}
                             <td class="text-center">

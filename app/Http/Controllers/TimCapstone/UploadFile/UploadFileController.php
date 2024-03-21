@@ -22,8 +22,6 @@ class UploadFileController extends BaseController
 
     public function index()
     {
-        // authorize
-        UploadFileModel::authorize('R');
 
         // get data kelompok
         $file_mhs = UploadFileModel::fileMHS();
@@ -49,10 +47,6 @@ class UploadFileController extends BaseController
      */
     public function uploadMakalahProcess(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
 
 
         // upload path
@@ -113,11 +107,6 @@ class UploadFileController extends BaseController
 
     public function uploadLaporanProcess(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
-
 
         // upload path
         $upload_path = '/file/mahasiswa/laporan-ta';
@@ -180,12 +169,6 @@ class UploadFileController extends BaseController
 
     public function uploadC100Process(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
-
-
         // upload path
         $upload_path = '/file/kelompok/c100';
         // UPLOAD FOTO
@@ -245,10 +228,6 @@ class UploadFileController extends BaseController
 
     public function uploadC200Process(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
 
 
         // upload path
@@ -308,10 +287,6 @@ class UploadFileController extends BaseController
     }
     public function uploadC300Process(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
 
 
         // upload path
@@ -371,10 +346,6 @@ class UploadFileController extends BaseController
     }
     public function uploadC400Process(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
 
 
         // upload path
@@ -434,10 +405,6 @@ class UploadFileController extends BaseController
     }
     public function uploadC500Process(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        UploadFileModel::authorize('C');
 
 
         // upload path
@@ -503,14 +470,7 @@ class UploadFileController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addPunyaKelompokProcess(Request $request)
-    {
-
-        // dd($request);
-        // authorize
-        UploadFileModel::authorize('C');
-
-        // addKelompok
+    public function addPunyaKelompokProcess(Request $request){
 
         $params = [
             "id_siklus" => $request->id_siklus,
@@ -621,8 +581,6 @@ class UploadFileController extends BaseController
      */
     public function detailMahasiswa($user_id)
     {
-        // authorize
-        UploadFileModel::authorize('R');
 
         // get data with pagination
         $mahasiswa = UploadFileModel::getDataById($user_id);
@@ -649,8 +607,7 @@ class UploadFileController extends BaseController
      */
     public function editMahasiswa($user_id)
     {
-        // authorize
-        UploadFileModel::authorize('U');
+
 
         // get data
         $mahasiswa = UploadFileModel::getDataById($user_id);
@@ -678,8 +635,7 @@ class UploadFileController extends BaseController
      */
     public function editMahasiswaProcess(Request $request)
     {
-        // authorize
-        UploadFileModel::authorize('U');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -724,8 +680,6 @@ class UploadFileController extends BaseController
      */
     public function deleteMahasiswaProcess($user_id)
     {
-        // authorize
-        UploadFileModel::authorize('D');
 
         // get data
         $mahasiswa = UploadFileModel::getDataById($user_id);
@@ -757,8 +711,6 @@ class UploadFileController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        UploadFileModel::authorize('R');
         // data request
         $user_name = $request->nama;
 

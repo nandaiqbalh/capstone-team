@@ -23,8 +23,7 @@ class MahasiswaKelompokController extends BaseController
 
     public function index()
     {
-        // authorize
-        MahasiswaKelompokModel::authorize('R');
+
 
         // get data kelompok
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa();
@@ -90,10 +89,6 @@ class MahasiswaKelompokController extends BaseController
      */
     public function addKelompokProcess(Request $request)
     {
-        // dd($request['angkatan']);
-
-        // authorize
-        MahasiswaKelompokModel::authorize('C');
 
         // params
         $params = [
@@ -148,9 +143,6 @@ class MahasiswaKelompokController extends BaseController
     public function addPunyaKelompokProcess(Request $request)
     {
 
-        // dd($request);
-        // authorize
-        MahasiswaKelompokModel::authorize('C');
         if ($request->dosbing_1 == $request->dosbing_2) {
             session()->flash('danger', 'Dosen tidak boleh sama!');
             return back()->withInput();
@@ -275,8 +267,6 @@ class MahasiswaKelompokController extends BaseController
      */
     public function detailMahasiswa($user_id)
     {
-        // authorize
-        MahasiswaKelompokModel::authorize('R');
 
         // get data with pagination
         $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
@@ -303,8 +293,6 @@ class MahasiswaKelompokController extends BaseController
      */
     public function editMahasiswa($user_id)
     {
-        // authorize
-        MahasiswaKelompokModel::authorize('U');
 
         // get data
         $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
@@ -332,8 +320,7 @@ class MahasiswaKelompokController extends BaseController
      */
     public function editMahasiswaProcess(Request $request)
     {
-        // authorize
-        MahasiswaKelompokModel::authorize('U');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -378,8 +365,6 @@ class MahasiswaKelompokController extends BaseController
      */
     public function deleteMahasiswaProcess($user_id)
     {
-        // authorize
-        MahasiswaKelompokModel::authorize('D');
 
         // get data
         $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
@@ -411,9 +396,7 @@ class MahasiswaKelompokController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        MahasiswaKelompokModel::authorize('R');
-        // data request
+
         $user_name = $request->nama;
 
         // new search or reset
