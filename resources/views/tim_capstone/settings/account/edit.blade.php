@@ -103,7 +103,7 @@
 
         <!-- card-->
         <div class="card">
-            <h5 class="card-header">Ubah Password</h5>
+            <h5 class="card-header">Ganti Kata Sandi</h5>
             <form action="{{ url('/admin/settings/account/edit_password') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field()}}
@@ -111,7 +111,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Password Saat Ini<span class="text-danger">*</span></label>
+                                <label>Kata Sandi Saat Ini<span class="text-danger">*</span></label>
                                 {{-- <input type="password" class="form-control" name="current_password" required> --}}
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" name="current_password" id="current_password" placeholder="Masukkan kata sandi saat ini" required>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Password Baru<span class="text-danger">*</span></label>
+                                <label>Kata Sandi Baru<span class="text-danger">*</span></label>
                                 {{-- <input type="password" class="form-control" name="new_password" required> --}}
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" name="new_password" id="new_password" placeholder="Masukkan kata sandi baru" required>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Ulangi Password Baru<span class="text-danger">*</span></label>
+                                <label>Ulangi Kata Sandi Baru<span class="text-danger">*</span></label>
                                 {{-- <input type="password" class="form-control" name="repeat_new_password" required> --}}
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" name="repeat_new_password" id="repeat_new_password" placeholder="Masukkan konfirmasi kata sandi baru" required>
