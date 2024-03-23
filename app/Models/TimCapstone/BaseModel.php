@@ -23,54 +23,6 @@ class BaseModel
                 ->first();
     }
 
-    /**
-     * Authorize Permission
-     * @type is C,R,U,D
-     */
-    public static function authorize($type) {
-
-        // get role permission by user
-        $permission = DB::table('app_role')
-                        ->select('role_permission')
-                        ->join('app_user', 'app_role.role_id','=', 'app_user.role_id')
-                        ->where('user_id', Auth::user()->user_id)
-                        ->first();
-
-        // cek permission
-        if(!empty($permission)) {
-            if($type == 'C') {
-                $C = substr($permission->role_permission, 0,1);
-                if(!$C) {
-                    return abort('403','Unauthorized Action');
-                }
-            }
-            else if($type == 'R') {
-                $R = substr($permission->role_permission, 1,1);
-                if(!$R) {
-                    return abort('403','Unauthorized Action');
-                }
-            }
-            else if($type == 'U') {
-                $U = substr($permission->role_permission, 2,1);
-                if(!$U) {
-                    return abort('403','Unauthorized Action');
-                }
-            }
-            else if($type == 'D') {
-                $D = substr($permission->role_permission, 3,1);
-                if(!$D) {
-                    return abort('403','Unauthorized Action');
-                }
-            }
-            else {
-                return abort('403','Unauthorized Action');
-            }
-        }
-        else {
-            return abort('403', 'Unauthorized Access');
-        }
-    }
-
     // user role
     public static function getUserRole() {
         $data = DB::table('app_role')

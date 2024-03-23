@@ -50,7 +50,7 @@ class ApiTugasAkhirController extends Controller
                                 // Konversi nama hari ke bahasa Indonesia
                                 $periodeAvailable->hari_batas = $this->convertDayToIndonesian($periodeAvailable->hari_batas);
 
-                                $periodeAvailable->tanggal_batas = date('Y-m-d', $waktubatas); // Date
+                                $periodeAvailable->tanggal_batas = date('d-m-Y', $waktubatas); // Date
                                 $periodeAvailable->waktu_batas = date('H:i:s', $waktubatas); // Time
 
                             }
@@ -90,7 +90,7 @@ class ApiTugasAkhirController extends Controller
                                 // Konversi nama hari ke bahasa Indonesia
                                 $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
 
-                                $rsSidang->tanggal_sidang = date('Y-m-d', $waktuSidang); // Date
+                                $rsSidang->tanggal_sidang = date('d-m-Y', $waktuSidang); // Date
                                 $rsSidang->waktu_sidang = date('H:i:s', $waktuSidang); // Time
                             }
 

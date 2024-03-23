@@ -9,13 +9,32 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ApiDosenController extends Controller
 {
-    public function index(Request $request)
+    public function dosbing1(Request $request)
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
 
             if ($user && $user->user_active == 1) {
-                $rs_dosen = ApiDosenModel::getData();
+                $rs_dosen = ApiDosenModel::getDataDosbing1();
+
+                $response = $this->successResponse('Berhasil mendapatkan data dosen!', ['rs_dosen' => $rs_dosen]);
+            } else {
+                $response = $this->failureResponse('Gagal mendapatkan data dosen!', null);
+            }
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            $response = $this->failureResponse('Token is Invalid', null);
+        }
+
+        return response()->json($response);
+    }
+
+    public function dosbing2(Request $request)
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+
+            if ($user && $user->user_active == 1) {
+                $rs_dosen = ApiDosenModel::getDataDosbing2();
 
                 $response = $this->successResponse('Berhasil mendapatkan data dosen!', ['rs_dosen' => $rs_dosen]);
             } else {

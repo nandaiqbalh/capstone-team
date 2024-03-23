@@ -21,8 +21,6 @@ class AccountController extends BaseController
      */
     public function index()
     {
-        // authorize
-        Account::authorize('U');
 
         // get data
         $account = Account::getById(Auth::user()->user_id);
@@ -116,8 +114,7 @@ class AccountController extends BaseController
     
      public function editProcess(Request $request)
     {
-        // authorize
-        Account::authorize('U');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -162,8 +159,6 @@ class AccountController extends BaseController
     
      public function editPassword(Request $request)
     {
-        // authorize
-        Account::authorize('U');
         // Validate & auto redirect when fail
         $rules = [
             'user_id' => 'required',

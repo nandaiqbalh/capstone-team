@@ -17,9 +17,6 @@ class RoleController extends BaseController
      */
     public function index()
     {
-        // authorize
-        Role::authorize('R');
-
         // get data with pagination
         $rs_role = Role::getAllPaginate();
         // data
@@ -36,8 +33,6 @@ class RoleController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        Role::authorize('R');
 
         // data request
         $role_name = $request->role_name;
@@ -62,8 +57,7 @@ class RoleController extends BaseController
      */
     public function add()
     {
-        // authorize
-        Role::authorize('C');
+
 
         //view
         return view('tim_capstone.settings.role.add');
@@ -77,8 +71,6 @@ class RoleController extends BaseController
      */
     public function addProcess(Request $request)
     {
-        // authorize
-        Role::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -119,9 +111,6 @@ class RoleController extends BaseController
      */
     public function edit($id)
     {
-        // authorize
-        Role::authorize('U');
-
         // validate
         if($id == '01') {
             // flash message
@@ -152,8 +141,6 @@ class RoleController extends BaseController
      */
     public function editProcess(Request $request)
     {
-        // authorize
-        Role::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -193,8 +180,6 @@ class RoleController extends BaseController
      */
     public function deleteProcess($id)
     {
-        // authorize
-        Role::authorize('D');
 
         // validate
         if($id == '01') {

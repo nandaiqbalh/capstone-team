@@ -76,25 +76,10 @@ Route::get('/lupa-password', [ResetPasswordController::class, 'index']);
 Route::post('/lupa-password/process', [ResetPasswordController::class, 'resetPasswordProcess']);
 Route::get('/ubah-password', [ResetPasswordController::class, 'ubahPassword']);
 Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPasswordProcess']);
-/**
- * ADMIN
- */
-Route::middleware(['auth'])->group(function () {
 
-    // logout
-    Route::get('/logout', [LogoutController::class, 'logout']);
+ // superadmin
+ Route::middleware(['auth', 'role:01'])->group(function () {
 
-    // Dashboard
-    Route::get('/admin/dashboard', [DashboardController::class, 'index']);
-    // --------------------------------------------------------------------------------------------
-
-
-
-    // --------------------------------------------------------------------------------------------
-    /**
-     * SETTINGS
-     */
-    // role
     Route::get('/admin/settings/role', [RoleController::class, 'index']);
     Route::get('/admin/settings/role/add', [RoleController::class, 'add']);
     Route::post('/admin/settings/role/add_process', [RoleController::class, 'addProcess']);
@@ -124,177 +109,136 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/settings/accounts/edit_password_process', [AccountsController::class, 'editPasswordProcess']);
     Route::get('/admin/settings/accounts/delete_process/{id}', [AccountsController::class, 'deleteProcess']);
     Route::get('/admin/settings/accounts/search', [AccountsController::class, 'search']);
-    // smtp
-    Route::get('/admin/settings/smtp', [SmtpController::class, 'index']);
-    Route::post('/admin/settings/smtp/edit_process', [SmtpController::class, 'editProcess']);
 
-    // profil acccount
-    Route::get('/admin/settings/account', [AccountController::class, 'index']);
-    Route::post('/admin/settings/account/edit_process', [AccountController::class, 'editProcess']);
-    Route::post('/admin/settings/account/edit_password', [AccountController::class, 'editPassword']);
-
-    Route::post('/admin/settings/account/img_crop', [AccountController::class, 'ImgCrop'])->name('crop');
-
-    // rest api
-    Route::get('/admin/settings/rest-api', [RestApiController::class, 'index']);
-    Route::get('/admin/settings/rest-api/search', [RestApiController::class, 'search']);
-    Route::get('/admin/settings/rest-api/delete_process/{id}', [RestApiController::class, 'deleteProcess']);
-
-    // contoh halaman
-    Route::get('/admin/settings/contoh-halaman', [ContohHalamanController::class, 'index']);
-    Route::get('/admin/settings/contoh-halaman/add', [ContohHalamanController::class, 'add']);
-    Route::post('/admin/settings/contoh-halaman/add-process', [ContohHalamanController::class, 'addProcess']);
-    Route::get('/admin/settings/contoh-halaman/detail/{id}', [ContohHalamanController::class, 'detail']);
-    Route::get('/admin/settings/contoh-halaman/edit/{id}', [ContohHalamanController::class, 'edit']);
-    Route::post('/admin/settings/contoh-halaman/edit-process', [ContohHalamanController::class, 'editProcess']);
-    Route::get('/admin/settings/contoh-halaman/delete-process/{id}', [ContohHalamanController::class, 'deleteProcess']);
-    Route::get('/admin/settings/contoh-halaman/search', [ContohHalamanController::class, 'search']);
-
-    // logs
-    Route::get('/admin/settings/logs', [LogsController::class, 'index']);
-    Route::get('/admin/settings/logs/search', [LogsController::class, 'search']);
-
-    Route::get('/admin/settings/logs/login', [LogsController::class, 'indexLogin']);
-    Route::get('/admin/settings/logs/login/search', [LogsController::class, 'searchLogin']);
-
-    Route::get('/admin/settings/logs/login-attempt', [LogsController::class, 'indexLoginAttempt']);
-    Route::get('/admin/settings/logs/login-attempt/search', [LogsController::class, 'searchLoginAttempt']);
-
-    Route::get('/admin/settings/logs/reset-password', [LogsController::class, 'indexResetPassword']);
-    Route::get('/admin/settings/logs/reset-password/search', [LogsController::class, 'searchResetPassword']);
-
-    // take over login
+     // take over login
     Route::get('admin/settings/take-over-login', [TakeOverLoginController::class, 'takeOverProcess']);
 
-    //kapan pake get dan post
-    //post:mencantumkans csrf_field(), ketika request data penting spt input data dr client ke server
-    //get:
+});
 
-    //mahasiswa
-    Route::get('/admin/mahasiswa', [MahasiswaController::class, 'index']);
-    Route::get('/admin/mahasiswa/add', [MahasiswaController::class, 'addMahasiswa']);
-    Route::post('/admin/mahasiswa/add-process', [MahasiswaController::class, 'addMahasiswaProcess']);
-    Route::get('/admin/mahasiswa/delete-process/{user_id}', [MahasiswaController::class, 'deleteMahasiswaProcess']);
-    Route::get('/admin/mahasiswa/edit/{user_id}', [MahasiswaController::class, 'editMahasiswa']);
-    Route::post('/admin/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
-    Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
-    Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
+// tim capstone
+ Route::middleware(['auth', 'role:02'])->group(function () {
 
-    //tim capstone
-    // Route::get('/admin/tim-capstone', [TimCapstoneController::class, 'index']);
-    // Route::get('/admin/tim-capstone/add', [TimCapstoneController::class, 'addTimCapstone']);
-    // Route::post('/admin/tim-capstone/add-process', [TimCapstoneController::class, 'addTimCapstoneProcess']);
-    // Route::get('/admin/tim-capstone/delete-process/{user_id}', [TimCapstoneController::class, 'deleteTimCapstoneProcess']);
-    // Route::get('/admin/tim-capstone/edit/{user_id}', [TimCapstoneController::class, 'editTimCapstone']);
-    // Route::post('/admin/tim-capstone/edit-process', [TimCapstoneController::class, 'editTimCapstoneProcess']);
-    // Route::get('/admin/tim-capstone/detail/{user_id}', [TimCapstoneController::class, 'detailTimCapstone']);
+     //mahasiswa
+     Route::get('/admin/mahasiswa', [MahasiswaController::class, 'index']);
+     Route::get('/admin/mahasiswa/add', [MahasiswaController::class, 'addMahasiswa']);
+     Route::post('/admin/mahasiswa/add-process', [MahasiswaController::class, 'addMahasiswaProcess']);
+     Route::get('/admin/mahasiswa/delete-process/{user_id}', [MahasiswaController::class, 'deleteMahasiswaProcess']);
+     Route::get('/admin/mahasiswa/edit/{user_id}', [MahasiswaController::class, 'editMahasiswa']);
+     Route::post('/admin/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
+     Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
+     Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
-    //topik
-    Route::get('/admin/topik', [TopikController::class, 'index']);
-    Route::get('/admin/topik/add', [TopikController::class, 'addTopik']);
-    Route::post('/admin/topik/add-process', [TopikController::class, 'addTopikProcess']);
-    Route::get('/admin/topik/delete-process/{id}', [TopikController::class, 'deleteTopikProcess']);
-    Route::get('/admin/topik/edit/{id}', [TopikController::class, 'editTopik']);
-    Route::post('/admin/topik/edit-process', [TopikController::class, 'editTopikProcess']);
+     //topik
+     Route::get('/admin/topik', [TopikController::class, 'index']);
+     Route::get('/admin/topik/add', [TopikController::class, 'addTopik']);
+     Route::post('/admin/topik/add-process', [TopikController::class, 'addTopikProcess']);
+     Route::get('/admin/topik/delete-process/{id}', [TopikController::class, 'deleteTopikProcess']);
+     Route::get('/admin/topik/edit/{id}', [TopikController::class, 'editTopik']);
+     Route::post('/admin/topik/edit-process', [TopikController::class, 'editTopikProcess']);
 
-    //ruang sidang
-    Route::get('/admin/ruangan', [RuangSidangController::class, 'index']);
-    Route::get('/admin/ruangan/add', [RuangSidangController::class, 'create']);
-    Route::post('/admin/ruangan/add-process', [RuangSidangController::class, 'store']);
-    Route::get('/admin/ruangan/delete-process/{id}', [RuangSidangController::class, 'delete']);
-    Route::get('/admin/ruangan/edit/{id}', [RuangSidangController::class, 'edit']);
-    Route::post('/admin/ruangan/edit-process', [RuangSidangController::class, 'update']);
+     //ruang sidang
+     Route::get('/admin/ruangan', [RuangSidangController::class, 'index']);
+     Route::get('/admin/ruangan/add', [RuangSidangController::class, 'create']);
+     Route::post('/admin/ruangan/add-process', [RuangSidangController::class, 'store']);
+     Route::get('/admin/ruangan/delete-process/{id}', [RuangSidangController::class, 'delete']);
+     Route::get('/admin/ruangan/edit/{id}', [RuangSidangController::class, 'edit']);
+     Route::post('/admin/ruangan/edit-process', [RuangSidangController::class, 'update']);
 
-    //dosen
-    Route::get('/admin/dosen', [DosenController::class, 'index']);
-    Route::get('/admin/dosen/add', [DosenController::class, 'addDosen']);
-    Route::post('/admin/dosen/add-process', [DosenController::class, 'addDosenProcess']);
-    Route::get('/admin/dosen/delete-process/{user_id}', [DosenController::class, 'deleteDosenProcess']);
-    Route::get('/admin/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
-    Route::post('/admin/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
-    Route::get('/admin/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
-    Route::get('/admin/dosen/search', [DosenController::class, 'searchDosen']);
+     //dosen
+     Route::get('/admin/dosen/dosen-to-aktif-1/{id}', [DosenController::class, 'toAktifKetersediaan1'])->name('to.aktif.ketersediaan.1');
+     Route::get('/admin/dosen/dosen-to-inaktif-1/{id}', [DosenController::class, 'toInaktifKetersediaan1'])->name('to.inaktif.ketersediaan.1');
+     Route::get('/admin/dosen/dosen-to-aktif-2/{id}', [DosenController::class, 'toAktifKetersediaan2'])->name('to.aktif.ketersediaan.2');
+     Route::get('/admin/dosen/dosen-to-inaktif-2/{id}', [DosenController::class, 'toInaktifKetersediaan2'])->name('to.inaktif.ketersediaan.2');
+     Route::get('/admin/dosen', [DosenController::class, 'index']);
+     Route::get('/admin/dosen/add', [DosenController::class, 'addDosen']);
+     Route::post('/admin/dosen/add-process', [DosenController::class, 'addDosenProcess']);
+     Route::get('/admin/dosen/delete-process/{user_id}', [DosenController::class, 'deleteDosenProcess']);
+     Route::get('/admin/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
+     Route::post('/admin/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
+     Route::get('/admin/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
+     Route::get('/admin/dosen/search', [DosenController::class, 'searchDosen']);
 
 
-    //siklus
-    Route::get('/admin/siklus', [SiklusController::class, 'index']);
-    Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
-    Route::post('/admin/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
-    Route::get('/admin/siklus/delete-process/{id}', [SiklusController::class, 'deleteSiklusProcess']);
-    Route::get('/admin/siklus/edit/{id}', [SiklusController::class, 'editSiklus']);
-    Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
-    Route::get('/admin/siklus/detail/{id}', [SiklusController::class, 'detailSiklus']);
+     //siklus
+     Route::get('/admin/siklus', [SiklusController::class, 'index']);
+     Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
+     Route::post('/admin/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
+     Route::get('/admin/siklus/delete-process/{id}', [SiklusController::class, 'deleteSiklusProcess']);
+     Route::get('/admin/siklus/edit/{id}', [SiklusController::class, 'editSiklus']);
+     Route::post('/admin/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
+     Route::get('/admin/siklus/detail/{id}', [SiklusController::class, 'detailSiklus']);
 
-    //broadcast
-    Route::get('/admin/broadcast', [BroadcastController::class, 'index']);
-    Route::get('/admin/broadcast/add', [BroadcastController::class, 'addBroadcast']);
-    Route::post('/admin/broadcast/add-process', [BroadcastController::class, 'addBroadcastProcess']);
-    Route::get('/admin/broadcast/delete-process/{id}', [BroadcastController::class, 'deleteBroadcastProcess']);
-    Route::get('/admin/broadcast/edit/{user_id}', [BroadcastController::class, 'editBroadcast']);
-    Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
-    Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
+     //broadcast
+     Route::get('/admin/broadcast', [BroadcastController::class, 'index']);
+     Route::get('/admin/broadcast/add', [BroadcastController::class, 'addBroadcast']);
+     Route::post('/admin/broadcast/add-process', [BroadcastController::class, 'addBroadcastProcess']);
+     Route::get('/admin/broadcast/delete-process/{id}', [BroadcastController::class, 'deleteBroadcastProcess']);
+     Route::get('/admin/broadcast/edit/{user_id}', [BroadcastController::class, 'editBroadcast']);
+     Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
+     Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
-    //pendaftaran
-    //kelompok
-    Route::get('/admin/jadwal-pendaftaran/kelompok', [JadwalPendaftaranKelompokController::class, 'index']);
-    Route::post('/admin/jadwal-pendaftaran/kelompok/add-process', [JadwalPendaftaranKelompokController::class, 'addJadwalPendaftaranKelompokProcess']);
-    Route::get('/admin/jadwal-pendaftaran/kelompok/delete-process/{id}', [JadwalPendaftaranKelompokController::class, 'deleteJadwalPendaftaranKelompokProcess']);
-    Route::post('/admin/jadwal-pendaftaran/kelompok/edit-process', [JadwalPendaftaranKelompokController::class, 'editJadwalPendaftaranKelompokProcess']);
+     //kelompok
+     Route::get('/admin/jadwal-pendaftaran/kelompok', [JadwalPendaftaranKelompokController::class, 'index']);
+     Route::post('/admin/jadwal-pendaftaran/kelompok/add-process', [JadwalPendaftaranKelompokController::class, 'addJadwalPendaftaranKelompokProcess']);
+     Route::get('/admin/jadwal-pendaftaran/kelompok/delete-process/{id}', [JadwalPendaftaranKelompokController::class, 'deleteJadwalPendaftaranKelompokProcess']);
+     Route::post('/admin/jadwal-pendaftaran/kelompok/edit-process', [JadwalPendaftaranKelompokController::class, 'editJadwalPendaftaranKelompokProcess']);
 
-    //sidang proposal
-    Route::get('/admin/jadwal-pendaftaran/sidang-proposal', [JadwalSidangProposalController::class, 'index']);
-    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/add', [JadwalSidangProposalController::class, 'addJadwalSidangProposal']);
-    Route::post('/admin/jadwal-pendaftaran/sidang-proposal/add-process', [JadwalSidangProposalController::class, 'addJadwalSidangProposalProcess']);
-    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
-    Route::get('/admin/jadwal-pendaftaran/sidang-proposal/edit/{user_id}', [JadwalSidangProposalController::class, 'editJadwalSidangProposal']);
-    Route::post('/admin/jadwal-pendaftaran/sidang-proposal/edit-process', [JadwalSidangProposalController::class, 'editJadwalSidangProposalProcess']);
-    // Route::get('/admin/jadwal-pendaftaran/sidang-proposal/detail/{user_id}', [JadwalSidangProposalController::class, 'detailBroadcast']);
+     //sidang proposal
+     Route::get('/admin/jadwal-pendaftaran/sidang-proposal', [JadwalSidangProposalController::class, 'index']);
+     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/add', [JadwalSidangProposalController::class, 'addJadwalSidangProposal']);
+     Route::post('/admin/jadwal-pendaftaran/sidang-proposal/add-process', [JadwalSidangProposalController::class, 'addJadwalSidangProposalProcess']);
+     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
+     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/edit/{user_id}', [JadwalSidangProposalController::class, 'editJadwalSidangProposal']);
+     Route::post('/admin/jadwal-pendaftaran/sidang-proposal/edit-process', [JadwalSidangProposalController::class, 'editJadwalSidangProposalProcess']);
+     // Route::get('/admin/jadwal-pendaftaran/sidang-proposal/detail/{user_id}', [JadwalSidangProposalController::class, 'detailBroadcast']);
 
-    //expo
-    Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
-    Route::post('/admin/jadwal-pendaftaran/expo/add-process', [JadwalExpoController::class, 'addJadwalExpoProcess']);
-    Route::get('/admin/jadwal-pendaftaran/expo/delete-process/{id}', [JadwalExpoController::class, 'deleteJadwalExpoProcess']);
-    Route::post('/admin/jadwal-pendaftaran/expo/edit-process', [JadwalExpoController::class, 'editJadwalExpoProcess']);
-    Route::get('/admin/jadwal-pendaftaran/expo/detail/{user_id}', [JadwalExpoController::class, 'detailJadwalExpo']);
+     //expo
+     Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
+     Route::post('/admin/jadwal-pendaftaran/expo/add-process', [JadwalExpoController::class, 'addJadwalExpoProcess']);
+     Route::get('/admin/jadwal-pendaftaran/expo/delete-process/{id}', [JadwalExpoController::class, 'deleteJadwalExpoProcess']);
+     Route::post('/admin/jadwal-pendaftaran/expo/edit-process', [JadwalExpoController::class, 'editJadwalExpoProcess']);
+     Route::get('/admin/jadwal-pendaftaran/expo/detail/{user_id}', [JadwalExpoController::class, 'detailJadwalExpo']);
 
-    Route::get('/admin/jadwal-pendaftaran/expo/terima/{id}', [JadwalExpoController::class, 'terimaKelompok']);
-    Route::get('/admin/jadwal-pendaftaran/expo/tolak/{id}', [JadwalExpoController::class, 'tolakKelompok']);
+     Route::get('/admin/jadwal-pendaftaran/expo/terima/{id}', [JadwalExpoController::class, 'terimaKelompok']);
+     Route::get('/admin/jadwal-pendaftaran/expo/tolak/{id}', [JadwalExpoController::class, 'tolakKelompok']);
 
-    //sidangta
-    Route::get('/admin/jadwal-pendaftaran/sidangta', [JadwalSidangTAController::class, 'index']);
-    Route::post('/admin/jadwal-pendaftaran/sidangta/add-process', [JadwalSidangTAController::class, 'addJadwalExpoProcess']);
-    Route::get('/admin/jadwal-pendaftaran/sidangta/delete-process/{id}', [JadwalSidangTAController::class, 'deleteJadwalExpoProcess']);
-    Route::post('/admin/jadwal-pendaftaran/sidangta/edit-process', [JadwalSidangTAController::class, 'editJadwalExpoProcess']);
-    Route::get('/admin/jadwal-pendaftaran/sidangta/detail/{user_id}', [JadwalSidangTAController::class, 'detailJadwalExpo']);
+     //sidangta
+     Route::get('/admin/jadwal-pendaftaran/sidangta', [JadwalSidangTAController::class, 'index']);
+     Route::post('/admin/jadwal-pendaftaran/sidangta/add-process', [JadwalSidangTAController::class, 'addJadwalExpoProcess']);
+     Route::get('/admin/jadwal-pendaftaran/sidangta/delete-process/{id}', [JadwalSidangTAController::class, 'deleteJadwalExpoProcess']);
+     Route::post('/admin/jadwal-pendaftaran/sidangta/edit-process', [JadwalSidangTAController::class, 'editJadwalExpoProcess']);
+     Route::get('/admin/jadwal-pendaftaran/sidangta/detail/{user_id}', [JadwalSidangTAController::class, 'detailJadwalExpo']);
 
-    Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
-    Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);
-
+     Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
+     Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);
 
 
-    //kelompok
-    Route::get('/admin/kelompok', [KelompokController::class, 'index']);
-    Route::get('/admin/kelompok/search', [KelompokController::class, 'search']);
-    Route::get('/admin/kelompok/add-mahasiswa-kelompok', [KelompokController::class, 'addMahasiswaKelompok']);
-    Route::get('/admin/kelompok/add-dosen-kelompok', [KelompokController::class, 'addDosenKelompok']);
-    Route::get('/admin/kelompok/delete-process/{id}', [KelompokController::class, 'deleteKelompokProcess']);
-    Route::get('/admin/kelompok/edit/{id}', [KelompokController::class, 'editSiklus']);
-    Route::post('/admin/kelompok/edit-kelompok-process', [KelompokController::class, 'editKelompokProcess']);
-    Route::post('/admin/kelompok/edit-setujui-process', [KelompokController::class, 'setujuiKelompok']);
-    Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
+     //kelompok
+     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
+     Route::get('/admin/kelompok/search', [KelompokController::class, 'search']);
+     Route::get('/admin/kelompok/add-mahasiswa-kelompok', [KelompokController::class, 'addMahasiswaKelompok']);
+     Route::get('/admin/kelompok/add-dosen-kelompok', [KelompokController::class, 'addDosenKelompok']);
+     Route::get('/admin/kelompok/delete-process/{id}', [KelompokController::class, 'deleteKelompokProcess']);
+     Route::get('/admin/kelompok/edit/{id}', [KelompokController::class, 'editSiklus']);
+     Route::post('/admin/kelompok/edit-kelompok-process', [KelompokController::class, 'editKelompokProcess']);
+     Route::post('/admin/kelompok/edit-setujui-process', [KelompokController::class, 'setujuiKelompok']);
+     Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
 
-    Route::get('/admin/kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokController::class, 'deleteKelompokMahasiswaProcess']);
-    Route::get('/admin/kelompok/delete-dosen-process/{id_dosen}/{id}', [KelompokController::class, 'deleteKelompokDosenProcess']);
+     Route::get('/admin/kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokController::class, 'deleteKelompokMahasiswaProcess']);
+     Route::get('/admin/kelompok/delete-dosen-process/{id_dosen}/{id}', [KelompokController::class, 'deleteKelompokDosenProcess']);
 
 
-    //pendaftaran caps individu
-    Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
-    Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
-    Route::post('/admin/pendaftaran/add-process', [PendaftaranController::class, 'addPendaftaranProcess']);
-    Route::get('/admin/pendaftaran/update-mahasiswa-topik', [PendaftaranController::class, 'updateMhsTopikProcess']);
-    // Route::get('/admin/kelompok/edit/{user_id}', [PendaftaranController::class, 'editSiklus']);
-    // Route::post('/admin/kelompok/edit-process', [PendaftaranController::class, 'editSiklusProcess']);
-    // Route::get('/admin/kelompok/detail/{id}', [PendaftaranController::class, 'detailKelompok']);
+     //pendaftaran caps individu
+     Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
+     Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
+     Route::post('/admin/pendaftaran/add-process', [PendaftaranController::class, 'addPendaftaranProcess']);
+     Route::get('/admin/pendaftaran/update-mahasiswa-topik', [PendaftaranController::class, 'updateMhsTopikProcess']);
+
+
+});
+
+// mahasiswa
+Route::middleware(['auth', 'role:03'])->group(function () {
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
@@ -304,6 +248,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
+
+    Route::post('/mahasiswa/kelompok/terima-kelompok', [MahasiswaKelompokController::class, 'terimaKelompok'])->name('kelompok.accept');
+    Route::post('/mahasiswa/kelompok/tolak-kelompok', [MahasiswaKelompokController::class, 'tolakKelompok'])->name('kelompok.reject');
 
     //mahasiswaFile
     Route::get('/mahasiswa/file-upload', [UploadFileController::class, 'index']);
@@ -335,22 +282,44 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mahasiswa/expo/edit/{user_id}', [MahasiswaExpoController::class, 'editSiklus']);
     Route::get('/mahasiswa/expo/detail/{user_id}', [MahasiswaExpoController::class, 'detailSiklus']);
 
-    //halaman dosen
-    Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
-    Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
-    Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
-    Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
-    Route::get('/dosen/bimbingan-saya/terimatest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
-    Route::get('/dosen/bimbingan-saya/tolaktest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
+});
 
 
-    //halaman dosen
-    Route::get('/dosen/pengujian', [PengujianController::class, 'index']);
-    Route::get('/dosen/pengujian/terima/{id}', [PengujianController::class, 'terimaPengujian']);
-    Route::get('/dosen/pengujian/tolak/{id}', [PengujianController::class, 'tolakPengujian']);
-    Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
-    // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+// dosen
+Route::middleware(['auth', 'role:04'])->group(function () {
 
-    Route::get('/mahasiswa/view-pdf/{filename}', [ApiUploadFileController::class, 'viewPdf']);
+     //halaman dosen
+     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
+     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
+     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
+     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
+     Route::get('/dosen/bimbingan-saya/terimatest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
+     Route::get('/dosen/bimbingan-saya/tolaktest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
+
+     //halaman dosen
+     Route::get('/dosen/pengujian', [PengujianController::class, 'index']);
+     Route::get('/dosen/pengujian/terima/{id}', [PengujianController::class, 'terimaPengujian']);
+     Route::get('/dosen/pengujian/tolak/{id}', [PengujianController::class, 'tolakPengujian']);
+     Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
+     // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+
+});
+
+
+Route::middleware(['auth'])->group(function () {
+
+    // logout
+    Route::get('/logout', [LogoutController::class, 'logout']);
+
+    // Dashboard
+    Route::get('admin/dashboard', [DashboardController::class, 'index']);
+    // --------------------------------------------------------------------------------------------
+
+    // profil acccount
+    Route::get('/admin/settings/account', [AccountController::class, 'index']);
+    Route::post('/admin/settings/account/edit_process', [AccountController::class, 'editProcess']);
+    Route::post('/admin/settings/account/edit_password', [AccountController::class, 'editPassword']);
+
+    Route::post('/admin/settings/account/img_crop', [AccountController::class, 'ImgCrop'])->name('crop');
 
 });

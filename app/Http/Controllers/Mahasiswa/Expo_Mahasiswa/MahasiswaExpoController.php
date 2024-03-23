@@ -22,8 +22,7 @@ class MahasiswaExpoController extends BaseController
 
     public function index()
     {
-        // authorize
-        MahasiswaExpoModel::authorize('R');
+
         $cekExpo = MahasiswaExpoModel::cekExpo();
 
         $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
@@ -52,8 +51,7 @@ class MahasiswaExpoController extends BaseController
      */
     public function daftar(Request $request,$id)
     {
-        // authorize
-        MahasiswaExpoModel::authorize('U');
+
 
         // params
         $params = [
@@ -84,8 +82,6 @@ class MahasiswaExpoController extends BaseController
      */
     public function deleteMahasiswaProcess($user_id)
     {
-        // authorize
-        MahasiswaExpoModel::authorize('D');
 
         // get data
         $mahasiswa = MahasiswaExpoModel::getDataById($user_id);
@@ -117,8 +113,7 @@ class MahasiswaExpoController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        MahasiswaExpoModel::authorize('R');
+
         // data request
         $user_name = $request->nama;
 
@@ -138,9 +133,7 @@ class MahasiswaExpoController extends BaseController
 
     public function editProcess(Request $request)
     {
-        // authorize
-        // dd($request);
-        MahasiswaExpoModel::authorize('D');
+
         $id_kelompok = $request->id;
         // get data
         $kelompok = MahasiswaExpoModel::getDataById($id_kelompok);

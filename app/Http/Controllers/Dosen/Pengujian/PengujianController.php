@@ -14,10 +14,6 @@ class PengujianController extends BaseController
 {
     public function index()
     {
-        // authorize
-        PengujianModel::authorize('R');
-        // dd(PengujianModel::getData());
-
         // get data with pagination
         $rs_pengujian = PengujianModel::getDataWithPagination();
 
@@ -36,8 +32,6 @@ class PengujianController extends BaseController
      */
     public function detailPengujian($id)
     {
-        // authorize
-        PengujianModel::authorize('R');
 
         // get data with pagination
         $kelompok = PengujianModel::getDataById($id);
@@ -71,10 +65,6 @@ class PengujianController extends BaseController
      */
     public function terimaPengujian($id)
     {
-        // authorize
-        PengujianModel::authorize('U');
-
-        ;
 
         // params
         $params = [
@@ -101,10 +91,6 @@ class PengujianController extends BaseController
      */
     public function tolakPengujian($id)
     {
-        // authorize
-        PengujianModel::authorize('U');
-
-        ;
 
         // params
         $params = [
@@ -133,8 +119,6 @@ class PengujianController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        PengujianModel::authorize('R');
 
         // data request
         $nama = $request->nama;

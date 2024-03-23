@@ -19,15 +19,109 @@ class DosenController extends BaseController
      */
     public function index()
     {
-        // authorize
-        DosenModel::authorize('R');
-
         // get data with pagination
         $dt_dosen = DosenModel::getDataWithPagination();
         // data
         $data = ['dt_dosen' => $dt_dosen];
         // view
         return view('tim_capstone.dosen.index', $data);
+    }
+
+
+    public function toAktifKetersediaan1($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing1' => 1,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
+    public function toAktifKetersediaan2($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing2' => 1,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
+    public function toInaktifKetersediaan1($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing1' => 0,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
+    public function toInaktifKetersediaan2($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing2' => 0,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
     }
 
     /**
@@ -37,8 +131,6 @@ class DosenController extends BaseController
      */
     public function addDosen()
     {
-        // authorize
-        DosenModel::authorize('C');
 
         // view
         return view('tim_capstone.dosen.add');
@@ -52,9 +144,6 @@ class DosenController extends BaseController
      */
     public function addDosenProcess(Request $request)
     {
-
-        // authorize
-        DosenModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -100,8 +189,6 @@ class DosenController extends BaseController
      */
     public function detailDosen($id)
     {
-        // authorize
-        DosenModel::authorize('R');
 
         // get data with pagination
         $dosen = DosenModel::getDataById($id);
@@ -128,8 +215,6 @@ class DosenController extends BaseController
      */
     public function editDosen($user_id)
     {
-        // authorize
-        DosenModel::authorize('U');
 
         // get data
         $dosen = DosenModel::getDataById($user_id);
@@ -157,8 +242,6 @@ class DosenController extends BaseController
      */
     public function editDosenProcess(Request $request)
     {
-        // authorize
-        DosenModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -199,9 +282,6 @@ class DosenController extends BaseController
      */
     public function deleteDosenProcess($id)
     {
-        // authorize
-        DosenModel::authorize('D');
-
         // get data
         $dosen = DosenModel::getDataById($id);
 
@@ -232,8 +312,6 @@ class DosenController extends BaseController
      */
     public function searchDosen(Request $request)
     {
-        // authorize
-        DosenModel::authorize('R');
         // data request
         $user_name = $request->nama;
 

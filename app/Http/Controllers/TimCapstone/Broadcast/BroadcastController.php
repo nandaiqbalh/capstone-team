@@ -22,8 +22,6 @@ class BroadcastController extends BaseController
 
     public function index()
     {
-        // authorize
-        BroadcastModel::authorize('R');
         // dd(BroadcastModel::getData());
 
         // get data with pagination
@@ -41,9 +39,6 @@ class BroadcastController extends BaseController
      */
     public function addBroadcast()
     {
-        // authorize
-        BroadcastModel::authorize('C');
-
         // view
         return view('tim_capstone.broadcast.add');
     }
@@ -56,9 +51,6 @@ class BroadcastController extends BaseController
      */
     public function addBroadcastProcess(Request $request)
     {
-
-        // authorize
-        BroadcastModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -103,8 +95,6 @@ class BroadcastController extends BaseController
      */
     public function detailBroadcast($id)
     {
-        // authorize
-        BroadcastModel::authorize('R');
 
         // get data with pagination
         $broadcast = BroadcastModel::getDataById($id);
@@ -131,8 +121,6 @@ class BroadcastController extends BaseController
      */
     public function editBroadcast($id)
     {
-        // authorize
-        BroadcastModel::authorize('U');
 
         // get data
         $broadcast = BroadcastModel::getDataById($id);
@@ -160,8 +148,6 @@ class BroadcastController extends BaseController
      */
     public function editBroadcastProcess(Request $request)
     {
-        // authorize
-        BroadcastModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -202,9 +188,6 @@ class BroadcastController extends BaseController
      */
     public function deleteBroadcastProcess($id)
     {
-        // authorize
-        BroadcastModel::authorize('D');
-
         // get data
         $broadcast = BroadcastModel::getDataById($id);
 
@@ -235,8 +218,7 @@ class BroadcastController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        BroadcastModel::authorize('R');
+
         // data request
         $user_name = $request->nama;
 

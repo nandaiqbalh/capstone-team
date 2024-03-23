@@ -17,8 +17,6 @@ class MenuController extends BaseController
      */
     public function index()
     {
-        // authorize
-        Menu::authorize('R');
 
         // get data with pagination
         $rs_menu = Menu::getAllPaginate();
@@ -36,8 +34,7 @@ class MenuController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        Menu::authorize('R');
+
 
         // data request
         $menu_name = $request->menu_name;
@@ -62,8 +59,7 @@ class MenuController extends BaseController
      */
     public function add()
     {
-        // authorize
-        Menu::authorize('C');
+
 
         // get data
         $rs_menu = Menu::getAll();
@@ -84,8 +80,7 @@ class MenuController extends BaseController
      */
     public function addProcess(Request $request)
     {
-        // authorize
-        Menu::authorize('C');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -150,8 +145,6 @@ class MenuController extends BaseController
      */
     public function edit($id)
     {
-        // authorize
-        Menu::authorize('U');
 
         // get data
         $menu = Menu::getById($id);
@@ -175,8 +168,6 @@ class MenuController extends BaseController
      */
     public function editProcess(Request $request)
     {
-        // authorize
-        Menu::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -237,8 +228,7 @@ class MenuController extends BaseController
      */
     public function deleteProcess($id)
     {
-        // authorize
-        Menu::authorize('D');
+
 
         // get data
         $menu = Menu::getById($id);
@@ -280,8 +270,6 @@ class MenuController extends BaseController
      */
     public function roleMenu($id)
     {
-        // authorize
-        Menu::authorize('C');
 
         // get data
         $rs_role = Menu::getRole();
@@ -310,9 +298,6 @@ class MenuController extends BaseController
         // get data
         $menu = Menu::getById($request->menu_id);
         $rs_menu = Menu::getAll();
-
-        // authorize
-        Menu::authorize('C');
 
         // cek if new menu
         $parent_menu_id = $request->parent_menu_id == 'parent' ? NULL : $request->parent_menu_id;

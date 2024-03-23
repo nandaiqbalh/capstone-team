@@ -48,7 +48,7 @@ class ApiSidangProposalController extends Controller
     {
         $rsSidang = ApiSidangProposalModel::sidangProposalByKelompok($kelompok->id);
         $dataPendaftaranMhs = ApiSidangProposalModel::getDataPendaftaranMhs($user -> user_id);
-        $isSiklusAktif = ApiSidangProposalModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $user ->user_id);
+        $isSiklusAktif = ApiSidangProposalModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus);
 
         if($isSiklusAktif == null || $isSiklusAktif -> status == 'tidak aktif'){
             $kelompok->id_siklus = 0;
@@ -86,7 +86,7 @@ class ApiSidangProposalController extends Controller
 
         $rsSidang->hari_sidang = strftime('%A', $waktuSidang);
         $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
-        $rsSidang->tanggal_sidang = date('Y-m-d', $waktuSidang);
+        $rsSidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
         $rsSidang->waktu_sidang = date('H:i:s', $waktuSidang);
 
         $rsSidang->kelompok = $kelompok;

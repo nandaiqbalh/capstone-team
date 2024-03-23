@@ -22,10 +22,6 @@ class TopikController extends BaseController
 
     public function index()
     {
-        // authorize
-        TopikModel::authorize('R');
-        // dd(TopikModel::getData());
-
         // get data with pagination
         $rs_topik = TopikModel::getDataWithPagination();
         // data
@@ -41,9 +37,6 @@ class TopikController extends BaseController
      */
     public function addTopik()
     {
-        // authorize
-       TopikModel::authorize('C');
-
         // view
         return view('tim_capstone.topik.add');
     }
@@ -56,9 +49,6 @@ class TopikController extends BaseController
      */
     public function addTopikProcess(Request $request)
     {
-
-        // authorize
-       TopikModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -99,8 +89,6 @@ class TopikController extends BaseController
      */
     public function editTopik($id)
     {
-        // authorize
-       TopikModel::authorize('U');
 
         // get data
         $topik =TopikModel::getDataById($id);
@@ -128,8 +116,6 @@ class TopikController extends BaseController
      */
     public function editTopikProcess(Request $request)
     {
-        // authorize
-       TopikModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -164,8 +150,6 @@ class TopikController extends BaseController
      */
     public function deleteTopikProcess($id)
     {
-        // authorize
-       TopikModel::authorize('D');
 
         // get data
         $topik =TopikModel::getDataById($id);
@@ -197,8 +181,6 @@ class TopikController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-       TopikModel::authorize('R');
 
         // data request
         $nama = $request->nama;
