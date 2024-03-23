@@ -27,6 +27,103 @@ class DosenController extends BaseController
         return view('tim_capstone.dosen.index', $data);
     }
 
+
+    public function toAktifKetersediaan1($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing1' => 1,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
+    public function toAktifKetersediaan2($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing2' => 1,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
+    public function toInaktifKetersediaan1($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing1' => 0,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
+    public function toInaktifKetersediaan2($id,) {
+        // Temukan dosen berdasarkan ID
+        $dosen = DosenModel::getDataById($id);
+
+        if (!$dosen) {
+            // Jika dosen tidak ditemukan, kembalikan respons error
+            return back()->with('success', 'Dosen tidak ditemukan!');
+        }
+
+        $param = [
+            'dosbing2' => 0,
+        ];
+
+        $update_dosen = DosenModel::update($id, $param);
+
+        if ($update_dosen) {
+             // Kembalikan respons berhasil
+            return back()->with('success', 'Berhasil mengubah ketersediaan!');
+        } else{
+            return back()->with('danger', 'Gagal mengubah ketersediaan!');
+        }
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

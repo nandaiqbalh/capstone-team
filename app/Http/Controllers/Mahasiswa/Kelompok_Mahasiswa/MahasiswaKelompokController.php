@@ -65,7 +65,8 @@ class MahasiswaKelompokController extends BaseController
             // dd($data);
         } else {
             $getAkun = MahasiswaKelompokModel::getAkunBelumPunyaKelompok(Auth::user()->user_id);
-            $rs_dosbing = MahasiswaKelompokModel::getAkunDosen();
+            $rs_dosbing1 = MahasiswaKelompokModel::getDataDosbing1();
+            $rs_dosbing2 = MahasiswaKelompokModel::getDataDosbing2();
             $rs_topik = MahasiswaKelompokModel::getTopik();
             $rs_mahasiswa = MahasiswaKelompokModel::getDataMahasiswaAvailable();
 
@@ -76,7 +77,8 @@ class MahasiswaKelompokController extends BaseController
                 'rs_topik' => $rs_topik,
                 'rs_siklus' => $rs_siklus,
                 'rs_mahasiswa' => $rs_mahasiswa,
-                'rs_dosbing' => $rs_dosbing,
+                'rs_dosbing1' => $rs_dosbing1,
+                'rs_dosbing2' => $rs_dosbing2,
                 'periode_pendaftaran' => $periodePendaftaran
             ];
 

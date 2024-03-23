@@ -145,6 +145,10 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::post('/admin/ruangan/edit-process', [RuangSidangController::class, 'update']);
 
      //dosen
+     Route::get('/admin/dosen/dosen-to-aktif-1/{id}', [DosenController::class, 'toAktifKetersediaan1'])->name('to.aktif.ketersediaan.1');
+     Route::get('/admin/dosen/dosen-to-inaktif-1/{id}', [DosenController::class, 'toInaktifKetersediaan1'])->name('to.inaktif.ketersediaan.1');
+     Route::get('/admin/dosen/dosen-to-aktif-2/{id}', [DosenController::class, 'toAktifKetersediaan2'])->name('to.aktif.ketersediaan.2');
+     Route::get('/admin/dosen/dosen-to-inaktif-2/{id}', [DosenController::class, 'toInaktifKetersediaan2'])->name('to.inaktif.ketersediaan.2');
      Route::get('/admin/dosen', [DosenController::class, 'index']);
      Route::get('/admin/dosen/add', [DosenController::class, 'addDosen']);
      Route::post('/admin/dosen/add-process', [DosenController::class, 'addDosenProcess']);

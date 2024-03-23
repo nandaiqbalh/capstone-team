@@ -358,7 +358,7 @@
                                             <label>Pilih Dosbing 1 <span class="text-danger">*</span></label>
                                             <select class="form-select select-2" name="dosbing_1" required>
                                                 <option value="" disabled selected>-- Pilih --</option>
-                                                @foreach ($rs_dosbing as $dosbing)
+                                                @foreach ($rs_dosbing1 as $dosbing)
                                                     <option value="{{ $dosbing->user_id }}">{{ $dosbing->user_name }}
                                                     </option>
                                                 @endforeach
@@ -370,7 +370,7 @@
                                             <label>Pilih Dosbing 2 </label>
                                             <select class="form-select select-2" name="dosbing_2">
                                                 <option value="" disabled selected>-- Pilih --</option>
-                                                @foreach ($rs_dosbing as $dosbing)
+                                                @foreach ($rs_dosbing2 as $dosbing)
                                                     <option value="{{ $dosbing->user_id }}">{{ $dosbing->user_name }}
                                                     </option>
                                                 @endforeach
