@@ -63,7 +63,7 @@ class UploadFileController extends BaseController
             $file_extention = pathinfo($file->getClientOriginalName(),
                 PATHINFO_EXTENSION
             );
-            $new_file_name = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $new_file_name = 'makalah-' . Str::slug(Auth::user() ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
             // Check if the file exists
@@ -123,7 +123,7 @@ class UploadFileController extends BaseController
                 $file->getClientOriginalName(),
                 PATHINFO_EXTENSION
             );
-            $new_file_name = 'laporan_ta-' . Str::slug($user ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $new_file_name = 'laporan_ta-' . Str::slug(Auth::user() ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
             // Check if the file exists
