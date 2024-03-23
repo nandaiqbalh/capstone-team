@@ -54,7 +54,7 @@ class ApiKelompokController extends Controller
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
                         // check apakah siklusnya masih aktif atau tidak
                         $dataPendaftaranMhs = ApiKelompokModel::getDataPendaftaranMhs($user -> user_id);
-                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $user ->user_id);
+                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus);
                         if($isSiklusAktif -> status == 'tidak aktif'){
                             // siklus sudah tidak aktif
                             $kelompok ->id_siklus = 0;
@@ -145,7 +145,7 @@ class ApiKelompokController extends Controller
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
                         // check apakah siklusnya masih aktif atau tidak
                         $dataPendaftaranMhs = ApiKelompokModel::getDataPendaftaranMhs($userBelumBerkelompok -> user_id);
-                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $userBelumBerkelompok ->user_id);
+                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus);
                         if($isSiklusAktif -> status == 'tidak aktif'){
                             // siklus sudah tidak aktif
                             $kelompok ->id_siklus = 0;
@@ -320,18 +320,6 @@ class ApiKelompokController extends Controller
                 'angkatan1', 'email1', 'jenis_kelamin1', 'ipk1', 'sks1', 'no_telp1',
                 'user_id2','angkatan2', 'email2', 'jenis_kelamin2', 'ipk2', 'sks2', 'no_telp2',
                 'user_id3','angkatan3', 'email3', 'jenis_kelamin3', 'ipk3', 'sks3', 'no_telp3',
-            ];
-
-             // params mahasiswa 2
-             $params2 = [
-                "angkatan" => $request->angkatan2,
-                "user_email" => $request->email2,
-                "jenis_kelamin" => $request->jenis_kelamin2,
-                "ipk" => $request->ipk2,
-                "sks" => $request->sks2,
-                'no_telp' => $request->no_telp2,
-                'modified_by'   => $user->user_id,
-                'modified_date'  => date('Y-m-d H:i:s')
             ];
 
             foreach ($requiredParams as $param) {
@@ -545,7 +533,6 @@ class ApiKelompokController extends Controller
                 $response = $this->successResponse('Berhasil menyetujui kelompok!', 'Berhasil!');
 
             } catch (\Exception $e) {
-                dd($e);
                 $response = $this->failureResponse('Gagal menyetujui!');
             }
         } else {

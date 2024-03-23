@@ -245,6 +245,9 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
 
+    Route::post('/mahasiswa/kelompok/terima-kelompok', [MahasiswaKelompokController::class, 'terimaKelompok'])->name('kelompok.accept');
+    Route::post('/mahasiswa/kelompok/tolak-kelompok', [MahasiswaKelompokController::class, 'tolakKelompok'])->name('kelompok.reject');
+
     //mahasiswaFile
     Route::get('/mahasiswa/file-upload', [UploadFileController::class, 'index']);
     Route::post('/mahasiswa/file-upload/upload-makalah', [UploadFileController::class, 'uploadMakalahProcess']);
