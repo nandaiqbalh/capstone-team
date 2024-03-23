@@ -16,11 +16,11 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tambah Siklus</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/admin/siklus') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/siklus') }}" class="btn btn-danger btn-sm float-right"><i class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                         </small>
                     </div>
-                    <div class="card-body">
-                        <form action="{{ url('/admin/siklus/add-process') }}" method="post" autocomplete="off">
+                    <form action="{{ url('/admin/siklus/add-process') }}" method="post" autocomplete="off">
+                        <div class="card-body">
                             {{ csrf_field()}}
                             <div class="row">
                                 <div class="col-md-4">
@@ -41,21 +41,34 @@
                                         <input type="date" class="form-control" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" required>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="mb-3">
                                         <label>Status <span class="text-danger">*</span></label>
                                         <select class="form-select" name="status" required>
-                                            <option value="" disabled selected>-- Pilih --</option>
-                                            <option value="aktif" @if( old('status') == 'aktif' ) selected @endif>aktif</option>
-                                            <option value="tidak aktif" @if( old('status') == 'tidak aktif' ) selected @endif>tidak aktif</option>
+                                            <option value="" disabled selected>Pilih Status</option>
+                                            <option value="aktif" @if( old('status') == 'aktif' ) selected @endif>Aktif</option>
+                                            <option value="tidak aktif" @if( old('status') == 'tidak aktif' ) selected @endif>Tidak Aktif</option>
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="pendaftaran_mulai" value="{{ old('pendaftaran_mulai') }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label >Pendaftaran Selesai<span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control" name="pendaftaran_selesai" value="{{ old('pendaftaran_selesai') }}" required>
+                                    </div>
+                                </div>
                             </div>
-                            <br>
+                        </div>
+                        <div class="card-footer float-end">
                             <button type="submit" class="btn btn-primary">Simpan</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 @endsection
