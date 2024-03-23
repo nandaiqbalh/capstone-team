@@ -87,13 +87,17 @@
                                         <tr>
                                             <td>Status</td>
                                             <td>:</td>
-                                            <td>{{ $kelompok->status_kelompok }}</td>
+                                            @if ($kelompok->nomor_kelompok == null)
+                                                <td>Menunggu Validasi Kelompok!</td>
+                                            @else
+                                                <td>{{ $kelompok->status_kelompok }}</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Nomor Kelompok</td>
                                             <td>:</td>
                                             @if ($kelompok->nomor_kelompok == null)
-                                                <td>Dalam Proses Peninjauan</td>
+                                                <td>-</td>
                                             @else
                                                 <td>{{ $kelompok->nomor_kelompok }}</td>
                                             @endif
@@ -101,7 +105,11 @@
                                         <tr>
                                             <td>Judul Capstone</td>
                                             <td>:</td>
-                                            <td>{{ $kelompok->judul_capstone }}</td>
+                                            @if ($kelompok->nomor_kelompok == null)
+                                                <td>-</td>
+                                            @else
+                                                <td>{{ $kelompok->judul_capstone }}</td>
+                                            @endif
                                         </tr>
                                     </tbody>
                                 </table>
