@@ -22,7 +22,7 @@
                     @if ($siklus_sudah_punya_kelompok == null)
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($kelompok->nomor_kelompok == null)
-                        <h6>Kelompok anda belum valid!</h6>
+                        <h6>Kelompok Anda belum valid!</h6>
                     @else
                         @if ($rs_expo == null)
                             <h6>Belum memasuki periode expo!</h6>
@@ -124,7 +124,7 @@
 
                     @endif
                 @else
-                    <h6>Anda belum memiliki kelompok!</h6>
+                    <h6>Anda belum mendaftar capstone!</h6>
                 @endif
 
             </div>

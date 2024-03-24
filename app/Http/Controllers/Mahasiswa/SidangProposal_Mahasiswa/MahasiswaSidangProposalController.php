@@ -52,12 +52,12 @@ class MahasiswaSidangProposalController extends BaseController
 
             foreach ($rs_dospeng as $dospeng) {
 
-                if ($dospeng->user_id == $kelompok->id_dosen_pembimbing_1) {
-                    $dospeng->jenis_dosen = 'Pembimbing 1';
-                    $dospeng->status_dosen = $kelompok->status_dosen_pembimbing_1;
-                } else if ($dospeng->user_id == $kelompok->id_dosen_pembimbing_2) {
-                    $dospeng->jenis_dosen = 'Pembimbing 2';
-                    $dospeng->status_dosen = $kelompok->status_dosen_pembimbing_2;
+                if ($dospeng->user_id == $kelompok->id_dosen_penguji_1) {
+                    $dospeng->jenis_dosen = 'Penguji 1';
+                    $dospeng->status_dosen = $kelompok->status_dosen_penguji_1;
+                } else if ($dospeng->user_id == $kelompok->id_dosen_penguji_2) {
+                    $dospeng->jenis_dosen = 'Penguji 2';
+                    $dospeng->status_dosen = $kelompok->status_dosen_penguji_2;
                 }
             }
 

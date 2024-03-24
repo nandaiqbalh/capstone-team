@@ -96,7 +96,7 @@ class ApiDokumenControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'success' => false,
-                'status' => 'Kelompok anda belum valid.'
+                'status' => 'Kelompok Anda belum valid.'
             ]);
     }
 

@@ -37,7 +37,7 @@ class ApiTugasAkhirController extends Controller
                     // dd($rsSidang);
 
                     if ($kelompok -> nomor_kelompok == null) {
-                        $response = $this->failureResponse('Kelompok anda belum valid!');
+                        $response = $this->failureResponse('Kelompok Anda belum valid!');
                     } else {
                         if ($rsSidang == null ) {
 
@@ -153,9 +153,12 @@ class ApiTugasAkhirController extends Controller
                 $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
                 if ($kelompok != null) {
+                    $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+
                     // Registration parameters
                     $registrationParams = [
                         'id_mahasiswa' => $user->user_id,
+                        'id_periode' => $periodeAvailable ->id,
                         'status' => 'Menunggu Validasi Jadwal!',
                         'created_by' => $user->user_id,
                         'created_date' => now(), // Use Laravel helper function for the current date and time

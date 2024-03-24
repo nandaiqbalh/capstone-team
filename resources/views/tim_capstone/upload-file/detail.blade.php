@@ -1,12 +1,12 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Upload File Mahasiswa
+    Dokumen
 @endsection
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mahasiswa /</span> Upload File Saya</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mahasiswa /</span> Dokumen</h5>
 
         <!-- notification -->
         @include('template.notification')
@@ -14,7 +14,7 @@
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Detail Upload File</h5>
+                <h5 class="mb-0">Detail Dokumen</h5>
             </div>
 
             @if ($akun_mahasiswa == null)
@@ -48,7 +48,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-makalah') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-makalah') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">
@@ -114,7 +114,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-laporan') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-laporan') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">
@@ -183,7 +183,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-c100') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-c100') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">
@@ -202,25 +202,25 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <!-- <button type="button" class="btn btn-primary float-end m-1 btn-sm" onclick="confirmUpdate()">Ubah</button>
-                                                                                                                                    <!-- <script>
-                                                                                                                                        function confirmUpdate() {
-                                                                                                                                            // Use SweetAlert
-                                                                                                                                            Swal.fire({
-                                                                                                                                                title: 'Apakah Anda yakin ingin mengubah file C100?',
-                                                                                                                                                icon: 'question',
-                                                                                                                                                showCancelButton: true,
-                                                                                                                                                confirmButtonColor: '#3085d6',
-                                                                                                                                                cancelButtonColor: '#d33',
-                                                                                                                                                confirmButtonText: 'Ya, ubah',
-                                                                                                                                                cancelButtonText: 'Batal'
-                                                                                                                                            }).then((result) => {
-                                                                                                                                                if (result.isConfirmed) {
-                                                                                                                                                    // Continue with the update process
-                                                                                                                                                    document.querySelector('form').submit();
-                                                                                                                                                }
-                                                                                                                                            });
-                                                                                                                                        }
-                                                                                                                                    </script> -->
+                                                                                                                                                        <!-- <script>
+                                                                                                                                                            function confirmUpdate() {
+                                                                                                                                                                // Use SweetAlert
+                                                                                                                                                                Swal.fire({
+                                                                                                                                                                    title: 'Apakah Anda yakin ingin mengubah file C100?',
+                                                                                                                                                                    icon: 'question',
+                                                                                                                                                                    showCancelButton: true,
+                                                                                                                                                                    confirmButtonColor: '#3085d6',
+                                                                                                                                                                    cancelButtonColor: '#d33',
+                                                                                                                                                                    confirmButtonText: 'Ya, ubah',
+                                                                                                                                                                    cancelButtonText: 'Batal'
+                                                                                                                                                                }).then((result) => {
+                                                                                                                                                                    if (result.isConfirmed) {
+                                                                                                                                                                        // Continue with the update process
+                                                                                                                                                                        document.querySelector('form').submit();
+                                                                                                                                                                    }
+                                                                                                                                                                });
+                                                                                                                                                            }
+                                                                                                                                                        </script> -->
                                                             <a href="{{ url('/file/kelompok/c100') }}/{{ $file_mhs->file_name_c100 }}"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                                         @else
@@ -247,7 +247,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-c200') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-c200') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">
@@ -294,7 +294,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-c300') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-c300') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">
@@ -338,7 +338,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-c400') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-c400') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">
@@ -385,7 +385,7 @@
                                             <i class='bx bxs-file-doc bx-lg'></i>
                                         </div>
                                         <div class="col-md-10">
-                                            <form action="{{ url('/mahasiswa/file-upload/upload-c500') }}" method="post"
+                                            <form action="{{ url('/mahasiswa/dokumen/upload-c500') }}" method="post"
                                                 autocomplete="off" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="row">

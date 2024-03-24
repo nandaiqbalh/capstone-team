@@ -50,7 +50,7 @@ class ApiDokumenController extends Controller
 
                         $response = $this->successResponse('Berhasil mendapatkan dokumen mahasiswa.', $data);
                     } else {
-                        $response = $this->failureResponse('Kelompok anda belum valid!');
+                        $response = $this->failureResponse('Kelompok Anda belum valid!');
                     }
                 } catch (\Exception $e) {
                     $response = $this->failureResponse('Gagal mendapatkan dokumen mahasiswa!');

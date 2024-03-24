@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class UploadFileModel extends BaseModel
 {
-    public static function getKelompokFile()
+    public static function getKelompokFile($id_kelompok)
     {
         return DB::table('kelompok as a')
-            ->join('siklus as c' ,'a.id_siklus', 'c.id')
-            ->where('c.status','aktif')
+            ->where('a.id', $id_kelompok)
             ->first();
     }
     // get all data
@@ -68,102 +67,15 @@ class UploadFileModel extends BaseModel
         ->get();
     }
 
-    // get akun by id user
-    public static function getAkunDosen()
-    {
-        return DB::table('app_user as a')
-        ->select('a.*')
-        ->where('a.role_id', '04')
-        ->get();
-    }
-
-    // pengecekan kelompok
-    public static function getAkunDosbingKelompok($id_kelompok)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.nomor_induk' )
-        ->join('app_user as b', 'a.id_dosen', 'b.user_id')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->get();
-    }
-
-    // get data with pagination
-    public static function getDataWithPagination()
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->paginate(20);
-    }
-
-    // get search
-    public static function getDataSearch($search)
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20);
-    }
-
-    // get data topik
-    public static function getTopik()
-    {
-        return DB::table('topik')
-            ->get();
-    }
-
-    // get data topik
-    public static function getSiklusAktif()
-    {
-        return DB::table('siklus')
-            ->where('status','aktif')
-            ->get();
-    }
-
     // get data by id
     public static function getDataById($user_id)
     {
         return DB::table('app_user')->where('user_id', $user_id)->first();
     }
 
-    public static function insertmahasiswa($params)
+    public static function uploadFileMHS($id_mahasiswa, $params)
     {
-        return DB::table('app_user')->insert($params);
-    }
-
-    public static function insertDosenKelompok($params)
-    {
-        return DB::table('dosen_kelompok')->insert($params);
-    }
-    public static function insertKelompok($params)
-    {
-        return DB::table('kelompok')->insert($params);
-    }
-    public static function insertKelompokMHS($params)
-    {
-        return DB::table('kelompok_mhs')->insert($params);
-    }
-
-    public static function insertPeminatan($params)
-    {
-        return DB::table('peminatan')->insert($params);
-    }
-    public static function insertTopikMHS($params)
-    {
-        return DB::table('topik_mhs')->insert($params);
-    }
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
-
-    public static function uploadFileMHS($id_kel_mhs, $params)
-    {
-        return DB::table('kelompok_mhs')->where('id', $id_kel_mhs)->update($params);
+        return DB::table('kelompok_mhs')->where('id_mahasiswa', $id_mahasiswa)->update($params);
     }
 
     public static function uploadFileKel($id_kelompok, $params)

@@ -25,7 +25,7 @@
                     @elseif ($siklus_sudah_punya_kelompok == null)
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($rs_sidang == null)
-                        <h6>Belum dijadwalkan!</h6>
+                        <h6>Belum ada jadwal sidang!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
 
@@ -243,7 +243,7 @@
 
                     @endif
                 @else
-                    <h6>Anda belum memiliki kelompok!</h6>
+                    <h6>Anda belum mendaftar capstone!</h6>
                 @endif
             </div>
         </div>

@@ -42,7 +42,7 @@ class ApiSiklusController extends Controller
                             $response = $this->successResponse('Berhasil mendapatkan data!', $data);
                         }
                     } else {
-                        $response = $this->failureResponse('Tidak ada siklus tidak aktif!');
+                        $response = $this->failureResponse('Tidak ada siklus yang aktif!');
                     }
 
                 } catch (\Exception $e) {

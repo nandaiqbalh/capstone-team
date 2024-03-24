@@ -84,7 +84,6 @@ class MahasiswaKelompokController extends BaseController
 
         }
         // view
-
         return view('mahasiswa.kelompok-mahasiswa.detail', $data);
     }
 

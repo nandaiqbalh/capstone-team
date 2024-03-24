@@ -1,12 +1,12 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Kelompok Mahasiswa
+    Kelompok
 @endsection
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mahasiswa /</span> Kelompok Saya</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mahasiswa /</span> Kelompok</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -86,11 +86,8 @@
                                         <tr>
                                             <td>Status</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
-                                                <td>Menunggu Validasi Kelompok!</td>
-                                            @else
-                                                <td>{{ $kelompok->status_kelompok }}</td>
-                                            @endif
+
+                                            <td>{{ $kelompok->status_kelompok }}</td>
                                         </tr>
                                         <tr>
                                             <td>Nomor Kelompok</td>
@@ -102,13 +99,14 @@
                                             @endif
                                         </tr>
                                         <tr>
+                                            <td>Topik</td>
+                                            <td>:</td>
+                                            <td>{{ $kelompok->nama_topik }}</td>
+                                        </tr>
+                                        <tr>
                                             <td>Judul Capstone</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
-                                                <td>-</td>
-                                            @else
-                                                <td>{{ $kelompok->judul_capstone }}</td>
-                                            @endif
+                                            <td>{{ $kelompok->judul_capstone }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -314,9 +312,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Skala Prioritas Peminatan<span class="text-danger">*</span></label>
-                                            <p>1. Software & Datab
-                                                2. Embedded System & Robot
-                                                3. Computer Network & Secur
+                                            <p>1. Software & Database <br>
+                                                2. Embedded System & Robotics <br>
+                                                3. Computer Network & Security <br>
                                                 4. Multimedia & Game</p>
                                             <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1"
                                                 name="peminatan" id="peminatan" required>
@@ -327,9 +325,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Skala Prioritas Topik<span class="text-danger">*</span></label>
-                                            <p>1. Early Warning Sys
-                                                2. Building/area monitoring or controlling sys
-                                                3. Smart business/orga...latform/support sys
+                                            <p>1. Early Warning System <br>
+                                                2. Building/area monitoring or controlling system <br>
+                                                3. Smart business/orga...latform/support system <br>
                                                 4. Smart city & transportation</p>
                                             <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1"
                                                 name="topik" id="topik" required>

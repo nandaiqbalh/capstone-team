@@ -62,7 +62,7 @@ class ApiSidangProposalController extends Controller
             if ($kelompok->nomor_kelompok == null) {
                 return [
                     'success' => false,
-                    'status' => 'Kelompok anda belum valid!',
+                    'status' => 'Kelompok Anda belum valid!',
                     'data' => null,
                 ];
             } else {
