@@ -25,9 +25,9 @@ class MahasiswaSidangProposalController extends BaseController
     {
         // get data kelompok
         $kelompok = MahasiswaSidangProposalModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-        $rs_sidang = MahasiswaSidangProposalModel::sidangProposalByKelompok($kelompok->id);
 
         if ($kelompok != null) {
+            $rs_sidang = MahasiswaSidangProposalModel::sidangProposalByKelompok($kelompok->id);
 
             $akun_mahasiswa = MahasiswaSidangProposalModel::getAkunByID(Auth::user()->user_id);
             $siklusSudahPunyaKelompok = MahasiswaSidangProposalModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);

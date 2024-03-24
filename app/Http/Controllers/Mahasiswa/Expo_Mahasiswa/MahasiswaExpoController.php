@@ -25,140 +25,118 @@ class MahasiswaExpoController extends BaseController
 
         $cekExpo = MahasiswaExpoModel::cekExpo();
 
-        $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
-        // get data expo
-        $rs_expo = MahasiswaExpoModel::getDataExpo();
-        $kelengkapanExpo = MahasiswaExpoModel::kelengkapanExpo();
+        $kelompok = MahasiswaExpoModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
 
-        // data
-        $data = [
-            'id_kelompok' => $id_kelompok,
-            'cekExpo' => $cekExpo,
-            'rs_expo' => $rs_expo,
-            'kelengkapan'=>$kelengkapanExpo
-        ];
+        if ($kelompok != null) {
+            $akun_mahasiswa = MahasiswaExpoModel::getAkunByID(Auth::user()->user_id);
+            $siklusSudahPunyaKelompok = MahasiswaExpoModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);
+            $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
+            // get data expo
+            $rs_expo = MahasiswaExpoModel::getDataExpo();
+
+            if ($rs_expo != null) {
+                $waktuExpo = strtotime($rs_expo->waktu);
+
+                $rs_expo->hari_expo = strftime('%A', $waktuExpo);
+                $rs_expo->hari_expo = $this->convertDayToIndonesian($rs_expo->hari_expo);
+                $rs_expo->tanggal_expo = date('d-m-Y', $waktuExpo);
+                $rs_expo->waktu_expo = date('H:i:s', $waktuExpo);
+
+                $tanggalSelesai = strtotime($rs_expo->tanggal_selesai);
+
+                $rs_expo->hari_batas = strftime('%A', $tanggalSelesai);
+                $rs_expo->hari_batas = $this->convertDayToIndonesian($rs_expo->hari_batas);
+                $rs_expo->tanggal_batas = date('d-m-Y', $tanggalSelesai);
+                $rs_expo->waktu_batas = date('H:i:s', $tanggalSelesai);
+            }
+
+            $kelengkapanExpo = MahasiswaExpoModel::kelengkapanExpo();
+
+            // data
+            $data = [
+                'rs_expo' => $rs_expo,
+                'kelompok' => $kelompok,
+                'kelengkapan'=>$kelengkapanExpo,
+                'siklus_sudah_punya_kelompok' => $siklusSudahPunyaKelompok,
+
+            ];
+        } else{
+            $data = [
+
+                'kelompok' => $kelompok,
+
+            ];
+        }
+
+
 
         // view
         return view('mahasiswa.expo-mahasiswa.detail', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function daftar(Request $request,$id)
+    public function daftarExpo(Request $request)
     {
+        // Validasi user
+        if (!$request->user()) {
+            return redirect()->back()->with('danger', 'Gagal mendapatkan data user!');
+        }
 
+        // Validasi kelompok mahasiswa
+        $kelompok = MahasiswaExpoModel::pengecekan_kelompok_mahasiswa($request->user()->user_id);
+        if (!$kelompok) {
+            return redirect()->back()->with('danger', 'Anda belum memiliki kelompok!');
+        }
 
-        // params
+        // Validasi berkas Capstone
+        if (!$kelompok->file_name_c500) {
+            return redirect()->back()->with('danger', 'Lengkapi Dokumen Capstone!');
+        }
+
+        // Persiapan data pendaftaran expo
         $params = [
-            'id_kelompok' => $request->id_kelompok,
-            'id_expo' => $id,
-            'status' => 'menunggu persetujuan',
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
+            'id_kelompok' => $kelompok->id,
+            'id_expo' => $request -> id_expo,
+            'status' => 'Menunggu Validasi Expo!',
+            'created_by' => $request->user()->user_id,
+            'created_date' => now(),
         ];
 
-        // process
-        if (MahasiswaExpoModel::insertIDKelompok($params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return back();
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return back();
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteMahasiswaProcess($user_id)
-    {
-
-        // get data
-        $mahasiswa = MahasiswaExpoModel::getDataById($user_id);
-
-        // if exist
-        if (!empty($mahasiswa)) {
-            // process
-            if (MahasiswaExpoModel::delete($user_id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
-        }
-    }
-
-    /**
-     * Search data.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function searchMahasiswa(Request $request)
-    {
-
-        // data request
-        $user_name = $request->nama;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_mahasiswa = MahasiswaExpoModel::getDataSearch($user_name);
-            // dd($rs_mahasiswa);
-            // data
-            $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
-            // view
-            return view('mahasiswa.mahasiswa.index', $data);
-        } else {
-            return redirect('/admin/mahasiswa');
-        }
-    }
-
-    public function editProcess(Request $request)
-    {
-
-        $id_kelompok = $request->id;
-        // get data
-        $kelompok = MahasiswaExpoModel::getDataById($id_kelompok);
-
-        // if exist
-        if (!empty($kelompok)) {
-            // process
-            $params = [
-                'judul_ta_mhs' => $request->judul_ta_mhs,
-                'link_upload' => $request->link_upload,
-
+        // Proses penyimpanan data pendaftaran expo
+        if (DB::table('pendaftaran_expo')->updateOrInsert(['id_kelompok' => $kelompok->id], $params)) {
+            // Update status kelompok dan mahasiswa
+            $kelompokParams = [
+                'link_berkas_expo' => $request->link_berkas_expo,
+                'status_kelompok' => "Menunggu Validasi Expo!"
             ];
-            if (MahasiswaExpoModel::updateKelompokMHS($id_kelompok, $params)) {
-                // flash message
-                session()->flash('success', 'Data berhasil disimpan.');
-                return back();
-            } else {
-                // flash message
-                session()->flash('danger', 'Data sudah ada.');
-                return back();
-            }
+            MahasiswaExpoModel::updateKelompokById($kelompok->id_kelompok, $kelompokParams);
+
+            $kelompokMHSParams = [
+                'judul_ta_mhs' => $request->judul_ta_mhs,
+                'status_individu' => "Menunggu Validasi Expo!"
+            ];
+            $statusDaftar = MahasiswaExpoModel::updateKelompokMHS($request->user()->user_id, $kelompokMHSParams);
+
+            return redirect()->back()->with('success', 'Berhasil mendaftarkan expo!');
         } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return back();
+            return redirect()->back()->with('danger', 'Gagal menyimpan data pendaftaran expo!');
         }
+    }
+
+
+    private function convertDayToIndonesian($day)
+    {
+        // Mapping nama hari ke bahasa Indonesia
+        $dayMappings = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+
+        // Cek apakah nama hari ada di dalam mapping
+        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
     }
 }

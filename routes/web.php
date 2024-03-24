@@ -274,8 +274,7 @@ Route::middleware(['auth', 'role:03'])->group(function () {
 
     //mahasiswa Expo
     Route::get('/mahasiswa/expo', [MahasiswaExpoController::class, 'index']);
-    Route::post('/mahasiswa/expo/daftar-process/{id}', [MahasiswaExpoController::class, 'daftar']);
-    Route::post('/mahasiswa/expo/edit-process', [MahasiswaExpoController::class, 'editProcess']);
+    Route::post('/mahasiswa/expo/expo-daftar', [MahasiswaExpoController::class, 'daftarExpo']);
 
 
     Route::post('/mahasiswa/expo/add-kelompok-process', [MahasiswaExpoController::class, 'addKelompokProcess']);

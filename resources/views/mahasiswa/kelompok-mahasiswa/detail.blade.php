@@ -20,9 +20,8 @@
                 @if ($kelompok != null)
 
                     @if ($siklus_sudah_punya_kelompok == null)
-                        <br>
-                        <h5 class="mb-0">Siklus capstone sudah tidak aktif!</h5>
-                        <br>
+
+                        <h6>Siklus capstone sudah tidak aktif!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
 
@@ -116,9 +115,10 @@
                             </div>
 
                             {{-- list mahasiswa  --}}
+
                             <br>
                             <h5 class="mb-0">List Mahasiswa</h5>
-                            <br>
+
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -147,9 +147,10 @@
                             </div>
 
                             {{-- list dos pem  --}}
+
                             <br>
                             <h5 class="mb-0">List Dosen Pembimbing</h5>
-                            <br>
+
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -184,17 +185,11 @@
 
                     @endif
                 @elseif($rs_siklus == null)
-                    <br>
-                    <h5 class="mb-0">Tidak ada siklus yang aktif!</h5>
-                    <br>
+                    <h6>Tidak ada siklus yang aktif!</h6>
                 @elseif($periode_pendaftaran == null)
-                    <br>
-                    <h5 class="mb-0">Belum memasuki periode pendaftaran capstone!</h5>
-                    <br>
+                    <h6>Belum memasuki periode pendaftaran capstone!</h6>
                 @else
-                    <br>
-                    <h5 class="mb-0">Anda Belum Memiliki Kelompok, Silahkan Daftar Terlebih dahulu</h5>
-                    <br>
+                    <h6>Anda Belum Memiliki Kelompok, Silahkan Daftar Terlebih dahulu</h6>
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -246,8 +241,7 @@
                                         <div class="mb-3">
                                             <label>Angkatan<span class="text-danger">*</span></label>
                                             <input type="number" class="form-control" placeholder="Contoh: 2020"
-                                                name="angkatan" value="{{ old('angkatan', $getAkun->angkatan) }}"
-                                                required>
+                                                name="angkatan" value="{{ old('angkatan', $getAkun->angkatan) }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -284,7 +278,8 @@
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_siklus as $siklus)
                                                     <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                                        {{ $siklus->tanggal_mulai }} sampai {{ $siklus->tanggal_selesai }}
+                                                        {{ $siklus->tanggal_mulai }} sampai
+                                                        {{ $siklus->tanggal_selesai }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -298,9 +293,11 @@
                                             <select class="form-select" name="jenis_kelamin" required>
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 <option value="Laki - laki"
-                                                    @if ($getAkun->jenis_kelamin == 'Laki - laki') selected @endif>Laki - laki</option>
+                                                    @if ($getAkun->jenis_kelamin == 'Laki - laki') selected @endif>Laki - laki
+                                                </option>
                                                 <option value="Perempuan"
-                                                    @if ($getAkun->jenis_kelamin == 'Perempuan') selected @endif>Perempuan</option>
+                                                    @if ($getAkun->jenis_kelamin == 'Perempuan') selected @endif>Perempuan
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -317,9 +314,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Skala Prioritas Peminatan<span class="text-danger">*</span></label>
-                                            <p>1. Software & Database <br>
-                                                2. Embedded System & Robotics <br>
-                                                3. Computer Network & Security <br>
+                                            <p>1. Software & Datab
+                                                2. Embedded System & Robot
+                                                3. Computer Network & Secur
                                                 4. Multimedia & Game</p>
                                             <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1"
                                                 name="peminatan" id="peminatan" required>
@@ -330,9 +327,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Skala Prioritas Topik<span class="text-danger">*</span></label>
-                                            <p>1. Early Warning System <br>
-                                                2. Building/area monitoring or controlling system <br>
-                                                3. Smart business/orga...latform/support system <br>
+                                            <p>1. Early Warning Sys
+                                                2. Building/area monitoring or controlling sys
+                                                3. Smart business/orga...latform/support sys
                                                 4. Smart city & transportation</p>
                                             <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1"
                                                 name="topik" id="topik" required>
@@ -341,8 +338,6 @@
                                     </div>
                                 </div>
 
-                                <br>
-                                <br>
                                 <button type="submit" id="submitButton" class="btn btn-primary float-end"
                                     disabled>Daftar</button>
                             </form>
@@ -403,16 +398,17 @@
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_siklus as $siklus)
                                                     <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                                        {{ $siklus->tanggal_mulai }} sampai {{ $siklus->tanggal_selesai }}
+                                                        {{ $siklus->tanggal_mulai }} sampai
+                                                        {{ $siklus->tanggal_selesai }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
-                                <br>
+
                                 <p>Nama Mahasiswa 1</p>
-                                <br>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -470,9 +466,11 @@
                                             <select class="form-select" name="jenis_kelamin1" required>
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 <option value="Laki - laki"
-                                                    @if ($getAkun->jenis_kelamin == 'Laki - laki') selected @endif>Laki - laki</option>
+                                                    @if ($getAkun->jenis_kelamin == 'Laki - laki') selected @endif>Laki - laki
+                                                </option>
                                                 <option value="Perempuan"
-                                                    @if ($getAkun->jenis_kelamin == 'Perempuan') selected @endif>Perempuan</option>
+                                                    @if ($getAkun->jenis_kelamin == 'Perempuan') selected @endif>Perempuan
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -487,9 +485,9 @@
                                 </div>
 
                                 {{-- mhs 2 --}}
-                                <br>
+
                                 <p>Nama Mahasiswa 2</p>
-                                <br>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -497,7 +495,8 @@
                                             <select class="form-select select-2" name="user_id2">
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_mahasiswa as $mahasiswa)
-                                                    <option value="{{ $mahasiswa->user_id }}">{{ $mahasiswa->user_name }}
+                                                    <option value="{{ $mahasiswa->user_id }}">
+                                                        {{ $mahasiswa->user_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -565,9 +564,9 @@
                                     </div>
                                 </div>
                                 {{-- mhs 3  --}}
-                                <br>
+
                                 <p>Nama Mahasiswa 3</p>
-                                <br>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
@@ -575,7 +574,8 @@
                                             <select class="form-select select-2" name="user_id3">
                                                 <option value="" disabled selected>-- Pilih --</option>
                                                 @foreach ($rs_mahasiswa as $mahasiswa)
-                                                    <option value="{{ $mahasiswa->user_id }}">{{ $mahasiswa->user_name }}
+                                                    <option value="{{ $mahasiswa->user_id }}">
+                                                        {{ $mahasiswa->user_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -642,7 +642,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
+
                                 <button type="submit" class="btn btn-primary float-end">Daftar</button>
                             </form>
 

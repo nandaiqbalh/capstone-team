@@ -12,10 +12,12 @@ class MahasiswaExpoModel extends BaseModel
     public static function getDataExpo()
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*','b.tahun_ajaran')
-            ->join('siklus as b','a.id_siklus','b.id')
-            ->where('b.status','aktif')
-            ->get();
+            ->select('a.*', 'b.tahun_ajaran')
+            ->join('siklus as b', 'a.id_siklus', 'b.id')
+            ->where('b.status', 'aktif')
+            ->where('a.tanggal_selesai', '>', now())
+            ->orderBy('a.tanggal_mulai', 'asc')
+            ->first();
     }
 
     public static function kelengkapanExpo()
@@ -40,18 +42,32 @@ class MahasiswaExpoModel extends BaseModel
         ->first();
     }
 
-    // pengecekan kelompok
-    public static function pengecekan_kelompok_mahasiswa()
+    public static function pengecekan_kelompok_mahasiswa($user_id)
     {
         return DB::table('kelompok_mhs as a')
-        ->select('a.*', 'b.*')
-        ->join('kelompok as b', 'a.id_kelompok', 'b.id')
-        ->join('siklus as d', 'a.id_siklus', 'd.id')
-        ->where('d.status', 'aktif')
-        ->where('a.id_mahasiswa', Auth::user()->user_id)
-        ->first();
+            ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+            ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
+            ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
+            ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
+            ->where('a.id_mahasiswa', $user_id)
+            ->orderBy('a.created_date', 'desc') // Urutkan berdasarkan created_date secara descending
+            ->first();
     }
 
+    public static function updateKelompokById($id_kelompok, $params)
+    {
+        return DB::table('kelompok')
+        ->where('id', $id_kelompok)
+        ->update($params);
+    }
+
+    public static function checkApakahSiklusMasihAktif($id_siklus)
+      {
+          return DB::table('siklus')
+              ->where('id', $id_siklus)
+              ->where('status', 'aktif')
+              ->first();
+      }
     // get akun by id user
     public static function idKelompok($user_id)
     {
@@ -61,13 +77,15 @@ class MahasiswaExpoModel extends BaseModel
     }
 
 
-    // get akun by id user
-    public static function getAkunByID($user_id)
-    {
-        return DB::table('app_user as a')
-            ->where('a.user_id', $user_id)
-            ->first();
-    }
+     // get akun by id user
+     public static function getAkunByID($user_id)
+     {
+         return DB::table('app_user as a')
+             ->select('a.*', 'b.status_individu', 'b.id_siklus')
+             ->join('kelompok_mhs as b','a.user_id','b.id_mahasiswa')
+             ->where('a.user_id', $user_id)
+             ->first();
+     }
     // get akun by id user
     public static function getAkun()
     {
@@ -175,8 +193,8 @@ class MahasiswaExpoModel extends BaseModel
     {
         return DB::table('app_user')->where('user_id', $user_id)->delete();
     }
-    public static function updateKelompokMHS($id,$params)
+    public static function updateKelompokMHS($user_id, $params)
     {
-        return DB::table('kelompok_mhs')->where('id', $id)->update($params);
+        return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
     }
 }

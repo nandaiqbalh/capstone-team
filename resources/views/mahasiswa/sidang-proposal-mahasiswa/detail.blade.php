@@ -17,19 +17,15 @@
             </div>
 
             <div class="card-body">
-                @if ($kelompok->nomor_kelompok == null)
-                    <br>
-                    <h5 class="mb-0">Kelompok Anda belum valid!</h5>
-                    <br>
-                @elseif($kelompok != null)
-                    @if ($siklus_sudah_punya_kelompok == null)
-                        <br>
-                        <h5 class="mb-0">Siklus capstone sudah tidak aktif!</h5>
-                        <br>
+
+                @if ($kelompok != null)
+                    @if ($kelompok->nomor_kelompok == null)
+
+                        <h6>Kelompok Anda belum valid!</h6>
+                    @elseif ($siklus_sudah_punya_kelompok == null)
+                        <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($rs_sidang == null)
-                        <br>
-                        <h5 class="mb-0">Belum dijadwalkan!</h5>
-                        <br>
+                        <h6>Belum dijadwalkan!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
 
@@ -141,9 +137,10 @@
                             </div>
 
                             {{-- list mahasiswa  --}}
+
                             <br>
                             <h5 class="mb-0">List Mahasiswa</h5>
-                            <br>
+
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -172,9 +169,10 @@
                             </div>
 
                             {{-- list dos pembimbing  --}}
+
                             <br>
                             <h5 class="mb-0">List Dosen Pembimbing</h5>
-                            <br>
+
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -207,9 +205,10 @@
                             </div>
 
                             {{-- list dos penguji  --}}
+
                             <br>
                             <h5 class="mb-0">List Dosen Penguji</h5>
-                            <br>
+
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -244,9 +243,7 @@
 
                     @endif
                 @else
-                    <br>
-                    <h5 class="mb-0">Anda belum memiliki kelompok!</h5>
-                    <br>
+                    <h6>Anda belum memiliki kelompok!</h6>
                 @endif
             </div>
         </div>

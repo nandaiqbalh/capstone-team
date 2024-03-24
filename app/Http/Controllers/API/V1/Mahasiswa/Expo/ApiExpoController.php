@@ -22,9 +22,6 @@ class ApiExpoController extends Controller
                 if ($this->validateKelompok($kelompok)) {
                     $rs_expo = ApiExpoModel::getDataExpo($user->user_id);
 
-
-
-
                     if ($this->validateExpoData($rs_expo)) {
 
                         // convert
