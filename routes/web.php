@@ -48,8 +48,10 @@ use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokController;
 use App\Http\Controllers\TimCapstone\Pendaftaran\PendaftaranController;
 
+// mahasiswa
 use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
 use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
+use App\Http\Controllers\Mahasiswa\SidangProposal_Mahasiswa\MahasiswaSidangProposalController;
 
 use App\Http\Controllers\TimCapstone\UploadFile\UploadFileController;
 
@@ -244,10 +246,6 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
     Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addPunyaKelompokProcess']);
-    Route::get('/mahasiswa/kelompok/delete-process/{user_id}', [MahasiswaKelompokController::class, 'deleteSiklusProcess']);
-    Route::get('/mahasiswa/kelompok/edit/{user_id}', [MahasiswaKelompokController::class, 'editSiklus']);
-    Route::post('/mahasiswa/kelompok/edit-process', [MahasiswaKelompokController::class, 'editSiklusProcess']);
-    Route::get('/mahasiswa/kelompok/detail/{user_id}', [MahasiswaKelompokController::class, 'detailSiklus']);
 
     Route::post('/mahasiswa/kelompok/terima-kelompok', [MahasiswaKelompokController::class, 'terimaKelompok'])->name('kelompok.accept');
     Route::post('/mahasiswa/kelompok/tolak-kelompok', [MahasiswaKelompokController::class, 'tolakKelompok'])->name('kelompok.reject');
@@ -269,6 +267,10 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::get('/mahasiswa/file-upload/edit/{user_id}', [UploadFileController::class, 'editSiklus']);
     Route::post('/mahasiswa/file-upload/edit-process', [UploadFileController::class, 'editSiklusProcess']);
     Route::get('/mahasiswa/file-upload/detail/{user_id}', [UploadFileController::class, 'detailSiklus']);
+
+    // sidang proposal
+    Route::get('/mahasiswa/sidang-proposal', [MahasiswaSidangProposalController::class, 'index']);
+
 
     //mahasiswa Expo
     Route::get('/mahasiswa/expo', [MahasiswaExpoController::class, 'index']);
