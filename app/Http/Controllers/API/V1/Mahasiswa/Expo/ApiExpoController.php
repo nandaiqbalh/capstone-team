@@ -60,7 +60,7 @@ class ApiExpoController extends Controller
                     if ($kelompok != null && $kelompok -> nomor_kelompok == null) {
                         $response = $this->failureResponse('Kelompok Anda belum valid!');
                     } else {
-                        $response = $this->failureResponse('Anda belum memiliki kelompok!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
                     }
                 }
             } else {
@@ -118,7 +118,7 @@ class ApiExpoController extends Controller
                     }
 
                 } else {
-                    $response = $this->failureResponse('Anda belum memiliki kelompok!');
+                    $response = $this->failureResponse('Anda belum mendaftar capstone!');
                 }
             } else {
                 $response = $this->failureResponse('Gagal mendapatkan data expo!');

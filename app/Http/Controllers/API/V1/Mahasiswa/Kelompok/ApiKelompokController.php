@@ -48,7 +48,7 @@ class ApiKelompokController extends Controller
                             'rs_dospeng' => null,
                             'rs_dospeng_ta' => null,
                         ];
-                        $response = $this->failureResponse('Belum mendaftar capstone!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
 
                     } else {
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
@@ -139,7 +139,7 @@ class ApiKelompokController extends Controller
                             'rs_dospeng' => null,
                             'rs_dospeng_ta' => null,
                         ];
-                        $response = $this->failureResponse('Belum mendaftar capstone!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
 
                     } else {
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)

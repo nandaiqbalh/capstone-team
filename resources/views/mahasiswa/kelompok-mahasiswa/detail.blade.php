@@ -87,7 +87,11 @@
                                             <td>Status</td>
                                             <td>:</td>
 
-                                            <td>{{ $kelompok->status_kelompok }}</td>
+                                            @if ($kelompok->status_kelompok == null)
+                                                <td>Menunggu Validasi Kelompok!</td>
+                                            @else
+                                                <td>{{ $kelompok->status_kelompok }}</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Nomor Kelompok</td>
@@ -101,12 +105,20 @@
                                         <tr>
                                             <td>Topik</td>
                                             <td>:</td>
-                                            <td>{{ $kelompok->nama_topik }}</td>
+                                            @if ($kelompok->id == null)
+                                                <td>-</td>
+                                            @else
+                                                <td>{{ $kelompok->nama_topik }}</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Judul Capstone</td>
                                             <td>:</td>
-                                            <td>{{ $kelompok->judul_capstone }}</td>
+                                            @if ($kelompok->id == null)
+                                                <td>-</td>
+                                            @else
+                                                <td>{{ $kelompok->judul_capstone }}</td>
+                                            @endif
                                         </tr>
                                     </tbody>
                                 </table>

@@ -37,7 +37,7 @@ class ApiTugasAkhirController extends Controller
                     // dd($rsSidang);
 
                     if ($kelompok -> nomor_kelompok == null) {
-                        $response = $this->failureResponse('Kelompok Anda belum valid!');
+                        $response = $this->failureResponse('Anda belum menyelesaikan capstone!');
                     } else {
                         if ($rsSidang == null ) {
 
@@ -153,7 +153,7 @@ class ApiTugasAkhirController extends Controller
                 $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
                 if ($kelompok != null) {
-                    $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+                    $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
 
                     // Registration parameters
                     $registrationParams = [

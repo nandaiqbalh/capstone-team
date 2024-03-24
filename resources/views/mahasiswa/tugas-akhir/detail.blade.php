@@ -30,7 +30,7 @@
                         @if ($periode == null)
                             <!-- tidak ada periode -->
 
-                            <h6>Belum memasuki periode sidang Tugas Akhir!</h6>
+                            <h6>Belum ada periode sidang Tugas Akhir yang tersedia!</h6>
                         @else
                             <!-- ada periode -->
                             <!-- check sudah mandaftar belum -->

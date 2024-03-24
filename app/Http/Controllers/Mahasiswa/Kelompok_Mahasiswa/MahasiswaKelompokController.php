@@ -51,8 +51,6 @@ class MahasiswaKelompokController extends BaseController
                 }
             }
 
-
-
             $data = [
                 'kelompok'  => $kelompok,
                 'rs_mahasiswa' => $rs_mahasiswa,
@@ -83,6 +81,7 @@ class MahasiswaKelompokController extends BaseController
             ];
 
         }
+
         // view
         return view('mahasiswa.kelompok-mahasiswa.detail', $data);
     }

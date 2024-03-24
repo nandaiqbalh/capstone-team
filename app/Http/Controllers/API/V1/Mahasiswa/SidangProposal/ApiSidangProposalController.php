@@ -22,7 +22,7 @@ class ApiSidangProposalController extends Controller
                 if ($kelompok != null) {
                     $response = $this->getSidangProposalByKelompok($kelompok, $user);
                 } else {
-                    $response = $this->failureResponse('Anda belum memiliki kelompok!');
+                    $response = $this->failureResponse('Anda belum mendaftar capstone!');
                 }
             } else {
                 $response = $this->failureResponse('Gagal mendapatkan jadwal sidang!');
