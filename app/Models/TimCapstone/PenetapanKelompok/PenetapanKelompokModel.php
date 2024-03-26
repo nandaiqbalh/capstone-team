@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\TimCapstone\Pendaftaran;
+namespace App\Models\TimCapstone\PenetapanKelompok;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PendaftaranModel extends BaseModel
+class PenetapanKelompokModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -28,6 +28,7 @@ class PendaftaranModel extends BaseModel
             ->join('siklus as d','b.id_siklus','d.id')
             ->where('d.status','aktif')
             ->where('b.id_kelompok', NULL)
+            ->orderby('b.created_date', 'asc')
             ->paginate(20);
     }
 
@@ -36,6 +37,13 @@ class PendaftaranModel extends BaseModel
         return DB::table('topik')
             ->get();
     }
+
+    public static function getPeminatan()
+    {
+        return DB::table('peminatan')
+            ->get();
+    }
+
 
     public static function getTopikPrioritas()
     {
@@ -80,13 +88,17 @@ class PendaftaranModel extends BaseModel
     // get search
     public static function getDataSearch($search)
     {
+
         return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
+            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.tahun_ajaran')
+            ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
+            ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
+            ->join('siklus as d','b.id_siklus','d.id')
+            ->where('d.status','aktif')
+            ->where('b.id_kelompok', NULL)
+            ->orderby('b.created_date', 'asc')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20)->withQueryString();
+            ->paginate(20);
     }
 
     // get data by id

@@ -46,7 +46,7 @@ use App\Http\Controllers\TimCapstone\JadwalPendaftaranKelompok\JadwalPendaftaran
 use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokController;
-use App\Http\Controllers\TimCapstone\Pendaftaran\PendaftaranController;
+use App\Http\Controllers\TimCapstone\PenetapanKelompok\PenetapanKelompokController;
 
 // mahasiswa
 use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
@@ -180,12 +180,6 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
      Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
-     //kelompok
-     Route::get('/admin/jadwal-pendaftaran/kelompok', [JadwalPendaftaranKelompokController::class, 'index']);
-     Route::post('/admin/jadwal-pendaftaran/kelompok/add-process', [JadwalPendaftaranKelompokController::class, 'addJadwalPendaftaranKelompokProcess']);
-     Route::get('/admin/jadwal-pendaftaran/kelompok/delete-process/{id}', [JadwalPendaftaranKelompokController::class, 'deleteJadwalPendaftaranKelompokProcess']);
-     Route::post('/admin/jadwal-pendaftaran/kelompok/edit-process', [JadwalPendaftaranKelompokController::class, 'editJadwalPendaftaranKelompokProcess']);
-
      //sidang proposal
      Route::get('/admin/jadwal-pendaftaran/sidang-proposal', [JadwalSidangProposalController::class, 'index']);
      Route::get('/admin/jadwal-pendaftaran/sidang-proposal/add', [JadwalSidangProposalController::class, 'addJadwalSidangProposal']);
@@ -231,12 +225,11 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/kelompok/delete-dosen-process/{id_dosen}/{id}', [KelompokController::class, 'deleteKelompokDosenProcess']);
 
 
-     //pendaftaran caps individu
-     Route::get('/admin/pendaftaran', [PendaftaranController::class, 'index']);
-     Route::get('/admin/pendaftaran/add', [PendaftaranController::class, 'addPendaftaran']);
-     Route::post('/admin/pendaftaran/add-process', [PendaftaranController::class, 'addPendaftaranProcess']);
-     Route::get('/admin/pendaftaran/update-mahasiswa-topik', [PendaftaranController::class, 'updateMhsTopikProcess']);
-
+     // penetapan kelompok
+     Route::get('/admin/penetapan-kelompok', [PenetapanKelompokController::class, 'index']);
+     Route::get('/admin/penetapan-kelompok/add', [PenetapanKelompokController::class, 'addPenetapanKelompok']);
+     Route::get('/admin/penetapan-kelompok/search', [PenetapanKelompokController::class, 'searchMahasiswa']);
+     Route::post('/admin/penetapan-kelompok/add-process', [PenetapanKelompokController::class, 'addPenetapanKelompokProcess']);
 
 });
 
