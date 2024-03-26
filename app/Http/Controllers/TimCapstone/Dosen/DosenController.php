@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DosenController extends BaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         // get data with pagination
@@ -124,14 +120,8 @@ class DosenController extends BaseController
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function addDosen()
     {
-
         // view
         return view('tim_capstone.dosen.add');
     }
@@ -207,12 +197,6 @@ class DosenController extends BaseController
         return view('tim_capstone.dosen.detail', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function editDosen($user_id)
     {
 
@@ -233,13 +217,6 @@ class DosenController extends BaseController
         return view('tim_capstone.dosen.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function editDosenProcess(Request $request)
     {
 
@@ -274,12 +251,6 @@ class DosenController extends BaseController
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function deleteDosenProcess($id)
     {
         // get data
@@ -304,12 +275,6 @@ class DosenController extends BaseController
         }
     }
 
-    /**
-     * Search data.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function searchDosen(Request $request)
     {
         // data request
@@ -328,4 +293,68 @@ class DosenController extends BaseController
             return redirect('/admin/dosen');
         }
     }
+
+    public function balancingDosbing()
+    {
+        // get data with pagination
+        $dt_dosen = DosenModel::getDataBalancingDosbing();
+        $rs_siklus = DosenModel::getSiklusAktif();
+
+        // data
+        $data = [
+            'dt_dosen' => $dt_dosen,
+            'rs_siklus' => $rs_siklus,
+        ];
+        // view
+        return view('tim_capstone.dosen.balancing.dosbing.index', $data);
+    }
+
+    public function filterBalancingDosbing(Request $request)
+    {
+        // data request
+        $id_siklus = $request->id_siklus;
+
+        // new search or reset
+        if ($request->action == 'search') {
+            $dt_dosen = DosenModel::getDataBalancingDosbingFilterSiklus($id_siklus);
+            $rs_siklus = DosenModel::getSiklusAktif();
+
+            // data
+            $data = [
+                'dt_dosen' => $dt_dosen,
+                'rs_siklus' => $rs_siklus,
+            ];
+            // view
+            return view('tim_capstone.dosen.balancing.dosbing.index', $data);
+        } else {
+            return redirect('/admin/balancing-dosbing');
+        }
+    }
+
+    public function detailBalancingDosen($user_id)
+    {
+        // get data with pagination
+        $rs_bimbingan = DosenModel::getDataBimbinganDosbing($user_id);
+
+        foreach ($rs_bimbingan as $bimbingan) {
+            if ($bimbingan->id_dosen_pembimbing_1 == $user_id) {
+                $bimbingan->jenis_dosen = 'Pembimbing 1';
+                $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_1;
+
+            } else if ($bimbingan->id_dosen_pembimbing_2 == $user_id) {
+                $bimbingan->jenis_dosen = 'Pembimbing 2';
+                $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
+
+            } else {
+                $bimbingan->jenis_dosen = 'Belum diplot';
+            }
+        }
+        // data
+        $data = ['rs_bimbingan' => $rs_bimbingan];
+        // view
+        return view('tim_capstone.dosen.balancing.dosbing.detail', $data);
+    }
+
+
+
 }

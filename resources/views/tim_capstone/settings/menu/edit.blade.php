@@ -22,7 +22,7 @@
             <form action="{{ url('/admin/settings/menu/edit_process') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field() }}
-                    <input type="hidden" name="menu_id" value="{{ $menu->id }}" required>
+                    <input type="hidden" name="id" value="{{ $menu->id }}" required>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -30,8 +30,8 @@
                                 <select class="form-select select-2" name="parent_menu_id" required>
                                     <option value="parent" selected>Parent Menu</option>
                                     @foreach ($rs_menu as $menu2)
-                                        <option value="{{ $menu2->menu_id }}"
-                                            @if ($menu->parent_menu_id == $menu2->menu_id) selected @endif>
+                                        <option value="{{ $menu2->id }}"
+                                            @if ($menu->parent_menu_id == $menu2->id) selected @endif>
                                             {{ !empty($menu2->parent_menu_id) ? '-- -- ' . $menu2->menu_name : $menu2->menu_name }}
                                         </option>
                                     @endforeach

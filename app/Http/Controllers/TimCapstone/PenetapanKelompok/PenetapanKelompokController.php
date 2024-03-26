@@ -96,7 +96,7 @@ class PenetapanKelompokController extends BaseController
         ];
 
         // process
-        $insertKelompok = PenetapanKelompokModel::insertPenetapanKelompokKelompok($params);
+        $insertKelompok = PenetapanKelompokModel::insertPendaftaranKelompok($params);
         if ($insertKelompok) {
             $id_kelompok = DB::getPdo()->lastInsertId();
             $paramMhs1 = [
@@ -129,7 +129,7 @@ class PenetapanKelompokController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/kelompok');
+            return redirect('/admin/penetapan-dosbing');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');

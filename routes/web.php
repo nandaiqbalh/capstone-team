@@ -42,11 +42,12 @@ use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
-use App\Http\Controllers\TimCapstone\JadwalPendaftaranKelompok\JadwalPendaftaranKelompokController;
 use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokController;
 use App\Http\Controllers\TimCapstone\PenetapanKelompok\PenetapanKelompokController;
+use App\Http\Controllers\TimCapstone\PenetapanDosbing\PenetapanDosbingController;
+
 
 // mahasiswa
 use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
@@ -161,6 +162,11 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
      Route::get('/admin/dosen/search', [DosenController::class, 'searchDosen']);
 
+     // balancing dosen pembimbing
+     Route::get('/admin/balancing-dosbing', [DosenController::class, 'balancingDosbing']);
+     Route::get('/admin/balancing-dosbing/filter-siklus', [DosenController::class, 'filterBalancingDosbing']);
+     Route::get('/admin/balancing-dosbing/detail/{user_id}', [DosenController::class, 'detailBalancingDosen']);
+
 
      //siklus
      Route::get('/admin/siklus', [SiklusController::class, 'index']);
@@ -230,6 +236,13 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/penetapan-kelompok/add', [PenetapanKelompokController::class, 'addPenetapanKelompok']);
      Route::get('/admin/penetapan-kelompok/search', [PenetapanKelompokController::class, 'searchMahasiswa']);
      Route::post('/admin/penetapan-kelompok/add-process', [PenetapanKelompokController::class, 'addPenetapanKelompokProcess']);
+
+    // penetapan dosbing kelompok
+    Route::get('/admin/penetapan-dosbing', [PenetapanDosbingController::class, 'index']);
+    Route::get('/admin/penetapan-dosbing/detail/{id}', [PenetapanDosbingController::class, 'detailKelompok']);
+    Route::get('/admin/penetapan-dosbing/add', [PenetapanDosbingController::class, 'addPenetapanKelompok']);
+    Route::get('/admin/penetapan-dosbing/search', [PenetapanDosbingController::class, 'searchMahasiswa']);
+    Route::post('/admin/penetapan-dosbing/add-process', [PenetapanDosbingController::class, 'addPenetapanKelompokProcess']);
 
 });
 

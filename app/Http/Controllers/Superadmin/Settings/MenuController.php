@@ -104,12 +104,10 @@ class MenuController extends BaseController
         }
 
         $id = Menu::makeShortId();
-        $menu_id = Menu::makeShortMenuId();
 
         // params
         $params =[
             'id' => $id,
-            'menu_id' => $menu_id,
             'role_id' => '01',
             'parent_menu_id' => $parent_menu_id,
             'menu_name' => $request->menu_name,
@@ -171,7 +169,6 @@ class MenuController extends BaseController
 
         // Validate & auto redirect when fail
         $rules = [
-            'menu_id' => 'required',
             'parent_menu_id' => 'required',
             'menu_name' => 'required',
             'menu_description' => 'required',
@@ -208,7 +205,7 @@ class MenuController extends BaseController
         ];
 
         // process
-        if (Menu::update($request->menu_id,$params)) {
+        if (Menu::update($request->id,$params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/menu');
@@ -216,7 +213,7 @@ class MenuController extends BaseController
         else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/menu/edit/'.$request->menu_id);
+            return redirect('/admin/settings/menu/edit/'.$request->id);
         }
     }
 
@@ -296,7 +293,7 @@ class MenuController extends BaseController
     public function roleMenuProcess(Request $request)
     {
         // get data
-        $menu = Menu::getById($request->menu_id);
+        $menu = Menu::getById($request->id);
         $rs_menu = Menu::getAll();
 
         // cek if new menu
@@ -306,7 +303,7 @@ class MenuController extends BaseController
         $role_id = $request->role_id;
 
         // delete role menu
-        Menu::delete($request->menu_id);
+        Menu::delete($request->id);
 
         if (!empty($role_id)) {
             // looping insert
@@ -314,7 +311,6 @@ class MenuController extends BaseController
                 // params
                 $params = [
                     'role_id' => $roleId,
-                    'menu_id' => $menu->menu_id,
                     'parent_menu_id' => $parent_menu_id,
                     'menu_name' => $menu->menu_name,
                     'menu_description' => $menu->menu_description,
