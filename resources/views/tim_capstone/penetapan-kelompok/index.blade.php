@@ -70,11 +70,8 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Siklus</th>
                                 <th>Nama Mahasiswa</th>
-                                <th width="5%">Usulan Judul</th>
                                 <th>Topik</th>
-                                <th>Peminatan</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -83,13 +80,10 @@
                                 @foreach ($rs_pendaftaran as $index => $pendaftaran)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_pendaftaran->firstItem() }}.</td>
-                                        <td>{{ $pendaftaran->tahun_ajaran }}</td>
                                         <td>{{ $pendaftaran->user_name }}</td>
-                                        <td>{{ $pendaftaran->usulan_judul_capstone }}</td>
                                         <td>{{ $pendaftaran->prioritas_topik }}</td>
-                                        <td>{{ $pendaftaran->prioritas_peminatan }}</td>
                                         <td><a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
-                                                class="btn btn-secondary btn-xs float-right"><i class="fas fa-plus"></i>
+                                                class="btn btn-secondary btn-xs float-right">
                                                 Detail</a></td>
                                     </tr>
                                 @endforeach

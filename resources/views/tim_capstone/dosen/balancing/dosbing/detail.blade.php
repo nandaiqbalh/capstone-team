@@ -22,9 +22,9 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
-
                                 <th>Dosen</th>
-                                <th>Status</th>
+                                <th>Status Dosen</th>
+                                <th>Selesai</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -36,9 +36,18 @@
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td>{{ $kelompok->jenis_dosen }}</td>
                                         <td>{{ $kelompok->status_dosen }}</td>
+                                        <td>
+                                            @if ($kelompok->is_selesai == 0)
+                                                <a href="#" class="btn btn-outline-secondary btn-xs m-1 ">Belum
+                                                    Selesai</a>
+                                            @else
+                                                <a href="#" class="btn btn-outline-danger btn-xs m-1">Sudah
+                                                    Selesai</a>
+                                            @endif
+                                        </td>
 
                                         <td class="text-center">
-                                            <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/admin/kelompok/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1"> Detail</a>
                                         </td>
 

@@ -24,65 +24,6 @@ class PenetapanDosbingController extends BaseController
         return view('tim_capstone.penetapan-dosbing.index', $data);
     }
 
-
-    public function addMahasiswaKelompok(Request $request)
-    {
-
-        // params
-        $params = [
-            'id_kelompok' => $request->id_kelompok,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
-        // dd($params);
-        // process
-        if (PenetapanDosbingModel::updateKelompokMHS($request->id_mahasiswa_nokel, $params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return back();
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return back();
-        }
-    }
-
-    public function addDosenKelompok(Request $request)
-    {
-        $cekDosen = PenetapanDosbingModel::checkStatusDosen( $request->id_kelompok, $request->id_dosen);
-        $cekPosisi = PenetapanDosbingModel::checkPosisi( $request->id_kelompok, $request->status_dosen);
-
-        // dd($cekPosisi);
-        if ($cekDosen || $cekPosisi ) {
-            session()->flash('danger', 'Dosen / Posisi Sudah ada');
-            return back();
-        }
-        // params
-        $params = [
-            'id_kelompok' => $request->id_kelompok,
-            'id_dosen' => $request->id_dosen,
-            'status_dosen' => $request->status_dosen,
-            'status_persetujuan' => 'menunggu persetujuan',
-        ];
-        // dd($params);
-        // process
-        if (PenetapanDosbingModel::insertDosenKelompok($params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return back();
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return back();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function detailKelompok($id)
     {
 
@@ -90,21 +31,9 @@ class PenetapanDosbingController extends BaseController
         $kelompok = PenetapanDosbingModel::getDataById($id);
         $rs_topik = PenetapanDosbingModel::getTopik();
         $rs_mahasiswa = PenetapanDosbingModel::listKelompokMahasiswa($id);
-        $rs_mahasiswa_nokel = PenetapanDosbingModel::listKelompokMahasiswaNokel($kelompok->id_topik);
         $rs_dosbing = PenetapanDosbingModel::getAkunDosbingKelompok($id);
-        $rs_dosbing_avail = PenetapanDosbingModel::listDosbingAvail();
-        $rs_dosbing_avail_arr = [];
-
-        // dd($rs_dosbing_avail);
-
-        foreach ($rs_dosbing_avail as $key => $dosbing) {
-            $check_dosen_kelompok = PenetapanDosbingModel::checkDosbing($id, $dosbing->user_id);
-            if ($check_dosen_kelompok) {
-            }
-            else {
-                $rs_dosbing_avail_arr[] = $dosbing;
-            }
-        }
+        $rs_dosbing1 = PenetapanDosbingModel::getDataDosbing1();
+        $rs_dosbing2 = PenetapanDosbingModel::getDataDosbing2();
 
         foreach ($rs_dosbing as $dosbing) {
 
@@ -131,14 +60,113 @@ class PenetapanDosbingController extends BaseController
             'rs_topik' => $rs_topik,
             'rs_mahasiswa' => $rs_mahasiswa,
             'rs_dosbing' => $rs_dosbing,
-            'rs_mahasiswa_nokel' => $rs_mahasiswa_nokel,
-            'rs_dosbing_avail' =>  $rs_dosbing_avail_arr
+            'rs_dosbing1' => $rs_dosbing1,
+            'rs_dosbing2' => $rs_dosbing2,
         ];
         // dd($data);
 
         // view
         return view('tim_capstone.penetapan-dosbing.detail', $data);
     }
+
+
+    public function addDosenKelompok(Request $request)
+    {
+        // get kelompok
+        $id_kelompok = $request->id_kelompok;
+        $kelompok = PenetapanDosbingModel::getKelompokById($id_kelompok);
+
+        // check if the selected position is 'pembimbing 1'
+        if ($request->status_dosen == "pembimbing 1") {
+            // check if pembimbing 1 slot is available and not the same as the selected dosen
+            if ($kelompok->id_dosen_pembimbing_1 == null && $kelompok->id_dosen_pembimbing_2 != $request->id_dosen) {
+                $params = [
+                    'id_dosen_pembimbing_1' => $request->id_dosen,
+                    'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Berhasil!',
+                ];
+            } else {
+                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                return back();
+            }
+        }
+
+        // check if the selected position is 'pembimbing 2'
+        if ($request->status_dosen == "pembimbing 2") {
+            // check if pembimbing 2 slot is available and not the same as the selected dosen
+            if ($kelompok->id_dosen_pembimbing_2 == null && $kelompok->id_dosen_pembimbing_1 != $request->id_dosen) {
+                $params = [
+                    'id_dosen_pembimbing_2' => $request->id_dosen,
+                    'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Berhasil!',
+                ];
+            } else {
+                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                return back();
+            }
+        }
+
+        if (PenetapanDosbingModel::updateKelompok($id_kelompok, $params)) {
+            // update status kelompok if both pembimbing slots are filled
+
+            $kelompok_updated = PenetapanDosbingModel::getKelompokById($id_kelompok);
+
+            if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
+                $paramsStatusKelompok = [
+                    'status_kelompok' => "Menunggu Validasi Kelompok!"
+                ];
+
+                PenetapanDosbingModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
+            }
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+
+    public function deleteDosenKelompok($id_dosen, $id_kelompok)
+    {
+
+        $kelompok = PenetapanDosbingModel::getKelompokById($id_kelompok);
+
+        $params ="";
+
+        if ($id_dosen == $kelompok -> id_dosen_pembimbing_1) {
+            $params = [
+                'id_dosen_pembimbing_1' => null,
+                'status_dosen_pembimbing_1' => null,
+                'status_kelompok' => "Menunggu Persetujuan Dosbing!"
+            ];
+        } else if ($id_dosen == $kelompok -> id_dosen_pembimbing_2) {
+            $params = [
+                'id_dosen_pembimbing_2' => null,
+                'status_dosen_pembimbing_2' => null,
+                'status_kelompok' => "Menunggu Persetujuan Dosbing!"
+            ];
+        } else {
+            $params = null;
+        }
+
+        // dd($params);
+        // get data
+        $dosen = PenetapanDosbingModel::updateKelompok($id_kelompok, $params);
+
+        // if exist
+        if (!empty($dosen)) {
+            // process
+                // flash message
+                session()->flash('success', 'Data berhasil dihapus.');
+                return back();
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
+        }
+    }
+
+
 
     public function deleteKelompokProcess($id)
     {
@@ -183,74 +211,7 @@ class PenetapanDosbingController extends BaseController
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteKelompokMahasiswaProcess($id_mahasiswa, $id)
-    {
 
-        // get data
-        $mahasiswa = PenetapanDosbingModel::getKelompokMhs($id_mahasiswa, $id);
-
-        // if exist
-        if (!empty($mahasiswa)) {
-            // process
-            if (PenetapanDosbingModel::deleteKelompokMhs($mahasiswa->id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return back();
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return back();
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return back();
-        }
-    }
-
-    public function deleteKelompokDosenProcess($id_dosen, $id)
-    {
-
-        $kelompok = PenetapanDosbingModel::getKelompokById($id);
-
-        $params ="";
-
-        if ($id_dosen == $kelompok -> id_dosen_pembimbing_1) {
-            $params = [
-                'id_dosen_pembimbing_1' => null,
-                'status_dosen_pembimbing_1' => null,
-            ];
-        } else if ($id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-            $params = [
-                'id_dosen_pembimbing_2' => null,
-                'status_dosen_pembimbing_2' => null,
-            ];
-        } else {
-            $params = null;
-        }
-
-        // dd($params);
-        // get data
-        $dosen = PenetapanDosbingModel::updateKelompok($id_dosen, $id, $params);
-
-        // if exist
-        if (!empty($dosen)) {
-            // process
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return back();
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return back();
-        }
-    }
 
     /**
      * Update the specified resource in storage.
@@ -265,7 +226,6 @@ class PenetapanDosbingController extends BaseController
         // Validate & auto redirect when fail
         $rules = [
             'id' => 'required',
-            "nomor_kelompok" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -274,35 +234,6 @@ class PenetapanDosbingController extends BaseController
             "nomor_kelompok" => $request->nomor_kelompok,
             "judul_capstone" => $request->judul_ta,
             "id_topik" => $request->topik,
-            "status_kelompok" => $request->status_kelompok,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
-
-        // process
-        if (PenetapanDosbingModel::updateKelompokNomor($request->id, $params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return back();
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return back();
-        }
-    }
-
-    public function setujuiKelompok(Request $request)
-    {
-
-        // Validate & auto redirect when fail
-        $rules = [
-            'id' => 'required',
-            "status_kelompok" => 'required',
-        ];
-        $this->validate($request, $rules);
-
-        // params
-        $params = [
             "status_kelompok" => $request->status_kelompok,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')

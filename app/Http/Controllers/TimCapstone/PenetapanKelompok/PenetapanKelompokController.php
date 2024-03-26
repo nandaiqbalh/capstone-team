@@ -90,7 +90,7 @@ class PenetapanKelompokController extends BaseController
         $params = [
             'id_topik' => $request->id_topik,
             'id_siklus' => $request->id_siklus,
-            'status_kelompok' => 'Menunggu Validasi Kelompok!',
+            'status_kelompok' => 'Menunggu Persetujuan Dosbing!',
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];

@@ -240,9 +240,9 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     // penetapan dosbing kelompok
     Route::get('/admin/penetapan-dosbing', [PenetapanDosbingController::class, 'index']);
     Route::get('/admin/penetapan-dosbing/detail/{id}', [PenetapanDosbingController::class, 'detailKelompok']);
-    Route::get('/admin/penetapan-dosbing/add', [PenetapanDosbingController::class, 'addPenetapanKelompok']);
+    Route::get('/admin/penetapan-dosbing/add', [PenetapanDosbingController::class, 'addDosenKelompok']);
+    Route::get('/admin/penetapan-dosbing/delete/{id_dosen}/{id_kelompok}', [PenetapanDosbingController::class, 'deleteDosenKelompok']);
     Route::get('/admin/penetapan-dosbing/search', [PenetapanDosbingController::class, 'searchMahasiswa']);
-    Route::post('/admin/penetapan-dosbing/add-process', [PenetapanDosbingController::class, 'addPenetapanKelompokProcess']);
 
 });
 

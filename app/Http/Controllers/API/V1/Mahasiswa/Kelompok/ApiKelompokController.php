@@ -273,7 +273,7 @@ class ApiKelompokController extends Controller
                         'usulan_judul_capstone' => $request->judul_capstone,
                         'id_siklus' => $request->id_siklus,
                         'id_mahasiswa' => $user->user_id,
-                        'status_individu' => 'Menunggu Validasi Kelompok!',
+                        'status_individu' => 'Menunggu Penetapan Kelompok!',
                         'id_topik_individu1' => $topik1->id,
                         'id_topik_individu2' => $topik2->id,
                         'id_topik_individu3' => $topik3->id,
@@ -346,9 +346,9 @@ class ApiKelompokController extends Controller
                         "id_topik" => $request->id_topik,
                         "status_kelompok" => 'Menunggu Persetujuan Anggota!',
                         "id_dosen_pembimbing_1" => $request->dosbing_1,
-                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan!',
+                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan Dosbing!',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
-                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan!',
+                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan Dosbing!',
                         'created_by' => $user->user_id,
                         'created_date' => now()
                     ];
@@ -525,7 +525,7 @@ class ApiKelompokController extends Controller
                     // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
                     if ($semuaSetuju) {
                         $paramKelompok = [
-                            "status_kelompok" => "Menunggu Validasi Kelompok!",
+                            "status_kelompok" => "Menunggu Persetujuan Dosbing!",
                         ];
                         $update_kelompok = ApiKelompokModel::updateKelompok($kelompok ->id, $paramKelompok);
                     }

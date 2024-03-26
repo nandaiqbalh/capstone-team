@@ -22,11 +22,38 @@ class PenetapanDosbingModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
-            ->where('a.nomor_kelompok', NULL)
+            ->where('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
             ->orderByDesc('a.id')
             ->paginate(20);
     }
 
+    public static function getDataDosbing1()
+        {
+            return DB::table('app_user as a')
+                ->select('a.*', 'c.role_name')
+                ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+                ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                    $query->where('a.role_id', '04')
+                        ->orWhere('a.role_id', '02');
+                })
+                ->where('a.dosbing1', '1')
+                ->orderBy('a.user_name')
+                ->get();
+        }
+
+        public static function getDataDosbing2()
+        {
+            return DB::table('app_user as a')
+                ->select('a.*', 'c.role_name')
+                ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+                ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                    $query->where('a.role_id', '04')
+                        ->orWhere('a.role_id', '02');
+                })
+                ->where('a.dosbing2', '1')
+                ->orderBy('a.user_name')
+                ->get();
+        }
 
     // get search
     public static function getDataSearch($no_kel)
@@ -131,19 +158,12 @@ class PenetapanDosbingModel extends BaseModel
             ->where('a.id', $id)
             ->first();
     }
-    public static function updateKelompok($id_dosen, $id, $params)
-    {
-        return DB::table('kelompok')
-            ->where('id', $id)
-            ->where('id_dosen_pembimbing_1', $id_dosen)
-            ->orwhere('id_dosen_pembimbing_2', $id_dosen)
-            ->update($params);
-    }
+
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
     {
         return DB::table('kelompok_mhs as a')
-            ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_id')
+            ->select('a.*', 'b.*')
             ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
             ->where('a.id_kelompok', $id_kelompok)
             ->whereNot('a.id_kelompok', null)
@@ -183,10 +203,10 @@ class PenetapanDosbingModel extends BaseModel
     {
         return DB::table('app_user as a')
         ->select('a.user_name', 'a.user_id', 'a.nomor_induk')
-        ->where('role_id','02')
-        ->orwhere('role_id','04')
+        ->where('role_id','04')
         ->get();
     }
+
     // pengecekan Dosbing
     public static function checkDosbing($id_kelompok, $id_dosen)
     {
@@ -197,34 +217,15 @@ class PenetapanDosbingModel extends BaseModel
         ->get();
     }
 
-    public static function checkStatusDosen($id_kelompok, $id_dosen)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->where('a.id_dosen', $id_dosen)
-        ->first();
-    }
-
-    public static function checkPosisi($id_kelompok, $status)
-    {
-        return DB::table('dosen_kelompok as a')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->where('a.status_dosen', $status)
-        ->first();
-    }
 
     public static function updateKelompokMHS($user_id, $params)
     {
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
     }
 
-    public static function updateKelompokNomor($id, $params)
+    public static function updateKelompok($id_kelompok, $params)
     {
-        return DB::table('kelompok')->where('id', $id)->update($params);
+        return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
     }
 
-    public static function insertDosenKelompok($params)
-    {
-        return DB::table('dosen_kelompok')->insert($params);
-    }
 }

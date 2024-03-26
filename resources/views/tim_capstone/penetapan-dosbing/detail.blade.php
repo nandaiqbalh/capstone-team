@@ -32,18 +32,18 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <form action="{{ url('/admin/kelompok/edit-kelompok-process') }}" method="post"
+                                <form action="{{ url('/admin/penetapan-dosbing/ediprocess') }}" method="post"
                                     autocomplete="off">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="id" value="{{ $kelompok->id }}">
-                                    <td>Nomor</td>
+                                    <td>Nomor Kelompok</td>
                                     <td>:</td>
                                     <td>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" name="nomor_kelompok"
                                                     value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}"
-                                                    placeholder="Masukan Nomor Kelompok" required>
+                                                    placeholder="Diisi Setelah Dosen Pembimbing!" readonly required>
                                             </div>
                                         </div>
                                     </td>
@@ -56,7 +56,7 @@
                                         <div class="col-md-6">
                                             <input type="text" class="form-control" name="judul_ta"
                                                 value="{{ old('judul_ta', $kelompok->judul_capstone) }}"
-                                                placeholder="Masukan Judul Project" required>
+                                                placeholder="Judul Project" readonly required>
                                         </div>
                                     </div>
                                 </td>
@@ -126,7 +126,8 @@
                                 <th width="5%">No</th>
                                 <th>Nama</th>
                                 <th>NIM</th>
-                                <th width="18%">Tindakan</th>
+                                <th>Angkatan</th>
+                                <th>Jenis Kelamin</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,14 +137,8 @@
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
-                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/kelompok/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-danger btn-xs m-1 "
-                                                onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')">
-                                                Hapus</a>
-                                        </td>
+                                        <td>{{ $mahasiswa->angkatan }}</td>
+                                        <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                     </tr>
                                 @endforeach
                             @else
@@ -186,9 +181,9 @@
                                         <td>{{ $dosbing->jenis_dosen }}</td>
                                         <td>{{ $dosbing->status_dosen }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/dosen/detail') }}/{{ $dosbing->user_id }}"
+                                            <a href="{{ url('/admin/balancing-dosbing/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/admin/penetapan-dosbing/delete') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $dosbing->user_name }} ?')">
                                                 Hapus</a>
@@ -209,35 +204,6 @@
         </div>
     </div>
 
-    <!-- Modal Mahasiswa -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Mahasiswa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url('/admin/kelompok/add-mahasiswa-kelompok') }}" method="get"
-                        autocomplete="off">
-                        <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
-                        <select class="form-select" name="id_mahasiswa_nokel" required>
-                            <option value="" disabled selected>-- Pilih --</option>
-                            @foreach ($rs_mahasiswa_nokel as $mahasiswa_nokel)
-                                <option value="{{ $mahasiswa_nokel->user_id }}"
-                                    @if (old('id_mahasiswa_nokel') == '{{ $mahasiswa_nokel->user_id }}') selected @endif>{{ $mahasiswa_nokel->user_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal Dosen pembimbing -->
     <div class="modal fade" id="Dosen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -247,60 +213,61 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/kelompok/add-dosen-kelompok') }}" method="get" autocomplete="off">
+                    <form action="{{ url('/admin/penetapan-dosbing/add') }}" method="get" autocomplete="off"
+                        id="dosbingForm">
                         <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
-                        <select class="form-select" name="id_dosen" required>
-                            <option value="" disabled selected>-- Pilih Dosen--</option>
-                            @foreach ($rs_dosbing_avail as $dosbing)
-                                <option value="{{ $dosbing->user_id }}" @if (old('id_dosen') == '{{ $dosbing->user_id }}') selected @endif>
-                                    {{ $dosbing->user_name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                        <select class="form-select" name="status_dosen" required>
+                        <select class="form-select" name="status_dosen" required id="statusSelect">
                             <option value="" disabled selected>-- Pilih Posisi--</option>
                             <option value="pembimbing 1">Pembimbing 1</option>
                             <option value="pembimbing 2">Pembimbing 2</option>
                         </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                        <br>
+
+                        <select class="form-select" name="id_dosen" required id="dosenSelect">
+                            <option value="" disabled selected>-- Pilih Dosen--</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
                     </form>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Function to update dosbing options based on selected status
+                        function updateDosbingOptions() {
+                            var statusSelect = document.getElementById('statusSelect');
+                            var dosenSelect = document.getElementById('dosenSelect');
+                            var status = statusSelect.value;
+
+                            // Clear existing options
+                            dosenSelect.innerHTML = '<option value="" disabled selected>-- Pilih Dosen--</option>';
+
+                            // Populate options based on selected status
+                            var dosbingArray = status === 'pembimbing 1' ? @json($rs_dosbing1) :
+                                @json($rs_dosbing2);
+                            dosbingArray.forEach(function(dosbing) {
+                                var option = document.createElement('option');
+                                option.value = dosbing.user_id;
+                                option.textContent = dosbing.user_name;
+                                dosenSelect.appendChild(option);
+                            });
+                        }
+
+                        // Call the function initially
+                        updateDosbingOptions();
+
+                        // Add event listener to status select to update dosbing options
+                        document.getElementById('statusSelect').addEventListener('change', function() {
+                            updateDosbingOptions();
+                        });
+                    });
+                </script>
+
             </div>
         </div>
     </div>
 
-    <!-- Modal Dosen Penguji -->
-    <div class="modal fade" id="DosenPenguji" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Dosen Penguji</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url('/admin/kelompok/add-dosen-kelompok') }}" method="get" autocomplete="off">
-                        <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
-                        <select class="form-select" name="id_dosen" required>
-                            <option value="" disabled selected>-- Pilih Dosen--</option>
-                            @foreach ($rs_dosbing_avail as $dosbing)
-                                <option value="{{ $dosbing->user_id }}" @if (old('id_dosen') == '{{ $dosbing->user_id }}') selected @endif>
-                                    {{ $dosbing->user_name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                        <select class="form-select" name="status_dosen" required>
-                            <option value="" disabled selected>-- Pilih Posisi--</option>
-                            <option value="penguji 1">Penguji 1</option>
-                            <option value="penguji 2">Penguji 2</option>
-                        </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

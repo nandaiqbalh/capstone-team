@@ -48,9 +48,7 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Siklus</th>
-                                <th>Kelompok</th>
-                                <th>Judul Capstone</th>
-                                <th>Topik</th>
+                                <th>Status</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -60,13 +58,10 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
                                         <td>{{ $kelompok->tahun_ajaran }}</td>
-                                        <td>{{ $kelompok->nomor_kelompok }}</td>
-                                        <td>{{ $kelompok->judul_capstone }}</td>
-                                        <td>{{ $kelompok->topik_name }}</td>
+                                        <td>{{ $kelompok->status_kelompok }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/penetapan-dosbing/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <!-- <a href="{{ url('/admin/penetapan-dosbing/delete-process') }}/{{ $kelompok->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $kelompok->nomor_kelompok }} ?')"> Hapus</a> -->
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $kelompok->id }}', '{{ $kelompok->nomor_kelompok }}')">Hapus</button>
                                             <script>
@@ -93,7 +88,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="6">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>
