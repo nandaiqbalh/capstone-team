@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\TimCapstone\Kelompok;
+namespace App\Models\TimCapstone\KelompokValid;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class KelompokModel extends BaseModel
+class KelompokValidModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -22,6 +22,7 @@ class KelompokModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
+            ->where('a.nomor_kelompok', '!=', NULL)
             ->orderByDesc('a.id')
             ->paginate(20);
     }

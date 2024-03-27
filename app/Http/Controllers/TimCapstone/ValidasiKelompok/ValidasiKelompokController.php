@@ -231,9 +231,14 @@ class ValidasiKelompokController extends BaseController
         // Validate & auto redirect when fail
         $rules = [
             'id' => 'required',
+            'nomor_kelompok' => 'required|unique:kelompok,nomor_kelompok,'
         ];
 
-        $this->validate($request, $rules);
+        $customMessages = [
+            'nomor_kelompok.unique' => 'Nomor Kelompok tidak tersedia!',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
 
         // params
         $params = [

@@ -1,7 +1,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Kelompok
+    Validasi Kelompok
 @endsection
 
 @section('content')

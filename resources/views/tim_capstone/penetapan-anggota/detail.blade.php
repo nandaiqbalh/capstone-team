@@ -1,7 +1,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Penetapan Anggota
+    Penetapan Anggota Kelompok
 @endsection
 
 @section('content')

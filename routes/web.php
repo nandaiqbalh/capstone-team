@@ -44,7 +44,7 @@ use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
-use App\Http\Controllers\TimCapstone\Kelompok\KelompokController;
+use App\Http\Controllers\TimCapstone\KelompokValid\KelompokValidController;
 use App\Http\Controllers\TimCapstone\PenetapanAnggota\PenetapanAnggotaController;
 use App\Http\Controllers\TimCapstone\PenetapanDosbing\PenetapanDosbingController;
 use App\Http\Controllers\TimCapstone\ValidasiKelompok\ValidasiKelompokController;
@@ -218,19 +218,10 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 
 
      //kelompok
-     Route::get('/admin/kelompok', [KelompokController::class, 'index']);
-     Route::get('/admin/kelompok/search', [KelompokController::class, 'search']);
-     Route::get('/admin/kelompok/add-mahasiswa-kelompok', [KelompokController::class, 'addMahasiswaKelompok']);
-     Route::get('/admin/kelompok/add-dosen-kelompok', [KelompokController::class, 'addDosenKelompok']);
-     Route::get('/admin/kelompok/delete-process/{id}', [KelompokController::class, 'deleteKelompokProcess']);
-     Route::get('/admin/kelompok/edit/{id}', [KelompokController::class, 'editSiklus']);
-     Route::post('/admin/kelompok/edit-kelompok-process', [KelompokController::class, 'editKelompokProcess']);
-     Route::post('/admin/kelompok/edit-setujui-process', [KelompokController::class, 'setujuiKelompok']);
-     Route::get('/admin/kelompok/detail/{id}', [KelompokController::class, 'detailKelompok']);
-
-     Route::get('/admin/kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokController::class, 'deleteKelompokMahasiswaProcess']);
-     Route::get('/admin/kelompok/delete-dosen-process/{id_dosen}/{id}', [KelompokController::class, 'deleteKelompokDosenProcess']);
-
+     Route::get('/admin/kelompok-valid', [KelompokValidController::class, 'index']);
+     Route::get('/admin/kelompok-valid/search', [KelompokValidController::class, 'search']);
+     Route::get('/admin/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
+     Route::get('/admin/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
 
      // penetapan kelompok
      Route::get('/admin/penetapan-anggota', [PenetapanAnggotaController::class, 'index']);
