@@ -317,6 +317,11 @@ Route::middleware(['auth', 'role:04'])->group(function () {
      Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
      Route::get('/dosen/bimbingan-saya/terimatest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
      Route::get('/dosen/bimbingan-saya/tolaktest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
+     Route::get('/dosen/bimbingan-saya/search', [BimbinganSayaController::class, 'search']);
+
+     // detail mahasiswa bimbingan saya
+     Route::get('/dosen/bimbingan-saya/detail-mahasiswa/{user_id}', [BimbinganSayaController::class, 'detailMahasiswa']);
+
 
      //halaman dosen
      Route::get('/dosen/pengujian', [PengujianController::class, 'index']);

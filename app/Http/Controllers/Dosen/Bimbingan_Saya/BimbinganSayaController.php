@@ -38,16 +38,6 @@ class BimbinganSayaController extends BaseController
         return view('dosen.bimbingan-saya.index', $data);
     }
 
-
-
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function detailBimbinganSaya($id)
     {
 
@@ -72,15 +62,6 @@ class BimbinganSayaController extends BaseController
         return view('dosen.bimbingan-saya.detail', $data);
     }
 
-
-
-    /**
-     * Update the specified resource in storage. update status dosen 1
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function terimaBimbinganSaya(Request $request, $id)
     {
 
@@ -93,13 +74,15 @@ class BimbinganSayaController extends BaseController
                 if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'disetujui',
+                        'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Berhasil!',
+                        'status_kelompok' => 'Persetujuan Dosbing Berhasil!',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'disetujui',
+                        'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Berhasil!',
+                        'status_kelompok' => 'Persetujuan Dosbing Berhasil!',
                     ];
                     break;
                 }
@@ -118,13 +101,8 @@ class BimbinganSayaController extends BaseController
             return redirect('/dosen/bimbingan-saya');
         }
     }
-     /**
-     * Update the specified resource in storage. update status dosen 2
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function tolakBimbinganSaya(Request $request, $id)
     {
 
@@ -138,13 +116,15 @@ class BimbinganSayaController extends BaseController
                 if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'tidak disetujui',
+                        'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Gagal!',
+                        'status_kelompok' => 'Persetujuan Dosbing Gagal!',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'tidak disetujui',
+                        'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Gagal!',
+                        'status_kelompok' => 'Persetujuan Dosbing Gagal!',
                     ];
                     break;
                 }
@@ -167,28 +147,62 @@ class BimbinganSayaController extends BaseController
         }
     }
 
-    /**
-     * Search data.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
+    public function detailMahasiswa($user_id)
     {
 
+        // get data with pagination
+        $mahasiswa = BimbinganSayaModel::getDataMahasiswaById($user_id);
+
+        // check
+        if (empty($mahasiswa)) {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/admin/mahasiswa');
+        }
+        $rs_peminatan = BimbinganSayaModel::peminatanMahasiswa($user_id);
+
+        foreach ($rs_peminatan as $key => $peminatan) {
+            if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
+                $peminatan->prioritas = "Prioritas 1";
+            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
+                $peminatan->prioritas = "Prioritas 2";
+            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
+                $peminatan->prioritas = "Prioritas 3";
+            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
+                $peminatan->prioritas = "Prioritas 4";
+            } else {
+                $peminatan->prioritas = "Belum memilih";
+
+            }
+        }
+        // dd($mahasiswa);
+        // data
+        $data = [
+            'mahasiswa' => $mahasiswa,
+            'rs_peminatan'=>$rs_peminatan
+        ];
+
+        // view
+        return view('dosen.bimbingan-saya.detail-mahasiswa', $data);
+    }
+
+
+
+    public function search(Request $request)
+    {
         // data request
         $nama = $request->nama;
 
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_ch = BimbinganSayaModel::getDataSearch($nama);
+            $rs_kelompok = BimbinganSayaModel::getDataSearch($nama);
             // data
-            $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
+            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
             // view
-            return view('dosen.settings.contoh-halaman.index', $data);
+            return view('dosen.bimbingan-saya.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return view('dosen/bimbingan-saya', $data);
         }
     }
 }

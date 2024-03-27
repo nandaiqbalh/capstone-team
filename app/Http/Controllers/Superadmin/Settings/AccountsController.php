@@ -106,7 +106,7 @@ class AccountsController extends BaseController
             'user_password' => ['required', Password::min(8)],
             'user_active' => 'required',
             'role_id' => 'required',
-            'nomor_induk' => 'required|digits_between:6,11|numeric',
+            'nomor_induk' => 'required|digits_between:6,30|numeric',
         ];
         $this->validate($request, $rules);
 
@@ -197,7 +197,7 @@ class AccountsController extends BaseController
             'user_name' => 'required',
             'user_active' => 'required',
             'role_id' => 'required',
-            'nomor_induk' => 'required|digits_between:6,11|numeric',
+            'nomor_induk' => 'required|digits_between:6,30|numeric',
         ];
         $this->validate($request, $rules);
 
