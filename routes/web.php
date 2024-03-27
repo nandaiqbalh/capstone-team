@@ -45,8 +45,9 @@ use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokController;
-use App\Http\Controllers\TimCapstone\PenetapanKelompok\PenetapanKelompokController;
+use App\Http\Controllers\TimCapstone\PenetapanAnggota\PenetapanAnggotaController;
 use App\Http\Controllers\TimCapstone\PenetapanDosbing\PenetapanDosbingController;
+use App\Http\Controllers\TimCapstone\ValidasiKelompok\ValidasiKelompokController;
 
 
 // mahasiswa
@@ -232,17 +233,31 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 
 
      // penetapan kelompok
-     Route::get('/admin/penetapan-kelompok', [PenetapanKelompokController::class, 'index']);
-     Route::get('/admin/penetapan-kelompok/add', [PenetapanKelompokController::class, 'addPenetapanKelompok']);
-     Route::get('/admin/penetapan-kelompok/search', [PenetapanKelompokController::class, 'searchMahasiswa']);
-     Route::post('/admin/penetapan-kelompok/add-process', [PenetapanKelompokController::class, 'addPenetapanKelompokProcess']);
+     Route::get('/admin/penetapan-anggota', [PenetapanAnggotaController::class, 'index']);
+     Route::get('/admin/penetapan-anggota/add', [PenetapanAnggotaController::class, 'addPenetapanAnggota']);
+     Route::get('/admin/penetapan-anggota/search', [PenetapanAnggotaController::class, 'searchMahasiswa']);
+     Route::post('/admin/penetapan-anggota/add-process', [PenetapanAnggotaController::class, 'addPenetapanAnggotaProcess']);
 
     // penetapan dosbing kelompok
     Route::get('/admin/penetapan-dosbing', [PenetapanDosbingController::class, 'index']);
     Route::get('/admin/penetapan-dosbing/detail/{id}', [PenetapanDosbingController::class, 'detailKelompok']);
-    Route::get('/admin/penetapan-dosbing/add', [PenetapanDosbingController::class, 'addDosenKelompok']);
-    Route::get('/admin/penetapan-dosbing/delete/{id_dosen}/{id_kelompok}', [PenetapanDosbingController::class, 'deleteDosenKelompok']);
-    Route::get('/admin/penetapan-dosbing/search', [PenetapanDosbingController::class, 'searchMahasiswa']);
+    //add delete dosen pembimbing
+    Route::get('/admin/penetapan-dosbing/add-dosen-kelompok', [PenetapanDosbingController::class, 'addDosenKelompok']);
+    Route::get('/admin/penetapan-dosbing/delete-dosen-process/{id_dosen}/{id_kelompok}', [PenetapanDosbingController::class, 'deleteDosenKelompok']);
+   // edit kelompok
+   Route::post('/admin/penetapan-dosbing/edit-kelompok-process', [PenetapanDosbingController::class, 'editKelompokProcess']);
+
+    // validasi kelompok
+    Route::get('/admin/validasi-kelompok', [ValidasiKelompokController::class, 'index']);
+    Route::get('/admin/validasi-kelompok/detail/{id}', [ValidasiKelompokController::class, 'detailKelompok']);
+    // edit kelompok
+    Route::post('/admin/validasi-kelompok/edit-kelompok-process', [ValidasiKelompokController::class, 'editKelompokProcess']);
+    // add/delete dosen & mahasiswa
+    Route::get('/admin/validasi-kelompok/add-mahasiswa-kelompok', [ValidasiKelompokController::class, 'addMahasiswaKelompok']);
+    Route::get('/admin/validasi-kelompok/add-dosen-kelompok', [ValidasiKelompokController::class, 'addDosenKelompok']);
+    Route::get('/admin/validasi-kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [ValidasiKelompokController::class, 'deleteMahasiswaKelompokProcess']);
+    Route::get('/admin/validasi-kelompok/delete-dosen-process/{id_dosen}/{id}', [ValidasiKelompokController::class, 'deleteDosenKelompokProcess']);
+
 
 });
 

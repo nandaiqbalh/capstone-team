@@ -6,23 +6,23 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4">Penetapan Dosbing</h5>
+        <h5 class="fw-bold py-3 mb-4">Validasi Kelompok</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Penetapan Dosbing</h5>
+                <h5 class="mb-0">Validasi Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penetapan-dosbing') }}" class="btn btn-secondary btn-xs float-right"><i
+                    <a href="{{ url('/admin/validasi-kelompok') }}" class="btn btn-secondary btn-xs float-right"><i
                             class="bx bx-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
                 <!-- table info -->
                 <div class="table-responsive">
-                    <form action="{{ url('/admin/penetapan-dosbing/edit-kelompok-process') }}" method="post"
+                    <form action="{{ url('/admin/validasi-kelompok/edit-kelompok-process') }}" method="post"
                         autocomplete="off">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $kelompok->id }}">
@@ -42,8 +42,8 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <input type="text" class="form-control" name="nomor_kelompok"
-                                                    value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}" readonly
-                                                    placeholder="Diisi setelah penetapan dosen pembimbing!" required>
+                                                    value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}"
+                                                    placeholder="Contoh: S1T23K12" required>
                                             </div>
                                         </div>
                                     </td>
@@ -102,6 +102,16 @@
                 </div>
                 <hr>
 
+                <div class="col-auto ">
+                    @if (count($rs_mahasiswa) >= 3)
+                    @else
+                        <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            Tambah Mahasiswa
+                        </button>
+                    @endif
+                </div>
+
                 <h6>List Mahasiswa</h6>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -112,6 +122,8 @@
                                 <th>NIM</th>
                                 <th>Angkatan</th>
                                 <th>Jenis Kelamin</th>
+                                <th width="18%">Tindakan</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -123,6 +135,14 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td>{{ $mahasiswa->angkatan }}</td>
                                         <td>{{ $mahasiswa->jenis_kelamin }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                            <a href="{{ url('/admin/validasi-kelompok/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
+                                                class="btn btn-outline-danger btn-xs m-1 "
+                                                onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')">
+                                                Hapus</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else
@@ -141,6 +161,7 @@
                         Tambah Dosen Pembimbing
                     </button>
                 @endif
+
                 <h6 class="mb-0">List Dosen Pembimbing</h6>
                 <br>
                 <div class="table-responsive text-nowrap">
@@ -165,7 +186,7 @@
                                         <td>{{ $dosbing->jenis_dosen }}</td>
                                         <td>{{ $dosbing->status_dosen }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-dosbing/detail') }}/{{ $dosbing->user_id }}"
+                                            <a href="{{ url('/admin/validasi-kelompok/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <a href="{{ url('/admin/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
@@ -185,6 +206,34 @@
 
             </div>
 
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Mahasiswa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url('/admin/validasi-kelompok/add-mahasiswa-kelompok') }}" method="get"
+                        autocomplete="off">
+                        <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
+                        <select class="form-select" name="id_mahasiswa_nokel" required>
+                            <option value="" disabled selected>-- Pilih --</option>
+                            @foreach ($rs_mahasiswa_nokel as $mahasiswa_nokel)
+                                <option value="{{ $mahasiswa_nokel->user_id }}"
+                                    @if (old('id_mahasiswa_nokel') == '{{ $mahasiswa_nokel->user_id }}') selected @endif>{{ $mahasiswa_nokel->user_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 

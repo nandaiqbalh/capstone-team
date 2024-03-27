@@ -7,7 +7,7 @@
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Penetapan Dosen Pembimbing</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Validasi Kelompok</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -22,6 +22,7 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Siklus</th>
+                                <th>Nomor Kelompok</th>
                                 <th>Status</th>
                                 <th>Tindakan</th>
                             </tr>
@@ -32,9 +33,10 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
                                         <td>{{ $kelompok->tahun_ajaran }}</td>
+                                        <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td>{{ $kelompok->status_kelompok }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/penetapan-dosbing/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/admin/validasi-kelompok/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $kelompok->id }}', '{{ $kelompok->nomor_kelompok }}')">Hapus</button>
@@ -52,7 +54,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/penetapan-dosbing/delete-process') }}/" + kelompokId;
+                                                            window.location.href = "{{ url('/admin/validasi-kelompok/delete-process') }}/" + kelompokId;
                                                         }
                                                     });
                                                 }

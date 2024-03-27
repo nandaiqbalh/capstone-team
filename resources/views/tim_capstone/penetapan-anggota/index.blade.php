@@ -18,7 +18,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <form class="form-inline" action="{{ url('/admin/penetapan-kelompok/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/admin/penetapan-anggota/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -39,7 +39,7 @@
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <form class="form-inline" action="{{ url('/admin/penetapan-kelompok/add') }}" method="get"
+                        <form class="form-inline" action="{{ url('/admin/penetapan-anggota/add') }}" method="get"
                             autocomplete="off">
                             <div class="row float-end">
                                 <div class="col-auto mt-1">

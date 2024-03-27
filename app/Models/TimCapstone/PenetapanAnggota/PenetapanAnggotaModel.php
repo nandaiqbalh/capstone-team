@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\TimCapstone\PenetapanKelompok;
+namespace App\Models\TimCapstone\PenetapanAnggota;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PenetapanKelompokModel extends BaseModel
+class PenetapanAnggotaModel extends BaseModel
 {
     // get all data
     public static function getData()
