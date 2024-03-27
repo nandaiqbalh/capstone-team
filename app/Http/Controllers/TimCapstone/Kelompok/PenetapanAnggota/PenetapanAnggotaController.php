@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\TimCapstone\PenetapanAnggota;
+namespace App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\TimCapstone\PenetapanAnggota\PenetapanAnggotaModel;
+use App\Models\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\TimCapstone\Mahasiswa\MahasiswaModel;
@@ -57,7 +57,7 @@ class PenetapanAnggotaController extends BaseController
         ];
 
         // view
-        return view('tim_capstone.penetapan-anggota.index', $data);
+        return view('tim_capstone.kelompok.penetapan-anggota.index', $data);
     }
 
     // masuk ke halaman plotting kelompok
@@ -76,7 +76,7 @@ class PenetapanAnggotaController extends BaseController
             'rs_siklus' => $rs_siklus
         ];
         // view
-        return view('tim_capstone.penetapan-anggota.add', $data);
+        return view('tim_capstone.kelompok.penetapan-anggota.add', $data);
     }
 
     // proses pengelompokan mahasiswa
@@ -159,7 +159,7 @@ class PenetapanAnggotaController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('tim_capstone.penetapan-anggota.detail', $data);
+        return view('tim_capstone.kelompok.penetapan-anggota.detail', $data);
     }
 
     /**
@@ -184,7 +184,7 @@ class PenetapanAnggotaController extends BaseController
         $data = ['mahasiswa' => $mahasiswa];
 
         // view
-        return view('tim_capstone.penetapan-anggota.edit', $data);
+        return view('tim_capstone.kelompok.penetapan-anggota.edit', $data);
     }
 
     public function searchMahasiswa(Request $request)
@@ -229,7 +229,7 @@ class PenetapanAnggotaController extends BaseController
                 'rs_topik' => $rs_topik,
             ];
             // view
-            return view('tim_capstone.penetapan-anggota.index', $data);
+            return view('tim_capstone.kelompok.penetapan-anggota.index', $data);
         } else {
             return redirect('/admin/penetapan-anggota');
         }

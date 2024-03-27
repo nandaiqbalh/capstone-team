@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\TimCapstone\KelompokValid;
+namespace App\Http\Controllers\TimCapstone\Kelompok\KelompokValid;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\TimCapstone\KelompokValid\KelompokValidModel;
+use App\Models\TimCapstone\Kelompok\KelompokValid\KelompokValidModel;
 use App\Models\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,11 +26,11 @@ class KelompokValidController extends BaseController
 
         // get data with pagination
         $rs_kelompok = KelompokValidModel::getDataWithPagination();
-        // dd($rs_kelompok);
+
         // data
         $data = ['rs_kelompok' => $rs_kelompok];
         // view
-        return view('tim_capstone.kelompok-valid.index', $data);
+        return view('tim_capstone.kelompok.kelompok-valid.index', $data);
     }
 
     /**
@@ -95,7 +95,7 @@ class KelompokValidController extends BaseController
         // dd($data);
 
         // view
-        return view('tim_capstone.kelompok-valid.detail', $data);
+        return view('tim_capstone.kelompok.kelompok-valid.detail', $data);
     }
 
     public function deleteKelompokProcess($id)
@@ -153,7 +153,7 @@ class KelompokValidController extends BaseController
             // data
             $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
             // view
-            return view('tim_capstone.kelompok-valid.index', $data);
+            return view('tim_capstone.kelompok.kelompok-valid.index', $data);
         } else {
             return redirect('/admin/kelompok-valid');
         }

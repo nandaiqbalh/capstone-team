@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\TimCapstone\PenetapanAnggota;
+namespace App\Models\TimCapstone\Kelompok\PenetapanAnggota;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;

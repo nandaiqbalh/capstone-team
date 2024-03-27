@@ -44,10 +44,12 @@ use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
-use App\Http\Controllers\TimCapstone\KelompokValid\KelompokValidController;
-use App\Http\Controllers\TimCapstone\PenetapanAnggota\PenetapanAnggotaController;
-use App\Http\Controllers\TimCapstone\PenetapanDosbing\PenetapanDosbingController;
-use App\Http\Controllers\TimCapstone\ValidasiKelompok\ValidasiKelompokController;
+use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
+use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
+use App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingController;
+use App\Http\Controllers\TimCapstone\Kelompok\ValidasiKelompok\ValidasiKelompokController;
+// sidang proposal
+use App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangProposal\PenjadwalanSidangProposalController;
 
 
 // mahasiswa
@@ -166,7 +168,12 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      // balancing dosen pembimbing
      Route::get('/admin/balancing-dosbing', [DosenController::class, 'balancingDosbing']);
      Route::get('/admin/balancing-dosbing/filter-siklus', [DosenController::class, 'filterBalancingDosbing']);
-     Route::get('/admin/balancing-dosbing/detail/{user_id}', [DosenController::class, 'detailBalancingDosen']);
+     Route::get('/admin/balancing-dosbing/detail/{user_id}', [DosenController::class, 'detailBalancingDosbing']);
+
+    // balancing dosen penguji proposal
+     Route::get('/admin/balancing-penguji-proposal', [DosenController::class, 'balancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/filter-siklus', [DosenController::class, 'filterBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [DosenController::class, 'detailBalancingPengujiProposal']);
 
 
      //siklus
@@ -216,13 +223,6 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
      Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);
 
-
-     //kelompok
-     Route::get('/admin/kelompok-valid', [KelompokValidController::class, 'index']);
-     Route::get('/admin/kelompok-valid/search', [KelompokValidController::class, 'search']);
-     Route::get('/admin/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
-     Route::get('/admin/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
-
      // penetapan kelompok
      Route::get('/admin/penetapan-anggota', [PenetapanAnggotaController::class, 'index']);
      Route::get('/admin/penetapan-anggota/add', [PenetapanAnggotaController::class, 'addPenetapanAnggota']);
@@ -248,6 +248,20 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/validasi-kelompok/add-dosen-kelompok', [ValidasiKelompokController::class, 'addDosenKelompok']);
     Route::get('/admin/validasi-kelompok/delete-mahasiswa-process/{id_mahasiswa}/{id}', [ValidasiKelompokController::class, 'deleteMahasiswaKelompokProcess']);
     Route::get('/admin/validasi-kelompok/delete-dosen-process/{id_dosen}/{id}', [ValidasiKelompokController::class, 'deleteDosenKelompokProcess']);
+
+    //kelompok valid
+    Route::get('/admin/kelompok-valid', [KelompokValidController::class, 'index']);
+    Route::get('/admin/kelompok-valid/search', [KelompokValidController::class, 'search']);
+    Route::get('/admin/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
+    Route::get('/admin/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
+
+
+    // add sidang proposal
+    Route::get('admin/penjadwalan-sidang-proposal', [PenjadwalanSidangProposalController::class, 'index']);
+    Route::get('admin/penjadwalan-sidang-proposal/tetapkan-penguji-proposal/{id}', [PenjadwalanSidangProposalController::class, 'detailKelompok']);
+    //add delete dosen pembimbing
+    Route::get('admin/penjadwalan-sidang-proposal/add-dosen-penguji', [PenjadwalanSidangProposalController::class, 'addDosenKelompok']);
+    Route::get('admin/penjadwalan-sidang-proposal/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [PenjadwalanSidangProposalController::class, 'deleteDosenKelompok']);
 
 
 });

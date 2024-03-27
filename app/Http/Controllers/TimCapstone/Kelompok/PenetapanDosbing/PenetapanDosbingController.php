@@ -1,40 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\TimCapstone\ValidasiKelompok;
+namespace App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\TimCapstone\ValidasiKelompok\ValidasiKelompokModel;
+use App\Models\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingModel;
 use Illuminate\Support\Facades\Hash;
 
 
-class ValidasiKelompokController extends BaseController
+class PenetapanDosbingController extends BaseController
 {
     public function index()
     {
 
         // get data with pagination
-        $rs_kelompok = ValidasiKelompokModel::getDataWithPagination();
+        $rs_kelompok = PenetapanDosbingModel::getDataWithPagination();
         // dd($rs_kelompok);
         // data
-        $data = ['rs_kelompok' => $rs_kelompok, ];
+        $data = ['rs_kelompok' => $rs_kelompok];
         // view
-        return view('tim_capstone.validasi-kelompok.index', $data);
+        return view('tim_capstone.kelompok.penetapan-dosbing.index', $data);
     }
 
     public function detailKelompok($id)
     {
 
         // get data with pagination
-        $kelompok = ValidasiKelompokModel::getDataById($id);
-        $rs_topik = ValidasiKelompokModel::getTopik();
-        $rs_mahasiswa = ValidasiKelompokModel::listKelompokMahasiswa($id);
-        $rs_mahasiswa_nokel = ValidasiKelompokModel::listKelompokMahasiswaNokel($kelompok->id_topik);
-        $rs_dosbing = ValidasiKelompokModel::getAkunDosbingKelompok($id);
-        $rs_dosbing1 = ValidasiKelompokModel::getDataDosbing1();
-        $rs_dosbing2 = ValidasiKelompokModel::getDataDosbing2();
+        $kelompok = PenetapanDosbingModel::getDataById($id);
+        $rs_topik = PenetapanDosbingModel::getTopik();
+        $rs_mahasiswa = PenetapanDosbingModel::listKelompokMahasiswa($id);
+        $rs_dosbing = PenetapanDosbingModel::getAkunDosbingKelompok($id);
+        $rs_dosbing1 = PenetapanDosbingModel::getDataDosbing1();
+        $rs_dosbing2 = PenetapanDosbingModel::getDataDosbing2();
 
         foreach ($rs_dosbing as $dosbing) {
 
@@ -60,7 +59,6 @@ class ValidasiKelompokController extends BaseController
             'kelompok' => $kelompok,
             'rs_topik' => $rs_topik,
             'rs_mahasiswa' => $rs_mahasiswa,
-            'rs_mahasiswa_nokel' => $rs_mahasiswa_nokel,
             'rs_dosbing' => $rs_dosbing,
             'rs_dosbing1' => $rs_dosbing1,
             'rs_dosbing2' => $rs_dosbing2,
@@ -68,62 +66,7 @@ class ValidasiKelompokController extends BaseController
         // dd($data);
 
         // view
-        return view('tim_capstone.validasi-kelompok.detail', $data);
-    }
-
-    public function addMahasiswaKelompok(Request $request)
-    {
-
-        // params
-        $params = [
-            'id_kelompok' => $request->id_kelompok,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
-        // dd($params);
-        // process
-        if (ValidasiKelompokModel::updateKelompokMHS($request->id_mahasiswa_nokel, $params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return back();
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return back();
-        }
-    }
-
-
-    public function deleteMahasiswaKelompokProcess($id_mahasiswa, $id)
-    {
-
-        // get data
-        $mahasiswa = ValidasiKelompokModel::getKelompokMhs($id_mahasiswa, $id);
-
-         // params
-         $params = [
-            'id_kelompok' => NULL,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
-
-        // if exist
-        if (!empty($mahasiswa)) {
-            // process
-            if (ValidasiKelompokModel::updateKelompokMHS($mahasiswa->id_mahasiswa, $params)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return back();
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return back();
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return back();
-        }
+        return view('tim_capstone.kelompok.penetapan-dosbing.detail', $data);
     }
 
 
@@ -131,7 +74,7 @@ class ValidasiKelompokController extends BaseController
     {
         // get kelompok
         $id_kelompok = $request->id_kelompok;
-        $kelompok = ValidasiKelompokModel::getKelompokById($id_kelompok);
+        $kelompok = PenetapanDosbingModel::getKelompokById($id_kelompok);
 
         // check if the selected position is 'pembimbing 1'
         if ($request->status_dosen == "pembimbing 1") {
@@ -161,17 +104,17 @@ class ValidasiKelompokController extends BaseController
             }
         }
 
-        if (ValidasiKelompokModel::updateKelompok($id_kelompok, $params)) {
+        if (PenetapanDosbingModel::updateKelompok($id_kelompok, $params)) {
             // update status kelompok if both pembimbing slots are filled
 
-            $kelompok_updated = ValidasiKelompokModel::getKelompokById($id_kelompok);
+            $kelompok_updated = PenetapanDosbingModel::getKelompokById($id_kelompok);
 
             if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
                 $paramsStatusKelompok = [
                     'status_kelompok' => "Menunggu Validasi Kelompok!"
                 ];
 
-                ValidasiKelompokModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
+                PenetapanDosbingModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
             }
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -183,10 +126,10 @@ class ValidasiKelompokController extends BaseController
         }
     }
 
-    public function deleteDosenKelompokProcess($id_dosen, $id_kelompok)
+    public function deleteDosenKelompok($id_dosen, $id_kelompok)
     {
 
-        $kelompok = ValidasiKelompokModel::getKelompokById($id_kelompok);
+        $kelompok = PenetapanDosbingModel::getKelompokById($id_kelompok);
 
         $params ="";
 
@@ -203,12 +146,15 @@ class ValidasiKelompokController extends BaseController
                 'status_kelompok' => "Menunggu Persetujuan Dosbing!"
             ];
         } else {
-            $params = null;
+            $params = [
+
+            ];
+
         }
 
         // dd($params);
         // get data
-        $dosen = ValidasiKelompokModel::updateKelompok($id_kelompok, $params);
+        $dosen = PenetapanDosbingModel::updateKelompok($id_kelompok, $params);
 
         // if exist
         if (!empty($dosen)) {
@@ -225,32 +171,70 @@ class ValidasiKelompokController extends BaseController
 
 
 
+    public function deleteKelompokProcess($id)
+    {
+
+        // get data
+        $kelompok = PenetapanDosbingModel::getDataById($id);
+
+        // if exist
+        if (!empty($kelompok)) {
+            $cekMhs=PenetapanDosbingModel::getKelompokMhsAll($kelompok->id);
+            foreach ($cekMhs as $key => $mhs) {
+                PenetapanDosbingModel::deleteKelompokMhs($mhs->id_mahasiswa);
+            }
+
+            if (PenetapanDosbingModel::deleteJadwalSidangProposal($kelompok->id)) {
+                if (PenetapanDosbingModel::deleteKelompok($kelompok->id)) {
+                    // flash message
+                    session()->flash('success', 'Data berhasil dihapus.');
+                    return back();
+                } else {
+                    // flash message
+                    session()->flash('danger', 'Data gagal dihapus.');
+                    return back();
+                }
+            } else {
+                if (PenetapanDosbingModel::deleteKelompok($kelompok->id)) {
+                    // flash message
+                    session()->flash('success', 'Data berhasil dihapus.');
+                    return back();
+                } else {
+                    // flash message
+                    session()->flash('danger', 'Data gagal dihapus.');
+                    return back();
+                }
+            }
+            // process
+
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
+        }
+    }
+
+
+
     public function editKelompokProcess(Request $request)
     {
 
         // Validate & auto redirect when fail
         $rules = [
             'id' => 'required',
-            'nomor_kelompok' => 'required|unique:kelompok,nomor_kelompok,'
         ];
 
-        $customMessages = [
-            'nomor_kelompok.unique' => 'Nomor Kelompok tidak tersedia!',
-        ];
-
-        $this->validate($request, $rules, $customMessages);
+        $this->validate($request, $rules);
 
         // params
         $params = [
-            "nomor_kelompok" => $request->nomor_kelompok,
             "id_topik" => $request->topik,
-            "status_kelompok" => "Validasi Kelompok Berhasil!",
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
+        if (PenetapanDosbingModel::updateKelompok($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return back();

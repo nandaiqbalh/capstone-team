@@ -80,8 +80,8 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <select class="form-select" name="topik" required>
-                                                    <option value="" disabled selected>-- Pilih --</option>
+                                                <select class="form-select" name="topik" disabled>
+                                                    <option value="" selected>-- Pilih --</option>
                                                     @foreach ($rs_topik as $topik)
                                                         <option value="{{ $topik->id }}"
                                                             @if ($topik->nama == $kelompok->nama_topik) selected @endif>
@@ -89,6 +89,9 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <!-- Hidden input field to send selected value to the server -->
+                                                <input type="hidden" name="selected_topik"
+                                                    value="{{ $kelompok->nama_topik }}">
                                             </div>
                                         </div>
                                     </td>

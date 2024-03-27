@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\TimCapstone\ValidasiKelompok;
+namespace App\Models\TimCapstone\SidangProposal\PenjadwalanSidangProposal;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class ValidasiKelompokModel extends BaseModel
+class PenjadwalanSidangProposalModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -22,38 +22,48 @@ class ValidasiKelompokModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
-            ->where('a.nomor_kelompok', NULL)
+            ->where('a.nomor_kelompok', '!=', NULL)
             ->orderByDesc('a.id')
             ->paginate(20);
     }
 
     public static function getDataDosbing1()
-        {
-            return DB::table('app_user as a')
-                ->select('a.*', 'c.role_name')
-                ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
-                ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
-                    $query->where('a.role_id', '04')
-                        ->orWhere('a.role_id', '02');
-                })
-                ->where('a.dosbing1', '1')
-                ->orderBy('a.user_name')
-                ->get();
-        }
+    {
+        return DB::table('app_user as a')
+            ->select('a.*', 'c.role_name')
+            ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+            ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                $query->where('a.role_id', '04')
+                    ->orWhere('a.role_id', '02');
+            })
+            ->where('a.dosbing1', '1')
+            ->orderBy('a.user_name')
+            ->get();
+    }
 
-        public static function getDataDosbing2()
-        {
-            return DB::table('app_user as a')
-                ->select('a.*', 'c.role_name')
-                ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
-                ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
-                    $query->where('a.role_id', '04')
-                        ->orWhere('a.role_id', '02');
-                })
-                ->where('a.dosbing2', '1')
-                ->orderBy('a.user_name')
-                ->get();
-        }
+    public static function getDataDosbing2()
+    {
+        return DB::table('app_user as a')
+            ->select('a.*', 'c.role_name')
+            ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+            ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                $query->where('a.role_id', '04')
+                    ->orWhere('a.role_id', '02');
+            })
+            ->where('a.dosbing2', '1')
+            ->orderBy('a.user_name')
+            ->get();
+    }
+
+    public static function getDosenPengujiProposal($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->where('app_user.role_id', '04')
+            ->select('app_user.*')
+            ->orderBy('app_user.user_name')
+            ->get();
+    }
+
 
     // get search
     public static function getDataSearch($no_kel)
@@ -80,6 +90,24 @@ class ValidasiKelompokModel extends BaseModel
                 CASE
                     WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
                     WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
+    }
+
+    public static function getAkunPengujiProposalKelompok($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->join('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+            })
+            ->where('kelompok.id', '=', $id_kelompok)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
+                    WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
                 END
             ')
             ->select('app_user.*')

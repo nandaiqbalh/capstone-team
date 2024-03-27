@@ -331,7 +331,7 @@ class DosenController extends BaseController
         }
     }
 
-    public function detailBalancingDosen($user_id)
+    public function detailBalancingDosbing($user_id)
     {
         // get data with pagination
         $rs_bimbingan = DosenModel::getDataBimbinganDosbing($user_id);
@@ -354,6 +354,68 @@ class DosenController extends BaseController
         // view
         return view('tim_capstone.dosen.balancing.dosbing.detail', $data);
     }
+
+    public function balancingPengujiProposal()
+    {
+        // get data with pagination
+        $dt_dosen = DosenModel::getDataBalancingPengujiProposal();
+        $rs_siklus = DosenModel::getSiklusAktif();
+
+        // data
+        $data = [
+            'dt_dosen' => $dt_dosen,
+            'rs_siklus' => $rs_siklus,
+        ];
+        // view
+        return view('tim_capstone.dosen.balancing.penguji-proposal.index', $data);
+    }
+
+    public function filterBalancingPengujiProposal(Request $request)
+    {
+        // data request
+        $id_siklus = $request->id_siklus;
+
+        // new search or reset
+        if ($request->action == 'search') {
+            $dt_dosen = DosenModel::getDataBalancingPengujiProposalFilterSiklus($id_siklus);
+            $rs_siklus = DosenModel::getSiklusAktif();
+
+            // data
+            $data = [
+                'dt_dosen' => $dt_dosen,
+                'rs_siklus' => $rs_siklus,
+            ];
+            // view
+            return view('tim_capstone.dosen.balancing.penguji-proposal.index', $data);
+        } else {
+            return redirect('/admin/balancing-penguji-proposal');
+        }
+    }
+
+    public function detailBalancingPengujiProposal($user_id)
+    {
+        // get data with pagination
+        $rs_penguji_proposal = DosenModel::getDataPengujianProposal($user_id);
+
+        foreach ($rs_penguji_proposal as $penguji_proposal) {
+            if ($penguji_proposal->id_dosen_penguji_1 == $user_id) {
+                $penguji_proposal->jenis_dosen = 'Pembimbing 1';
+                $penguji_proposal -> status_dosen = $penguji_proposal ->status_dosen_penguji_1;
+
+            } else if ($penguji_proposal->id_dosen_penguji_2 == $user_id) {
+                $penguji_proposal->jenis_dosen = 'Pembimbing 2';
+                $penguji_proposal -> status_dosen = $penguji_proposal ->status_dosen_penguji_2;
+
+            } else {
+                $penguji_proposal->jenis_dosen = 'Belum diplot';
+            }
+        }
+        // data
+        $data = ['rs_penguji_proposal' => $rs_penguji_proposal];
+        // view
+        return view('tim_capstone.dosen.balancing.penguji-proposal.detail', $data);
+    }
+
 
 
 
