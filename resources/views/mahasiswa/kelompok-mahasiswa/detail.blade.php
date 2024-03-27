@@ -88,7 +88,7 @@
                                             <td>:</td>
 
                                             @if ($kelompok->status_kelompok == null)
-                                                <td>Menunggu Validasi Kelompok!</td>
+                                                <td>{{ $akun_mahasiswa->status_individu }}</td>
                                             @else
                                                 <td>{{ $kelompok->status_kelompok }}</td>
                                             @endif

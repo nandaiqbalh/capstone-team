@@ -217,6 +217,43 @@
 
             </div>
 
+            <div class="card-body">
+                <hr>
+                <h6 class="mb-0">Penjadwalan Sidang Proposal</h6>
+                <hr>
+                <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
+                    autocomplete="off">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
+                    <input type="hidden" name="siklus_id" value="{{ $kelompok->id_siklus }}">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Waktu<span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" name="waktu"
+                                    value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Pilih Ruang Sidang <span class="text-danger">*</span></label>
+                                <select class="form-select select-2" name="ruangan_id" required>
+                                    <option value="" disabled selected>-- Pilih --</option>
+                                    @foreach ($rs_ruang_sidang as $ruang_sidang)
+                                        <option value="{{ $ruang_sidang->id }}">{{ $ruang_sidang->nama_ruang }} |
+                                            {{ $ruang_sidang->kode_ruang }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                </form>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card-body">
@@ -230,8 +267,8 @@
                                         <i class='bx bxs-file-doc bx-lg'></i>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" value="{{ $kelompok->file_name_c100 }}"
-                                            readonly>
+                                        <input type="text" class="form-control"
+                                            value="{{ $kelompok->file_name_c100 }}" readonly>
                                         <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
                                             class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                     </div>
@@ -240,7 +277,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>

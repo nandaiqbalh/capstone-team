@@ -37,6 +37,8 @@ class PenjadwalanSidangProposalController extends BaseController
         // penguji avaliable
         $rs_penguji = PenjadwalanSidangProposalModel::getDosenPengujiProposal($id);
 
+        $rs_ruang_sidang = PenjadwalanSidangProposalModel::getRuangSidang();
+
 
         // dd($rs_penguji);
 
@@ -80,6 +82,7 @@ class PenjadwalanSidangProposalController extends BaseController
             'rs_dosbing' => $rs_dosbing,
             'rs_penguji_proposal' => $rs_penguji_proposal,
             'rs_penguji' => $rs_penguji,
+            'rs_ruang_sidang' => $rs_ruang_sidang,
 
         ];
         // dd($data);
@@ -142,7 +145,7 @@ class PenjadwalanSidangProposalController extends BaseController
 
             if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Menunggu Persetujuan Penguji!"
+                    'status_kelompok' => "Menunggu Persetujuan Jadwal!"
                 ];
 
                 PenjadwalanSidangProposalModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -168,13 +171,13 @@ class PenjadwalanSidangProposalController extends BaseController
             $params = [
                 'id_dosen_penguji_1' => null,
                 'status_dosen_penguji_1' => null,
-                'status_kelompok' => "Menunggu Persetujuan Penguji!"
+                'status_kelompok' => "C100 Disetujui!"
             ];
         } else if ($id_dosen == $kelompok -> id_dosen_penguji_2) {
             $params = [
                 'id_dosen_penguji_2' => null,
                 'status_dosen_penguji_2' => null,
-                'status_kelompok' => "Menunggu Persetujuan Penguji!"
+                'status_kelompok' => "C100 Disetujui!"
             ];
         } else {
             $params = [
@@ -197,80 +200,46 @@ class PenjadwalanSidangProposalController extends BaseController
         }
     }
 
+    public function addJadwalProcess(Request $request)
+{
+    $params = [
+        'siklus_id' => $request->siklus_id,
+        'id_kelompok' => $request->id_kelompok,
+        'waktu' => $request->waktu,
+        'ruangan_id' => $request->ruangan_id,
+        'created_by'   => Auth::user()->user_id,
+        'created_date'  => now()
+    ];
 
+    // Check if the entry already exists for the given id_kelompok
+    $existingJadwal = PenjadwalanSidangProposalModel::getJadwalSidangProposal($request->id_kelompok);
 
-    public function deleteKelompokProcess($id)
-    {
-
-        // get data
-        $kelompok = PenjadwalanSidangProposalModel::getDataById($id);
-
-        // if exist
-        if (!empty($kelompok)) {
-            $cekMhs=PenjadwalanSidangProposalModel::getKelompokMhsAll($kelompok->id);
-            foreach ($cekMhs as $key => $mhs) {
-                PenjadwalanSidangProposalModel::deleteKelompokMhs($mhs->id_mahasiswa);
-            }
-
-            if (PenjadwalanSidangProposalModel::deleteJadwalSidangProposal($kelompok->id)) {
-                if (PenjadwalanSidangProposalModel::deleteKelompok($kelompok->id)) {
-                    // flash message
-                    session()->flash('success', 'Data berhasil dihapus.');
-                    return back();
-                } else {
-                    // flash message
-                    session()->flash('danger', 'Data gagal dihapus.');
-                    return back();
-                }
-            } else {
-                if (PenjadwalanSidangProposalModel::deleteKelompok($kelompok->id)) {
-                    // flash message
-                    session()->flash('success', 'Data berhasil dihapus.');
-                    return back();
-                } else {
-                    // flash message
-                    session()->flash('danger', 'Data gagal dihapus.');
-                    return back();
-                }
-            }
-            // process
-
+    // If the entry exists, update it; otherwise, insert a new record
+    if ($existingJadwal != null ) {
+        $update = PenjadwalanSidangProposalModel::updateJadwalSidangProposal($request->id_kelompok, $params);
+        if ($update) {
+            session()->flash('success', 'Data berhasil diperbarui.');
+            return redirect('/admin/penjadwalan-sidang-proposal');
         } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return back();
+            session()->flash('danger', 'Gagal memperbarui data.');
+            return back()->withInput();
         }
-    }
+    } else {
+        $insert = PenjadwalanSidangProposalModel::insertJadwalSidangProposal($params);
+        if ($insert) {
+            $paramsStatusKelompok = [
+                'status_kelompok' => 'Menunggu Persetujuan Jadwal!'
+            ];
 
+            PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
 
-
-    public function editKelompokProcess(Request $request)
-    {
-
-        // Validate & auto redirect when fail
-        $rules = [
-            'id' => 'required',
-        ];
-
-        $this->validate($request, $rules);
-
-        // params
-        $params = [
-            "id_topik" => $request->topik,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
-
-        // process
-        if (PenjadwalanSidangProposalModel::updateKelompok($request->id, $params)) {
-            // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return back();
+            return redirect('/admin/penjadwalan-sidang-proposal');
         } else {
-            // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return back();
+            return back()->withInput();
         }
     }
+}
 
 }

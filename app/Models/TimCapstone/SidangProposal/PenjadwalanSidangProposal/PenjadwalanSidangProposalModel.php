@@ -18,11 +18,14 @@ class PenjadwalanSidangProposalModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran', )
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', '!=', NULL)
+            ->where('a.id_dosen_pembimbing_1', '!=', NULL)
+            ->where('a.id_dosen_penguji_1', '!=', NULL)
+            ->where('a.file_name_c100', '!=', NULL)
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -256,4 +259,35 @@ class PenjadwalanSidangProposalModel extends BaseModel
         return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
     }
 
+    public static function getSiklusAktif()
+    {
+        return DB::table('siklus')
+        ->where('status', 'aktif')
+        ->get();
+    }
+
+    public static function getRuangSidang()
+    {
+        return DB::table('ruang_sidangs')
+        ->get();
+    }
+
+    public static function getJadwalSidangProposal($id_kelompok)
+    {
+        return DB::table('jadwal_sidang_proposal')
+        ->where('id_kelompok', $id_kelompok)
+        ->first();
+    }
+
+    public static function insertJadwalSidangProposal($params)
+    {
+        return DB::table('jadwal_sidang_proposal')->insert($params);
+    }
+
+    public static function updateJadwalSidangProposal($id_kelompok, $params)
+    {
+        return DB::table('jadwal_sidang_proposal')
+        ->where('id_kelompok', $id_kelompok)
+        ->update($params);
+    }
 }

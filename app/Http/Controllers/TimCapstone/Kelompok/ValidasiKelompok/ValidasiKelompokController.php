@@ -194,13 +194,13 @@ class ValidasiKelompokController extends BaseController
             $params = [
                 'id_dosen_pembimbing_1' => null,
                 'status_dosen_pembimbing_1' => null,
-                'status_kelompok' => "Menunggu Persetujuan Dosbing!"
+                'status_kelompok' => "Menunggu Penetapan Dosbing!"
             ];
         } else if ($id_dosen == $kelompok -> id_dosen_pembimbing_2) {
             $params = [
                 'id_dosen_pembimbing_2' => null,
                 'status_dosen_pembimbing_2' => null,
-                'status_kelompok' => "Menunggu Persetujuan Dosbing!"
+                'status_kelompok' => "Menunggu Penetapan Dosbing!"
             ];
         } else {
             $params = [
@@ -260,6 +260,49 @@ class ValidasiKelompokController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
+            return back();
+        }
+    }
+
+    public function deleteKelompokProcess($id)
+    {
+
+        // get data
+        $kelompok = ValidasiKelompokModel::getDataById($id);
+
+        // if exist
+        if (!empty($kelompok)) {
+            $cekMhs=ValidasiKelompokModel::getKelompokMhsAll($kelompok->id);
+            foreach ($cekMhs as $key => $mhs) {
+                ValidasiKelompokModel::deleteKelompokMhs($mhs->id_mahasiswa);
+            }
+
+            if (ValidasiKelompokModel::deleteJadwalSidangProposal($kelompok->id)) {
+                if (ValidasiKelompokModel::deleteKelompok($kelompok->id)) {
+                    // flash message
+                    session()->flash('success', 'Data berhasil dihapus.');
+                    return back();
+                } else {
+                    // flash message
+                    session()->flash('danger', 'Data gagal dihapus.');
+                    return back();
+                }
+            } else {
+                if (ValidasiKelompokModel::deleteKelompok($kelompok->id)) {
+                    // flash message
+                    session()->flash('success', 'Data berhasil dihapus.');
+                    return back();
+                } else {
+                    // flash message
+                    session()->flash('danger', 'Data gagal dihapus.');
+                    return back();
+                }
+            }
+            // process
+
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
             return back();
         }
     }

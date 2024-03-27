@@ -175,7 +175,7 @@ class ValidasiKelompokModel extends BaseModel
         return DB::table('kelompok_mhs as a')
             ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_id')
             ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
-            ->where('a.id_topik_mhs', $id_topik)
+            ->where('a.id_topik_individu1', $id_topik)
             ->where('a.id_kelompok', null)
             ->get();
     }

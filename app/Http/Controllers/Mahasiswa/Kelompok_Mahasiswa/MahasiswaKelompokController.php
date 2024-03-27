@@ -29,11 +29,11 @@ class MahasiswaKelompokController extends BaseController
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
         $rs_siklus = MahasiswaKelompokModel::getSiklusAktif();
         $periodePendaftaran = MahasiswaKelompokModel::getPeriodePendaftaranSiklus();
+        $akun_mahasiswa = MahasiswaKelompokModel::getAkunByID(Auth::user()->user_id);
 
         if ($kelompok != null) {
 
             // dari tabel kelompok_mhs
-            $akun_mahasiswa = MahasiswaKelompokModel::getAkunByID(Auth::user()->user_id);
             $siklusSudahPunyaKelompok = MahasiswaKelompokModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);
 
 
@@ -77,6 +77,7 @@ class MahasiswaKelompokController extends BaseController
                 'rs_mahasiswa' => $rs_mahasiswa,
                 'rs_dosbing1' => $rs_dosbing1,
                 'rs_dosbing2' => $rs_dosbing2,
+                'akun_mahasiswa' => $akun_mahasiswa,
                 'periode_pendaftaran' => $periodePendaftaran
             ];
 

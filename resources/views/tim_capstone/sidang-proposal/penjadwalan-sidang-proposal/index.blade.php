@@ -36,9 +36,8 @@
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td>{{ $kelompok->status_kelompok }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/tetapkan-penguji-proposal') }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-secondary btn-xs m-1 ">Tetapkan Penguji</a>
-
+                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 ">Jadwalkan Sidang</a>
                                         </td>
                                     </tr>
                                 @endforeach

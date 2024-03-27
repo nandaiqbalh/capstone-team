@@ -22,7 +22,8 @@ class PenetapanDosbingModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
-            ->where('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
+            ->where('a.status_kelompok', "Menunggu Penetapan Dosbing!")
+            ->orwhere('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
             ->orderByDesc('a.id')
             ->paginate(20);
     }

@@ -90,7 +90,7 @@ class PenetapanAnggotaController extends BaseController
         $params = [
             'id_topik' => $request->id_topik,
             'id_siklus' => $request->id_siklus,
-            'status_kelompok' => 'Menunggu Persetujuan Dosbing!',
+            'status_kelompok' => 'Menunggu Penetapan Dosbing!',
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];

@@ -15,12 +15,12 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penetapan-kelompok') }}" class="btn btn-secondary btn-xs float-right"><i
+                    <a href="{{ url('/admin/penetapan-anggota') }}" class="btn btn-secondary btn-xs float-right"><i
                             class="bx bx-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
-                <form action="{{ url('/admin/penetapan-kelompok/add-process') }}" method="post" autocomplete="off">
+                <form action="{{ url('/admin/penetapan-anggota/add-process') }}" method="post" autocomplete="off">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-6">

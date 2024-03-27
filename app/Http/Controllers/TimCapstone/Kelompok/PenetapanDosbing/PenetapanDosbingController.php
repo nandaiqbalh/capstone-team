@@ -109,7 +109,7 @@ class PenetapanDosbingController extends BaseController
 
             $kelompok_updated = PenetapanDosbingModel::getKelompokById($id_kelompok);
 
-            if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
+            if ($kelompok_updated->status_dosen_pembimbing_1 == "Persetujuan Dosbing Berhasil!" && $kelompok_updated->status_dosen_pembimbing_2 == "Persetujuan Dosbing Berhasil!") {
                 $paramsStatusKelompok = [
                     'status_kelompok' => "Menunggu Validasi Kelompok!"
                 ];
@@ -213,7 +213,6 @@ class PenetapanDosbingController extends BaseController
             return back();
         }
     }
-
 
 
     public function editKelompokProcess(Request $request)
