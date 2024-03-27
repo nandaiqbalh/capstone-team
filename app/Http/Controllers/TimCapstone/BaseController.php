@@ -156,9 +156,9 @@ class BaseController extends Controller
         $rs_parent_menu = BaseModel::parentMenuUtama($user_id);
         // looping
         foreach($rs_parent_menu as $menu) {
-            $sub_menu = BaseModel::childMenuUtama($menu->menu_id, $user_id);
+            $sub_menu = BaseModel::childMenuUtama($menu->id, $user_id);
             if(count($sub_menu) != 0) {
-                $rs_sub_menu[$menu->menu_id] = $sub_menu;
+                $rs_sub_menu[$menu->id] = $sub_menu;
             }
         }
         // result
@@ -176,9 +176,9 @@ class BaseController extends Controller
         $rs_parent_menu = BaseModel::parentMenuSystem($user_id);
         // looping
         foreach($rs_parent_menu as $menu) {
-            $sub_menu = BaseModel::childMenuSystem($menu->menu_id, $user_id);
+            $sub_menu = BaseModel::childMenuSystem($menu->id, $user_id);
             if(count($sub_menu) != 0) {
-               $rs_sub_menu[$menu->menu_id] = $sub_menu;
+               $rs_sub_menu[$menu->id] = $sub_menu;
             }
         }
         // result

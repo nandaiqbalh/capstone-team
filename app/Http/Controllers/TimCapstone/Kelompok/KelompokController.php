@@ -23,9 +23,6 @@ class KelompokController extends BaseController
 
     public function index()
     {
-        // authorize
-        KelompokModel::authorize('R');
-        // dd(KelompokModel::getData());
 
         // get data with pagination
         $rs_kelompok = KelompokModel::getDataWithPagination();
@@ -44,8 +41,6 @@ class KelompokController extends BaseController
      */
     public function addMahasiswaKelompok(Request $request)
     {
-        // authorize
-        KelompokModel::authorize('U');
 
         // params
         $params = [
@@ -65,10 +60,9 @@ class KelompokController extends BaseController
             return back();
         }
     }
+    
     public function addDosenKelompok(Request $request)
     {
-        // authorize
-        KelompokModel::authorize('U');
         $cekDosen = KelompokModel::checkStatusDosen( $request->id_kelompok, $request->id_dosen);
         $cekPosisi = KelompokModel::checkPosisi( $request->id_kelompok, $request->status_dosen);
 
@@ -105,8 +99,6 @@ class KelompokController extends BaseController
      */
     public function detailKelompok($id)
     {
-        // authorize
-        KelompokModel::authorize('R');
 
         // get data with pagination
         $kelompok = KelompokModel::getDataById($id);
@@ -166,8 +158,6 @@ class KelompokController extends BaseController
 
     public function deleteKelompokProcess($id)
     {
-        // authorize
-        KelompokModel::authorize('D');
 
         // get data
         $kelompok = KelompokModel::getDataById($id);
@@ -217,8 +207,6 @@ class KelompokController extends BaseController
      */
     public function deleteKelompokMahasiswaProcess($id_mahasiswa, $id)
     {
-        // authorize
-        KelompokModel::authorize('D');
 
         // get data
         $mahasiswa = KelompokModel::getKelompokMhs($id_mahasiswa, $id);
@@ -244,9 +232,6 @@ class KelompokController extends BaseController
 
     public function deleteKelompokDosenProcess($id_dosen, $id)
     {
-        // authorize
-        KelompokModel::authorize('D');
-
 
         $kelompok = KelompokModel::getKelompokById($id);
 
@@ -292,8 +277,6 @@ class KelompokController extends BaseController
      */
     public function editKelompokProcess(Request $request)
     {
-        // authorize
-        KelompokModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -326,8 +309,6 @@ class KelompokController extends BaseController
 
     public function setujuiKelompok(Request $request)
     {
-        // authorize
-        KelompokModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -364,9 +345,6 @@ class KelompokController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        KelompokModel::authorize('R');
-
         // data request
         $nama = $request->nama;
 

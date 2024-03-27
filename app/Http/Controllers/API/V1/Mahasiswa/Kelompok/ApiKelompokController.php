@@ -48,13 +48,13 @@ class ApiKelompokController extends Controller
                             'rs_dospeng' => null,
                             'rs_dospeng_ta' => null,
                         ];
-                        $response = $this->failureResponse('Belum mendaftar capstone!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
 
                     } else {
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
                         // check apakah siklusnya masih aktif atau tidak
                         $dataPendaftaranMhs = ApiKelompokModel::getDataPendaftaranMhs($user -> user_id);
-                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $user ->user_id);
+                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus);
                         if($isSiklusAktif -> status == 'tidak aktif'){
                             // siklus sudah tidak aktif
                             $kelompok ->id_siklus = 0;
@@ -139,13 +139,13 @@ class ApiKelompokController extends Controller
                             'rs_dospeng' => null,
                             'rs_dospeng_ta' => null,
                         ];
-                        $response = $this->failureResponse('Belum mendaftar capstone!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
 
                     } else {
                         // sudah mendaftar kelompok (baik secara individu maupun secara kelompok)
                         // check apakah siklusnya masih aktif atau tidak
                         $dataPendaftaranMhs = ApiKelompokModel::getDataPendaftaranMhs($userBelumBerkelompok -> user_id);
-                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus, $userBelumBerkelompok ->user_id);
+                        $isSiklusAktif = ApiKelompokModel::checkApakahSiklusMasihAktif($dataPendaftaranMhs -> id_siklus);
                         if($isSiklusAktif -> status == 'tidak aktif'){
                             // siklus sudah tidak aktif
                             $kelompok ->id_siklus = 0;
@@ -273,7 +273,7 @@ class ApiKelompokController extends Controller
                         'usulan_judul_capstone' => $request->judul_capstone,
                         'id_siklus' => $request->id_siklus,
                         'id_mahasiswa' => $user->user_id,
-                        'status_individu' => 'Menunggu Validasi Kelompok!',
+                        'status_individu' => 'Menunggu Penetapan Kelompok!',
                         'id_topik_individu1' => $topik1->id,
                         'id_topik_individu2' => $topik2->id,
                         'id_topik_individu3' => $topik3->id,
@@ -282,6 +282,8 @@ class ApiKelompokController extends Controller
                         'id_peminatan_individu2' => $peminatan2->id,
                         'id_peminatan_individu3' => $peminatan3->id,
                         'id_peminatan_individu4' => $peminatan4->id,
+                        'created_by'   => $user->user_id,
+                         'created_date'  => now(),
                     ];
 
                     ApiKelompokModel::insertKelompokMHS($params2);
@@ -320,18 +322,6 @@ class ApiKelompokController extends Controller
                 'user_id3','angkatan3', 'email3', 'jenis_kelamin3', 'ipk3', 'sks3', 'no_telp3',
             ];
 
-             // params mahasiswa 2
-             $params2 = [
-                "angkatan" => $request->angkatan2,
-                "user_email" => $request->email2,
-                "jenis_kelamin" => $request->jenis_kelamin2,
-                "ipk" => $request->ipk2,
-                "sks" => $request->sks2,
-                'no_telp' => $request->no_telp2,
-                'modified_by'   => $user->user_id,
-                'modified_date'  => date('Y-m-d H:i:s')
-            ];
-
             foreach ($requiredParams as $param) {
                 if (!$request->has($param) || empty($request->input($param))) {
                     $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi!");
@@ -356,9 +346,9 @@ class ApiKelompokController extends Controller
                         "id_topik" => $request->id_topik,
                         "status_kelompok" => 'Menunggu Persetujuan Anggota!',
                         "id_dosen_pembimbing_1" => $request->dosbing_1,
-                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan!',
+                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan Dosbing!',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
-                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan!',
+                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan Dosbing!',
                         'created_by' => $user->user_id,
                         'created_date' => now()
                     ];
@@ -535,7 +525,7 @@ class ApiKelompokController extends Controller
                     // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
                     if ($semuaSetuju) {
                         $paramKelompok = [
-                            "status_kelompok" => "Menunggu Validasi Kelompok!",
+                            "status_kelompok" => "Menunggu Persetujuan Dosbing!",
                         ];
                         $update_kelompok = ApiKelompokModel::updateKelompok($kelompok ->id, $paramKelompok);
                     }
@@ -543,7 +533,6 @@ class ApiKelompokController extends Controller
                 $response = $this->successResponse('Berhasil menyetujui kelompok!', 'Berhasil!');
 
             } catch (\Exception $e) {
-                dd($e);
                 $response = $this->failureResponse('Gagal menyetujui!');
             }
         } else {

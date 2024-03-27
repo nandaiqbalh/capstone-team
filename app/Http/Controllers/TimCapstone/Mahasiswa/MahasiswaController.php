@@ -22,9 +22,6 @@ class MahasiswaController extends BaseController
 
     public function index()
     {
-        // authorize
-        MahasiswaModel::authorize('R');
-        // dd(MahasiswaModel::getData());
 
         // get data with pagination
         $rs_mahasiswa = MahasiswaModel::getDataWithPagination();
@@ -41,8 +38,6 @@ class MahasiswaController extends BaseController
      */
     public function addMahasiswa()
     {
-        // authorize
-        MahasiswaModel::authorize('C');
 
         // view
         return view('tim_capstone.mahasiswa.add');
@@ -56,9 +51,6 @@ class MahasiswaController extends BaseController
      */
     public function addMahasiswaProcess(Request $request)
     {
-
-        // authorize
-        MahasiswaModel::authorize('C');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -112,8 +104,6 @@ class MahasiswaController extends BaseController
      */
     public function detailMahasiswa($user_id)
     {
-        // authorize
-        MahasiswaModel::authorize('R');
 
         // get data with pagination
         $mahasiswa = MahasiswaModel::getDataById($user_id);
@@ -159,9 +149,6 @@ class MahasiswaController extends BaseController
      */
     public function editMahasiswa($user_id)
     {
-        // authorize
-        MahasiswaModel::authorize('U');
-
         // get data
         $mahasiswa = MahasiswaModel::getDataById($user_id);
 
@@ -188,8 +175,6 @@ class MahasiswaController extends BaseController
      */
     public function editMahasiswaProcess(Request $request)
     {
-        // authorize
-        MahasiswaModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
@@ -234,8 +219,6 @@ class MahasiswaController extends BaseController
      */
     public function deleteMahasiswaProcess($user_id)
     {
-        // authorize
-        MahasiswaModel::authorize('D');
 
         // get data
         $mahasiswa = MahasiswaModel::getDataById($user_id);
@@ -267,8 +250,6 @@ class MahasiswaController extends BaseController
      */
     public function searchMahasiswa(Request $request)
     {
-        // authorize
-        MahasiswaModel::authorize('R');
         // data request
         $user_name = $request->nama;
 

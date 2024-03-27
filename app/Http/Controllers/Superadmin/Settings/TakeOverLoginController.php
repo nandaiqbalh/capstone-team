@@ -22,8 +22,6 @@ class TakeOverLoginController extends BaseController
      */
     public function takeOverProcess(Request $request)
     {
-        // authorize
-        TakeOver::authorize('R');
 
         // decrypt data
         $incoming_user_id   = Crypt::decryptString($request->id);
@@ -93,7 +91,7 @@ class TakeOverLoginController extends BaseController
                 Log::info('User '.$old_user_id.' berhasil mengambil alih akun '.$incoming_user_id);
 
                 // return
-                return redirect()->intended('/admin/dashboard');
+                return redirect()->intended('admin/dashboard');
             }else {
                 // insert percobaan login
                 $params = [

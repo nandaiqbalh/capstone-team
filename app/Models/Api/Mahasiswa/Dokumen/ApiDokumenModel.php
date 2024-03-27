@@ -12,6 +12,18 @@ class ApiDokumenModel extends ApiBaseModel
         return DB::table('app_user')->where('user_id', $id)->first();
     }
 
+    public static function pengecekan_kelompok_mahasiswa($user_id)
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+            ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
+            ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
+            ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
+            ->where('a.id_mahasiswa', $user_id)
+            ->orderBy('a.created_date', 'desc') // Urutkan berdasarkan created_date secara descending
+            ->first();
+    }
+
     public static function getKelompokFile($id_kelompok)
     {
         return DB::table('kelompok as a')

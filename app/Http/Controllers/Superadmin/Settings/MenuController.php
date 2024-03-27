@@ -17,8 +17,6 @@ class MenuController extends BaseController
      */
     public function index()
     {
-        // authorize
-        Menu::authorize('R');
 
         // get data with pagination
         $rs_menu = Menu::getAllPaginate();
@@ -36,8 +34,7 @@ class MenuController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        Menu::authorize('R');
+
 
         // data request
         $menu_name = $request->menu_name;
@@ -62,8 +59,7 @@ class MenuController extends BaseController
      */
     public function add()
     {
-        // authorize
-        Menu::authorize('C');
+
 
         // get data
         $rs_menu = Menu::getAll();
@@ -84,8 +80,7 @@ class MenuController extends BaseController
      */
     public function addProcess(Request $request)
     {
-        // authorize
-        Menu::authorize('C');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -109,12 +104,10 @@ class MenuController extends BaseController
         }
 
         $id = Menu::makeShortId();
-        $menu_id = Menu::makeShortMenuId();
 
         // params
         $params =[
             'id' => $id,
-            'menu_id' => $menu_id,
             'role_id' => '01',
             'parent_menu_id' => $parent_menu_id,
             'menu_name' => $request->menu_name,
@@ -150,8 +143,6 @@ class MenuController extends BaseController
      */
     public function edit($id)
     {
-        // authorize
-        Menu::authorize('U');
 
         // get data
         $menu = Menu::getById($id);
@@ -175,12 +166,9 @@ class MenuController extends BaseController
      */
     public function editProcess(Request $request)
     {
-        // authorize
-        Menu::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
-            'menu_id' => 'required',
             'parent_menu_id' => 'required',
             'menu_name' => 'required',
             'menu_description' => 'required',
@@ -217,7 +205,7 @@ class MenuController extends BaseController
         ];
 
         // process
-        if (Menu::update($request->menu_id,$params)) {
+        if (Menu::update($request->id,$params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/menu');
@@ -225,7 +213,7 @@ class MenuController extends BaseController
         else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/menu/edit/'.$request->menu_id);
+            return redirect('/admin/settings/menu/edit/'.$request->id);
         }
     }
 
@@ -237,8 +225,7 @@ class MenuController extends BaseController
      */
     public function deleteProcess($id)
     {
-        // authorize
-        Menu::authorize('D');
+
 
         // get data
         $menu = Menu::getById($id);
@@ -280,8 +267,6 @@ class MenuController extends BaseController
      */
     public function roleMenu($id)
     {
-        // authorize
-        Menu::authorize('C');
 
         // get data
         $rs_role = Menu::getRole();
@@ -308,11 +293,8 @@ class MenuController extends BaseController
     public function roleMenuProcess(Request $request)
     {
         // get data
-        $menu = Menu::getById($request->menu_id);
+        $menu = Menu::getById($request->id);
         $rs_menu = Menu::getAll();
-
-        // authorize
-        Menu::authorize('C');
 
         // cek if new menu
         $parent_menu_id = $request->parent_menu_id == 'parent' ? NULL : $request->parent_menu_id;
@@ -321,7 +303,7 @@ class MenuController extends BaseController
         $role_id = $request->role_id;
 
         // delete role menu
-        Menu::delete($request->menu_id);
+        Menu::delete($request->id);
 
         if (!empty($role_id)) {
             // looping insert
@@ -329,7 +311,6 @@ class MenuController extends BaseController
                 // params
                 $params = [
                     'role_id' => $roleId,
-                    'menu_id' => $menu->menu_id,
                     'parent_menu_id' => $parent_menu_id,
                     'menu_name' => $menu->menu_name,
                     'menu_description' => $menu->menu_description,

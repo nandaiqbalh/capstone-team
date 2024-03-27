@@ -25,15 +25,58 @@ class DosenModel extends BaseModel
             ->select('a.*', 'c.role_name')
             ->join('app_role as c', 'a.role_id', 'c.role_id')
             ->where('c.role_id', '04')
-            ->orwhere('c.role_id', '02')
             ->paginate(20);
     }
 
-    // get search
-    // public static function getDataSearch($nama)
-    // {
-    //     return DB::table('app_user')->where('nama', 'LIKE', "%" . $nama . "%")->paginate(20)->withQueryString();
-    // }
+    public static function getDataBalancingDosbing()
+    {
+        return DB::table('app_user')
+            ->leftJoin('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+            })
+            ->where('app_user.role_id', '=', '04') // Menambahkan kondisi role_id = '04'
+            ->select(
+                'app_user.user_id',
+                'app_user.user_name',
+                DB::raw('COUNT(CASE WHEN kelompok.is_selesai = 0 THEN kelompok.id END) AS jumlah_kelompok_aktif_dibimbing'),
+                DB::raw('COUNT(CASE WHEN kelompok.is_selesai = 1 THEN kelompok.id END) AS jumlah_kelompok_tidak_aktif_dibimbing')
+            )
+            ->groupBy('app_user.user_id', 'app_user.user_name')
+            ->paginate(20);
+    }
+
+
+    public static function getDataBalancingDosbingFilterSiklus($id_siklus)
+    {
+        return DB::table('app_user')
+            ->leftJoin('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+            })
+            ->where('app_user.role_id', '=', '04') // Menambahkan kondisi role_id = '04'
+            ->where('kelompok.id_siklus', '=', $id_siklus) // Menambahkan kondisi id_siklus
+            ->select(
+                'app_user.user_id',
+                'app_user.user_name',
+                DB::raw('COUNT(CASE WHEN kelompok.is_selesai = 0 THEN kelompok.id END) AS jumlah_kelompok_aktif_dibimbing'),
+                DB::raw('COUNT(CASE WHEN kelompok.is_selesai = 1 THEN kelompok.id END) AS jumlah_kelompok_tidak_aktif_dibimbing')
+            )
+            ->groupBy('app_user.user_id', 'app_user.user_name')
+            ->paginate(20);
+    }
+
+    public static function getDataBimbinganDosbing($user_id)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*','b.nama as nama_topik')
+            ->join('topik as b','a.id_topik','b.id')
+            ->where('a.id_dosen_pembimbing_1', $user_id)
+            ->orWhere('a.id_dosen_pembimbing_2', $user_id)
+            ->orderByDesc('a.id')
+            ->paginate(20);
+    }
+
 
     // get data by id
     public static function getDataById($user_id)
@@ -66,22 +109,19 @@ class DosenModel extends BaseModel
         return DB::table('app_user')->insert($params);
     }
 
-    // public static function insertrole($params2)
-    // {
-    //     return DB::table('app_role_user')->insert($params2);
-    // }
-
     public static function update($user_id, $params)
     {
         return DB::table('app_user')->where('user_id', $user_id)->update($params);
     }
-    // public static function updaterole($user_id, $params)
-    // {
-    //     return DB::table('app_role_user')->where('user_id', $user_id)->update($params);
-    // }
-
     public static function delete($user_id)
     {
         return DB::table('app_user')->where('user_id', $user_id)->delete();
+    }
+
+    public static function getSiklusAktif()
+    {
+        return DB::table('siklus')
+        ->where('status', 'aktif')
+        ->get();
     }
 }

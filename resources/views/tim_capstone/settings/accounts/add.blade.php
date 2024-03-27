@@ -90,7 +90,7 @@ Akun User
                 <br>
             </div>
             <div class="card-footer float-end">
-                <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                <button type="submit" class="btn btn-primary ">Simpan</button>
             </div>
         </form>
     </div>

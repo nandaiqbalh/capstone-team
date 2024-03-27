@@ -37,7 +37,7 @@ class ApiTugasAkhirController extends Controller
                     // dd($rsSidang);
 
                     if ($kelompok -> nomor_kelompok == null) {
-                        $response = $this->failureResponse('Kelompok anda belum valid!');
+                        $response = $this->failureResponse('Anda belum menyelesaikan capstone!');
                     } else {
                         if ($rsSidang == null ) {
 
@@ -153,9 +153,15 @@ class ApiTugasAkhirController extends Controller
                 $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
                 if ($kelompok != null) {
-                    // Registration parameters
+                    $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
+
+                     // Check and delete the existing file
+                     $dokumen_mahasiwa = ApiTugasAkhirModel::fileMHS($user ->user_id);
+                    if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null && $dokumen_mahasiwa -> file_name_makalah != null) {
+                        // Registration parameters
                     $registrationParams = [
                         'id_mahasiswa' => $user->user_id,
+                        'id_periode' => $periodeAvailable ->id,
                         'status' => 'Menunggu Validasi Jadwal!',
                         'created_by' => $user->user_id,
                         'created_date' => now(), // Use Laravel helper function for the current date and time
@@ -180,6 +186,9 @@ class ApiTugasAkhirController extends Controller
 
                     $response = $this->successResponse('Berhasil mendaftarkan sidang Tugas Akhir!', $cekStatusPendaftaran ->status_pendaftaran);
 
+                    } else {
+                        $response = $this->failureResponse('Lengkapi terlebih dahulu dokumen Anda!');
+                    }
                 } else {
                     $response = $this->failureResponse('Anda belum menyelesaikan capstone!');
                 }

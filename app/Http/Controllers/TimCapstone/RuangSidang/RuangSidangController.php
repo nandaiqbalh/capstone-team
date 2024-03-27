@@ -18,9 +18,6 @@ class RuangSidangController extends BaseController
      */
     public function index()
     {
-        // authorize
-        RuangSidang::authorize('R');
-        // dd(RuangSidang::getData());
 
         // get data with pagination
         $rs_ruangsidang = RuangSidang::getDataWithPagination();
@@ -37,8 +34,6 @@ class RuangSidangController extends BaseController
      */
     public function create()
     {
-        // authorize
-       RuangSidang::authorize('C');
 
        // view
         return view ('tim_capstone.ruangsidang.add');
@@ -52,8 +47,6 @@ class RuangSidangController extends BaseController
      */
     public function store(Request $request)
     {
-        // authorize
-       RuangSidang::authorize('C');
 
        // Validate & auto redirect when fail
        $rules = [
@@ -105,8 +98,6 @@ class RuangSidangController extends BaseController
      */
     public function edit($id)
     {
-         // authorize
-       RuangSidang::authorize('U');
 
        // get data
        $ruangan =RuangSidang::getDataById($id);
@@ -134,8 +125,6 @@ class RuangSidangController extends BaseController
      */
     public function update(Request $request)
     {
-        // authorize
-       RuangSidang::authorize('U');
 
        // Validate & auto redirect when fail
        $rules = [
@@ -174,9 +163,6 @@ class RuangSidangController extends BaseController
 
     public function delete($id)
     {
-        // authorize
-       RuangSidang::authorize('D');
-
         // get data
         $ruangan =RuangSidang::getDataById($id);
 

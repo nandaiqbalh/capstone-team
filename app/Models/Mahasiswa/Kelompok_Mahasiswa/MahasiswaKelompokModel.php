@@ -8,190 +8,254 @@ use Illuminate\Support\Facades\DB;
 
 class MahasiswaKelompokModel extends BaseModel
 {
-    // get all data
-    public static function getData()
-    {
-        return DB::table('kelompok as a')
-            ->select('a.*','b.user_name as dosen_name','c.nama as topik_name')
-            ->leftjoin('app_user as b','a.id_dosen','b.user_id')
-            ->leftjoin('topik as c', 'a.id_topik', 'c.id')
-            ->orderByDesc('a.id')
-            ->get();
-    }
+      // pengecekan kelompok
+      public static function pengecekan_kelompok_mahasiswa($user_id)
+      {
+          return DB::table('kelompok_mhs as a')
+              ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+              ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
+              ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
+              ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
+              ->where('a.id_mahasiswa', $user_id)
+              ->orderBy('a.created_date', 'desc') // Urutkan berdasarkan created_date secara descending
+              ->first();
+      }
 
-     // pengecekan kelompok
-     public static function pengecekan_kelompok_mahasiswa()
-     {
-        return DB::table('kelompok_mhs as a')
-            ->select('a.*', 'b.*','c.nama as nama_topik')
-            ->leftjoin('kelompok as b','a.id_kelompok','b.id')
-            ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
-            ->join('siklus as d', 'a.id_siklus', 'd.id')
-            ->where('d.status', 'aktif')
-            ->where('a.id_mahasiswa', Auth::user()->user_id)
-            ->first();
-     }
-    // pengecekan kelompok
-    public static function listKelompokMahasiswa($id_kelompok)
-    {
-        return DB::table('kelompok_mhs as a')
-            ->select('a.*','b.user_name','b.nomor_induk')
-            ->join('app_user as b','a.id_mahasiswa','b.user_id')
-            ->where('a.id_kelompok', $id_kelompok)
-            ->whereNot('a.id_kelompok', null)
-            ->get();
-    }
+      // pengecekan kelompok
+      public static function listKelompokMahasiswa($id_kelompok)
+      {
+          return DB::table('kelompok_mhs as a')
+              ->select('a.*', 'b.user_name', 'b.nomor_induk', 'b.user_img_path', 'b.user_img_name' )
+              ->join('app_user as b','a.id_mahasiswa','b.user_id')
+              ->where('a.id_kelompok', $id_kelompok)
+              ->whereNot('a.id_kelompok', null)
+              ->get();
+      }
 
-    // get akun by id user
-    public static function getAkunByID($user_id)
+      // get akun by id user
+      public static function getAkunByID($user_id)
+      {
+          return DB::table('app_user as a')
+              ->select('a.*', 'b.status_individu', 'b.id_siklus')
+              ->join('kelompok_mhs as b','a.user_id','b.id_mahasiswa')
+              ->where('a.user_id', $user_id)
+              ->first();
+      }
+
+      public static function getDataDosbing1()
+        {
+            return DB::table('app_user as a')
+                ->select('a.*', 'c.role_name')
+                ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+                ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                    $query->where('a.role_id', '04')
+                        ->orWhere('a.role_id', '02');
+                })
+                ->where('a.dosbing1', '1')
+                ->orderBy('a.user_name')
+                ->get();
+        }
+
+        public static function getDataDosbing2()
+        {
+            return DB::table('app_user as a')
+                ->select('a.*', 'c.role_name')
+                ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+                ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                    $query->where('a.role_id', '04')
+                        ->orWhere('a.role_id', '02');
+                })
+                ->where('a.dosbing2', '1')
+                ->orderBy('a.user_name')
+                ->get();
+        }
+
+
+      public static function getAkunBelumPunyaKelompok($user_id)
+      {
+          return DB::table('app_user as a')
+              ->where('a.user_id', $user_id)
+              ->first();
+      }
+
+      public static function isAccountExist($user_id)
+      {
+          $account = DB::table('app_user as a')
+              ->where('a.user_id', $user_id)
+              ->first();
+
+          return !empty($account); // Return true if the account exists, false otherwise
+      }
+
+      public static function getAkunDosbingKelompok($id_kelompok)
+      {
+          return DB::table('app_user')
+              ->join('kelompok', function ($join) {
+                  $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                      ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+              })
+              ->where('kelompok.id', '=', $id_kelompok)
+              ->orderByRaw('
+                  CASE
+                      WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
+                      WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
+                  END
+              ')
+              ->select('app_user.*')
+              ->get();
+      }
+
+      public static function getAkunDospengKelompok($id_kelompok)
+      {
+          return DB::table('app_user')
+              ->join('kelompok', function ($join) {
+                  $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
+                      ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+              })
+              ->where('kelompok.id', '=', $id_kelompok)
+              ->orderByRaw('
+                  CASE
+                      WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
+                      WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
+                  END
+              ')
+              ->select('app_user.*')
+              ->get();
+      }
+
+      public static function getAkunDospengTa($user_id)
+      {
+          return DB::table('app_user')
+              ->join('kelompok_mhs', function ($join) {
+                  $join->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta1')
+                      ->orOn('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta2');
+              })
+              ->where('kelompok_mhs.id_mahasiswa', '=', $user_id)
+              ->orderByRaw('
+                  CASE
+                      WHEN app_user.user_id = kelompok_mhs.id_dosen_penguji_ta1 THEN 1
+                      WHEN app_user.user_id = kelompok_mhs.id_dosen_penguji_ta2 THEN 2
+                  END
+              ')
+              ->select('app_user.*')
+              ->get();
+      }
+
+      public static function getTopik()
+      {
+          return DB::table('topik')
+              ->get();
+      }
+
+      public static function getTopikById($id)
+      {
+          return DB::table('topik')->where('id', $id)
+              ->first();
+      }
+
+      public static function getPeminatanById($id)
+      {
+          return DB::table('peminatan')->where('id', $id)
+              ->first();
+      }
+
+      public static function getDataMahasiswaAvailable()
     {
         return DB::table('app_user as a')
-            ->where('a.user_id', $user_id)
-            ->first();
-    }
-    // get akun by id user
-    public static function getAkun()
-    {
-        return DB::table('app_user as a')
-        ->select('a.*')
-        ->where('a.role_id','03')
+        ->select('a.*', 'c.role_name')
+        ->join('app_role as c', 'a.role_id', 'c.role_id')
+        ->leftJoin('kelompok_mhs as km', 'a.user_id', 'km.id_mahasiswa')
+        ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
+        ->whereNull('km.id_mahasiswa') // Pastikan user_id tidak terdapat pada kelompok_mhs
+        ->orderBy('a.user_name') // Sort the result by user_name
         ->get();
     }
+      public static function getDataPendaftaranMhs($user_id)
+      {
+          return DB::table('kelompok_mhs')
+              ->where('id_mahasiswa', $user_id)
+              ->first();
+      }
 
-    // get akun by id user
-    public static function getAkunDosen()
-    {
-        return DB::table('app_user as a')
-        ->select('a.*')
-        ->where('a.role_id', '04')
-        ->orwhere('a.role_id', '02')
-        ->get();
-    }
+      public static function getSiklusAktif()
+      {
+          return DB::table('siklus')
+              ->where('status', 'aktif')
+              ->get();
+      }
 
-    // pengecekan kelompok
-    public static function getAkunDosbingKelompok($id_kelompok)
-    {
-        return DB::table('app_user')
-        ->join('kelompok', function ($join) {
-            $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
-                ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
-        })
-        ->where('kelompok.id', '=', $id_kelompok)
-        ->orderByRaw('
-            CASE
-                WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
-                WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
-            END
-        ')
-        ->select('app_user.*')
-        ->get();
-    }
+      public static function getPeriodePendaftaranSiklus()
+      {
+          return DB::table('siklus')
+              ->where('status','aktif')
+              ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
+              ->first();
+      }
 
-    // pengecekan kelompok penguji
-    public static function getAkunDospengKelompok($id_kelompok)
-    {
-        return DB::table('app_user')
-        ->join('kelompok', function ($join) {
-            $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
-                ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
-        })
-        ->where('kelompok.id', '=', $id_kelompok)
-        ->orderByRaw('
-            CASE
-                WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
-                WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
-            END
-        ')
-        ->select('app_user.*')
-        ->get();
-    }
+      public static function checkApakahSiklusMasihAktif($id_siklus)
+      {
+          return DB::table('siklus')
+              ->where('id', $id_siklus)
+              ->where('status', 'aktif')
+              ->first();
+      }
 
-    // pengecekan kelompok
-    public static function proposal($id_kelompok)
-    {
-        return DB::table('jadwal_sidang_proposal')
-        ->where('id_kelompok', $id_kelompok)
-        ->first();
-    }
+      public static function getSidangProposal($id_kelompok)
+      {
+          return DB::table('jadwal_sidang_proposal')
+              ->where('id_kelompok', $id_kelompok)
+              ->first();
+      }
 
-    // get data with pagination
-    public static function getDataWithPagination()
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->paginate(20);
-    }
+      public static function getPendaftaranExpo($id_kelompok)
+      {
+          return DB::table('pendaftaran_expo')
+              ->where('id_kelompok', $id_kelompok)
+              ->first();
+      }
 
-    // get search
-    public static function getDataSearch($search)
-    {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20)->withQueryString();
-    }
+      public static function insertKelompok($params)
+      {
+          return DB::table('kelompok')->insert($params);
+      }
 
-    // get data topik
-    public static function getTopik()
-    {
-        return DB::table('topik')
-            ->get();
-    }
+      public static function insertKelompokMHS($params)
+      {
+          return DB::table('kelompok_mhs')->insert($params);
+      }
 
-    // get data topik
-    public static function getSiklusAktif()
-    {
-        return DB::table('siklus')
-            ->where('status','aktif')
-            ->get();
-    }
+      public static function updateMahasiswa($user_id, $params)
+      {
+          return DB::table('app_user')->where('user_id', $user_id)->update($params);
+      }
 
-    // get data by id
-    public static function getDataById($user_id)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->first();
-    }
+      public static function updateKelompokMHS($user_id, $params)
+      {
+          return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
+      }
 
-    public static function insertmahasiswa($params)
-    {
-        return DB::table('app_user')->insert($params);
-    }
+      public static function updateKelompok($id_kelompok, $params)
+      {
+          return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
+      }
 
-    public static function insertDosenKelompok($params)
-    {
-        return DB::table('dosen_kelompok')->insert($params);
-    }
-    public static function insertKelompok($params)
-    {
-        return DB::table('kelompok')->insert($params);
-    }
-    public static function insertKelompokMHS($params)
-    {
-        return DB::table('kelompok_mhs')->insert($params);
-    }
+      public static function deleteKelompok($id_kelompok)
+      {
+          return DB::table('kelompok')->where('id', $id_kelompok)->delete();
+      }
 
-    public static function insertPeminatan($params)
-    {
-        return DB::table('peminatan')->insert($params);
-    }
+      public static function deleteKelompokMhs($id_mahasiswa)
+      {
+          return DB::table('kelompok_mhs')->where('id_mahasiswa', $id_mahasiswa)->delete();
+      }
 
-    public static function update($user_id, $params)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
-    }
+      public static function deleteSidangProposal($id_kelompok)
+      {
+          return DB::table('jadwal_sidang_proposal')->where('id_kelompok', $id_kelompok)->delete();
+      }
 
-    public static function updateMahasiswa($user_id, $params)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->update($params);
-    }
-
-    public static function delete($user_id)
-    {
-        return DB::table('app_user')->where('user_id', $user_id)->delete();
-    }
+      public static function deletePendaftaranExpo($id_kelompok)
+      {
+          return DB::table('pendaftaran_expo')->where('id_kelompok', $id_kelompok)->delete();
+      }
 }

@@ -23,8 +23,7 @@ class AccountsController extends BaseController
      */
     public function index()
     {
-        // authorize
-        Accounts::authorize('R');
+
 
         // get data with pagination
         $rs_accounts = Accounts::getAllPaginate();
@@ -45,8 +44,7 @@ class AccountsController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        Accounts::authorize('R');
+
 
         $user_name = $request->user_name;
 
@@ -76,8 +74,6 @@ class AccountsController extends BaseController
      */
     public function add()
     {
-        // authorize
-        Accounts::authorize('C');
 
         // get data
         $rs_role = Accounts::getRole();
@@ -101,8 +97,7 @@ class AccountsController extends BaseController
      */
     public function addProcess(Request $request)
     {
-        // authorize
-        Accounts::authorize('C');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -164,8 +159,6 @@ class AccountsController extends BaseController
      */
     public function edit($id)
     {
-        // authorize
-        Accounts::authorize('U');
 
         // get data
         $account = Accounts::getById($id);
@@ -196,8 +189,7 @@ class AccountsController extends BaseController
      */
     public function editProcess(Request $request)
     {
-        // authorize
-        Accounts::authorize('U');
+
 
         // Validate & auto redirect when fail
         $rules = [
@@ -251,8 +243,7 @@ class AccountsController extends BaseController
      */
     public function deleteProcess($id)
     {
-        // authorize
-        Accounts::authorize('D');
+
 
         // get data
         $account = Accounts::getById($id);
@@ -291,8 +282,6 @@ class AccountsController extends BaseController
      */
     public function editPassword($id)
     {
-        // authorize
-        Accounts::authorize('U');
 
         // get data
         $account = Accounts::getById($id);
@@ -325,8 +314,7 @@ class AccountsController extends BaseController
      */
     public function editPasswordProcess(Request $request)
     {
-        // authorize
-        Accounts::authorize('U');
+
 
         // Validate & auto redirect when fail
         $rules = [

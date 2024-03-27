@@ -21,8 +21,6 @@ class AccountController extends BaseController
      */
     public function index()
     {
-        // authorize
-        Account::authorize('U');
 
         // get data
         $account = Account::getById(Auth::user()->user_id);
@@ -33,7 +31,6 @@ class AccountController extends BaseController
         //view
         return view('tim_capstone.settings.account.edit', $data);
     }
-
     /**
      * Crop Image.
      *
@@ -68,6 +65,7 @@ class AccountController extends BaseController
     //         return response()->json(['status' => 0, 'msg' => 'Upload foto gagal']);
     //     }
     // }
+    
     public function ImgCrop(Request $request)
     {
         $path = public_path($this->upload_path);
@@ -89,7 +87,6 @@ class AccountController extends BaseController
             // Pengguna belum pernah mengunggah foto, buat nama file baru
             $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
         }
-
         // Pindahkan file baru
         $upload = $file->move($path, $new_image_name);
 
@@ -100,16 +97,13 @@ class AccountController extends BaseController
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date' => date('Y-m-d H:i:s')
             ];
-
             // Perbarui informasi foto pengguna
             Account::update(Auth::user()->user_id, $params);
-
             return response()->json(['status' => 1, 'msg' => 'Foto berhasil diunggah.', 'name' => $new_image_name]);
         } else {
             return response()->json(['status' => 0, 'msg' => 'Upload foto gagal']);
         }
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -117,33 +111,33 @@ class AccountController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editProcess(Request $request)
+    
+     public function editProcess(Request $request)
     {
-        // authorize
-        Account::authorize('U');
+
 
         // Validate & auto redirect when fail
         $rules = [
             'user_id' => 'required',
             // 'id_pengguna' => 'required|digits_between:6,11|numeric',
             'user_name' => 'required',
+            'user_email' => 'required|email',
             'no_telp' => 'required|digits_between:10,13|numeric',
+            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
             'user_img' => 'image|mimes:jpeg,jpg,png|max:5120'
 
         ];
         $this->validate($request, $rules);
-
-
 
         // params
         $params = [
             'user_name' => $request->user_name,
             'user_email' => $request->user_email,
             'no_telp' => $request->no_telp,
+            'jenis_kelamin' => $request->jenis_kelamin,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
-
         // process
         if (Account::update($request->user_id, $params)) {
             // flash message
@@ -155,7 +149,6 @@ class AccountController extends BaseController
             return redirect('/admin/settings/account');
         }
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -163,50 +156,43 @@ class AccountController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editPassword(Request $request)
+    
+     public function editPassword(Request $request)
     {
-        // authorize
-        Account::authorize('U');
-
         // Validate & auto redirect when fail
         $rules = [
             'user_id' => 'required',
-            'current_password' => 'required|min:8|max:20',
-            'new_password' => 'required|min:8|max:20',
-            'repeat_new_password' => 'required|min:8|max:20',
-
+            'current_password' => 'required|min:8',
+            'new_password' => 'required|min:8',
+            'repeat_new_password' => 'required|min:8|same:new_password',
         ];
         $this->validate($request, $rules);
-
         // cek current password
         if (!Hash::check($request->current_password, Auth::user()->user_password)) {
             // flash message
-            session()->flash('danger', 'Password saat ini salah.');
+            session()->flash('danger', 'Kata sandi saat ini salah.');
             return redirect('/admin/settings/account');
         }
-
         // bandingkan password baru
         if ($request->new_password != $request->repeat_new_password) {
             // flash message
-            session()->flash('danger', 'Password baru tidak sesuai.');
+            session()->flash('danger', 'Kata sandi baru tidak sesuai.');
             return redirect('/admin/settings/account');
         }
-
         // params
         $params = [
             'user_password' => Hash::make($request->new_password),
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
-
         // process
         if (Account::update($request->user_id, $params)) {
             // flash message
-            session()->flash('success', 'Password berhasil disimpan.');
+            session()->flash('success', 'Kata sandi berhasil disimpan.');
             return redirect('/logout');
         } else {
             // flash message
-            session()->flash('danger', 'Password gagal disimpan.');
+            session()->flash('danger', 'Kata sandi gagal disimpan.');
             return redirect('/admin/settings/account');
         }
     }

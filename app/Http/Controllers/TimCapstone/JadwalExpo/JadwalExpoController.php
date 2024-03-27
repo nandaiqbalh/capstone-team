@@ -22,8 +22,6 @@ class JadwalExpoController extends BaseController
 
     public function index()
     {
-        // authorize
-        JadwalExpoModel::authorize('R');
 
         // get data with pagination
         $rs_expo = JadwalExpoModel::getDataWithPagination();
@@ -48,8 +46,6 @@ class JadwalExpoController extends BaseController
     public function addJadwalExpoProcess(Request $request)
     {
 
-        // authorize
-        JadwalExpoModel::authorize('C');
         // params
         // default passwordnya mahasiswa123
 
@@ -87,8 +83,6 @@ class JadwalExpoController extends BaseController
      */
     public function editJadwalExpoProcess(Request $request)
     {
-        // authorize
-        JadwalExpoModel::authorize('U');
 
         // params
         $params = [
@@ -119,8 +113,6 @@ class JadwalExpoController extends BaseController
      */
     public function deleteJadwalExpoProcess($id)
     {
-        // authorize
-        JadwalExpoModel::authorize('D');
 
         // get data
         $delete = JadwalExpoModel::getDataById($id);
@@ -151,10 +143,7 @@ class JadwalExpoController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function detailJadwalExpo($id)
-    {
-        // authorize
-        JadwalExpoModel::authorize('R');
-
+{
         // get data with pagination
         $expo = JadwalExpoModel::getDataById($id);
         // dd($expo);
@@ -185,9 +174,6 @@ class JadwalExpoController extends BaseController
      */
     public function terimaKelompok($id)
     {
-        // authorize
-        JadwalExpoModel::authorize('U');;
-
         // params
         $params = [
             'status' => 'disetujui',
@@ -213,8 +199,6 @@ class JadwalExpoController extends BaseController
      */
     public function tolakKelompok($id)
     {
-        // authorize
-        JadwalExpoModel::authorize('U');;
 
         // params
         $params = [

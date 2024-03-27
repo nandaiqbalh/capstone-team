@@ -8,14 +8,32 @@ use App\Models\Api\ApiBaseModel;
 class ApiDosenModel extends ApiBaseModel
 {
     // get all data
-    public static function getData()
+    public static function getDataDosbing1()
     {
         return DB::table('app_user as a')
             ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('a.role_id', '04') // Filter berdasarkan role_id di tabel app_user
-            ->orwhere('a.role_id', '02')
-            ->orderBy('a.user_name') // Sort the result by user_name
+            ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+            ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                $query->where('a.role_id', '04')
+                    ->orWhere('a.role_id', '02');
+            })
+            ->where('a.dosbing1', '1')
+            ->orderBy('a.user_name')
             ->get();
     }
+
+    public static function getDataDosbing2()
+    {
+        return DB::table('app_user as a')
+            ->select('a.*', 'c.role_name')
+            ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
+            ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
+                $query->where('a.role_id', '04')
+                    ->orWhere('a.role_id', '02');
+            })
+            ->where('a.dosbing2', '1')
+            ->orderBy('a.user_name')
+            ->get();
+    }
+
 }

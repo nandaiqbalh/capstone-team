@@ -73,7 +73,8 @@ Route::prefix('v1')->group(function () {
 
         // mahasiswa
         Route::get('/mahasiswa/data-mahasiswa/', [ApiMahasiswaController::class, 'index']);
-        Route::get('/mahasiswa/data-dosen/', [ApiDosenController::class, 'index']);
+        Route::get('/mahasiswa/data-dosen-pembimbing1/', [ApiDosenController::class, 'dosbing1']);
+        Route::get('/mahasiswa/data-dosen-pembimbing2/', [ApiDosenController::class, 'dosbing2']);
 
         Route::get('/mahasiswa/kelompok/', [ApiKelompokController::class, 'index']);
         Route::post('/mahasiswa/kelompok/add-kelompok-process', [ApiKelompokController::class, 'addKelompokProcess']);

@@ -14,13 +14,11 @@ Siklus
     <!-- Bordered Table -->
     <div class="card">
         <h5 class="card-header">Data Siklus</h5>
-
         <div class="card-body">
-
             <br>
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <a href="{{ url('/admin/siklus/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                    <a href="{{ url('/admin/siklus/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
                 </div>
             </div>
 
@@ -32,6 +30,8 @@ Siklus
                             <th>Nama - Tahun Ajaran</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
+                            <th>Pendaftaran Mulai</th>
+                            <th>Pendaftaran Selesai</th>
                             <th>Status</th>
                             <th width="18%">Tindakan</th>
                         </tr>
@@ -42,13 +42,20 @@ Siklus
                         <tr>
                             <td class="text-center">{{ $index + $dt_siklus->firstItem() }}.</td>
                             <td>{{ $siklus->tahun_ajaran }}</td>
-                            <td>{{ $siklus->tanggal_mulai }}</td>
-                            <td>{{ $siklus->tanggal_selesai }}</td>
-                            <td>{{ $siklus->status }}</td>
+                            <td>{{ \Carbon\Carbon::parse($siklus->tanggal_mulai)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($siklus->tanggal_selesai)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($siklus->pendaftaran_mulai)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($siklus->pendaftaran_selesai)->format('d-m-Y') }}</td>
+                            <td class= "text-center">
+                                @if($siklus->status == 'aktif')
+                                    <span class="text-success">Aktif</span>
+                                @elseif($siklus->status == 'tidak aktif')
+                                    <span class="text-danger">Tidak aktif</span>
+                                @endif
+                            </td>
                             <td class="text-center">
-                                <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                <button class="btn btn-outline-secondary btn-xs m-1" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="populateModal('{{ $siklus->tahun_ajaran }}', '{{ $siklus->tanggal_mulai }}', '{{ $siklus->tanggal_selesai }}', '{{ $siklus->pendaftaran_mulai }}', '{{ $siklus->pendaftaran_selesai }}', '{{ $siklus->status }}')">Detail</button>
                                 <a href="{{ url('/admin/siklus/edit') }}/{{ $siklus->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <!-- <a href="{{ url('/admin/siklus/delete-process') }}/{{ $siklus->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $siklus->id }} ?')"> Hapus</a> -->
                                 <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $siklus->id }}')">Hapus</button>
                                     <script>
                                         function confirmDelete(siklusId) {
@@ -92,5 +99,39 @@ Siklus
         </div>
     </div>
 </div>
+
+<!-- Modal Detail Siklus-->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="detailModalLabel"><strong>Detail Siklus</strong></h5>
+            </div>
+            <div class="modal-body">
+                <p><strong>Nama - Tahun Ajaran:</strong> <span id="modal-tahun-ajaran"></span></p>
+                <p><strong>Tanggal Mulai:</strong> <span id="modal-tanggal-mulai"></span></p>
+                <p><strong>Tanggal Selesai:</strong> <span id="modal-tanggal-selesai"></span></p>
+                <p><strong>Pendaftaran Mulai:</strong> <span id="modal-pendaftaran-mulai"></span></p>
+                <p><strong>Pendaftaran Selesai:</strong> <span id="modal-pendaftaran-selesai"></span></p>
+                <p><strong>Status:</strong> <span id="modal-status" ></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script untuk populate modal -->
+<script>
+    function populateModal(tahunAjaran, tanggalMulai, tanggalSelesai, pendaftaranMulai, pendaftaranSelesai, status) {
+        document.getElementById("modal-tahun-ajaran").innerText = tahunAjaran;
+        document.getElementById("modal-tanggal-mulai").innerText = tanggalMulai.substr(0, 10);
+        document.getElementById("modal-tanggal-selesai").innerText = tanggalSelesai.substr(0, 10);
+        document.getElementById("modal-pendaftaran-mulai").innerText = pendaftaranMulai.substr(0, 10);
+        document.getElementById("modal-pendaftaran-selesai").innerText = pendaftaranSelesai.substr(0, 10);
+        document.getElementById("modal-status").innerText = status;
+    }
+</script>
 
 @endsection

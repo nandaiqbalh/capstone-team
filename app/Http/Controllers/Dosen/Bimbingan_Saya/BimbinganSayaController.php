@@ -16,10 +16,6 @@ class BimbinganSayaController extends BaseController
 
     public function index()
     {
-        // authorize
-        BimbinganSayaModel::authorize('R');
-        // dd(BimbinganSayaModel::getData());
-
         // get data with pagination
         $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
 
@@ -54,8 +50,6 @@ class BimbinganSayaController extends BaseController
      */
     public function detailBimbinganSaya($id)
     {
-        // authorize
-        BimbinganSayaModel::authorize('R');
 
         // get data with pagination
         $kelompok = BimbinganSayaModel::getDataById($id);
@@ -89,9 +83,6 @@ class BimbinganSayaController extends BaseController
      */
     public function terimaBimbinganSaya(Request $request, $id)
     {
-
-        // authorize
-        BimbinganSayaModel::authorize('U');
 
         $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
 
@@ -137,8 +128,6 @@ class BimbinganSayaController extends BaseController
     public function tolakBimbinganSaya(Request $request, $id)
     {
 
-        // authorize
-        BimbinganSayaModel::authorize('U');
 
         $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
 
@@ -186,8 +175,6 @@ class BimbinganSayaController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        BimbinganSayaModel::authorize('R');
 
         // data request
         $nama = $request->nama;

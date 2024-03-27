@@ -22,8 +22,6 @@ class SiklusController extends BaseController
 
     public function index()
     {
-        // authorize
-        SiklusModel::authorize('R');
         // dd(SiklusModel::getData());
 
         // get data with pagination
@@ -41,9 +39,6 @@ class SiklusController extends BaseController
      */
     public function addSiklus()
     {
-        // authorize
-        SiklusModel::authorize('C');
-
         // view
         return view('tim_capstone.siklus.add');
     }
@@ -56,15 +51,13 @@ class SiklusController extends BaseController
      */
     public function addSiklusProcess(Request $request)
     {
-
-        // authorize
-        SiklusModel::authorize('C');
-
         // Validate & auto redirect when fail
         $rules = [
             'tahun_ajaran' => 'required',
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
+            'pendaftaran_mulai' => 'required',
+            'pendaftaran_selesai' => 'required',
             'status' => 'required',
         ];
         $this->validate($request, $rules);
@@ -77,6 +70,8 @@ class SiklusController extends BaseController
             'tahun_ajaran' => $request->tahun_ajaran,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
+            'pendaftaran_mulai' => $request->pendaftaran_mulai,
+            'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'status' => $request->status,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
@@ -85,7 +80,6 @@ class SiklusController extends BaseController
         // process
         $insert_siklus = SiklusModel::insertSiklus($params);
         if ($insert_siklus) {
-
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -105,8 +99,6 @@ class SiklusController extends BaseController
      */
     public function detailSiklus($id)
     {
-        // authorize
-        SiklusModel::authorize('R');
 
         // get data with pagination
         $siklus = SiklusModel::getDataById($id);
@@ -133,8 +125,6 @@ class SiklusController extends BaseController
      */
     public function editSiklus($id)
     {
-        // authorize
-        SiklusModel::authorize('U');
 
         // get data
         $siklus = SiklusModel::getDataById($id);
@@ -162,14 +152,14 @@ class SiklusController extends BaseController
      */
     public function editSiklusProcess(Request $request)
     {
-        // authorize
-        SiklusModel::authorize('U');
 
         // Validate & auto redirect when fail
         $rules = [
             'tahun_ajaran' => 'required',
             'tanggal_mulai' => 'required',
             'tanggal_selesai' => 'required',
+            'pendaftaran_mulai' => 'required',
+            'pendaftaran_selesai' => 'required',
             'status' => 'required',
         ];
         $this->validate($request, $rules);
@@ -179,6 +169,8 @@ class SiklusController extends BaseController
             'tahun_ajaran' => $request->tahun_ajaran,
             'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_selesai' => $request->tanggal_selesai,
+            'pendaftaran_mulai' => $request->pendaftaran_mulai,
+            'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'status' => $request->status,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
@@ -204,8 +196,6 @@ class SiklusController extends BaseController
      */
     public function deleteSiklusProcess($id)
     {
-        // authorize
-        SiklusModel::authorize('D');
 
         // get data
         $siklus = SiklusModel::getDataById($id);
@@ -237,8 +227,6 @@ class SiklusController extends BaseController
      */
     public function search(Request $request)
     {
-        // authorize
-        SiklusModel::authorize('R');
 
         // data request
         $nama = $request->nama;

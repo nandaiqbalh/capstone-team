@@ -20,7 +20,7 @@
                         </small>
                     </div>
                     <div class="card-body">
-                        <form action="{{ url('/admin/pendaftaran/add-process') }}" method="post" autocomplete="off">
+                        <form action="{{ url('/admin/penetapan-kelompok/add-process') }}" method="post" autocomplete="off">
                             {{ csrf_field()}}
                             <div class="row">
                                 <div class="col-md-6">

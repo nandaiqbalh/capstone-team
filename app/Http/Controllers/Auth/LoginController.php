@@ -54,7 +54,7 @@ class LoginController extends Controller
 
             session()->put('login', 'true');
             // return
-            return redirect()->intended('/admin/dashboard');
+            return redirect()->intended('admin/dashboard');
         } else {
 
             // flash message
