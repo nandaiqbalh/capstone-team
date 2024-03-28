@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\TimCapstone\JadwalSidangProposal;
+namespace App\Models\TimCapstone\SidangProposal\JadwalSidangProposal;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;
@@ -12,23 +12,13 @@ class JadwalSidangProposalModel extends BaseModel
     {
         return $this->belongsTo(RuangSidang::class, 'ruangan_id');
     }
-    // get all data
-    // public static function getData()
-    // {
-    //     return DB::table('app_user as a')
-    //         ->select('a.*', 'b.')
-    //         ->join('app_role_user as b', 'a.user_id', 'b.user_id')
-    //         ->join('app_role as c', 'b.role_id', 'c.role_id')
-    //         ->where('c.role_id', '03')
-    //         ->get();
-    // }
 
-    // get data with pagination Pendataran mahasiswa yang belum punya kelompok
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_sidang_proposal as a')
-            ->select('a.*','b.id as siklus_id', 'b.tahun_ajaran','c.nomor_kelompok')
+            ->select('a.*','b.id as siklus_id', 'b.tahun_ajaran','c.nomor_kelompok', 'd.*')
             ->join('siklus as b', 'a.siklus_id', 'b.id')
+            ->join('ruang_sidangs as d', 'd.id', 'a.ruangan_id')
             ->leftjoin('kelompok as c','a.id_kelompok','c.id')
             ->where('b.status', 'aktif')
             ->paginate(20);

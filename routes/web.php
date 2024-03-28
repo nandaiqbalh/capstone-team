@@ -42,7 +42,7 @@ use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
-use App\Http\Controllers\TimCapstone\JadwalSidangProposal\JadwalSidangProposalController;
+use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
 use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
@@ -266,7 +266,10 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     // jadwalkan sidang proposal
     Route::post('admin/penjadwalan-sidang-proposal/add-jadwal-process', [PenjadwalanSidangProposalController::class, 'addJadwalProcess']);
 
-});
+    //sidang proposal
+    Route::get('/admin/jadwal-sidang-proposal', [JadwalSidangProposalController::class, 'index']);
+    Route::get('/admin/jadwal-sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
+    });
 
 // mahasiswa
 Route::middleware(['auth', 'role:03'])->group(function () {
