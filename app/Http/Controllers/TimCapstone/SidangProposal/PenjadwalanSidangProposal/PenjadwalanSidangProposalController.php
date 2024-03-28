@@ -15,9 +15,8 @@ class PenjadwalanSidangProposalController extends BaseController
     public function index()
     {
 
-        // get data with pagination
         $rs_kelompok = PenjadwalanSidangProposalModel::getDataWithPagination();
-        // dd($rs_kelompok);
+
         // data
         $data = ['rs_kelompok' => $rs_kelompok];
         // view
@@ -33,6 +32,21 @@ class PenjadwalanSidangProposalController extends BaseController
         $rs_mahasiswa = PenjadwalanSidangProposalModel::listKelompokMahasiswa($id);
         $rs_dosbing = PenjadwalanSidangProposalModel::getAkunDosbingKelompok($id);
         $rs_penguji_proposal = PenjadwalanSidangProposalModel::getAkunPengujiProposalKelompok($id);
+
+        // get jadwal sidang
+        $jadwal_sidang = PenjadwalanSidangProposalModel::getJadwalSidangProposal($id);
+        if($jadwal_sidang != null){
+            $waktuSidang = strtotime($jadwal_sidang->waktu);
+
+            $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+            $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+            $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
+            $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+
+        }
 
         // penguji avaliable
         $rs_penguji = PenjadwalanSidangProposalModel::getDosenPengujiProposal($id);
@@ -83,12 +97,28 @@ class PenjadwalanSidangProposalController extends BaseController
             'rs_penguji_proposal' => $rs_penguji_proposal,
             'rs_penguji' => $rs_penguji,
             'rs_ruang_sidang' => $rs_ruang_sidang,
+            'jadwal_sidang' => $jadwal_sidang,
 
         ];
         // dd($data);
 
         // view
         return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.detail', $data);
+    }
+
+    private function convertDayToIndonesian($day)
+    {
+        $dayMappings = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+
+        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
     }
 
 
@@ -143,9 +173,9 @@ class PenjadwalanSidangProposalController extends BaseController
 
             $kelompok_updated = PenjadwalanSidangProposalModel::getKelompokById($id_kelompok);
 
-            if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
+            if ($kelompok_updated->id_dosen_penguji_1 != null && $kelompok_updated->id_dosen_penguji_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Menunggu Persetujuan Jadwal!"
+                    'status_kelompok' => "Penguji Proposal Ditetapkan!"
                 ];
 
                 PenjadwalanSidangProposalModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -201,45 +231,90 @@ class PenjadwalanSidangProposalController extends BaseController
     }
 
     public function addJadwalProcess(Request $request)
-{
-    $params = [
-        'siklus_id' => $request->siklus_id,
-        'id_kelompok' => $request->id_kelompok,
-        'waktu' => $request->waktu,
-        'ruangan_id' => $request->ruangan_id,
-        'created_by'   => Auth::user()->user_id,
-        'created_date'  => now()
-    ];
-
-    // Check if the entry already exists for the given id_kelompok
-    $existingJadwal = PenjadwalanSidangProposalModel::getJadwalSidangProposal($request->id_kelompok);
-
-    // If the entry exists, update it; otherwise, insert a new record
-    if ($existingJadwal != null ) {
-        $update = PenjadwalanSidangProposalModel::updateJadwalSidangProposal($request->id_kelompok, $params);
-        if ($update) {
-            session()->flash('success', 'Data berhasil diperbarui.');
-            return redirect('/admin/penjadwalan-sidang-proposal');
-        } else {
-            session()->flash('danger', 'Gagal memperbarui data.');
+    {
+        // Check for overlapping schedule
+        $overlap = PenjadwalanSidangProposalModel::checkOverlap($request->waktu, $request->waktu_selesai, $request->ruangan_id);
+        if ($overlap) {
+            session()->flash('danger', 'Ruangan tersebut sudah terjadwal pada waktu yang sama.');
             return back()->withInput();
         }
-    } else {
-        $insert = PenjadwalanSidangProposalModel::insertJadwalSidangProposal($params);
-        if ($insert) {
-            $paramsStatusKelompok = [
-                'status_kelompok' => 'Menunggu Persetujuan Jadwal!'
-            ];
 
-            PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
-
-            session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/penjadwalan-sidang-proposal');
-        } else {
-            session()->flash('danger', 'Data gagal disimpan.');
+        // Check if the start time is not earlier than the end time
+        if ($request->waktu >= $request->waktu_selesai) {
+            session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
             return back()->withInput();
+        }
+
+        $overlapPembimbing2 = PenjadwalanSidangProposalModel::checkOverlapPembimbing2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_1);
+        if ($overlapPembimbing2) {
+            session()->flash('danger', 'Dosen pembimbing 1 sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+        // Check for overlapping schedule with penguji 1
+        $overlapPenguji1 = PenjadwalanSidangProposalModel::checkOverlapPenguji1($request->waktu, $request->waktu_selesai, $request->id_dosen_pembimbing_2);
+        if ($overlapPenguji1) {
+            session()->flash('danger', 'Dosen penguji 1 sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+
+        // Check for overlapping schedule with penguji 2
+        $overlapPenguji2 = PenjadwalanSidangProposalModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_2);
+        if ($overlapPenguji2) {
+            session()->flash('danger', 'Dosen penguji 2 sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+
+        // Insert or update jadwal sidang proposal
+        $params = [
+            'siklus_id' => $request->siklus_id,
+            'id_kelompok' => $request->id_kelompok,
+            'waktu' => $request->waktu,
+            'waktu_selesai' => $request->waktu_selesai,
+            'id_dosen_pembimbing_2' => $request->id_dosen_pembimbing_2,
+            'id_dosen_penguji_1' => $request->id_dosen_penguji_1,
+            'id_dosen_penguji_2' => $request->id_dosen_penguji_2,
+            'ruangan_id' => $request->ruangan_id,
+            'created_by'   => Auth::user()->user_id,
+            'created_date'  => now()
+        ];
+
+        // Check if the entry already exists for the given id_kelompok
+        $existingJadwal = PenjadwalanSidangProposalModel::getJadwalSidangProposal($request->id_kelompok);
+
+        // If the entry exists, update it; otherwise, insert a new record
+        if ($existingJadwal != null) {
+            $update = PenjadwalanSidangProposalModel::updateJadwalSidangProposal($request->id_kelompok, $params);
+            if ($update) {
+                $paramsStatusKelompok = [
+                    'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pendamping!"
+                ];
+
+                PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
+
+                session()->flash('success', 'Data berhasil diperbarui.');
+                return redirect('/admin/penjadwalan-sidang-proposal');
+            } else {
+                session()->flash('danger', 'Gagal memperbarui data.');
+                return back()->withInput();
+            }
+        } else {
+            $insert = PenjadwalanSidangProposalModel::insertJadwalSidangProposal($params);
+            if ($insert) {
+                $paramsStatusKelompok = [
+                    'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pendamping!"
+                ];
+
+                PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
+
+                session()->flash('success', 'Data berhasil disimpan.');
+                return redirect('/admin/penjadwalan-sidang-proposal');
+            } else {
+                session()->flash('danger', 'Data gagal disimpan.');
+                return back()->withInput();
+            }
         }
     }
-}
 
 }

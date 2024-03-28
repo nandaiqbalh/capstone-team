@@ -58,6 +58,7 @@ class SiklusController extends BaseController
             'tanggal_selesai' => 'required',
             'pendaftaran_mulai' => 'required',
             'pendaftaran_selesai' => 'required',
+            'batas_submit_c100' => 'required',
             'status' => 'required',
         ];
         $this->validate($request, $rules);
@@ -72,6 +73,7 @@ class SiklusController extends BaseController
             'tanggal_selesai' => $request->tanggal_selesai,
             'pendaftaran_mulai' => $request->pendaftaran_mulai,
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
+            'batas_submit_c100' => $request->batas_submit_c100,
             'status' => $request->status,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
@@ -160,6 +162,7 @@ class SiklusController extends BaseController
             'tanggal_selesai' => 'required',
             'pendaftaran_mulai' => 'required',
             'pendaftaran_selesai' => 'required',
+            'batas_submit_c100' => 'required',
             'status' => 'required',
         ];
         $this->validate($request, $rules);
@@ -171,6 +174,7 @@ class SiklusController extends BaseController
             'tanggal_selesai' => $request->tanggal_selesai,
             'pendaftaran_mulai' => $request->pendaftaran_mulai,
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
+            'batas_submit_c100' => $request->batas_submit_c100,
             'status' => $request->status,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')

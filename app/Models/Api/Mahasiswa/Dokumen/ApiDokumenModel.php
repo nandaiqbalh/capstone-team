@@ -30,6 +30,15 @@ class ApiDokumenModel extends ApiBaseModel
             ->where('a.id', $id_kelompok)
             ->first();
     }
+
+    // getSiklusKelompok
+    public static function getSiklusKelompok($id_siklus)
+    {
+        return DB::table('siklus as a')
+            ->where('a.id', $id_siklus)
+            ->where('a.batas_submit_c100', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
+            ->first();
+    }
     // get all data
     public static function fileMHS($user_id)
     {

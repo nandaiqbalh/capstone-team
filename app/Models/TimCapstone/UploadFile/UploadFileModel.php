@@ -26,6 +26,14 @@ class UploadFileModel extends BaseModel
             ->first();
     }
 
+    public static function getSiklusKelompok($id_siklus)
+    {
+        return DB::table('siklus as a')
+            ->where('a.id', $id_siklus)
+            ->where('a.batas_submit_c100', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
+            ->first();
+    }
+
      // pengecekan kelompok
     public static function pengecekan_kelompok_mahasiswa()
     {

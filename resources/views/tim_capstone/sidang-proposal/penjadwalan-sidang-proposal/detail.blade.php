@@ -34,62 +34,73 @@
                             <tr>
                                 <td>Nomor Kelompok</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="nomor_kelompok"
-                                                value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}" readonly
-                                                placeholder="Contoh: S1T23K12" required>
-                                        </div>
-                                    </div>
-                                </td>
+
+                                @if ($kelompok->nomor_kelompok == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nomor_kelompok }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Status Kelompok</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="status_kelompok"
-                                                value="{{ old('status_kelompok', $kelompok->status_kelompok) }}" readonly
-                                                required>
-                                        </div>
-                                    </div>
-                                </td>
+
+                                @if ($kelompok->status_kelompok == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->status_kelompok }}</td>
+                                @endif
                             </tr>
                             <tr>
-                                <td>Judul Project</td>
+                                <td>Hari, tanggal</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="judul_ta"
-                                                value="{{ old('judul_ta', $kelompok->judul_capstone) }}"
-                                                placeholder="Judul Project" readonly required>
-                                        </div>
-                                    </div>
-                                </td>
+
+                                @if ($jadwal_sidang == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $jadwal_sidang->hari_sidang }}, {{ $jadwal_sidang->tanggal_sidang }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Waktu</td>
+                                <td>:</td>
+
+                                @if ($jadwal_sidang == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $jadwal_sidang->waktu_sidang }} WIB - {{ $jadwal_sidang->waktu_selesai }} WIB
+                                    </td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Tempat</td>
+                                <td>:</td>
+
+                                @if ($jadwal_sidang == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $jadwal_sidang->nama_ruang }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Judul Capstone</td>
+                                <td>:</td>
+
+                                @if ($kelompok->judul_capstone == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->judul_capstone }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Topik</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <select class="form-select" name="topik" disabled>
-                                                <option value="" selected>-- Pilih --</option>
-                                                @foreach ($rs_topik as $topik)
-                                                    <option value="{{ $topik->id }}"
-                                                        @if ($topik->nama == $kelompok->nama_topik) selected @endif>
-                                                        {{ $topik->nama }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <!-- Hidden input field to send selected value to the server -->
-                                            <input type="hidden" name="selected_topik" value="{{ $kelompok->nama_topik }}">
-                                        </div>
-                                    </div>
-                                </td>
+
+                                @if ($kelompok->nama_topik == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nama_topik }}</td>
+                                @endif
                             </tr>
                         </tbody>
                     </table>
@@ -97,6 +108,73 @@
                 </div>
                 <hr>
 
+                <hr>
+                <h6 class="mb-0">Penjadwalan Sidang Proposal</h6>
+                <hr>
+                <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
+                    autocomplete="off">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
+                    <input type="hidden" name="siklus_id" value="{{ $kelompok->id_siklus }}">
+                    <input type="hidden" name="id_dosen_pembimbing_2" value="{{ $kelompok->id_dosen_pembimbing_2 }}">
+                    <input type="hidden" name="id_dosen_penguji_1" value="{{ $kelompok->id_dosen_penguji_1 }}">
+                    <input type="hidden" name="id_dosen_penguji_2" value="{{ $kelompok->id_dosen_penguji_2 }}">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label>Waktu Mulai<span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" name="waktu"
+                                    value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label>Waktu Selesai<span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" name="waktu_selesai"
+                                    value="{{ old('waktu_selesai') ? \Carbon\Carbon::parse(old('waktu_selesai'))->format('Y-m-d\TH:i:s') : '' }}"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label>Pilih Ruang Sidang <span class="text-danger">*</span></label>
+                                <select class="form-select select-2" name="ruangan_id" required>
+                                    <option value="" disabled selected>-- Pilih --</option>
+                                    @foreach ($rs_ruang_sidang as $ruang_sidang)
+                                        <option value="{{ $ruang_sidang->id }}">{{ $ruang_sidang->nama_ruang }} |
+                                            {{ $ruang_sidang->kode_ruang }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                </form>
+
+                <h6>Validasi Dokumen C100</h6>
+
+                <div class="card">
+                    <h5 class="card-header">Dokumen C100</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <i class='bx bxs-file-doc bx-lg'></i>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="{{ $kelompok->file_name_c100 }}"
+                                    readonly>
+                                <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
+                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
                 <h6>List Mahasiswa</h6>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -215,68 +293,6 @@
                     </table>
                 </div>
 
-            </div>
-
-            <div class="card-body">
-                <hr>
-                <h6 class="mb-0">Penjadwalan Sidang Proposal</h6>
-                <hr>
-                <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
-                    autocomplete="off">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
-                    <input type="hidden" name="siklus_id" value="{{ $kelompok->id_siklus }}">
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label>Waktu<span class="text-danger">*</span></label>
-                                <input type="datetime-local" class="form-control" name="waktu"
-                                    value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
-                                    required>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label>Pilih Ruang Sidang <span class="text-danger">*</span></label>
-                                <select class="form-select select-2" name="ruangan_id" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($rs_ruang_sidang as $ruang_sidang)
-                                        <option value="{{ $ruang_sidang->id }}">{{ $ruang_sidang->nama_ruang }} |
-                                            {{ $ruang_sidang->kode_ruang }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
-                </form>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card-body">
-                        <h6>Validasi Dokumen C100</h6>
-
-                        <div class="card">
-                            <h5 class="card-header">Dokumen C100</h5>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <i class='bx bxs-file-doc bx-lg'></i>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control"
-                                            value="{{ $kelompok->file_name_c100 }}" readonly>
-                                        <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>

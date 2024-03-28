@@ -4,6 +4,7 @@ namespace App\Models\TimCapstone\SidangProposal\PenjadwalanSidangProposal;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class PenjadwalanSidangProposalModel extends BaseModel
 {
@@ -24,7 +25,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', '!=', NULL)
             ->where('a.id_dosen_pembimbing_1', '!=', NULL)
-            ->where('a.id_dosen_penguji_1', '!=', NULL)
+            ->where('a.id_dosen_pembimbing_2', '!=', NULL)
             ->where('a.file_name_c100', '!=', NULL)
             ->orderByDesc('a.id')
             ->paginate(20);
@@ -274,10 +275,90 @@ class PenjadwalanSidangProposalModel extends BaseModel
 
     public static function getJadwalSidangProposal($id_kelompok)
     {
-        return DB::table('jadwal_sidang_proposal')
+        return DB::table('jadwal_sidang_proposal as a')
+        ->select('a.*', 'b.*')
+        ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
         ->where('id_kelompok', $id_kelompok)
         ->first();
     }
+
+    public static function checkOverlap($waktuMulai, $waktuSelesai, $ruangan_id)
+    {
+        // Periksa apakah terdapat jadwal yang bertabrakan
+        $isOverlap = DB::table('jadwal_sidang_proposal')
+            ->where('ruangan_id', $ruangan_id)
+            ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                        ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai]);
+                })
+                ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->where('waktu', '<', $waktuMulai)
+                        ->where('waktu_selesai', '>', $waktuSelesai);
+                });
+            })
+            ->exists();
+
+        return $isOverlap;
+    }
+
+    public static function checkOverlapPembimbing2($waktuMulai, $waktuSelesai, $dosenPembimbing2Id)
+    {
+        return DB::table('jadwal_sidang_proposal')
+            ->where(function ($query) use ($dosenPembimbing2Id) {
+                $query->where('id_dosen_pembimbing_2', $dosenPembimbing2Id)
+                    ->orWhere('id_dosen_penguji_1', $dosenPembimbing2Id)
+                    ->orWhere('id_dosen_penguji_2', $dosenPembimbing2Id);
+            })
+            ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                    ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                    ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                        $query->where('waktu', '<', $waktuMulai)
+                            ->where('waktu_selesai', '>', $waktuSelesai);
+                    });
+            })
+            ->exists();
+    }
+
+    public static function checkOverlapPenguji1($waktuMulai, $waktuSelesai, $dosenPenguji1Id)
+    {
+        return DB::table('jadwal_sidang_proposal')
+        ->where(function ($query) use ($dosenPenguji1Id) {
+            $query->where('id_dosen_pembimbing_2', $dosenPenguji1Id)
+                ->orWhere('id_dosen_penguji_1', $dosenPenguji1Id)
+                ->orWhere('id_dosen_penguji_2', $dosenPenguji1Id);
+        })
+        ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+            $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->where('waktu', '<', $waktuMulai)
+                        ->where('waktu_selesai', '>', $waktuSelesai);
+                });
+        })
+        ->exists();
+    }
+
+    public static function checkOverlapPenguji2($waktuMulai, $waktuSelesai, $dosenPenguji2Id)
+    {
+        return DB::table('jadwal_sidang_proposal')
+        ->where(function ($query) use ($dosenPenguji2Id) {
+            $query->where('id_dosen_pembimbing_2', $dosenPenguji2Id)
+                ->orWhere('id_dosen_penguji_1', $dosenPenguji2Id)
+                ->orWhere('id_dosen_penguji_2', $dosenPenguji2Id);
+        })
+        ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+            $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->where('waktu', '<', $waktuMulai)
+                        ->where('waktu_selesai', '>', $waktuSelesai);
+                });
+        })
+        ->exists();
+    }
+
 
     public static function insertJadwalSidangProposal($params)
     {

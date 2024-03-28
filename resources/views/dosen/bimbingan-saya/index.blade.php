@@ -75,7 +75,7 @@
                                                     class="btn btn-outline-primary btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
-                                            @else
+                                            @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing!')
                                                 <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-primary btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}')">
@@ -84,6 +84,7 @@
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}')">
                                                     Tolak</a>
+                                            @else
                                             @endif
                                             <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1"> Detail</a>

@@ -185,50 +185,58 @@ class UploadFileController extends BaseController
             $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            // Check if the file exists
-            if ($existingFile -> file_name_c100 !=null) {
-                // Construct the file path
-                $filePath = public_path($existingFile->file_path_c100 . '/' . $existingFile->file_name_c100);
+            $siklus = UploadFileModel::getSiklusKelompok($existingFile->id);
 
-                // Check if the file exists before attempting to delete
-                if (file_exists($filePath)) {
-                    // Attempt to delete the file
-                    if (!unlink($filePath)) {
-                        // Return failure response if failed to delete the existing file
-                        session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
+            if($siklus != null){
+                // Check if the file exists
+                if ($existingFile -> file_name_c100 !=null) {
+                    // Construct the file path
+                    $filePath = public_path($existingFile->file_path_c100 . '/' . $existingFile->file_name_c100);
+
+                    // Check if the file exists before attempting to delete
+                    if (file_exists($filePath)) {
+                        // Attempt to delete the file
+                        if (!unlink($filePath)) {
+                            // Return failure response if failed to delete the existing file
+                            session()->flash('danger', 'Gagal menghapus dokumen lama!');
+                                return redirect()->back()->withInput();
+                        }
                     }
                 }
-            }
 
-            // cek folder
-            if (!is_dir(public_path($upload_path))) {
-                mkdir(public_path($upload_path), 0755, true);
-            }
+                // cek folder
+                if (!is_dir(public_path($upload_path))) {
+                    mkdir(public_path($upload_path), 0755, true);
+                }
 
-            // upload process
-            if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Laporan gagal di upload!');
-                return redirect()->back()->withInput();
-            }
+                // upload process
+                if (!$file->move(public_path($upload_path), $new_file_name)) {
+                    // flash message
+                    session()->flash('danger', 'Laporan gagal di upload!');
+                    return redirect()->back()->withInput();
+                }
 
-            $params = [
-                'file_name_c100' => $new_file_name,
-                'file_path_c100' => $upload_path
-            ];
-            $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
-
-            if ($uploadFile) {
-                $statusParam = [
-                    'status_kelompok' => 'C100 Telah Disetujui!',
-                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C100!',
-                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                $params = [
+                    'file_name_c100' => $new_file_name,
+                    'file_path_c100' => $upload_path
                 ];
+                $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
 
-                UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+                if ($uploadFile) {
+                    $statusParam = [
+                        'status_kelompok' => 'C100 Telah Disetujui!',
+                        'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C100!',
+                        'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                    ];
+
+                    UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+                } else {
+                    return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
+                }
             } else {
-                return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
+
+                return redirect()->back()->with('danger', 'Gagal. Sudah melewati batas waktu unggah dokumen C100!');
+
             }
 
         }
