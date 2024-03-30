@@ -140,4 +140,8 @@ class JadwalSidangProposalModel extends BaseModel
     {
         return DB::table('jadwal_sidang_proposal')->where('id', $id)->delete();
     }
+    public static function getKelompokById($id)
+    {
+        return DB::table('kelompok')->where('id', $id)->first();
+    }
 }

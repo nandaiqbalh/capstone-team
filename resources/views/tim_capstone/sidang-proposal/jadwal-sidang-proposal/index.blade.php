@@ -27,7 +27,9 @@
                                 <th>Waktu</th>
                                 <th>Ruangan</th>
                                 <th>Status Kelompok</th>
+                                <th>Hasil</th>
                                 <th>Tindakan</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -42,7 +44,26 @@
                                             WIB
                                         <td>{{ $sidang_proposal->nama_ruang }}</td>
                                         <td>{{ $sidang_proposal->status_kelompok }}</td>
+                                        <td class="text-center">
 
+                                            @if ($sidang_proposal->status_kelompok == 'Lulus Sidang Proposal!')
+                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 "
+                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
+                                                    Gagal</a>
+                                            @elseif($sidang_proposal->status_kelompok == 'Gagal Sidang Proposal!')
+                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                    class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                            @else
+                                                    <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 "
+                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
+                                                    Gagal</a>
+                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                    class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                            @endif
+
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                 class="btn btn-outline-warning btn-xs m-1">Ubah</a>
@@ -50,7 +71,9 @@
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $sidang_proposal->nomor_kelompok }} ?')">
                                                 Hapus</a>
+
                                         </td>
+
                                     </tr>
                                 @endforeach
                             @else

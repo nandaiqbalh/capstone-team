@@ -43,6 +43,55 @@ class JadwalSidangProposalController extends BaseController
         return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.index', $data);
     }
 
+    public function toLulusSidangProposal($id)
+    {
+        // get data
+        $dataKelompok = JadwalSidangProposalModel::getKelompokById($id);
+
+        // if exist
+        if ($dataKelompok != null) {
+
+            $paramKelompok = [
+                'status_kelompok' => 'Lulus Sidang Proposal!',
+                'is_sidang_proposal' => 1,
+            ];
+
+            JadwalSidangProposalModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+
+            session()->flash('success', 'Data berhasil diperbaharui!');
+            return redirect('/admin/jadwal-sidang-proposal');
+
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/admin/jadwal-sidang-proposal');
+        }
+    }
+
+    public function toGagalSidangProposal($id)
+    {
+        // get data
+        $dataKelompok = JadwalSidangProposalModel::getKelompokById($id);
+
+        // if exist
+        if ($dataKelompok != null) {
+
+            $paramKelompok = [
+                'status_kelompok' => 'Gagal Sidang Proposal!',
+            ];
+
+            JadwalSidangProposalModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+
+            session()->flash('success', 'Data berhasil diperbaharui!');
+            return redirect('/admin/jadwal-sidang-proposal');
+
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/admin/jadwal-sidang-proposal');
+        }
+    }
+
     public function deleteJadwalSidangProposalProcess($id)
     {
         // get data

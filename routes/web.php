@@ -253,7 +253,10 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     //sidang proposal
     Route::get('/admin/jadwal-sidang-proposal', [JadwalSidangProposalController::class, 'index']);
     Route::get('/admin/jadwal-sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
-    });
+    Route::get('/admin/jadwal-sidang-proposal/to-lulus/{id}', [JadwalSidangProposalController::class, 'toLulusSidangProposal']);
+    Route::get('/admin/jadwal-sidang-proposal/to-gagal/{id}', [JadwalSidangProposalController::class, 'toGagalSidangProposal']);
+
+});
 
 // mahasiswa
 Route::middleware(['auth', 'role:03'])->group(function () {

@@ -71,8 +71,8 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama</th>
-                                <th>Kelompok Aktif</th>
-                                <th>Kelompok Tidak Aktif</th>
+                                <th>Belum Sidang</th>
+                                <th>Sudah Sidang</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
