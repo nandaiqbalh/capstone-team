@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\TimCapstone\JadwalExpo;
+namespace App\Models\TimCapstone\ExpoProject;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class JadwalExpoModel extends BaseModel
+class ExpoProjectModel extends BaseModel
 {
     // get data with pagination Pendataran mahasiswa yang belum punya kelompok
     public static function getDataWithPagination()
@@ -13,7 +13,6 @@ class JadwalExpoModel extends BaseModel
         return DB::table('jadwal_expo as a')
             ->select('a.*', 'b.id as id_siklus', 'b.tahun_ajaran')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
-            ->where('b.status', 'aktif')
             ->paginate(20);
     }
 
@@ -64,7 +63,7 @@ class JadwalExpoModel extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.tahun_ajaran','c.id as id_pendaftaran')
+            ->select('a.*', 'b.tahun_ajaran','c.*')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->join('pendaftaran_expo as c','a.id','c.id_expo')
             ->where('a.id', $id)->first();
@@ -74,28 +73,50 @@ class JadwalExpoModel extends BaseModel
     public static function getExpoDaftar($id)
     {
         return DB::table('pendaftaran_expo as a')
-            ->select('a.*','b.nomor_kelompok')
+            ->select('a.id as id_pendaftaran', 'a.status as status_pendaftaran', 'a.id_expo','b.id as id_kelompok', 'b.*')
             ->join('kelompok as b','a.id_kelompok','b.id')
             ->where('a.id_expo', $id)
             ->get();
     }
 
-    public static function insertJadwalExpo($params)
+    public static function insertExpoProject($params)
     {
         return DB::table('jadwal_expo')->insert($params);
     }
-    public static function updateJadwalExpo($id, $params)
+    public static function updateExpoProject($id, $params)
     {
         return DB::table('jadwal_expo')->where('id', $id)->update($params);
     }
 
-    public static function updateJadwalExpoKelompok($id, $params)
+    public static function updateExpoProjectKelompok($id, $params)
     {
         return DB::table('pendaftaran_expo')->where('id', $id)->update($params);
     }
+    public static function getDataPendaftaranExpo($id)
+    {
+        return DB::table('pendaftaran_expo as a')
+            ->select('a.*')
+            ->where('a.id', $id)->first();
+    }
 
-    public static function deleteJadwalExpo($id)
+    public static function deleteExpoProject($id)
     {
         return DB::table('jadwal_expo')->where('id', $id)->delete();
+    }
+
+    public static function deletePendaftaranExpo($id_expo)
+    {
+        return DB::table('pendaftaran_expo')->where('id_expo', $id_expo)->delete();
+    }
+
+    public static function updateKelompok($id_kelompok, $params)
+    {
+        return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
+    }
+
+    public static function getDataKelompok($id)
+    {
+        return DB::table('kelompok as a')
+            ->where('a.id', $id)->first();
     }
 }

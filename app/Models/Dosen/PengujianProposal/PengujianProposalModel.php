@@ -26,7 +26,7 @@ class PengujianProposalModel extends BaseModel
             ->where('a.id_dosen_pembimbing_2', Auth::user()->user_id)
             ->orWhere('a.id_dosen_penguji_1', Auth::user()->user_id)
             ->orWhere('a.id_dosen_penguji_2', Auth::user()->user_id)
-            ->orderByDesc('a.id')
+            ->orderBy('d.waktu')
             ->paginate(20);
     }
 

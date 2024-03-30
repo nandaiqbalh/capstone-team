@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Expo</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/jadwal-pendaftaran/expo') }}" class="btn btn-secondary btn-xs float-right"><i
+                    <a href="{{ url('/admin/expo-project') }}" class="btn btn-secondary btn-xs float-right"><i
                             class="bx bx-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -37,15 +37,26 @@
                                 <td>{{ $expo->tahun_ajaran }}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal Mulai</td>
+                                <td>Tempat </td>
                                 <td>:</td>
-                                <td>{{ $expo->tanggal_mulai }}</td>
+                                <td>{{ $expo->tempat }}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal Selesai</td>
+                                <td>Hari, tanggal</td>
+                                <td>:</td>
+                                <td>{{ $expo->hari_expo }}, {{ $expo->tanggal_expo }}</td>
+                            </tr>
+                            <tr>
+                                <td>Waktu</td>
+                                <td>:</td>
+                                <td>{{ $expo->waktu_expo }} WIB</td>
+                            </tr>
+                            <tr>
+                                <td>Batas Pendaftaran</td>
                                 <td>:</td>
                                 <td>{{ $expo->tanggal_selesai }}</td>
                             </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -57,6 +68,7 @@
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
                                 <th>Status</th>
+                                <th>Berkas</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -66,18 +78,29 @@
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $pendaftaran->nomor_kelompok }}</td>
-                                        <td>{{ $pendaftaran->status }}</td>
+                                        <td>{{ $pendaftaran->status_kelompok }}</td>
+                                        <td><a href="{{ $pendaftaran->link_berkas_expo }}"
+                                                style="text-decoration: underline; color: blue;" target="_blank">Link
+                                                berkas</a></td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/kelompok-valid/detail') }}/{{ $pendaftaran->id_kelompok }}"
-                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            @if ($pendaftaran->status == 'menunggu persetujuan')
-                                                <a href="{{ url('/admin/jadwal-pendaftaran/expo/terima') }}/{{ $pendaftaran->id }}"
+
+                                            @if ($pendaftaran->status_kelompok == 'Menunggu Validasi Expo!')
+                                                <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
-                                                <a href="{{ url('/admin/jadwal-pendaftaran/expo/tolak') }}/{{ $pendaftaran->id }}"
+                                                <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
+                                            @elseif($pendaftaran->status_kelompok == 'Validasi Expo Berhasil!')
+                                                <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 "
+                                                    onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                    Tolak</a>
+                                            @elseif($pendaftaran->status_kelompok == 'Validasi Expo Gagal!')
+                                                <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                    Terima</a>
                                             @endif
                                         </td>
                                     </tr>

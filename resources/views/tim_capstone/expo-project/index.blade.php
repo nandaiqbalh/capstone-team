@@ -1,19 +1,19 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Jadwal Pendaftaran Kelompok
+    Expo Project
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Jadwal Pendaftaran Kelompok</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Expo Project</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Jadwal Pendaftaran Kelompok</h5>
+            <h5 class="card-header">Data Expo Project</h5>
 
             <div class="card-body">
 
@@ -33,20 +33,26 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Siklus</th>
-                                <th>Tanggal Mulai</th>
-                                <th>Tanggal Selesai</th>
+                                <th>Tempat</th>
+                                <th>Hari, Tanggal</th>
+                                <th>Waktu</th>
+                                <th>Batas Pendaftaran</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($rs_pendaftaran->count() > 0)
-                                @foreach ($rs_pendaftaran as $index => $pendaftaran)
+                            @if ($rs_expo->count() > 0)
+                                @foreach ($rs_expo as $index => $pendaftaran)
                                     <tr>
-                                        <td class="text-center">{{ $index + $rs_pendaftaran->firstItem() }}.</td>
+                                        <td class="text-center">{{ $index + $rs_expo->firstItem() }}.</td>
                                         <td>{{ $pendaftaran->tahun_ajaran }}</td>
-                                        <td>{{ $pendaftaran->tanggal_mulai }}</td>
+                                        <td>{{ $pendaftaran->tempat }}</td>
+                                        <td>{{ $pendaftaran->hari_expo }}, {{ $pendaftaran->tanggal_expo }}</td>
+                                        <td>{{ $pendaftaran->waktu_expo }} WIB</td>
                                         <td>{{ $pendaftaran->tanggal_selesai }}</td>
                                         <td class="text-center">
+                                            <a href="{{ url('/admin/expo-project/detail') }}/{{ $pendaftaran->id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <button type="button" class="btn btn-outline-warning btn-xs m-1"
                                                 data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}">
                                                 Ubah</button>
@@ -66,7 +72,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/jadwal-pendaftaran/kelompok/delete-process') }}/" +
+                                                            window.location.href = "{{ url('/admin/expo-project/delete-process') }}/" +
                                                                 pendaftaranId;
                                                         }
                                                     });
@@ -80,14 +86,12 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Ubah Jadwal Pendaftaran
-                                                        Kelompok</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">Ubah Expo Project</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form
-                                                        action="{{ url('/admin/jadwal-pendaftaran/kelompok/edit-process') }}"
+                                                    <form action="{{ url('/admin/expo-project/edit-process') }}"
                                                         method="post" autocomplete="off">
                                                         {{ csrf_field() }}
                                                         <input type="hidden" name="id"
@@ -97,12 +101,12 @@
                                                                 <div class="mb-3">
                                                                     <label>Pilih Siklus <span
                                                                             class="text-danger">*</span></label>
-                                                                    <select class="form-select" name="siklus_id" required>
+                                                                    <select class="form-select" name="id_siklus" required>
                                                                         <option value="" disabled selected>-- Pilih --
                                                                         </option>
                                                                         @foreach ($rs_siklus as $siklus)
                                                                             <option value="{{ $siklus->id }}"
-                                                                                @if ($siklus->id == $pendaftaran->siklus_id) selected @endif>
+                                                                                @if ($siklus->id == $pendaftaran->id_siklus) selected @endif>
                                                                                 {{ $siklus->tahun_ajaran }} |
                                                                                 {{ $siklus->tanggal_mulai }} sampai
                                                                                 {{ $siklus->tanggal_selesai }}</option>
@@ -114,7 +118,29 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label>Tanggal Mulai<span
+                                                                    <label>Tempat Expo<span
+                                                                            class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="tempat" value="{{ old('tempat') }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="mb-3">
+                                                                    <label>Waktu Expo<span
+                                                                            class="text-danger">*</span></label>
+                                                                    <input type="datetime-local" class="form-control"
+                                                                        name="waktu"
+                                                                        value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="mb-3">
+                                                                    <label>Mulai Pendaftaran<span
                                                                             class="text-danger">*</span></label>
                                                                     <input type="date" class="form-control"
                                                                         name="tanggal_mulai"
@@ -124,7 +150,7 @@
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label>Tanggal Selesai<span
+                                                                    <label>Batas Pendaftaran<span
                                                                             class="text-danger">*</span></label>
                                                                     <input type="date" class="form-control"
                                                                         name="tanggal_selesai"
@@ -148,7 +174,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="6">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -157,10 +183,10 @@
                 <!-- pagination -->
                 <div class="row mt-3 justify-content-between">
                     <div class="col-auto mr-auto">
-                        <p>Menampilkan {{ $rs_pendaftaran->count() }} dari total {{ $rs_pendaftaran->total() }} data.</p>
+                        <p>Menampilkan {{ $rs_expo->count() }} dari total {{ $rs_expo->total() }} data.</p>
                     </div>
                     <div class="col-auto ">
-                        {{ $rs_pendaftaran->links() }}
+                        {{ $rs_expo->links() }}
                     </div>
                 </div>
             </div>
@@ -172,18 +198,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jadwal Pendaftaran Kelompok</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Expo Project</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/jadwal-pendaftaran/kelompok/add-process') }}" method="post"
-                        autocomplete="off">
+                    <form action="{{ url('/admin/expo-project/add-process') }}" method="post" autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Pilih Siklus <span class="text-danger">*</span></label>
-                                    <select class="form-select" name="siklus_id" required>
+                                    <select class="form-select" name="id_siklus" required>
                                         <option value="" disabled selected>-- Pilih --</option>
                                         @foreach ($rs_siklus as $siklus)
                                             <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
@@ -197,14 +222,32 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Tanggal Mulai<span class="text-danger">*</span></label>
+                                    <label>Tempat Expo<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="tempat"
+                                        value="{{ old('tempat') }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label>Waktu Expo<span class="text-danger">*</span></label>
+                                    <input type="datetime-local" class="form-control" name="waktu"
+                                        value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
+                                        required>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label>Mulai Pendaftaran<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="tanggal_mulai"
                                         value="{{ old('tanggal_mulai') }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Tanggal Selesai<span class="text-danger">*</span></label>
+                                    <label>Batas Pendaftaran<span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="tanggal_selesai"
                                         value="{{ old('tanggal_selesai') }}" required>
                                 </div>

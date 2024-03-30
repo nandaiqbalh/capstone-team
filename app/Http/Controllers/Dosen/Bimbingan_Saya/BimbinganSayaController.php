@@ -88,16 +88,25 @@ class BimbinganSayaController extends BaseController
 
         // process
         if (BimbinganSayaModel::update($id, $params)) {
-            $rs_bimbingan_saya_updated = BimbinganSayaModel::getDataWithPagination();
-            foreach ($rs_bimbingan_saya_updated as $bimbingan_saya) {
-                if ($bimbingan_saya->id == $id) {
-                    if ($bimbingan_saya->status_dosen_pembimbing_1 == "Persetujuan Dosbing Berhasil!" && $bimbingan_saya->status_dosen_pembimbing_2 == "Persetujuan Dosbing Berhasil!") {
-                        $paramsStatusKelompok = ['status_kelompok' => 'Menunggu Validasi Kelompok!'];
-                    }
-                }
-            }
 
-            BimbinganSayaModel::update($id, $paramsStatusKelompok);
+            $paramsUpdated = [];
+            $bimbingan_saya_updated = BimbinganSayaModel::getDataById($id);
+
+            if ($bimbingan_saya_updated->id == $id) {
+                if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Persetujuan Dosbing Berhasil!" &&
+                    $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Persetujuan Dosbing Berhasil!") {
+
+                    $paramsUpdated = ['status_kelompok' => 'Menunggu Validasi Kelompok!'];
+                    // Update status kelompok
+                    BimbinganSayaModel::update($id, $paramsUpdated);
+                } else {
+                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Dosbing!'];
+
+                    BimbinganSayaModel::update($id, $paramsUpdated);
+
+                }
+
+            }
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/dosen/bimbingan-saya');
@@ -123,14 +132,12 @@ class BimbinganSayaController extends BaseController
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
                         'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Gagal!',
-                        'status_kelompok' => 'Menunggu Penetapan Dosbing!',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
                         'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Gagal!',
-                        'status_kelompok' => 'Menunggu Penetapan Dosbing!',
                     ];
                     break;
                 }
@@ -139,10 +146,27 @@ class BimbinganSayaController extends BaseController
 
         }
 
-        // dd($params);
-
         // process
         if (BimbinganSayaModel::update($id, $params)) {
+
+            $paramsUpdated = [];
+            $bimbingan_saya_updated = BimbinganSayaModel::getDataById($id);
+
+            if ($bimbingan_saya_updated->id == $id) {
+                if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Persetujuan Dosbing Gagal!" &&
+                    $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Persetujuan Dosbing Gagal!") {
+
+                    $paramsUpdated = ['status_kelompok' => 'Persetujuan Dosbing Gagal!'];
+                    // Update status kelompok
+                    BimbinganSayaModel::update($id, $paramsUpdated);
+                } else {
+                    $paramsUpdated = ['status_kelompok' => 'Menunggu Penetapan Dosbing!'];
+
+                    BimbinganSayaModel::update($id, $paramsUpdated);
+
+                }
+
+            }
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/dosen/bimbingan-saya');

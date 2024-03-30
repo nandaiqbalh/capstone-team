@@ -43,7 +43,7 @@ use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
-use App\Http\Controllers\TimCapstone\JadwalExpo\JadwalExpoController;
+use App\Http\Controllers\TimCapstone\ExpoProject\ExpoProjectController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingController;
@@ -195,21 +195,14 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
      //expo
-     Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
-     Route::post('/admin/jadwal-pendaftaran/expo/add-process', [JadwalExpoController::class, 'addJadwalExpoProcess']);
-     Route::get('/admin/jadwal-pendaftaran/expo/delete-process/{id}', [JadwalExpoController::class, 'deleteJadwalExpoProcess']);
-     Route::post('/admin/jadwal-pendaftaran/expo/edit-process', [JadwalExpoController::class, 'editJadwalExpoProcess']);
-     Route::get('/admin/jadwal-pendaftaran/expo/detail/{user_id}', [JadwalExpoController::class, 'detailJadwalExpo']);
+     Route::get('/admin/expo-project', [ExpoProjectController::class, 'index']);
+     Route::post('/admin/expo-project/add-process', [ExpoProjectController::class, 'addExpoProjectProcess']);
+     Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
+     Route::post('/admin/expo-project/edit-process', [ExpoProjectController::class, 'editExpoProjectProcess']);
+     Route::get('/admin/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
 
-     Route::get('/admin/jadwal-pendaftaran/expo/terima/{id}', [JadwalExpoController::class, 'terimaKelompok']);
-     Route::get('/admin/jadwal-pendaftaran/expo/tolak/{id}', [JadwalExpoController::class, 'tolakKelompok']);
-
-     //sidangta
-     Route::get('/admin/jadwal-pendaftaran/sidangta', [JadwalSidangTAController::class, 'index']);
-     Route::post('/admin/jadwal-pendaftaran/sidangta/add-process', [JadwalSidangTAController::class, 'addJadwalExpoProcess']);
-     Route::get('/admin/jadwal-pendaftaran/sidangta/delete-process/{id}', [JadwalSidangTAController::class, 'deleteJadwalExpoProcess']);
-     Route::post('/admin/jadwal-pendaftaran/sidangta/edit-process', [JadwalSidangTAController::class, 'editJadwalExpoProcess']);
-     Route::get('/admin/jadwal-pendaftaran/sidangta/detail/{user_id}', [JadwalSidangTAController::class, 'detailJadwalExpo']);
+     Route::get('/admin/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
+     Route::get('/admin/expo-project/tolak/{id}', [ExpoProjectController::class, 'tolakKelompok']);
 
      Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
      Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);

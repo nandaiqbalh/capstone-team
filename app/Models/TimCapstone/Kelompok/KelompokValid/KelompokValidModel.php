@@ -23,7 +23,7 @@ class KelompokValidModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', '!=', NULL)
-            ->orderByDesc('a.id')
+            ->orderBy('a.nomor_kelompok', 'asc')
             ->paginate(20);
     }
 

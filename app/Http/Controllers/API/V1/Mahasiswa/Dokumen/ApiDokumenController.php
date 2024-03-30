@@ -59,7 +59,7 @@ class ApiDokumenController extends Controller
                 $response = $this->failureResponse('Gagal mendapatkan dokumen mahasiswa!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
+            $response = $this->failureResponse('Gagal! Autentikasi tidak berhasil!');
         }
 
         return response()->json($response);
@@ -87,7 +87,7 @@ class ApiDokumenController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
+                    $response = $this->failureResponse('Gagal! Validasi dokumen tidak berhasil!');
                 }
 
                 // Upload path
@@ -133,16 +133,16 @@ class ApiDokumenController extends Controller
                         $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
 
                         if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah', $urlMakalah);
+                            $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlMakalah);
                             $statusParam = [
                                 'status_individu' => 'Mengunggah Laporan TA',
                             ];
                             ApiDokumenModel::uploadFileMHS($user->user_id, $statusParam);
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
+                            $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                         }
                     } else {
-                        $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
+                        $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                     }
                     } else{
                         $response = $this->failureResponse('Lengkapi terlebih dahulu laporan Tugas Akhir!');
@@ -150,14 +150,14 @@ class ApiDokumenController extends Controller
                     }
 
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
+                    $response = $this->failureResponse('Gagal! Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
+                $response = $this->failureResponse('Gagal! Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
+            $response = $this->failureResponse('Gagal! Autentikasi tidak berhasil!');
         }
 
         return response()->json($response);
@@ -184,7 +184,7 @@ class ApiDokumenController extends Controller
 
                 // Check if validation fails
                 if ($validator->fails()) {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
+                    $response = $this->failureResponse('Gagal! Validasi dokumen tidak berhasil!');
 
                 }
 
@@ -234,26 +234,26 @@ class ApiDokumenController extends Controller
                             $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
 
                             if ($uploadFile) {
-                                $response = $this->successResponse('Berhasil. Dokumen berhasil diunggah!', $urlDokumen);
+                                $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlDokumen);
                             } else {
-                                $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
+                                $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                             }
                         } else {
-                            $response = $this->failureResponse('Gagal. Dokumen gagal diunggah!');
+                            $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                         }
                     } else{
                         $response = $this->failureResponse('Lengkapi terlebih dahulu dokumen capstone!');
                     }
 
                 } else {
-                    $response = $this->failureResponse('Gagal. Validasi dokumen tidak berhasil!');
+                    $response = $this->failureResponse('Gagal! Validasi dokumen tidak berhasil!');
                 }
 
             } else {
-                $response = $this->failureResponse('Gagal. Pengguna tidak ditemukan!');
+                $response = $this->failureResponse('Gagal! Pengguna tidak ditemukan!');
             }
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            $response = $this->failureResponse('Gagal. Autentikasi tidak berhasil!');
+            $response = $this->failureResponse('Gagal! Autentikasi tidak berhasil!');
         }
 
         return response()->json($response);
