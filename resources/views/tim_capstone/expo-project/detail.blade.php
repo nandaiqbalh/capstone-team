@@ -69,7 +69,8 @@
                                 <th>Nomor Kelompok</th>
                                 <th>Status</th>
                                 <th>Berkas</th>
-                                <th>Tindakan</th>
+                                <th>Status Pendaftaran</th>
+                                <th>Hasil</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +83,7 @@
                                         <td><a href="{{ $pendaftaran->link_berkas_expo }}"
                                                 style="text-decoration: underline; color: blue;" target="_blank">Link
                                                 berkas</a></td>
+
                                         <td class="text-center">
 
                                             @if ($pendaftaran->status_kelompok == 'Menunggu Validasi Expo!')
@@ -101,7 +103,36 @@
                                                 <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
+                                            @else
+                                                <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                    Terima</a>
+                                                <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 "
+                                                    onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                    Tolak</a>
                                             @endif
+                                        </td>
+
+                                        <td class="text-center">
+
+                                            @if ($pendaftaran->status_kelompok == 'Lulus Expo Project!')
+                                                <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 "
+                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
+                                                    Gagal</a>
+                                            @elseif($pendaftaran->status_kelompok == 'Gagal Expo Project!')
+                                                <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                            @else
+                                                <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 "
+                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
+                                                    Gagal</a>
+                                                <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach

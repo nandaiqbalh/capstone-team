@@ -201,8 +201,13 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::post('/admin/expo-project/edit-process', [ExpoProjectController::class, 'editExpoProjectProcess']);
      Route::get('/admin/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
 
+     // terima tolak expo
      Route::get('/admin/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
      Route::get('/admin/expo-project/tolak/{id}', [ExpoProjectController::class, 'tolakKelompok']);
+
+     // hasil expo
+     Route::get('/admin/expo-project/to-lulus/{id}', [ExpoProjectController::class, 'toLulusExpo']);
+     Route::get('/admin/expo-project/to-gagal/{id}', [ExpoProjectController::class, 'toGagalExpo']);
 
      Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
      Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);

@@ -220,6 +220,54 @@ class ExpoProjectController extends BaseController
         }
     }
 
+    public function toLulusExpo($id)
+    {
+        // get data
+        $dataKelompok = ExpoProjectModel::getDataKelompok($id);
+
+        // if exist
+        if ($dataKelompok != null) {
+
+            $paramKelompok = [
+                'status_kelompok' => 'Lulus Expo Project!',
+            ];
+
+            ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+
+            session()->flash('success', 'Data berhasil diperbaharui!');
+            return back();
+
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
+        }
+    }
+
+    public function toGagalExpo($id)
+    {
+        // get data
+        $dataKelompok = ExpoProjectModel::getDataKelompok($id);
+
+        // if exist
+        if ($dataKelompok != null) {
+
+            $paramKelompok = [
+                'status_kelompok' => 'Gagal Expo Project!',
+            ];
+
+            ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+
+            session()->flash('success', 'Data berhasil diperbaharui!');
+            return back();
+
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
+        }
+    }
+
     private function convertDayToIndonesian($day)
     {
         $dayMappings = [
