@@ -175,7 +175,8 @@ class PenjadwalanSidangProposalController extends BaseController
 
             if ($kelompok_updated->id_dosen_penguji_1 != null && $kelompok_updated->id_dosen_penguji_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Penguji Proposal Ditetapkan!"
+                    'status_kelompok' => "Penguji Proposal Ditetapkan!",
+                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pembimbing!"
                 ];
 
                 PenjadwalanSidangProposalModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -201,13 +202,16 @@ class PenjadwalanSidangProposalController extends BaseController
             $params = [
                 'id_dosen_penguji_1' => null,
                 'status_dosen_penguji_1' => null,
-                'status_kelompok' => "C100 Disetujui!"
+                'status_kelompok' => "C100 Disetujui!",
+                'status_dosen_pembimbing_2' => "Menyetujui Dokumen C100!"
+
             ];
         } else if ($id_dosen == $kelompok -> id_dosen_penguji_2) {
             $params = [
                 'id_dosen_penguji_2' => null,
                 'status_dosen_penguji_2' => null,
-                'status_kelompok' => "C100 Disetujui!"
+                'status_kelompok' => "C100 Disetujui!",
+                'status_dosen_pembimbing_2' => "Menyetujui Dokumen C100!"
             ];
         } else {
             $params = [
@@ -287,7 +291,9 @@ class PenjadwalanSidangProposalController extends BaseController
             if ($update) {
                 $paramsStatusKelompok = [
                     'status_kelompok' => 'Menunggu Persetujuan Penguji!',
-                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pendamping!"
+                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pembimbing!",
+                    'status_dosen_penguji_1' => "Menunggu Persetujuan Penguji!",
+                    'status_dosen_penguji_2' => "Menunggu Persetujuan Penguji!",
                 ];
 
                 PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
@@ -303,7 +309,9 @@ class PenjadwalanSidangProposalController extends BaseController
             if ($insert) {
                 $paramsStatusKelompok = [
                     'status_kelompok' => 'Menunggu Persetujuan Penguji!',
-                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pendamping!"
+                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pembimbing!",
+                    'status_dosen_penguji_1' => "Menunggu Persetujuan Penguji!",
+                    'status_dosen_penguji_2' => "Menunggu Persetujuan Penguji!",
                 ];
 
                 PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);

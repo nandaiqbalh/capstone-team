@@ -185,8 +185,8 @@ class UploadFileController extends BaseController
             $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            $siklus = UploadFileModel::getSiklusKelompok($existingFile->id);
-
+            $siklus = UploadFileModel::getSiklusKelompok($existingFile->id_siklus);
+            
             if($siklus != null){
                 // Check if the file exists
                 if ($existingFile -> file_name_c100 !=null) {

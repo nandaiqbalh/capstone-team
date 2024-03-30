@@ -49,7 +49,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 // get siklus kelompok
-                $siklus = ApiDokumenModel::getSiklusKelompok($existingFile->id);
+                $siklus = ApiDokumenModel::getSiklusKelompok($existingFile->id_siklus);
 
                 if($siklus != null){
                     if ($request->hasFile('c100') && $existingFile != null) {

@@ -18,7 +18,6 @@ class BimbinganSayaController extends BaseController
     {
         // get data with pagination
         $rs_bimbingan_saya = BimbinganSayaModel::getDataWithPagination();
-
         foreach ($rs_bimbingan_saya as $bimbingan) {
             if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                 $bimbingan->jenis_dosen = 'Pembimbing 1';
@@ -75,23 +74,30 @@ class BimbinganSayaController extends BaseController
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
                         'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Berhasil!',
-                        'status_kelompok' => 'Persetujuan Dosbing Berhasil!',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
                         'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Berhasil!',
-                        'status_kelompok' => 'Persetujuan Dosbing Berhasil!',
                     ];
                     break;
                 }
             }
         }
 
-
         // process
         if (BimbinganSayaModel::update($id, $params)) {
+            $rs_bimbingan_saya_updated = BimbinganSayaModel::getDataWithPagination();
+            foreach ($rs_bimbingan_saya_updated as $bimbingan_saya) {
+                if ($bimbingan_saya->id == $id) {
+                    if ($bimbingan_saya->status_dosen_pembimbing_1 == "Persetujuan Dosbing Berhasil!" && $bimbingan_saya->status_dosen_pembimbing_2 == "Persetujuan Dosbing Berhasil!") {
+                        $paramsStatusKelompok = ['status_kelompok' => 'Menunggu Validasi Kelompok!'];
+                    }
+                }
+            }
+
+            BimbinganSayaModel::update($id, $paramsStatusKelompok);
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/dosen/bimbingan-saya');
@@ -117,14 +123,14 @@ class BimbinganSayaController extends BaseController
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
                         'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Gagal!',
-                        'status_kelompok' => 'Persetujuan Dosbing Gagal!',
+                        'status_kelompok' => 'Menunggu Penetapan Dosbing!',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
                         'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Gagal!',
-                        'status_kelompok' => 'Persetujuan Dosbing Gagal!',
+                        'status_kelompok' => 'Menunggu Penetapan Dosbing!',
                     ];
                     break;
                 }

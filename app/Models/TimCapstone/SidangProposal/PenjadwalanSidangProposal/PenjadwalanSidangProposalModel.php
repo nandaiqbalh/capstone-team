@@ -27,7 +27,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->where('a.id_dosen_pembimbing_1', '!=', NULL)
             ->where('a.id_dosen_pembimbing_2', '!=', NULL)
             ->where('a.file_name_c100', '!=', NULL)
-            ->orderByDesc('a.id')
+            ->orderBy('a.nomor_kelompok', 'asc')
             ->paginate(20);
     }
 

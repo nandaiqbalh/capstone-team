@@ -62,7 +62,7 @@ use App\Http\Controllers\TimCapstone\UploadFile\UploadFileController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;
-use App\Http\Controllers\Dosen\Pengujian\PengujianController;
+use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
 
 // api
 use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
@@ -194,15 +194,6 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
      Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
-     //sidang proposal
-     Route::get('/admin/jadwal-pendaftaran/sidang-proposal', [JadwalSidangProposalController::class, 'index']);
-     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/add', [JadwalSidangProposalController::class, 'addJadwalSidangProposal']);
-     Route::post('/admin/jadwal-pendaftaran/sidang-proposal/add-process', [JadwalSidangProposalController::class, 'addJadwalSidangProposalProcess']);
-     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
-     Route::get('/admin/jadwal-pendaftaran/sidang-proposal/edit/{user_id}', [JadwalSidangProposalController::class, 'editJadwalSidangProposal']);
-     Route::post('/admin/jadwal-pendaftaran/sidang-proposal/edit-process', [JadwalSidangProposalController::class, 'editJadwalSidangProposalProcess']);
-     // Route::get('/admin/jadwal-pendaftaran/sidang-proposal/detail/{user_id}', [JadwalSidangProposalController::class, 'detailBroadcast']);
-
      //expo
      Route::get('/admin/jadwal-pendaftaran/expo', [JadwalExpoController::class, 'index']);
      Route::post('/admin/jadwal-pendaftaran/expo/add-process', [JadwalExpoController::class, 'addJadwalExpoProcess']);
@@ -313,25 +304,29 @@ Route::middleware(['auth', 'role:03'])->group(function () {
 // dosen
 Route::middleware(['auth', 'role:04'])->group(function () {
 
+     // beranda
+     Route::get('dosen/beranda', [DashboardController::class, 'index']);
+
      //halaman dosen
      Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
      Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
      Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
      Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/terimatest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'terimaBimbinganSayaTest'])->name('dosen.bimbingan-saya.terima');;
-     Route::get('/dosen/bimbingan-saya/tolaktest/{status_dosen_pembimbing_1}', [BimbinganSayaController::class, 'tolakBimbinganSayaTest'])->name('dosen.bimbingan-saya.tolak');;
      Route::get('/dosen/bimbingan-saya/search', [BimbinganSayaController::class, 'search']);
 
      // detail mahasiswa bimbingan saya
      Route::get('/dosen/bimbingan-saya/detail-mahasiswa/{user_id}', [BimbinganSayaController::class, 'detailMahasiswa']);
 
 
-     //halaman dosen
-     Route::get('/dosen/pengujian', [PengujianController::class, 'index']);
-     Route::get('/dosen/pengujian/terima/{id}', [PengujianController::class, 'terimaPengujian']);
-     Route::get('/dosen/pengujian/tolak/{id}', [PengujianController::class, 'tolakPengujian']);
-     Route::get('/dosen/pengujian/detail/{id}', [PengujianController::class, 'detailPengujian']);
-     // Route::get('/dosen/bimbingan-saya/add', [BimbinganSayaController::class, 'addBimbinganSaya']);
+     //pengujian saya
+     Route::get('/dosen/pengujian-proposal', [PengujianProposalController::class, 'index']);
+     Route::get('/dosen/pengujian-proposal/terima/{id}', [PengujianProposalController::class, 'terimaPengujianProposalSaya']);
+     Route::get('/dosen/pengujian-proposal/tolak/{id}', [PengujianProposalController::class, 'tolakPengujianProposalSaya']);
+     Route::get('/dosen/pengujian-proposal/detail/{id}', [PengujianProposalController::class, 'detailPengujianProposalSaya']);
+     Route::get('/dosen/pengujian-proposal/search', [PengujianProposalController::class, 'search']);
+
+     // detail mahasiswa bimbingan proposal
+     Route::get('/dosen/pengujian-proposal/detail-mahasiswa/{user_id}', [PengujianProposalController::class, 'detailMahasiswa']);
 
 });
 

@@ -26,33 +26,36 @@
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
                                 <th>Ruangan</th>
+                                <th>Status Kelompok</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($rs_sidang->count() > 0)
-                                @foreach ($rs_sidang as $index => $pendaftaran)
+                                @foreach ($rs_sidang as $index => $sidang_proposal)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_sidang->firstItem() }}.</td>
-                                        <td>{{ $pendaftaran->tahun_ajaran }}</td>
-                                        <td>{{ $pendaftaran->nomor_kelompok }}</td>
-                                        <td>{{ $pendaftaran->hari_sidang }}, {{ $pendaftaran->tanggal_sidang }}</td>
-                                        <td>{{ $pendaftaran->waktu_sidang }} WIB - {{ $pendaftaran->waktu_selesai }} WIB
-                                        <td>{{ $pendaftaran->nama_ruang }}</td>
+                                        <td>{{ $sidang_proposal->tahun_ajaran }}</td>
+                                        <td>{{ $sidang_proposal->nomor_kelompok }}</td>
+                                        <td>{{ $sidang_proposal->hari_sidang }}, {{ $sidang_proposal->tanggal_sidang }}</td>
+                                        <td>{{ $sidang_proposal->waktu_sidang }} WIB - {{ $sidang_proposal->waktu_selesai }}
+                                            WIB
+                                        <td>{{ $sidang_proposal->nama_ruang }}</td>
+                                        <td>{{ $sidang_proposal->status_kelompok }}</td>
 
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $pendaftaran->id_kelompok }}"
+                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                 class="btn btn-outline-warning btn-xs m-1">Ubah</a>
-                                            <a href="{{ url('/admin/jadwal-sidang-proposal/delete-process') }}/{{ $pendaftaran->id }}"
+                                            <a href="{{ url('/admin/jadwal-sidang-proposal/delete-process') }}/{{ $sidang_proposal->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
-                                                onclick="return confirm('Apakah anda ingin menghapus {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                onclick="return confirm('Apakah anda ingin menghapus {{ $sidang_proposal->nomor_kelompok }} ?')">
                                                 Hapus</a>
                                         </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="7">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

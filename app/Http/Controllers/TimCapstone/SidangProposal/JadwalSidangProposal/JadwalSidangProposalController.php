@@ -18,12 +18,8 @@ class JadwalSidangProposalController extends BaseController
 
         // get data with pagination
         $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
-        $rs_siklus = JadwalSidangProposalModel::getSiklus();
-        $rs_kelompok = JadwalSidangProposalModel::getSiklus();
-
 
         $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
-
         foreach ($rs_sidang as $ruang_sidang) {
             if ($ruang_sidang != null) {
                 $waktuSidang = strtotime($ruang_sidang->waktu);
@@ -40,8 +36,6 @@ class JadwalSidangProposalController extends BaseController
         // data
         $data = [
             'rs_sidang' => $rs_sidang,
-            'rs_siklus' => $rs_siklus,
-            'rs_kelompok' => $rs_kelompok
         ];
 
         // dd($data);
@@ -56,20 +50,31 @@ class JadwalSidangProposalController extends BaseController
 
         // if exist
         if (!empty($delete)) {
+
+            $paramKelompok = [
+                'status_kelompok' => 'C100 Telah Disetujui!',
+                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                'id_dosen_penguji_1' => null,
+                'status_dosen_penguji_1' => null,
+                'id_dosen_penguji_2' => null,
+                'status_dosen_penguji_2' => null,
+            ];
+
+            JadwalSidangProposalModel::updateKelompok($delete -> id_kelompok, $paramKelompok);
             // process
             if (JadwalSidangProposalModel::deleteJadwalSidangProposal($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
+                return redirect('/admin/jadwal-sidang-proposal');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
+                return redirect('/admin/jadwal-sidang-proposal');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-pendaftaran/sidang-proposal');
+            return redirect('/admin/jadwal-sidang-proposal');
         }
     }
 
