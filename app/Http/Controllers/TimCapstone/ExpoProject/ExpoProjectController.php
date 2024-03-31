@@ -164,7 +164,7 @@ class ExpoProjectController extends BaseController
         if ($dataPendaftaranExpo) { // Periksa apakah data pendaftaran ditemukan
             // Process
             if (ExpoProjectModel::updateExpoProjectKelompok($id, $params)) {
-                $paramKelompok = ['status_kelompok' => "Validasi Expo Berhasil!"];
+                $paramKelompok = ['status_kelompok' => "Validasi Expo Berhasil!", 'status_expo' => "Validasi Expo Berhasil!"];
                 if (ExpoProjectModel::updateKelompok($dataPendaftaranExpo->id_kelompok, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -190,7 +190,7 @@ class ExpoProjectController extends BaseController
     public function tolakKelompok($id)
     {
         // Params
-        $params = ['status' => 'Validasi Expo Gagal!'];
+        $params = ['status' => 'Validasi Expo Gagal!',];
 
         // Get data pendaftaran
         $dataPendaftaranExpo = ExpoProjectModel::getDataPendaftaranExpo($id);
@@ -198,7 +198,9 @@ class ExpoProjectController extends BaseController
         if ($dataPendaftaranExpo) { // Periksa apakah data pendaftaran ditemukan
             // Process
             if (ExpoProjectModel::updateExpoProjectKelompok($id, $params)) {
-                $paramKelompok = ['status_kelompok' => "Validasi Expo Gagal!"];
+                $paramKelompok = ['status_kelompok' => "Validasi Expo Gagal!",
+                    'status_expo' => 'Validasi Expo Gagal!',
+            ];
                 if (ExpoProjectModel::updateKelompok($dataPendaftaranExpo->id_kelompok, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -230,6 +232,7 @@ class ExpoProjectController extends BaseController
 
             $paramKelompok = [
                 'status_kelompok' => 'Lulus Expo Project!',
+                'status_expo' => 'Lulus Expo Project!',
                 'is_lulus_expo' => 1,
             ];
 
@@ -255,6 +258,7 @@ class ExpoProjectController extends BaseController
 
             $paramKelompok = [
                 'status_kelompok' => 'Gagal Expo Project!',
+                'status_expo' => 'Gagal Expo Project!',
             ];
 
             ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);

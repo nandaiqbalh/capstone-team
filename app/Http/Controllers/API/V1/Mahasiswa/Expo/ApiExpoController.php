@@ -101,7 +101,9 @@ class ApiExpoController extends Controller
 
                         $kelompokParams = [
                             'link_berkas_expo' => $request->link_berkas_expo,
-                            'status_kelompok' => "Menunggu Validasi Expo!"
+                            'status_kelompok' => "Menunggu Validasi Expo!",
+                            'status_expo' => "Menunggu Validasi Expo!"
+
                         ];
 
                         ApiExpoModel::updateKelompokById($kelompok->id, $kelompokParams);

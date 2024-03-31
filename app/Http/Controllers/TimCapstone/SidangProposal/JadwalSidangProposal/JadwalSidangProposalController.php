@@ -52,6 +52,7 @@ class JadwalSidangProposalController extends BaseController
         if ($dataKelompok != null) {
 
             $paramKelompok = [
+                'status_sidang_proposal' => 'Lulus Sidang Proposal!',
                 'status_kelompok' => 'Lulus Sidang Proposal!',
                 'is_sidang_proposal' => 1,
             ];
@@ -77,6 +78,7 @@ class JadwalSidangProposalController extends BaseController
         if ($dataKelompok != null) {
 
             $paramKelompok = [
+                'status_sidang_proposal' => 'Gagal Sidang Proposal!',
                 'status_kelompok' => 'Gagal Sidang Proposal!',
             ];
 
@@ -101,7 +103,7 @@ class JadwalSidangProposalController extends BaseController
         if (!empty($delete)) {
 
             $paramKelompok = [
-                'status_kelompok' => 'C100 Telah Disetujui!',
+                'status_sidang_proposal' => 'C100 Telah Disetujui!',
                 'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
                 'id_dosen_penguji_1' => null,
                 'status_dosen_penguji_1' => null,

@@ -32,6 +32,7 @@ class PengujianProposalController extends BaseController
 
             } else {
                 $pengujian_prososal->jenis_dosen = 'Belum diplot';
+                $pengujian_prososal->status_dosen = 'Belum diplot';
             }
         }
 
@@ -144,11 +145,11 @@ class PengujianProposalController extends BaseController
                     $pengujian_proposal_updated->status_dosen_penguji_1 == "Persetujuan Penguji Gagal!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_2 == "Persetujuan Penguji Gagal!") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Persetujuan Penguji Gagal!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Persetujuan Penguji Gagal!'];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
 
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
 
@@ -202,11 +203,11 @@ class PengujianProposalController extends BaseController
                     $pengujian_proposal_updated->status_dosen_penguji_1 == "Menyetujui Sidang Proposal!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_2 == "Menyetujui Sidang Proposal!") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!'];
+                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!', 'status_sidang_proposal'=>"Dijadwalkan Sidang Proposal!"];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
 
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
 
