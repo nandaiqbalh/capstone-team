@@ -23,7 +23,6 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 
 use App\Http\Controllers\TimCapstone\DashboardController;
 
-
 use App\Http\Controllers\Superadmin\Settings\RoleController;
 use App\Http\Controllers\Superadmin\Settings\MenuController;
 use App\Http\Controllers\Superadmin\Settings\AccountController;
@@ -38,6 +37,7 @@ use App\Http\Controllers\User\Home\HomeController;
 use App\Http\Controllers\TimCapstone\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\TimCapstone\Topik\TimCapstoneController;
 use App\Http\Controllers\TimCapstone\Topik\TopikController;
+use App\Http\Controllers\TimCapstone\Peminatan\PeminatanController;
 use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
@@ -142,6 +142,14 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/topik/delete-process/{id}', [TopikController::class, 'deleteTopikProcess']);
      Route::get('/admin/topik/edit/{id}', [TopikController::class, 'editTopik']);
      Route::post('/admin/topik/edit-process', [TopikController::class, 'editTopikProcess']);
+
+     //topik
+     Route::get('/admin/peminatan', [PeminatanController::class, 'index']);
+     Route::get('/admin/peminatan/add', [PeminatanController::class, 'addPeminatan']);
+     Route::post('/admin/peminatan/add-process', [PeminatanController::class, 'addPeminatanProcess']);
+     Route::get('/admin/peminatan/delete-process/{id}', [PeminatanController::class, 'deletePeminatanProcess']);
+     Route::get('/admin/peminatan/edit/{id}', [PeminatanController::class, 'editPeminatan']);
+     Route::post('/admin/peminatan/edit-process', [PeminatanController::class, 'editPeminatanProcess']);
 
      //ruang sidang
      Route::get('/admin/ruangan', [RuangSidangController::class, 'index']);

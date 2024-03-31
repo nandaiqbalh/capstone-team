@@ -20,9 +20,10 @@ Broadcast
             <br>
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    {{-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Tambah Data
-                    </button>
+                    </button> --}}
+                    <a href="{{ url('/admin/broadcast/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
                 </div>
             </div>
 
@@ -47,7 +48,8 @@ Broadcast
                             <td>{{ $broadcast->tgl_selesai }}</td>
                             <td class="text-center">
                                 <a href="{{ url('/admin/broadcast/detail') }}/{{ $broadcast->id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $broadcast->id }}"> Ubah</button>
+                                <a href="{{ url('/admin/broadcast/edit') }}/{{ $broadcast->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
+                                {{-- <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $broadcast->id }}"> Ubah</button> --}}
                                 <!-- <a href="{{ url('/admin/broadcast/delete-process') }}/{{ $broadcast->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $broadcast->id }} ?')"> Hapus</a> -->
                                 <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $broadcast->id }}')">Hapus</button>
                                     <script>
@@ -72,7 +74,7 @@ Broadcast
                             </td>
                         </tr>
                         {{-- modal edit --}}
-                        <div class="modal fade" id="exampleModal{{ $broadcast->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        {{-- <div class="modal fade" id="exampleModal{{ $broadcast->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -129,7 +131,7 @@ Broadcast
                                 </form>
                               </div>
                             </div>
-                        </div>
+                        </div> --}}
                         @endforeach
                         @else
                         <tr>
@@ -153,8 +155,8 @@ Broadcast
 </div>
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal Add -->
+   <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -210,5 +212,5 @@ Broadcast
         </form>
       </div>
     </div>
-  </div>
+  </div> -->
 @endsection

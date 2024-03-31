@@ -49,7 +49,6 @@ class TopikController extends BaseController
      */
     public function addTopikProcess(Request $request)
     {
-
         // Validate & auto redirect when fail
         $rules = [
             'nama' => 'required',
@@ -79,8 +78,6 @@ class TopikController extends BaseController
         }
     }
 
-
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,7 +86,6 @@ class TopikController extends BaseController
      */
     public function editTopik($id)
     {
-
         // get data
         $topik =TopikModel::getDataById($id);
 
@@ -116,7 +112,6 @@ class TopikController extends BaseController
      */
     public function editTopikProcess(Request $request)
     {
-
         // Validate & auto redirect when fail
         $rules = [
             'nama' => 'required',
@@ -150,7 +145,6 @@ class TopikController extends BaseController
      */
     public function deleteTopikProcess($id)
     {
-
         // get data
         $topik =TopikModel::getDataById($id);
 
@@ -181,7 +175,6 @@ class TopikController extends BaseController
      */
     public function search(Request $request)
     {
-
         // data request
         $nama = $request->nama;
 

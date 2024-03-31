@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "barryvdh/laravel-dompdf": "^2.0",
+        "ckeditor/ckeditor": "^4.24",
         "guzzlehttp/guzzle": "^7.4",
         "josiasmontag/laravel-recaptchav3": "^1.0",
         "laravel/framework": "^9.2",
