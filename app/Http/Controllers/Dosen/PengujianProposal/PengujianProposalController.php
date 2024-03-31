@@ -202,7 +202,7 @@ class PengujianProposalController extends BaseController
                     $pengujian_proposal_updated->status_dosen_penguji_1 == "Menyetujui Sidang Proposal!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_2 == "Menyetujui Sidang Proposal!") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Persetujuan Penguji Berhasil!'];
+                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!'];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {

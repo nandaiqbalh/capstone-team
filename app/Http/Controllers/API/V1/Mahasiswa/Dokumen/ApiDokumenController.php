@@ -194,7 +194,7 @@ class ApiDokumenController extends Controller
                 $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
 
                 // Check and delete the existing file
-                $dokumenKelompok = ApiDokumenModel::getKelompokFile($$kelompok->id_kelompok);
+                $dokumenKelompok = ApiDokumenModel::getKelompokFile($kelompok->id_kelompok);
 
                 // Upload
                 if ($request->hasFile('laporan_ta')) {

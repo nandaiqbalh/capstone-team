@@ -202,7 +202,7 @@ class PenjadwalanSidangProposalController extends BaseController
             $params = [
                 'id_dosen_penguji_1' => null,
                 'status_dosen_penguji_1' => null,
-                'status_kelompok' => "C100 Disetujui!",
+                'status_kelompok' => "C100 Telah Disetujui!",
                 'status_dosen_pembimbing_2' => "Menyetujui Dokumen C100!"
 
             ];
@@ -210,7 +210,7 @@ class PenjadwalanSidangProposalController extends BaseController
             $params = [
                 'id_dosen_penguji_2' => null,
                 'status_dosen_penguji_2' => null,
-                'status_kelompok' => "C100 Disetujui!",
+                'status_kelompok' => "C100 Telah Disetujui!",
                 'status_dosen_pembimbing_2' => "Menyetujui Dokumen C100!"
             ];
         } else {

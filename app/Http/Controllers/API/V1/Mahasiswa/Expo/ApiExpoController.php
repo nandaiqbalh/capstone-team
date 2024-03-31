@@ -83,7 +83,9 @@ class ApiExpoController extends Controller
 
                 if ($this->validateKelompok($kelompok)) {
 
-                    if($kelompok -> file_name_c500 != null){
+                    $dokumen_mahasiwa = ApiExpoModel::fileMHS($user ->user_id);
+
+                    if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null) {
                         $registrationParams = [
                             'id_kelompok' => $kelompok->id,
                             'id_expo' => $request->id_expo,
@@ -114,7 +116,7 @@ class ApiExpoController extends Controller
 
                         $response = $this->successResponse('Berhasil mendaftarkan expo!', $cekStatusExpo);
                     } else {
-                        $response = $this->failureResponse('Lengkapi Dokumen Capstone!');
+                        $response = $this->failureResponse('Lengkapi terlebih dahulu dokumen Anda!');
                     }
 
                 } else {
