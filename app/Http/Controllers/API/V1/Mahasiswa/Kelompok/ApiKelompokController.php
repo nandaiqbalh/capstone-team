@@ -543,6 +543,54 @@ class ApiKelompokController extends Controller
 
 
 
+    public function editInformasiKelompok(Request $request)
+    {
+        try {
+            $user = $this->getAuthenticatedUser();
+            $rules = [
+                'judul_capstone' => 'filled',
+                'id_topik' => 'filled',
+            ];
+
+            $this->validate($request, $rules); // Memindahkan validasi sebelum pengecekan kelompok
+
+            $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($user->user_id);
+
+            if ($kelompok != null) {
+                $params = [
+                    'judul_capstone' => $request->judul_capstone,
+                ];
+
+                if ($request->filled('id_topik')) {
+                    $params['id_topik'] = $request->id_topik;
+                }
+
+                if (ApiKelompokModel::updateKelompok($kelompok->id, $params)) {
+                    $response = $this->successResponse('Informasi berhasil diperbaharui!', $kelompok);
+                } else {
+                    $response = $this->failureResponse('Informasi gagal diperbaharui!', null);
+                }
+            } else {
+                $response = $this->failureResponse('Kelompok tidak ditemukan!', null);
+            }
+
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return $this->failureResponse('Token is invalid.', null);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return $this->failureResponse('Token is invalid.', null);
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return $this->failureResponse('Token is invalid.', null);
+        }
+
+        return response()->json($response);
+    }
+
+
+    private function getAuthenticatedUser()
+    {
+        return JWTAuth::parseToken()->authenticate();
+    }
+
     private function getProfileImageUrl($user)
     {
         if (!empty($user->user_img_name)) {
