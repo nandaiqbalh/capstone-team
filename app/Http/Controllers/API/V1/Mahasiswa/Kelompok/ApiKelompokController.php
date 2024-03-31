@@ -541,22 +541,15 @@ class ApiKelompokController extends Controller
         return response()->json($response);
     }
 
-
-
     public function editInformasiKelompok(Request $request)
     {
         try {
             $user = $this->getAuthenticatedUser();
-            $rules = [
-                'judul_capstone' => 'filled',
-                'id_topik' => 'filled',
-            ];
-
-            $this->validate($request, $rules); // Memindahkan validasi sebelum pengecekan kelompok
 
             $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
             if ($kelompok != null) {
+
                 $params = [
                     'judul_capstone' => $request->judul_capstone,
                 ];
@@ -565,10 +558,21 @@ class ApiKelompokController extends Controller
                     $params['id_topik'] = $request->id_topik;
                 }
 
-                if (ApiKelompokModel::updateKelompok($kelompok->id, $params)) {
+                // Periksa apakah data yang akan diupdate berbeda dengan data yang sudah ada di database
+                $existingData = ApiKelompokModel::pengecekan_kelompok_mahasiswa($user->user_id);
+                if ($existingData->judul_capstone == $params['judul_capstone'] &&
+                    isset($params['id_topik']) &&
+                    $existingData->id_topik == $params['id_topik']) {
+
+                    // Jika data sama, tidak perlu melakukan update, langsung beri respons berhasil
                     $response = $this->successResponse('Informasi berhasil diperbaharui!', $kelompok);
                 } else {
-                    $response = $this->failureResponse('Informasi gagal diperbaharui!', null);
+                    // Lakukan update jika data berbeda
+                    if (ApiKelompokModel::updateKelompok($kelompok->id_kelompok, $params)) {
+                        $response = $this->successResponse('Informasi berhasil diperbaharui!', $kelompok);
+                    } else {
+                        $response = $this->failureResponse('Informasi gagal diperbaharui!', null);
+                    }
                 }
             } else {
                 $response = $this->failureResponse('Kelompok tidak ditemukan!', null);
@@ -584,7 +588,6 @@ class ApiKelompokController extends Controller
 
         return response()->json($response);
     }
-
 
     private function getAuthenticatedUser()
     {
