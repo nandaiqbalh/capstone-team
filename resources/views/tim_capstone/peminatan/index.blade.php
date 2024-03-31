@@ -1,53 +1,48 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-Ruang Sidang
+Peminatan
 @endsection
 
 @section('content')
 
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Ruang Sidang</h5>
+    <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Peminatan</h5>
     <!-- notification -->
     @include("template.notification")
 
     <!-- Bordered Table -->
     <div class="card">
-        <h5 class="card-header">Data Ruang Sidang</h5>
-
+        <h5 class="card-header">Data Peminatan</h5>
         <div class="card-body">
-
-            <br>
+        <br>
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <a href="{{ url('/admin/ruangan/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
+                    <a href="{{ url('/admin/peminatan/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
                 </div>
             </div>
-
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">
                     <thead class="thead-light">
                         <tr class="text-center">
                             <th width="5%">No</th>
-                            <th>Nama Ruang Sidang</th>
-                            <th>Kode Ruang Sidang</th>
+                            <th>Nama Peminatan</th>
                             <th width="18%">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if($rs_ruangsidang->count() > 0)
-                        @foreach($rs_ruangsidang as $index => $ruangan)
+                        @if($rs_peminatan->count() > 0)
+                        @foreach($rs_peminatan as $index => $peminatan)
                         <tr>
-                            <td class="text-center">{{ $index + $rs_ruangsidang->firstItem() }}.</td>
-                            <td>{{ $ruangan->nama_ruang }}</td>
-                            <td>{{ $ruangan->kode_ruang }}</td>
+                            <td class="text-center">{{ $index + $rs_peminatan->firstItem() }}.</td>
+                            <td>{{ $peminatan->nama_peminatan }}</td>
                             <td class="text-center">
-                                {{-- <a href="{{ url('/admin/ruangan/detail') }}/{{ $ruangan->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
-                                <a href="{{ url('/admin/ruangan/edit') }}/{{ $ruangan->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                <!-- <a href="{{ url('/admin/ruangan/delete-process') }}/{{ $ruangan->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $ruangan->nama_ruang }} ?')"> Hapus</a> -->
-                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $ruangan->id }}', '{{ $ruangan->nama_ruang }}')">Hapus</button>
+                                {{-- <a href="{{ url('/admin/peminatan/detail') }}/{{ $peminatan->user_id }}" class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
+                                <a href="{{ url('/admin/peminatan/edit') }}/{{ $peminatan->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
+                                <!-- <a href="{{ url('/admin/peminatan/delete-process') }}/{{ $peminatan->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $peminatan->nama_peminatan }} ?')"> Hapus</a> -->
+                                <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $peminatan->id }}', '{{ $peminatan->nama_peminatan }}')">Hapus</button>
                                     <script>
-                                        function confirmDelete(topikId, topikNama) {
+                                        function confirmDelete(peminatanId, peminatanNama) {
                                             Swal.fire({
                                                 title: 'Apakah Anda yakin?',
                                                 text: "Anda tidak akan dapat mengembalikan ini!",
@@ -60,7 +55,7 @@ Ruang Sidang
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
                                                     // Redirect to the delete URL if confirmed
-                                                    window.location.href = "{{ url('/admin/ruangan/delete-process') }}/" + topikId;
+                                                    window.location.href = "{{ url('/admin/peminatan/delete-process') }}/" + peminatanId;
                                                 }
                                             });
                                         }
@@ -79,14 +74,15 @@ Ruang Sidang
             <!-- pagination -->
             <div class="row mt-3 justify-content-between">
                 <div class="col-auto mr-auto">
-                    <p>Menampilkan {{ $rs_ruangsidang->count() }} dari total {{ $rs_ruangsidang->total() }} data.</p>
+                    <p>Menampilkan {{ $rs_peminatan->count() }} dari total {{ $rs_peminatan->total() }} data.</p>
                 </div>
                 <div class="col-auto ">
-                    {{ $rs_ruangsidang->links() }}
+                    {{ $rs_peminatan->links() }}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 @endsection

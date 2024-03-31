@@ -14,16 +14,13 @@ Topik
     <!-- Bordered Table -->
     <div class="card">
         <h5 class="card-header">Data Topik</h5>
-
         <div class="card-body">
-
-            <br>
+        <br>
             <div class="row justify-content-end mb-2">
                 <div class="col-auto ">
-                    <a href="{{ url('/admin/topik/add') }}" class="btn btn-primary btn-xs float-right"><i class="fas fa-plus"></i> Tambah Data</a>
+                    <a href="{{ url('/admin/topik/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
                 </div>
             </div>
-
             <div class="table-responsive text-nowrap">
                 <table class="table table-bordered">
                     <thead class="thead-light">
@@ -86,5 +83,6 @@ Topik
         </div>
     </div>
 </div>
+
 
 @endsection

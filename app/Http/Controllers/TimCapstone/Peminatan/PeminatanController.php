@@ -1,33 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\TimCapstone\Topik;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+namespace App\Http\Controllers\TimCapstone\Peminatan;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\TimCapstone\Topik\TopikModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\TimCapstone\Peminatan\PeminatanModel;
 use Illuminate\Support\Facades\Hash;
 
-
-class TopikController extends BaseController
+class PeminatanController extends BaseController
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    //coba comment
-
     public function index()
     {
         // get data with pagination
-        $rs_topik = TopikModel::getDataWithPagination();
+        $rs_peminatan = PeminatanModel::getDataWithPagination();
         // data
-        $data = ['rs_topik' => $rs_topik];
+        $data = ['rs_peminatan' => $rs_peminatan];
         // view
-        return view('tim_capstone.topik.index', $data);
+        return view('tim_capstone.peminatan.index', $data);
     }
 
     /**
@@ -35,10 +30,10 @@ class TopikController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function addTopik()
+    public function addPeminatan()
     {
         // view
-        return view('tim_capstone.topik.add');
+        return view('tim_capstone.peminatan.add');
     }
 
     /**
@@ -47,30 +42,28 @@ class TopikController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addTopikProcess(Request $request)
+    public function addPeminatanProcess(Request $request)
     {
         // Validate & auto redirect when fail
         $rules = [
-            'nama' => 'required',
+            'nama_peminatan' => 'required',
         ];
         $this->validate($request, $rules);
 
-
         // params
-        $user_id =TopikModel::makeMicrotimeID();
+        $user_id =PeminatanModel::makeMicrotimeID();
         $params = [
-            'nama' => $request->nama,
+            'nama_peminatan' => $request->nama_peminatan,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        $insert_topik =TopikModel::inserttopik($params);
-        if ($insert_topik) {
-
+        $insert_peminatan =PeminatanModel::insertpeminatan($params);
+        if ($insert_peminatan) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/topik');
+            return redirect('/admin/peminatan');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
@@ -84,23 +77,23 @@ class TopikController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editTopik($id)
+    public function editPeminatan($id)
     {
         // get data
-        $topik =TopikModel::getDataById($id);
+        $peminatan =PeminatanModel::getDataById($id);
 
         // check
-        if (empty($topik)) {
+        if (empty($peminatan)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/topik');
+            return redirect('/admin/peminatan');
         }
 
         // data
-        $data = ['topik' => $topik];
+        $data = ['peminatan' => $peminatan];
 
         // view
-        return view('tim_capstone.topik.edit', $data);
+        return view('tim_capstone.peminatan.edit', $data);
     }
 
     /**
@@ -110,30 +103,30 @@ class TopikController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function editTopikProcess(Request $request)
+    public function editPeminatanProcess(Request $request)
     {
         // Validate & auto redirect when fail
         $rules = [
-            'nama' => 'required',
+            'nama_peminatan' => 'required',
         ];
         $this->validate($request, $rules);
 
         // params
         $params = [
-            'nama' => $request->nama,
+            'nama_peminatan' => $request->nama_peminatan,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        if (TopikModel::update($request->id, $params)) {
+        if (PeminatanModel::update($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/topik');
+            return redirect('/admin/peminatan');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/topik' . $request->id);
+            return redirect('/admin/peminatan' . $request->id);
         }
     }
 
@@ -143,27 +136,27 @@ class TopikController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteTopikProcess($id)
+    public function deletePeminatanProcess($id)
     {
         // get data
-        $topik =TopikModel::getDataById($id);
+        $peminatan =PeminatanModel::getDataById($id);
 
         // if exist
-        if (!empty($topik)) {
+        if (!empty($peminatan)) {
             // process
-            if (TopikModel::delete($id)) {
+            if (PeminatanModel::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/topik');
+                return redirect('/admin/peminatan');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/topik');
+                return redirect('/admin/peminatan');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/topik');
+            return redirect('/admin/peminatan');
         }
     }
 
@@ -175,15 +168,16 @@ class TopikController extends BaseController
      */
     public function search(Request $request)
     {
+
         // data request
-        $nama = $request->nama;
+        $nama_peminatan = $request->nama_peminatan;
 
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_ch =TopikModel::getDataSearch($nama);
+            $rs_ch =PeminatanModel::getDataSearch($nama_peminatan);
             // data
-            $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
+            $data = ['rs_ch' => $rs_ch, 'nama_peminatan' => $nama_peminatan];
             // view
             return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
