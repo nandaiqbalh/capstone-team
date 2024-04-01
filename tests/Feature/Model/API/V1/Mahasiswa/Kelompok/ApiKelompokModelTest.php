@@ -16,7 +16,7 @@ class ApiKelompokModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130124',
             'password' => 'mahasiswa123',
         ];
 
@@ -120,7 +120,7 @@ class ApiKelompokModelTest extends TestCase
     /** @test */
     public function test_it_can_check_if_siklus_still_active()
     {
-        $id_siklus = 8;
+        $id_siklus = 13;
 
         $result = ApiKelompokModel::checkApakahSiklusMasihAktif($id_siklus);
 

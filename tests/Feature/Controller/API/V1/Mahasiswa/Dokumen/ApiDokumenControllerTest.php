@@ -21,7 +21,7 @@ class ApiDokumenControllerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130124',
             'password' => 'mahasiswa123',
         ];
 
@@ -96,7 +96,7 @@ class ApiDokumenControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'success' => false,
-                'status' => 'Kelompok Anda belum valid.'
+                'status' => 'Anda belum mendaftar capstone!'
             ]);
     }
 

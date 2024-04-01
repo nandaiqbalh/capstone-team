@@ -11,7 +11,19 @@ class ApiDosenModelTest extends TestCase
     public function test_it_can_get_data()
     {
         // Panggil method getData dari ApiDosenModel
-        $data = ApiDosenModel::getData();
+        $data = ApiDosenModel::getDataDosbing1();
+
+        // Pastikan data tidak kosong
+        $this->assertNotEmpty($data);
+
+        // Pastikan data adalah instance dari koleksi (collection)
+        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $data);
+
+    }
+    public function test_it_can_get_data_dosbing2()
+    {
+        // Panggil method getData dari ApiDosenModel
+        $data = ApiDosenModel::getDataDosbing2();
 
         // Pastikan data tidak kosong
         $this->assertNotEmpty($data);

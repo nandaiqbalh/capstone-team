@@ -16,7 +16,7 @@ class ApiSidangProposalModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130124',
             'password' => 'mahasiswa123',
         ];
 
@@ -31,7 +31,7 @@ class ApiSidangProposalModelTest extends TestCase
     public function test_it_can_get_sidang_proposal_by_kelompok()
     {
         // Isi dengan ID kelompok yang valid
-        $idKelompok = 40;
+        $idKelompok = 80;
 
         // Panggil method sidangProposalByKelompok dari ApiSidangProposalModel
         $data = ApiSidangProposalModel::sidangProposalByKelompok($idKelompok);
@@ -59,7 +59,7 @@ class ApiSidangProposalModelTest extends TestCase
     /** @test */
     public function test_it_can_check_if_siklus_still_active()
     {
-        $id_siklus = 8;
+        $id_siklus = 13;
 
         // Panggil method checkApakahSiklusMasihAktif dari ApiSidangProposalModel
         $data = ApiSidangProposalModel::checkApakahSiklusMasihAktif($id_siklus);

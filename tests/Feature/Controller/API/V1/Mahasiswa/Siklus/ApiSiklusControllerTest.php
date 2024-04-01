@@ -16,7 +16,7 @@ class ApiSiklusControllerTest extends TestCase
         parent::setUp();
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130124',
             'password' => 'mahasiswa123',
         ];
 
@@ -59,7 +59,7 @@ class ApiSiklusControllerTest extends TestCase
     public function test_it_returns_failure_response_when_user_inactive()
     {
         // Menonaktifkan pengguna yang sedang diuji
-        $user = User::where('nomor_induk', '21120120130125')->first();
+        $user = User::where('nomor_induk', '21120120130124')->first();
         $user->update(['user_active' => 0], ['timestamps' => false]);
 
         // Mengirimkan permintaan API untuk mendapatkan jadwal siklus
