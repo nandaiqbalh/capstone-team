@@ -32,26 +32,37 @@ class ApiDokumenController extends Controller
             if ($user != null && $user->user_active == 1) {
                 try {
 
-                    // get data kelompok
-                    $file_mhs = ApiDokumenModel::fileMHS($user->user_id);
+                    $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
 
-                    // data
-                    $data = ['file_mhs' => $file_mhs];
+                    if ($kelompok != null) {
 
-                    if ($file_mhs != null) {
+                        if ($kelompok -> nomor_kelompok != null) {
+                            $file_mhs = ApiDokumenModel::fileMHS($user->user_id);
 
-                        $file_mhs -> file_url_c100 = $this->getDokumenUrl($file_mhs -> file_path_c100, $file_mhs -> file_name_c100);
-                        $file_mhs -> file_url_c200 = $this->getDokumenUrl($file_mhs -> file_path_c200, $file_mhs -> file_name_c200);
-                        $file_mhs -> file_url_c300 = $this->getDokumenUrl($file_mhs -> file_path_c300, $file_mhs -> file_name_c300);
-                        $file_mhs -> file_url_c400 = $this->getDokumenUrl($file_mhs -> file_path_c400, $file_mhs -> file_name_c400);
-                        $file_mhs -> file_url_c500 = $this->getDokumenUrl($file_mhs -> file_path_c500, $file_mhs -> file_name_c500);
-                        $file_mhs -> file_url_laporan_ta = $this->getDokumenUrl($file_mhs -> file_path_laporan_ta, $file_mhs -> file_name_laporan_ta);
-                        $file_mhs -> file_url_makalah = $this->getDokumenUrl($file_mhs -> file_path_makalah, $file_mhs -> file_name_makalah);
+                            // data
+                            $data = ['file_mhs' => $file_mhs];
 
-                        $response = $this->successResponse('Berhasil mendapatkan dokumen mahasiswa.', $data);
+                            if ($file_mhs != null) {
+
+                                $file_mhs -> file_url_c100 = $this->getDokumenUrl($file_mhs -> file_path_c100, $file_mhs -> file_name_c100);
+                                $file_mhs -> file_url_c200 = $this->getDokumenUrl($file_mhs -> file_path_c200, $file_mhs -> file_name_c200);
+                                $file_mhs -> file_url_c300 = $this->getDokumenUrl($file_mhs -> file_path_c300, $file_mhs -> file_name_c300);
+                                $file_mhs -> file_url_c400 = $this->getDokumenUrl($file_mhs -> file_path_c400, $file_mhs -> file_name_c400);
+                                $file_mhs -> file_url_c500 = $this->getDokumenUrl($file_mhs -> file_path_c500, $file_mhs -> file_name_c500);
+                                $file_mhs -> file_url_laporan_ta = $this->getDokumenUrl($file_mhs -> file_path_laporan_ta, $file_mhs -> file_name_laporan_ta);
+                                $file_mhs -> file_url_makalah = $this->getDokumenUrl($file_mhs -> file_path_makalah, $file_mhs -> file_name_makalah);
+
+                                $response = $this->successResponse('Berhasil mendapatkan dokumen mahasiswa.', $data);
+                            } else {
+                                $response = $this->failureResponse('Kelompok Anda belum valid!');
+                            }
+                        } else {
+                            $response = $this->failureResponse('Kelompok Anda belum valid!');
+                        }
                     } else {
-                        $response = $this->failureResponse('Kelompok Anda belum valid!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
                     }
+
                 } catch (\Exception $e) {
                     $response = $this->failureResponse('Gagal mendapatkan dokumen mahasiswa!');
                 }

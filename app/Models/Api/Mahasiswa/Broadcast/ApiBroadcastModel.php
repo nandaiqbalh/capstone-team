@@ -16,7 +16,7 @@ class ApiBroadcastModel extends Model
 
     public static function getDataWithPagination()
     {
-        return DB::table('broadcast')->orderBy('created_date', 'desc')->paginate(10);
+        return DB::table('broadcast')->orderBy('created_date', 'desc')->get();
     }
 
     public static function getDataWithHomePagination()

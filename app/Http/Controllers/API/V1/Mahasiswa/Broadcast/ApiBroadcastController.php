@@ -12,6 +12,37 @@ class ApiBroadcastController extends Controller
     {
         try {
             $rs_broadcast = ApiBroadcastModel::getDataWithPagination();
+
+            foreach ($rs_broadcast as $broadcast) {
+                $created_date = $broadcast->created_date;
+
+                // Menghitung selisih waktu dari sekarang dengan waktu pembuatan broadcast
+                $time_diff = time() - strtotime($created_date);
+
+                // Mengonversi selisih waktu menjadi menit
+                $minutes = round($time_diff / 60);
+
+                if ($minutes < 60) {
+                    // Jika kurang dari satu jam
+                    $postDate = "$minutes Menit yang lalu";
+                } elseif ($minutes < 24 * 60) {
+                    // Jika kurang dari 24 jam
+                    $hours = round($minutes / 60);
+                    $postDate = "$hours Jam yang lalu";
+                } else {
+                    // Jika lebih dari 24 jam
+                    // Ambil tanggal, bulan, dan tahun
+                    $date_parts = explode('-', date('d-F-Y', strtotime($created_date)));
+                    // Konversi bulan ke bahasa Indonesia
+                    $date_parts[1] = $this->convertMonthToIndonesian($date_parts[1]);
+                    // Gabungkan kembali tanggal, bulan, dan tahun
+                    $postDate = implode(' ', $date_parts);
+                }
+
+                // Menambahkan postDate ke objek broadcast
+                $broadcast->postDate = $postDate;
+            }
+
             $this->addImageUrlToBroadcasts($rs_broadcast);
 
             $response = $this->successResponse('Berhasil mendapatkan data.', ['rs_broadcast' => $rs_broadcast]);
@@ -28,6 +59,40 @@ class ApiBroadcastController extends Controller
     {
         try {
             $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
+
+            $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
+
+            foreach ($rs_broadcast as $broadcast) {
+                $created_date = $broadcast->created_date;
+
+                // Menghitung selisih waktu dari sekarang dengan waktu pembuatan broadcast
+                $time_diff = time() - strtotime($created_date);
+
+                // Mengonversi selisih waktu menjadi menit
+                $minutes = round($time_diff / 60);
+
+                if ($minutes < 60) {
+                    // Jika kurang dari satu jam
+                    $postDate = "$minutes Menit yang lalu";
+                } elseif ($minutes < 24 * 60) {
+                    // Jika kurang dari 24 jam
+                    $hours = round($minutes / 60);
+                    $postDate = "$hours Jam yang lalu";
+                } else {
+                    // Jika lebih dari 24 jam
+                    // Ambil tanggal, bulan, dan tahun
+                    $date_parts = explode('-', date('d-F-Y', strtotime($created_date)));
+                    // Konversi bulan ke bahasa Indonesia
+                    $date_parts[1] = $this->convertMonthToIndonesian($date_parts[1]);
+                    // Gabungkan kembali tanggal, bulan, dan tahun
+                    $postDate = implode(' ', $date_parts);
+                }
+
+                // Menambahkan postDate ke objek broadcast
+                $broadcast->postDate = $postDate;
+            }
+
+
             $this->addImageUrlToBroadcasts($rs_broadcast);
 
             $response = $this->successResponse('Berhasil mendapatkan data.', ['rs_broadcast' => $rs_broadcast]);
@@ -39,6 +104,30 @@ class ApiBroadcastController extends Controller
             return response()->json($response);
         }
     }
+
+    private function convertMonthToIndonesian($month)
+    {
+        // Mapping nama bulan ke bahasa Indonesia
+        $monthMappings = [
+            'January' => 'Januari',
+            'February' => 'Februari',
+            'March' => 'Maret',
+            'April' => 'April',
+            'May' => 'Mei',
+            'June' => 'Juni',
+            'July' => 'Juli',
+            'August' => 'Agustus',
+            'September' => 'September',
+            'October' => 'Oktober',
+            'November' => 'November',
+            'December' => 'Desember',
+        ];
+
+        // Cek apakah nama bulan ada di dalam mapping
+        return array_key_exists($month, $monthMappings) ? $monthMappings[$month] : $month;
+    }
+
+
 
     public function detailBroadcastApi(Request $request)
     {
