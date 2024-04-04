@@ -4,7 +4,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Dasboard Tim Capstone
+    Dasboard Dosen
 @endsection
 
 @section('content')
@@ -30,7 +30,7 @@
             <div class="d-flex align-items-end row">
                 <div class="col-sm-12">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">Pengumuman Tim Capstone</h5>
+                        <h5 class="card-title text-primary">Pengumuman di Halaman Dosen</h5>
                         <div>
                             <div class="accordion" id="accordionExample">
                                 @foreach ($rs_broadcast as $item)

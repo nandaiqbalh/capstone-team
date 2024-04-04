@@ -275,7 +275,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 Route::middleware(['auth', 'role:03'])->group(function () {
 
     // beranda
-    Route::get('mahasiswa/beranda', [DashboardController::class, 'index']);
+    Route::get('mahasiswa/beranda', [DashboardController::class, 'indexMahasiswa']);
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
@@ -314,7 +314,7 @@ Route::middleware(['auth', 'role:03'])->group(function () {
 Route::middleware(['auth', 'role:04'])->group(function () {
 
      // beranda
-     Route::get('dosen/beranda', [DashboardController::class, 'index']);
+     Route::get('dosen/beranda', [DashboardController::class, 'indexDosen']);
 
      //halaman dosen
      Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);

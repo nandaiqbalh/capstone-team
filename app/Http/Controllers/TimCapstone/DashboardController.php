@@ -37,4 +37,49 @@ class DashboardController extends BaseController
         return view('tim_capstone.dashboard.index', $data);
     }
 
+    public function indexMahasiswa()
+    {
+        // get data with pagination
+        $rs_broadcast = Dashmo::getBroadcast();
+        $rs_jad_kel = Dashmo::getJadwalCap();
+        $rs_jad_sidang = Dashmo::getJadwalSidang();
+        $rs_jad_expo = Dashmo::getJadwalExpo();
+        // dd($rs_broadcast);
+
+
+        // data
+
+        $data = [
+            'rs_broadcast' => $rs_broadcast,
+            'rs_jad_kel' => $rs_jad_kel,
+            'rs_jad_sidang' => $rs_jad_sidang,
+            'rs_jad_expo' => $rs_jad_expo,
+        ];
+
+        //view
+        return view('mahasiswa.dashboard-mahasiswa.index', $data);
+    }
+
+    public function indexDosen()
+    {
+        // get data with pagination
+        $rs_broadcast = Dashmo::getBroadcast();
+        $rs_jad_kel = Dashmo::getJadwalCap();
+        $rs_jad_sidang = Dashmo::getJadwalSidang();
+        $rs_jad_expo = Dashmo::getJadwalExpo();
+        // dd($rs_broadcast);
+
+
+        // data
+
+        $data = [
+            'rs_broadcast' => $rs_broadcast,
+            'rs_jad_kel' => $rs_jad_kel,
+            'rs_jad_sidang' => $rs_jad_sidang,
+            'rs_jad_expo' => $rs_jad_expo,
+        ];
+
+        //view
+        return view('dosen.dashboard-dosen.index', $data);
+    }
 }
