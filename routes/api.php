@@ -29,6 +29,8 @@ use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
 use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 
+use App\Http\Controllers\Api\V1\Mahasiswa\Beranda\ApiBerandaController;
+
 use App\Http\Controllers\Api\V1\Mahasiswa\Mahasiswa\ApiMahasiswaController;
 use App\Http\Controllers\Api\V1\Mahasiswa\Dosen\ApiDosenController;
 
@@ -64,6 +66,9 @@ Route::prefix('v1')->group(function () {
 
         // loguot
         Route::get('/auth/logout/', [ApiLogoutController::class, 'logout']);
+
+        // beranda
+        Route::get('/mahasiswa/beranda/', [ApiBerandaController::class, 'index']);
 
         // profile
         Route::get('/mahasiswa/profile/', [ApiProfileController::class, 'index']);
