@@ -116,6 +116,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::post('/admin/settings/accounts/edit_password_process', [AccountsController::class, 'editPasswordProcess']);
     Route::get('/admin/settings/accounts/delete_process/{id}', [AccountsController::class, 'deleteProcess']);
     Route::get('/admin/settings/accounts/search', [AccountsController::class, 'search']);
+    Route::post('/admin/settings/account/import-user', [AccountsController::class, 'import']);
 
      // take over login
     Route::get('admin/settings/take-over-login', [TakeOverLoginController::class, 'takeOverProcess']);
