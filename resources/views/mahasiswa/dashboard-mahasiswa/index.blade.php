@@ -4,7 +4,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Dasboard Mahasiswa
+    Beranda Mahasiswa
 @endsection
 
 @section('content')
@@ -25,20 +25,61 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Sidang Proposal</h5>
+                                <span style="color: gray;">{{ $sidang_proposal }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Expo Project</h5>
+                                <span style="color: gray;">{{ $expo }}</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Sidang TA</h5>
+                                <span style="color: gray;">{{ $sidang_ta }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <!-- Pengumuman -->
         <div class="card">
             <div class="d-flex align-items-end row">
                 <div class="col-sm-12">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">Pengumuman Mahasiswa</h5>
+                        <h5 class="card-title text-primary">Pengumuman Terbaru</h5>
                         <div>
                             <div class="accordion" id="accordionExample">
                                 @foreach ($rs_broadcast as $item)
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingOne">
-                                            {{-- <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{$item->id}}" aria-expanded="false" aria-controls="collapseOne">
-                    {{$item->nama_event}}
-                  </button> --}}
+
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseOne{{ $item->id }}" aria-expanded="false"
                                                 aria-controls="collapseOne{{ $item->id }}">
