@@ -15,13 +15,32 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Expo Project</h5>
             </div>
-
             <div class="card-body">
 
                 @if ($kelompok != null)
                     @if ($siklus_sudah_punya_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($kelompok->nomor_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Kelompok Anda belum valid!</h6>
                     @else
                         @if ($rs_expo == null)
@@ -124,6 +143,16 @@
 
                     @endif
                 @else
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Anda belum mendaftar capstone!</h6>
                 @endif
 

@@ -24,6 +24,7 @@ class MahasiswaKelompokController extends BaseController
     public function index()
     {
 
+        $rs_topik = MahasiswaKelompokModel::getTopik();
 
         // get data kelompok
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
@@ -54,6 +55,7 @@ class MahasiswaKelompokController extends BaseController
             $data = [
                 'kelompok'  => $kelompok,
                 'rs_mahasiswa' => $rs_mahasiswa,
+                'rs_topik' => $rs_topik,
                 'rs_dosbing' => $rs_dosbing,
                 'rs_siklus' => $rs_siklus,
                 'siklus_sudah_punya_kelompok' => $siklusSudahPunyaKelompok,
@@ -87,14 +89,6 @@ class MahasiswaKelompokController extends BaseController
         return view('mahasiswa.kelompok-mahasiswa.detail', $data);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
      public function addKelompokProcess(Request $request)
      {
 
@@ -105,57 +99,108 @@ class MahasiswaKelompokController extends BaseController
              // validation params
              $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'id_siklus', 'peminatan', 'topik'];
 
-foreach ($requiredParams as $param) {
-    if (!$request->has($param) || empty($request->input($param))) {
-        session()->flash('danger', "Parameter '$param' kosong atau belum diisi!");
-        return back()->withInput();
-    }
+             foreach ($requiredParams as $param) {
+                if (!$request->has($param) || empty($request->input($param))) {
+                    switch ($param) {
+                        case 'judul_capstone':
+                            session()->flash('danger', "Judul Capstone kosong atau belum diisi!");
+                            break;
+                        case 'id_siklus':
+                            session()->flash('danger', "Siklus kosong atau belum diisi!");
+                            break;
+                        case 'angkatan':
+                            session()->flash('danger', "Angkatan kosong atau belum diisi!");
+                            break;
+                        case 'email':
+                            session()->flash('danger', "Email kosong atau belum diisi!");
+                            break;
+                        case 'nim':
+                            session()->flash('danger', "NIM kosong atau belum diisi!");
+                            break;
+                        case 'ipk':
+                            session()->flash('danger', "IPK kosong atau belum diisi!");
+                            break;
+                        case 'sks':
+                            session()->flash('danger', "SKS kosong atau belum diisi!");
+                            break;
+                        case 'no_telp':
+                            session()->flash('danger', "Nomor telepon kosong atau belum diisi!");
+                            break;
+                        default:
+                            session()->flash('danger', "Parameter '$param' kosong atau belum diisi!");
+                            break;
+                    }
+                    return back()->withInput();
+                }
 
-    // Lakukan validasi tambahan sesuai dengan parameter yang bersangkutan
-    switch ($param) {
-        case 'angkatan':
-            if (!preg_match('/^\d{4}$/', $request->input($param))) {
-                session()->flash('danger', "Format angkatan tidak valid!");
-                return back()->withInput();
-            }
-            break;
-        case 'email':
-            if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
-                session()->flash('danger', "Format email tidak valid!");
-                return back()->withInput();
-            }
-            break;
-        case 'nim':
-            if (!preg_match('/^\d{14}$/', $request->input($param))) {
-                session()->flash('danger', "Format NIM tidak valid!");
-                return back()->withInput();
-            }
-            break;
-        case 'ipk':
-            if (!preg_match('/^\d+(\.\d{1,2})?$/', $request->input($param)) || $request->input($param) < 0 || $request->input($param) > 4) {
-                session()->flash('danger', "Format IPK tidak valid!");
-                return back()->withInput();
-            }
-            break;
-        case 'sks':
-            if (!preg_match('/^\d{1,3}$/', $request->input($param)) || $request->input($param) < 0 || $request->input($param) > 160) {
-                session()->flash('danger', "Format SKS tidak valid!");
-                return back()->withInput();
-            }
-            break;
-        case 'no_telp':
-            if (!preg_match('/^\d{10,15}$/', $request->input($param))) {
-                session()->flash('danger', "Format nomor telepon tidak valid!");
-                return back()->withInput();
-            }
-            break;
-        // Tambahkan case untuk parameter lainnya sesuai kebutuhan
-        default:
-            // Tidak ada validasi tambahan yang diperlukan
-            break;
-    }
-}
+                // Lakukan validasi tambahan sesuai dengan parameter yang bersangkutan
+                switch ($param) {
+                    case 'angkatan':
+                        if (!preg_match('/^\d{4}$/', $request->input($param))) {
+                            session()->flash('danger', "Format angkatan tidak valid!");
+                            return back()->withInput();
+                        }
+                        break;
+                    case 'email':
+                        if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
+                            session()->flash('danger', "Format email tidak valid!");
+                            return back()->withInput();
+                        }
+                        break;
+                    case 'nim':
+                        if (!preg_match('/^\d{14}$/', $request->input($param))) {
+                            session()->flash('danger', "Format NIM tidak valid!");
+                            return back()->withInput();
+                        }
+                        break;
+                    case 'ipk':
+                        $ipk = $request->input($param);
 
+                        // Validasi format IPK menggunakan ekspresi regulernya
+                        if (!preg_match('/^\d\.\d{2}$/', $ipk)) {
+                            session()->flash('danger', "Format IPK tidak valid! Harus dalam format x.yz (misal: 3.87).");
+                            return back()->withInput();
+                        }
+
+                        // Validasi range IPK (harus antara 0 hingga 4)
+                        if ($ipk < 0 || $ipk > 4) {
+                            session()->flash('danger', "IPK harus berada di antara 0 hingga 4.");
+                            return back()->withInput();
+                        }
+                        break;
+                    case 'sks':
+                        $sks = $request->input($param);
+
+                        // Validasi format SKS menggunakan ekspresi regulernya (1-3 digit angka)
+                        if (!preg_match('/^\d{1,3}$/', $sks)) {
+                            session()->flash('danger', "Format SKS tidak valid! Harus berupa angka dengan panjang 1-3 digit.");
+                            return back()->withInput();
+                        }
+
+                        // Validasi range SKS (harus antara 0 hingga 160)
+                        if ($sks < 0 || $sks > 160) {
+                            session()->flash('danger', "SKS harus berada di antara 0 hingga 160.");
+                            return back()->withInput();
+                        }
+                        break;
+                    case 'email':
+                        if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
+                            session()->flash('danger', "Format email tidak valid!");
+                            return back()->withInput();
+                        }
+                        break;
+                    case 'no_telp':
+                        if (!preg_match('/^\d{10,14}$/', $request->input($param))) {
+                            session()->flash('danger', "Format nomor telepon tidak valid!");
+                            return back()->withInput();
+                        }
+                        break;
+                    // Tambahkan case untuk parameter lainnya sesuai kebutuhan
+                    default:
+                        // Tidak ada validasi tambahan yang diperlukan
+                        break;
+                }
+            }
 
              try {
                  // params
@@ -257,7 +302,8 @@ foreach ($requiredParams as $param) {
 
             foreach ($requiredParams as $param) {
                 if (!$request->has($param) || empty($request->input($param))) {
-                    session()->flash('danger', "Parameter '$param' kosong atau belum diisi!");
+                    $paramName = ucfirst(str_replace('_', ' ', $param));
+                    session()->flash('danger', "$paramName kosong atau belum diisi!");
                     return back()->withInput();
                 }
 
@@ -270,17 +316,21 @@ foreach ($requiredParams as $param) {
                         }
                         break;
                     case 'id_siklus':
+                        // Validasi id_siklus jika diperlukan
                         break;
                     case 'id_topik':
+                        // Validasi id_topik jika diperlukan
                         break;
                     case 'dosbing_1':
+                        // Validasi dosbing_1 jika diperlukan
                         break;
                     case 'angkatan1':
                     case 'angkatan2':
                     case 'angkatan3':
                         // Validasi angkatan (4 digit angka)
                         if (!preg_match('/^\d{4}$/', $request->input($param))) {
-                            session()->flash('danger', "Format angkatan tidak valid!");
+                            $paramName = ucfirst(str_replace('_', ' ', $param));
+                            session()->flash('danger', "Format angkatan tidak valid untuk $paramName!");
                             return back()->withInput();
                         }
                         break;
@@ -289,39 +339,58 @@ foreach ($requiredParams as $param) {
                     case 'email3':
                         // Validasi email
                         if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
-                            session()->flash('danger', "Format email tidak valid!");
+                            $paramName = ucfirst(str_replace('_', ' ', $param));
+                            session()->flash('danger', "Format email tidak valid untuk $paramName!");
                             return back()->withInput();
                         }
                         break;
                     case 'jenis_kelamin1':
                     case 'jenis_kelamin2':
                     case 'jenis_kelamin3':
-                        // Validasi jenis_kelamin (Misal: harus salah satu dari opsi yang diperbolehkan)
+                        // Validasi jenis kelamin (Misal: harus salah satu dari opsi yang diperbolehkan)
                         break;
                     case 'ipk1':
                     case 'ipk2':
                     case 'ipk3':
-                        // Validasi IPK (0-4, maksimal 2 angka dibelakang koma)
-                        if (!preg_match('/^\d+(\.\d{1,2})?$/', $request->input($param)) || $request->input($param) < 0 || $request->input($param) > 4) {
-                            session()->flash('danger', "Format IPK tidak valid!");
+                        $ipk = $request->input($param);
+
+                        // Validasi format IPK menggunakan ekspresi regulernya
+                        if (!preg_match('/^\d\.\d{2}$/', $ipk)) {
+                            $paramName = ucfirst(str_replace('_', ' ', $param));
+                            session()->flash('danger', "Format IPK tidak valid untuk $paramName! Harus dalam format x.yz (misal: 3.87).");
+                            return back()->withInput();
+                        }
+
+                        // Validasi range IPK (harus antara 0 hingga 4)
+                        if ($ipk < 0 || $ipk > 4) {
+                            session()->flash('danger', "IPK harus berada di antara 0 hingga 4 untuk $paramName.");
                             return back()->withInput();
                         }
                         break;
                     case 'sks1':
                     case 'sks2':
                     case 'sks3':
-                        // Validasi SKS (3 digit angka, 0-160)
-                        if (!preg_match('/^\d{1,3}$/', $request->input($param)) || $request->input($param) < 0 || $request->input($param) > 160) {
-                            session()->flash('danger', "Format SKS tidak valid!");
+                        $sks = $request->input($param);
+
+                        // Validasi format SKS menggunakan ekspresi regulernya (1-3 digit angka)
+                        if (!preg_match('/^\d{1,3}$/', $sks)) {
+                            $paramName = ucfirst(str_replace('_', ' ', $param));
+                            session()->flash('danger', "Format SKS tidak valid untuk $paramName! Harus berupa angka dengan panjang 1-3 digit.");
+                            return back()->withInput();
+                        }
+
+                        // Validasi range SKS (harus antara 0 hingga 160)
+                        if ($sks < 0 || $sks > 160) {
+                            session()->flash('danger', "SKS harus berada di antara 0 hingga 160 untuk $paramName.");
                             return back()->withInput();
                         }
                         break;
                     case 'no_telp1':
                     case 'no_telp2':
                     case 'no_telp3':
-                        // Validasi nomor telepon (10-15 digit angka)
-                        if (!preg_match('/^\d{10,15}$/', $request->input($param))) {
-                            session()->flash('danger', "Format nomor telepon tidak valid!");
+                        // Validasi nomor telepon (10-14 digit angka)
+                        if (!preg_match('/^\d{10,14}$/', $request->input($param))) {
+                            session()->flash('danger', "Format nomor telepon tidak valid untuk $paramName!");
                             return back()->withInput();
                         }
                         break;
@@ -332,14 +401,7 @@ foreach ($requiredParams as $param) {
                 }
             }
 
-
-            foreach ($requiredParams as $param) {
-                if (!$request->has($param) || empty($request->input($param))) {
-                    session()->flash('danger', "Parameter '$param' kosong atau belum diisi!");
-                    return back()->withInput();
-                }
-            }
-
+            // Validasi tambahan setelah iterasi
             if ($request->dosbing_1 == $request->dosbing_2) {
                 session()->flash('danger', "Dosen pembimbing tidak boleh sama!");
                 return back()->withInput();
@@ -553,159 +615,34 @@ foreach ($requiredParams as $param) {
         return back()->withInput();
     }
 
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function detailMahasiswa($user_id)
+    public function editKelompokProcess(Request $request)
     {
-
-        // get data with pagination
-        $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
-
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-
-        // data
-        $data = ['mahasiswa' => $mahasiswa];
-
-        // view
-        return view('mahasiswa.mahasiswa.detail', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editMahasiswa($user_id)
-    {
-
-        // get data
-        $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
-
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-
-        // data
-        $data = ['mahasiswa' => $mahasiswa];
-
-        // view
-        return view('mahasiswa.mahasiswa.edit', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function editMahasiswaProcess(Request $request)
-    {
-
 
         // Validate & auto redirect when fail
         $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            "angkatan" => 'required',
-            "ipk" => 'required',
-            "sks" => 'required',
-            "alamat" => 'required',
+            'id' => 'required',
         ];
+
         $this->validate($request, $rules);
 
         // params
         $params = [
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            "angkatan" => $request->angkatan,
-            "ipk" => $request->ipk,
-            "sks" => $request->sks,
-            "alamat" => $request->alamat,
+            "id_topik" => $request->topik,
+            "judul_capstone" => $request->judul_capstone,
             'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => now()
+            'modified_date'  => date('Y-m-d H:i:s')
         ];
 
         // process
-        if (MahasiswaKelompokModel::update($request->user_id, $params)) {
+        if (MahasiswaKelompokModel::updateKelompok($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return back();
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/edit/' . $request->user_id);
+            return back();
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteMahasiswaProcess($user_id)
-    {
-
-        // get data
-        $mahasiswa = MahasiswaKelompokModel::getDataById($user_id);
-
-        // if exist
-        if (!empty($mahasiswa)) {
-            // process
-            if (MahasiswaKelompokModel::delete($user_id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
-        }
-    }
-
-    /**
-     * Search data.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function searchMahasiswa(Request $request)
-    {
-
-        $user_name = $request->nama;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_mahasiswa = MahasiswaKelompokModel::getDataSearch($user_name);
-            // dd($rs_mahasiswa);
-            // data
-            $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
-            // view
-            return view('mahasiswa.mahasiswa.index', $data);
-        } else {
-            return redirect('/admin/mahasiswa');
-        }
-    }
 }

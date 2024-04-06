@@ -24,6 +24,7 @@ class ApiSiklusModel extends ApiBaseModel
     {
         return DB::table('siklus')
             ->where('status','aktif')
+            ->where('siklus.pendaftaran_mulai', '<', now())
             ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
             ->get();
     }

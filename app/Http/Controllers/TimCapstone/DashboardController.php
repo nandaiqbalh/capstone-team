@@ -18,19 +18,13 @@ class DashboardController extends BaseController
     {
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithHomePagination();
-        $rs_jad_kel = Dashmo::getJadwalCap();
-        $rs_jad_sidang = Dashmo::getJadwalSidang();
-        $rs_jad_expo = Dashmo::getJadwalExpo();
-        // dd($rs_broadcast);
 
 
         // data
 
         $data = [
             'rs_broadcast' => $rs_broadcast,
-            'rs_jad_kel' => $rs_jad_kel,
-            'rs_jad_sidang' => $rs_jad_sidang,
-            'rs_jad_expo' => $rs_jad_expo,
+
         ];
 
         //view
@@ -152,20 +146,12 @@ class DashboardController extends BaseController
     public function indexDosen()
     {
         // get data with pagination
-        $rs_broadcast = Dashmo::getDataWithHomePagination();
-        $rs_jad_kel = Dashmo::getJadwalCap();
-        $rs_jad_sidang = Dashmo::getJadwalSidang();
-        $rs_jad_expo = Dashmo::getJadwalExpo();
-        // dd($rs_broadcast);
-
+        $rs_broadcast = Dashmo::getDataWithPagination();
 
         // data
 
         $data = [
             'rs_broadcast' => $rs_broadcast,
-            'rs_jad_kel' => $rs_jad_kel,
-            'rs_jad_sidang' => $rs_jad_sidang,
-            'rs_jad_expo' => $rs_jad_expo,
         ];
 
         //view

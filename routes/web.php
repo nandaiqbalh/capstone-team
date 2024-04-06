@@ -136,6 +136,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
      Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
+
      //topik
      Route::get('/admin/topik', [TopikController::class, 'index']);
      Route::get('/admin/topik/add', [TopikController::class, 'addTopik']);
@@ -282,9 +283,12 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
     Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addPunyaKelompokProcess']);
+    Route::post('/mahasiswa/kelompok/edit-kelompok-process', [MahasiswaKelompokController::class, 'editKelompokProcess']);
 
     Route::post('/mahasiswa/kelompok/terima-kelompok', [MahasiswaKelompokController::class, 'terimaKelompok'])->name('kelompok.accept');
     Route::post('/mahasiswa/kelompok/tolak-kelompok', [MahasiswaKelompokController::class, 'tolakKelompok'])->name('kelompok.reject');
+    // mahasiswa by id
+    Route::get('/admin/mahasiswa/get-by-id/{user_id}', [MahasiswaController::class, 'getById']);
 
     //mahasiswaFile
     Route::get('/mahasiswa/dokumen', [UploadFileController::class, 'index']);

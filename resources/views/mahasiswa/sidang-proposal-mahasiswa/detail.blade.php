@@ -17,7 +17,16 @@
             </div>
 
             <div class="card-body">
-
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br>
                 @if ($kelompok != null)
                     @if ($kelompok->nomor_kelompok == null)
 

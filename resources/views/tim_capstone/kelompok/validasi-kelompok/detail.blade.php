@@ -67,8 +67,8 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <input type="text" class="form-control" name="judul_ta"
-                                                    value="{{ old('judul_ta', $kelompok->judul_capstone) }}"
+                                                <input type="text" class="form-control" name="judul_capstone"
+                                                    value="{{ old('judul_capstone', $kelompok->judul_capstone) }}"
                                                     placeholder="Judul Project" readonly required>
                                             </div>
                                         </div>

@@ -17,29 +17,35 @@
                 <h5 class="mb-0">Detail Dokumen</h5>
             </div>
 
-            @if ($akun_mahasiswa == null)
-                <div class="card-body">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <br>
+
+                @if ($akun_mahasiswa == null)
                     <h6>
                         Anda belum mendaftar capstone!
                     </h6>
-                </div>
-            @elseif ($kelompok == null)
-                <div class="card-body">
+                @elseif ($kelompok == null)
                     <h6>
                         Anda belum memiliki kelompok!
                     </h6>
-                </div>
-            @elseif ($kelompok->nomor_kelompok == null)
-                <div class="card-body">
+                @elseif ($kelompok->nomor_kelompok == null)
                     <h6>
                         Kelompok Anda belum valid!
                     </h6>
-                </div>
-            @else
-                <div class="row">
-                    <!-- upload makalah -->
-                    <div class="col-md-6">
-                        <div class="card-body">
+                @else
+                    <div class="row">
+                        <!-- upload makalah -->
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload Makalah</h5>
                                 <div class="card-body">
@@ -101,11 +107,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- upload laporan TA -->
-                    <div class="col-md-6">
-                        <div class="card-body">
+                        <!-- upload laporan TA -->
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload Laporan TA</h5>
                                 <div class="card-body">
@@ -168,13 +172,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                {{-- file c series  --}}
+                    {{-- file c series  --}}
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload C100</h5>
                                 <div class="card-body">
@@ -202,25 +204,25 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <!-- <button type="button" class="btn btn-primary float-end m-1 btn-sm" onclick="confirmUpdate()">Ubah</button>
-                                                                                                                                                        <!-- <script>
-                                                                                                                                                            function confirmUpdate() {
-                                                                                                                                                                // Use SweetAlert
-                                                                                                                                                                Swal.fire({
-                                                                                                                                                                    title: 'Apakah Anda yakin ingin mengubah file C100?',
-                                                                                                                                                                    icon: 'question',
-                                                                                                                                                                    showCancelButton: true,
-                                                                                                                                                                    confirmButtonColor: '#3085d6',
-                                                                                                                                                                    cancelButtonColor: '#d33',
-                                                                                                                                                                    confirmButtonText: 'Ya, ubah',
-                                                                                                                                                                    cancelButtonText: 'Batal'
-                                                                                                                                                                }).then((result) => {
-                                                                                                                                                                    if (result.isConfirmed) {
-                                                                                                                                                                        // Continue with the update process
-                                                                                                                                                                        document.querySelector('form').submit();
-                                                                                                                                                                    }
-                                                                                                                                                                });
-                                                                                                                                                            }
-                                                                                                                                                        </script> -->
+                                                                                                                                                                                                                                                    <!-- <script>
+                                                                                                                                                                                                                                                        function confirmUpdate() {
+                                                                                                                                                                                                                                                            // Use SweetAlert
+                                                                                                                                                                                                                                                            Swal.fire({
+                                                                                                                                                                                                                                                                title: 'Apakah Anda yakin ingin mengubah file C100?',
+                                                                                                                                                                                                                                                                icon: 'question',
+                                                                                                                                                                                                                                                                showCancelButton: true,
+                                                                                                                                                                                                                                                                confirmButtonColor: '#3085d6',
+                                                                                                                                                                                                                                                                cancelButtonColor: '#d33',
+                                                                                                                                                                                                                                                                confirmButtonText: 'Ya, ubah',
+                                                                                                                                                                                                                                                                cancelButtonText: 'Batal'
+                                                                                                                                                                                                                                                            }).then((result) => {
+                                                                                                                                                                                                                                                                if (result.isConfirmed) {
+                                                                                                                                                                                                                                                                    // Continue with the update process
+                                                                                                                                                                                                                                                                    document.querySelector('form').submit();
+                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                            });
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                    </script> -->
                                                             <a href="{{ url('/file/kelompok/c100') }}/{{ $file_mhs->file_name_c100 }}"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                                         @else
@@ -236,9 +238,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload C200</h5>
                                 <div class="card-body">
@@ -281,11 +281,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload C300</h5>
                                 <div class="card-body">
@@ -327,9 +325,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload C400</h5>
                                 <div class="card-body">
@@ -372,11 +368,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="card">
                                 <h5 class="card-header">Upload C500</h5>
                                 <div class="card-body">
@@ -418,10 +412,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                </div>
-            @endif
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

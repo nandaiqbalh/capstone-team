@@ -17,7 +17,7 @@ class MahasiswaModel extends BaseModel
             ->get();
     }
 
-    
+
 
     // get data with pagination
     public static function getDataWithPagination()
@@ -89,5 +89,11 @@ class MahasiswaModel extends BaseModel
     public static function delete($user_id)
     {
         return DB::table('app_user')->where('user_id', $user_id)->delete();
+    }
+
+    public static function getMahasiswaById($user_id)
+    {
+        return DB::table('app_user as a')
+            ->where('user_id', $user_id)->first();
     }
 }
