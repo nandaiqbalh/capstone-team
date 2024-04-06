@@ -17,23 +17,39 @@
             </div>
 
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-borderless table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th width="5%"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <br>
                 @if ($kelompok != null)
                     @if ($kelompok->nomor_kelompok == null)
-
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                         <h6>Kelompok Anda belum valid!</h6>
                     @elseif ($siklus_sudah_punya_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($rs_sidang == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                         <h6>Belum ada jadwal sidang!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
@@ -102,7 +118,7 @@
                                             @if ($kelompok->nomor_kelompok == null)
                                                 <td>Menunggu Validasi Kelompok!</td>
                                             @else
-                                                <td>{{ $kelompok->status_kelompok }}</td>
+                                                <td>{{ $kelompok->status_sidang_proposal }}</td>
                                             @endif
                                         </tr>
                                         <tr>
@@ -120,7 +136,8 @@
                                             @if ($kelompok->nomor_kelompok == null)
                                                 <td>-</td>
                                             @else
-                                                <td>{{ $rs_sidang->waktu_sidang }} WIB</td>
+                                                <td>{{ $rs_sidang->waktu_sidang }} WIB -
+                                                    {{ $rs_sidang->waktu_selesai }} WIB
                                             @endif
                                         </tr>
                                         <tr>
@@ -145,11 +162,11 @@
                                 </table>
                             </div>
 
+                            <hr>
+
                             {{-- list mahasiswa  --}}
 
-                            <br>
-                            <h5 class="mb-0">List Mahasiswa</h5>
-
+                            <h6 class="mb-0">List Mahasiswa</h6>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -180,8 +197,7 @@
                             {{-- list dos pembimbing  --}}
 
                             <br>
-                            <h5 class="mb-0">List Dosen Pembimbing</h5>
-
+                            <h6 class="mb-0">List Dosen Pembimbing</h6>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -216,7 +232,7 @@
                             {{-- list dos penguji  --}}
 
                             <br>
-                            <h5 class="mb-0">List Dosen Penguji</h5>
+                            <h6 class="mb-0">List Dosen Penguji</h6>
 
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
@@ -252,6 +268,15 @@
 
                     @endif
                 @else
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                     <h6>Anda belum mendaftar capstone!</h6>
                 @endif
             </div>

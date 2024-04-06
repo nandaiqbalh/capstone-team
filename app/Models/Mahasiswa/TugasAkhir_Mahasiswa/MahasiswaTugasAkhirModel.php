@@ -203,4 +203,15 @@ class MahasiswaTugasAkhirModel extends BaseModel
             ->update($params);
     }
 
+    public static function fileMHS()
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.id as id_kel_mhs','a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
+            ->join('kelompok as b','a.id_kelompok','b.id')
+            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->where('c.status','aktif')
+            ->where('a.id_mahasiswa', Auth::user()->user_id)
+            ->first();
+    }
+
 }

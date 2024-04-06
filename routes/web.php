@@ -58,15 +58,11 @@ use App\Http\Controllers\Mahasiswa\SidangProposal_Mahasiswa\MahasiswaSidangPropo
 use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
 use App\Http\Controllers\Mahasiswa\TugasAkhir_Mahasiswa\MahasiswaTugasAkhirController;
 
-use App\Http\Controllers\TimCapstone\UploadFile\UploadFileController;
+use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
-
-// api
-use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
-
 
 
 /**
@@ -291,15 +287,15 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::get('/admin/mahasiswa/get-by-id/{user_id}', [MahasiswaController::class, 'getById']);
 
     //mahasiswaFile
-    Route::get('/mahasiswa/dokumen', [UploadFileController::class, 'index']);
-    Route::post('/mahasiswa/dokumen/upload-makalah', [UploadFileController::class, 'uploadMakalahProcess']);
-    Route::post('/mahasiswa/dokumen/upload-laporan', [UploadFileController::class, 'uploadLaporanProcess']);
+    Route::get('/mahasiswa/dokumen', [DokumenMahasiswaController::class, 'index']);
+    Route::post('/mahasiswa/dokumen/upload-makalah', [DokumenMahasiswaController::class, 'uploadMakalahProcess']);
+    Route::post('/mahasiswa/dokumen/upload-laporan', [DokumenMahasiswaController::class, 'uploadLaporanProcess']);
 
-    Route::post('/mahasiswa/dokumen/upload-c100', [UploadFileController::class, 'uploadC100Process']);
-    Route::post('/mahasiswa/dokumen/upload-c200', [UploadFileController::class, 'uploadC200Process']);
-    Route::post('/mahasiswa/dokumen/upload-c300', [UploadFileController::class, 'uploadC300Process']);
-    Route::post('/mahasiswa/dokumen/upload-c400', [UploadFileController::class, 'uploadC400Process']);
-    Route::post('/mahasiswa/dokumen/upload-c500', [UploadFileController::class, 'uploadC500Process']);
+    Route::post('/mahasiswa/dokumen/upload-c100', [DokumenMahasiswaController::class, 'uploadC100Process']);
+    Route::post('/mahasiswa/dokumen/upload-c200', [DokumenMahasiswaController::class, 'uploadC200Process']);
+    Route::post('/mahasiswa/dokumen/upload-c300', [DokumenMahasiswaController::class, 'uploadC300Process']);
+    Route::post('/mahasiswa/dokumen/upload-c400', [DokumenMahasiswaController::class, 'uploadC400Process']);
+    Route::post('/mahasiswa/dokumen/upload-c500', [DokumenMahasiswaController::class, 'uploadC500Process']);
 
     // sidang proposal
     Route::get('/mahasiswa/sidang-proposal', [MahasiswaSidangProposalController::class, 'index']);

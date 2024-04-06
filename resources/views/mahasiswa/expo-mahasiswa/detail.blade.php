@@ -59,10 +59,10 @@
                                         <tr>
                                             <td>Status</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
-                                                <td>Menunggu Validasi Kelompok!</td>
+                                            @if ($kelompok->status_expo == null)
+                                                <td>Belum mendaftar expo!</td>
                                             @else
-                                                <td>{{ $kelompok->status_kelompok }}</td>
+                                                <td>{{ $kelompok->status_expo }}</td>
                                             @endif
                                         </tr>
                                         <tr>

@@ -87,15 +87,37 @@ class MahasiswaExpoController extends BaseController
             return redirect()->back()->with('danger', 'Anda belum memiliki kelompok!');
         }
 
-        // Validasi berkas Capstone
+        // Validasi berkas Capstone (file_name_c500)
         if (!$kelompok->file_name_c500) {
-            return redirect()->back()->with('danger', 'Lengkapi Dokumen Capstone!');
+            return redirect()->back()->with('danger', 'Lengkapi Dokumen Capstone terlebih dahulu!');
         }
+
+        // Validasi laporan TA sudah diunggah
+        $existingFile = MahasiswaExpoModel::fileMHS(Auth::user()->user_id);
+        if (!$existingFile || !$existingFile->file_name_laporan_ta) {
+            return redirect()->back()->with('danger', 'Lengkapi laporan TA terlebih dahulu sebelum mendaftar expo!');
+        }
+
+        // Validasi judul TA mahasiswa (maksimum 20 kata)
+        $judulTaMhs = $request->input('judul_ta_mhs');
+        $wordCount = str_word_count($judulTaMhs);
+
+        if ($wordCount > 20) {
+            return redirect()->back()->with('danger', 'Judul TA maksimal 20 kata!');
+        }
+
+        // Validasi link upload sebagai URL
+        $validatedData = $request->validate([
+            'link_berkas_expo' => 'required|url',
+        ], [
+            'link_berkas_expo.required' => 'Kolom link berkas expo harus diisi.',
+            'link_berkas_expo.url' => 'Format link berkas expo tidak valid.',
+        ]);
 
         // Persiapan data pendaftaran expo
         $params = [
             'id_kelompok' => $kelompok->id,
-            'id_expo' => $request -> id_expo,
+            'id_expo' => $request->id_expo,
             'status' => 'Menunggu Validasi Expo!',
             'created_by' => $request->user()->user_id,
             'created_date' => now(),
@@ -105,13 +127,13 @@ class MahasiswaExpoController extends BaseController
         if (DB::table('pendaftaran_expo')->updateOrInsert(['id_kelompok' => $kelompok->id], $params)) {
             // Update status kelompok dan mahasiswa
             $kelompokParams = [
-                'link_berkas_expo' => $request->link_berkas_expo,
+                'link_berkas_expo' => $validatedData['link_berkas_expo'],
                 'status_kelompok' => "Menunggu Validasi Expo!"
             ];
             MahasiswaExpoModel::updateKelompokById($kelompok->id_kelompok, $kelompokParams);
 
             $kelompokMHSParams = [
-                'judul_ta_mhs' => $request->judul_ta_mhs,
+                'judul_ta_mhs' => $judulTaMhs,
                 'status_individu' => "Menunggu Validasi Expo!"
             ];
             $statusDaftar = MahasiswaExpoModel::updateKelompokMHS($request->user()->user_id, $kelompokMHSParams);

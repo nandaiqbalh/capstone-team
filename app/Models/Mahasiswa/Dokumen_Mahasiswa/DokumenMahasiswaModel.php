@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\TimCapstone\UploadFile;
+namespace App\Models\Mahasiswa\Dokumen_Mahasiswa;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class UploadFileModel extends BaseModel
+class DokumenMahasiswaModel extends BaseModel
 {
     public static function getKelompokFile($id_kelompok)
     {
@@ -80,9 +80,9 @@ class UploadFileModel extends BaseModel
         return DB::table('app_user')->where('user_id', $user_id)->first();
     }
 
-    public static function uploadFileMHS($id_mahasiswa, $params)
+    public static function uploadFileMHS($id, $params)
     {
-        return DB::table('kelompok_mhs')->where('id_mahasiswa', $id_mahasiswa)->update($params);
+        return DB::table('kelompok_mhs')->where('id', $id)->update($params);
     }
 
     public static function uploadFileKel($id_kelompok, $params)

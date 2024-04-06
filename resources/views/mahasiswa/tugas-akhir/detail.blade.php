@@ -18,19 +18,19 @@
 
             <div class="card-body">
 
-                <div class="table-responsive">
-                    <table class="table table-borderless table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th width="5%"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <br>
                 @if ($kelompok != null)
 
                     @if ($kelompok->nomor_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <!-- belum menyelesaikan capstone/ belum valid -->
                         <h6>Anda belum menyelesaikan capstone!</h6>
                     @else
@@ -39,7 +39,16 @@
                         <!-- check apakah ada periode atau tidak -->
                         @if ($periode == null)
                             <!-- tidak ada periode -->
-
+                            <div class="table-responsive">
+                                <table class="table table-borderless table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th width="5%"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <br>
                             <h6>Belum ada periode sidang Tugas Akhir yang tersedia!</h6>
                         @else
                             <!-- ada periode -->
@@ -315,6 +324,16 @@
                         @endif
                     @endif
                 @else
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Anda belum menyelesaikan capstone!</h6>
                 @endif
             </div>

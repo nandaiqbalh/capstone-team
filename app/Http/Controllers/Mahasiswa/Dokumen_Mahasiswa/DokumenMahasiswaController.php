@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\TimCapstone\UploadFile;
+namespace App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\TimCapstone\UploadFile\UploadFileModel;
+use App\Models\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaModel;
 use App\Models\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class UploadFileController extends BaseController
+class DokumenMahasiswaController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -24,8 +24,9 @@ class UploadFileController extends BaseController
     public function index()
     {
 
+
         // get data kelompok
-        $file_mhs = UploadFileModel::fileMHS();
+        $file_mhs = DokumenMahasiswaModel::fileMHS();
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
         $akun_mahasiswa = MahasiswaKelompokModel::getAkunByID(Auth::user()->user_id);
 
@@ -39,7 +40,7 @@ class UploadFileController extends BaseController
 
         // dd($data);
         // view
-        return view('tim_capstone.upload-file.detail', $data);
+        return view('mahasiswa.dokumen-mahasiswa.detail', $data);
 
     }
 
@@ -54,7 +55,7 @@ class UploadFileController extends BaseController
         $upload_path = '/file/mahasiswa/makalah';
 
         // Cek apakah file laporan_ta sudah diunggah sebelumnya
-        $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
+        $existingFile = DokumenMahasiswaModel::fileMHS($request->id_mahasiswa);
         if ($existingFile->file_name_laporan_ta == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen Laporan TA!');
             return redirect()->back()->withInput();
@@ -93,7 +94,7 @@ class UploadFileController extends BaseController
                 'file_name_makalah' => $new_file_name,
                 'file_path_makalah' => $upload_path
             ];
-            UploadFileModel::uploadFileMHS($request->id_kel_mhs, $params);
+            DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
 
             session()->flash('success', 'Berhasil mengunggah dokumen!');
             return redirect()->back();
@@ -110,20 +111,16 @@ class UploadFileController extends BaseController
         // Cek apakah file laporan_ta diunggah
         if ($request->hasFile('laporan_ta')) {
             $file = $request->file('laporan_ta');
-            $file_extension = $file->getClientOriginalExtension();
-            $new_file_name = 'laporan_ta-' . Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.' . $file_extension;
 
-            $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
-
-            $dokumenKelompok = UploadFileModel::pengecekan_kelompok_mahasiswa(Auth::user()-> user_id);
-
-            // Cek keberadaan file file_name_c500 sebelum mengunggah laporan_ta
+            // Cek keberadaan capstone sebelum mengunggah laporan_ta
+            $dokumenKelompok = DokumenMahasiswaModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
             if ($dokumenKelompok->file_name_c500 == null) {
                 session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen Capstone!');
                 return redirect()->back()->withInput();
             }
 
             // Hapus file laporan_ta yang sudah ada jika ada
+            $existingFile = DokumenMahasiswaModel::fileMHS($request->id_mahasiswa);
             if ($existingFile->file_name_laporan_ta != null) {
                 $file_path_laporan_ta = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
                 if (file_exists($file_path_laporan_ta)) {
@@ -140,6 +137,9 @@ class UploadFileController extends BaseController
             }
 
             // Proses upload laporan_ta
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'laporan_ta-' . Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.' . $file_extension;
+
             if (!$file->move(public_path($upload_path), $new_file_name)) {
                 session()->flash('danger', 'Laporan gagal diupload!');
                 return redirect()->back()->withInput();
@@ -150,12 +150,18 @@ class UploadFileController extends BaseController
                 'file_name_laporan_ta' => $new_file_name,
                 'file_path_laporan_ta' => $upload_path
             ];
-            UploadFileModel::uploadFileMHS($request->id_kel_mhs, $params);
 
-            session()->flash('success', 'Berhasil mengunggah dokumen!');
-            return redirect()->back();
+            $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
+
+            if ($uploadFileMhs) {
+                session()->flash('success', 'Berhasil mengunggah dokumen!');
+                return redirect()->back();
+            } else {
+                session()->flash('danger', 'Gagal mengunggah! Dokumen laporan_ta tidak ditemukan!');
+                return redirect()->back()->withInput();
+            }
+
         }
-
         session()->flash('danger', 'Gagal mengunggah! Dokumen laporan_ta tidak ditemukan!');
         return redirect()->back()->withInput();
     }
@@ -178,10 +184,10 @@ class UploadFileController extends BaseController
             );
             $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
 
-            $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+            $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            $siklus = UploadFileModel::getSiklusKelompok($existingFile->id_siklus);
+            $siklus = DokumenMahasiswaModel::getSiklusKelompok($existingFile->id_siklus);
 
             if($siklus != null){
                 // Check if the file exists
@@ -216,7 +222,7 @@ class UploadFileController extends BaseController
                     'file_name_c100' => $new_file_name,
                     'file_path_c100' => $upload_path
                 ];
-                $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
+                $uploadFile = DokumenMahasiswaModel::uploadFileKel($kelompok->id, $params);
 
                 if ($uploadFile) {
                     $statusParam = [
@@ -225,7 +231,7 @@ class UploadFileController extends BaseController
                         'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
                     ];
 
-                    UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+                    DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
                 } else {
                     return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
                 }
@@ -247,7 +253,7 @@ class UploadFileController extends BaseController
         $upload_path = '/file/kelompok/c200';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+        $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
 
         // Pastikan sudah ada file C100 sebelum mengunggah C200
         if ($existingFile->file_name_c100 == null) {
@@ -287,7 +293,7 @@ class UploadFileController extends BaseController
                 'file_name_c200' => $new_file_name,
                 'file_path_c200' => $upload_path
             ];
-            $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
+            $uploadFile = DokumenMahasiswaModel::uploadFileKel($kelompok->id, $params);
 
             if (!$uploadFile) {
                 return redirect()->back()->with('danger', 'Gagal. Dokumen C200 gagal diunggah!');
@@ -299,7 +305,7 @@ class UploadFileController extends BaseController
                 'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C200!',
                 'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C200!',
             ];
-            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
             session()->flash('success', 'Berhasil mengunggah dokumen C200!');
             return redirect()->back();
@@ -315,7 +321,7 @@ class UploadFileController extends BaseController
         $upload_path = '/file/kelompok/c300';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+        $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
 
         // Pastikan sudah ada file C200 sebelum mengunggah C300
         if ($existingFile->file_name_c200 == null) {
@@ -355,7 +361,7 @@ class UploadFileController extends BaseController
                 'file_name_c300' => $new_file_name,
                 'file_path_c300' => $upload_path
             ];
-            $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
+            $uploadFile = DokumenMahasiswaModel::uploadFileKel($kelompok->id, $params);
 
             if (!$uploadFile) {
                 return redirect()->back()->with('danger', 'Gagal. Dokumen C300 gagal diunggah!');
@@ -367,7 +373,7 @@ class UploadFileController extends BaseController
                 'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C300!',
                 'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C300!',
             ];
-            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
             session()->flash('success', 'Berhasil mengunggah dokumen C300!');
             return redirect()->back();
@@ -382,7 +388,7 @@ class UploadFileController extends BaseController
         $upload_path = '/file/kelompok/c400';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+        $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
 
         // Pastikan sudah ada file C300 sebelum mengunggah C400
         if ($existingFile->file_name_c300 == null) {
@@ -422,7 +428,7 @@ class UploadFileController extends BaseController
                 'file_name_c400' => $new_file_name,
                 'file_path_c400' => $upload_path
             ];
-            $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
+            $uploadFile = DokumenMahasiswaModel::uploadFileKel($kelompok->id, $params);
 
             if (!$uploadFile) {
                 return redirect()->back()->with('danger', 'Gagal. Dokumen C400 gagal diunggah!');
@@ -434,7 +440,7 @@ class UploadFileController extends BaseController
                 'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C400!',
                 'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C400!',
             ];
-            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
             session()->flash('success', 'Berhasil mengunggah dokumen C400!');
             return redirect()->back();
@@ -450,7 +456,7 @@ class UploadFileController extends BaseController
         $upload_path = '/file/kelompok/c500';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+        $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
 
         // Pastikan sudah ada file C400 sebelum mengunggah C500
         if ($existingFile->file_name_c400 == null) {
@@ -490,7 +496,7 @@ class UploadFileController extends BaseController
                 'file_name_c500' => $new_file_name,
                 'file_path_c500' => $upload_path
             ];
-            $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
+            $uploadFile = DokumenMahasiswaModel::uploadFileKel($kelompok->id, $params);
 
             if (!$uploadFile) {
                 return redirect()->back()->with('danger', 'Gagal. Dokumen C500 gagal diunggah!');
@@ -502,7 +508,7 @@ class UploadFileController extends BaseController
                 'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C500!',
                 'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C500!',
             ];
-            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
             session()->flash('success', 'Berhasil mengunggah dokumen C500!');
             return redirect()->back();

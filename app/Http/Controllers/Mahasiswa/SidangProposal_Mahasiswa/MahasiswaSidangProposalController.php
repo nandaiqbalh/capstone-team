@@ -69,6 +69,9 @@ class MahasiswaSidangProposalController extends BaseController
                 $rs_sidang->hari_sidang = $this->convertDayToIndonesian($rs_sidang->hari_sidang);
                 $rs_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
                 $rs_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                $waktuSelesai = strtotime($rs_sidang->waktu_selesai);
+                $rs_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
             }
 
 
