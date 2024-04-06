@@ -35,19 +35,18 @@ class UploadFileModel extends BaseModel
     }
 
      // pengecekan kelompok
-    public static function pengecekan_kelompok_mahasiswa()
-    {
-    return DB::table('kelompok_mhs as a')
-        ->select('a.*', 'b.*','c.nama as nama_topik')
-        ->leftjoin('kelompok as b','a.id_kelompok','b.id')
-        ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
-        // ->where(function ($query) {
-        //     $query->where('a.status_individu', 'menuggu persetujuan')
-        //         ->orWhere('a.status_individu', 'disetujui');
-        // })
-        ->where('a.id_mahasiswa', Auth::user()->user_id)
-        ->first();
-    }
+     public static function pengecekan_kelompok_mahasiswa($user_id)
+     {
+         return DB::table('kelompok_mhs as a')
+             ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+             ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
+             ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
+             ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
+             ->where('a.id_mahasiswa', $user_id)
+             ->orderBy('a.created_date', 'desc') // Urutkan berdasarkan created_date secara descending
+             ->first();
+     }
+
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
     {

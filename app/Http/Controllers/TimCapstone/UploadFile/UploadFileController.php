@@ -51,119 +51,115 @@ class UploadFileController extends BaseController
      */
     public function uploadMakalahProcess(Request $request)
     {
-
-
-        // upload path
         $upload_path = '/file/mahasiswa/makalah';
-        // UPLOAD FOTO
+
+        // Cek apakah file laporan_ta sudah diunggah sebelumnya
+        $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
+        if ($existingFile->file_name_laporan_ta == null) {
+            session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen Laporan TA!');
+            return redirect()->back()->withInput();
+        }
+
+        // Pastikan ada file makalah yang diunggah
         if ($request->hasFile('makalah')) {
-
             $file = $request->file('makalah');
-            // namafile
-            $file_extention = pathinfo($file->getClientOriginalName(),
-                PATHINFO_EXTENSION
-            );
-            $new_file_name = 'makalah-' . Str::slug(Auth::user() ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'makalah-' . Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.' . $file_extension;
 
-            $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
-            // Check if the file exists
-            if ($existingFile ->file_name_makalah != null) {
-                // Construct the file path
-                $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
-
-                // Check if the file exists before attempting to delete
-                if (file_exists($filePath)) {
-                    // Attempt to delete the file
-                    if (!unlink($filePath)) {
-                        // Return failure response if failed to delete the existing file
+            // Hapus file makalah yang sudah ada jika ada
+            if ($existingFile->file_name_makalah != null) {
+                $file_path_makalah = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
+                if (file_exists($file_path_makalah)) {
+                    if (!unlink($file_path_makalah)) {
                         session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
+                        return redirect()->back()->withInput();
                     }
                 }
             }
-            // cek folder
+
+            // Pastikan folder upload ada, jika tidak, buat folder baru
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
             }
 
-            // upload process
+            // Proses upload makalah
             if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Makalah gagal di upload!');
+                session()->flash('danger', 'Makalah gagal diupload!');
                 return redirect()->back()->withInput();
             }
 
+            // Update informasi file makalah pada database
             $params = [
                 'file_name_makalah' => $new_file_name,
                 'file_path_makalah' => $upload_path
             ];
-            UploadFileModel::uploadFileMHS($request->id_kel_mhs,$params);
+            UploadFileModel::uploadFileMHS($request->id_kel_mhs, $params);
 
+            session()->flash('success', 'Berhasil mengunggah dokumen!');
+            return redirect()->back();
         }
 
-
-        // flash message
-        session()->flash('success', 'Berhasil mengunggah dokumen!');
-        return back();
+        session()->flash('danger', 'Gagal mengunggah! Dokumen makalah tidak ditemukan!');
+        return redirect()->back()->withInput();
     }
 
     public function uploadLaporanProcess(Request $request)
     {
-
-        // upload path
         $upload_path = '/file/mahasiswa/laporan-ta';
-        // UPLOAD FOTO
-        if ($request->hasFile('laporan_ta')) {
 
+        // Cek apakah file laporan_ta diunggah
+        if ($request->hasFile('laporan_ta')) {
             $file = $request->file('laporan_ta');
-            // namafile
-            $file_extention = pathinfo(
-                $file->getClientOriginalName(),
-                PATHINFO_EXTENSION
-            );
-            $new_file_name = 'laporan_ta-' . Str::slug(Auth::user() ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'laporan_ta-' . Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.' . $file_extension;
 
             $existingFile = UploadFileModel::fileMHS($request->id_mahasiswa);
-            // Check if the file exists
-            if ($existingFile ->file_name_laporan_ta !=null) {
-                // Construct the file path
-                $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
 
-                // Check if the file exists before attempting to delete
-                if (file_exists($filePath)) {
-                    // Attempt to delete the file
-                    if (!unlink($filePath)) {
-                        // Return failure response if failed to delete the existing file
+            $dokumenKelompok = UploadFileModel::pengecekan_kelompok_mahasiswa(Auth::user()-> user_id);
+
+            // Cek keberadaan file file_name_c500 sebelum mengunggah laporan_ta
+            if ($dokumenKelompok->file_name_c500 == null) {
+                session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen Capstone!');
+                return redirect()->back()->withInput();
+            }
+
+            // Hapus file laporan_ta yang sudah ada jika ada
+            if ($existingFile->file_name_laporan_ta != null) {
+                $file_path_laporan_ta = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
+                if (file_exists($file_path_laporan_ta)) {
+                    if (!unlink($file_path_laporan_ta)) {
                         session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
+                        return redirect()->back()->withInput();
                     }
                 }
             }
 
-            // cek folder
+            // Pastikan folder upload ada, jika tidak, buat folder baru
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
             }
 
-            // upload process
+            // Proses upload laporan_ta
             if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Laporan gagal di upload!');
+                session()->flash('danger', 'Laporan gagal diupload!');
                 return redirect()->back()->withInput();
             }
 
+            // Update informasi file laporan_ta pada database
             $params = [
                 'file_name_laporan_ta' => $new_file_name,
                 'file_path_laporan_ta' => $upload_path
             ];
             UploadFileModel::uploadFileMHS($request->id_kel_mhs, $params);
+
+            session()->flash('success', 'Berhasil mengunggah dokumen!');
+            return redirect()->back();
         }
 
-
-        // flash message
-        session()->flash('success', 'Berhasil mengunggah dokumen!');
-        return back();
+        session()->flash('danger', 'Gagal mengunggah! Dokumen laporan_ta tidak ditemukan!');
+        return redirect()->back()->withInput();
     }
+
 
     // c series
 
@@ -186,7 +182,7 @@ class UploadFileController extends BaseController
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             $siklus = UploadFileModel::getSiklusKelompok($existingFile->id_siklus);
-            
+
             if($siklus != null){
                 // Check if the file exists
                 if ($existingFile -> file_name_c100 !=null) {
@@ -248,315 +244,274 @@ class UploadFileController extends BaseController
 
     public function uploadC200Process(Request $request)
     {
-
-
-        // upload path
         $upload_path = '/file/kelompok/c200';
-        // UPLOAD FOTO
+
+        $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
+        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+
+        // Pastikan sudah ada file C100 sebelum mengunggah C200
+        if ($existingFile->file_name_c100 == null) {
+            session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c200')) {
-
             $file = $request->file('c200');
-            // namafile
-            $file_extention = pathinfo(
-                $file->getClientOriginalName(),
-                PATHINFO_EXTENSION
-            );
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'c200-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file_extension;
 
-            $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-
-            $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
-            $new_file_name = 'c200-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Check if the file exists
-            if ($existingFile -> file_name_c200!=null) {
-                if ($existingFile -> file_name_c100 != null) {
-                    // Construct the file path
-                    $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
-
-                    // Check if the file exists before attempting to delete
-                    if (file_exists($filePath)) {
-                        // Attempt to delete the file
-                        if (!unlink($filePath)) {
-                            // Return failure response if failed to delete the existing file
-                            session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
-                        }
+            // Hapus file C200 yang sudah ada jika ada
+            if ($existingFile->file_name_c200 != null) {
+                $file_path_c200 = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
+                if (file_exists($file_path_c200)) {
+                    if (!unlink($file_path_c200)) {
+                        session()->flash('danger', 'Gagal menghapus dokumen lama C200!');
+                        return redirect()->back()->withInput();
                     }
-                } else{
-                    session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
-                    return redirect()->back()->withInput();
                 }
             }
-            // cek folder
+
+            // Pastikan folder upload ada, jika tidak, buat folder baru
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
             }
 
-            // upload process
+            // Lakukan proses upload file C200
             if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Laporan gagal di upload!');
+                session()->flash('danger', 'Gagal mengunggah dokumen C200!');
                 return redirect()->back()->withInput();
             }
 
+            // Update informasi file C200 pada database
             $params = [
                 'file_name_c200' => $new_file_name,
                 'file_path_c200' => $upload_path
             ];
             $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
 
-            if ($uploadFile) {
-                $statusParam = [
-                    'status_kelompok' => 'C200 Telah Disetujui!',
-                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C200!',
-                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C200!',
-                ];
-
-                UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
-            } else {
-                return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
+            if (!$uploadFile) {
+                return redirect()->back()->with('danger', 'Gagal. Dokumen C200 gagal diunggah!');
             }
+
+            // Update status kelompok dan dosen pembimbing terkait
+            $statusParam = [
+                'status_kelompok' => 'C200 Telah Disetujui!',
+                'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C200!',
+                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C200!',
+            ];
+            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+
+            session()->flash('success', 'Berhasil mengunggah dokumen C200!');
+            return redirect()->back();
         }
 
-
-        // flash message
-        session()->flash('success', 'Berhasil mengunggah dokumen!');
-        return back();
+        session()->flash('danger', 'Gagal mengunggah! Dokumen C200 tidak ditemukan!');
+        return redirect()->back()->withInput();
     }
+
+
     public function uploadC300Process(Request $request)
     {
-
-
-        // upload path
         $upload_path = '/file/kelompok/c300';
-        // UPLOAD FOTO
+
+        $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
+        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+
+        // Pastikan sudah ada file C200 sebelum mengunggah C300
+        if ($existingFile->file_name_c200 == null) {
+            session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c300')) {
-
             $file = $request->file('c300');
-            // namafile
-            $file_extention = pathinfo(
-                $file->getClientOriginalName(),
-                PATHINFO_EXTENSION
-            );
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'c300-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file_extension;
 
-            $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-
-            $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
-            $new_file_name = 'c300-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Check if the file exists
-            if ($existingFile -> file_name_c300 !=null) {
-                if ($existingFile -> file_name_c200 != null) {
-
-                    // Construct the file path
-                    $filePath = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
-
-                    // Check if the file exists before attempting to delete
-                    if (file_exists($filePath)) {
-                        // Attempt to delete the file
-                        if (!unlink($filePath)) {
-                            session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
-                        }
+            // Hapus file C300 yang sudah ada jika ada
+            if ($existingFile->file_name_c300 != null) {
+                $file_path_c300 = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
+                if (file_exists($file_path_c300)) {
+                    if (!unlink($file_path_c300)) {
+                        session()->flash('danger', 'Gagal menghapus dokumen lama C300!');
+                        return redirect()->back()->withInput();
                     }
-
-                }else{
-                    session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
-                    return redirect()->back()->withInput();
                 }
             }
-            // cek folder
+
+            // Pastikan folder upload ada, jika tidak, buat folder baru
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
             }
 
-            // upload process
+            // Lakukan proses upload file C300
             if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Laporan gagal di upload!');
+                session()->flash('danger', 'Gagal mengunggah dokumen C300!');
                 return redirect()->back()->withInput();
             }
 
+            // Update informasi file C300 pada database
             $params = [
                 'file_name_c300' => $new_file_name,
                 'file_path_c300' => $upload_path
             ];
             $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
 
-            if ($uploadFile) {
-                $statusParam = [
-                    'status_kelompok' => 'C300 Telah Disetujui!',
-                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C300!',
-                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C300!',
-                ];
-
-                UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
-            } else {
-                return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
+            if (!$uploadFile) {
+                return redirect()->back()->with('danger', 'Gagal. Dokumen C300 gagal diunggah!');
             }
-         }
 
+            // Update status kelompok dan dosen pembimbing terkait
+            $statusParam = [
+                'status_kelompok' => 'C300 Telah Disetujui!',
+                'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C300!',
+                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C300!',
+            ];
+            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
 
-        // flash message
-        session()->flash('success', 'Berhasil mengunggah dokumen!');
-        return back();
+            session()->flash('success', 'Berhasil mengunggah dokumen C300!');
+            return redirect()->back();
+        }
+
+        session()->flash('danger', 'Gagal mengunggah! Dokumen C300 tidak ditemukan!');
+        return redirect()->back()->withInput();
     }
+
     public function uploadC400Process(Request $request)
     {
-
-
-        // upload path
         $upload_path = '/file/kelompok/c400';
-        // UPLOAD FOTO
+
+        $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
+        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+
+        // Pastikan sudah ada file C300 sebelum mengunggah C400
+        if ($existingFile->file_name_c300 == null) {
+            session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C300!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c400')) {
-
             $file = $request->file('c400');
-            // namafile
-            $file_extention = pathinfo(
-                $file->getClientOriginalName(),
-                PATHINFO_EXTENSION
-            );
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'c400-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file_extension;
 
-            $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-
-            $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
-            $new_file_name = 'c400-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Check if the file exists
-            if ($existingFile -> file_name_c400 !=null) {
-                if ($existingFile -> file_name_c300 != null) {
-
-                    // Construct the file path
-                    $filePath = public_path($existingFile->file_path_c400 . '/' . $existingFile->file_name_c400);
-
-                    // Check if the file exists before attempting to delete
-                    if (file_exists($filePath)) {
-                        // Attempt to delete the file
-                        if (!unlink($filePath)) {
-                            // Return failure response if failed to delete the existing file
-                            session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
-                        }
+            // Hapus file C400 yang sudah ada jika ada
+            if ($existingFile->file_name_c400 != null) {
+                $file_path_c400 = public_path($existingFile->file_path_c400 . '/' . $existingFile->file_name_c400);
+                if (file_exists($file_path_c400)) {
+                    if (!unlink($file_path_c400)) {
+                        session()->flash('danger', 'Gagal menghapus dokumen lama C400!');
+                        return redirect()->back()->withInput();
                     }
-                }else{
-                    session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C300!');
-                    return redirect()->back()->withInput();
                 }
             }
-            // cek folder
+
+            // Pastikan folder upload ada, jika tidak, buat folder baru
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
             }
 
-            // upload process
+            // Lakukan proses upload file C400
             if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Laporan gagal di upload!');
+                session()->flash('danger', 'Gagal mengunggah dokumen C400!');
                 return redirect()->back()->withInput();
             }
 
+            // Update informasi file C400 pada database
             $params = [
                 'file_name_c400' => $new_file_name,
                 'file_path_c400' => $upload_path
             ];
             $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
 
-            if ($uploadFile) {
-                $statusParam = [
-                    'status_kelompok' => 'C400 Telah Disetujui!',
-                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C400!',
-                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C400!',
-                ];
-
-                UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
-            } else {
-                return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
+            if (!$uploadFile) {
+                return redirect()->back()->with('danger', 'Gagal. Dokumen C400 gagal diunggah!');
             }
 
+            // Update status kelompok dan dosen pembimbing terkait
+            $statusParam = [
+                'status_kelompok' => 'C400 Telah Disetujui!',
+                'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C400!',
+                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C400!',
+            ];
+            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+
+            session()->flash('success', 'Berhasil mengunggah dokumen C400!');
+            return redirect()->back();
         }
 
-
-        // flash message
-        session()->flash('success', 'Berhasil mengunggah dokumen!');
-        return back();
+        session()->flash('danger', 'Gagal mengunggah! Dokumen C400 tidak ditemukan!');
+        return redirect()->back()->withInput();
     }
+
+
     public function uploadC500Process(Request $request)
     {
-
-
-        // upload path
         $upload_path = '/file/kelompok/c500';
-        // UPLOAD FOTO
+
+        $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
+        $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
+
+        // Pastikan sudah ada file C400 sebelum mengunggah C500
+        if ($existingFile->file_name_c400 == null) {
+            session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c500')) {
-
             $file = $request->file('c500');
-            // namafile
-            $file_extention = pathinfo(
-                $file->getClientOriginalName(),
-                PATHINFO_EXTENSION
-            );
+            $file_extension = $file->getClientOriginalExtension();
+            $new_file_name = 'c500-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file_extension;
 
-            $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-
-            $existingFile = UploadFileModel::getKelompokFile($kelompok->id);
-            $new_file_name = 'c500-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // Check if the file exists
-            if ($existingFile -> file_name_c500 !=null) {
-                if ($existingFile -> file_name_c400 != null) {
-
-                    // Construct the file path
-                    $filePath = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
-
-                    // Check if the file exists before attempting to delete
-                    if (file_exists($filePath)) {
-                        // Attempt to delete the file
-                        if (!unlink($filePath)) {
-                            // Return failure response if failed to delete the existing file
-                            session()->flash('danger', 'Gagal menghapus dokumen lama!');
-                            return redirect()->back()->withInput();
-                        }
+            // Hapus file C500 yang sudah ada jika ada
+            if ($existingFile->file_name_c500 != null) {
+                $file_path_c500 = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
+                if (file_exists($file_path_c500)) {
+                    if (!unlink($file_path_c500)) {
+                        session()->flash('danger', 'Gagal menghapus dokumen lama C500!');
+                        return redirect()->back()->withInput();
                     }
-
-                }else{
-                    session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
-                    return redirect()->back()->withInput();
                 }
             }
-            // cek folder
+
+            // Pastikan folder upload ada, jika tidak, buat folder baru
             if (!is_dir(public_path($upload_path))) {
                 mkdir(public_path($upload_path), 0755, true);
             }
 
-            // upload process
+            // Lakukan proses upload file C500
             if (!$file->move(public_path($upload_path), $new_file_name)) {
-                // flash message
-                session()->flash('danger', 'Laporan gagal di upload!');
+                session()->flash('danger', 'Gagal mengunggah dokumen C500!');
                 return redirect()->back()->withInput();
             }
 
+            // Update informasi file C500 pada database
             $params = [
                 'file_name_c500' => $new_file_name,
                 'file_path_c500' => $upload_path
             ];
             $uploadFile = UploadFileModel::uploadFileKel($kelompok->id, $params);
 
-            if ($uploadFile) {
-                $statusParam = [
-                    'status_kelompok' => 'C500 Telah Disetujui!',
-                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C500!',
-                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C500!',
-                ];
-
-                UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
-            } else {
-                return redirect()->back()->with('danger', 'Gagal. Dokumen gagal diunggah!');
+            if (!$uploadFile) {
+                return redirect()->back()->with('danger', 'Gagal. Dokumen C500 gagal diunggah!');
             }
+
+            // Update status kelompok dan dosen pembimbing terkait
+            $statusParam = [
+                'status_kelompok' => 'C500 Telah Disetujui!',
+                'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C500!',
+                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C500!',
+            ];
+            UploadFileModel::uploadFileKel($kelompok->id, $statusParam);
+
+            session()->flash('success', 'Berhasil mengunggah dokumen C500!');
+            return redirect()->back();
         }
 
-        // flash message
-        session()->flash('success', 'Berhasil mengunggah dokumen!');
-        return back();
+        session()->flash('danger', 'Gagal mengunggah! Dokumen C500 tidak ditemukan!');
+        return redirect()->back()->withInput();
     }
+
+
 
 }
