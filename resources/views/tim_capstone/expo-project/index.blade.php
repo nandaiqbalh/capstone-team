@@ -45,7 +45,7 @@
                                 @foreach ($rs_expo as $index => $pendaftaran)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_expo->firstItem() }}.</td>
-                                        <td>{{ $pendaftaran->tahun_ajaran }}</td>
+                                        <td>{{ $pendaftaran->nama_siklus }}</td>
                                         <td>{{ $pendaftaran->tempat }}</td>
                                         <td>{{ $pendaftaran->hari_expo }}, {{ $pendaftaran->tanggal_expo }}</td>
                                         <td>{{ $pendaftaran->waktu_expo }} WIB</td>
@@ -57,7 +57,7 @@
                                                 data-bs-toggle="modal" data-bs-target="#exampleModal{{ $pendaftaran->id }}">
                                                 Ubah</button>
                                             <button class="btn btn-outline-danger btn-xs m-1"
-                                                onclick="confirmDelete('{{ $pendaftaran->id }}', '{{ $pendaftaran->tahun_ajaran }}')">Hapus</button>
+                                                onclick="confirmDelete('{{ $pendaftaran->id }}', '{{ $pendaftaran->nama_siklus }}')">Hapus</button>
                                             <script>
                                                 function confirmDelete(pendaftaranId, tahunAjaran) {
                                                     Swal.fire({
@@ -107,9 +107,7 @@
                                                                         @foreach ($rs_siklus as $siklus)
                                                                             <option value="{{ $siklus->id }}"
                                                                                 @if ($siklus->id == $pendaftaran->id_siklus) selected @endif>
-                                                                                {{ $siklus->tahun_ajaran }} |
-                                                                                {{ $siklus->tanggal_mulai }} sampai
-                                                                                {{ $siklus->tanggal_selesai }}</option>
+                                                                                {{ $siklus->nama_siklus }} </option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
@@ -211,8 +209,7 @@
                                     <select class="form-select" name="id_siklus" required>
                                         <option value="" disabled selected>-- Pilih --</option>
                                         @foreach ($rs_siklus as $siklus)
-                                            <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                                {{ $siklus->tanggal_mulai }} sampai {{ $siklus->tanggal_selesai }}
+                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }}
                                             </option>
                                         @endforeach
                                     </select>

@@ -14,7 +14,7 @@ class JadwalSidangTA extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_sidang_t_a_s as a')
-            ->select('a.*', 'b.id as id_siklus', 'b.tahun_ajaran')
+            ->select('a.*', 'b.id as id_siklus', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('b.status', 'aktif')
             ->paginate(20);
@@ -67,7 +67,7 @@ class JadwalSidangTA extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('jadwal_sidang_t_a_s as a')
-            ->select('a.*', 'b.tahun_ajaran','c.id as id_pendaftaran')
+            ->select('a.*', 'b.nama_siklus','c.id as id_pendaftaran')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->join('pendaftaran_expo as c','a.id','c.id_expo')
             ->where('a.id', $id)->first();

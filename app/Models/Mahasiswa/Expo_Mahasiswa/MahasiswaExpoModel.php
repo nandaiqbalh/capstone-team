@@ -12,7 +12,7 @@ class MahasiswaExpoModel extends BaseModel
     public static function getDataExpo()
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.tahun_ajaran')
+            ->select('a.*', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('b.status', 'aktif')
             ->where('a.tanggal_selesai', '>', now())

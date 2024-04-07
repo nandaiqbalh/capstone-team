@@ -16,7 +16,7 @@ class ApiSiklusModel extends ApiBaseModel
     {
         return DB::table('siklus')
             ->where('status','aktif')
-            // ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
+            ->orderBy('created_date', 'desc') // Order by 'created_at' in descending order (newest first)
             ->get();
     }
 

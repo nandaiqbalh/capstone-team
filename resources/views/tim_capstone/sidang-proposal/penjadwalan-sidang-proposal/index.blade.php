@@ -32,7 +32,7 @@
                                 @foreach ($rs_kelompok as $index => $kelompok)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
-                                        <td>{{ $kelompok->tahun_ajaran }}</td>
+                                        <td>{{ $kelompok->nama_siklus }}</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td>{{ $kelompok->status_kelompok }}</td>
                                         <td class="text-center">

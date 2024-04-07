@@ -11,7 +11,7 @@ class ExpoProjectModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.id as id_siklus', 'b.tahun_ajaran')
+            ->select('a.*', 'b.id as id_siklus', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->paginate(20);
     }
@@ -63,7 +63,7 @@ class ExpoProjectModel extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.tahun_ajaran','c.*')
+            ->select('a.*', 'b.nama_siklus','c.*')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->join('pendaftaran_expo as c','a.id','c.id_expo')
             ->where('a.id', $id)->first();

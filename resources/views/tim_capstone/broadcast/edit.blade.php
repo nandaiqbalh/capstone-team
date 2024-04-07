@@ -38,13 +38,7 @@
                                 <small class="text-muted">Masukkan URL tanpa https://</small>
                             </div>
                         </div>
-                        {{-- <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="broadcast_image">Gambar</label>
-                                <input type="file" class="form-control" id="broadcast_image" name="broadcast_image" required>
-                                <small class="form-text text-muted">Ukuran maksimal file: 5MB</small>
-                            </div> 
-                        </div> --}}
+                       
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -71,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <!-- Load Bootstrap script -->
                     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
                     <!-- Load Summernote script -->

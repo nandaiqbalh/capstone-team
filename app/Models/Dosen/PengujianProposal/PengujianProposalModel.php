@@ -34,7 +34,7 @@ class PengujianProposalModel extends BaseModel
     public static function getDataSearch($no_kel)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")

@@ -18,9 +18,9 @@ class SiklusModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('siklus')
+            ->orderBy('created_date', 'desc') // Order by 'created_at' in descending order (newest first)
             ->paginate(20);
     }
-
     // get search
     public static function getDataSearch($nama)
     {

@@ -49,8 +49,7 @@
                                     <select class="form-select select-2" name="id_siklus" required>
                                         <option value="" disabled selected>-- Filter Berdasarkan Siklus --</option>
                                         @foreach ($rs_siklus as $siklus)
-                                            <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                                {{ $siklus->tanggal_mulai }} sampai {{ $siklus->tanggal_selesai }}</option>
+                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
                                         @endforeach
                                     </select>
                                 </div>

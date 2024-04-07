@@ -18,7 +18,7 @@ class ValidasiKelompokModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
@@ -59,7 +59,7 @@ class ValidasiKelompokModel extends BaseModel
     public static function getDataSearch($no_kel)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
@@ -91,7 +91,7 @@ class ValidasiKelompokModel extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as nama_topik', 'c.nama_siklus')
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.id', $id)

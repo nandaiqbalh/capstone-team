@@ -24,7 +24,7 @@ class MahasiswaSidangProposalModel extends BaseModel
       public static function sidangProposalByKelompok($idKelompok)
     {
         return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.id as siklus_id', 'b.tahun_ajaran', 'c.judul_capstone', 'c.status_kelompok', 'd.kode_ruang', 'd.nama_ruang')
+        ->select('a.*', 'b.id as siklus_id', 'b.nama_siklus', 'c.judul_capstone', 'c.status_kelompok', 'd.kode_ruang', 'd.nama_ruang')
         ->join('siklus as b', 'a.siklus_id', '=', 'b.id')
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')

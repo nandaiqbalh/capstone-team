@@ -26,19 +26,18 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Nama Siklus<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="tahun_ajaran" required>
+                                <select class="form-select" name="nama_siklus" required>
+                                    <option value="" disabled selected>Pilih Nama Siklus</option>
+                                    @foreach ($siklusOptions as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                <input id="tanggal_mulai" type="text" class="form-control" name="tanggal_mulai" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label>Tanggal Selesai<span class="text-danger">*</span></label>
-                                <input id="tanggal_selesai" type="text" class="form-control" name="tanggal_selesai"
+                                <label>Kode Siklus<span class="text-danger">*</span></label>
+                                <input placeholder="Contoh: S2T24" type="text" class="form-control" name="kode_siklus"
                                     required>
                             </div>
                         </div>
@@ -56,22 +55,22 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
-                                <input id="pendaftaran_mulai" type="text" class="form-control" name="pendaftaran_mulai"
-                                    required>
+                                <input placeholder="Atur waktu" id="pendaftaran_mulai" type="text" class="form-control"
+                                    name="pendaftaran_mulai" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Selesai<span class="text-danger">*</span></label>
-                                <input id="pendaftaran_selesai" type="text" class="form-control"
+                                <input placeholder="Atur waktu" id="pendaftaran_selesai" type="text" class="form-control"
                                     name="pendaftaran_selesai" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Batas Submit C100<span class="text-danger">*</span></label>
-                                <input id="batas_submit_c100" type="text" class="form-control" name="batas_submit_c100"
-                                    required>
+                                <input placeholder="Atur waktu" id="batas_submit_c100" type="text" class="form-control"
+                                    name="batas_submit_c100" required>
                             </div>
                         </div>
                     </div>
@@ -86,7 +85,7 @@
     <script>
         $(document).ready(function() {
             // Inisialisasi date picker dengan time picker
-            $('#tanggal_mulai, #tanggal_selesai, #pendaftaran_mulai, #pendaftaran_selesai, #batas_submit_c100')
+            $('#pendaftaran_mulai, #pendaftaran_selesai, #batas_submit_c100')
                 .datetimepicker({
                     dateFormat: 'yy-mm-dd', // Format tanggal (YYYY-MM-DD)
                     timeFormat: 'HH:mm:ss', // Format waktu (24-jam)

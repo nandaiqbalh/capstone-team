@@ -41,8 +41,22 @@ class SiklusController extends BaseController
      */
     public function addSiklus()
     {
+        $currentYear = date('Y');
+
+        // Siapkan array untuk menyimpan pilihan nama siklus
+        $siklusOptions = [];
+
+        // Loop untuk menyusun nama siklus
+        for ($i = -2; $i <= 2; $i++) {
+            $year = $currentYear + $i;
+            $siklusOptions[] = "Siklus 1 Tahun $year";
+            $siklusOptions[] = "Siklus 2 Tahun $year";
+        }
+
+        $data = ['siklusOptions' => $siklusOptions];
+
         // view
-        return view('tim_capstone.siklus.add');
+        return view('tim_capstone.siklus.add', $data);
     }
 
     /**
@@ -55,9 +69,8 @@ class SiklusController extends BaseController
     {
         // Aturan validasi
         $rules = [
-            'tahun_ajaran' => 'required',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'nama_siklus' => 'required',
+            'kode_siklus' => 'required',
             'pendaftaran_mulai' => 'required|date',
             'pendaftaran_selesai' => 'required|date|after:pendaftaran_mulai',
             'batas_submit_c100' => 'required|date|after:pendaftaran_selesai',
@@ -66,12 +79,8 @@ class SiklusController extends BaseController
 
         // Pesan validasi kustom dalam bahasa Indonesia
         $messages = [
-            'tahun_ajaran.required' => 'Tahun ajaran wajib diisi.',
-            'tanggal_mulai.required' => 'Tanggal mulai wajib diisi.',
-            'tanggal_mulai.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
-            'tanggal_selesai.required' => 'Tanggal selesai wajib diisi.',
-            'tanggal_selesai.date' => 'Tanggal selesai harus berupa tanggal yang valid.',
-            'tanggal_selesai.after' => 'Tanggal selesai harus setelah tanggal mulai.',
+            'nama_siklus.required' => 'Nama siklus wajib diisi.',
+            'kode_siklus.required' => 'Kode siklus wajib diisi.',
             'pendaftaran_mulai.required' => 'Tanggal pendaftaran mulai wajib diisi.',
             'pendaftaran_mulai.date' => 'Tanggal pendaftaran mulai harus berupa tanggal yang valid.',
             'pendaftaran_selesai.required' => 'Tanggal pendaftaran selesai wajib diisi.',
@@ -95,9 +104,8 @@ class SiklusController extends BaseController
 
         // Persiapkan parameter untuk penyisipan
         $params = [
-            'tahun_ajaran' => $request->tahun_ajaran,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'nama_siklus' => $request->nama_siklus,
+            'kode_siklus' => $request->kode_siklus,
             'pendaftaran_mulai' => $request->pendaftaran_mulai,
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'batas_submit_c100' => $request->batas_submit_c100,
@@ -185,9 +193,8 @@ class SiklusController extends BaseController
     {
         // Aturan validasi
         $rules = [
-            'tahun_ajaran' => 'required',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'nama_siklus' => 'required',
+            'kode_siklus' => 'required',
             'pendaftaran_mulai' => 'required|date',
             'pendaftaran_selesai' => 'required|date|after:pendaftaran_mulai',
             'batas_submit_c100' => 'required|date|after:pendaftaran_selesai',
@@ -196,12 +203,8 @@ class SiklusController extends BaseController
 
         // Pesan validasi kustom dalam bahasa Indonesia
         $messages = [
-            'tahun_ajaran.required' => 'Tahun ajaran wajib diisi.',
-            'tanggal_mulai.required' => 'Tanggal mulai wajib diisi.',
-            'tanggal_mulai.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
-            'tanggal_selesai.required' => 'Tanggal selesai wajib diisi.',
-            'tanggal_selesai.date' => 'Tanggal selesai harus berupa tanggal yang valid.',
-            'tanggal_selesai.after' => 'Tanggal selesai harus setelah tanggal mulai.',
+            'nama_siklus.required' => 'Nama siklus wajib diisi.',
+            'kode_siklus.required' => 'Kode siklus wajib diisi.',
             'pendaftaran_mulai.required' => 'Tanggal pendaftaran mulai wajib diisi.',
             'pendaftaran_mulai.date' => 'Tanggal pendaftaran mulai harus berupa tanggal yang valid.',
             'pendaftaran_selesai.required' => 'Tanggal pendaftaran selesai wajib diisi.',
@@ -225,9 +228,8 @@ class SiklusController extends BaseController
 
         // Persiapkan parameter untuk pembaruan
         $params = [
-            'tahun_ajaran' => $request->tahun_ajaran,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'nama_siklus' => $request->nama_siklus,
+            'kode_siklus' => $request->kode_siklus,
             'pendaftaran_mulai' => $request->pendaftaran_mulai,
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'batas_submit_c100' => $request->batas_submit_c100,

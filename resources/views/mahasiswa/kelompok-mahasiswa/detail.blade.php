@@ -335,7 +335,7 @@
                                             <label>Pilih Siklus <span class="text-danger">*</span></label>
                                             <select class="form-select select-2" name="id_siklus">
                                                 <option value="" disabled selected>-- Pilih --</option>
-                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->tahun_ajaran }} |
+                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->nama_siklus }} |
                                                     Batas pendaftaran: {{ $rs_siklus->pendaftaran_selesai }}
                                                 </option>
                                             </select>
@@ -491,7 +491,7 @@
                                             <label>Pilih Siklus <span class="text-danger">*</span></label>
                                             <select class="form-select select-2" name="id_siklus">
                                                 <option value="" disabled selected>-- Pilih --</option>
-                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->tahun_ajaran }} |
+                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->nama_siklus }} |
                                                     Batas pendaftaran: {{ $rs_siklus->pendaftaran_selesai }}
                                                 </option>
                                             </select>

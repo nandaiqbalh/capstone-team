@@ -27,22 +27,15 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Nama Siklus<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="tahun_ajaran"
-                                    value="{{ $siklus->tahun_ajaran }}" required>
+                                <input type="text" class="form-control" name="nama_siklus"
+                                    value="{{ $siklus->nama_siklus }}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                <input id="tanggal_mulai" type="text" class="form-control" name="tanggal_mulai"
-                                    value="{{ $siklus->tanggal_mulai }}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label>Tanggal Selesai<span class="text-danger">*</span></label>
-                                <input id="tanggal_selesai" type="text" class="form-control" name="tanggal_selesai"
-                                    value="{{ $siklus->tanggal_selesai }}" required>
+                                <label>Kode Siklus<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="kode_siklus"
+                                    value="{{ $siklus->kode_siklus }}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -56,6 +49,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
@@ -89,7 +83,7 @@
     <script>
         $(document).ready(function() {
             // Inisialisasi date picker dengan time picker
-            $('#tanggal_mulai, #tanggal_selesai, #pendaftaran_mulai, #pendaftaran_selesai, #batas_submit_c100')
+            $('#pendaftaran_mulai, #pendaftaran_selesai, #batas_submit_c100')
                 .datetimepicker({
                     dateFormat: 'yy-mm-dd', // Format tanggal (YYYY-MM-DD)
                     timeFormat: 'HH:mm:ss', // Format waktu (24-jam)

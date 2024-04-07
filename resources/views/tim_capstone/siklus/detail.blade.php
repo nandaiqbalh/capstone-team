@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Siklus</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/siklus') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/siklus') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -32,19 +32,24 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Nama - Tahun Ajaran</td>
+                                <td>Nama Siklus</td>
                                 <td>:</td>
-                                <td>{{ $siklus->tahun_ajaran }}</td>
+                                <td>{{ $siklus->nama_siklus }}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal Mulai</td>
+                                <td>Kode Siklus</td>
                                 <td>:</td>
-                                <td>{{ $siklus->tanggal_mulai }}</td>
+                                <td>{{ $siklus->kode_siklus }}</td>
                             </tr>
                             <tr>
-                                <td>Tanggal Selesai</td>
+                                <td>Pendaftaran Mulai</td>
                                 <td>:</td>
-                                <td>{{ $siklus->tanggal_selesai }}</td>
+                                <td>{{ $siklus->pendaftaran_mulai }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pendaftaran Selesai</td>
+                                <td>:</td>
+                                <td>{{ $siklus->pendaftaran_selesai }}</td>
                             </tr>
                             <tr>
                                 <td>Batas Submit C100</td>

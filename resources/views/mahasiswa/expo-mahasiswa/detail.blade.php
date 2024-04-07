@@ -107,7 +107,7 @@
                                             @if ($kelompok->nomor_kelompok == null)
                                                 <td>-</td>
                                             @else
-                                                <td>{{ $rs_expo->tahun_ajaran }}</td>
+                                                <td>{{ $rs_expo->nama_siklus }}</td>
                                             @endif
                                         </tr>
                                         <tr>

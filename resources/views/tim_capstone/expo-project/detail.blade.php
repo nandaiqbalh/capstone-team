@@ -34,7 +34,7 @@
                             <tr>
                                 <td>Siklus </td>
                                 <td>:</td>
-                                <td>{{ $expo->tahun_ajaran }}</td>
+                                <td>{{ $expo->nama_siklus }}</td>
                             </tr>
                             <tr>
                                 <td>Tempat </td>

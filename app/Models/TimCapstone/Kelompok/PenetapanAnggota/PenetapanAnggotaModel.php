@@ -22,7 +22,7 @@ class PenetapanAnggotaModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('app_user as a')
-            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.tahun_ajaran')
+            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.nama_siklus')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->join('siklus as d','b.id_siklus','d.id')
@@ -90,7 +90,7 @@ class PenetapanAnggotaModel extends BaseModel
     {
 
         return DB::table('app_user as a')
-            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.tahun_ajaran')
+            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.nama_siklus')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->join('siklus as d','b.id_siklus','d.id')
