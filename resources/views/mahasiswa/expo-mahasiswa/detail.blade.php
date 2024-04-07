@@ -111,7 +111,8 @@
 
                             <h5>Pendaftaran Expo Project</h5>
 
-                            <form action="{{ url('/mahasiswa/expo/expo-daftar') }}" method="post" autocomplete="off">
+                            <form id="confirmForm" action="{{ url('/mahasiswa/expo/expo-daftar') }}" method="post"
+                                autocomplete="off">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id_expo" value="{{ $rs_expo->id }}">
                                 <div class="row">
@@ -137,7 +138,8 @@
                                 </div>
 
                                 <br>
-                                <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal">Daftar</button>
                             </form>
                         @endif
 
@@ -159,4 +161,34 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin data yang Anda masukkan sudah sesuai?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Ya, Yakin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmButton = document.getElementById('confirmButton');
+
+            confirmButton.addEventListener('click', function() {
+                // Lakukan submit formulir secara langsung setelah konfirmasi
+                var form = document.getElementById('confirmForm');
+                form.submit();
+            });
+        });
+    </script>
 @endsection

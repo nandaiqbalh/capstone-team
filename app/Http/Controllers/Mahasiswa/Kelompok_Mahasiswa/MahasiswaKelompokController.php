@@ -195,8 +195,27 @@ class MahasiswaKelompokController extends BaseController
                             return back()->withInput();
                         }
                         break;
-                    // Tambahkan case untuk parameter lainnya sesuai kebutuhan
-                    default:
+                    case 'peminatan':
+                        case 'topik':
+                            $values = $request->input($param);
+
+                            // Periksa apakah format peminatan atau topik sesuai (4 angka unik antara 1-4 dipisahkan koma)
+                            if (!preg_match('/^[1-4](,[1-4]){3}$/', $values)) {
+                                session()->flash('danger', "Format $param tidak valid! Harus terdiri dari 4 angka unik antara 1-4, dipisahkan koma.");
+                                return back()->withInput();
+                            }
+
+                            // Ubah string menjadi array untuk memeriksa angka yang unik
+                            $valuesArray = explode(',', $values);
+
+                            // Periksa apakah semua angka adalah unik
+                            if (count(array_unique($valuesArray)) !== 4) {
+                                session()->flash('danger', "Angka pada $param harus unik!");
+                                return back()->withInput();
+                            }
+
+                            break;
+                        default:
                         // Tidak ada validasi tambahan yang diperlukan
                         break;
                 }

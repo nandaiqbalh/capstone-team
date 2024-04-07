@@ -83,8 +83,8 @@
                         @else
                             <!-- table info -->
                             <div class="table-responsive">
-                                <form action="{{ url('/mahasiswa/kelompok/edit-kelompok-process') }}" method="post"
-                                    autocomplete="off">
+                                <form id="registrationForm" action="{{ url('/mahasiswa/kelompok/edit-kelompok-process') }}"
+                                    method="post" autocomplete="off">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="id" value="{{ $kelompok->id }}">
                                     <table class="table table-borderless table-hover">
@@ -153,7 +153,8 @@
                                         </tbody>
                                     </table>
                                     <div class="float-end">
-                                        <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal">Simpan</button>
                                     </div>
                                 </form>
                             </div>
@@ -280,8 +281,8 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <form action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}" method="post"
-                                autocomplete="off">
+                            <form id="registrationForm" action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}"
+                                method="post" autocomplete="off">
                                 {{ csrf_field() }}
 
                                 <h6>Detail Capstone</h6>
@@ -415,13 +416,15 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" id="submitButton" class="btn btn-primary float-end"
-                                    disabled>Daftar</button>
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal">Daftar</button>
+
                             </form>
                         </div>
 
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <form action="{{ url('/mahasiswa/kelompok/add-punya-kelompok-process') }}" method="post"
+                            <form id="registrationForm"
+                                action="{{ url('/mahasiswa/kelompok/add-punya-kelompok-process') }}" method="post"
                                 autocomplete="off">
                                 {{ csrf_field() }}
                                 <h6>Data Detail Capstone</h6>
@@ -855,10 +858,22 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
-                    <button type="button" class="btn btn-primary" id="confirmButton">Ya, Daftar</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Ya, Yakin</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmButton = document.getElementById('confirmButton');
+
+            confirmButton.addEventListener('click', function() {
+                // Lakukan submit formulir secara langsung setelah konfirmasi
+                var form = document.getElementById('registrationForm');
+                form.submit();
+            });
+        });
+    </script>
 
 @endsection

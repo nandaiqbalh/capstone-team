@@ -19,7 +19,7 @@
                 </small>
             </div>
 
-            <form action="{{ url('/admin/settings/account/import-user') }}" method="post" autocomplete="off"
+            <form action="{{ url('/admin/settings/accounts/import-user') }}" method="post" autocomplete="off"
                 enctype="multipart/form-data">
 
                 <div class="card-body">

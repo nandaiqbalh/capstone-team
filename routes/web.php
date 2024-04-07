@@ -112,7 +112,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::post('/admin/settings/accounts/edit_password_process', [AccountsController::class, 'editPasswordProcess']);
     Route::get('/admin/settings/accounts/delete_process/{id}', [AccountsController::class, 'deleteProcess']);
     Route::get('/admin/settings/accounts/search', [AccountsController::class, 'search']);
-    Route::post('/admin/settings/account/import-user', [AccountsController::class, 'import']);
+    Route::post('/admin/settings/accounts/import-user', [AccountsController::class, 'import']);
 
      // take over login
     Route::get('admin/settings/take-over-login', [TakeOverLoginController::class, 'takeOverProcess']);
@@ -351,10 +351,10 @@ Route::middleware(['auth'])->group(function () {
     // --------------------------------------------------------------------------------------------
 
     // profil acccount
-    Route::get('/admin/settings/account', [AccountController::class, 'index']);
-    Route::post('/admin/settings/account/edit_process', [AccountController::class, 'editProcess']);
-    Route::post('/admin/settings/account/edit_password', [AccountController::class, 'editPassword']);
+    Route::get('admin/settings/account', [AccountController::class, 'index']);
+    Route::post('admin/settings/account/edit_process', [AccountController::class, 'editProcess']);
+    Route::post('admin/settings/account/edit_password', [AccountController::class, 'editPassword']);
 
-    Route::post('/admin/settings/account/img_crop', [AccountController::class, 'ImgCrop'])->name('crop');
+    Route::post('admin/settings/account/img_crop', [AccountController::class, 'ImgCrop'])->name('crop');
 
 });
