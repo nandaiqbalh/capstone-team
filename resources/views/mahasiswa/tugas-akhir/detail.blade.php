@@ -132,7 +132,7 @@
                                     </div>
 
                                     <br>
-                                    <button type="buttom" data-bs-toggle="modal" data-bs-target="#confirmModal"
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#confirmModal"
                                         class="btn btn-sm btn-primary float-end">Simpan</button>
                                 </form>
                             @else

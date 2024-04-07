@@ -143,6 +143,10 @@ class MahasiswaTugasAkhirController extends BaseController
          $user = $request->user();
          $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
 
+         $kelompok = MahasiswaTugasAkhirModel::pengecekan_kelompok_mahasiswa(Auth::user()-> user_id);
+         if ($kelompok->status_expo != "Lulus Expo Project!") {
+             return redirect()->back()->with('danger', 'Anda harus lulus expo terlebih dahulu!');
+         }
          // Cek apakah laporan TA sudah diunggah
          $existingFile = MahasiswaTugasAkhirModel::fileMHS($user->user_id);
          if (!$existingFile->file_name_laporan_ta) {
