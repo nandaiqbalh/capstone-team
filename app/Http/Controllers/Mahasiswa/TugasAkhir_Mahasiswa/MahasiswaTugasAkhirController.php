@@ -145,11 +145,11 @@ class MahasiswaTugasAkhirController extends BaseController
 
          // Cek apakah laporan TA sudah diunggah
          $existingFile = MahasiswaTugasAkhirModel::fileMHS($user->user_id);
-         if (!$existingFile || !$existingFile->file_name_laporan_ta) {
+         if (!$existingFile->file_name_laporan_ta) {
              return redirect()->back()->with('danger', 'Lengkapi terlebih dahulu laporan TA sebelum mendaftar sidang Tugas Akhir.');
          }
 
-         if (!$existingFile || !$existingFile->file_name_makalah) {
+         if (!$existingFile->file_name_makalah) {
             return redirect()->back()->with('danger', 'Lengkapi terlebih dahulu makalah TA sebelum mendaftar sidang Tugas Akhir.');
         }
 

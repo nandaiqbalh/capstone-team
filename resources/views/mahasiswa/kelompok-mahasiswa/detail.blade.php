@@ -20,7 +20,16 @@
                 @if ($kelompok != null)
 
                     @if ($siklus_sudah_punya_kelompok == null)
-
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
@@ -220,10 +229,40 @@
 
                     @endif
                 @elseif($rs_siklus == null)
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Tidak ada siklus yang aktif!</h6>
                 @elseif($periode_pendaftaran == null)
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Tidak dalam periode pendaftaran capstone!</h6>
                 @else
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Anda Belum Memiliki Kelompok, Silahkan Daftar Terlebih dahulu</h6>
 
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -261,12 +300,9 @@
                                             <label>Pilih Siklus <span class="text-danger">*</span></label>
                                             <select class="form-select select-2" name="id_siklus">
                                                 <option value="" disabled selected>-- Pilih --</option>
-                                                @foreach ($rs_siklus as $siklus)
-                                                    <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                                        {{ $siklus->tanggal_mulai }} sampai
-                                                        {{ $siklus->tanggal_selesai }}
-                                                    </option>
-                                                @endforeach
+                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->tahun_ajaran }} |
+                                                    Batas pendaftaran: {{ $rs_siklus->pendaftaran_selesai }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -418,12 +454,9 @@
                                             <label>Pilih Siklus <span class="text-danger">*</span></label>
                                             <select class="form-select select-2" name="id_siklus">
                                                 <option value="" disabled selected>-- Pilih --</option>
-                                                @foreach ($rs_siklus as $siklus)
-                                                    <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                                        {{ $siklus->tanggal_mulai }} sampai
-                                                        {{ $siklus->tanggal_selesai }}
-                                                    </option>
-                                                @endforeach
+                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->tahun_ajaran }} |
+                                                    Batas pendaftaran: {{ $rs_siklus->pendaftaran_selesai }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -702,7 +735,8 @@
 
                                 </div>
 
-                                <button type="submit" class="btn btn-primary float-end">Daftar</button>
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal">Daftar</button>
                             </form>
 
                         </div>
@@ -808,5 +842,23 @@
             });
         });
     </script>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin data yang Anda masukkan sudah sesuai?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Ya, Daftar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

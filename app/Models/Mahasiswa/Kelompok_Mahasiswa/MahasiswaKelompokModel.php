@@ -181,7 +181,7 @@ class MahasiswaKelompokModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('status', 'aktif')
-              ->get();
+              ->first();
       }
 
       public static function getPeriodePendaftaranSiklus()

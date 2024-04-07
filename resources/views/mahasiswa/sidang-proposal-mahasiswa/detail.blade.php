@@ -28,6 +28,7 @@
                                 </thead>
                             </table>
                         </div>
+                        <br>
                         <h6>Kelompok Anda belum valid!</h6>
                     @elseif ($siklus_sudah_punya_kelompok == null)
                         <div class="table-responsive">
@@ -39,6 +40,7 @@
                                 </thead>
                             </table>
                         </div>
+                        <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($rs_sidang == null)
                         <div class="table-responsive">
@@ -50,6 +52,7 @@
                                 </thead>
                             </table>
                         </div>
+                        <br>
                         <h6>Belum ada jadwal sidang!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
@@ -277,6 +280,7 @@
                             </thead>
                         </table>
                     </div>
+                    <br>
                     <h6>Anda belum mendaftar capstone!</h6>
                 @endif
             </div>
