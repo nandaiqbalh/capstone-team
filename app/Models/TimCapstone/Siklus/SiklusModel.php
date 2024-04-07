@@ -52,4 +52,29 @@ class SiklusModel extends BaseModel
     {
         return DB::table('siklus')->where('id', $id)->delete();
     }
+
+    public static function deleteJadwalExpo($id_siklus)
+    {
+        return DB::table('jadwal_expo')->where('id_siklus', $id_siklus)->delete();
+    }
+
+    public static function deleteJadwalSidangProposal($id_siklus)
+    {
+        return DB::table('jadwal_sidang_proposal')->where('siklus_id', $id_siklus)->delete();
+    }
+
+    public static function deleteKelompok($id_siklus)
+    {
+        return DB::table('kelompok')->where('id_siklus', $id_siklus)->delete();
+    }
+
+    public static function deletependaftaranExpo($id_siklus)
+    {
+        return DB::table('pendaftaran_expo')->where('id_siklus', $id_siklus)->delete();
+    }
+
+    public static function deleteKelompokMhs($id_siklus)
+    {
+        return DB::table('kelompok_mhs')->where('id_siklus', $id_siklus)->delete();
+    }
 }

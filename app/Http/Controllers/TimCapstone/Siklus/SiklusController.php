@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\Siklus\SiklusModel;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class SiklusController extends BaseController
@@ -51,22 +53,47 @@ class SiklusController extends BaseController
      */
     public function addSiklusProcess(Request $request)
     {
-        // Validate & auto redirect when fail
+        // Aturan validasi
         $rules = [
             'tahun_ajaran' => 'required',
-            'tanggal_mulai' => 'required',
-            'tanggal_selesai' => 'required',
-            'pendaftaran_mulai' => 'required',
-            'pendaftaran_selesai' => 'required',
-            'batas_submit_c100' => 'required',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'pendaftaran_mulai' => 'required|date',
+            'pendaftaran_selesai' => 'required|date|after:pendaftaran_mulai',
+            'batas_submit_c100' => 'required|date|after:pendaftaran_selesai',
             'status' => 'required',
         ];
-        $this->validate($request, $rules);
 
+        // Pesan validasi kustom dalam bahasa Indonesia
+        $messages = [
+            'tahun_ajaran.required' => 'Tahun ajaran wajib diisi.',
+            'tanggal_mulai.required' => 'Tanggal mulai wajib diisi.',
+            'tanggal_mulai.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
+            'tanggal_selesai.required' => 'Tanggal selesai wajib diisi.',
+            'tanggal_selesai.date' => 'Tanggal selesai harus berupa tanggal yang valid.',
+            'tanggal_selesai.after' => 'Tanggal selesai harus setelah tanggal mulai.',
+            'pendaftaran_mulai.required' => 'Tanggal pendaftaran mulai wajib diisi.',
+            'pendaftaran_mulai.date' => 'Tanggal pendaftaran mulai harus berupa tanggal yang valid.',
+            'pendaftaran_selesai.required' => 'Tanggal pendaftaran selesai wajib diisi.',
+            'pendaftaran_selesai.date' => 'Tanggal pendaftaran selesai harus berupa tanggal yang valid.',
+            'pendaftaran_selesai.after' => 'Tanggal pendaftaran selesai harus setelah tanggal pendaftaran mulai.',
+            'batas_submit_c100.required' => 'Batas submit C100 wajib diisi.',
+            'batas_submit_c100.date' => 'Batas submit C100 harus berupa tanggal yang valid.',
+            'batas_submit_c100.after' => 'Batas submit C100 harus setelah tanggal pendaftaran selesai.',
+            'status.required' => 'Status wajib diisi.',
+        ];
 
-        // params
-        // default passwordnya Siklus123
+        // Validasi request data
+        $validator = Validator::make($request->all(), $rules, $messages);
 
+        // Periksa jika validasi gagal
+        if ($validator->fails()) {
+            return redirect('/admin/siklus/add')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Persiapkan parameter untuk penyisipan
         $params = [
             'tahun_ajaran' => $request->tahun_ajaran,
             'tanggal_mulai' => $request->tanggal_mulai,
@@ -75,23 +102,25 @@ class SiklusController extends BaseController
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'batas_submit_c100' => $request->batas_submit_c100,
             'status' => $request->status,
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
+            'created_by' => Auth::user()->user_id,
+            'created_date' => now()->toDateTimeString()
         ];
 
-        // process
+        // Insert data siklus
         $insert_siklus = SiklusModel::insertSiklus($params);
-        if ($insert_siklus) {
 
-            // flash message
+        // Periksa jika penyisipan berhasil
+        if ($insert_siklus) {
+            // Pesan flash untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/siklus');
         } else {
-            // flash message
+            // Pesan flash untuk gagal
             session()->flash('danger', 'Data gagal disimpan.');
             return redirect('/admin/siklus/add')->withInput();
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -154,20 +183,47 @@ class SiklusController extends BaseController
      */
     public function editSiklusProcess(Request $request)
     {
-
-        // Validate & auto redirect when fail
+        // Aturan validasi
         $rules = [
             'tahun_ajaran' => 'required',
-            'tanggal_mulai' => 'required',
-            'tanggal_selesai' => 'required',
-            'pendaftaran_mulai' => 'required',
-            'pendaftaran_selesai' => 'required',
-            'batas_submit_c100' => 'required',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'pendaftaran_mulai' => 'required|date',
+            'pendaftaran_selesai' => 'required|date|after:pendaftaran_mulai',
+            'batas_submit_c100' => 'required|date|after:pendaftaran_selesai',
             'status' => 'required',
         ];
-        $this->validate($request, $rules);
 
-        // params
+        // Pesan validasi kustom dalam bahasa Indonesia
+        $messages = [
+            'tahun_ajaran.required' => 'Tahun ajaran wajib diisi.',
+            'tanggal_mulai.required' => 'Tanggal mulai wajib diisi.',
+            'tanggal_mulai.date' => 'Tanggal mulai harus berupa tanggal yang valid.',
+            'tanggal_selesai.required' => 'Tanggal selesai wajib diisi.',
+            'tanggal_selesai.date' => 'Tanggal selesai harus berupa tanggal yang valid.',
+            'tanggal_selesai.after' => 'Tanggal selesai harus setelah tanggal mulai.',
+            'pendaftaran_mulai.required' => 'Tanggal pendaftaran mulai wajib diisi.',
+            'pendaftaran_mulai.date' => 'Tanggal pendaftaran mulai harus berupa tanggal yang valid.',
+            'pendaftaran_selesai.required' => 'Tanggal pendaftaran selesai wajib diisi.',
+            'pendaftaran_selesai.date' => 'Tanggal pendaftaran selesai harus berupa tanggal yang valid.',
+            'pendaftaran_selesai.after' => 'Tanggal pendaftaran selesai harus setelah tanggal pendaftaran mulai.',
+            'batas_submit_c100.required' => 'Batas submit C100 wajib diisi.',
+            'batas_submit_c100.date' => 'Batas submit C100 harus berupa tanggal yang valid.',
+            'batas_submit_c100.after' => 'Batas submit C100 harus setelah tanggal pendaftaran selesai.',
+            'status.required' => 'Status wajib diisi.',
+        ];
+
+        // Validasi request data
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        // Periksa jika validasi gagal
+        if ($validator->fails()) {
+            return redirect('/admin/siklus/edit/' . $request->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Persiapkan parameter untuk pembaruan
         $params = [
             'tahun_ajaran' => $request->tahun_ajaran,
             'tanggal_mulai' => $request->tanggal_mulai,
@@ -176,21 +232,22 @@ class SiklusController extends BaseController
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'batas_submit_c100' => $request->batas_submit_c100,
             'status' => $request->status,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'modified_by' => Auth::user()->user_id,
+            'modified_date' => now()->toDateTimeString()
         ];
 
-        // process
+        // Proses pembaruan data siklus
         if (SiklusModel::update($request->id, $params)) {
-            // flash message
+            // Pesan flash untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/siklus');
         } else {
-            // flash message
+            // Pesan flash untuk gagal
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/siklus/edit/' . $request->id);
+            return redirect('/admin/siklus/edit/' . $request->id)->withInput();
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -200,28 +257,31 @@ class SiklusController extends BaseController
      */
     public function deleteSiklusProcess($id)
     {
+        try {
+            // Hapus entitas terkait dengan siklus secara berurutan
+            SiklusModel::deletependaftaranExpo($id);
+            SiklusModel::deleteJadwalExpo($id);
+            SiklusModel::deleteJadwalSidangProposal($id);
+            SiklusModel::deleteKelompok($id);
+            SiklusModel::deleteKelompokMhs($id);
 
-        // get data
-        $siklus = SiklusModel::getDataById($id);
-
-        // if exist
-        if (!empty($siklus)) {
-            // process
+            // Hapus siklus itu sendiri
             if (SiklusModel::delete($id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/siklus');
+                // Flash message sukses jika penghapusan berhasil
+                session()->flash('success', 'Data siklus dan entitas terkait berhasil dihapus.');
             } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/siklus');
+                // Flash message gagal jika penghapusan siklus gagal
+                session()->flash('danger', 'Gagal menghapus data siklus.');
             }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/siklus');
+        } catch (\Exception $e) {
+            // Tangani kesalahan dan beri pesan sesuai
+            session()->flash('danger', 'Terjadi kesalahan dalam menghapus data siklus.');
         }
+
+        // Redirect kembali ke halaman siklus setelah selesai penghapusan
+        return redirect('/admin/siklus');
     }
+
 
     /**
      * Search data.

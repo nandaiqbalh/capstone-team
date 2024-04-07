@@ -25,23 +25,21 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Nama - Tahun Ajaran<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="tahun_ajaran"
-                                    value="{{ old('tahun_ajaran') }}" required>
+                                <label>Nama Siklus<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="tahun_ajaran" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="tanggal_mulai"
-                                    value="{{ old('tanggal_mulai') }}" required>
+                                <input id="tanggal_mulai" type="text" class="form-control" name="tanggal_mulai" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Tanggal Selesai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="tanggal_selesai"
-                                    value="{{ old('tanggal_selesai') }}" required>
+                                <input id="tanggal_selesai" type="text" class="form-control" name="tanggal_selesai"
+                                    required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -49,8 +47,8 @@
                                 <label>Status <span class="text-danger">*</span></label>
                                 <select class="form-select" name="status" required>
                                     <option value="" disabled selected>Pilih Status</option>
-                                    <option value="aktif" @if (old('status') == 'aktif') selected @endif>Aktif</option>
-                                    <option value="tidak aktif" @if (old('status') == 'tidak aktif') selected @endif>Tidak
+                                    <option value="aktif">Aktif</option>
+                                    <option value="tidak aktif">Tidak
                                         Aktif</option>
                                 </select>
                             </div>
@@ -58,22 +56,22 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="pendaftaran_mulai"
-                                    value="{{ old('pendaftaran_mulai') }}" required>
+                                <input id="pendaftaran_mulai" type="text" class="form-control" name="pendaftaran_mulai"
+                                    required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Selesai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="pendaftaran_selesai"
-                                    value="{{ old('pendaftaran_selesai') }}" required>
+                                <input id="pendaftaran_selesai" type="text" class="form-control"
+                                    name="pendaftaran_selesai" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Batas Submit C100<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="batas_submit_c100"
-                                    value="{{ old('batas_submit_c100') }}" required>
+                                <input id="batas_submit_c100" type="text" class="form-control" name="batas_submit_c100"
+                                    required>
                             </div>
                         </div>
                     </div>
@@ -84,4 +82,22 @@
             </form>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi date picker dengan time picker
+            $('#tanggal_mulai, #tanggal_selesai, #pendaftaran_mulai, #pendaftaran_selesai, #batas_submit_c100')
+                .datetimepicker({
+                    dateFormat: 'yy-mm-dd', // Format tanggal (YYYY-MM-DD)
+                    timeFormat: 'HH:mm:ss', // Format waktu (24-jam)
+                    changeMonth: true, // Izinkan pergantian bulan
+                    changeYear: true, // Izinkan pergantian tahun
+                    yearRange: '2000:2050', // Rentang tahun yang diizinkan
+                    showButtonPanel: true, // Tampilkan panel tombol
+                    onSelect: function(dateTimeText, inst) {
+                        console.log('Tanggal dan waktu dipilih:', dateTimeText);
+                    }
+                });
+        });
+    </script>
 @endsection
