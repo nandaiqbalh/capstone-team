@@ -118,11 +118,46 @@
                                         <tr>
                                             <td>Status</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
-                                                <td>Menunggu Validasi Kelompok!</td>
-                                            @else
-                                                <td>{{ $kelompok->status_sidang_proposal }}</td>
-                                            @endif
+                                            <td>
+                                                @php
+                                                    $statusKelompok = $kelompok->status_sidang_proposal;
+                                                    $color = '';
+
+                                                    switch ($statusKelompok) {
+                                                        case 'Menunggu Penetapan Kelompok!':
+                                                        case 'Menunggu Penetapan Dosbing!':
+                                                        case 'Menunggu Persetujuan Anggota!':
+                                                        case 'Menunggu Persetujuan Dosbing!':
+                                                        case 'Menunggu Persetujuan Penguji!':
+                                                        case 'Menunggu Validasi Kelompok!':
+                                                        case 'Menunggu Validasi Expo!':
+                                                            $color = '#F86F03'; // Warna Orange
+                                                            break;
+                                                        case 'Validasi Kelompok Berhasil!':
+                                                        case 'C100 Telah Disetujui!':
+                                                        case 'Penguji Proposal Ditetapkan!':
+                                                        case 'Dijadwalkan Sidang Proposal!':
+                                                        case 'Persetujuan Penguji Berhasil!':
+                                                        case 'Lulus Sidang Proposal!':
+                                                        case 'C200 Telah Disetujui!':
+                                                        case 'C300 Telah Disetujui!':
+                                                        case 'C400 Telah Disetujui!':
+                                                        case 'C500 Telah Disetujui!':
+                                                        case 'Validasi Expo Berhasil!':
+                                                        case 'Lulus Expo Project!':
+                                                        case 'Lulus Capstone Project!':
+                                                            $color = '#44B158'; // Warna Hijau
+                                                            break;
+                                                        default:
+                                                            $color = '#FF0000'; // Warna Merah
+                                                            break;
+                                                    }
+                                                @endphp
+
+                                                <span style="color: {{ $color }};">
+                                                    {{ $statusKelompok ?? 'Belum Dijadwalkan Sidang Proposal!' }}
+                                                </span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Hari, tanggal</td>
