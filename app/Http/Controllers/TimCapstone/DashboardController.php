@@ -17,7 +17,7 @@ class DashboardController extends BaseController
     public function index()
     {
         // get data with pagination
-        $rs_broadcast = Dashmo::getDataWithHomePagination();
+        $rs_broadcast = Dashmo::getDataWithPagination();
 
 
         // data
@@ -148,10 +148,33 @@ class DashboardController extends BaseController
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithPagination();
 
-        // data
+        $rs_kelompok = Dashmo::getDataBalancingDosbingKelompok();
+        $rs_mahasiswa = Dashmo::getDataBalancingDosbingMahasiswa();
+        $rs_pengujian_proposal = Dashmo::getJadwalSidangProposalTerdekat();
 
+        if ($rs_pengujian_proposal != null) {
+            $waktuSidang = strtotime($rs_pengujian_proposal->waktu);
+
+            $rs_pengujian_proposal->hari_sidang = strftime('%A', $waktuSidang);
+            $rs_pengujian_proposal->hari_sidang = $this->convertDayToIndonesian($rs_pengujian_proposal->hari_sidang);
+            $rs_pengujian_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $rs_pengujian_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($rs_pengujian_proposal->waktu_selesai);
+            $rs_pengujian_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
+        }
+
+        $rs_jumlah_sidang_proposal = Dashmo::getDataBalancingPengujiProposal();
+
+
+        // data
         $data = [
             'rs_broadcast' => $rs_broadcast,
+            'rs_kelompok' => $rs_kelompok,
+            'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_pengujian_proposal' => $rs_pengujian_proposal,
+            'rs_jumlah_sidang_proposal' => $rs_jumlah_sidang_proposal,
+
         ];
 
         //view

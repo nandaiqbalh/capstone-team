@@ -25,20 +25,156 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Kelompok Bimbingan</h5>
+                                <b>
+                                    <span>{{ $rs_kelompok->jumlah_total_kelompok_dibimbing }} Kelompok</span>
+                                </b>
+                                <hr>
+                                <span
+                                    style="color: #44B158;"><b>{{ $rs_kelompok->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
+                                    Kelompok Telah Lulus</span>
+                                <br>
+                                <span style="color: #F86F03;"><b>{{ $rs_kelompok->jumlah_kelompok_aktif_dibimbing }}</b>
+                                    Kelompok Belum Lulus</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Mahasiswa Bimbingan</h5>
+                                <b>
+                                    <span>{{ $rs_mahasiswa->jumlah_total_mahasiswa_dibimbing }} Mahasiswa</span>
+                                </b>
+                                <hr>
+                                <span
+                                    style="color: #44B158;"><b>{{ $rs_mahasiswa->jumlah_mahasiswa_tidak_aktif_dibimbing }}</b>
+                                    Mahasiswa Telah Lulus</span>
+                                <br>
+                                <span style="color: #F86F03;"><b>{{ $rs_mahasiswa->jumlah_mahasiswa_aktif_dibimbing }}</b>
+                                    Mahasiswa Belum Lulus</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Pengujian Sidang Proposal</h5>
+
+                                @if ($rs_pengujian_proposal != null)
+                                    <span>Jadwal Terdekat:</span>
+                                    <br>
+                                    <b><span>{{ $rs_pengujian_proposal->hari_sidang }},
+                                            {{ $rs_pengujian_proposal->waktu_sidang }} WIB</span></b>
+                                    <span>({{ $rs_pengujian_proposal->nama_ruang }})</span>
+
+                                    <hr>
+                                    <span
+                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
+                                        Kelompok Lulus Sidang</span>
+                                    <br>
+                                    <span
+                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing }}</b>
+                                        Kelompok Belum Sidang</span>
+                                @else
+                                    <span>Jadwal Terdekat:</span>
+                                    <br>
+                                    <b><span>Belum ada jadwal</span></b>
+
+                                    <hr>
+                                    <span
+                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
+                                        Kelompok Lulus Sidang</span>
+                                    <br>
+                                    <span
+                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing }}</b>
+                                        Kelompok Belum Sidang</span>
+                                @endif
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Pengujian Sidang TA</h5>
+
+                                @if ($rs_pengujian_proposal != null)
+                                    <span>Jadwal Terdekat:</span>
+                                    <br>
+                                    <b><span>{{ $rs_pengujian_proposal->hari_sidang }},
+                                            {{ $rs_pengujian_proposal->waktu_sidang }} WIB</span></b>
+                                    <span>({{ $rs_pengujian_proposal->nama_ruang }})</span>
+
+                                    <hr>
+                                    <span
+                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
+                                        Kelompok Lulus Sidang</span>
+                                    <br>
+                                    <span
+                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing }}</b>
+                                        Kelompok Belum Sidang</span>
+                                @else
+                                    <span>Jadwal Terdekat:</span>
+                                    <br>
+                                    <b><span>Belum ada jadwal</span></b>
+
+                                    <hr>
+                                    <span
+                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
+                                        Kelompok Lulus Sidang</span>
+                                    <br>
+                                    <span
+                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing }}</b>
+                                        Kelompok Belum Sidang</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <!-- Pengumuman -->
         <div class="card">
             <div class="d-flex align-items-end row">
                 <div class="col-sm-12">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">Pengumuman di Halaman Dosen</h5>
+                        <h5 class="card-title text-primary">Pengumuman</h5>
                         <div>
                             <div class="accordion" id="accordionExample">
                                 @foreach ($rs_broadcast as $item)
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingOne">
-                                            {{-- <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{$item->id}}" aria-expanded="false" aria-controls="collapseOne">
-                    {{$item->nama_event}}
-                  </button> --}}
+
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseOne{{ $item->id }}" aria-expanded="false"
                                                 aria-controls="collapseOne{{ $item->id }}">
