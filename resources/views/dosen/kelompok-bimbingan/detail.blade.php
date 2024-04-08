@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Bimbingan Saya</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/dosen/bimbingan-saya') }}" class="btn btn-secondary btn-xs float-right"><i
+                    <a href="{{ url('/dosen/kelompok-bimbingan') }}" class="btn btn-secondary btn-xs float-right"><i
                             class="bx bx-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -73,7 +73,7 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td>{{ $mahasiswa->judul_ta_mhs }}</td>
                                         <td>
-                                            <a href="{{ url('/dosen/bimbingan-saya/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
+                                            <a href="{{ url('/dosen/kelompok-bimbingan/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                 class="btn btn-outline-warning btn-xs m-1"> Detail</a>
                                         </td>
 

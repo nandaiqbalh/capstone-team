@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Models\Dosen\Bimbingan_Saya;
+namespace App\Models\Dosen\KelompokBimbingan;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class BimbinganSayaModel extends BaseModel
+class KelompokBimbinganModel extends BaseModel
 {
-    // get all data
-    public static function getData()
-    {
-        return DB::table('kelompok')
-            ->get();
-    }
 
     // get data with pagination
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*','b.nama as nama_topik')
-            ->join('topik as b','a.id_topik','b.id')
+            ->select('a.*', 'b.nama as nama_topik')
+            ->join('topik as b', 'a.id_topik', 'b.id')
             ->where('a.id_dosen_pembimbing_1', Auth::user()->user_id)
             ->orWhere('a.id_dosen_pembimbing_2', Auth::user()->user_id)
-            ->orderByDesc('a.id')
+            ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari 0 ke 1
+            ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id (opsional)
             ->paginate(20);
     }
+
 
     // get search
     public static function getDataSearch($no_kel)
@@ -76,5 +72,17 @@ class BimbinganSayaModel extends BaseModel
         return DB::table('kelompok')->where('id', $id)->update($params);
     }
 
+    public static function getKelompokBimbinganStatus($status)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as nama_topik')
+            ->join('topik as b', 'a.id_topik', 'b.id')
+            ->where('a.is_selesai', $status)
+            ->where('a.id_dosen_pembimbing_1', Auth::user()->user_id)
+            ->orWhere('a.id_dosen_pembimbing_2', Auth::user()->user_id)
+            ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari 0 ke 1
+            ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id (opsional)
+            ->paginate(20);
+    }
 
 }

@@ -1,24 +1,24 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Bimbingan Saya
+    Kelompok Bimbingan
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Bimbingan Saya</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Kelompok Bimbingan</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Bimbingan Saya</h5>
+            <h5 class="card-header">Data Kelompok Bimbingan</h5>
 
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/dosen/bimbingan-saya/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/dosen/kelompok-bimbingan/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -41,6 +41,31 @@
                     </div>
                 </div>
                 <br>
+
+                <div class="row">
+                    <form action="{{ url('/dosen/kelompok-bimbingan/filter-status') }}" method="get" autocomplete="off">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <div class="mb-3">
+                                    <select class="form-select" name="status" id="status" required>
+                                        <option value="" disabled selected>-- Filter Status --</option>
+                                        <option value="0">Belum Lulus</option>
+                                        <option value="1">Sudah Lulus</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3"><!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                    <button type="submit" class="btn btn-primary float-end" name="action"
+                                        value="search">Terapkan Filter</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -66,27 +91,27 @@
 
                                         <td class="text-center">
                                             @if ($kelompok->status_dosen == 'Persetujuan Dosbing Berhasil!')
-                                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}')">
+                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}')">
                                                     Tolak</a>
                                             @elseif($kelompok->status_dosen == 'Persetujuan Dosbing Gagal!')
-                                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-primary btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}')">
+                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
                                             @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing!')
-                                                <a href="{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-primary btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/terima') }}/{{ $kelompok->id }}')">
+                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
-                                                <a href="{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/bimbingan-saya/tolak') }}/{{ $kelompok->id }}')">
+                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}')">
                                                     Tolak</a>
                                             @else
                                             @endif
-                                            <a href="{{ url('/dosen/bimbingan-saya/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1"> Detail</a>
                                         </td>
 

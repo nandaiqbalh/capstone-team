@@ -28,8 +28,6 @@
                                 <th>Ruangan</th>
                                 <th>Status Kelompok</th>
                                 <th>Hasil</th>
-                                <th>Tindakan</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -64,21 +62,11 @@
                                             @endif
 
                                         </td>
-                                        <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
-                                                class="btn btn-outline-warning btn-xs m-1">Ubah</a>
-                                            <a href="{{ url('/admin/jadwal-sidang-proposal/delete-process') }}/{{ $sidang_proposal->id }}"
-                                                class="btn btn-outline-danger btn-xs m-1 "
-                                                onclick="return confirm('Apakah anda ingin menghapus {{ $sidang_proposal->nomor_kelompok }} ?')">
-                                                Hapus</a>
-
-                                        </td>
-
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="7">Tidak ada data.</td>
+                                    <td class="text-center" colspan="8">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

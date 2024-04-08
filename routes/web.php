@@ -64,7 +64,8 @@ use App\Http\Controllers\Mahasiswa\TugasAkhir_Mahasiswa\MahasiswaTugasAkhirContr
 use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
-use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;
+use App\Http\Controllers\Dosen\KelompokBimbingan\KelompokBimbinganController;
+use App\Http\Controllers\Dosen\MahasiswaBimbingan\MahasiswaBimbinganController;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
 
 
@@ -328,14 +329,23 @@ Route::middleware(['auth', 'role:04'])->group(function () {
      Route::get('dosen/beranda', [DashboardController::class, 'indexDosen']);
 
      //halaman dosen
-     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
-     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/search', [BimbinganSayaController::class, 'search']);
+     Route::get('/dosen/kelompok-bimbingan', [KelompokBimbinganController::class, 'index']);
+     Route::get('/dosen/kelompok-bimbingan/terima/{id}', [KelompokBimbinganController::class, 'terimaKelompokBimbingan']);
+     Route::get('/dosen/kelompok-bimbingan/tolak/{id}', [KelompokBimbinganController::class, 'tolakKelompokBimbingan']);
+     Route::get('/dosen/kelompok-bimbingan/detail/{id}', [KelompokBimbinganController::class, 'detailKelompokBimbingan']);
+     Route::get('/dosen/kelompok-bimbingan/search', [KelompokBimbinganController::class, 'search']);
+     Route::get('/dosen/kelompok-bimbingan/filter-status', [KelompokBimbinganController::class, 'getKelompokBimbinganFilterStatus']);
 
      // detail mahasiswa bimbingan saya
-     Route::get('/dosen/bimbingan-saya/detail-mahasiswa/{user_id}', [BimbinganSayaController::class, 'detailMahasiswa']);
+     Route::get('/dosen/kelompok-bimbingan/detail-mahasiswa/{user_id}', [KelompokBimbinganController::class, 'detailMahasiswa']);
+
+     // mahasiswa bimbingan
+     Route::get('/dosen/mahasiswa-bimbingan', [MahasiswaBimbinganController::class, 'index']);
+     Route::get('/dosen/mahasiswa-bimbingan/search', [MahasiswaBimbinganController::class, 'search']);
+     Route::get('/dosen/mahasiswa-bimbingan/filter-status', [MahasiswaBimbinganController::class, 'getMahasiswaBimbinganFilterStatus']);
+
+     // detail mahasiswa bimbingan saya
+     Route::get('/dosen/mahasiswa-bimbingan/detail-mahasiswa/{user_id}', [MahasiswaBimbinganController::class, 'detailMahasiswa']);
 
 
      //pengujian saya
