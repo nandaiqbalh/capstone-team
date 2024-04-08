@@ -39,7 +39,7 @@
                                 <label for="broadcast_image">Gambar</label>
                                 <input type="file" class="form-control" id="broadcast_image" name="broadcast_image"
                                     required>
-                                <small class="form-text text-muted">Ukuran maksimal file: 5MB</small>
+                                <small class="form-text text-muted">Format: JPG, PNG, JPEG. Maks: 5MB</small>
                             </div>
                         </div>
                         <div class="image-previewer"></div>

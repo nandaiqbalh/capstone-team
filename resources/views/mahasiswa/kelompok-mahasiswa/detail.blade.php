@@ -83,7 +83,7 @@
                         @else
                             <!-- table info -->
                             <div class="table-responsive">
-                                <form id="registrationForm" action="{{ url('/mahasiswa/kelompok/edit-kelompok-process') }}"
+                                <form id="form1" action="{{ url('/mahasiswa/kelompok/edit-kelompok-process') }}"
                                     method="post" autocomplete="off">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="id" value="{{ $kelompok->id }}">
@@ -187,8 +187,8 @@
                                         </tbody>
                                     </table>
                                     <div class="float-end">
-                                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal">Simpan</button>
+                                        <button type="button" data-target-form="form1" class="btn btn-primary float-end"
+                                            data-bs-toggle="modal" data-bs-target="#confirmModal">Simpan</button>
                                     </div>
                                 </form>
                             </div>
@@ -315,9 +315,10 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <form id="registrationForm" action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}"
+                            <form id="id="form2"" action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}"
                                 method="post" autocomplete="off">
                                 {{ csrf_field() }}
+                                <input type="hidden" name="id_siklus" value="{{ $rs_siklus->id }}">
 
                                 <h6>Detail Capstone</h6>
                                 <div class="row">
@@ -332,13 +333,9 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label>Pilih Siklus <span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="id_siklus">
-                                                <option value="" disabled selected>-- Pilih --</option>
-                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->nama_siklus }} |
-                                                    Batas pendaftaran: {{ $rs_siklus->pendaftaran_selesai }}
-                                                </option>
-                                            </select>
+                                            <label>Nama Siklus <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="nama_siklus"
+                                                value="{{ $rs_siklus->nama_siklus }}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -450,18 +447,18 @@
                                     </div>
                                 </div>
 
-                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
-                                    data-bs-target="#confirmModal">Daftar</button>
+                                <button type="button" data-target-form="form2" class="btn btn-primary float-end"
+                                    data-bs-toggle="modal" data-bs-target="#confirmModal">Daftar</button>
 
                             </form>
                         </div>
 
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <form id="registrationForm"
-                                action="{{ url('/mahasiswa/kelompok/add-punya-kelompok-process') }}" method="post"
-                                autocomplete="off">
+                            <form id="form3" action="{{ url('/mahasiswa/kelompok/add-punya-kelompok-process') }}"
+                                method="post" autocomplete="off">
                                 {{ csrf_field() }}
                                 <h6>Data Detail Capstone</h6>
+                                <input type="hidden" name="id_siklus" value="{{ $rs_siklus->id }}">
 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -488,13 +485,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label>Pilih Siklus <span class="text-danger">*</span></label>
-                                            <select class="form-select select-2" name="id_siklus">
-                                                <option value="" disabled selected>-- Pilih --</option>
-                                                <option value="{{ $rs_siklus->id }}">{{ $rs_siklus->nama_siklus }} |
-                                                    Batas pendaftaran: {{ $rs_siklus->pendaftaran_selesai }}
-                                                </option>
-                                            </select>
+                                            <label>Nama Siklus <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="nama_siklus"
+                                                value="{{ $rs_siklus->nama_siklus }}" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -772,8 +765,8 @@
 
                                 </div>
 
-                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
-                                    data-bs-target="#confirmModal">Daftar</button>
+                                <button type="button" data-target-form="form3" class="btn btn-primary float-end"
+                                    data-bs-toggle="modal" data-bs-target="#confirmModal">Daftar</button>
                             </form>
 
                         </div>
@@ -902,10 +895,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             var confirmButton = document.getElementById('confirmButton');
 
-            confirmButton.addEventListener('click', function() {
-                // Lakukan submit formulir secara langsung setelah konfirmasi
-                var form = document.getElementById('registrationForm');
-                form.submit();
+            // Listen for modal show event
+            $('#confirmModal').on('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var formId = button.getAttribute('data-target-form');
+
+                // Update the confirm button's click handler to submit the specific form
+                confirmButton.addEventListener('click', function() {
+                    // Find the form by ID and submit it
+                    var form = document.getElementById(formId);
+                    if (form) {
+                        form.submit();
+                    }
+                });
+            });
+
+            // Clear the confirm button's click handler when the modal is hidden
+            $('#confirmModal').on('hidden.bs.modal', function() {
+                confirmButton.removeEventListener('click', null);
             });
         });
     </script>

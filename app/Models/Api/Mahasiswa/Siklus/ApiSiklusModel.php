@@ -16,8 +16,8 @@ class ApiSiklusModel extends ApiBaseModel
     {
         return DB::table('siklus')
             ->where('status','aktif')
-            ->orderBy('created_date', 'desc') // Order by 'created_at' in descending order (newest first)
-            ->get();
+             // Order by 'created_at' in descending order (newest first)
+            ->first();
     }
 
     public static function getPeriodePendaftaranSiklus()
@@ -26,7 +26,7 @@ class ApiSiklusModel extends ApiBaseModel
             ->where('status','aktif')
             ->where('siklus.pendaftaran_mulai', '<', now())
             ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
-            ->get();
+            ->first();
     }
 
 }

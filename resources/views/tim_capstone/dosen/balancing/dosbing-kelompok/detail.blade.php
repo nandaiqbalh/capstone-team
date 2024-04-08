@@ -1,19 +1,20 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Bimbingan Dosen Pembimbing
+    Balancing Dosbing Kelompok
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Bimbingan Dosen Pembimbing</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Kelompok Bimbingan Dosen Pembimbing
+        </h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Bimbingan Dosen Pembimbing</h5>
+            <h5 class="card-header">Data Kelompok Bimbingan Dosen Pembimbing</h5>
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -22,8 +23,8 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
-                                <th>Dosen</th>
-                                <th>Status Dosen</th>
+                                <th>Status Kelompok</th>
+                                <th>Posisi Dosen</th>
                                 <th>Selesai</th>
                                 <th>Tindakan</th>
                             </tr>
@@ -34,15 +35,17 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_bimbingan->firstItem() }}.</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        <td>{{ $kelompok->status_kelompok }}</td>
                                         <td>{{ $kelompok->jenis_dosen }}</td>
-                                        <td>{{ $kelompok->status_dosen }}</td>
                                         <td>
                                             @if ($kelompok->is_selesai == 0)
-                                                <a href="#" class="btn btn-outline-secondary btn-xs m-1 ">Belum
-                                                    Selesai</a>
+                                                <span style="color: #F86F03;">
+                                                    Belum Selesai
+                                                </span>
                                             @else
-                                                <a href="#" class="btn btn-outline-danger btn-xs m-1">Sudah
-                                                    Selesai</a>
+                                                <span style="color: #44B158;">
+                                                    Selesai
+                                                </span>
                                             @endif
                                         </td>
 

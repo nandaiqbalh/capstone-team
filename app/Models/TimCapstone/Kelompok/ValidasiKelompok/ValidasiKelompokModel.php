@@ -159,6 +159,13 @@ class ValidasiKelompokModel extends BaseModel
             ->first();
     }
 
+    public static function getSiklusById($id)
+    {
+        return DB::table('siklus as a')
+            ->where('a.id', $id)
+            ->first();
+    }
+
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
     {

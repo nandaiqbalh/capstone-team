@@ -22,83 +22,187 @@
             <div class="card-body">
                 <!-- table info -->
                 <div class="table-responsive">
-                    <form action="{{ url('/admin/validasi-kelompok/edit-kelompok-process') }}" method="post"
-                        autocomplete="off">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="id" value="{{ $kelompok->id }}">
-                        <table class="table table-borderless table-hover">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th width="20%"></th>
-                                    <th width="5%"></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Nomor Kelompok</td>
-                                    <td>:</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" name="nomor_kelompok"
-                                                    value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}"
-                                                    placeholder="Contoh: S1T23K12" required>
+
+                    @if ($kelompok->nomor_kelompok == null)
+                        <form action="{{ url('/admin/validasi-kelompok/setujui-kelompok-process') }}" method="post"
+                            autocomplete="off">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id" value="{{ $kelompok->id }}">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="20%"></th>
+                                        <th width="5%"></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nomor Kelompok</td>
+                                        <td>:</td>
+                                        @if ($kelompok->nomor_kelompok == null)
+                                            <td>-</td>
+                                        @else
+                                            <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td>Status Kelompok</td>
+                                        <td>:</td>
+                                        <td>
+                                            @php
+                                                $statusKelompok = $kelompok->status_kelompok;
+                                                $color = '';
+
+                                                switch ($statusKelompok) {
+                                                    case 'Menunggu Penetapan Kelompok!':
+                                                    case 'Menunggu Penetapan Dosbing!':
+                                                    case 'Menunggu Persetujuan Anggota!':
+                                                    case 'Menunggu Persetujuan Dosbing!':
+                                                    case 'Menunggu Persetujuan Penguji!':
+                                                    case 'Menunggu Validasi Kelompok!':
+                                                        $color = '#F86F03'; // Warna Orange
+                                                        break;
+                                                    case 'Validasi Kelompok Berhasil!':
+                                                        $color = '#44B158'; // Warna Hijau
+                                                        break;
+                                                    default:
+                                                        $color = '#FF0000'; // Warna Merah
+                                                        break;
+                                                }
+                                            @endphp
+
+                                            <span style="color: {{ $color }};">
+                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Judul Project</td>
+                                        <td>:</td>
+                                        @if ($kelompok->judul_capstone == null)
+                                            <td>-</td>
+                                        @else
+                                            <td>{{ $kelompok->judul_capstone }}</td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td>Topik</td>
+                                        <td>:</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select class="form-select" name="topik" required>
+                                                        <option value="" disabled selected>-- Pilih --</option>
+                                                        @foreach ($rs_topik as $topik)
+                                                            <option value="{{ $topik->id }}"
+                                                                @if ($topik->nama == $kelompok->nama_topik) selected @endif>
+                                                                {{ $topik->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Status Kelompok</td>
-                                    <td>:</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" name="status_kelompok"
-                                                    value="{{ old('status_kelompok', $kelompok->status_kelompok) }}"
-                                                    readonly required>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-sm btn-primary">Setujui</button>
+                            </div>
+                        </form>
+                    @else
+                        < <form action="{{ url('/admin/validasi-kelompok/edit-kelompok-process') }}" method="post"
+                            autocomplete="off">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id" value="{{ $kelompok->id }}">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="20%"></th>
+                                        <th width="5%"></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nomor Kelompok</td>
+                                        <td>:</td>
+                                        @if ($kelompok->nomor_kelompok == null)
+                                            <td>-</td>
+                                        @else
+                                            <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td>Status Kelompok</td>
+                                        <td>:</td>
+                                        <td>
+                                            @php
+                                                $statusKelompok = $kelompok->status_kelompok;
+                                                $color = '';
+
+                                                switch ($statusKelompok) {
+                                                    case 'Menunggu Penetapan Kelompok!':
+                                                    case 'Menunggu Penetapan Dosbing!':
+                                                    case 'Menunggu Persetujuan Anggota!':
+                                                    case 'Menunggu Persetujuan Dosbing!':
+                                                    case 'Menunggu Persetujuan Penguji!':
+                                                    case 'Menunggu Validasi Kelompok!':
+                                                        $color = '#F86F03'; // Warna Orange
+                                                        break;
+                                                    case 'Validasi Kelompok Berhasil!':
+                                                        $color = '#44B158'; // Warna Hijau
+                                                        break;
+                                                    default:
+                                                        $color = '#FF0000'; // Warna Merah
+                                                        break;
+                                                }
+                                            @endphp
+
+                                            <span style="color: {{ $color }};">
+                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Judul Project</td>
+                                        <td>:</td>
+                                        @if ($kelompok->judul_capstone == null)
+                                            <td>-</td>
+                                        @else
+                                            <td>{{ $kelompok->judul_capstone }}</td>
+                                        @endif
+                                    </tr>
+                                    <tr>
+                                        <td>Topik</td>
+                                        <td>:</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select class="form-select" name="topik" required>
+                                                        <option value="" disabled selected>-- Pilih --</option>
+                                                        @foreach ($rs_topik as $topik)
+                                                            <option value="{{ $topik->id }}"
+                                                                @if ($topik->nama == $kelompok->nama_topik) selected @endif>
+                                                                {{ $topik->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Judul Project</td>
-                                    <td>:</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" name="judul_capstone"
-                                                    value="{{ old('judul_capstone', $kelompok->judul_capstone) }}"
-                                                    placeholder="Judul Project" readonly required>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Topik</td>
-                                    <td>:</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <select class="form-select" name="topik" required>
-                                                    <option value="" disabled selected>-- Pilih --</option>
-                                                    @foreach ($rs_topik as $topik)
-                                                        <option value="{{ $topik->id }}"
-                                                            @if ($topik->nama == $kelompok->nama_topik) selected @endif>
-                                                            {{ $topik->nama }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="float-end">
-                            <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
-                        </div>
-                    </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="float-end">
+                                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                            </div>
+                            </form>
+                    @endif
+
                 </div>
                 <hr>
 

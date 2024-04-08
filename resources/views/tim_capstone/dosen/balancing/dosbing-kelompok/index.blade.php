@@ -1,25 +1,25 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Dosen
+    Balancing Dosbing Kelompok
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Balancing Dosen Pembimbing</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Balancing Dosbing Kelompok</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Balancing Dosen Pembimbing</h5>
+            <h5 class="card-header">Data Balancing Dosbing Kelompok</h5>
 
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/balancing-dosbing/search') }}" method="get"
-                            autocomplete="off">
+                        <form class="form-inline" action="{{ url('/admin/balancing-dosbing-kelompok/search') }}"
+                            method="get" autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
                                     <input class="form-control mr-sm-2" type="search" name="nama"
@@ -41,7 +41,8 @@
                 </div>
                 <br>
                 <div class="row">
-                    <form action="{{ url('/admin/balancing-dosbing/filter-siklus') }}" method="get" autocomplete="off">
+                    <form action="{{ url('/admin/balancing-dosbing-kelompok/filter-siklus') }}" method="get"
+                        autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
@@ -69,8 +70,8 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama</th>
-                                <th>Kelompok Belum Sidang</th>
-                                <th>Kelompok Sudah Sidang</th>
+                                <th>Belum Selesai</th>
+                                <th>Sudah Selesai</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
@@ -83,7 +84,7 @@
                                         <td>{{ $dosen->jumlah_kelompok_aktif_dibimbing }} kelompok</td>
                                         <td>{{ $dosen->jumlah_kelompok_tidak_aktif_dibimbing }} kelompok</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-dosbing/detail') }}/{{ $dosen->user_id }}"
+                                            <a href="{{ url('/admin/balancing-dosbing-kelompok/detail') }}/{{ $dosen->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
 
                                         </td>
@@ -91,7 +92,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="5">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

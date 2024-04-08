@@ -4,6 +4,7 @@ namespace App\Http\Controllers\TimCapstone\Kelompok\ValidasiKelompok;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\Kelompok\ValidasiKelompok\ValidasiKelompokModel;
@@ -226,43 +227,90 @@ class ValidasiKelompokController extends BaseController
         }
     }
 
+    public function setujuiKelompokProcess(Request $request)
+    {
+        $rules = [
+            'id' => 'required',
+        ];
 
+        $this->validate($request, $rules);
+
+        // Ambil data kelompok berdasarkan ID
+        $kelompok = ValidasiKelompokModel::getKelompokById($request->id);
+
+        if (!$kelompok) {
+            return redirect()->back()->with('danger', 'Kelompok tidak ditemukan.');
+        }
+
+        $siklus = ValidasiKelompokModel::getSiklusById($kelompok->id_siklus);
+
+        // Ambil kode siklus dari variabel siklus
+        $kodeSiklus = $siklus->kode_siklus;
+
+        if (!$kodeSiklus) {
+            return redirect()->back()->with('danger', 'Gagal mendapatkan kode siklus.');
+        }
+
+        // Ambil nomor kelompok terakhir dari tabel kelompok
+        $lastNomorKelompok = DB::table('kelompok')
+            ->where('nomor_kelompok', 'like', $kodeSiklus . 'K%')
+            ->max(DB::raw('CAST(SUBSTRING(nomor_kelompok, CHAR_LENGTH("' . $kodeSiklus . 'K") + 1) AS UNSIGNED)'));
+        // Mengambil nomor terbesar setelah karakter 'K'
+
+        // Jika tidak ada nomor kelompok sebelumnya, mulai dari 0
+        $nextNumber = $lastNomorKelompok !== null ? $lastNomorKelompok + 1 : 1;
+
+        // Format nomor kelompok dengan kode siklus dan nomor urut
+        $nomor_kelompok = $kodeSiklus . 'K' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+
+        // Parameter untuk update data kelompok
+        $params = [
+            "nomor_kelompok" => $nomor_kelompok,
+            "id_topik" => $request->topik,
+            "status_kelompok" => "Validasi Kelompok Berhasil!",
+            'modified_by' => Auth::user()->user_id,
+            'modified_date' => now()->format('Y-m-d H:i:s')
+        ];
+
+        // Proses update data kelompok
+        if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
+            // Flash message sukses
+            session()->flash('success', 'Data berhasil disimpan.');
+        } else {
+            // Flash message gagal
+            session()->flash('danger', 'Data gagal disimpan.');
+        }
+
+        return redirect()->back();
+    }
 
     public function editKelompokProcess(Request $request)
     {
-
-        // Validate & auto redirect when fail
         $rules = [
             'id' => 'required',
-            'nomor_kelompok' => 'required|unique:kelompok,nomor_kelompok,'.$request->id.',id',
         ];
 
-        $customMessages = [
-            'nomor_kelompok.unique' => 'Nomor Kelompok tidak tersedia!',
-        ];
 
-        $this->validate($request, $rules, $customMessages);
-
-        // params
+        // Parameter untuk update data kelompok
         $params = [
-            "nomor_kelompok" => $request->nomor_kelompok,
             "id_topik" => $request->topik,
-            "status_kelompok" => "Validasi Kelompok Berhasil!",
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'modified_by' => Auth::user()->user_id,
+            'modified_date' => now()->format('Y-m-d H:i:s')
         ];
 
-        // process
+        // Proses update data kelompok
         if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
-            // flash message
+            // Flash message sukses
             session()->flash('success', 'Data berhasil disimpan.');
-            return back();
         } else {
-            // flash message
+            // Flash message gagal
             session()->flash('danger', 'Data gagal disimpan.');
-            return back();
         }
+
+        return redirect()->back();
     }
+
+
 
     public function deleteKelompokProcess($id)
     {

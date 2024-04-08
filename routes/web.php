@@ -40,6 +40,9 @@ use App\Http\Controllers\TimCapstone\Topik\TopikController;
 use App\Http\Controllers\TimCapstone\Peminatan\PeminatanController;
 use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
+use App\Http\Controllers\TimCapstone\Balancing\PembimbingKelompok\PembimbingKelompokController;
+use App\Http\Controllers\TimCapstone\Balancing\PembimbingMahasiswa\PembimbingMahasiswaController;
+use App\Http\Controllers\TimCapstone\Balancing\PengujiProposal\PengujiProposalController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
@@ -172,14 +175,22 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/dosen/search', [DosenController::class, 'searchDosen']);
 
      // balancing dosen pembimbing
-     Route::get('/admin/balancing-dosbing', [DosenController::class, 'balancingDosbing']);
-     Route::get('/admin/balancing-dosbing/filter-siklus', [DosenController::class, 'filterBalancingDosbing']);
-     Route::get('/admin/balancing-dosbing/detail/{user_id}', [DosenController::class, 'detailBalancingDosbing']);
+     Route::get('/admin/balancing-dosbing-kelompok', [PembimbingKelompokController::class, 'balancingDosbingKelompok']);
+     Route::get('/admin/balancing-dosbing-kelompok/filter-siklus', [PembimbingKelompokController::class, 'filterBalancingDosbingKelompok']);
+     Route::get('/admin/balancing-dosbing-kelompok/detail/{user_id}', [PembimbingKelompokController::class, 'detailBalancingDosbingKelompok']);
+     Route::get('/admin/balancing-dosbing-kelompok/search', [PembimbingKelompokController::class, 'searchBalancingDosbingKelompok']);
+
+     // balancing dosen pembimbing mahasiswa
+     Route::get('/admin/balancing-dosbing-mahasiswa', [PembimbingMahasiswaController::class, 'balancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/filter-siklus', [PembimbingMahasiswaController::class, 'filterBalancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/detail/{user_id}', [PembimbingMahasiswaController::class, 'detailBalancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/search', [PembimbingMahasiswaController::class, 'searchBalancingDosbingMahasiswa']);
 
     // balancing dosen penguji proposal
-     Route::get('/admin/balancing-penguji-proposal', [DosenController::class, 'balancingPengujiProposal']);
-     Route::get('/admin/balancing-penguji-proposal/filter-siklus', [DosenController::class, 'filterBalancingPengujiProposal']);
-     Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [DosenController::class, 'detailBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal', [PengujiProposalController::class, 'balancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/filter-siklus', [PengujiProposalController::class, 'filterBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [PengujiProposalController::class, 'detailBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/search', [PengujiProposalController::class, 'searchBalancingPengujiProposal']);
 
 
      //siklus
@@ -230,13 +241,12 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     //add delete dosen pembimbing
     Route::get('/admin/penetapan-dosbing/add-dosen-kelompok', [PenetapanDosbingController::class, 'addDosenKelompok']);
     Route::get('/admin/penetapan-dosbing/delete-dosen-process/{id_dosen}/{id_kelompok}', [PenetapanDosbingController::class, 'deleteDosenKelompok']);
-   // edit kelompok
-   Route::post('/admin/penetapan-dosbing/edit-kelompok-process', [PenetapanDosbingController::class, 'editKelompokProcess']);
 
     // validasi kelompok
     Route::get('/admin/validasi-kelompok', [ValidasiKelompokController::class, 'index']);
     Route::get('/admin/validasi-kelompok/detail/{id}', [ValidasiKelompokController::class, 'detailKelompok']);
     // edit dan delete kelompok
+    Route::post('/admin/validasi-kelompok/setujui-kelompok-process', [ValidasiKelompokController::class, 'setujuiKelompokProcess']);
     Route::post('/admin/validasi-kelompok/edit-kelompok-process', [ValidasiKelompokController::class, 'editKelompokProcess']);
     Route::get('/admin/validasi-kelompok/delete-process/{id}', [ValidasiKelompokController::class, 'deleteKelompokProcess']);
     // add/delete dosen & mahasiswa
