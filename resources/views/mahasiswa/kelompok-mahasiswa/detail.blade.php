@@ -99,46 +99,17 @@
                                             <tr>
                                                 <td>Status</td>
                                                 <td>:</td>
-                                                <td>
-                                                    @php
-                                                        $statusKelompok = $kelompok->status_kelompok;
-                                                        $color = '';
 
-                                                        switch ($statusKelompok) {
-                                                            case 'Menunggu Penetapan Kelompok!':
-                                                            case 'Menunggu Penetapan Dosbing!':
-                                                            case 'Menunggu Persetujuan Anggota!':
-                                                            case 'Menunggu Persetujuan Dosbing!':
-                                                            case 'Menunggu Persetujuan Penguji!':
-                                                            case 'Menunggu Persetujuan Tim Capstone!':
-                                                            case 'Menunggu Validasi Expo!':
-                                                                $color = '#F86F03'; // Warna Orange
-                                                                break;
-                                                            case 'Kelompok Telah Disetujui!':
-                                                            case 'C100 Telah Disetujui!':
-                                                            case 'Penguji Proposal Ditetapkan!':
-                                                            case 'Dijadwalkan Sidang Proposal!':
-                                                            case 'Penguji Setuju!':
-                                                            case 'Lulus Sidang Proposal!':
-                                                            case 'C200 Telah Disetujui!':
-                                                            case 'C300 Telah Disetujui!':
-                                                            case 'C400 Telah Disetujui!':
-                                                            case 'C500 Telah Disetujui!':
-                                                            case 'Validasi Expo Berhasil!':
-                                                            case 'Lulus Expo Project!':
-                                                            case 'Lulus Capstone Project!':
-                                                                $color = '#44B158'; // Warna Hijau
-                                                                break;
-                                                            default:
-                                                                $color = '#FF0000'; // Warna Merah
-                                                                break;
-                                                        }
-                                                    @endphp
+                                                @if ($kelompok->status_kelompok != null)
+                                                    <td style="color: {{ $kelompok->status_color }};">
+                                                        {{ $kelompok->status_kelompok }}
+                                                    </td>>
+                                                @else
+                                                    <td style="color: #F86F03;">
+                                                        Menunggu Penetapan Kelompok!
+                                                    </td>
+                                                @endif
 
-                                                    <span style="color: {{ $color }};">
-                                                        {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
-                                                    </span>
-                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Nomor Kelompok</td>
@@ -187,8 +158,10 @@
                                         </tbody>
                                     </table>
                                     <div class="float-end">
-                                        <button type="button" data-target-form="form1" class="btn btn-primary float-end"
-                                            data-bs-toggle="modal" data-bs-target="#confirmModal">Simpan</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#confirmModal" data-target-form="form1">
+                                            Simpan
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -315,7 +288,7 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                            <form id="id="form2"" action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}"
+                            <form id="form2" action="{{ url('/mahasiswa/kelompok/add-kelompok-process') }}"
                                 method="post" autocomplete="off">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id_siklus" value="{{ $rs_siklus->id }}">
@@ -447,8 +420,10 @@
                                     </div>
                                 </div>
 
-                                <button type="button" data-target-form="form2" class="btn btn-primary float-end"
-                                    data-bs-toggle="modal" data-bs-target="#confirmModal">Daftar</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal" data-target-form="form2">
+                                    Simpan
+                                </button>
 
                             </form>
                         </div>
@@ -765,8 +740,10 @@
 
                                 </div>
 
-                                <button type="button" data-target-form="form3" class="btn btn-primary float-end"
-                                    data-bs-toggle="modal" data-bs-target="#confirmModal">Daftar</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal" data-target-form="form3">
+                                    Simpan
+                                </button>
                             </form>
 
                         </div>
@@ -912,6 +889,7 @@
 
             // Clear the confirm button's click handler when the modal is hidden
             $('#confirmModal').on('hidden.bs.modal', function() {
+                // Remove the click event listener from the confirmButton
                 confirmButton.removeEventListener('click', null);
             });
         });

@@ -65,7 +65,7 @@ class PembimbingKelompokController extends BaseController
                 $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
 
             } else {
-                $bimbingan->jenis_dosen = 'Belum diplot';
+                $bimbingan->jenis_dosen = 'Belum Diplot';
             }
         }
         // data

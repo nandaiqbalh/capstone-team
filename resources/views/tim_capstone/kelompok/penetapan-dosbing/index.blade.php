@@ -22,7 +22,8 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Siklus</th>
-                                <th>Status</th>
+                                <th>Persetujuan Dosbing 1</th>
+                                <th>Persetujuan Dosbing 2</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -32,7 +33,10 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
                                         <td>{{ $kelompok->nama_siklus }}</td>
-                                        <td>{{ $kelompok->status_kelompok }}</td>
+                                        <td style="color: {{ $kelompok->status_dosbing1_color }}">
+                                            {{ $kelompok->status_dosen_pembimbing_1 }}</td>
+                                        <td style="color: {{ $kelompok->status_dosbing2_color }}">
+                                            {{ $kelompok->status_dosen_pembimbing_2 }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/penetapan-dosbing/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Tetapkan Dosen Pembimbing</a>

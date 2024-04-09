@@ -83,20 +83,27 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            // Inisialisasi date picker dengan time picker
-            $('#tanggal_mulai, #tanggal_selesai, #waktu')
-                .datetimepicker({
-                    dateFormat: 'yy-mm-dd', // Format tanggal (YYYY-MM-DD)
-                    timeFormat: 'HH:mm:ss', // Format waktu (24-jam)
-                    changeMonth: true, // Izinkan pergantian bulan
-                    changeYear: true, // Izinkan pergantian tahun
-                    yearRange: '2000:2050', // Rentang tahun yang diizinkan
-                    showButtonPanel: true, // Tampilkan panel tombol
-                    onSelect: function(dateTimeText, inst) {
-                        console.log('Tanggal dan waktu dipilih:', dateTimeText);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi flatpickr dengan waktu
+            flatpickr('#tanggal_mulai, #tanggal_selesai, #waktu', {
+                dateFormat: 'Y-m-d H:i', // Format tanggal dan waktu (YYYY-MM-DD HH:mm)
+                enableTime: true, // Izinkan pilihan waktu
+                time_24hr: true, // Format waktu 24-jam
+                minDate: new Date('2019-12-31'), // Batasi pilihan tanggal minimal ke hari ini
+                maxDate: new Date('2050-12-31'), // Batasi pilihan tanggal maksimal
+                defaultHour: 12, // Jam default jika tidak ada waktu terpilih
+                defaultMinute: 0, // Menit default jika tidak ada waktu terpilih
+                locale: {
+                    buttons: {
+                        now: 'Sekarang' // Mengganti teks tombol "Sekarang"
                     }
-                });
+                },
+                appendTo: document.body, // Append kalender ke dalam body
+                inline: false, // Tidak menggunakan mode inline
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log('Tanggal dan waktu dipilih:', dateStr);
+                }
+            });
         });
     </script>
 @endsection

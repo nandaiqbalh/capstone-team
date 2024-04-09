@@ -18,6 +18,7 @@ class KelompokBimbinganController extends BaseController
     {
         // get data with pagination
         $rs_bimbingan_saya = KelompokBimbinganModel::getDataWithPagination();
+
         foreach ($rs_bimbingan_saya as $bimbingan) {
             if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                 $bimbingan->jenis_dosen = 'Pembimbing 1';
@@ -28,8 +29,10 @@ class KelompokBimbinganController extends BaseController
                 $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
 
             } else {
-                $bimbingan->jenis_dosen = 'Belum diplot';
+                $bimbingan->jenis_dosen = 'Belum Diplot';
             }
+
+            $bimbingan -> status_kelompok_color = $this->getStatusColor($bimbingan->status_kelompok);
         }
         // data
         $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya];
@@ -95,16 +98,21 @@ class KelompokBimbinganController extends BaseController
             if ($bimbingan_saya_updated->id == $id) {
                 if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Setuju!" &&
                     $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Setuju!") {
-
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Tim Capstone!'];
-                    // Update status kelompok
-                    KelompokBimbinganModel::update($id, $paramsUpdated);
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
+                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone!" &&
+                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Setuju!") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
+                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Setuju!" &&
+                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone!") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
+                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone!" &&
+                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone!") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
                 } else {
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Dosbing!'];
-
-                    KelompokBimbinganModel::update($id, $paramsUpdated);
-
+                    $status_kelompok = 'Menunggu Persetujuan Dosbing!';
                 }
+
+                KelompokBimbinganModel::update($id, ['status_kelompok' => $status_kelompok]);
 
             }
             // flash message
@@ -120,7 +128,6 @@ class KelompokBimbinganController extends BaseController
 
     public function tolakKelompokBimbingan(Request $request, $id)
     {
-
 
         $rs_bimbingan_saya = KelompokBimbinganModel::getDataWithPagination();
 
@@ -237,7 +244,7 @@ class KelompokBimbinganController extends BaseController
                     $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
 
                 } else {
-                    $bimbingan->jenis_dosen = 'Belum diplot';
+                    $bimbingan->jenis_dosen = 'Belum Diplot';
                 }
             }
             // data
@@ -268,7 +275,7 @@ class KelompokBimbinganController extends BaseController
                     $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
 
                 } else {
-                    $bimbingan->jenis_dosen = 'Belum diplot';
+                    $bimbingan->jenis_dosen = 'Belum Diplot';
                 }
             }
             // data
@@ -278,5 +285,87 @@ class KelompokBimbinganController extends BaseController
         } else {
             return view('dosen/kelompok-bimbingan', $data);
         }
+    }
+
+    private function getStatusColor($statusKelompok)
+    {
+        // Daftar status dan kategori warna
+        $statusCategories = [
+            'merah' => [
+                'Dosbing Tidak Setuju!',
+                'Penguji Tidak Setuju!',
+                'C100 Tidak Disetujui!',
+                'C200 Tidak Disetujui!',
+                'C300 Tidak Disetujui!',
+                'C400 Tidak Disetujui!',
+                'C500 Tidak Disetujui!',
+                'Kelompok Tidak Disetujui Expo!',
+                'Laporan TA Tidak Disetujui!',
+                'Makalah TA Tidak Disetujui!',
+                'Belum Mendaftar Sidang TA!',
+                'Gagal Expo Project!'
+            ],
+            'orange' => [
+                'Menunggu Penetapan Kelompok!',
+                'Menunggu Persetujuan Dosbing!',
+                'Menunggu Persetujuan Anggota!',
+                'Didaftarkan!',
+                'Menunggu Penetapan Dosbing!',
+                'Menunggu Persetujuan Tim Capstone!',
+                'Menunggu Persetujuan C100!',
+                'Menunggu Persetujuan C200!',
+                'Menunggu Persetujuan C300!',
+                'Menunggu Persetujuan C400!',
+                'Menunggu Persetujuan C500!',
+                'Menunggu Persetujuan Expo!',
+                'Menunggu Persetujuan Laporan TA!',
+                'Menunggu Persetujuan Makalah TA!',
+                'Menunggu Persetujuan Penguji!',
+                'Menunggu Penjadwalan Sidang TA!'
+            ],
+            'ijo' => [
+                'Menyetujui Kelompok!',
+                'Dosbing Setuju!',
+                'Kelompok Diplot Tim Capstone!',
+                'Dosbing Diplot Tim Capstone!',
+                'Kelompok Telah Disetujui!',
+                'C100 Telah Disetujui!',
+                'Penguji Setuju!',
+                'Dijadwalkan Sidang Proposal!',
+                'Lulus Sidang Proposal!',
+                'C200 Telah Disetujui!',
+                'C300 Telah Disetujui!',
+                'C400 Telah Disetujui!',
+                'C500 Telah Disetujui!',
+                'Kelompok Disetujui Expo!',
+                'Lulus Expo Project!',
+                'Laporan TA Telah Disetujui!',
+                'Makalah TA Telah Disetujui!',
+                'Penguji TA Setuju!',
+                'Telah Dijadwalkan Sidang TA!',
+                'Lulus Sidang TA!'
+            ]
+        ];
+
+        $color = '#FF0000'; // Default warna merah
+
+        // Loop melalui daftar kategori warna dan status
+        foreach ($statusCategories as $category => $statuses) {
+            if (in_array($statusKelompok, $statuses)) {
+                // Temukan status dalam kategori, tetapkan warna sesuai
+                switch ($category) {
+                    case 'orange':
+                        $color = '#F86F03'; // Warna orange
+                        break;
+                    case 'ijo':
+                        $color = '#44B158'; // Warna hijau
+                        break;
+                    // Tidak perlu menangani 'merah' karena sudah menjadi default
+                }
+                break; // Hentikan loop setelah menemukan kategori yang sesuai
+            }
+        }
+
+        return $color;
     }
 }

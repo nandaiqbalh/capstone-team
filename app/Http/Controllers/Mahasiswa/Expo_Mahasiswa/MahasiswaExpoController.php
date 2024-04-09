@@ -118,7 +118,7 @@ class MahasiswaExpoController extends BaseController
         $params = [
             'id_kelompok' => $kelompok->id,
             'id_expo' => $request->id_expo,
-            'status' => 'Menunggu Validasi Expo!',
+            'status' => 'Menunggu Persetujuan Expo!',
             'created_by' => $request->user()->user_id,
             'created_date' => now(),
         ];
@@ -128,13 +128,13 @@ class MahasiswaExpoController extends BaseController
             // Update status kelompok dan mahasiswa
             $kelompokParams = [
                 'link_berkas_expo' => $validatedData['link_berkas_expo'],
-                'status_kelompok' => "Menunggu Validasi Expo!"
+                'status_kelompok' => "Menunggu Persetujuan Expo!"
             ];
             MahasiswaExpoModel::updateKelompokById($kelompok->id_kelompok, $kelompokParams);
 
             $kelompokMHSParams = [
                 'judul_ta_mhs' => $judulTaMhs,
-                'status_individu' => "Menunggu Validasi Expo!"
+                'status_individu' => "Menunggu Persetujuan Expo!"
             ];
             $statusDaftar = MahasiswaExpoModel::updateKelompokMHS($request->user()->user_id, $kelompokMHSParams);
 

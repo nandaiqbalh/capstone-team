@@ -86,7 +86,7 @@
 
                                         <td class="text-center">
 
-                                            @if ($pendaftaran->status_kelompok == 'Menunggu Validasi Expo!')
+                                            @if ($pendaftaran->status_kelompok == 'Menunggu Persetujuan Expo!')
                                                 <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
@@ -94,12 +94,12 @@
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status_kelompok == 'Validasi Expo Berhasil!')
+                                            @elseif($pendaftaran->status_kelompok == 'Kelompok Disetujui Expo!')
                                                 <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status_kelompok == 'Validasi Expo Gagal!')
+                                            @elseif($pendaftaran->status_kelompok == 'Kelompok Tidak Disetujui Expo!!')
                                                 <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>

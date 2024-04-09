@@ -31,8 +31,8 @@ class PengujianProposalController extends BaseController
                 $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_2;
 
             } else {
-                $pengujian_prososal->jenis_dosen = 'Belum diplot';
-                $pengujian_prososal->status_dosen = 'Belum diplot';
+                $pengujian_prososal->jenis_dosen = 'Belum Diplot';
+                $pengujian_prososal->status_dosen = 'Belum Diplot';
             }
         }
 

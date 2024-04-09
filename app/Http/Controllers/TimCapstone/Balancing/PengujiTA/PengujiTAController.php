@@ -346,7 +346,7 @@ class DosenController extends BaseController
                 $bimbingan -> status_dosen = $bimbingan ->status_dosen_pembimbing_2;
 
             } else {
-                $bimbingan->jenis_dosen = 'Belum diplot';
+                $bimbingan->jenis_dosen = 'Belum Diplot';
             }
         }
         // data
@@ -480,7 +480,7 @@ class DosenController extends BaseController
                 $penguji_proposal -> status_dosen = $penguji_proposal ->status_dosen_penguji_2;
 
             } else {
-                $penguji_proposal->jenis_dosen = 'Belum diplot';
+                $penguji_proposal->jenis_dosen = 'Belum Diplot';
             }
         }
         // data

@@ -288,9 +288,15 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_dosbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td style="color: {{ $kelompok->status_dosbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @endif
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/validasi-kelompok/detail') }}/{{ $dosbing->user_id }}"
+                                            <a href="{{ url('/admin/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <a href="{{ url('/admin/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "

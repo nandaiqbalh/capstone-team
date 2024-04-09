@@ -44,31 +44,12 @@
                                 <tr>
                                     <td>Status Kelompok</td>
                                     <td>:</td>
-                                    <td>
-                                        @php
-                                            $statusKelompok = $kelompok->status_kelompok;
-                                            $color = '';
-
-                                            switch ($statusKelompok) {
-                                                case 'Menunggu Penetapan Kelompok!':
-                                                case 'Menunggu Penetapan Dosbing!':
-                                                case 'Menunggu Persetujuan Dosbing!':
-                                                case 'Menunggu Persetujuan Anggota!':
-                                                    $color = '#F86F03'; // Warna Orange
-                                                    break;
-                                                case 'Kelompok Telah Disetujui!':
-                                                    $color = '#44B158'; // Warna Hijau
-                                                    break;
-                                                default:
-                                                    $color = '#FF0000'; // Warna Merah
-                                                    break;
-                                            }
-                                        @endphp
-
-                                        <span style="color: {{ $color }};">
-                                            {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
-                                        </span>
-                                    </td>
+                                    @if ($kelompok->status_kelompok == null)
+                                        <td>-</td>
+                                    @else
+                                        <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                            {{ $kelompok->status_kelompok }}</td>
+                                    @endif
                                 </tr>
                                 <tr>
                                     <td>Judul Project</td>
@@ -156,7 +137,13 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_dosbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td style="color: {{ $kelompok->status_dosbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @endif
                                         <td class="text-center">
                                             <a href="{{ url('/admin/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>

@@ -75,7 +75,7 @@
                                 <th>Nama Mahasiswa</th>
                                 <th>Kelompok</th>
                                 <th>Status Mahasiswa</th>
-                                <th>Siklus</th>
+                                <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
                                 <th width="18%">Tindakan</th>
                             </tr>

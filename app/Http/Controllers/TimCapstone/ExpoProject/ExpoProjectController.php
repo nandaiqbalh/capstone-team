@@ -243,7 +243,7 @@ class ExpoProjectController extends BaseController
     public function terimaKelompok($id)
     {
         // Params
-        $params = ['status' => 'Validasi Expo Berhasil!'];
+        $params = ['status' => 'Kelompok Disetujui Expo!'];
 
         // Get data pendaftaran
         $dataPendaftaranExpo = ExpoProjectModel::getDataPendaftaranExpo($id);
@@ -251,7 +251,7 @@ class ExpoProjectController extends BaseController
         if ($dataPendaftaranExpo) { // Periksa apakah data pendaftaran ditemukan
             // Process
             if (ExpoProjectModel::updateExpoProjectKelompok($id, $params)) {
-                $paramKelompok = ['status_kelompok' => "Validasi Expo Berhasil!", 'status_expo' => "Validasi Expo Berhasil!"];
+                $paramKelompok = ['status_kelompok' => "Kelompok Disetujui Expo!", 'status_expo' => "Kelompok Disetujui Expo!"];
                 if (ExpoProjectModel::updateKelompok($dataPendaftaranExpo->id_kelompok, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -277,7 +277,7 @@ class ExpoProjectController extends BaseController
     public function tolakKelompok($id)
     {
         // Params
-        $params = ['status' => 'Validasi Expo Gagal!',];
+        $params = ['status' => 'Kelompok Tidak Disetujui Expo!',];
 
         // Get data pendaftaran
         $dataPendaftaranExpo = ExpoProjectModel::getDataPendaftaranExpo($id);
@@ -285,8 +285,8 @@ class ExpoProjectController extends BaseController
         if ($dataPendaftaranExpo) { // Periksa apakah data pendaftaran ditemukan
             // Process
             if (ExpoProjectModel::updateExpoProjectKelompok($id, $params)) {
-                $paramKelompok = ['status_kelompok' => "Validasi Expo Gagal!",
-                    'status_expo' => 'Validasi Expo Gagal!',
+                $paramKelompok = ['status_kelompok' => "Kelompok Tidak Disetujui Expo!",
+                    'status_expo' => 'Kelompok Tidak Disetujui Expo!',
             ];
                 if (ExpoProjectModel::updateKelompok($dataPendaftaranExpo->id_kelompok, $paramKelompok)) {
                     // Flash message for success

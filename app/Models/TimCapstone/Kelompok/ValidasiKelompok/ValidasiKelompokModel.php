@@ -23,6 +23,7 @@ class ValidasiKelompokModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', NULL)
+            ->where('a.status_kelompok', "Menunggu Persetujuan Tim Capstone!")
             ->orderByDesc('a.id')
             ->paginate(20);
     }

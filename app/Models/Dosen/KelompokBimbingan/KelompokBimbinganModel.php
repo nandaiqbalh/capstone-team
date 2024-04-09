@@ -13,10 +13,14 @@ class KelompokBimbinganModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik')
+            ->select('a.*', 'b.nama as nama_topik', 'c.nama_siklus')
             ->join('topik as b', 'a.id_topik', 'b.id')
-            ->where('a.id_dosen_pembimbing_1', Auth::user()->user_id)
-            ->orWhere('a.id_dosen_pembimbing_2', Auth::user()->user_id)
+            ->join('siklus as c', 'a.id_siklus', 'c.id') // Join dengan tabel siklus
+            ->where(function ($query) {
+                $userId = Auth::user()->user_id;
+                $query->where('a.id_dosen_pembimbing_1', $userId)
+                      ->orWhere('a.id_dosen_pembimbing_2', $userId);
+            })
             ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari 0 ke 1
             ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id (opsional)
             ->paginate(20);

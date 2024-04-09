@@ -152,8 +152,13 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
-
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_dosbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td style="color: {{ $kelompok->status_dosbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else

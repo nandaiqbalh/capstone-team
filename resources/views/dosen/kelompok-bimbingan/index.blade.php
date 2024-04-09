@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Kelompok Bimbingan</h5>
         <!-- notification -->
@@ -50,8 +49,8 @@
                                 <div class="mb-3">
                                     <select class="form-select" name="status" id="status" required>
                                         <option value="" disabled selected>-- Filter Status --</option>
-                                        <option value="0">Belum Lulus</option>
-                                        <option value="1">Sudah Lulus</option>
+                                        <option value="0">Belum Lulus Capstone</option>
+                                        <option value="1">Sudah Lulus Capstone</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,8 +73,8 @@
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
                                 <th>Progress Kelompok</th>
+                                <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
-                                <th>Status Dosen</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
@@ -84,13 +83,21 @@
                                 @foreach ($rs_bimbingan_saya as $index => $kelompok)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
-                                        <td>{{ $kelompok->nomor_kelompok }}</td>
-                                        <td>{{ $kelompok->status_kelompok }}</td>
+                                        @if ($kelompok->nomor_kelompok == null)
+                                            <td style="color: #FF0000">Belum Valid</td>
+                                        @else
+                                            <td>{{ $kelompok->nomor_kelompok }}</td>
+                                        @endif
+
+                                        <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                            {{ $kelompok->status_kelompok }}</td>
+                                        <td>{{ $kelompok->nama_siklus }}</td>
+
                                         <td>{{ $kelompok->jenis_dosen }}</td>
-                                        <td>{{ $kelompok->status_dosen }}</td>
 
                                         <td class="text-center">
-                                            @if ($kelompok->status_dosen == 'Dosbing Setuju!' || $kelompok->status_dosen == 'Dosbing diplot Tim Capstone!')
+                                            @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui!')
+                                            @elseif ($kelompok->status_dosen == 'Dosbing Setuju!' || $kelompok->status_dosen == 'Dosbing Diplot Tim Capstone!')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}')">
@@ -157,5 +164,4 @@
             </div>
         </div>
     </div>
-
 @endsection

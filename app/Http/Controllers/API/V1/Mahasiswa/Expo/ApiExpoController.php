@@ -89,7 +89,7 @@ class ApiExpoController extends Controller
                         $registrationParams = [
                             'id_kelompok' => $kelompok->id,
                             'id_expo' => $request->id_expo,
-                            'status' => 'Menunggu Validasi Expo!',
+                            'status' => 'Menunggu Persetujuan Expo!',
                             'created_by' => $user->user_id,
                             'created_date' => now(),
                         ];
@@ -101,8 +101,8 @@ class ApiExpoController extends Controller
 
                         $kelompokParams = [
                             'link_berkas_expo' => $request->link_berkas_expo,
-                            'status_kelompok' => "Menunggu Validasi Expo!",
-                            'status_expo' => "Menunggu Validasi Expo!"
+                            'status_kelompok' => "Menunggu Persetujuan Expo!",
+                            'status_expo' => "Menunggu Persetujuan Expo!"
 
                         ];
 
@@ -110,7 +110,7 @@ class ApiExpoController extends Controller
 
                         $kelompokMHSParams = [
                             'judul_ta_mhs' => $request->judul_ta_mhs,
-                            'status_individu' => "Menunggu Validasi Expo!"
+                            'status_individu' => "Menunggu Persetujuan Expo!"
                         ];
                         ApiExpoModel::updateKelompokMHS($user->user_id, $kelompokMHSParams);
 
