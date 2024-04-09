@@ -227,8 +227,8 @@ class DokumenMahasiswaController extends BaseController
                 if ($uploadFile) {
                     $statusParam = [
                         'status_kelompok' => 'C100 Telah Disetujui!',
-                        'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C100!',
-                        'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                        'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
+                        'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
                     ];
 
                     DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);

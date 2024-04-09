@@ -73,7 +73,9 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama Mahasiswa</th>
+                                <th>Kelompok</th>
                                 <th>Status Mahasiswa</th>
+                                <th>Siklus</th>
                                 <th>Posisi Pembimbing</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
@@ -84,7 +86,9 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
+                                        <td>{{ $mahasiswa->nomor_kelompok }}</td>
                                         <td>{{ $mahasiswa->status_individu }}</td>
+                                        <td>{{ $mahasiswa->nama_siklus }}</td>
                                         <td>{{ $mahasiswa->jenis_dosen }}</td>
 
                                         <td class="text-center">

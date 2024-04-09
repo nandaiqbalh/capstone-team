@@ -84,7 +84,9 @@ class DashboardController extends BaseController
 
              } else if ($kelompok_mhs -> status_individu == "Lulus Sidang TA!") {
                 $sidang_ta = "Lulus Sidang TA!";
-             } else {
+             } else if ($kelompok -> status_expo == "Lulus Expo Project!") {
+                $sidang_ta = "Belum mendaftar sidang TA!";
+            } else {
                 $sidang_ta = "Belum menyelesaikan capstone!";
              }
 

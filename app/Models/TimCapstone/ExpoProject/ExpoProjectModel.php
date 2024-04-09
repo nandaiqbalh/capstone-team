@@ -13,6 +13,7 @@ class ExpoProjectModel extends BaseModel
         return DB::table('jadwal_expo as a')
             ->select('a.*', 'b.id as id_siklus', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
+            ->orderBy('a.id', 'desc') // Mengurutkan berdasarkan ID terbaru (descending)
             ->paginate(20);
     }
 
@@ -69,6 +70,14 @@ class ExpoProjectModel extends BaseModel
             ->where('a.id', $id)->first();
     }
 
+    public static function getDataEditById($id)
+    {
+        return DB::table('jadwal_expo as a')
+            ->select('a.*', 'b.nama_siklus')
+            ->join('siklus as b', 'a.id_siklus', 'b.id')
+            ->where('a.id', $id)->first();
+    }
+
     // get data by id
     public static function getExpoDaftar($id)
     {
@@ -97,6 +106,13 @@ class ExpoProjectModel extends BaseModel
         return DB::table('pendaftaran_expo as a')
             ->select('a.*')
             ->where('a.id', $id)->first();
+    }
+
+    public static function getKelompokMendaftar($id)
+    {
+        return DB::table('pendaftaran_expo as a')
+            ->select('a.*')
+            ->where('a.id_expo', $id)->first();
     }
 
     public static function deleteExpoProject($id)

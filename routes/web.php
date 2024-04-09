@@ -66,6 +66,7 @@ use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Dosen\KelompokBimbingan\KelompokBimbinganController;
 use App\Http\Controllers\Dosen\MahasiswaBimbingan\MahasiswaBimbinganController;
+use App\Http\Controllers\Dosen\PersetujuanC100\PersetujuanC100Controller;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
 
 
@@ -214,10 +215,12 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 
      //expo
      Route::get('/admin/expo-project', [ExpoProjectController::class, 'index']);
+     Route::get('/admin/expo-project/add', [ExpoProjectController::class, 'addExpoProject']);
      Route::post('/admin/expo-project/add-process', [ExpoProjectController::class, 'addExpoProjectProcess']);
-     Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
+     Route::get('/admin/expo-project/edit/{id}', [ExpoProjectController::class, 'editExpoProject']);
      Route::post('/admin/expo-project/edit-process', [ExpoProjectController::class, 'editExpoProjectProcess']);
      Route::get('/admin/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
+     Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
 
      // terima tolak expo
      Route::get('/admin/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
@@ -348,6 +351,18 @@ Route::middleware(['auth', 'role:04'])->group(function () {
      Route::get('/dosen/mahasiswa-bimbingan/detail-mahasiswa/{user_id}', [MahasiswaBimbinganController::class, 'detailMahasiswa']);
 
 
+     // persetujuan c100
+    //pengujian saya
+    Route::get('/dosen/persetujuan-c100', [PersetujuanC100Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c100/terima/{id}', [PersetujuanC100Controller::class, 'terimaPersetujuanC100Saya']);
+    Route::get('/dosen/persetujuan-c100/tolak/{id}', [PersetujuanC100Controller::class, 'tolakPersetujuanC100Saya']);
+    Route::get('/dosen/persetujuan-c100/detail/{id}', [PersetujuanC100Controller::class, 'detailPersetujuanC100Saya']);
+    Route::get('/dosen/persetujuan-c100/search', [PersetujuanC100Controller::class, 'search']);
+
+    // detail mahasiswa bimbingan proposal
+    Route::get('/dosen/persetujuan-c100/detail-mahasiswa/{user_id}', [PersetujuanC100Controller::class, 'detailMahasiswa']);
+
+
      //pengujian saya
      Route::get('/dosen/pengujian-proposal', [PengujianProposalController::class, 'index']);
      Route::get('/dosen/pengujian-proposal/terima/{id}', [PengujianProposalController::class, 'terimaPengujianProposalSaya']);
@@ -357,6 +372,7 @@ Route::middleware(['auth', 'role:04'])->group(function () {
 
      // detail mahasiswa bimbingan proposal
      Route::get('/dosen/pengujian-proposal/detail-mahasiswa/{user_id}', [PengujianProposalController::class, 'detailMahasiswa']);
+
 
 });
 

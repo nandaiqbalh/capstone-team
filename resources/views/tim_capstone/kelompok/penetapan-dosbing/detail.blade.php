@@ -56,7 +56,7 @@
                                                 case 'Menunggu Persetujuan Anggota!':
                                                     $color = '#F86F03'; // Warna Orange
                                                     break;
-                                                case 'Validasi Kelompok Berhasil!':
+                                                case 'Kelompok Telah Disetujui!':
                                                     $color = '#44B158'; // Warna Hijau
                                                     break;
                                                 default:

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\ExpoProject\ExpoProjectModel;
+use Carbon\Carbon;
+
 
 class ExpoProjectController extends BaseController
 {
@@ -37,86 +39,171 @@ class ExpoProjectController extends BaseController
         return view('tim_capstone.expo-project.index', $data);
     }
 
+    public function addExpoProject()
+    {
+        // Get data with pagination
+        $rs_siklus = ExpoProjectModel::getSiklus();
+
+
+        // Data
+        $data = [
+            'rs_siklus' => $rs_siklus
+        ];
+
+        return view('tim_capstone.expo-project.add', $data);
+    }
+
     public function addExpoProjectProcess(Request $request)
     {
+        // Validasi tanggal
+        $tanggalMulai = Carbon::parse($request->tanggal_mulai);
+        $tanggalSelesai = Carbon::parse($request->tanggal_selesai);
+        $waktuEvent = Carbon::parse($request->waktu);
+
+        // Memeriksa apakah tanggal mulai lebih awal dari tanggal selesai
+        if ($tanggalMulai >= $tanggalSelesai) {
+            // Flash message untuk kesalahan
+            session()->flash('danger', 'Tanggal mulai harus lebih awal dari tanggal selesai.');
+            return redirect('/admin/expo-project/add')->withInput();
+        }
+
+        // Memeriksa apakah tanggal mulai sebelum waktu event
+        if ($tanggalSelesai >= $waktuEvent) {
+            // Flash message untuk kesalahan
+            session()->flash('danger', 'Tanggal selesai harus sebelum waktu expo.');
+            return redirect('/admin/expo-project/add')->withInput();
+        }
+
+        // Data valid, lanjutkan menyimpan
         $params = [
             'id_siklus' => $request->id_siklus,
             'tempat' => $request->tempat,
-            'waktu' => $request->waktu,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'waktu' => $waktuEvent,
+            'tanggal_mulai' => $tanggalMulai,
+            'tanggal_selesai' => $tanggalSelesai,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => now()
         ];
 
-        // Process
+        // Proses menyimpan data
         $insert = ExpoProjectModel::insertExpoProject($params);
         if ($insert) {
-            // Flash message for success
+            // Flash message untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/expo-project');
         } else {
-            // Flash message for failure
+            // Flash message untuk kegagalan
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/expo-project')->withInput();
+            return redirect('/admin/expo-project/add')->withInput();
         }
+    }
+
+    public function editExpoProject($id)
+    {
+         // get data
+         $expo = ExpoProjectModel::getDataEditById($id);
+         $rs_siklus = ExpoProjectModel::getSiklus();
+
+         // check
+         if (empty($expo)) {
+             // flash message
+             session()->flash('danger', 'Data tidak ditemukan.');
+             return redirect('/admin/expo-project');
+         }
+
+         // data
+         $data = [
+            'expo' => $expo,
+            'rs_siklus' => $rs_siklus
+        ];
+
+         // view
+         return view('tim_capstone.expo-project.edit', $data);
     }
 
     public function editExpoProjectProcess(Request $request)
     {
-        // Params
+        // Validasi tanggal
+        $tanggalMulai = Carbon::parse($request->tanggal_mulai);
+        $tanggalSelesai = Carbon::parse($request->tanggal_selesai);
+        $waktuEvent = Carbon::parse($request->waktu);
+
+        // Memeriksa apakah tanggal mulai lebih awal dari tanggal selesai
+        if ($tanggalMulai >= $tanggalSelesai) {
+            // Flash message untuk kesalahan
+            session()->flash('danger', 'Tanggal mulai harus lebih awal dari tanggal selesai.');
+            return redirect('/admin/expo-project/edit/' . $request->id)->withInput();
+        }
+
+        // Memeriksa apakah tanggal mulai sebelum waktu event
+        if ($tanggalSelesai >= $waktuEvent) {
+            // Flash message untuk kesalahan
+            session()->flash('danger', 'Tanggal selesai harus sebelum waktu expo.');
+            return redirect('/admin/expo-project/edit/' . $request->id)->withInput();
+        }
+
+        // Data valid, lanjutkan menyimpan
         $params = [
             'id_siklus' => $request->id_siklus,
             'tempat' => $request->tempat,
-            'waktu' => $request->waktu,
-            'tanggal_mulai' => $request->tanggal_mulai,
-            'tanggal_selesai' => $request->tanggal_selesai,
+            'waktu' => $waktuEvent,
+            'tanggal_mulai' => $tanggalMulai,
+            'tanggal_selesai' => $tanggalSelesai,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => now()
         ];
 
-        // Process
+        // Proses update data
         if (ExpoProjectModel::updateExpoProject($request->id, $params)) {
-            // Flash message for success
+            // Flash message untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/expo-project');
         } else {
-            // Flash message for failure
+            // Flash message untuk kegagalan
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/expo-project/edit/' . $request->user_id);
+            return redirect('/admin/expo-project/edit/' . $request->id)->withInput();
         }
     }
 
     public function deleteExpoProjectProcess($id)
     {
-        // Get data
-        $delete = ExpoProjectModel::getDataById($id);
+        $pendaftaranExpo = ExpoProjectModel::getKelompokMendaftar($id);
 
-        // Delete pendaftaran expo
-        if (ExpoProjectModel::deletePendaftaranExpo($id)) {
-            // Process delete expo project
-            if (ExpoProjectModel::deleteExpoProject($id)) {
-                // Update status kelompok
-                $paramKelompok = ['status_kelompok' => "C500 Telah Disetujui!"];
-                if (ExpoProjectModel::updateKelompok($delete->id_kelompok, $paramKelompok)) {
-                    // Flash message for success
-                    session()->flash('success', 'Data berhasil dihapus.');
-                    return redirect('/admin/expo-project');
+        if ($pendaftaranExpo != null) {
+            // Delete pendaftaran expo
+            if (ExpoProjectModel::deletePendaftaranExpo($id)) {
+                // Process delete expo project
+                if (ExpoProjectModel::deleteExpoProject($id)) {
+                    // Update status kelompok
+                    $paramKelompok = ['status_kelompok' => "C500 Telah Disetujui!"];
+                    if (ExpoProjectModel::updateKelompok($pendaftaranExpo->id_kelompok, $paramKelompok)) {
+                        // Flash message for success
+                        session()->flash('success', 'Data berhasil dihapus.');
+                    } else {
+                        // Flash message for failure
+                        session()->flash('danger', 'Gagal memperbarui status kelompok.');
+                    }
                 } else {
                     // Flash message for failure
-                    session()->flash('danger', 'Data gagal dihapus.');
-                    return redirect('/admin/expo-project');
+                    session()->flash('danger', 'Gagal menghapus data proyek expo.');
                 }
             } else {
                 // Flash message for failure
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/expo-project');
+                session()->flash('danger', 'Gagal menghapus pendaftaran expo.');
             }
         } else {
-            // Flash message for failure
-            session()->flash('danger', 'Data gagal dihapus.');
-            return redirect('/admin/expo-project');
+            // Directly delete expo project
+            if (ExpoProjectModel::deleteExpoProject($id)) {
+                // Flash message for success
+                session()->flash('success', 'Data berhasil dihapus.');
+            } else {
+                // Flash message for failure
+                session()->flash('danger', 'Gagal menghapus data proyek expo.');
+            }
         }
+
+        return redirect('/admin/expo-project');
+
     }
 
     public function detailExpoProject($id)
@@ -233,6 +320,7 @@ class ExpoProjectController extends BaseController
             $paramKelompok = [
                 'status_kelompok' => 'Lulus Expo Project!',
                 'status_expo' => 'Lulus Expo Project!',
+                'is_selesai' => 1,
                 'is_lulus_expo' => 1,
             ];
 

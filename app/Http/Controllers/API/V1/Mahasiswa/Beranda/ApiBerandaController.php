@@ -65,15 +65,11 @@ class ApiBerandaController extends Controller
 
                      } else if ($kelompok_mhs -> status_individu == "Lulus Sidang TA!") {
                         $sidang_ta = "Lulus Sidang TA!";
-                     } else {
+                     }  else if ($kelompok -> status_expo == "Lulus Expo Project!") {
+                        $sidang_ta = "Belum mendaftar sidang TA!";
+                    } else {
                         $sidang_ta = "Belum menyelesaikan capstone!";
                      }
-
-                    // if sidang proposal != null, maka data diambil jadwal sidang proposalnya, else tampilkan status sidang proposal
-                    // tampilkan status_expo, jika statusnya null, maka jadi belum mendaftar expo
-                    // if, jadwal_sidang_ta == null, maka tampilkan status_individu dari tabel kelompok_mhs
-                    // -> masukan semua status
-
                     $data = [
                         'sidang_proposal' => $sidang_proposal,
                         'expo' => $expo,

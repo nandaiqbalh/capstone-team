@@ -202,7 +202,7 @@ class ApiDokumenController extends Controller
                 // Upload path
                 $uploadPath = '/file/mahasiswa/laporan-ta';
 
-
+                $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
                 // Check and delete the existing file
                 $dokumenKelompok = ApiDokumenModel::getKelompokFile($kelompok->id_kelompok);
 

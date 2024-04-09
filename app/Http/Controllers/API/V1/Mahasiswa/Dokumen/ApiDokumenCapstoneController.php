@@ -90,8 +90,8 @@ class ApiDokumenCapstoneController extends Controller
                                 $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc100);
                                 $statusParam = [
                                     'status_kelompok' => 'C100 Telah Disetujui!',
-                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C100!',
-                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
+                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 

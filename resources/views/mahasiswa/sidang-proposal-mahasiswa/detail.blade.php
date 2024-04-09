@@ -129,15 +129,15 @@
                                                         case 'Menunggu Persetujuan Anggota!':
                                                         case 'Menunggu Persetujuan Dosbing!':
                                                         case 'Menunggu Persetujuan Penguji!':
-                                                        case 'Menunggu Validasi Kelompok!':
+                                                        case 'Menunggu Persetujuan Tim Capstone!':
                                                         case 'Menunggu Validasi Expo!':
                                                             $color = '#F86F03'; // Warna Orange
                                                             break;
-                                                        case 'Validasi Kelompok Berhasil!':
+                                                        case 'Kelompok Telah Disetujui!':
                                                         case 'C100 Telah Disetujui!':
                                                         case 'Penguji Proposal Ditetapkan!':
                                                         case 'Dijadwalkan Sidang Proposal!':
-                                                        case 'Persetujuan Penguji Berhasil!':
+                                                        case 'Penguji Setuju!':
                                                         case 'Lulus Sidang Proposal!':
                                                         case 'C200 Telah Disetujui!':
                                                         case 'C300 Telah Disetujui!':

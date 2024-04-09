@@ -60,10 +60,10 @@
                                                     case 'Menunggu Persetujuan Anggota!':
                                                     case 'Menunggu Persetujuan Dosbing!':
                                                     case 'Menunggu Persetujuan Penguji!':
-                                                    case 'Menunggu Validasi Kelompok!':
+                                                    case 'Menunggu Persetujuan Tim Capstone!':
                                                         $color = '#F86F03'; // Warna Orange
                                                         break;
-                                                    case 'Validasi Kelompok Berhasil!':
+                                                    case 'Kelompok Telah Disetujui!':
                                                         $color = '#44B158'; // Warna Hijau
                                                         break;
                                                     default:
@@ -149,10 +149,10 @@
                                                     case 'Menunggu Persetujuan Anggota!':
                                                     case 'Menunggu Persetujuan Dosbing!':
                                                     case 'Menunggu Persetujuan Penguji!':
-                                                    case 'Menunggu Validasi Kelompok!':
+                                                    case 'Menunggu Persetujuan Tim Capstone!':
                                                         $color = '#F86F03'; // Warna Orange
                                                         break;
-                                                    case 'Validasi Kelompok Berhasil!':
+                                                    case 'Kelompok Telah Disetujui!':
                                                         $color = '#44B158'; // Warna Hijau
                                                         break;
                                                     default:

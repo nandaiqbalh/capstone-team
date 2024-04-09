@@ -104,7 +104,7 @@ class JadwalSidangProposalController extends BaseController
 
             $paramKelompok = [
                 'status_sidang_proposal' => 'C100 Telah Disetujui!',
-                'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
                 'id_dosen_penguji_1' => null,
                 'status_dosen_penguji_1' => null,
                 'id_dosen_penguji_2' => null,

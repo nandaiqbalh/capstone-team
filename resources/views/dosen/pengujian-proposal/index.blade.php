@@ -83,9 +83,7 @@
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
                                                     Tolak</a>
-                                            @elseif(
-                                                $kelompok->status_dosen == 'Persetujuan Penguji Gagal!' ||
-                                                    $kelompok->status_dosen == 'Persetujuan Pembimbing Gagal!')
+                                            @elseif($kelompok->status_dosen == 'Penguji Tidak Setuju!' || $kelompok->status_dosen == 'Persetujuan Pembimbing Gagal!')
                                                 <a href="{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}"
                                                     class="btn btn-outline-primary btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}')">

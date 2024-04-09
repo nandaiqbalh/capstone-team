@@ -15,18 +15,17 @@ class MahasiswaBimbinganModel extends BaseModel
         $loggedInUserId = Auth::user()->user_id;
 
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik', 'c.*','km.*')
+            ->select('a.*', 'b.nama as nama_topik', 'c.*', 'km.*', 's.*') // Menambahkan s.* untuk mendapatkan kolom dari tabel siklus
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->leftJoin('kelompok_mhs as km', 'a.id', '=', 'km.id_kelompok')
             ->leftJoin('app_user as c', 'km.id_mahasiswa', '=', 'c.user_id')
+            ->leftJoin('siklus as s', 'a.id_siklus', '=', 's.id') // Melakukan join dengan tabel siklus
             ->where('a.id_dosen_pembimbing_1', $loggedInUserId)
             ->orWhere('a.id_dosen_pembimbing_2', $loggedInUserId)
             ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari 0 ke 1
             ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id (opsional)
             ->paginate(20);
     }
-
-
 
     // get search
     public static function getDataSearch($no_kel)

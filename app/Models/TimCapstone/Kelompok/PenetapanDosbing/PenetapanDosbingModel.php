@@ -24,7 +24,7 @@ class PenetapanDosbingModel extends BaseModel
             ->where('c.status', 'aktif')
             ->where('a.status_kelompok', "Menunggu Penetapan Dosbing!")
             ->orwhere('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
-            ->orwhere('a.status_kelompok', "Persetujuan Dosbing Gagal!")
+            ->orwhere('a.status_kelompok', "Dosbing Tidak Setuju!")
             ->orderByDesc('a.id')
             ->paginate(20);
     }

@@ -140,7 +140,7 @@ class ValidasiKelompokController extends BaseController
             if ($kelompok->id_dosen_pembimbing_1 == null && $kelompok->id_dosen_pembimbing_2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_1' => $request->id_dosen,
-                    'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Berhasil!',
+                    'status_dosen_pembimbing_1' => 'Dosbing diplot Tim Capstone!',
                 ];
             } else {
                 session()->flash('danger', 'Posisi/dosen sudah terisi!');
@@ -154,7 +154,7 @@ class ValidasiKelompokController extends BaseController
             if ($kelompok->id_dosen_pembimbing_2 == null && $kelompok->id_dosen_pembimbing_1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_2' => $request->id_dosen,
-                    'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Berhasil!',
+                    'status_dosen_pembimbing_2' => 'Dosbing diplot Tim Capstone!',
                 ];
             } else {
                 session()->flash('danger', 'Posisi/dosen sudah terisi!');
@@ -169,7 +169,7 @@ class ValidasiKelompokController extends BaseController
 
             if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Menunggu Validasi Kelompok!"
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
                 ];
 
                 ValidasiKelompokModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -267,7 +267,7 @@ class ValidasiKelompokController extends BaseController
         $params = [
             "nomor_kelompok" => $nomor_kelompok,
             "id_topik" => $request->topik,
-            "status_kelompok" => "Validasi Kelompok Berhasil!",
+            "status_kelompok" => "Kelompok Telah Disetujui!",
             'modified_by' => Auth::user()->user_id,
             'modified_date' => now()->format('Y-m-d H:i:s')
         ];
