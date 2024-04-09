@@ -50,7 +50,7 @@
 
                                         <td class="text-center">
                                             <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->id_mahasiswa }}"
-                                                class="btn btn-outline-warning btn-xs m-1"> Detail</a>
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 
                                     </tr>

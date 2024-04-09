@@ -91,7 +91,7 @@
                                             @else
                                             @endif
                                             <a href="{{ url('/dosen/pengujian-proposal/detail') }}/{{ $kelompok->id_kelompok }}"
-                                                class="btn btn-outline-warning btn-xs m-1"> Detail</a>
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 
                                         <script>

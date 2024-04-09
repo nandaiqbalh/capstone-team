@@ -21,7 +21,7 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Siklus</th>
+                                <th>Siklus Pendaftaran</th>
                                 <th>Persetujuan Dosbing 1</th>
                                 <th>Persetujuan Dosbing 2</th>
                                 <th>Tindakan</th>

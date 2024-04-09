@@ -45,6 +45,7 @@ class KelompokBimbinganController extends BaseController
 
         // get data with pagination
         $kelompok = KelompokBimbinganModel::getDataById($id);
+        $rs_dosbing = KelompokBimbinganModel::getAkunDosbingKelompok($id);
         $rs_mahasiswa = KelompokBimbinganModel::getMahasiswa($kelompok->id);
 
         // check
@@ -54,10 +55,34 @@ class KelompokBimbinganController extends BaseController
             return redirect('/dosen/kelompok-bimbingan');
         }
 
+
+        foreach ($rs_mahasiswa as $mahasiswa) {
+            $mahasiswa -> status_mahasiswa_color = $this->getStatusColor($mahasiswa->status_individu);
+
+        }
+
+        foreach ($rs_dosbing as $dosbing) {
+
+            if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
+                $dosbing->jenis_dosen = 'Pembimbing 1';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
+            } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
+                $dosbing->jenis_dosen = 'Pembimbing 2';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
+            }
+
+        }
+
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+
         // data
         $data = [
             'kelompok' => $kelompok,
             'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_dosbing' => $rs_dosbing,
         ];
 
         // view

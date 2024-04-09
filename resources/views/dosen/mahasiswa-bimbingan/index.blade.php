@@ -50,8 +50,8 @@
                                 <div class="mb-3">
                                     <select class="form-select" name="status" id="status" required>
                                         <option value="" disabled selected>-- Filter Status --</option>
-                                        <option value="0">Belum Lulus</option>
-                                        <option value="1">Sudah Lulus</option>
+                                        <option value="0">Belum Lulus Sidang TA</option>
+                                        <option value="1">Sudah Lulus Sidang TA</option>
                                     </select>
                                 </div>
                             </div>
@@ -73,7 +73,6 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama Mahasiswa</th>
-                                <th>Kelompok</th>
                                 <th>Status Mahasiswa</th>
                                 <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
@@ -86,7 +85,6 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
-                                        <td>{{ $mahasiswa->nomor_kelompok }}</td>
                                         <td>{{ $mahasiswa->status_individu }}</td>
                                         <td>{{ $mahasiswa->nama_siklus }}</td>
                                         <td>{{ $mahasiswa->jenis_dosen }}</td>
@@ -94,7 +92,7 @@
                                         <td class="text-center">
 
                                             <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
-                                                class="btn btn-outline-warning btn-xs m-1"> Detail</a>
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 
                                     </tr>

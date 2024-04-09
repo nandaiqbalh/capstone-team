@@ -87,7 +87,6 @@
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <a href="{{ url('/admin/dosen/edit') }}/{{ $dosen->user_id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                            <!-- <a href="{{ url('/admin/dosen/delete-process') }}/{{ $dosen->user_id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $dosen->user_name }} ?')"> Hapus</a> -->
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $dosen->user_id }}', '{{ $dosen->user_name }}')">Hapus</button>
                                             <script>

@@ -21,9 +21,9 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Siklus</th>
                                 <th>Nomor Kelompok</th>
                                 <th>Status Kelompok</th>
+                                <th>Siklus Pendaftaran</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -32,10 +32,10 @@
                                 @foreach ($rs_kelompok as $index => $kelompok)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
-                                        <td>{{ $kelompok->nama_siklus }}</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td style="color: {{ $kelompok->status_kelompok_color }}">
                                             {{ $kelompok->status_kelompok }}</td>
+                                        <td>{{ $kelompok->nama_siklus }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/validasi-kelompok/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>

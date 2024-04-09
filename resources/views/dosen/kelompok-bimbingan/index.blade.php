@@ -72,7 +72,7 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
-                                <th>Progress Kelompok</th>
+                                <th>Status Kelompok</th>
                                 <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
                                 <th width="18%">Tindakan</th>
@@ -119,7 +119,7 @@
                                             @else
                                             @endif
                                             <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-warning btn-xs m-1"> Detail</a>
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 
                                         <script>

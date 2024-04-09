@@ -74,7 +74,7 @@
                                         <td>{{ $mahasiswa->judul_ta_mhs }}</td>
                                         <td>
                                             <a href="{{ url('/dosen/bimbingan/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
-                                                class="btn btn-outline-warning btn-xs m-1"> Detail</a>
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 
                                     </tr>

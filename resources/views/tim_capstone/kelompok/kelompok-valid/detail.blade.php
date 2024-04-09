@@ -35,64 +35,48 @@
                             <tr>
                                 <td>Nomor Kelompok</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="nomor_kelompok"
-                                                value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}"
-                                                placeholder="Contoh: S1T23K12" readonly required>
-                                        </div>
-                                    </div>
-                                </td>
+                                @if ($kelompok->nomor_kelompok == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nomor_kelompok }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Siklus Pendaftaran</td>
+                                <td>:</td>
+                                @if ($kelompok->nama_siklus == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nama_siklus }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Status Kelompok</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="status_kelompok"
-                                                value="{{ old('status_kelompok', $kelompok->status_kelompok) }}" readonly
-                                                required>
-                                        </div>
-                                    </div>
-                                </td>
+                                @if ($kelompok->status_kelompok == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                        {{ $kelompok->status_kelompok }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Judul Capstone</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="judul_capstone"
-                                                value="{{ old('judul_capstone', $kelompok->judul_capstone) }}"
-                                                placeholder="Judul Capstone" readonly required>
-                                        </div>
-                                    </div>
-                                </td>
+                                @if ($kelompok->judul_capstone == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->judul_capstone }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Topik</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <select class="form-select" name="topik" disabled>
-                                                <option value="" selected>-- Pilih --</option>
-                                                @foreach ($rs_topik as $topik)
-                                                    <option value="{{ $topik->id }}"
-                                                        @if ($topik->nama == $kelompok->nama_topik) selected @endif>
-                                                        {{ $topik->nama }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <!-- Hidden input field to send selected value to the server -->
-                                            <input type="hidden" name="selected_topik" value="{{ $kelompok->nama_topik }}">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                @if ($kelompok->nama_topik == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nama_topik }}</td>
+                                @endif
                             </tr>
                         </tbody>
                     </table>
@@ -227,8 +211,8 @@
                                         <i class='bx bxs-file-doc bx-lg'></i>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control"
-                                            value="{{ $kelompok->file_name_c300 }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $kelompok->file_name_c300 }}"
+                                            readonly>
                                         <a href="{{ url('/file/kelompok/c300') }}/{{ $kelompok->file_name_c300 }}"
                                             class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                     </div>
@@ -247,8 +231,8 @@
                                         <i class='bx bxs-file-doc bx-lg'></i>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control"
-                                            value="{{ $kelompok->file_name_c400 }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $kelompok->file_name_c400 }}"
+                                            readonly>
                                         <a href="{{ url('/file/kelompok/c400') }}/{{ $kelompok->file_name_c400 }}"
                                             class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                     </div>

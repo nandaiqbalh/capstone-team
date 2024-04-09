@@ -286,8 +286,17 @@ class ValidasiKelompokController extends BaseController
 
         // Proses update data kelompok
         if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
+
+            $paramsMhsBasedOnKelompok = [
+                "status_individu" => "Kelompok Telah Disetujui!",
+            ];
+
+            if (ValidasiKelompokModel::updateKelompokMHSBasedOnKelompok($request -> pid, $paramsMhsBasedOnKelompok)) {
+                session()->flash('success', 'Data berhasil disimpan.');
+            } else {
+                session()->flash('danger', 'Gagal mengubah status mahasiswa.');
+            }
             // Flash message sukses
-            session()->flash('success', 'Data berhasil disimpan.');
         } else {
             // Flash message gagal
             session()->flash('danger', 'Data gagal disimpan.');

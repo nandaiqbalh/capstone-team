@@ -51,8 +51,6 @@
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <a href="{{ url('/admin/broadcast/edit') }}/{{ $broadcast->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
-                                            {{-- <button type="button" class="btn btn-outline-warning btn-xs m-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $broadcast->id }}"> Ubah</button> --}}
-                                            <!-- <a href="{{ url('/admin/broadcast/delete-process') }}/{{ $broadcast->id }}" class="btn btn-outline-danger btn-xs m-1 " onclick="return confirm('Apakah anda ingin menghapus {{ $broadcast->id }} ?')"> Hapus</a> -->
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $broadcast->id }}')">Hapus</button>
                                             <script>
@@ -159,60 +157,60 @@
 
     <!-- Modal Add -->
     <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Tambah Broadcast</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url('/admin/broadcast/add-process') }}" method="post" autocomplete="off">
-                    {{ csrf_field() }}
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label >Nama Event<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama_event" value="{{ old('nama_event') }}" required>
-                            </div>
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Tambah Broadcast</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label >Keterangan<span class="text-danger"></span></label>
-                                <input type="text" class="form-control" name="keterangan" value="{{ old('keterangan') }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="tgl_mulai" value="{{ old('tgl_mulai') }}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label >Tanggal Selesai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="tgl_selesai" value="{{ old('tgl_selesai') }}" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label >Link Pendukung</label>
-                                <input type="text" class="form-control" name="link_pendukung" value="{{ old('link_pendukung') }}" >
-                            </div>
-                        </div>
-                    </div>
-                    <br>
+                        <div class="modal-body">
+                            <form action="{{ url('/admin/broadcast/add-process') }}" method="post" autocomplete="off">
+                                {{ csrf_field() }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label >Nama Event<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="nama_event" value="{{ old('nama_event') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label >Keterangan<span class="text-danger"></span></label>
+                                            <input type="text" class="form-control" name="keterangan" value="{{ old('keterangan') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label>Tanggal Mulai<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" name="tgl_mulai" value="{{ old('tgl_mulai') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label >Tanggal Selesai<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" name="tgl_selesai" value="{{ old('tgl_selesai') }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label >Link Pendukung</label>
+                                            <input type="text" class="form-control" name="link_pendukung" value="{{ old('link_pendukung') }}" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
 
-                </div>
-                <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-          </div>
-        </div>
-      </div> -->
+                            </div>
+                            <div class="modal-footer">
+                                {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div> -->
 @endsection

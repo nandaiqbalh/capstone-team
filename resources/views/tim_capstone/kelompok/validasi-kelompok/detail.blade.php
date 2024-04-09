@@ -138,33 +138,12 @@
                                     <tr>
                                         <td>Status Kelompok</td>
                                         <td>:</td>
-                                        <td>
-                                            @php
-                                                $statusKelompok = $kelompok->status_kelompok;
-                                                $color = '';
-
-                                                switch ($statusKelompok) {
-                                                    case 'Menunggu Penetapan Kelompok!':
-                                                    case 'Menunggu Penetapan Dosbing!':
-                                                    case 'Menunggu Persetujuan Anggota!':
-                                                    case 'Menunggu Persetujuan Dosbing!':
-                                                    case 'Menunggu Persetujuan Penguji!':
-                                                    case 'Menunggu Persetujuan Tim Capstone!':
-                                                        $color = '#F86F03'; // Warna Orange
-                                                        break;
-                                                    case 'Kelompok Telah Disetujui!':
-                                                        $color = '#44B158'; // Warna Hijau
-                                                        break;
-                                                    default:
-                                                        $color = '#FF0000'; // Warna Merah
-                                                        break;
-                                                }
-                                            @endphp
-
-                                            <span style="color: {{ $color }};">
-                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
-                                            </span>
-                                        </td>
+                                        @if ($kelompok->status_kelompok == null)
+                                            <td>-</td>
+                                        @else
+                                            <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                                {{ $kelompok->status_kelompok }}</td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td>Judul Project</td>

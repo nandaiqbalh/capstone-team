@@ -84,9 +84,11 @@
                                         <td>{{ $pendaftaran->user_name }}</td>
                                         <td>{{ $pendaftaran->prioritas_topik }}</td>
                                         <td>{{ $pendaftaran->prioritas_peminatan }}</td>
-                                        <td><a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
-                                                class="btn btn-secondary btn-xs float-right">
-                                                Detail</a></td>
+                                        <td>
+                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                        </td>
+
                                     </tr>
                                 @endforeach
                             @else

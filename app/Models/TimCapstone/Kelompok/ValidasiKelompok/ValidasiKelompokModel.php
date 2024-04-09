@@ -231,6 +231,11 @@ class ValidasiKelompokModel extends BaseModel
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
     }
 
+    public static function updateKelompokMHSBasedOnKelompok($id_kelompok, $params)
+    {
+        return DB::table('kelompok_mhs')->where('id_kelompok', $id_kelompok)->update($params);
+    }
+
     public static function updateKelompok($id_kelompok, $params)
     {
         return DB::table('kelompok')->where('id', $id_kelompok)->update($params);

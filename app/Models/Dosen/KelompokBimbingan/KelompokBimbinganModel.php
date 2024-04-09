@@ -40,14 +40,34 @@ class KelompokBimbinganModel extends BaseModel
             ->paginate(20)->withQueryString();
     }
 
+    public static function getAkunDosbingKelompok($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->join('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+            })
+            ->where('kelompok.id', '=', $id_kelompok)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
+                    WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
+    }
     // get data by id
     public static function getDataById($id)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik')
-            ->join('topik as b','a.id_topik', 'b.id')
-            ->where('a.id', $id)->first();
+            ->select('a.*', 'b.nama as nama_topik', 'c.nama_siklus')
+            ->join('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id') // Join dengan tabel siklus
+            ->where('a.id', $id)
+            ->first();
     }
+
 
     public static function getDataMahasiswaById($user_id)
     {
