@@ -43,14 +43,13 @@ use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
+use App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangProposal\PenjadwalanSidangProposalController;
 use App\Http\Controllers\TimCapstone\ExpoProject\ExpoProjectController;
+use App\Http\Controllers\TimCapstone\SidangTA\PeriodeSidangTA\PeriodeSidangTAController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingController;
 use App\Http\Controllers\TimCapstone\Kelompok\ValidasiKelompok\ValidasiKelompokController;
-// sidang proposal
-use App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangProposal\PenjadwalanSidangProposalController;
-
 
 // mahasiswa
 use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
@@ -183,7 +182,6 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/balancing-penguji-proposal/filter-siklus', [DosenController::class, 'filterBalancingPengujiProposal']);
      Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [DosenController::class, 'detailBalancingPengujiProposal']);
 
-
      //siklus
      Route::get('/admin/siklus', [SiklusController::class, 'index']);
      Route::get('/admin/siklus/add', [SiklusController::class, 'addSiklus']);
@@ -217,6 +215,15 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/expo-project/to-lulus/{id}', [ExpoProjectController::class, 'toLulusExpo']);
      Route::get('/admin/expo-project/to-gagal/{id}', [ExpoProjectController::class, 'toGagalExpo']);
 
+     //sidang ta
+     Route::get('/admin/periode-sidang-ta', [PeriodeSidangTAController::class, 'index']);
+     Route::get('/admin/periode-sidang-ta/add', [PeriodeSidangTAController::class, 'addPeriodeSidangTA']);
+     Route::post('/admin/periode-sidang-ta/add-process', [PeriodeSidangTAController::class, 'addPeriodeSidangTAProcess']);
+     Route::get('/admin/periode-sidang-ta/delete-process/{id}', [PeriodeSidangTAController::class, 'deletePeriodeSidangTAProcess']);
+     Route::get('/admin/periode-sidang-ta/edit/{id}', [PeriodeSidangTAController::class, 'editPeriodeSidangTA']);
+     Route::post('/admin/periode-sidang-ta/edit-process', [PeriodeSidangTAController::class, 'editPeriodeSidangTAProcess']);
+     Route::get('/admin/periode-sidang-ta/detail/{user_id}', [PeriodeSidangTAController::class, 'detailPeriodeSidangTA']);
+
      Route::get('/admin/jadwal-pendaftaran/sidangta/terima/{id}', [JadwalSidangTAController::class, 'terimaKelompok']);
      Route::get('/admin/jadwal-pendaftaran/sidangta/tolak/{id}', [JadwalSidangTAController::class, 'tolakKelompok']);
 
@@ -232,8 +239,8 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     //add delete dosen pembimbing
     Route::get('/admin/penetapan-dosbing/add-dosen-kelompok', [PenetapanDosbingController::class, 'addDosenKelompok']);
     Route::get('/admin/penetapan-dosbing/delete-dosen-process/{id_dosen}/{id_kelompok}', [PenetapanDosbingController::class, 'deleteDosenKelompok']);
-   // edit kelompok
-   Route::post('/admin/penetapan-dosbing/edit-kelompok-process', [PenetapanDosbingController::class, 'editKelompokProcess']);
+    // edit kelompok
+    Route::post('/admin/penetapan-dosbing/edit-kelompok-process', [PenetapanDosbingController::class, 'editKelompokProcess']);
 
     // validasi kelompok
     Route::get('/admin/validasi-kelompok', [ValidasiKelompokController::class, 'index']);

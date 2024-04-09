@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\TimCapstone\JadwalSidangTA;
+namespace App\Models\TimCapstone\SidangTA\JadwalSidangTA;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -339,7 +339,7 @@
                                             <label>Skala Prioritas Topik<span class="text-danger">*</span></label>
                                             <p>1. Early Warning System <br>
                                                 2. Building/area monitoring or controlling system <br>
-                                                3. Smart business/orga...latform/support system <br>
+                                                3. Smart business/organization platform/support system <br>
                                                 4. Smart city & transportation</p>
                                             <input type="text" class="form-control" placeholder="Contoh: 4,2,3,1"
                                                 name="topik" id="topik" required>
