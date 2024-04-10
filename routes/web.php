@@ -187,6 +187,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/balancing-dosbing-mahasiswa/filter-siklus', [PembimbingMahasiswaController::class, 'filterBalancingDosbingMahasiswa']);
      Route::get('/admin/balancing-dosbing-mahasiswa/detail/{user_id}', [PembimbingMahasiswaController::class, 'detailBalancingDosbingMahasiswa']);
      Route::get('/admin/balancing-dosbing-mahasiswa/search', [PembimbingMahasiswaController::class, 'searchBalancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/detail-mahasiswa/{user_id}', [PembimbingMahasiswaController::class, 'detailMahasiswa']);
 
     // balancing dosen penguji proposal
      Route::get('/admin/balancing-penguji-proposal', [PengujiProposalController::class, 'balancingPengujiProposal']);

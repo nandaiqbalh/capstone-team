@@ -35,7 +35,8 @@
                                         <td class="text-center">{{ $index + $rs_bimbingan->firstItem() }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
                                         <td>{{ $mahasiswa->nomor_kelompok }}</td>
-                                        <td>{{ $mahasiswa->status_individu }}</td>
+                                        <td style="color: {{ $mahasiswa->status_individu_color }}">
+                                            {{ $mahasiswa->status_individu }}</td>
                                         <td>
                                             @if ($mahasiswa->is_selesai == 0)
                                                 <span style="color: #F86F03;">
@@ -49,7 +50,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->id_mahasiswa }}"
+                                            <a href="{{ url('/admin/balancing-dosbing-mahasiswa/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                 class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 

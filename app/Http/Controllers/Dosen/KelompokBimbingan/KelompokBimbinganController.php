@@ -209,47 +209,6 @@ class KelompokBimbinganController extends BaseController
         }
     }
 
-    public function detailMahasiswa($user_id)
-    {
-
-        // get data with pagination
-        $mahasiswa = KelompokBimbinganModel::getDataMahasiswaById($user_id);
-
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-        $rs_peminatan = KelompokBimbinganModel::peminatanMahasiswa($user_id);
-
-        foreach ($rs_peminatan as $key => $peminatan) {
-            if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
-                $peminatan->prioritas = "Prioritas 1";
-            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
-                $peminatan->prioritas = "Prioritas 2";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
-                $peminatan->prioritas = "Prioritas 3";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
-                $peminatan->prioritas = "Prioritas 4";
-            } else {
-                $peminatan->prioritas = "Belum memilih";
-
-            }
-        }
-        // dd($mahasiswa);
-        // data
-        $data = [
-            'mahasiswa' => $mahasiswa,
-            'rs_peminatan'=>$rs_peminatan
-        ];
-
-        // view
-        return view('dosen.kelompok-bimbingan.detail-mahasiswa', $data);
-    }
-
-
-
     public function search(Request $request)
     {
         // data request
@@ -310,6 +269,48 @@ class KelompokBimbinganController extends BaseController
         } else {
             return view('dosen/kelompok-bimbingan', $data);
         }
+    }
+
+    public function detailMahasiswa($user_id)
+    {
+
+        // get data with pagination
+        $mahasiswa = KelompokBimbinganModel::getDataMahasiswaBimbinganById($user_id);
+
+        $mahasiswa -> status_individu_color = $this->getStatusColor($mahasiswa->status_individu);
+        $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
+
+        // check
+        if (empty($mahasiswa)) {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/admin/mahasiswa');
+        }
+        $rs_peminatan = KelompokBimbinganModel::peminatanMahasiswa($user_id);
+
+        foreach ($rs_peminatan as $key => $peminatan) {
+            if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
+                $peminatan->prioritas = "Prioritas 1";
+            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
+                $peminatan->prioritas = "Prioritas 2";
+            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
+                $peminatan->prioritas = "Prioritas 3";
+            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
+                $peminatan->prioritas = "Prioritas 4";
+            } else {
+                $peminatan->prioritas = "Belum memilih";
+
+            }
+        }
+        // dd($mahasiswa);
+        // data
+        $data = [
+            'mahasiswa' => $mahasiswa,
+            'rs_peminatan'=>$rs_peminatan
+        ];
+
+        // view
+        return view('dosen.mahasiswa-bimbingan.detail-mahasiswa', $data);
     }
 
     private function getStatusColor($statusKelompok)

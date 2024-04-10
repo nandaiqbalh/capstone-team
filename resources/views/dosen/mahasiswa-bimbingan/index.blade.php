@@ -85,7 +85,8 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
-                                        <td>{{ $mahasiswa->status_individu }}</td>
+                                        <td style="color: {{ $mahasiswa->status_color }}">{{ $mahasiswa->status_individu }}
+                                        </td>
                                         <td>{{ $mahasiswa->nama_siklus }}</td>
                                         <td>{{ $mahasiswa->jenis_dosen }}</td>
 

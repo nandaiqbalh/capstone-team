@@ -93,4 +93,21 @@ class PembimbingMahasiswaModel extends BaseModel
         ->where('status', 'aktif')
         ->get();
     }
+
+    public static function peminatanMahasiswa()
+    {
+        return DB::table('peminatan')
+            ->get();
+    }
+
+    public static function getDataMahasiswaBimbinganById($user_id)
+    {
+        return DB::table('app_user as a')
+             ->select('a.*', 'b.*', 'c.*', 'd.*')
+            ->leftJoin('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
+            ->leftJoin('kelompok as c', 'b.id_kelompok', 'c.id')
+            ->leftJoin('siklus as d', 'b.id_siklus', 'd.id')
+            ->where('a.user_id', $user_id)
+            ->first();
+    }
 }

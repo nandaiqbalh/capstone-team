@@ -106,13 +106,17 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td style="color: {{ $mahasiswa->status_mahasiswa_color }}">
                                             {{ $mahasiswa->status_individu }}</td>
-                                        <td>{{ $mahasiswa->judul_ta_mhs }}</td>
+                                        <td>{{ $mahasiswa->judul_ta_mhs ?: '-' }}</td>
+                                        <td class="text-center">
 
+                                            <a href="{{ url('/dosen/kelompok-bimbingan/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="6">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

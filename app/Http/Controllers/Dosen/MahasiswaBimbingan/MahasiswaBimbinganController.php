@@ -31,6 +31,9 @@ class MahasiswaBimbinganController extends BaseController
             } else {
                 $bimbingan->jenis_dosen = 'Belum diplot';
             }
+
+            $bimbingan -> status_color = $this->getStatusColor($bimbingan->status_individu);
+
         }
         // data
         $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya];
@@ -42,7 +45,10 @@ class MahasiswaBimbinganController extends BaseController
     {
 
         // get data with pagination
-        $mahasiswa = MahasiswaBimbinganModel::getDataMahasiswaById($user_id);
+        $mahasiswa = MahasiswaBimbinganModel::getDataMahasiswaBimbinganById($user_id);
+
+        $mahasiswa -> status_individu_color = $this->getStatusColor($mahasiswa->status_individu);
+        $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
 
         // check
         if (empty($mahasiswa)) {
@@ -139,5 +145,87 @@ class MahasiswaBimbinganController extends BaseController
         } else {
             return view('dosen/mahasiswa-bimbingan', $data);
         }
+    }
+
+    private function getStatusColor($statusKelompok)
+    {
+        // Daftar status dan kategori warna
+        $statusCategories = [
+            'merah' => [
+                'Dosbing Tidak Setuju!',
+                'Penguji Tidak Setuju!',
+                'C100 Tidak Disetujui!',
+                'C200 Tidak Disetujui!',
+                'C300 Tidak Disetujui!',
+                'C400 Tidak Disetujui!',
+                'C500 Tidak Disetujui!',
+                'Kelompok Tidak Disetujui Expo!',
+                'Laporan TA Tidak Disetujui!',
+                'Makalah TA Tidak Disetujui!',
+                'Belum Mendaftar Sidang TA!',
+                'Gagal Expo Project!'
+            ],
+            'orange' => [
+                'Menunggu Penetapan Kelompok!',
+                'Menunggu Persetujuan Dosbing!',
+                'Menunggu Persetujuan Anggota!',
+                'Didaftarkan!',
+                'Menunggu Penetapan Dosbing!',
+                'Menunggu Persetujuan Tim Capstone!',
+                'Menunggu Persetujuan C100!',
+                'Menunggu Persetujuan C200!',
+                'Menunggu Persetujuan C300!',
+                'Menunggu Persetujuan C400!',
+                'Menunggu Persetujuan C500!',
+                'Menunggu Persetujuan Expo!',
+                'Menunggu Persetujuan Laporan TA!',
+                'Menunggu Persetujuan Makalah TA!',
+                'Menunggu Persetujuan Penguji!',
+                'Menunggu Penjadwalan Sidang TA!'
+            ],
+            'ijo' => [
+                'Menyetujui Kelompok!',
+                'Dosbing Setuju!',
+                'Kelompok Diplot Tim Capstone!',
+                'Dosbing Diplot Tim Capstone!',
+                'Kelompok Telah Disetujui!',
+                'C100 Telah Disetujui!',
+                'Penguji Setuju!',
+                'Dijadwalkan Sidang Proposal!',
+                'Lulus Sidang Proposal!',
+                'C200 Telah Disetujui!',
+                'C300 Telah Disetujui!',
+                'C400 Telah Disetujui!',
+                'C500 Telah Disetujui!',
+                'Kelompok Disetujui Expo!',
+                'Lulus Expo Project!',
+                'Laporan TA Telah Disetujui!',
+                'Makalah TA Telah Disetujui!',
+                'Penguji TA Setuju!',
+                'Telah Dijadwalkan Sidang TA!',
+                'Lulus Sidang TA!'
+            ]
+        ];
+
+        $color = '#FF0000'; // Default warna merah
+
+        // Loop melalui daftar kategori warna dan status
+        foreach ($statusCategories as $category => $statuses) {
+            if (in_array($statusKelompok, $statuses)) {
+                // Temukan status dalam kategori, tetapkan warna sesuai
+                switch ($category) {
+                    case 'orange':
+                        $color = '#F86F03'; // Warna orange
+                        break;
+                    case 'ijo':
+                        $color = '#44B158'; // Warna hijau
+                        break;
+                    // Tidak perlu menangani 'merah' karena sudah menjadi default
+                }
+                break; // Hentikan loop setelah menemukan kategori yang sesuai
+            }
+        }
+
+        return $color;
     }
 }
