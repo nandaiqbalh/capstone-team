@@ -43,6 +43,92 @@ class JadwalSidangProposalController extends BaseController
         return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.index', $data);
     }
 
+    public function detailKelompok($id)
+    {
+
+        // get data with pagination
+        $kelompok = JadwalSidangProposalModel::getDataById($id);
+        $rs_topik = JadwalSidangProposalModel::getTopik();
+        $rs_mahasiswa = JadwalSidangProposalModel::listKelompokMahasiswa($id);
+        $rs_dosbing = JadwalSidangProposalModel::getAkunDosbingKelompok($id);
+        $rs_penguji_proposal = JadwalSidangProposalModel::getAkunPengujiProposalKelompok($id);
+
+        // get jadwal sidang
+        $jadwal_sidang = JadwalSidangProposalModel::getJadwalSidangProposal($id);
+        if($jadwal_sidang != null){
+            $waktuSidang = strtotime($jadwal_sidang->waktu);
+
+            $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+            $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+            $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
+            $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+
+        }
+
+        // penguji avaliable
+        $rs_penguji = JadwalSidangProposalModel::getDosenPengujiProposal($id);
+
+        $rs_ruang_sidang = JadwalSidangProposalModel::getRuangSidang();
+
+
+        // dd($rs_penguji);
+
+
+        foreach ($rs_dosbing as $dosbing) {
+
+            if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
+                $dosbing->jenis_dosen = 'Pembimbing 1';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
+            } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
+                $dosbing->jenis_dosen = 'Pembimbing 2';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
+            }
+
+        }
+
+        foreach ($rs_penguji_proposal as $penguji_proposal) {
+
+            if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_1) {
+                $penguji_proposal->jenis_dosen = 'Penguji 1';
+                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_1;
+            } else if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_2) {
+                $penguji_proposal->jenis_dosen = 'Penguji 2';
+                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_2;
+            }
+
+        }
+
+        // check
+        if (empty($kelompok)) {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/admin/kelompok');
+        }
+
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+        // data
+        $data = [
+            'kelompok' => $kelompok,
+            'rs_topik' => $rs_topik,
+            'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_dosbing' => $rs_dosbing,
+            'rs_penguji_proposal' => $rs_penguji_proposal,
+            'rs_penguji' => $rs_penguji,
+            'rs_ruang_sidang' => $rs_ruang_sidang,
+            'jadwal_sidang' => $jadwal_sidang,
+
+        ];
+        // dd($data);
+
+        // view
+        return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.detail', $data);
+    }
     public function toLulusSidangProposal($id)
     {
         // get data

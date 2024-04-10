@@ -103,7 +103,7 @@
                                                 @if ($kelompok->status_kelompok != null)
                                                     <td style="color: {{ $kelompok->status_color }};">
                                                         {{ $kelompok->status_kelompok }}
-                                                    </td>>
+                                                    </td>
                                                 @else
                                                     <td style="color: #F86F03;">
                                                         Menunggu Penetapan Kelompok!

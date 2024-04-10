@@ -275,12 +275,14 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('admin/penjadwalan-sidang-proposal/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [PenjadwalanSidangProposalController::class, 'deleteDosenKelompok']);
     // jadwalkan sidang proposal
     Route::post('admin/penjadwalan-sidang-proposal/add-jadwal-process', [PenjadwalanSidangProposalController::class, 'addJadwalProcess']);
+    // detail
 
     //sidang proposal
     Route::get('/admin/jadwal-sidang-proposal', [JadwalSidangProposalController::class, 'index']);
     Route::get('/admin/jadwal-sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
     Route::get('/admin/jadwal-sidang-proposal/to-lulus/{id}', [JadwalSidangProposalController::class, 'toLulusSidangProposal']);
     Route::get('/admin/jadwal-sidang-proposal/to-gagal/{id}', [JadwalSidangProposalController::class, 'toGagalSidangProposal']);
+    Route::get('/admin/jadwal-sidang-proposal/detail/{id}', [JadwalSidangProposalController::class, 'detailKelompok']);
 
 });
 

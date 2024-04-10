@@ -27,7 +27,7 @@
                                 <th>Waktu</th>
                                 <th>Ruangan</th>
                                 <th>Status Kelompok</th>
-                                <th>Hasil</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,6 +60,8 @@
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                             @endif
+                                            <a href="{{ url('/admin/jadwal-sidang-proposal/detail') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                class="btn btn-outline-secondary btn-xs m-1">Detail</a>
 
                                         </td>
                                     </tr>

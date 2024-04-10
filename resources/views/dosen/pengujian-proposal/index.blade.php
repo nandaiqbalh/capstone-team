@@ -67,7 +67,7 @@
                                         <td>{{ $kelompok->nama_ruang }}</td>
 
                                         <td class="text-center">
-                                            @if ($kelompok->status_dosen == 'Menyetujui Sidang Proposal!')
+                                            @if ($kelompok->status_dosen == 'Penguji Setuju!' || $kelompok->status_dosen == 'Pembimbing Setuju!')
                                                 <a href="{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">

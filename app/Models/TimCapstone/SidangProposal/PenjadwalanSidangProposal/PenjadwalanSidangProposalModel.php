@@ -23,8 +23,10 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
+            ->where('a.file_status_c100', "C100 Telah Disetujui!")
             ->where('a.status_sidang_proposal', '!=', NULL)
             ->where('a.nomor_kelompok', '!=', NULL)
+            ->where('a.is_sidang_proposal', '0')
             ->where('a.id_dosen_pembimbing_1', '!=', NULL)
             ->where('a.id_dosen_pembimbing_2', '!=', NULL)
             ->where('a.file_name_c100', '!=', NULL)
@@ -278,7 +280,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
     public static function getJadwalSidangProposal($id_kelompok)
     {
         return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.*')
+        ->select('a.*', 'b.nama_ruang')
         ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
         ->where('id_kelompok', $id_kelompok)
         ->first();
@@ -367,10 +369,10 @@ class PenjadwalanSidangProposalModel extends BaseModel
         return DB::table('jadwal_sidang_proposal')->insert($params);
     }
 
-    public static function updateJadwalSidangProposal($id_kelompok, $params)
+    public static function updateJadwalSidangProposal($id, $params)
     {
         return DB::table('jadwal_sidang_proposal')
-        ->where('id_kelompok', $id_kelompok)
+        ->where('id', $id)
         ->update($params);
     }
 }

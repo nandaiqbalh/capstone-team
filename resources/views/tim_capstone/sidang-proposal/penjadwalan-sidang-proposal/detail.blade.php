@@ -48,7 +48,33 @@
                                 @if ($kelompok->status_kelompok == null)
                                     <td>-</td>
                                 @else
-                                    <td>{{ $kelompok->status_kelompok }}</td>
+                                    <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                        {{ $kelompok->status_kelompok }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Status Dokumen C100</td>
+                                <td>:</td>
+
+                                @if ($kelompok->file_status_c100 == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_dokumen_color }}">
+                                        {{ $kelompok->file_status_c100 }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Status Sidang Proposal</td>
+                                <td>:</td>
+
+                                @if ($kelompok->status_sidang_proposal == null)
+                                    <td style="color: {{ $kelompok->status_sidang_color }}"">Belum Dijadwalkan Sidang
+                                        Proposal!</td>
+                                @else
+                                    <td
+                                        style="color:
+                                        {{ $kelompok->status_dokumen_color }}">
+                                        {{ $kelompok->status_sidang_proposal }}</td>
                                 @endif
                             </tr>
                             <tr>
@@ -108,7 +134,57 @@
                 </div>
                 <hr>
 
+                <br>
+                @if (count($rs_penguji_proposal) >= 2)
+                @else
+                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                        data-bs-target="#Dosen">
+                        Tambah Dosen Penguji Proposal
+                    </button>
+                @endif
+
+                <h6 class="mb-0">List Dosen Penguji Proposal</h6>
+                <br>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th width="5%">No</th>
+                                <th>Nama Penguji</th>
+                                <th>NIP/NIDN</th>
+                                <th>Posisi</th>
+                                <th>Status Persetujuan</th>
+                                <th>Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($rs_penguji_proposal->count() > 0)
+                                @foreach ($rs_penguji_proposal as $index => $penguji_proposal)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}.</td>
+                                        <td>{{ $penguji_proposal->user_name }}</td>
+                                        <td>{{ $penguji_proposal->nomor_induk }}</td>
+                                        <td>{{ $penguji_proposal->jenis_dosen }}</td>
+                                        <td>{{ $penguji_proposal->status_dosen }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
+                                                class="btn btn-outline-danger btn-xs m-1 "
+                                                onclick="return confirm('Apakah anda ingin menghapus {{ $penguji_proposal->user_name }} ?')">
+                                                Hapus</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="6">Tidak ada data.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+
                 <hr>
+                <br>
                 <h6 class="mb-0">Penjadwalan Sidang Proposal</h6>
                 <hr>
                 <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
@@ -155,6 +231,7 @@
                     <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                 </form>
 
+                <br>
                 <h6>Validasi Dokumen C100</h6>
 
                 <div class="card">
@@ -245,53 +322,6 @@
                 </div>
 
                 <br>
-                @if (count($rs_penguji_proposal) >= 2)
-                @else
-                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
-                        data-bs-target="#Dosen">
-                        Tambah Dosen Penguji Proposal
-                    </button>
-                @endif
-
-                <h6 class="mb-0">List Dosen Penguji Proposal</h6>
-                <br>
-                <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
-                        <thead class="thead-light">
-                            <tr class="text-center">
-                                <th width="5%">No</th>
-                                <th>Nama Penguji</th>
-                                <th>NIP/NIDN</th>
-                                <th>Posisi</th>
-                                <th>Status Persetujuan</th>
-                                <th>Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($rs_penguji_proposal->count() > 0)
-                                @foreach ($rs_penguji_proposal as $index => $penguji_proposal)
-                                    <tr>
-                                        <td class="text-center">{{ $index + 1 }}.</td>
-                                        <td>{{ $penguji_proposal->user_name }}</td>
-                                        <td>{{ $penguji_proposal->nomor_induk }}</td>
-                                        <td>{{ $penguji_proposal->jenis_dosen }}</td>
-                                        <td>{{ $penguji_proposal->status_dosen }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-danger btn-xs m-1 "
-                                                onclick="return confirm('Apakah anda ingin menghapus {{ $penguji_proposal->user_name }} ?')">
-                                                Hapus</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td class="text-center" colspan="6">Tidak ada data.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
 
             </div>
 

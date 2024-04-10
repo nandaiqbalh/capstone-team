@@ -49,6 +49,7 @@
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
                                 <th>Status Dokumen C100</th>
+
                                 <th>Status Saya</th>
                                 <th>Dokumen C100</th>
                                 <th>Posisi Dosen</th>
@@ -63,17 +64,28 @@
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td style="color: {{ $kelompok->status_dokumen_color }}">
                                             {{ $kelompok->file_status_c100 }}</td>
-                                        <td style="color: {{ $kelompok->status_dosen_color }}">
-                                            {{ $kelompok->status_dosen }}</td>
-                                        <td>
-                                            @if ($kelompok->file_path_c100 && $kelompok->file_name_c100)
-                                                <a href="{{ asset($kelompok->file_path_c100 . '/' . $kelompok->file_name_c100) }}"
-                                                    target="_blank">
-                                                    Lihat File C100
-                                                </a>
+                                        @if (
+                                            $kelompok->status_dosen == 'Menunggu Persetujuan C100!' ||
+                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 1' ||
+                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 2' ||
+                                                $kelompok->status_dosen == 'C100 Telah Disetujui')
+                                            <td style="color: {{ $kelompok->status_dosen_color }}">
+                                                {{ $kelompok->status_dosen }}</td>
+                                            <td>
                                             @else
-                                                File tidak tersedia
-                                            @endif
+                                            <td style="color: #44B158">
+                                                C100 Telah Disetujui</td>
+                                            <td>
+                                        @endif
+
+                                        @if ($kelompok->file_path_c100 && $kelompok->file_name_c100)
+                                            <a href="{{ asset($kelompok->file_path_c100 . '/' . $kelompok->file_name_c100) }}"
+                                                target="_blank">
+                                                Lihat File C100
+                                            </a>
+                                        @else
+                                            File tidak tersedia
+                                        @endif
                                         </td>
                                         <td>{{ $kelompok->jenis_dosen }}</td>
 
@@ -92,7 +104,9 @@
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
                                                     Tolak</a>
-                                            @elseif($kelompok->status_dosen == 'C100 Tidak Disetujui!' || $kelompok->status_dosen == 'Persetujuan Pembimbing Gagal!')
+                                            @elseif(
+                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 1!' ||
+                                                    $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 2!')
                                                 <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-primary btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">

@@ -21,9 +21,12 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Siklus</th>
                                 <th>Nomor Kelompok</th>
-                                <th>Status Sidang Proposal</th>
+                                <th>Status Dokumen C100</th>
+                                <th>Siklus Pendaftaran</th>
+                                <th>Status Penguji 1</th>
+                                <th>Status Penguji 2</th>
+                                <th>Status Pembimbing 2</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -32,18 +35,37 @@
                                 @foreach ($rs_kelompok as $index => $kelompok)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
-                                        <td>{{ $kelompok->nama_siklus }}</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
-                                        <td>{{ $kelompok->status_sidang_proposal }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-secondary btn-xs m-1 ">Jadwalkan Sidang</a>
+                                        <td style="color: {{ $kelompok->status_dokumen_color }}">
+                                            {{ $kelompok->file_status_c100 }}</td>
+                                        <td>{{ $kelompok->nama_siklus }}</td>
+                                        <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                            {{ $kelompok->status_dosen_penguji_1 ?? '-' }}
                                         </td>
+                                        <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                            {{ $kelompok->status_dosen_penguji_2 ?? '-' }}
+                                        </td>
+                                        <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                            {{ $kelompok->status_dosen_pembimbing_2 ?? '-' }}
+                                        </td>
+
+                                        @if ($kelompok->status_sidang_proposal == 'Menunggu Dijadwalkan Sidang!')
+                                            <td class="text-center">
+                                                <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
+                                                    class="btn btn-outline-secondary btn-xs m-1 ">Jadwalkan Sidang</a>
+                                            </td>
+                                        @else
+                                            <td class="text-center">
+                                                <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
+                                                    class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
+                                            </td>
+                                        @endif
+
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="6">Tidak ada data.</td>
+                                    <td class="text-center" colspan="5">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

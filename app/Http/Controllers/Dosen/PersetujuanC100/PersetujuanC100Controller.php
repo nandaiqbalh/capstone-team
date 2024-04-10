@@ -56,15 +56,15 @@ class PersetujuanC100Controller extends BaseController
                 if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'C100 Tidak Disetujui!',
-                        'file_status_c100' => 'C100 Tidak Disetujui!',
+                        'status_dosen_pembimbing_1' => 'C100 Tidak Disetujui Dosbing 1!',
+                        'file_status_c100' => 'C100 Tidak Disetujui Dosbing 1!',
                     ];
                     break;
                 } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'C100 Tidak Disetujui!',
-                        'file_status_c100' => 'C100 Tidak Disetujui!',
+                        'status_dosen_pembimbing_2' => 'C100 Tidak Disetujui Dosbing 2!',
+                        'file_status_c100' => 'C100 Tidak Disetujui Dosbing 2!',
                     ];
                     break;
                 }
@@ -84,8 +84,8 @@ class PersetujuanC100Controller extends BaseController
             $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
             if ($persetujuan_c100_updated->id == $id) {
-                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Tidak Disetujui!" &&
-                    $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Tidak Disetujui!") {
+                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Tidak Disetujui Dosbing 1!" &&
+                    $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Tidak Disetujui Dosbing 2!") {
 
                     $paramsUpdated = [
                         'status_kelompok' => 'C100 Tidak Disetujui!',
@@ -146,7 +146,7 @@ class PersetujuanC100Controller extends BaseController
 
                     $paramsUpdated = [
                         'status_kelompok' => 'C100 Telah Disetujui!',
-                        'status_sidang_proposal'=> "C100 Telah Disetujui!",
+                        'status_sidang_proposal'=> "Menunggu Dijadwalkan Sidang!",
                         'file_status_c100'=> "C100 Telah Disetujui!",
                     ];
                     // Update status kelompok
@@ -207,88 +207,4 @@ class PersetujuanC100Controller extends BaseController
         }
     }
 
-
-    private function getStatusColor($statusKelompok)
-    {
-        // Daftar status dan kategori warna
-        $statusCategories = [
-            'merah' => [
-                'Dosbing Tidak Setuju!',
-                'Penguji Tidak Setuju!',
-                'C100 Tidak Disetujui!',
-                'C200 Tidak Disetujui!',
-                'C300 Tidak Disetujui!',
-                'C400 Tidak Disetujui!',
-                'C500 Tidak Disetujui!',
-                'Kelompok Tidak Disetujui Expo!',
-                'Laporan TA Tidak Disetujui!',
-                'Makalah TA Tidak Disetujui!',
-                'Belum Mendaftar Sidang TA!',
-                'Gagal Expo Project!'
-            ],
-            'orange' => [
-                'Menunggu Penetapan Kelompok!',
-                'Menunggu Persetujuan Dosbing!',
-                'C100 Menunggu Persetujuan Dosbing 1!',
-                'C100 Menunggu Persetujuan Dosbing 2!',
-                'Menunggu Persetujuan Anggota!',
-                'Didaftarkan!',
-                'Menunggu Penetapan Dosbing!',
-                'Menunggu Persetujuan Tim Capstone!',
-                'Menunggu Persetujuan C100!',
-                'Menunggu Persetujuan C200!',
-                'Menunggu Persetujuan C300!',
-                'Menunggu Persetujuan C400!',
-                'Menunggu Persetujuan C500!',
-                'Menunggu Persetujuan Expo!',
-                'Menunggu Persetujuan Laporan TA!',
-                'Menunggu Persetujuan Makalah TA!',
-                'Menunggu Persetujuan Penguji!',
-                'Menunggu Penjadwalan Sidang TA!'
-            ],
-            'ijo' => [
-                'Menyetujui Kelompok!',
-                'Dosbing Setuju!',
-                'Kelompok Diplot Tim Capstone!',
-                'Dosbing Diplot Tim Capstone!',
-                'Kelompok Telah Disetujui!',
-                'C100 Telah Disetujui!',
-                'Penguji Setuju!',
-                'Dijadwalkan Sidang Proposal!',
-                'Lulus Sidang Proposal!',
-                'C200 Telah Disetujui!',
-                'C300 Telah Disetujui!',
-                'C400 Telah Disetujui!',
-                'C500 Telah Disetujui!',
-                'Kelompok Disetujui Expo!',
-                'Lulus Expo Project!',
-                'Laporan TA Telah Disetujui!',
-                'Makalah TA Telah Disetujui!',
-                'Penguji TA Setuju!',
-                'Telah Dijadwalkan Sidang TA!',
-                'Lulus Sidang TA!'
-            ]
-        ];
-
-        $color = '#FF0000'; // Default warna merah
-
-        // Loop melalui daftar kategori warna dan status
-        foreach ($statusCategories as $category => $statuses) {
-            if (in_array($statusKelompok, $statuses)) {
-                // Temukan status dalam kategori, tetapkan warna sesuai
-                switch ($category) {
-                    case 'orange':
-                        $color = '#F86F03'; // Warna orange
-                        break;
-                    case 'ijo':
-                        $color = '#44B158'; // Warna hijau
-                        break;
-                    // Tidak perlu menangani 'merah' karena sudah menjadi default
-                }
-                break; // Hentikan loop setelah menemukan kategori yang sesuai
-            }
-        }
-
-        return $color;
-    }
 }

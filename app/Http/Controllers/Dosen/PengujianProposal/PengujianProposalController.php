@@ -175,13 +175,13 @@ class PengujianProposalController extends BaseController
         foreach ($rs_pengujian_proposal as $pengujian_proposal) {
             if ($pengujian_proposal->id_kelompok == $id) {
                 if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_pembimbing_2' => 'Menyetujui Sidang Proposal!'];
+                    $params = ['status_dosen_pembimbing_2' => 'Pembimbing Setuju!'];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_1' => 'Menyetujui Sidang Proposal!'];
+                    $params = ['status_dosen_penguji_1' => 'Penguji Setuju!'];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_2' => 'Menyetujui Sidang Proposal!'];
+                    $params = ['status_dosen_penguji_2' => 'Penguji Setuju!'];
                     break;
                 }
             }
@@ -199,9 +199,9 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Menyetujui Sidang Proposal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Menyetujui Sidang Proposal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Menyetujui Sidang Proposal!") {
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Pendamping Setuju!" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Setuju!" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Setuju!") {
 
                     $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!', 'status_sidang_proposal'=>"Dijadwalkan Sidang Proposal!"];
                     // Update status kelompok
