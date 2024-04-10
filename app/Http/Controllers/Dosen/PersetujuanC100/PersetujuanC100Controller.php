@@ -15,99 +15,56 @@ class PersetujuanC100Controller extends BaseController
     public function index()
     {
         // get data with pagination
-        $rs_pengujian_proposal = PersetujuanC100Model::getDataWithPagination();
+        $rs_persetujuan_100 = PersetujuanC100Model::getDataWithPagination();
 
-        foreach ($rs_pengujian_proposal as $pengujian_prososal) {
-            if ($pengujian_prososal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                $pengujian_prososal->jenis_dosen = 'Pembimbing 2';
-                $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_pembimbing_2;
+        foreach ($rs_persetujuan_100 as $persetujuan_c100) {
+            if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                $persetujuan_c100->jenis_dosen = 'Pembimbing 1';
+                $persetujuan_c100 -> status_dosen = $persetujuan_c100 ->status_dosen_pembimbing_1;
 
-            } else if ($pengujian_prososal->id_dosen_penguji_1 == Auth::user()->user_id) {
-                $pengujian_prososal->jenis_dosen = 'Penguji 1';
-                $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_1;
-
-            } else if ($pengujian_prososal->id_dosen_penguji_2 == Auth::user()->user_id) {
-                $pengujian_prososal->jenis_dosen = 'Penguji 2';
-                $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_2;
-
+            } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                $persetujuan_c100->jenis_dosen = 'Pembimbing 2';
+                $persetujuan_c100 -> status_dosen = $persetujuan_c100 ->status_dosen_pembimbing_2;
             } else {
-                $pengujian_prososal->jenis_dosen = 'Belum diplot';
-                $pengujian_prososal->status_dosen = 'Belum diplot';
+                $persetujuan_c100->jenis_dosen = 'Belum diplot';
+                $persetujuan_c100->status_dosen = 'Belum diplot';
             }
+
+            $persetujuan_c100 -> status_dokumen_color = $this->getStatusColor($persetujuan_c100->file_status_c100);
+            $persetujuan_c100 -> status_dosen_color = $this->getStatusColor($persetujuan_c100->status_dosen);
+
         }
 
         // data
-        $data = ['rs_pengujian_proposal' => $rs_pengujian_proposal];
+        $data = ['rs_persetujuan_100' => $rs_persetujuan_100];
         // view
         return view('dosen.persetujuan-c100.index', $data);
     }
 
-    private function convertDayToIndonesian($day)
-    {
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
-
-    public function detailPersetujuanC100Saya($id)
-    {
-
-        // get data with pagination
-        $kelompok = PersetujuanC100Model::getDataById($id);
-        $rs_mahasiswa = PersetujuanC100Model::getMahasiswa($kelompok->id);
-
-        // check
-        if (empty($kelompok)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/dosen/persetujuan-c100');
-        }
-
-        // data
-        $data = [
-            'kelompok' => $kelompok,
-            'rs_mahasiswa' => $rs_mahasiswa,
-        ];
-
-        // view
-        return view('dosen.persetujuan-c100.detail', $data);
-    }
 
     public function tolakPersetujuanC100Saya(Request $request, $id)
     {
 
-        $rs_pengujian_proposal = PersetujuanC100Model::getDataWithPagination();
+        $rs_persetujuan_100 = PersetujuanC100Model::getDataWithPagination();
 
         $params = []; // Initialize $params outside the loop
 
         $jenis_dosen = ""; // Move the declaration outside the loop
 
-        foreach ($rs_pengujian_proposal as $pengujian_proposal) {
-            if ($pengujian_proposal->id_kelompok == $id) {
-                if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+        foreach ($rs_persetujuan_100 as $persetujuan_c100) {
+            if ($persetujuan_c100->id == $id) {
+                if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                    $jenis_dosen = 'Pembimbing 1';
+                    $params = [
+                        'status_dosen_pembimbing_1' => 'C100 Tidak Disetujui!',
+                        'file_status_c100' => 'C100 Tidak Disetujui!',
+                    ];
+                    break;
+                } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'Persetujuan Pembimbing Gagal!',
-                    ];
-                    break;
-                } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
-                    $jenis_dosen = 'Penguji 1';
-                    $params = [
-                        'status_dosen_penguji_1' => 'Penguji Tidak Setuju!',
-                    ];
-                    break;
-                } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
-                    $jenis_dosen = 'Penguji 2';
-                    $params = [
-                        'status_dosen_penguji_2' => 'Penguji Tidak Setuju!',
+                        'status_dosen_pembimbing_2' => 'C100 Tidak Disetujui!',
+                        'file_status_c100' => 'C100 Tidak Disetujui!',
                     ];
                     break;
                 }
@@ -124,23 +81,25 @@ class PersetujuanC100Controller extends BaseController
         if (PersetujuanC100Model::updateKelompok($id, $params)) {
 
             $paramsUpdated = [];
-            $pengujian_proposal_updated = PersetujuanC100Model::getDataById($id);
+            $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
-            if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Persetujuan Pembimbing Gagal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Tidak Setuju!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Tidak Setuju!") {
+            if ($persetujuan_c100_updated->id == $id) {
+                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Tidak Disetujui!" &&
+                    $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Tidak Disetujui!") {
 
-                    $paramsUpdated = ['status_sidang_proposal' => 'Penguji Tidak Setuju!'];
+                    $paramsUpdated = [
+                        'status_kelompok' => 'C100 Tidak Disetujui!',
+                        'status_sidang_proposal' => NULL,
+                    ];
                     // Update status kelompok
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
-
+                    $paramsUpdated = [
+                        'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                        'status_sidang_proposal' => NULL,
+                    ];
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-
                 }
-
             }
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -155,19 +114,16 @@ class PersetujuanC100Controller extends BaseController
 
     public function terimaPersetujuanC100Saya(Request $request, $id)
     {
-        $rs_pengujian_proposal = PersetujuanC100Model::getDataWithPagination();
+        $rs_persetujuan_100 = PersetujuanC100Model::getDataWithPagination();
         $params = [];
 
-        foreach ($rs_pengujian_proposal as $pengujian_proposal) {
-            if ($pengujian_proposal->id_kelompok == $id) {
-                if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_pembimbing_2' => 'Menyetujui Sidang Proposal!'];
+        foreach ($rs_persetujuan_100 as $persetujuan_c100) {
+            if ($persetujuan_c100->id == $id) {
+                if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                    $params = ['status_dosen_pembimbing_1' => 'C100 Telah Disetujui!'];
                     break;
-                } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_1' => 'Menyetujui Sidang Proposal!'];
-                    break;
-                } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_2' => 'Menyetujui Sidang Proposal!'];
+                } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                    $params = ['status_dosen_pembimbing_2' => 'C100 Telah Disetujui!'];
                     break;
                 }
             }
@@ -182,18 +138,38 @@ class PersetujuanC100Controller extends BaseController
        // Process update
         if (PersetujuanC100Model::updateKelompok($id, $params)) {
             $paramsUpdated = [];
-            $pengujian_proposal_updated = PersetujuanC100Model::getDataById($id);
+            $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
-            if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Menyetujui Sidang Proposal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Menyetujui Sidang Proposal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Menyetujui Sidang Proposal!") {
+            if ($persetujuan_c100_updated->id == $id) {
+                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Telah Disetujui!" &&
+                    $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Telah Disetujui!" ) {
 
-                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!', 'status_sidang_proposal'=>"Dijadwalkan Sidang Proposal!"];
+                    $paramsUpdated = [
+                        'status_kelompok' => 'C100 Telah Disetujui!',
+                        'status_sidang_proposal'=> "C100 Telah Disetujui!",
+                        'file_status_c100'=> "C100 Telah Disetujui!",
+                    ];
                     // Update status kelompok
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                } elseif($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Telah Disetujui!"){
+                    $paramsUpdated = [
+                        'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 2!',
+                        'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 2!",
+                    ];
+
+                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                } elseif($persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Telah Disetujui!"){
+                    $paramsUpdated = [
+                        'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 1!',
+                        'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 1!",
+                    ];
+
+                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = [
+                        'status_kelompok' => 'Menunggu Persetujuan C100!',
+                        'file_status_c100'=> "Menunggu Persetujuan C100!",
+                    ];
 
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
 
@@ -213,47 +189,6 @@ class PersetujuanC100Controller extends BaseController
     }
 
 
-    public function detailMahasiswa($user_id)
-    {
-
-        // get data with pagination
-        $mahasiswa = PersetujuanC100Model::getDataMahasiswaById($user_id);
-
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-        $rs_peminatan = PersetujuanC100Model::peminatanMahasiswa($user_id);
-
-        foreach ($rs_peminatan as $key => $peminatan) {
-            if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
-                $peminatan->prioritas = "Prioritas 1";
-            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
-                $peminatan->prioritas = "Prioritas 2";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
-                $peminatan->prioritas = "Prioritas 3";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
-                $peminatan->prioritas = "Prioritas 4";
-            } else {
-                $peminatan->prioritas = "Belum memilih";
-
-            }
-        }
-        // dd($mahasiswa);
-        // data
-        $data = [
-            'mahasiswa' => $mahasiswa,
-            'rs_peminatan'=>$rs_peminatan
-        ];
-
-        // view
-        return view('dosen.persetujuan-c100.detail-mahasiswa', $data);
-    }
-
-
-
     public function search(Request $request)
     {
         // data request
@@ -270,5 +205,90 @@ class PersetujuanC100Controller extends BaseController
         } else {
             return view('dosen/persetujuan-c100', $data);
         }
+    }
+
+
+    private function getStatusColor($statusKelompok)
+    {
+        // Daftar status dan kategori warna
+        $statusCategories = [
+            'merah' => [
+                'Dosbing Tidak Setuju!',
+                'Penguji Tidak Setuju!',
+                'C100 Tidak Disetujui!',
+                'C200 Tidak Disetujui!',
+                'C300 Tidak Disetujui!',
+                'C400 Tidak Disetujui!',
+                'C500 Tidak Disetujui!',
+                'Kelompok Tidak Disetujui Expo!',
+                'Laporan TA Tidak Disetujui!',
+                'Makalah TA Tidak Disetujui!',
+                'Belum Mendaftar Sidang TA!',
+                'Gagal Expo Project!'
+            ],
+            'orange' => [
+                'Menunggu Penetapan Kelompok!',
+                'Menunggu Persetujuan Dosbing!',
+                'C100 Menunggu Persetujuan Dosbing 1!',
+                'C100 Menunggu Persetujuan Dosbing 2!',
+                'Menunggu Persetujuan Anggota!',
+                'Didaftarkan!',
+                'Menunggu Penetapan Dosbing!',
+                'Menunggu Persetujuan Tim Capstone!',
+                'Menunggu Persetujuan C100!',
+                'Menunggu Persetujuan C200!',
+                'Menunggu Persetujuan C300!',
+                'Menunggu Persetujuan C400!',
+                'Menunggu Persetujuan C500!',
+                'Menunggu Persetujuan Expo!',
+                'Menunggu Persetujuan Laporan TA!',
+                'Menunggu Persetujuan Makalah TA!',
+                'Menunggu Persetujuan Penguji!',
+                'Menunggu Penjadwalan Sidang TA!'
+            ],
+            'ijo' => [
+                'Menyetujui Kelompok!',
+                'Dosbing Setuju!',
+                'Kelompok Diplot Tim Capstone!',
+                'Dosbing Diplot Tim Capstone!',
+                'Kelompok Telah Disetujui!',
+                'C100 Telah Disetujui!',
+                'Penguji Setuju!',
+                'Dijadwalkan Sidang Proposal!',
+                'Lulus Sidang Proposal!',
+                'C200 Telah Disetujui!',
+                'C300 Telah Disetujui!',
+                'C400 Telah Disetujui!',
+                'C500 Telah Disetujui!',
+                'Kelompok Disetujui Expo!',
+                'Lulus Expo Project!',
+                'Laporan TA Telah Disetujui!',
+                'Makalah TA Telah Disetujui!',
+                'Penguji TA Setuju!',
+                'Telah Dijadwalkan Sidang TA!',
+                'Lulus Sidang TA!'
+            ]
+        ];
+
+        $color = '#FF0000'; // Default warna merah
+
+        // Loop melalui daftar kategori warna dan status
+        foreach ($statusCategories as $category => $statuses) {
+            if (in_array($statusKelompok, $statuses)) {
+                // Temukan status dalam kategori, tetapkan warna sesuai
+                switch ($category) {
+                    case 'orange':
+                        $color = '#F86F03'; // Warna orange
+                        break;
+                    case 'ijo':
+                        $color = '#44B158'; // Warna hijau
+                        break;
+                    // Tidak perlu menangani 'merah' karena sudah menjadi default
+                }
+                break; // Hentikan loop setelah menemukan kategori yang sesuai
+            }
+        }
+
+        return $color;
     }
 }

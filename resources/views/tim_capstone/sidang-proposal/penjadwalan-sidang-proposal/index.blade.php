@@ -23,7 +23,7 @@
                                 <th width="5%">No</th>
                                 <th>Siklus</th>
                                 <th>Nomor Kelompok</th>
-                                <th>Status</th>
+                                <th>Status Sidang Proposal</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -34,7 +34,7 @@
                                         <td class="text-center">{{ $index + $rs_kelompok->firstItem() }}.</td>
                                         <td>{{ $kelompok->nama_siklus }}</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
-                                        <td>{{ $kelompok->status_kelompok }}</td>
+                                        <td>{{ $kelompok->status_sidang_proposal }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 ">Jadwalkan Sidang</a>

@@ -23,10 +23,12 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
+            ->where('a.status_sidang_proposal', '!=', NULL)
             ->where('a.nomor_kelompok', '!=', NULL)
             ->where('a.id_dosen_pembimbing_1', '!=', NULL)
             ->where('a.id_dosen_pembimbing_2', '!=', NULL)
             ->where('a.file_name_c100', '!=', NULL)
+            ->orderBy('a.is_sidang_proposal', 'asc') // Menambahkan pengurutan berdasarkan is_sidang_proposal
             ->orderBy('a.nomor_kelompok', 'asc')
             ->paginate(20);
     }

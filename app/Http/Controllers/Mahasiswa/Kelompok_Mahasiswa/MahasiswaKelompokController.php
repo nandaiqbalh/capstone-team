@@ -680,6 +680,8 @@ class MahasiswaKelompokController extends BaseController
             'orange' => [
                 'Menunggu Penetapan Kelompok!',
                 'Menunggu Persetujuan Dosbing!',
+                'C100 Menunggu Persetujuan Dosbing 1!',
+                'C100 Menunggu Persetujuan Dosbing 2!',
                 'Menunggu Persetujuan Anggota!',
                 'Didaftarkan!',
                 'Menunggu Penetapan Dosbing!',

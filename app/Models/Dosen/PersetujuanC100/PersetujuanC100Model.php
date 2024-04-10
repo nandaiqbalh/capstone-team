@@ -21,6 +21,7 @@ class PersetujuanC100Model extends BaseModel
         return DB::table('kelompok as a')
             ->select('a.*', 'b.nama as nama_topik')
             ->join('topik as b', 'a.id_topik', 'b.id')
+            ->where('a.file_status_c100', '!=', NULL)
             ->where('a.file_name_c100', '!=', NULL)
             ->where('a.id_dosen_pembimbing_1', Auth::user()->user_id)
             ->orWhere('a.id_dosen_pembimbing_2', Auth::user()->user_id)
