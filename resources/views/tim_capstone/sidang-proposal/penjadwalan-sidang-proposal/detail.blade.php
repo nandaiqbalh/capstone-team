@@ -209,15 +209,30 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Waktu Mulai<span class="text-danger">*</span></label>
-                                <input value="{{ $jadwal_sidang->waktu }}" placeholder="Atur waktu" id="waktu"
-                                    type="text" class="form-control" name="waktu" required>
+
+                                @if ($jadwal_sidang == null)
+                                    <input placeholder="Atur waktu" id="waktu" type="text" class="form-control"
+                                        name="waktu" required>
+                                @else
+                                    <input value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
+                                        placeholder="Atur waktu" id="waktu" type="text" class="form-control"
+                                        name="waktu" required>
+                                @endif
+
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Waktu Selesai<span class="text-danger">*</span></label>
-                                <input value="{{ $jadwal_sidang->waktu_selesai }}" placeholder="Atur waktu"
-                                    id="waktu_selesai" type="text" class="form-control" name="waktu_selesai" required>
+                                @if ($jadwal_sidang == null)
+                                    <input placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
+                                        name="waktu_selesai" required>
+                                @else
+                                    <input value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
+                                        placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
+                                        name="waktu_selesai" required>
+                                @endif
+
                             </div>
                         </div>
 

@@ -256,7 +256,120 @@
             </div>
 
         </div>
+
     </div>
+    {{-- c series  --}}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-body">
+                <div class="card">
+                    <h5 class="card-header">Dokumen C100</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <i class='bx bxs-file-doc bx-lg'></i>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="{{ $kelompok->file_name_c100 }}"
+                                    readonly>
+                                <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
+                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <div class="card">
+                    <h5 class="card-header">Dokumen C200</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <i class='bx bxs-file-doc bx-lg'></i>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="{{ $kelompok->file_name_c200 }}"
+                                    readonly>
+                                <a href="{{ url('/file/kelompok/c200') }}/{{ $kelompok->file_name_c200 }}"
+                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-body">
+                <div class="card">
+                    <h5 class="card-header">Dokumen C300</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <i class='bx bxs-file-doc bx-lg'></i>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="{{ $kelompok->file_name_c300 }}"
+                                    readonly>
+                                <a href="{{ url('/file/kelompok/c300') }}/{{ $kelompok->file_name_c300 }}"
+                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <div class="card">
+                    <h5 class="card-header">Dokumen C400</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <i class='bx bxs-file-doc bx-lg'></i>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="{{ $kelompok->file_name_c400 }}"
+                                    readonly>
+                                <a href="{{ url('/file/kelompok/c400') }}/{{ $kelompok->file_name_c400 }}"
+                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card-body">
+                <div class="card">
+                    <h5 class="card-header">Dokumen C500</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <i class='bx bxs-file-doc bx-lg'></i>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="{{ $kelompok->file_name_c500 }}"
+                                    readonly>
+                                <a href="{{ url('/file/kelompok/c500') }}/{{ $kelompok->file_name_c500 }}"
+                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {{-- c series end  --}}
 
     <!-- Modal Dosen Penguji Proposal -->
     <div class="modal fade" id="Dosen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

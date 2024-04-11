@@ -112,6 +112,8 @@
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
                                             @else
+                                                <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
+                                                    class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                             @endif
 
                                         </td>
