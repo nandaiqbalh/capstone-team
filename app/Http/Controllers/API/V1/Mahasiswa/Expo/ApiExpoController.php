@@ -85,6 +85,26 @@ class ApiExpoController extends Controller
 
                     $dokumen_mahasiwa = ApiExpoModel::fileMHS($user ->user_id);
 
+                    if ($kelompok->file_status_c100 != "C100 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C100 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c200 != "C200 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C200 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c300 != "C300 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C300 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c400 != "C400 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C400 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c500 != "C500 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C500 belum disetujui kedua dosen pembimbing!');
+                    }
+
                     if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null) {
                         $registrationParams = [
                             'id_kelompok' => $kelompok->id,

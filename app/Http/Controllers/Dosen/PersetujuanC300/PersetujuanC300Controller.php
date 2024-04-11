@@ -198,19 +198,48 @@ class PersetujuanC300Controller extends BaseController
 
     public function search(Request $request)
     {
-        // data request
+        // Data request
         $nama = $request->nama;
 
-        // new search or reset
+        // New search or reset
         if ($request->action == 'search') {
-            // get data with pagination
-            $rs_kelompok = PersetujuanC300Model::getDataSearch($nama);
-            // data
-            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
-            // view
+            // Get data with pagination
+            $rs_persetujuan_300 = PersetujuanC300Model::getDataSearch($nama);
+
+            // Check if result is null
+            if (!$rs_persetujuan_300) {
+                // Handle the case when no data is found
+                $data = ['rs_persetujuan_300' => null, 'nama' => $nama];
+            } else {
+                // Set status colors if data is available
+
+                foreach ($rs_persetujuan_300 as $persetujuan_c300) {
+                    if ($persetujuan_c300->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                        $persetujuan_c300->jenis_dosen = 'Pembimbing 1';
+                        $persetujuan_c300 -> status_dosen = $persetujuan_c300 ->status_dosen_pembimbing_1;
+
+                    } else if ($persetujuan_c300->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                        $persetujuan_c300->jenis_dosen = 'Pembimbing 2';
+                        $persetujuan_c300 -> status_dosen = $persetujuan_c300 ->status_dosen_pembimbing_2;
+                    } else {
+                        $persetujuan_c300->jenis_dosen = 'Belum diplot';
+                        $persetujuan_c300->status_dosen = 'Belum diplot';
+                    }
+
+                    $persetujuan_c300 -> status_dokumen_color = $this->getStatusColor($persetujuan_c300->file_status_c300);
+                    $persetujuan_c300 -> status_dosen_color = $this->getStatusColor($persetujuan_c300->status_dosen);
+
+                }
+
+                // Prepare data for view
+                $data = ['rs_persetujuan_300' => $rs_persetujuan_300, 'nama' => $nama];
+            }
+
+            // Return view with appropriate data
             return view('dosen.persetujuan-c300.index', $data);
         } else {
-            return view('dosen/persetujuan-c300', $data);
+            // Handle other cases (e.g., when action is not 'search')
+            return view('dosen.persetujuan-c300.index');
         }
     }
 

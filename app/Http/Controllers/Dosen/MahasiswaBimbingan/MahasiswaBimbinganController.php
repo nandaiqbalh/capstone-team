@@ -106,6 +106,8 @@ class MahasiswaBimbinganController extends BaseController
                 } else {
                     $bimbingan->jenis_dosen = 'Belum diplot';
                 }
+                $bimbingan -> status_color = $this->getStatusColor($bimbingan->status_individu);
+
             }
             // data
             $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya, 'nama' => $nama];

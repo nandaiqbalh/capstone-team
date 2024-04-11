@@ -345,9 +345,48 @@ class PengujianProposalController extends BaseController
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_kelompok = PengujianProposalModel::getDataSearch($nama);
+            $rs_pengujian_proposal = PengujianProposalModel::getDataSearch($nama);
+
+            foreach ($rs_pengujian_proposal as $pengujian_prososal) {
+                if ($pengujian_prososal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                    $pengujian_prososal->jenis_dosen = 'Pembimbing 2';
+                    $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_pembimbing_2;
+
+                } else if ($pengujian_prososal->id_dosen_penguji_1 == Auth::user()->user_id) {
+                    $pengujian_prososal->jenis_dosen = 'Penguji 1';
+                    $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_1;
+
+                } else if ($pengujian_prososal->id_dosen_penguji_2 == Auth::user()->user_id) {
+                    $pengujian_prososal->jenis_dosen = 'Penguji 2';
+                    $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_2;
+
+                } else {
+                    $pengujian_prososal->jenis_dosen = 'Belum Diplot';
+                    $pengujian_prososal->status_dosen = 'Belum Diplot';
+                }
+                $pengujian_prososal -> status_penguji1_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_1);
+                $pengujian_prososal -> status_penguji2_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_2);
+                $pengujian_prososal -> status_pembimbing1_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_1);
+                $pengujian_prososal -> status_pembimbing2_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_2);
+
+            }
+
+
+            foreach ($rs_pengujian_proposal as $pengujian_proposal) {
+                if ($pengujian_proposal != null) {
+                    $waktuSidang = strtotime($pengujian_proposal->waktu);
+
+                    $pengujian_proposal->hari_sidang = strftime('%A', $waktuSidang);
+                    $pengujian_proposal->hari_sidang = $this->convertDayToIndonesian($pengujian_proposal->hari_sidang);
+                    $pengujian_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $pengujian_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                    $waktuSelesai = strtotime($pengujian_proposal->waktu_selesai);
+                    $pengujian_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
+                }
+            }
             // data
-            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
+            $data = ['rs_pengujian_proposal' => $rs_pengujian_proposal];
             // view
             return view('dosen.pengujian-proposal.index', $data);
         } else {

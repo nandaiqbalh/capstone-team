@@ -198,19 +198,48 @@ class PersetujuanC200Controller extends BaseController
 
     public function search(Request $request)
     {
-        // data request
+        // Data request
         $nama = $request->nama;
 
-        // new search or reset
+        // New search or reset
         if ($request->action == 'search') {
-            // get data with pagination
-            $rs_kelompok = PersetujuanC200Model::getDataSearch($nama);
-            // data
-            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
-            // view
-            return view('dosen.persetujuan-c200.index', $data);
+            // Get data with pagination
+            $rs_persetujuan_100 = PersetujuanC100Model::getDataSearch($nama);
+
+            // Check if result is null
+            if (!$rs_persetujuan_100) {
+                // Handle the case when no data is found
+                $data = ['rs_persetujuan_100' => null, 'nama' => $nama];
+            } else {
+                // Set status colors if data is available
+
+                foreach ($rs_persetujuan_100 as $persetujuan_c100) {
+                    if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                        $persetujuan_c100->jenis_dosen = 'Pembimbing 1';
+                        $persetujuan_c100 -> status_dosen = $persetujuan_c100 ->status_dosen_pembimbing_1;
+
+                    } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                        $persetujuan_c100->jenis_dosen = 'Pembimbing 2';
+                        $persetujuan_c100 -> status_dosen = $persetujuan_c100 ->status_dosen_pembimbing_2;
+                    } else {
+                        $persetujuan_c100->jenis_dosen = 'Belum diplot';
+                        $persetujuan_c100->status_dosen = 'Belum diplot';
+                    }
+
+                    $persetujuan_c100 -> status_dokumen_color = $this->getStatusColor($persetujuan_c100->file_status_c100);
+                    $persetujuan_c100 -> status_dosen_color = $this->getStatusColor($persetujuan_c100->status_dosen);
+
+                }
+
+                // Prepare data for view
+                $data = ['rs_persetujuan_100' => $rs_persetujuan_100, 'nama' => $nama];
+            }
+
+            // Return view with appropriate data
+            return view('dosen.persetujuan-c100.index', $data);
         } else {
-            return view('dosen/persetujuan-c200', $data);
+            // Handle other cases (e.g., when action is not 'search')
+            return view('dosen.persetujuan-c100.index');
         }
     }
 

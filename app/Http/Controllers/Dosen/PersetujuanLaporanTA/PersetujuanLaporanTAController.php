@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Dosen\PersetujuanC500;
+namespace App\Http\Controllers\Dosen\PersetujuanLaporanTA;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use App\Models\Dosen\PersetujuanC500\PersetujuanC500Model;
+use App\Models\Dosen\PersetujuanLaporanTA\PersetujuanLaporanTAModel;
 use Illuminate\Support\Facades\Hash;
 
 
-class PersetujuanC500Controller extends BaseController
+class PersetujuanLaporanTAController extends BaseController
 {
     public function index()
     {
         // get data with pagination
-        $rs_persetujuan_500 = PersetujuanC500Model::getDataWithPagination();
+        $rs_persetujuan_500 = PersetujuanLaporanTAModel::getDataWithPagination();
 
         foreach ($rs_persetujuan_500 as $persetujuan_c500) {
             if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
@@ -42,10 +42,10 @@ class PersetujuanC500Controller extends BaseController
     }
 
 
-    public function tolakPersetujuanC500Saya(Request $request, $id)
+    public function tolakPersetujuanLaporanTASaya(Request $request, $id)
     {
 
-        $rs_persetujuan_500 = PersetujuanC500Model::getDataWithPagination();
+        $rs_persetujuan_500 = PersetujuanLaporanTAModel::getDataWithPagination();
 
         $params = []; // Initialize $params outside the loop
 
@@ -80,10 +80,10 @@ class PersetujuanC500Controller extends BaseController
         }
 
         // process
-        if (PersetujuanC500Model::updateKelompok($id, $params)) {
+        if (PersetujuanLaporanTAModel::updateKelompok($id, $params)) {
 
             $paramsUpdated = [];
-            $persetujuan_c500_updated = PersetujuanC500Model::getDataById($id);
+            $persetujuan_c500_updated = PersetujuanLaporanTAModel::getDataById($id);
 
             if ($persetujuan_c500_updated->id == $id) {
                 if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" ||
@@ -93,12 +93,12 @@ class PersetujuanC500Controller extends BaseController
                         'status_kelompok' => 'C500 Tidak Disetujui!',
                     ];
                     // Update status kelompok
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
                 } else {
                     $paramsUpdated = [
                         'status_kelompok' => 'Menunggu Persetujuan Penguji!',
                     ];
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
                 }
             }
             // flash message
@@ -112,9 +112,9 @@ class PersetujuanC500Controller extends BaseController
     }
 
 
-    public function terimaPersetujuanC500Saya(Request $request, $id)
+    public function terimaPersetujuanLaporanTASaya(Request $request, $id)
     {
-        $rs_persetujuan_500 = PersetujuanC500Model::getDataWithPagination();
+        $rs_persetujuan_500 = PersetujuanLaporanTAModel::getDataWithPagination();
         $params = [];
 
         foreach ($rs_persetujuan_500 as $persetujuan_c500) {
@@ -143,9 +143,9 @@ class PersetujuanC500Controller extends BaseController
         }
 
        // Process update
-        if (PersetujuanC500Model::updateKelompok($id, $params)) {
+        if (PersetujuanLaporanTAModel::updateKelompok($id, $params)) {
             $paramsUpdated = [];
-            $persetujuan_c500_updated = PersetujuanC500Model::getDataById($id);
+            $persetujuan_c500_updated = PersetujuanLaporanTAModel::getDataById($id);
 
             if ($persetujuan_c500_updated->id == $id) {
                 if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui!" &&
@@ -157,28 +157,28 @@ class PersetujuanC500Controller extends BaseController
                     ];
 
                     // Update status kelompok
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
                 } elseif($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui!"){
                     $paramsUpdated = [
                         'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 2!',
                         'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 2!",
                     ];
 
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
                 } elseif($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui!"){
                     $paramsUpdated = [
                         'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 1!',
                         'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 1!",
                     ];
 
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
                 } else {
                     $paramsUpdated = [
                         'status_kelompok' => 'Menunggu Persetujuan C500!',
                         'file_status_c500'=> "Menunggu Persetujuan C500!",
                     ];
 
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
 
                 }
 
@@ -198,48 +198,19 @@ class PersetujuanC500Controller extends BaseController
 
     public function search(Request $request)
     {
-        // Data request
+        // data request
         $nama = $request->nama;
 
-        // New search or reset
+        // new search or reset
         if ($request->action == 'search') {
-            // Get data with pagination
-            $rs_persetujuan_500 = PersetujuanC500Model::getDataSearch($nama);
-
-            // Check if result is null
-            if (!$rs_persetujuan_500) {
-                // Handle the case when no data is found
-                $data = ['rs_persetujuan_500' => null, 'nama' => $nama];
-            } else {
-                // Set status colors if data is available
-
-                foreach ($rs_persetujuan_500 as $persetujuan_c500) {
-                    if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
-                        $persetujuan_c500->jenis_dosen = 'Pembimbing 1';
-                        $persetujuan_c500 -> status_dosen = $persetujuan_c500 ->status_dosen_pembimbing_1;
-
-                    } else if ($persetujuan_c500->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                        $persetujuan_c500->jenis_dosen = 'Pembimbing 2';
-                        $persetujuan_c500 -> status_dosen = $persetujuan_c500 ->status_dosen_pembimbing_2;
-                    } else {
-                        $persetujuan_c500->jenis_dosen = 'Belum diplot';
-                        $persetujuan_c500->status_dosen = 'Belum diplot';
-                    }
-
-                    $persetujuan_c500 -> status_dokumen_color = $this->getStatusColor($persetujuan_c500->file_status_c500);
-                    $persetujuan_c500 -> status_dosen_color = $this->getStatusColor($persetujuan_c500->status_dosen);
-
-                }   
-
-                // Prepare data for view
-                $data = ['rs_persetujuan_500' => $rs_persetujuan_500, 'nama' => $nama];
-            }
-
-            // Return view with appropriate data
+            // get data with pagination
+            $rs_kelompok = PersetujuanLaporanTAModel::getDataSearch($nama);
+            // data
+            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
+            // view
             return view('dosen.persetujuan-c500.index', $data);
         } else {
-            // Handle other cases (e.g., when action is not 'search')
-            return view('dosen.persetujuan-c500.index');
+            return view('dosen/persetujuan-c500', $data);
         }
     }
 
