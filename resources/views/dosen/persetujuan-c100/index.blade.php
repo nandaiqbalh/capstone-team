@@ -91,8 +91,7 @@
                                                         class="btn btn-outline-danger btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif(
-                                                    $kelompok->file_status_c100_dosbing1 == 'C100 Tidak Disetujui Dosbing 1!')
+                                                @elseif($kelompok->file_status_c100_dosbing1 == 'C100 Tidak Disetujui Dosbing 1!')
                                                     <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
@@ -116,8 +115,7 @@
                                                         class="btn btn-outline-danger btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif(
-                                                    $kelompok->file_status_c100_dosbing2 == 'C100 Tidak Disetujui Dosbing 1!')
+                                                @elseif($kelompok->file_status_c100_dosbing2 == 'C100 Tidak Disetujui Dosbing 2!')
                                                     <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">

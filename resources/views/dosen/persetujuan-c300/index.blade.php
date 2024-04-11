@@ -115,7 +115,7 @@
                                                         class="btn btn-outline-danger btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c300/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_c300_dosbing2 == 'C300 Tidak Disetujui Dosbing 1!')
+                                                @elseif($kelompok->file_status_c300_dosbing2 == 'C300 Tidak Disetujui Dosbing 2!')
                                                     <a href="{{ url('/dosen/persetujuan-c300/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c300/terima') }}/{{ $kelompok->id }}')">

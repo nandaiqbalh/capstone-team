@@ -276,6 +276,15 @@ class ValidasiKelompokController extends BaseController
             return redirect()->back()->with('danger', 'Kelompok tidak ditemukan.');
         }
 
+
+        if ($kelompok->id_dosen_pembimbing_1 == null) {
+            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 1!');
+        }
+
+        if ($kelompok->id_dosen_pembimbing_2 == null) {
+            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 2!');
+        }
+
         $siklus = ValidasiKelompokModel::getSiklusById($kelompok->id_siklus);
 
         // Ambil kode siklus dari variabel siklus

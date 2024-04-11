@@ -34,6 +34,11 @@ class PengujianProposalController extends BaseController
                 $pengujian_prososal->jenis_dosen = 'Belum Diplot';
                 $pengujian_prososal->status_dosen = 'Belum Diplot';
             }
+            $pengujian_prososal -> status_penguji1_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_1);
+            $pengujian_prososal -> status_penguji2_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_2);
+            $pengujian_prososal -> status_pembimbing1_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_1);
+            $pengujian_prososal -> status_pembimbing2_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_2);
+
         }
 
 
@@ -173,7 +178,7 @@ class PengujianProposalController extends BaseController
                 if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'Persetujuan Pembimbing Gagal!',
+                        'status_dosen_pembimbing_2' => 'Pembimbing Tidak Setuju!',
                     ];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
@@ -205,7 +210,7 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Persetujuan Pembimbing Gagal!" &&
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Penguji Tidak Setuju!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Tidak Setuju!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Tidak Setuju!") {
 

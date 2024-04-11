@@ -1,12 +1,12 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Penetapan Penguji Proposal
+    Penjadwalan Sidang Proposal
 @endsection
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4">Penetapan Penguji Proposal</h5>
+        <h5 class="fw-bold py-3 mb-4">Penjadwalan Sidang Proposal</h5>
         <!-- notification -->
         @include('template.notification')
 
