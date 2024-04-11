@@ -116,48 +116,14 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Status</td>
+                                            <td>Status Sidang Proposal</td>
                                             <td>:</td>
-                                            <td>
-                                                @php
-                                                    $statusKelompok = $kelompok->status_sidang_proposal;
-                                                    $color = '';
-
-                                                    switch ($statusKelompok) {
-                                                        case 'Menunggu Penetapan Kelompok!':
-                                                        case 'Menunggu Penetapan Dosbing!':
-                                                        case 'Menunggu Persetujuan Anggota!':
-                                                        case 'Menunggu Persetujuan Dosbing!':
-                                                        case 'Menunggu Persetujuan Penguji!':
-                                                        case 'Menunggu Persetujuan Tim Capstone!':
-                                                        case 'Menunggu Validasi Expo!':
-                                                            $color = '#F86F03'; // Warna Orange
-                                                            break;
-                                                        case 'Kelompok Telah Disetujui!':
-                                                        case 'C100 Telah Disetujui!':
-                                                        case 'Penguji Proposal Ditetapkan!':
-                                                        case 'Dijadwalkan Sidang Proposal!':
-                                                        case 'Penguji Setuju!':
-                                                        case 'Lulus Sidang Proposal!':
-                                                        case 'C200 Telah Disetujui!':
-                                                        case 'C300 Telah Disetujui!':
-                                                        case 'C400 Telah Disetujui!':
-                                                        case 'C500 Telah Disetujui!':
-                                                        case 'Validasi Expo Berhasil!':
-                                                        case 'Lulus Expo Project!':
-                                                        case 'Lulus Capstone Project!':
-                                                            $color = '#44B158'; // Warna Hijau
-                                                            break;
-                                                        default:
-                                                            $color = '#FF0000'; // Warna Merah
-                                                            break;
-                                                    }
-                                                @endphp
-
-                                                <span style="color: {{ $color }};">
-                                                    {{ $statusKelompok ?? 'Belum Dijadwalkan Sidang Proposal!' }}
-                                                </span>
-                                            </td>
+                                            @if ($kelompok->status_sidang_proposal == null)
+                                                <td>!</td>
+                                            @else
+                                                <td style="color: {{ $kelompok->status_sidang_color }}">
+                                                    {{ $kelompok->status_sidang_proposal }}</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td>Hari, tanggal</td>
@@ -255,7 +221,15 @@
                                                     <td>{{ $dosbing->user_name }}</td>
                                                     <td>{{ $dosbing->nomor_induk }}</td>
                                                     <td>{{ $dosbing->jenis_dosen }}</td>
-                                                    <td>{{ $dosbing->status_dosen }}</td>
+                                                    @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                                        <td style="color: {{ $kelompok->status_pembimbing1_color }}">
+                                                            {{ $dosbing->status_dosen }}</td>
+                                                    @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
+                                                        <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                            {{ $dosbing->status_dosen }}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @else
@@ -291,7 +265,15 @@
                                                     <td>{{ $dospeng->user_name }}</td>
                                                     <td>{{ $dospeng->nomor_induk }}</td>
                                                     <td>{{ $dospeng->jenis_dosen }}</td>
-                                                    <td>{{ $dospeng->status_dosen }}</td>
+                                                    @if ($dospeng->jenis_dosen == 'Penguji 1')
+                                                        <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                                            {{ $dospeng->status_dosen }}</td>
+                                                    @elseif($dospeng->jenis_dosen == 'Penguji 2')
+                                                        <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                                            {{ $dospeng->status_dosen }}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @else

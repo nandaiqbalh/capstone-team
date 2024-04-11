@@ -101,7 +101,7 @@
                                                 <td>:</td>
 
                                                 @if ($kelompok->status_kelompok != null)
-                                                    <td style="color: {{ $kelompok->status_color }};">
+                                                    <td style="color: {{ $kelompok->status_kelompok_color }};">
                                                         {{ $kelompok->status_kelompok }}
                                                     </td>
                                                 @else
@@ -222,7 +222,15 @@
                                                     <td>{{ $dosbing->user_name }}</td>
                                                     <td>{{ $dosbing->nomor_induk }}</td>
                                                     <td>{{ $dosbing->jenis_dosen }}</td>
-                                                    <td>{{ $dosbing->status_dosen }}</td>
+                                                    @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                                        <td style="color: {{ $kelompok->status_pembimbing1_color }}">
+                                                            {{ $dosbing->status_dosen }}</td>
+                                                    @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
+                                                        <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                            {{ $dosbing->status_dosen }}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @else

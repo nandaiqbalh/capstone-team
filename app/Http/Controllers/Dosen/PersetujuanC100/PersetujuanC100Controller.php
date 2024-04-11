@@ -84,7 +84,7 @@ class PersetujuanC100Controller extends BaseController
             $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
             if ($persetujuan_c100_updated->id == $id) {
-                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Tidak Disetujui Dosbing 1!" &&
+                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Tidak Disetujui Dosbing 1!" ||
                     $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Tidak Disetujui Dosbing 2!") {
 
                     $paramsUpdated = [

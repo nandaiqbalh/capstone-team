@@ -37,7 +37,15 @@ class MahasiswaKelompokController extends BaseController
             // dari tabel kelompok_mhs
             $siklusSudahPunyaKelompok = MahasiswaKelompokModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);
 
-            $kelompok->status_color = $this->getStatusColor($kelompok->status_kelompok);
+            $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+            $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+            $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+            $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+            $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+            $kelompok -> status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+            $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
 
             $rs_mahasiswa = MahasiswaKelompokModel::listKelompokMahasiswa($kelompok->id_kelompok);
             $rs_dosbing = MahasiswaKelompokModel::getAkunDosbingKelompok($kelompok->id_kelompok);

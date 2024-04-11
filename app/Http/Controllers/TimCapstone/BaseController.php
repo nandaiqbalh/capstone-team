@@ -281,6 +281,7 @@ class BaseController extends Controller
                 'Dosbing Diplot Tim Capstone!',
                 'Kelompok Telah Disetujui!',
                 'C100 Telah Disetujui!',
+                'Penguji Proposal Ditetapkan!',
                 'Pembimbing Setuju!',
                 'Penguji Setuju!',
                 'Dijadwalkan Sidang Proposal!',

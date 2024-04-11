@@ -62,7 +62,7 @@
                                 @else
                                     <td
                                         style="color:
-                                        {{ $kelompok->status_dokumen_color }}">
+                                        {{ $kelompok->status_sidang_color }}">
                                         {{ $kelompok->status_sidang_proposal }}</td>
                                 @endif
                             </tr>
@@ -166,7 +166,15 @@
                                         <td>{{ $penguji_proposal->user_name }}</td>
                                         <td>{{ $penguji_proposal->nomor_induk }}</td>
                                         <td>{{ $penguji_proposal->jenis_dosen }}</td>
-                                        <td>{{ $penguji_proposal->status_dosen }}</td>
+                                        @if ($penguji_proposal->jenis_dosen == 'Penguji 1')
+                                            <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                                {{ $penguji_proposal->status_dosen }}</td>
+                                        @elseif($penguji_proposal->jenis_dosen == 'Penguji 2')
+                                            <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                                {{ $penguji_proposal->status_dosen }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                         <td class="text-center">
                                             <a href="{{ url('/admin/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
@@ -201,18 +209,15 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Waktu Mulai<span class="text-danger">*</span></label>
-                                <input type="datetime-local" class="form-control" name="waktu"
-                                    value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
-                                    required>
+                                <input value="{{ $jadwal_sidang->waktu }}" placeholder="Atur waktu" id="waktu"
+                                    type="text" class="form-control" name="waktu" required>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Waktu Selesai<span class="text-danger">*</span></label>
-                                <input type="datetime-local" class="form-control" name="waktu_selesai"
-                                    value="{{ old('waktu_selesai') ? \Carbon\Carbon::parse(old('waktu_selesai'))->format('Y-m-d\TH:i:s') : '' }}"
-                                    required>
+                                <input value="{{ $jadwal_sidang->waktu_selesai }}" placeholder="Atur waktu"
+                                    id="waktu_selesai" type="text" class="form-control" name="waktu_selesai" required>
                             </div>
                         </div>
 
@@ -309,8 +314,15 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
-
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_pembimbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
+                                            <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else
@@ -394,4 +406,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi flatpickr untuk elemen waktu_mulai dan waktu_selesai
+            flatpickr('#waktu, #waktu_selesai', {
+                dateFormat: 'Y-m-d H:i', // Format tanggal dan waktu (YYYY-MM-DD HH:mm)
+                enableTime: true, // Izinkan pilihan waktu
+                time_24hr: true, // Format waktu 24-jam
+                minDate: new Date('2019-12-31'), // Batasi pilihan tanggal minimal ke hari ini
+                maxDate: new Date('2050-12-31'), // Batasi pilihan tanggal maksimal
+                defaultHour: 12, // Jam default jika tidak ada waktu terpilih
+                defaultMinute: 0, // Menit default jika tidak ada waktu terpilih
+                locale: {
+                    buttons: {
+                        now: 'Sekarang' // Mengganti teks tombol "Sekarang"
+                    }
+                },
+                appendTo: document.body, // Append kalender ke dalam body
+                inline: false, // Tidak menggunakan mode inline
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log('Tanggal dan waktu dipilih:', dateStr);
+                }
+            });
+        });
+    </script>
 @endsection

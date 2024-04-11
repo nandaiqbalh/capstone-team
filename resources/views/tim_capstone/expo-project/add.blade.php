@@ -76,29 +76,29 @@
                 </div>
             </form>
         </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi flatpickr dengan waktu
-            flatpickr('#tanggal_mulai, #tanggal_selesai, #waktu', {
-                dateFormat: 'Y-m-d H:i', // Format tanggal dan waktu (YYYY-MM-DD HH:mm)
-                enableTime: true, // Izinkan pilihan waktu
-                time_24hr: true, // Format waktu 24-jam
-                minDate: new Date('2019-12-31'), // Batasi pilihan tanggal minimal ke hari ini
-                maxDate: new Date('2050-12-31'), // Batasi pilihan tanggal maksimal
-                defaultHour: 12, // Jam default jika tidak ada waktu terpilih
-                defaultMinute: 0, // Menit default jika tidak ada waktu terpilih
-                locale: {
-                    buttons: {
-                        now: 'Sekarang' // Mengganti teks tombol "Sekarang"
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Inisialisasi flatpickr dengan waktu
+                flatpickr('#tanggal_mulai, #tanggal_selesai, #waktu', {
+                    dateFormat: 'Y-m-d H:i', // Format tanggal dan waktu (YYYY-MM-DD HH:mm)
+                    enableTime: true, // Izinkan pilihan waktu
+                    time_24hr: true, // Format waktu 24-jam
+                    minDate: new Date('2019-12-31'), // Batasi pilihan tanggal minimal ke hari ini
+                    maxDate: new Date('2050-12-31'), // Batasi pilihan tanggal maksimal
+                    defaultHour: 12, // Jam default jika tidak ada waktu terpilih
+                    defaultMinute: 0, // Menit default jika tidak ada waktu terpilih
+                    locale: {
+                        buttons: {
+                            now: 'Sekarang' // Mengganti teks tombol "Sekarang"
+                        }
+                    },
+                    appendTo: document.body, // Append kalender ke dalam body
+                    inline: false, // Tidak menggunakan mode inline
+                    onChange: function(selectedDates, dateStr, instance) {
+                        console.log('Tanggal dan waktu dipilih:', dateStr);
                     }
-                },
-                appendTo: document.body, // Append kalender ke dalam body
-                inline: false, // Tidak menggunakan mode inline
-                onChange: function(selectedDates, dateStr, instance) {
-                    console.log('Tanggal dan waktu dipilih:', dateStr);
-                }
+                });
             });
-        });
-    </script>
+        </script>
+    </div>
+@endsection

@@ -76,20 +76,84 @@ class PengujianProposalController extends BaseController
 
         // get data with pagination
         $kelompok = PengujianProposalModel::getDataById($id);
-        $rs_mahasiswa = PengujianProposalModel::getMahasiswa($kelompok->id);
+        $rs_topik = PengujianProposalModel::getTopik();
+        $rs_mahasiswa = PengujianProposalModel::listKelompokMahasiswa($id);
+        $rs_dosbing = PengujianProposalModel::getAkunDosbingKelompok($id);
+        $rs_penguji_proposal = PengujianProposalModel::getAkunPengujiProposalKelompok($id);
+
+        // get jadwal sidang
+        $jadwal_sidang = PengujianProposalModel::getJadwalSidangProposal($id);
+        if($jadwal_sidang != null){
+            $waktuSidang = strtotime($jadwal_sidang->waktu);
+
+            $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+            $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+            $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
+            $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+
+        }
+
+        // penguji avaliable
+        $rs_penguji = PengujianProposalModel::getDosenPengujiProposal($id);
+
+        $rs_ruang_sidang = PengujianProposalModel::getRuangSidang();
+
+        foreach ($rs_dosbing as $dosbing) {
+
+            if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
+                $dosbing->jenis_dosen = 'Pembimbing 1';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
+            } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
+                $dosbing->jenis_dosen = 'Pembimbing 2';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
+            }
+
+        }
+
+        foreach ($rs_penguji_proposal as $penguji_proposal) {
+
+            if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_1) {
+                $penguji_proposal->jenis_dosen = 'Penguji 1';
+                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_1;
+            } else if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_2) {
+                $penguji_proposal->jenis_dosen = 'Penguji 2';
+                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_2;
+            }
+
+        }
 
         // check
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/dosen/pengujian-proposal');
+            return redirect('/admin/kelompok');
         }
+
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+        $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+        $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+        $kelompok -> status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
 
         // data
         $data = [
             'kelompok' => $kelompok,
+            'rs_topik' => $rs_topik,
             'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_dosbing' => $rs_dosbing,
+            'rs_penguji_proposal' => $rs_penguji_proposal,
+            'rs_penguji' => $rs_penguji,
+            'rs_ruang_sidang' => $rs_ruang_sidang,
+            'jadwal_sidang' => $jadwal_sidang,
+
         ];
+        // dd($data);
 
         // view
         return view('dosen.pengujian-proposal.detail', $data);
