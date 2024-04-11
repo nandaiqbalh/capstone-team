@@ -57,6 +57,7 @@ class PersetujuanC100Controller extends BaseController
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
                         'status_dosen_pembimbing_1' => 'C100 Tidak Disetujui Dosbing 1!',
+                        'file_status_c100_dosbing1' => 'C100 Tidak Disetujui Dosbing 1!',
                         'file_status_c100' => 'C100 Tidak Disetujui Dosbing 1!',
                     ];
                     break;
@@ -64,6 +65,7 @@ class PersetujuanC100Controller extends BaseController
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
                         'status_dosen_pembimbing_2' => 'C100 Tidak Disetujui Dosbing 2!',
+                        'file_status_c100_dosbing2' => 'C100 Tidak Disetujui Dosbing 2!',
                         'file_status_c100' => 'C100 Tidak Disetujui Dosbing 2!',
                     ];
                     break;
@@ -84,8 +86,8 @@ class PersetujuanC100Controller extends BaseController
             $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
             if ($persetujuan_c100_updated->id == $id) {
-                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Tidak Disetujui Dosbing 1!" ||
-                    $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Tidak Disetujui Dosbing 2!") {
+                if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Tidak Disetujui Dosbing 1!" ||
+                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Tidak Disetujui Dosbing 2!") {
 
                     $paramsUpdated = [
                         'status_kelompok' => 'C100 Tidak Disetujui!',
@@ -118,10 +120,17 @@ class PersetujuanC100Controller extends BaseController
         foreach ($rs_persetujuan_100 as $persetujuan_c100) {
             if ($persetujuan_c100->id == $id) {
                 if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_pembimbing_1' => 'C100 Telah Disetujui!'];
+                    $params = [
+                        'status_dosen_pembimbing_1' => 'C100 Telah Disetujui!',
+                        'file_status_c100_dosbing1' => 'C100 Telah Disetujui!'
+                    ];
                     break;
                 } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_pembimbing_2' => 'C100 Telah Disetujui!'];
+                    $params = [
+                        'status_dosen_pembimbing_2' => 'C100 Telah Disetujui!',
+                        'file_status_c100_dosbing2' => 'C100 Telah Disetujui!'
+                    ];
+
                     break;
                 }
             }
@@ -139,8 +148,8 @@ class PersetujuanC100Controller extends BaseController
             $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
             if ($persetujuan_c100_updated->id == $id) {
-                if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Telah Disetujui!" &&
-                    $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Telah Disetujui!" ) {
+                if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Telah Disetujui!" &&
+                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Telah Disetujui!" ) {
 
                         if ($persetujuan_c100_updated->status_sidang_proposal != null) {
                             $paramsUpdated = [
@@ -158,14 +167,14 @@ class PersetujuanC100Controller extends BaseController
 
                     // Update status kelompok
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Telah Disetujui!"){
+                } elseif($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Telah Disetujui!"){
                     $paramsUpdated = [
                         'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 2!',
                         'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 2!",
                     ];
 
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Telah Disetujui!"){
+                } elseif($persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Telah Disetujui!"){
                     $paramsUpdated = [
                         'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 1!',
                         'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 1!",

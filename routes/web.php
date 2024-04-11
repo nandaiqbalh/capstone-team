@@ -67,6 +67,10 @@ use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
 use App\Http\Controllers\Dosen\KelompokBimbingan\KelompokBimbinganController;
 use App\Http\Controllers\Dosen\MahasiswaBimbingan\MahasiswaBimbinganController;
 use App\Http\Controllers\Dosen\PersetujuanC100\PersetujuanC100Controller;
+use App\Http\Controllers\Dosen\PersetujuanC200\PersetujuanC200Controller;
+use App\Http\Controllers\Dosen\PersetujuanC300\PersetujuanC300Controller;
+use App\Http\Controllers\Dosen\PersetujuanC400\PersetujuanC400Controller;
+use App\Http\Controllers\Dosen\PersetujuanC500\PersetujuanC500Controller;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
 
 
@@ -355,15 +359,39 @@ Route::middleware(['auth', 'role:04'])->group(function () {
 
 
      // persetujuan c100
-    //pengujian saya
     Route::get('/dosen/persetujuan-c100', [PersetujuanC100Controller::class, 'index']);
     Route::get('/dosen/persetujuan-c100/terima/{id}', [PersetujuanC100Controller::class, 'terimaPersetujuanC100Saya']);
     Route::get('/dosen/persetujuan-c100/tolak/{id}', [PersetujuanC100Controller::class, 'tolakPersetujuanC100Saya']);
     Route::get('/dosen/persetujuan-c100/detail/{id}', [PersetujuanC100Controller::class, 'detailPersetujuanC100Saya']);
     Route::get('/dosen/persetujuan-c100/search', [PersetujuanC100Controller::class, 'search']);
 
-    // detail mahasiswa bimbingan proposal
-    Route::get('/dosen/persetujuan-c100/detail-mahasiswa/{user_id}', [PersetujuanC100Controller::class, 'detailMahasiswa']);
+    // persetujuan c200
+    Route::get('/dosen/persetujuan-c200', [PersetujuanC200Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c200/terima/{id}', [PersetujuanC200Controller::class, 'terimaPersetujuanC200Saya']);
+    Route::get('/dosen/persetujuan-c200/tolak/{id}', [PersetujuanC200Controller::class, 'tolakPersetujuanC200Saya']);
+    Route::get('/dosen/persetujuan-c200/detail/{id}', [PersetujuanC200Controller::class, 'detailPersetujuanC200Saya']);
+    Route::get('/dosen/persetujuan-c200/search', [PersetujuanC200Controller::class, 'search']);
+
+    // persetujuan c300
+    Route::get('/dosen/persetujuan-c300', [PersetujuanC300Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c300/terima/{id}', [PersetujuanC300Controller::class, 'terimaPersetujuanC300Saya']);
+    Route::get('/dosen/persetujuan-c300/tolak/{id}', [PersetujuanC300Controller::class, 'tolakPersetujuanC300Saya']);
+    Route::get('/dosen/persetujuan-c300/detail/{id}', [PersetujuanC300Controller::class, 'detailPersetujuanC300Saya']);
+    Route::get('/dosen/persetujuan-c300/search', [PersetujuanC300Controller::class, 'search']);
+
+    // persetujuan c400
+    Route::get('/dosen/persetujuan-c400', [PersetujuanC400Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c400/terima/{id}', [PersetujuanC400Controller::class, 'terimaPersetujuanC400Saya']);
+    Route::get('/dosen/persetujuan-c400/tolak/{id}', [PersetujuanC400Controller::class, 'tolakPersetujuanC400Saya']);
+    Route::get('/dosen/persetujuan-c400/detail/{id}', [PersetujuanC400Controller::class, 'detailPersetujuanC400Saya']);
+    Route::get('/dosen/persetujuan-c400/search', [PersetujuanC400Controller::class, 'search']);
+
+    // persetujuan c500
+    Route::get('/dosen/persetujuan-c500', [PersetujuanC500Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c500/terima/{id}', [PersetujuanC500Controller::class, 'terimaPersetujuanC500Saya']);
+    Route::get('/dosen/persetujuan-c500/tolak/{id}', [PersetujuanC500Controller::class, 'tolakPersetujuanC500Saya']);
+    Route::get('/dosen/persetujuan-c500/detail/{id}', [PersetujuanC500Controller::class, 'detailPersetujuanC500Saya']);
+    Route::get('/dosen/persetujuan-c500/search', [PersetujuanC500Controller::class, 'search']);
 
 
      //pengujian saya

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Dosen\PersetujuanC100;
+namespace App\Models\Dosen\PersetujuanC300;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PersetujuanC100Model extends BaseModel
+class PersetujuanC300Model extends BaseModel
 {
     // get all data
     public static function getData()
@@ -18,22 +18,21 @@ class PersetujuanC100Model extends BaseModel
     // get data with pagination
     public static function getDataWithPagination()
     {
-        $userId = Auth::user()->user_id;
-
         return DB::table('kelompok as a')
             ->select('a.*', 'b.nama as nama_topik')
             ->join('topik as b', 'a.id_topik', 'b.id')
-            ->whereNotNull('a.file_status_c100')
-            ->whereNotNull('a.file_name_c100')
-            ->where(function ($query) use ($userId) {
+            ->whereNotNull('a.file_status_c300')
+            ->whereNotNull('a.file_name_c300')
+            ->where(function ($query) {
+                $userId = Auth::user()->user_id;
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);
             })
-            ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
+            ->orderBy('a.is_selesai', 'asc') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
             ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id
             ->paginate(20);
     }
-
+    
 
     // get search
     public static function getDataSearch($no_kel)

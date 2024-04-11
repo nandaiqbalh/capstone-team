@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Dosen\PersetujuanC100;
+namespace App\Models\Dosen\PersetujuanC200;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PersetujuanC100Model extends BaseModel
+class PersetujuanC200Model extends BaseModel
 {
     // get all data
     public static function getData()
@@ -23,8 +23,8 @@ class PersetujuanC100Model extends BaseModel
         return DB::table('kelompok as a')
             ->select('a.*', 'b.nama as nama_topik')
             ->join('topik as b', 'a.id_topik', 'b.id')
-            ->whereNotNull('a.file_status_c100')
-            ->whereNotNull('a.file_name_c100')
+            ->whereNotNull('a.file_status_c200')
+            ->whereNotNull('a.file_name_c200')
             ->where(function ($query) use ($userId) {
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);

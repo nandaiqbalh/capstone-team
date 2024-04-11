@@ -1,24 +1,24 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Persetujuan Dokumen C100
+    Persetujuan Dokumen C500
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Persetujuan Dokumen C100</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Persetujuan Dokumen C500</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Persetujuan Dokumen C100</h5>
+            <h5 class="card-header">Data Persetujuan Dokumen C500</h5>
 
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/dosen/persetujuan-c100/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/dosen/persetujuan-c500/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -48,25 +48,25 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
-                                <th>Status Dokumen C100</th>
-                                <th>Dokumen C100</th>
+                                <th>Status Dokumen C500</th>
+                                <th>Dokumen C500</th>
                                 <th>Posisi Dosen</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($rs_persetujuan_100->count() > 0)
-                                @foreach ($rs_persetujuan_100 as $index => $kelompok)
+                            @if ($rs_persetujuan_500->count() > 0)
+                                @foreach ($rs_persetujuan_500 as $index => $kelompok)
                                     <tr>
-                                        <td class="text-center">{{ $index + $rs_persetujuan_100->firstItem() }}.</td>
+                                        <td class="text-center">{{ $index + $rs_persetujuan_500->firstItem() }}.</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td style="color: {{ $kelompok->status_dokumen_color }}">
-                                            {{ $kelompok->file_status_c100 }}</td>
+                                            {{ $kelompok->file_status_c500 }}</td>
                                         <td>
-                                            @if ($kelompok->file_path_c100 && $kelompok->file_name_c100)
-                                                <a href="{{ asset($kelompok->file_path_c100 . '/' . $kelompok->file_name_c100) }}"
+                                            @if ($kelompok->file_path_c500 && $kelompok->file_name_c500)
+                                                <a href="{{ asset($kelompok->file_path_c500 . '/' . $kelompok->file_name_c500) }}"
                                                     target="_blank">
-                                                    Lihat File C100
+                                                    Lihat File C500
                                                 </a>
                                             @else
                                                 File tidak tersedia
@@ -77,50 +77,48 @@
                                         <td class="text-center">
 
                                             @if ($kelompok->jenis_dosen == 'Pembimbing 1')
-                                                @if ($kelompok->file_status_c100_dosbing1 == 'C100 Telah Disetujui!')
-                                                    <a href="{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}"
+                                                @if ($kelompok->file_status_c500_dosbing1 == 'C500 Telah Disetujui!')
+                                                    <a href="{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_c100_dosbing1 == 'Menunggu Persetujuan C100!')
-                                                    <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_c500_dosbing1 == 'Menunggu Persetujuan C500!')
+                                                    <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
-                                                    <a href="{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif(
-                                                    $kelompok->file_status_c100_dosbing1 == 'C100 Tidak Disetujui Dosbing 1!')
-                                                    <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_c500_dosbing1 == 'C500 Tidak Disetujui Dosbing 1!')
+                                                    <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
                                                     <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @endif
                                             @else
-                                                @if ($kelompok->file_status_c100_dosbing2 == 'C100 Telah Disetujui!')
-                                                    <a href="{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}"
+                                                @if ($kelompok->file_status_c500_dosbing2 == 'C500 Telah Disetujui!')
+                                                    <a href="{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_c100_dosbing2 == 'Menunggu Persetujuan C100!')
-                                                    <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_c500_dosbing2 == 'Menunggu Persetujuan C500!')
+                                                    <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
-                                                    <a href="{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif(
-                                                    $kelompok->file_status_c100_dosbing2 == 'C100 Tidak Disetujui Dosbing 1!')
-                                                    <a href="{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_c500_dosbing2 == 'C500 Tidak Disetujui Dosbing 1!')
+                                                    <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
                                                     <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
@@ -162,12 +160,12 @@
                 <!-- pagination -->
                 <div class="row mt-3 justify-content-between">
                     <div class="col-auto mr-auto">
-                        <p>Menampilkan {{ $rs_persetujuan_100->count() }} dari total
-                            {{ $rs_persetujuan_100->total() }}
+                        <p>Menampilkan {{ $rs_persetujuan_500->count() }} dari total
+                            {{ $rs_persetujuan_500->total() }}
                             data.</p>
                     </div>
                     <div class="col-auto ">
-                        {{ $rs_persetujuan_100->links() }}
+                        {{ $rs_persetujuan_500->links() }}
                     </div>
                 </div>
             </div>

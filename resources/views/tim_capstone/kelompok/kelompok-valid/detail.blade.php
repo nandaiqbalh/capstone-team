@@ -191,7 +191,7 @@
                             <tr>
                                 <td class="text-center">2.</td>
                                 <td>Dokumen C200</td>
-                                <td>
+                                <td style="color: {{ $kelompok->status_c200_color }}">
                                     @if ($kelompok->file_status_c200 !== null)
                                         {{ $kelompok->file_status_c200 }}
                                     @else
@@ -202,7 +202,7 @@
                             <tr>
                                 <td class="text-center">3.</td>
                                 <td>Dokumen C300</td>
-                                <td>
+                                <td style="color: {{ $kelompok->status_c300_color }}">
                                     @if ($kelompok->file_status_c300 !== null)
                                         {{ $kelompok->file_status_c300 }}
                                     @else
@@ -213,7 +213,7 @@
                             <tr>
                                 <td class="text-center">4.</td>
                                 <td>Dokumen C400</td>
-                                <td>
+                                <td style="color: {{ $kelompok->status_c400_color }}">
                                     @if ($kelompok->file_status_c400 !== null)
                                         {{ $kelompok->file_status_c400 }}
                                     @else
@@ -224,7 +224,7 @@
                             <tr>
                                 <td class="text-center">5.</td>
                                 <td>Dokumen C500</td>
-                                <td>
+                                <td style="color: {{ $kelompok->status_c500_color }}">
                                     @if ($kelompok->file_status_c500 !== null)
                                         {{ $kelompok->file_status_c500 }}
                                     @else

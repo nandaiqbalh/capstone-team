@@ -228,6 +228,8 @@ class DokumenMahasiswaController extends BaseController
                     $statusParam = [
                         'status_kelompok' => 'Menunggu Persetujuan C100!',
                         'file_status_c100' => 'Menunggu Persetujuan C100!',
+                        'file_status_c100_dosbing1' => 'Menunggu Persetujuan C100!',
+                        'file_status_c100_dosbing2' => 'Menunggu Persetujuan C100!',
                         'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
                         'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
                     ];
@@ -302,9 +304,12 @@ class DokumenMahasiswaController extends BaseController
 
             // Update status kelompok dan dosen pembimbing terkait
             $statusParam = [
-                'status_kelompok' => 'C200 Telah Disetujui!',
-                'status_dosen_pembimbing_1' => 'C200 Telah Disetujui!',
-                'status_dosen_pembimbing_2' => 'C200 Telah Disetujui!',
+                'status_kelompok' => 'Menunggu Persetujuan C200!',
+                'file_status_c200' => 'Menunggu Persetujuan C200!',
+                'file_status_c200_dosbing1' => 'Menunggu Persetujuan C200!',
+                'file_status_c200_dosbing2' => 'Menunggu Persetujuan C200!',
+                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C200!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C200!',
             ];
             DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
@@ -370,9 +375,12 @@ class DokumenMahasiswaController extends BaseController
 
             // Update status kelompok dan dosen pembimbing terkait
             $statusParam = [
-                'status_kelompok' => 'C300 Telah Disetujui!',
-                'status_dosen_pembimbing_1' => 'C300 Telah Disetujui!',
-                'status_dosen_pembimbing_2' => 'C300 Telah Disetujui!',
+                'status_kelompok' => 'Menunggu Persetujuan C300!',
+                'file_status_c300' => 'Menunggu Persetujuan C300!',
+                'file_status_c300_dosbing1' => 'Menunggu Persetujuan C300!',
+                'file_status_c300_dosbing2' => 'Menunggu Persetujuan C300!',
+                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C300!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C300!',
             ];
             DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
@@ -437,9 +445,12 @@ class DokumenMahasiswaController extends BaseController
 
             // Update status kelompok dan dosen pembimbing terkait
             $statusParam = [
-                'status_kelompok' => 'C400 Telah Disetujui!',
-                'status_dosen_pembimbing_1' => 'C400 Telah Disetujui!',
-                'status_dosen_pembimbing_2' => 'C400 Telah Disetujui!',
+                'status_kelompok' => 'Menunggu Persetujuan C400!',
+                'file_status_c400' => 'Menunggu Persetujuan C400!',
+                'file_status_c400_dosbing1' => 'Menunggu Persetujuan C400!',
+                'file_status_c400_dosbing2' => 'Menunggu Persetujuan C400!',
+                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C400!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C400!',
             ];
             DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
@@ -505,9 +516,12 @@ class DokumenMahasiswaController extends BaseController
 
             // Update status kelompok dan dosen pembimbing terkait
             $statusParam = [
-                'status_kelompok' => 'C500 Telah Disetujui!',
-                'status_dosen_pembimbing_1' => 'C500 Telah Disetujui!',
-                'status_dosen_pembimbing_2' => 'C500 Telah Disetujui!',
+                'status_kelompok' => 'Menunggu Persetujuan C500!',
+                'file_status_c500' => 'Menunggu Persetujuan C500!',
+                'file_status_c500_dosbing1' => 'Menunggu Persetujuan C500!',
+                'file_status_c500_dosbing2' => 'Menunggu Persetujuan C500!',
+                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C500!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C500!',
             ];
             DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
