@@ -34,9 +34,12 @@ class MahasiswaModel extends BaseModel
     public static function getDataById($user_id)
     {
         return DB::table('app_user as a')
-            ->leftJoin('kelompok_mhs as b' ,'a.user_id', 'b.id_mahasiswa')
-            ->leftJoin('siklus as c','b.id_siklus','c.id')
-            ->where('user_id', $user_id)->first();
+        ->select('a.*', 'b.*', 'c.*', 'd.*')
+       ->leftJoin('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
+       ->leftJoin('kelompok as c', 'b.id_kelompok', 'c.id')
+       ->leftJoin('siklus as d', 'b.id_siklus', 'd.id')
+       ->where('a.user_id', $user_id)
+       ->first();
     }
 
     public static function peminatanMahasiswa()

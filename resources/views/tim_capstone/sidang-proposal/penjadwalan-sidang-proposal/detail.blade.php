@@ -53,17 +53,6 @@
                                 @endif
                             </tr>
                             <tr>
-                                <td>Status Dokumen C100</td>
-                                <td>:</td>
-
-                                @if ($kelompok->file_status_c100 == null)
-                                    <td>-</td>
-                                @else
-                                    <td style="color: {{ $kelompok->status_dokumen_color }}">
-                                        {{ $kelompok->file_status_c100 }}</td>
-                                @endif
-                            </tr>
-                            <tr>
                                 <td>Status Sidang Proposal</td>
                                 <td>:</td>
 
@@ -77,6 +66,18 @@
                                         {{ $kelompok->status_sidang_proposal }}</td>
                                 @endif
                             </tr>
+                            <tr>
+                                <td>Status Dokumen C100</td>
+                                <td>:</td>
+
+                                @if ($kelompok->file_status_c100 == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_dokumen_color }}">
+                                        {{ $kelompok->file_status_c100 }}</td>
+                                @endif
+                            </tr>
+
                             <tr>
                                 <td>Hari, tanggal</td>
                                 <td>:</td>

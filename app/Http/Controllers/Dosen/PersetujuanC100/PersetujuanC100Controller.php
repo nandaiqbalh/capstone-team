@@ -89,14 +89,12 @@ class PersetujuanC100Controller extends BaseController
 
                     $paramsUpdated = [
                         'status_kelompok' => 'C100 Tidak Disetujui!',
-                        'status_sidang_proposal' => NULL,
                     ];
                     // Update status kelompok
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 } else {
                     $paramsUpdated = [
                         'status_kelompok' => 'Menunggu Persetujuan Penguji!',
-                        'status_sidang_proposal' => NULL,
                     ];
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 }
@@ -144,11 +142,20 @@ class PersetujuanC100Controller extends BaseController
                 if ($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Telah Disetujui!" &&
                     $persetujuan_c100_updated->status_dosen_pembimbing_2 == "C100 Telah Disetujui!" ) {
 
-                    $paramsUpdated = [
-                        'status_kelompok' => 'C100 Telah Disetujui!',
-                        'status_sidang_proposal'=> "Menunggu Dijadwalkan Sidang!",
-                        'file_status_c100'=> "C100 Telah Disetujui!",
-                    ];
+                        if ($persetujuan_c100_updated->status_sidang_proposal != null) {
+                            $paramsUpdated = [
+                                'status_kelompok' => 'C100 Telah Disetujui!',
+                                'file_status_c100'=> "C100 Telah Disetujui!",
+                            ];
+                        } else{
+                            $paramsUpdated = [
+                                'status_kelompok' => 'C100 Telah Disetujui!',
+                                'status_sidang_proposal'=> "Menunggu Dijadwalkan Sidang!",
+                                'file_status_c100'=> "C100 Telah Disetujui!",
+                            ];
+                        }
+
+
                     // Update status kelompok
                     PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 } elseif($persetujuan_c100_updated->status_dosen_pembimbing_1 == "C100 Telah Disetujui!"){

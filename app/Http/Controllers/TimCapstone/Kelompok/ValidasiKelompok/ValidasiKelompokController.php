@@ -56,6 +56,28 @@ class ValidasiKelompokController extends BaseController
 
         }
 
+        $rs_peminatan = ValidasiKelompokModel::getPeminatan();
+
+        foreach ($rs_mahasiswa_nokel as $key => $mahasiswa) {
+            foreach ($rs_topik as $key => $topik) {
+                if ($topik->id == $mahasiswa->id_topik_individu1) {
+                    $mahasiswa->prioritas_topik = $topik->nama;
+                    break; // Exit the loop once the first match is found
+                } else {
+                    $mahasiswa->prioritas_topik = "Belum memilih";
+                }
+            }
+
+            foreach ($rs_peminatan as $key => $peminatan) {
+                if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
+                    $mahasiswa->prioritas_peminatan = $peminatan->nama_peminatan;
+                    break; // Exit the loop once the first match is found
+                } else {
+                    $mahasiswa->prioritas_peminatan = "Belum memilih";
+                }
+            }
+        }
+
         $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
         $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
         $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
@@ -291,7 +313,7 @@ class ValidasiKelompokController extends BaseController
                 "status_individu" => "Kelompok Telah Disetujui!",
             ];
 
-            if (ValidasiKelompokModel::updateKelompokMHSBasedOnKelompok($request -> pid, $paramsMhsBasedOnKelompok)) {
+            if (ValidasiKelompokModel::updateKelompokMHSBasedOnKelompok($request->id, $paramsMhsBasedOnKelompok)) {
                 session()->flash('success', 'Data berhasil disimpan.');
             } else {
                 session()->flash('danger', 'Gagal mengubah status mahasiswa.');

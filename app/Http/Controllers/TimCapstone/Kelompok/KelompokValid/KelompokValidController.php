@@ -91,8 +91,15 @@ class KelompokValidController extends BaseController
 
         // status color
         $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
         $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
         $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+        $kelompok -> status_c100_color = $this->getStatusColor($kelompok->file_status_c100);
+        $kelompok -> status_c200_color = $this->getStatusColor($kelompok->file_status_c200);
+        $kelompok -> status_c300_color = $this->getStatusColor($kelompok->file_status_c300);
+        $kelompok -> status_c400_color = $this->getStatusColor($kelompok->file_status_c400);
+        $kelompok -> status_c500_color = $this->getStatusColor($kelompok->file_status_c500);
 
         // data
         $data = [

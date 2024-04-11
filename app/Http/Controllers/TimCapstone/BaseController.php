@@ -271,6 +271,7 @@ class BaseController extends Controller
                 'Menunggu Persetujuan Laporan TA!',
                 'Menunggu Persetujuan Makalah TA!',
                 'Menunggu Persetujuan Penguji!',
+                'Menunggu Persetujuan Pembimbing!',
                 'Menunggu Penjadwalan Sidang TA!'
             ],
             'ijo' => [

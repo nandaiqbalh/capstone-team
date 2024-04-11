@@ -199,7 +199,7 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Pendamping Setuju!" &&
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Pembimbing Setuju!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Setuju!" &&
                     $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Setuju!") {
 

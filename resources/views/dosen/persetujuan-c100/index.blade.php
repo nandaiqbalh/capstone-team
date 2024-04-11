@@ -66,9 +66,9 @@
                                             {{ $kelompok->file_status_c100 }}</td>
                                         @if (
                                             $kelompok->status_dosen == 'Menunggu Persetujuan C100!' ||
-                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 1' ||
-                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 2' ||
-                                                $kelompok->status_dosen == 'C100 Telah Disetujui')
+                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 1!' ||
+                                                $kelompok->status_dosen == 'C100 Tidak Disetujui Dosbing 2!' ||
+                                                $kelompok->status_dosen == 'C100 Telah Disetujui!')
                                             <td style="color: {{ $kelompok->status_dosen_color }}">
                                                 {{ $kelompok->status_dosen }}</td>
                                             <td>

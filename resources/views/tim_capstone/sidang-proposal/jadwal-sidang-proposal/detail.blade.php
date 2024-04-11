@@ -191,8 +191,15 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
-
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_pembimbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
+                                            <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else
@@ -226,8 +233,15 @@
                                         <td>{{ $penguji_proposal->user_name }}</td>
                                         <td>{{ $penguji_proposal->nomor_induk }}</td>
                                         <td>{{ $penguji_proposal->jenis_dosen }}</td>
-                                        <td>{{ $penguji_proposal->status_dosen }}</td>
-
+                                        @if ($penguji_proposal->jenis_dosen == 'Penguji 1')
+                                            <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                                {{ $penguji_proposal->status_dosen }}</td>
+                                        @elseif($penguji_proposal->jenis_dosen == 'Penguji 2')
+                                            <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                                {{ $penguji_proposal->status_dosen }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else

@@ -75,6 +75,7 @@
                                 <th>Status Kelompok</th>
                                 <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
+                                <th>Status Saya</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
@@ -92,8 +93,9 @@
                                         <td style="color: {{ $kelompok->status_kelompok_color }}">
                                             {{ $kelompok->status_kelompok }}</td>
                                         <td>{{ $kelompok->nama_siklus }}</td>
-
                                         <td>{{ $kelompok->jenis_dosen }}</td>
+                                        <td style="color: {{ $kelompok->status_dosen_color }}">
+                                            {{ $kelompok->status_dosen }}</td>
 
                                         <td class="text-center">
                                             @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui!')

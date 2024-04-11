@@ -13,7 +13,7 @@
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Detail Mahasiswa</h5>
+                <h5 class="mb-0">Data Diri Mahasiswa</h5>
                 <small class="text-muted float-end">
                     <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-secondary btn-xs float-right"><i
                             class="bx bx-chevron-left"></i> Kembali</a>
@@ -35,11 +35,6 @@
                                 <td>Nama</td>
                                 <td>:</td>
                                 <td>{{ $mahasiswa->user_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Usulan Judul Capstone</td>
-                                <td>:</td>
-                                <td>{{ $mahasiswa->usulan_judul_capstone }}</td>
                             </tr>
                             <tr>
                                 <td>NIM</td>
@@ -76,6 +71,55 @@
                                 <td>:</td>
                                 <td>{{ $mahasiswa->jenis_kelamin }}</td>
                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <h5 class="mb-0">Data Pengerjaan Capstone TA</h5>
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th width="20%"></th>
+                                <th width="5%"></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nomor Kelompok</td>
+                                <td>:</td>
+                                <td>{{ $mahasiswa->nomor_kelompok }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status Kelompok</td>
+                                <td>:</td>
+                                <td style="color: {{ $mahasiswa->status_kelompok_color }}">
+                                    {{ $mahasiswa->status_kelompok }}</td>
+                            </tr>
+                            <tr>
+                                <td>Siklus Pendaftaran</td>
+                                <td>:</td>
+                                <td>{{ $mahasiswa->nama_siklus }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status Individu</td>
+                                <td>:</td>
+                                <td style="color: {{ $mahasiswa->status_individu_color }}">
+                                    {{ $mahasiswa->status_individu }}</td>
+                            </tr>
+                            <tr>
+                                <td>Judul Capstone</td>
+                                <td>:</td>
+                                <td>{{ $mahasiswa->judul_capstone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Judul Tugas Akhir</td>
+                                <td>:</td>
+                                <td>{{ $mahasiswa->judul_ta_mhs }}</td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>

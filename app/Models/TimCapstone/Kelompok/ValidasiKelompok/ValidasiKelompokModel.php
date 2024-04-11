@@ -24,6 +24,9 @@ class ValidasiKelompokModel extends BaseModel
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', NULL)
             ->where('a.status_kelompok', "Menunggu Persetujuan Tim Capstone!")
+            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Anggota!")
+            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
+            ->orWhere('a.status_kelompok', "Menunggu Penetapan Dosbing!")
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -185,6 +188,12 @@ class ValidasiKelompokModel extends BaseModel
             ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
             ->where('a.id_topik_individu1', $id_topik)
             ->where('a.id_kelompok', null)
+            ->get();
+    }
+
+    public static function getPeminatan()
+    {
+        return DB::table('peminatan')
             ->get();
     }
 

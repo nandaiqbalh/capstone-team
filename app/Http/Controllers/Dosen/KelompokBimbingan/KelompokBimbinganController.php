@@ -31,7 +31,7 @@ class KelompokBimbinganController extends BaseController
             } else {
                 $bimbingan->jenis_dosen = 'Belum Diplot';
             }
-
+            $bimbingan -> status_dosen_color = $this->getStatusColor($bimbingan->status_dosen);
             $bimbingan -> status_kelompok_color = $this->getStatusColor($bimbingan->status_kelompok);
         }
         // data

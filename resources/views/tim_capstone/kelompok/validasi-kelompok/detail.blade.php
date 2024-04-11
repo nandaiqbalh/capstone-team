@@ -113,7 +113,7 @@
                             </div>
                         </form>
                     @else
-                        < <form action="{{ url('/admin/validasi-kelompok/edit-kelompok-process') }}" method="post"
+                        <form action="{{ url('/admin/validasi-kelompok/edit-kelompok-process') }}" method="post"
                             autocomplete="off">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{ $kelompok->id }}">
@@ -179,7 +179,7 @@
                             <div class="float-end">
                                 <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
                             </div>
-                            </form>
+                        </form>
                     @endif
 
                 </div>
@@ -313,7 +313,8 @@
                             <option value="" disabled selected>-- Pilih --</option>
                             @foreach ($rs_mahasiswa_nokel as $mahasiswa_nokel)
                                 <option value="{{ $mahasiswa_nokel->user_id }}"
-                                    @if (old('id_mahasiswa_nokel') == '{{ $mahasiswa_nokel->user_id }}') selected @endif>{{ $mahasiswa_nokel->user_name }}
+                                    @if (old('id_mahasiswa_nokel') == '{{ $mahasiswa_nokel->user_id }}') selected @endif>{{ $mahasiswa_nokel->user_name }} ||
+                                    {{ $mahasiswa_nokel->prioritas_peminatan }}
                                 </option>
                             @endforeach
                         </select>

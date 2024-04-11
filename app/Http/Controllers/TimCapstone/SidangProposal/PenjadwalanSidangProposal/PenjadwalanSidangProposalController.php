@@ -22,6 +22,7 @@ class PenjadwalanSidangProposalController extends BaseController
             $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
             $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
             $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+            $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
 
         }
         // data
@@ -247,24 +248,6 @@ class PenjadwalanSidangProposalController extends BaseController
 
     public function addJadwalProcess(Request $request)
     {
-        // Validasi pilihan dosen penguji
-        if ($request->id_dosen_penguji_1 == null || $request->id_dosen_penguji_2 == null) {
-            session()->flash('danger', 'Dosen penguji 1 dan penguji 2 harus dipilih.');
-            return back()->withInput();
-        }
-
-        // Validasi overlapping schedule
-        $overlap = PenjadwalanSidangProposalModel::checkOverlap($request->waktu, $request->waktu_selesai, $request->ruangan_id);
-        if ($overlap) {
-            session()->flash('danger', 'Ruangan tersebut sudah terjadwal pada waktu yang sama.');
-            return back()->withInput();
-        }
-
-        // Validasi waktu mulai dan selesai
-        if ($request->waktu >= $request->waktu_selesai) {
-            session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
-            return back()->withInput();
-        }
 
         // Memasukkan atau memperbarui jadwal sidang proposal
         $params = [
@@ -293,6 +276,24 @@ class PenjadwalanSidangProposalController extends BaseController
                 session()->flash('danger', 'Gagal memperbarui data.');
             }
         } else {
+             // Validasi pilihan dosen penguji
+            if ($request->id_dosen_penguji_1 == null || $request->id_dosen_penguji_2 == null) {
+                session()->flash('danger', 'Dosen penguji 1 dan penguji 2 harus dipilih.');
+                return back()->withInput();
+            }
+
+            // Validasi overlapping schedule
+            $overlap = PenjadwalanSidangProposalModel::checkOverlap($request->waktu, $request->waktu_selesai, $request->ruangan_id);
+            if ($overlap) {
+                session()->flash('danger', 'Ruangan tersebut sudah terjadwal pada waktu yang sama.');
+                return back()->withInput();
+            }
+
+            // Validasi waktu mulai dan selesai
+            if ($request->waktu >= $request->waktu_selesai) {
+                session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
+                return back()->withInput();
+            }
             // Melakukan insert jadwal sidang proposal baru
             $insert = PenjadwalanSidangProposalModel::insertJadwalSidangProposal($params);
             if ($insert) {
