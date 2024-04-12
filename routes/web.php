@@ -395,11 +395,11 @@ Route::middleware(['auth', 'role:04'])->group(function () {
     Route::get('/dosen/persetujuan-c500/search', [PersetujuanC500Controller::class, 'search']);
 
     // persetujuan laporan
-    Route::get('/dosen/persetujuan-laporan-ta', [PersetujuanLaporanTAController::class, 'index']);
-    Route::get('/dosen/persetujuan-laporan-ta/terima/{id}', [PersetujuanLaporanTAController::class, 'terimaPersetujuanLaporanTASaya']);
-    Route::get('/dosen/persetujuan-laporan-ta/tolak/{id}', [PersetujuanLaporanTAController::class, 'tolakPersetujuanLaporanTASaya']);
-    Route::get('/dosen/persetujuan-laporan-ta/detail/{id}', [PersetujuanLaporanTAController::class, 'detailPersetujuanLaporanTASaya']);
-    Route::get('/dosen/persetujuan-laporan-ta/search', [PersetujuanLaporanTAController::class, 'search']);
+    Route::get('/dosen/persetujuan-lta', [PersetujuanLaporanTAController::class, 'index']);
+    Route::get('/dosen/persetujuan-lta/terima/{id}', [PersetujuanLaporanTAController::class, 'terimaPersetujuanLaporanTASaya']);
+    Route::get('/dosen/persetujuan-lta/tolak/{id}', [PersetujuanLaporanTAController::class, 'tolakPersetujuanLaporanTASaya']);
+    Route::get('/dosen/persetujuan-lta/detail/{id}', [PersetujuanLaporanTAController::class, 'detailPersetujuanLaporanTASaya']);
+    Route::get('/dosen/persetujuan-lta/search', [PersetujuanLaporanTAController::class, 'search']);
 
 
      //pengujian saya

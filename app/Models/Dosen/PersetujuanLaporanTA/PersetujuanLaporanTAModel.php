@@ -21,10 +21,12 @@ class PersetujuanLaporanTAModel extends BaseModel
         $userId = Auth::user()->user_id;
 
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik')
+            ->select('a.*', 'b.nama as nama_topik', 'c.*', 'u.user_name') // Memilih kolom-kolom dari tabel yang diperlukan
             ->join('topik as b', 'a.id_topik', 'b.id')
-            ->whereNotNull('a.file_status_c500')
-            ->whereNotNull('a.file_name_c500')
+            ->join('kelompok_mhs as c', 'a.id', 'c.id_kelompok') // Join dengan tabel kelompok_mhs
+            ->join('app_user as u', 'c.id_mahasiswa', 'u.user_id') // Join dengan tabel users untuk mendapatkan username
+            ->whereNotNull('c.file_status_lta')
+            ->whereNotNull('c.file_name_laporan_ta')
             ->where(function ($query) use ($userId) {
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);
@@ -50,9 +52,8 @@ class PersetujuanLaporanTAModel extends BaseModel
     // get data by id
     public static function getDataById($id)
     {
-        return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik')
-            ->join('topik as b','a.id_topik', 'b.id')
+        return DB::table('kelompok_mhs as a')
+            ->select('a.*')
             ->where('a.id', $id)->first();
     }
 
@@ -82,6 +83,11 @@ class PersetujuanLaporanTAModel extends BaseModel
     public static function updateKelompok($id_kelompok, $params)
     {
         return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
+    }
+
+    public static function updateKelompokMhs($id_kel_mhs, $params)
+    {
+        return DB::table('kelompok_mhs')->where('id', $id_kel_mhs)->update($params);
     }
 
 }

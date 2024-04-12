@@ -15,58 +15,56 @@ class PersetujuanLaporanTAController extends BaseController
     public function index()
     {
         // get data with pagination
-        $rs_persetujuan_500 = PersetujuanLaporanTAModel::getDataWithPagination();
+        $rs_persetujuan_lta = PersetujuanLaporanTAModel::getDataWithPagination();
 
-        foreach ($rs_persetujuan_500 as $persetujuan_c500) {
-            if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
-                $persetujuan_c500->jenis_dosen = 'Pembimbing 1';
-                $persetujuan_c500 -> status_dosen = $persetujuan_c500 ->status_dosen_pembimbing_1;
+        foreach ($rs_persetujuan_lta as $persetujuan_lta) {
+            if ($persetujuan_lta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                $persetujuan_lta->jenis_dosen = 'Pembimbing 1';
+                $persetujuan_lta -> status_dosen = $persetujuan_lta ->status_dosen_pembimbing_1;
 
-            } else if ($persetujuan_c500->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                $persetujuan_c500->jenis_dosen = 'Pembimbing 2';
-                $persetujuan_c500 -> status_dosen = $persetujuan_c500 ->status_dosen_pembimbing_2;
+            } else if ($persetujuan_lta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                $persetujuan_lta->jenis_dosen = 'Pembimbing 2';
+                $persetujuan_lta -> status_dosen = $persetujuan_lta ->status_dosen_pembimbing_2;
             } else {
-                $persetujuan_c500->jenis_dosen = 'Belum diplot';
-                $persetujuan_c500->status_dosen = 'Belum diplot';
+                $persetujuan_lta->jenis_dosen = 'Belum diplot';
+                $persetujuan_lta->status_dosen = 'Belum diplot';
             }
 
-            $persetujuan_c500 -> status_dokumen_color = $this->getStatusColor($persetujuan_c500->file_status_c500);
-            $persetujuan_c500 -> status_dosen_color = $this->getStatusColor($persetujuan_c500->status_dosen);
+            $persetujuan_lta -> status_dokumen_color = $this->getStatusColor($persetujuan_lta->file_status_lta);
+            $persetujuan_lta -> status_dosen_color = $this->getStatusColor($persetujuan_lta->status_dosen);
 
         }
 
         // data
-        $data = ['rs_persetujuan_500' => $rs_persetujuan_500];
+        $data = ['rs_persetujuan_lta' => $rs_persetujuan_lta];
         // view
-        return view('dosen.persetujuan-c500.index', $data);
+        return view('dosen.persetujuan-lta.index', $data);
     }
 
 
     public function tolakPersetujuanLaporanTASaya(Request $request, $id)
     {
 
-        $rs_persetujuan_500 = PersetujuanLaporanTAModel::getDataWithPagination();
+        $rs_persetujuan_lta = PersetujuanLaporanTAModel::getDataWithPagination();
 
         $params = []; // Initialize $params outside the loop
 
         $jenis_dosen = ""; // Move the declaration outside the loop
 
-        foreach ($rs_persetujuan_500 as $persetujuan_c500) {
-            if ($persetujuan_c500->id == $id) {
-                if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+        foreach ($rs_persetujuan_lta as $persetujuan_lta) {
+            if ($persetujuan_lta->id == $id) {
+                if ($persetujuan_lta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'C500 Tidak Disetujui Dosbing 1!',
-                        'file_status_c500_dosbing1' => 'C500 Tidak Disetujui Dosbing 1!',
-                        'file_status_c500' => 'C500 Tidak Disetujui Dosbing 1!',
+                        'file_status_lta_dosbing1' => 'Laporan TA Tidak Disetujui Dosbing 1!',
+                        'file_status_lta' => 'Laporan TA Tidak Disetujui Dosbing 1!',
                     ];
                     break;
-                } else if ($persetujuan_c500->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                } else if ($persetujuan_lta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'C500 Tidak Disetujui Dosbing 2!',
-                        'file_status_c500_dosbing2' => 'C500 Tidak Disetujui Dosbing 2!',
-                        'file_status_c500' => 'C500 Tidak Disetujui Dosbing 2!',
+                        'file_status_lta_dosbing2' => 'Laporan TA Tidak Disetujui Dosbing 2!',
+                        'file_status_lta' => 'Laporan TA Tidak Disetujui Dosbing 2!',
                     ];
                     break;
                 }
@@ -76,59 +74,37 @@ class PersetujuanLaporanTAController extends BaseController
         // Check if $params is still empty, indicating no matching condition was met
         if (empty($params)) {
             session()->flash('danger', 'No matching condition found for the user.');
-            return redirect('/dosen/persetujuan-c500');
+            return redirect('/dosen/persetujuan-lta');
         }
 
         // process
-        if (PersetujuanLaporanTAModel::updateKelompok($id, $params)) {
-
-            $paramsUpdated = [];
-            $persetujuan_c500_updated = PersetujuanLaporanTAModel::getDataById($id);
-
-            if ($persetujuan_c500_updated->id == $id) {
-                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" ||
-                    $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2!") {
-
-                    $paramsUpdated = [
-                        'status_kelompok' => 'C500 Tidak Disetujui!',
-                    ];
-                    // Update status kelompok
-                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
-                } else {
-                    $paramsUpdated = [
-                        'status_kelompok' => 'Menunggu Persetujuan Penguji!',
-                    ];
-                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
-                }
-            }
+        if (PersetujuanLaporanTAModel::updateKelompokMhs($id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/dosen/persetujuan-c500');
+            return redirect('/dosen/persetujuan-lta');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/dosen/persetujuan-c500');
+            return redirect('/dosen/persetujuan-lta');
         }
     }
 
 
     public function terimaPersetujuanLaporanTASaya(Request $request, $id)
     {
-        $rs_persetujuan_500 = PersetujuanLaporanTAModel::getDataWithPagination();
+        $rs_persetujuan_lta = PersetujuanLaporanTAModel::getDataWithPagination();
         $params = [];
 
-        foreach ($rs_persetujuan_500 as $persetujuan_c500) {
-            if ($persetujuan_c500->id == $id) {
-                if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+        foreach ($rs_persetujuan_lta as $persetujuan_lta) {
+            if ($persetujuan_lta->id == $id) {
+                if ($persetujuan_lta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $params = [
-                        'status_dosen_pembimbing_1' => 'C500 Telah Disetujui!',
-                        'file_status_c500_dosbing1' => 'C500 Telah Disetujui!'
+                        'file_status_lta_dosbing1' => 'Laporan TA Telah Disetujui!'
                     ];
                     break;
-                } else if ($persetujuan_c500->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                } else if ($persetujuan_lta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $params = [
-                        'status_dosen_pembimbing_2' => 'C500 Telah Disetujui!',
-                        'file_status_c500_dosbing2' => 'C500 Telah Disetujui!'
+                        'file_status_lta_dosbing2' => 'Laporan TA Telah Disetujui!'
                     ];
 
                     break;
@@ -139,46 +115,42 @@ class PersetujuanLaporanTAController extends BaseController
         // Check if $params is still empty, indicating no matching condition was met
         if (empty($params)) {
             session()->flash('danger', 'Tidak ditemukan kondisi yang cocok untuk pengguna.');
-            return redirect('/dosen/persetujuan-c500');
+            return redirect('/dosen/persetujuan-lta');
         }
 
        // Process update
-        if (PersetujuanLaporanTAModel::updateKelompok($id, $params)) {
+        if (PersetujuanLaporanTAModel::updateKelompokMhs($id, $params)) {
             $paramsUpdated = [];
-            $persetujuan_c500_updated = PersetujuanLaporanTAModel::getDataById($id);
+            $persetujuan_lta_updated = PersetujuanLaporanTAModel::getDataById($id);
 
-            if ($persetujuan_c500_updated->id == $id) {
-                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui!" &&
-                    $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui!" ) {
+            if ($persetujuan_lta_updated->id == $id) {
+                if ($persetujuan_lta_updated->file_status_lta_dosbing1 == "Laporan TA Telah Disetujui!" &&
+                    $persetujuan_lta_updated->file_status_lta_dosbing2 == "Laporan TA Telah Disetujui!" ) {
 
                     $paramsUpdated = [
-                        'status_kelompok' => 'C500 Telah Disetujui!',
-                        'file_status_c500'=> "C500 Telah Disetujui!",
+                        'file_status_lta'=> "Laporan TA Telah Disetujui!",
                     ];
 
                     // Update status kelompok
-                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui!"){
+                    PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
+                } elseif($persetujuan_lta_updated->file_status_lta_dosbing1 == "Laporan TA Telah Disetujui!"){
                     $paramsUpdated = [
-                        'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 2!',
-                        'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 2!",
+                        'file_status_lta'=> "Laporan TA Menunggu Persetujuan Dosbing 2!",
                     ];
 
-                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui!"){
+                    PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
+                } elseif($persetujuan_lta_updated->file_status_lta_dosbing2 == "Laporan TA Telah Disetujui!"){
                     $paramsUpdated = [
-                        'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 1!',
-                        'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 1!",
+                        'file_status_lta'=> "Laporan TA Menunggu Persetujuan Dosbing 1!",
                     ];
 
-                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
                 } else {
                     $paramsUpdated = [
-                        'status_kelompok' => 'Menunggu Persetujuan C500!',
-                        'file_status_c500'=> "Menunggu Persetujuan C500!",
+                        'file_status_lta'=> "Menunggu Persetujuan Laporan TA!",
                     ];
 
-                    PersetujuanLaporanTAModel::updateKelompok($id, $paramsUpdated);
+                    PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
 
                 }
 
@@ -192,7 +164,7 @@ class PersetujuanLaporanTAController extends BaseController
             session()->flash('danger', 'Data gagal disimpan.');
         }
 
-        return redirect('/dosen/persetujuan-c500');
+        return redirect('/dosen/persetujuan-lta');
     }
 
 
@@ -208,9 +180,9 @@ class PersetujuanLaporanTAController extends BaseController
             // data
             $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
             // view
-            return view('dosen.persetujuan-c500.index', $data);
+            return view('dosen.persetujuan-lta.index', $data);
         } else {
-            return view('dosen/persetujuan-c500', $data);
+            return view('dosen/persetujuan-lta', $data);
         }
     }
 

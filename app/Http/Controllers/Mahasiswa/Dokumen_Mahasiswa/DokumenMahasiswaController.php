@@ -92,12 +92,22 @@ class DokumenMahasiswaController extends BaseController
             // Update informasi file makalah pada database
             $params = [
                 'file_name_makalah' => $new_file_name,
-                'file_path_makalah' => $upload_path
+                'file_path_makalah' => $upload_path,
+                'file_status_mka' => 'Menunggu Persetujuan Makalah TA!',
+                'file_status_mka_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
+                'file_status_mka_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
+                'status_individu' => 'Menunggu Persetujuan Makalah TA!',
             ];
-            DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
+            $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
 
-            session()->flash('success', 'Berhasil mengunggah dokumen!');
-            return redirect()->back();
+            if ($uploadFileMhs) {
+                session()->flash('success', 'Berhasil mengunggah dokumen!');
+                return redirect()->back();
+
+            } else {
+                session()->flash('danger', 'Gagal mengunggah! Dokumen Makalah TA tidak ditemukan!');
+                return redirect()->back()->withInput();
+            }
         }
 
         session()->flash('danger', 'Gagal mengunggah! Dokumen makalah tidak ditemukan!');
@@ -148,7 +158,11 @@ class DokumenMahasiswaController extends BaseController
             // Update informasi file laporan_ta pada database
             $params = [
                 'file_name_laporan_ta' => $new_file_name,
-                'file_path_laporan_ta' => $upload_path
+                'file_path_laporan_ta' => $upload_path,
+                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
+                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
+                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
+                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
             ];
 
             $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
@@ -303,18 +317,24 @@ class DokumenMahasiswaController extends BaseController
             }
 
             // Update status kelompok dan dosen pembimbing terkait
-            $statusParam = [
-                'status_kelompok' => 'Menunggu Persetujuan C200!',
-                'file_status_c200' => 'Menunggu Persetujuan C200!',
-                'file_status_c200_dosbing1' => 'Menunggu Persetujuan C200!',
-                'file_status_c200_dosbing2' => 'Menunggu Persetujuan C200!',
-                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C200!',
-                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C200!',
+            $params = [
+                'file_name_laporan_ta' => $new_file_name,
+                'file_path_laporan_ta' => $upload_path,
+                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
+                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
+                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
+                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
             ];
-            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
+            $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
 
-            session()->flash('success', 'Berhasil mengunggah dokumen C200!');
-            return redirect()->back();
+            if ($uploadFileMhs) {
+                session()->flash('success', 'Berhasil mengunggah dokumen!');
+                return redirect()->back();
+
+            } else {
+                session()->flash('danger', 'Gagal mengunggah! Dokumen Laporan TA tidak ditemukan!');
+                return redirect()->back()->withInput();
+            }
         }
 
         session()->flash('danger', 'Gagal mengunggah! Dokumen C200 tidak ditemukan!');

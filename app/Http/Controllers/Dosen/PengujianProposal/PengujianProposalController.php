@@ -235,7 +235,6 @@ class PengujianProposalController extends BaseController
         }
     }
 
-
     public function terimaPengujianProposalSaya(Request $request, $id)
     {
         $rs_pengujian_proposal = PengujianProposalModel::getDataWithPagination();

@@ -139,16 +139,17 @@ class ApiDokumenController extends Controller
                         $params = [
                             'file_name_makalah' => $newFileName,
                             'file_path_makalah' => $uploadPath,
+                            'file_status_mka' => 'Menunggu Persetujuan Makalah TA!',
+                            'file_status_mka_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
+                            'file_status_mka_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
+                            'status_individu' => 'Menunggu Persetujuan Makalah TA!',
+
                         ];
 
                         $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
 
                         if ($uploadFile) {
                             $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlMakalah);
-                            $statusParam = [
-                                'status_individu' => 'Mengunggah Laporan TA',
-                            ];
-                            ApiDokumenModel::uploadFileMHS($user->user_id, $statusParam);
                         } else {
                             $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                         }
@@ -239,6 +240,10 @@ class ApiDokumenController extends Controller
                             $params = [
                                 'file_name_laporan_ta' => $newFileName,
                                 'file_path_laporan_ta' => $uploadPath,
+                                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
+                                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
+                                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
+                                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
