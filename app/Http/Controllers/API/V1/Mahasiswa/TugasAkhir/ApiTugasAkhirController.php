@@ -159,6 +159,15 @@ class ApiTugasAkhirController extends Controller
                      $dokumen_mahasiwa = ApiTugasAkhirModel::fileMHS($user ->user_id);
                     if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null && $dokumen_mahasiwa -> file_name_makalah != null) {
                         // Registration parameters
+
+                        if ($dokumen_mahasiwa->file_status_lta != "Laporan TA Telah Disetujui!") {
+                            return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
+                        }
+
+                        if ($dokumen_mahasiwa->file_status_mta != "Makalah TA Telah Disetujui!") {
+                            return $this->failureResponse('Makalah TA belum disetujui kedua dosen pembimbing!');
+                        }
+
                         if ($kelompok -> status_expo == "Lulus Expo Project!") {
                             $registrationParams = [
                                 'id_mahasiswa' => $user->user_id,

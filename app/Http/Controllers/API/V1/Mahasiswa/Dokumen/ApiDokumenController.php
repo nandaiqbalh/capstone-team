@@ -111,48 +111,50 @@ class ApiDokumenController extends Controller
 
                     if ($existingFile -> file_name_laporan_ta != null) {
 
-                    $file = $request->file('makalah');
-
-                    // Generate a unique file name
-                    $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                    // Check if the folder exists, if not, create it
-                    if (!is_dir(public_path($uploadPath))) {
-                        mkdir(public_path($uploadPath), 0755, true);
-                    }
-
-
-
-                    if ($existingFile->file_name_makalah) {
-                        $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
-
-                        if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama!');
+                        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+                            return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
                         }
-                    }
 
-                    // Move the uploaded file to the specified path
-                    if ($file->move(public_path($uploadPath), $newFileName)) {
-                        // Save the new file details in the database
-                        $urlMakalah = url($uploadPath . '/' . $newFileName);
+                        $file = $request->file('makalah');
 
-                        $params = [
-                            'file_name_makalah' => $newFileName,
-                            'file_path_makalah' => $uploadPath,
-                            'file_status_mka' => 'Menunggu Persetujuan Makalah TA!',
-                            'file_status_mka_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
-                            'file_status_mka_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
-                            'status_individu' => 'Menunggu Persetujuan Makalah TA!',
+                        // Generate a unique file name
+                        $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-                        ];
-
-                        $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
-
-                        if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlMakalah);
-                        } else {
-                            $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
+                        // Check if the folder exists, if not, create it
+                        if (!is_dir(public_path($uploadPath))) {
+                            mkdir(public_path($uploadPath), 0755, true);
                         }
+
+                        if ($existingFile->file_name_makalah) {
+                            $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
+
+                            if (file_exists($filePath) && !unlink($filePath)) {
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama!');
+                            }
+                        }
+
+                        // Move the uploaded file to the specified path
+                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                            // Save the new file details in the database
+                            $urlMakalah = url($uploadPath . '/' . $newFileName);
+
+                            $params = [
+                                'file_name_makalah' => $newFileName,
+                                'file_path_makalah' => $uploadPath,
+                                'file_status_mta' => 'Menunggu Persetujuan Makalah TA!',
+                                'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
+                                'file_status_mta_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
+                                'status_individu' => 'Menunggu Persetujuan Makalah TA!',
+
+                            ];
+
+                            $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
+
+                            if ($uploadFile) {
+                                $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlMakalah);
+                            } else {
+                                $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
+                            }
                     } else {
                         $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                     }

@@ -109,8 +109,13 @@ class MahasiswaExpoController extends BaseController
             return redirect()->back()->with('danger', 'Dokumen C500 belum disetujui kedua dosen pembimbing!');
         }
 
-        // Validasi laporan TA sudah diunggah
         $existingFile = MahasiswaExpoModel::fileMHS(Auth::user()->user_id);
+
+        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
+        }
+
+        // Validasi laporan TA sudah diunggah
         if (!$existingFile || !$existingFile->file_name_laporan_ta) {
             return redirect()->back()->with('danger', 'Lengkapi laporan TA terlebih dahulu sebelum mendaftar expo!');
         }
@@ -145,7 +150,8 @@ class MahasiswaExpoController extends BaseController
             // Update status kelompok dan mahasiswa
             $kelompokParams = [
                 'link_berkas_expo' => $validatedData['link_berkas_expo'],
-                'status_kelompok' => "Menunggu Persetujuan Expo!"
+                'status_kelompok' => "Menunggu Persetujuan Expo!",
+                'status_expo' => "Menunggu Persetujuan Expo!"
             ];
             MahasiswaExpoModel::updateKelompokById($kelompok->id_kelompok, $kelompokParams);
 

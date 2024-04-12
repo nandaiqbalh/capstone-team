@@ -1,24 +1,24 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Persetujuan Dokumen Laporan TA
+    Persetujuan Dokumen Makalah TA
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Persetujuan Dokumen Laporan TA</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Dosen /</span> Persetujuan Dokumen Makalah TA</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Persetujuan Dokumen Laporan TA</h5>
+            <h5 class="card-header">Data Persetujuan Dokumen Makalah TA</h5>
 
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/dosen/persetujuan-lta/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/dosen/persetujuan-mta/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -48,23 +48,23 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama Mahasiswa</th>
-                                <th>Status Dokumen Laporan TA</th>
-                                <th>Dokumen Laporan TA</th>
+                                <th>Status Dokumen Makalah TA</th>
+                                <th>Dokumen Makalah TA</th>
                                 <th>Posisi Dosen</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($rs_persetujuan_lta->count() > 0)
-                                @foreach ($rs_persetujuan_lta as $index => $kelompok)
+                            @if ($rs_persetujuan_mta->count() > 0)
+                                @foreach ($rs_persetujuan_mta as $index => $kelompok)
                                     <tr>
-                                        <td class="text-center">{{ $index + $rs_persetujuan_lta->firstItem() }}.</td>
+                                        <td class="text-center">{{ $index + $rs_persetujuan_mta->firstItem() }}.</td>
                                         <td>{{ $kelompok->user_name }}</td>
                                         <td style="color: {{ $kelompok->status_dokumen_color }}">
-                                            {{ $kelompok->file_status_lta }}</td>
+                                            {{ $kelompok->file_status_mta }}</td>
                                         <td>
-                                            @if ($kelompok->file_path_laporan_ta && $kelompok->file_name_laporan_ta)
-                                                <a href="{{ asset($kelompok->file_path_laporan_ta . '/' . $kelompok->file_name_laporan_ta) }}"
+                                            @if ($kelompok->file_path_makalah && $kelompok->file_name_makalah)
+                                                <a href="{{ asset($kelompok->file_path_makalah . '/' . $kelompok->file_name_makalah) }}"
                                                     target="_blank">
                                                     Lihat File
                                                 </a>
@@ -77,48 +77,48 @@
                                         <td class="text-center">
 
                                             @if ($kelompok->jenis_dosen == 'Pembimbing 1')
-                                                @if ($kelompok->file_status_lta_dosbing1 == 'Laporan TA Telah Disetujui!')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
+                                                @if ($kelompok->file_status_mta_dosbing1 == 'Makalah TA Telah Disetujui!')
+                                                    <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Laporan TA!')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_mta_dosbing1 == 'Menunggu Persetujuan Makalah TA!')
+                                                    <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
-                                                    <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_lta_dosbing1 == 'Laporan TA Tidak Disetujui Dosbing 1!')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_mta_dosbing1 == 'Makalah TA Tidak Disetujui Dosbing 1!')
+                                                    <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
                                                     <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @endif
                                             @else
-                                                @if ($kelompok->file_status_lta_dosbing2 == 'Laporan TA Telah Disetujui!')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
+                                                @if ($kelompok->file_status_mta_dosbing2 == 'Makalah TA Telah Disetujui!')
+                                                    <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Laporan TA!')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_mta_dosbing2 == 'Menunggu Persetujuan Makalah TA!')
+                                                    <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
-                                                    <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
-                                                @elseif($kelompok->file_status_lta_dosbing2 == 'Laporan TA Tidak Disetujui Dosbing 2!')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
+                                                @elseif($kelompok->file_status_mta_dosbing2 == 'Makalah TA Tidak Disetujui Dosbing 2!')
+                                                    <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
                                                     <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
@@ -160,12 +160,12 @@
                 <!-- pagination -->
                 <div class="row mt-3 justify-content-between">
                     <div class="col-auto mr-auto">
-                        <p>Menampilkan {{ $rs_persetujuan_lta->count() }} dari total
-                            {{ $rs_persetujuan_lta->total() }}
+                        <p>Menampilkan {{ $rs_persetujuan_mta->count() }} dari total
+                            {{ $rs_persetujuan_mta->total() }}
                             data.</p>
                     </div>
                     <div class="col-auto ">
-                        {{ $rs_persetujuan_lta->links() }}
+                        {{ $rs_persetujuan_mta->links() }}
                     </div>
                 </div>
             </div>

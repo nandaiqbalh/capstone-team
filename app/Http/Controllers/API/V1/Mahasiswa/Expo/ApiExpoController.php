@@ -105,6 +105,10 @@ class ApiExpoController extends Controller
                         $response = $this->failureResponse('Dokumen C500 belum disetujui kedua dosen pembimbing!');
                     }
 
+                    if ($dokumen_mahasiwa->file_status_lta != "Laporan TA Telah Disetujui!") {
+                        return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
+                    }
+
                     if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null) {
                         $registrationParams = [
                             'id_kelompok' => $kelompok->id,

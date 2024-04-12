@@ -61,6 +61,10 @@ class DokumenMahasiswaController extends BaseController
             return redirect()->back()->withInput();
         }
 
+        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
+        }
+
         // Pastikan ada file makalah yang diunggah
         if ($request->hasFile('makalah')) {
             $file = $request->file('makalah');
@@ -93,9 +97,9 @@ class DokumenMahasiswaController extends BaseController
             $params = [
                 'file_name_makalah' => $new_file_name,
                 'file_path_makalah' => $upload_path,
-                'file_status_mka' => 'Menunggu Persetujuan Makalah TA!',
-                'file_status_mka_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
-                'file_status_mka_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
+                'file_status_mta' => 'Menunggu Persetujuan Makalah TA!',
+                'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
+                'file_status_mta_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
                 'status_individu' => 'Menunggu Persetujuan Makalah TA!',
             ];
             $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);

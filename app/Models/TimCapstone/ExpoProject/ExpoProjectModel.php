@@ -130,6 +130,11 @@ class ExpoProjectModel extends BaseModel
         return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
     }
 
+    public static function updateKelompokMhsByKelompok($id_kelompok, $params)
+    {
+        return DB::table('kelompok_mhs')->where('id_kelompok', $id_kelompok)->update($params);
+    }
+
     public static function getDataKelompok($id)
     {
         return DB::table('kelompok as a')

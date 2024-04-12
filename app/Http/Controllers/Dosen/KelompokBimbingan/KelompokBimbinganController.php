@@ -279,6 +279,7 @@ class KelompokBimbinganController extends BaseController
 
         $mahasiswa -> status_individu_color = $this->getStatusColor($mahasiswa->status_individu);
         $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
+        $mahasiswa -> status_tugas_akhir_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
 
         // check
         if (empty($mahasiswa)) {

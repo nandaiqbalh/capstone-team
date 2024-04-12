@@ -175,10 +175,28 @@ class PersetujuanLaporanTAController extends BaseController
 
         // new search or reset
         if ($request->action == 'search') {
-            // get data with pagination
-            $rs_kelompok = PersetujuanLaporanTAModel::getDataSearch($nama);
+            $rs_persetujuan_lta = PersetujuanLaporanTAModel::getDataSearch($nama);
+
+            foreach ($rs_persetujuan_lta as $persetujuan_lta) {
+                if ($persetujuan_lta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                    $persetujuan_lta->jenis_dosen = 'Pembimbing 1';
+                    $persetujuan_lta -> status_dosen = $persetujuan_lta ->status_dosen_pembimbing_1;
+
+                } else if ($persetujuan_lta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                    $persetujuan_lta->jenis_dosen = 'Pembimbing 2';
+                    $persetujuan_lta -> status_dosen = $persetujuan_lta ->status_dosen_pembimbing_2;
+                } else {
+                    $persetujuan_lta->jenis_dosen = 'Belum diplot';
+                    $persetujuan_lta->status_dosen = 'Belum diplot';
+                }
+
+                $persetujuan_lta -> status_dokumen_color = $this->getStatusColor($persetujuan_lta->file_status_lta);
+                $persetujuan_lta -> status_dosen_color = $this->getStatusColor($persetujuan_lta->status_dosen);
+
+            }
+
             // data
-            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
+            $data = ['rs_persetujuan_lta' => $rs_persetujuan_lta, 'nama' => $nama];
             // view
             return view('dosen.persetujuan-lta.index', $data);
         } else {

@@ -48,6 +48,7 @@ class MahasiswaBimbinganController extends BaseController
         $mahasiswa = MahasiswaBimbinganModel::getDataMahasiswaBimbinganById($user_id);
 
         $mahasiswa -> status_individu_color = $this->getStatusColor($mahasiswa->status_individu);
+        $mahasiswa -> status_tugas_akhir_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
         $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
 
         // check

@@ -60,6 +60,7 @@
                         </tbody>
                     </table>
                 </div>
+                <hr>
 
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -67,10 +68,10 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
-                                <th>Status</th>
+                                <th>Status Kelompok</th>
                                 <th>Berkas</th>
                                 <th>Status Pendaftaran</th>
-                                <th>Hasil</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,14 +80,15 @@
                                     <tr>
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $pendaftaran->nomor_kelompok }}</td>
-                                        <td>{{ $pendaftaran->status_kelompok }}</td>
+                                        <td style="color: {{ $pendaftaran->status_expo_color }}">
+                                            {{ $pendaftaran->status_kelompok }}</td>
                                         <td><a href="{{ $pendaftaran->link_berkas_expo }}"
                                                 style="text-decoration: underline; color: blue;" target="_blank">Link
                                                 berkas</a></td>
 
                                         <td class="text-center">
 
-                                            @if ($pendaftaran->status_kelompok == 'Menunggu Persetujuan Expo!')
+                                            @if ($pendaftaran->status_expo == 'Menunggu Persetujuan Expo!')
                                                 <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
@@ -94,23 +96,24 @@
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status_kelompok == 'Kelompok Disetujui Expo!')
+                                            @elseif($pendaftaran->status_expo == 'Kelompok Disetujui Expo!')
                                                 <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status_kelompok == 'Kelompok Tidak Disetujui Expo!!')
+                                            @elseif($pendaftaran->status_expo == 'Kelompok Tidak Disetujui Expo!!')
                                                 <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
                                             @else
-                                                <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
-                                                    class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
-                                                    Terima</a>
-                                                <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
-                                                    class="btn btn-outline-danger btn-xs m-1 "
-                                                    onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
-                                                    Tolak</a>
+                                                @if (
+                                                    $pendaftaran->status_expo == 'Lulus Expo Project!' ||
+                                                        $pendaftaran->status_expo == 'Gagal Expo Project!' ||
+                                                        $pendaftaran->status_expo == 'Kelompok Disetujui Expo!')
+                                                    <span style="color: #44B158">Kelompok Disetujui Expo!</span>
+                                                @else
+                                                    <span style="color: #FF0000">Kelompok Tidak Disetujui Expo!</span>
+                                                @endif
                                             @endif
                                         </td>
 

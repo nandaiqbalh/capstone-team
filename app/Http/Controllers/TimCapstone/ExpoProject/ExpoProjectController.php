@@ -175,7 +175,7 @@ class ExpoProjectController extends BaseController
                 // Process delete expo project
                 if (ExpoProjectModel::deleteExpoProject($id)) {
                     // Update status kelompok
-                    $paramKelompok = ['status_kelompok' => "C500 Telah Disetujui!"];
+                    $paramKelompok = ['status_kelompok' => "C500 Telah Disetujui!", 'status_expo' => NULL];
                     if (ExpoProjectModel::updateKelompok($pendaftaranExpo->id_kelompok, $paramKelompok)) {
                         // Flash message for success
                         session()->flash('success', 'Data berhasil dihapus.');
@@ -229,6 +229,10 @@ class ExpoProjectController extends BaseController
         }
 
         $rs_kel_expo = ExpoProjectModel::getExpoDaftar($id);
+
+        foreach ($rs_kel_expo as $kel_expo) {
+            $kel_expo->status_expo_color = $this->getStatusColor($kel_expo->status_expo);
+        }
 
         // Data
         $data = [
@@ -324,10 +328,22 @@ class ExpoProjectController extends BaseController
                 'is_lulus_expo' => 1,
             ];
 
-            ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+            $updateKelompok = ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);
 
-            session()->flash('success', 'Data berhasil diperbaharui!');
-            return back();
+            if ($updateKelompok) {
+                $paramKelompokMhs = [
+                    'status_individu' => 'Lulus Expo Project!',
+                    'status_tugas_akhir' => 'Belum Mendaftar Sidang TA!',
+                ];
+
+                ExpoProjectModel::updateKelompokMhsByKelompok($dataKelompok -> id, $paramKelompokMhs);
+                session()->flash('success', 'Data berhasil diperbaharui!');
+                return back();
+            } else{
+                session()->flash('danger', 'Data tidak ditemukan.');
+                return back();
+            }
+
 
         } else {
             // flash message
@@ -349,10 +365,21 @@ class ExpoProjectController extends BaseController
                 'status_expo' => 'Gagal Expo Project!',
             ];
 
-            ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+            $updateKelompok = ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);
 
-            session()->flash('success', 'Data berhasil diperbaharui!');
-            return back();
+            if ($updateKelompok) {
+                $paramKelompokMhs = [
+                    'status_individu' => NULL,
+                    'status_tugas_akhir' => NULL,
+                ];
+
+                ExpoProjectModel::updateKelompokMhsByKelompok($dataKelompok -> id, $paramKelompokMhs);
+                session()->flash('success', 'Data berhasil diperbaharui!');
+                return back();
+            } else{
+                session()->flash('danger', 'Data tidak ditemukan.');
+                return back();
+            }
 
         } else {
             // flash message

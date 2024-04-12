@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Dosen\PersetujuanLaporanTA;
+namespace App\Models\Dosen\PersetujuanMakalahTA;
 
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PersetujuanLaporanTAModel extends BaseModel
+class PersetujuanMakalahTAModel extends BaseModel
 {
     // get all data
     public static function getData()
@@ -25,8 +25,8 @@ class PersetujuanLaporanTAModel extends BaseModel
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->join('kelompok_mhs as c', 'a.id', 'c.id_kelompok') // Join dengan tabel kelompok_mhs
             ->join('app_user as u', 'c.id_mahasiswa', 'u.user_id') // Join dengan tabel users untuk mendapatkan username
-            ->whereNotNull('c.file_status_lta')
-            ->whereNotNull('c.file_name_laporan_ta')
+            ->whereNotNull('c.file_status_mta')
+            ->whereNotNull('c.file_name_makalah')
             ->where(function ($query) use ($userId) {
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);
@@ -44,8 +44,8 @@ class PersetujuanLaporanTAModel extends BaseModel
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->join('kelompok_mhs as c', 'a.id', 'c.id_kelompok') // Join dengan tabel kelompok_mhs
             ->join('app_user as u', 'c.id_mahasiswa', 'u.user_id') // Join dengan tabel app_user untuk mendapatkan username
-            ->whereNotNull('c.file_status_lta')
-            ->whereNotNull('c.file_name_laporan_ta')
+            ->whereNotNull('c.file_status_mta')
+            ->whereNotNull('c.file_name_makalah')
             ->where('u.user_name', 'LIKE', "%" . $nama . "%")
             ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
             ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id

@@ -12,7 +12,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
       public static function pengecekan_kelompok_mahasiswa($user_id)
       {
           return DB::table('kelompok_mhs as a')
-              ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+              ->select('a.id_kelompok', 'a.status_individu',  'a.status_tugas_akhir',   'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
               ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
               ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
               ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
@@ -206,7 +206,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
     public static function fileMHS()
     {
         return DB::table('kelompok_mhs as a')
-            ->select('a.id as id_kel_mhs','a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
+            ->select('a.id as id_kel_mhs', 'a.file_status_lta', 'a.file_status_mta', 'a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
             ->join('kelompok as b','a.id_kelompok','b.id')
             ->join('siklus as c' ,'a.id_siklus', 'c.id')
             ->where('c.status','aktif')

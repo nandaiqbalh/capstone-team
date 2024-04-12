@@ -90,39 +90,45 @@
                             <tr>
                                 <td>Nomor Kelompok</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->nomor_kelompok }}</td>
+                                <td>{{ $mahasiswa->nomor_kelompok ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Status Kelompok</td>
                                 <td>:</td>
-                                <td style="color: {{ $mahasiswa->status_kelompok_color }}">
-                                    {{ $mahasiswa->status_kelompok }}</td>
+                                <td style="color: {{ $mahasiswa->status_kelompok_color ?? 'black' }}">
+                                    {{ $mahasiswa->status_kelompok ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Siklus Pendaftaran</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->nama_siklus }}</td>
+                                <td>{{ $mahasiswa->nama_siklus ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Status Individu</td>
                                 <td>:</td>
-                                <td style="color: {{ $mahasiswa->status_individu_color }}">
-                                    {{ $mahasiswa->status_individu }}</td>
+                                <td style="color: {{ $mahasiswa->status_individu_color ?? 'black' }}">
+                                    {{ $mahasiswa->status_individu ?? '-' }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status Tugas Akhir</td>
+                                <td>:</td>
+                                <td style="color: {{ $mahasiswa->status_tugas_akhir_color ?? 'black' }}">
+                                    {{ $mahasiswa->status_tugas_akhir ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Judul Capstone</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->judul_capstone }}</td>
+                                <td>{{ $mahasiswa->judul_capstone ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Judul Tugas Akhir</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->judul_ta_mhs }}</td>
+                                <td>{{ $mahasiswa->judul_ta_mhs ?? '-' }}</td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
+
                 <br>
                 @if (
                     $mahasiswa->id_peminatan_individu1 != null &&

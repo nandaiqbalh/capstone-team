@@ -27,6 +27,19 @@ class KelompokValidModel extends BaseModel
             ->paginate(20);
     }
 
+    public static function filterSiklusKelompok($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.status', 'aktif')
+            ->where('c.id', $id_siklus)
+            ->where('a.nomor_kelompok', '!=', NULL)
+            ->orderBy('a.nomor_kelompok', 'asc')
+            ->paginate(20);
+    }
+
 
     // get search
     public static function getDataSearch($no_kel)
@@ -207,5 +220,12 @@ class KelompokValidModel extends BaseModel
     public static function insertDosenKelompok($params)
     {
         return DB::table('dosen_kelompok')->insert($params);
+    }
+
+    public static function getSiklusAktif()
+    {
+        return DB::table('siklus')
+        ->where('status', 'aktif')
+        ->get();
     }
 }

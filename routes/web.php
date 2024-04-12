@@ -72,6 +72,7 @@ use App\Http\Controllers\Dosen\PersetujuanC300\PersetujuanC300Controller;
 use App\Http\Controllers\Dosen\PersetujuanC400\PersetujuanC400Controller;
 use App\Http\Controllers\Dosen\PersetujuanC500\PersetujuanC500Controller;
 use App\Http\Controllers\Dosen\PersetujuanLaporanTA\PersetujuanLaporanTAController;
+use App\Http\Controllers\Dosen\PersetujuanMakalahTA\PersetujuanMakalahTAController;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
 
 
@@ -267,6 +268,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 
     //kelompok valid
     Route::get('/admin/kelompok-valid', [KelompokValidController::class, 'index']);
+    Route::get('/admin/kelompok-valid/filter-siklus', [KelompokValidController::class, 'filterSiklusKelompok']);
     Route::get('/admin/kelompok-valid/search', [KelompokValidController::class, 'search']);
     Route::get('/admin/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
     Route::get('/admin/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
@@ -400,6 +402,14 @@ Route::middleware(['auth', 'role:04'])->group(function () {
     Route::get('/dosen/persetujuan-lta/tolak/{id}', [PersetujuanLaporanTAController::class, 'tolakPersetujuanLaporanTASaya']);
     Route::get('/dosen/persetujuan-lta/detail/{id}', [PersetujuanLaporanTAController::class, 'detailPersetujuanLaporanTASaya']);
     Route::get('/dosen/persetujuan-lta/search', [PersetujuanLaporanTAController::class, 'search']);
+
+    // persetujuan makalah
+    Route::get('/dosen/persetujuan-mta', [PersetujuanMakalahTAController::class, 'index']);
+    Route::get('/dosen/persetujuan-mta/terima/{id}', [PersetujuanMakalahTAController::class, 'terimaPersetujuanMakalahTASaya']);
+    Route::get('/dosen/persetujuan-mta/tolak/{id}', [PersetujuanMakalahTAController::class, 'tolakPersetujuanMakalahTASaya']);
+    Route::get('/dosen/persetujuan-mta/detail/{id}', [PersetujuanMakalahTAController::class, 'detailPersetujuanMakalahTASaya']);
+    Route::get('/dosen/persetujuan-mta/search', [PersetujuanMakalahTAController::class, 'search']);
+
 
 
      //pengujian saya

@@ -40,6 +40,28 @@
                         </form>
                     </div>
                 </div>
+                <div class="row">
+                    <form action="{{ url('/admin/kelompok-valid/filter-siklus') }}" method="get" autocomplete="off">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <div class="mb-3">
+                                    <select class="form-select select-2" name="id_siklus" required>
+                                        <option value="" disabled selected>-- Filter Berdasarkan Siklus --</option>
+                                        @foreach ($rs_siklus as $siklus)
+                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <button type="submit" class="btn btn-primary float-end" name="action"
+                                    value="search">Terapkan Filter</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
                 <br>
 
                 <div class="table-responsive text-nowrap">
