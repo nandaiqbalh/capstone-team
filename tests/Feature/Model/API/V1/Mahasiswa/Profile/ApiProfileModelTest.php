@@ -17,7 +17,7 @@ class ApiProfileModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 

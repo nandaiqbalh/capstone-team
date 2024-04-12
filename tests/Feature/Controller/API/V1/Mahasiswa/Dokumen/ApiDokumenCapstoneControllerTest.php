@@ -21,7 +21,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -100,7 +100,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a valid user
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 1]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
         // Mock ApiDokumenModel::fileMHS() to return a valid file
         $mock->shouldReceive('fileMHS')
@@ -172,7 +172,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 0]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah c200 dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -213,7 +213,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a valid user
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 1]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
         // Mock ApiDokumenModel::fileMHS() to return a valid file
         $mock->shouldReceive('fileMHS')
@@ -285,7 +285,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 0]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah c300 dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -326,7 +326,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a valid user
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 1]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
         // Mock ApiDokumenModel::fileMHS() to return a valid file
         $mock->shouldReceive('fileMHS')
@@ -398,7 +398,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 0]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah c400 dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -440,7 +440,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a valid user
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 1]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
         // Mock ApiDokumenModel::fileMHS() to return a valid file
         $mock->shouldReceive('fileMHS')
@@ -512,7 +512,7 @@ class ApiDokumenCapstoneControllerTest extends TestCase
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 0]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah c500 dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])

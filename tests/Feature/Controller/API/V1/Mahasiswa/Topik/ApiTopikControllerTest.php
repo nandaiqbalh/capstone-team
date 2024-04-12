@@ -18,7 +18,7 @@ class ApiTopikControllerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -58,7 +58,7 @@ class ApiTopikControllerTest extends TestCase
     {
         // Mock JWTAuth::parseToken()->authenticate() to return a user with inactive status
         JWTAuth::shouldReceive('parseToken->authenticate')
-            ->andReturn((object)['user_active' => 0]);
+            ->andReturn((object)['user_active' => "0"]);
 
         $controller = new ApiTopikController();
 

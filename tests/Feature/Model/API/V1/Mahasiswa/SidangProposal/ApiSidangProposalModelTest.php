@@ -16,7 +16,7 @@ class ApiSidangProposalModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -31,10 +31,11 @@ class ApiSidangProposalModelTest extends TestCase
     public function test_it_can_get_sidang_proposal_by_kelompok()
     {
         // Isi dengan ID kelompok yang valid
-        $idKelompok = 80;
+        $kelompok = ApiSidangProposalModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
+        $id_kelompok = $kelompok->id;
         // Panggil method sidangProposalByKelompok dari ApiSidangProposalModel
-        $data = ApiSidangProposalModel::sidangProposalByKelompok($idKelompok);
+        $data = ApiSidangProposalModel::sidangProposalByKelompok($id_kelompok);
 
         // Pastikan data tidak kosong
         $this->assertNotNull($data);
@@ -59,15 +60,17 @@ class ApiSidangProposalModelTest extends TestCase
     /** @test */
     public function test_it_can_check_if_siklus_still_active()
     {
-        $id_siklus = 13;
+        // Panggil method pengecekan_kelompok_mahasiswa dari ApiSidangProposalModel
+        $data = ApiSidangProposalModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
+        $id_siklus = $data->id_siklus;
         // Panggil method checkApakahSiklusMasihAktif dari ApiSidangProposalModel
         $data = ApiSidangProposalModel::checkApakahSiklusMasihAktif($id_siklus);
 
-        // Pastikan data tidak kosong
-        $this->assertNotNull($data);
+         // Pastikan data tidak kosong
+         $this->assertNotNull($data);
 
-        // Pastikan data adalah instance dari objek
-        $this->assertIsObject($data);
+         // Pastikan data adalah instance dari objek
+         $this->assertIsObject($data);
     }
 }

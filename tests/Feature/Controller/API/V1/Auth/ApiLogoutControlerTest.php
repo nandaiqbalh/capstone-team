@@ -17,7 +17,7 @@ class ApiLogoutControlerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 

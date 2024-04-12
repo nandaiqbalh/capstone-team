@@ -174,7 +174,7 @@ class MahasiswaTugasAkhirController extends BaseController
          $registrationParams = [
              'id_mahasiswa' => $user->user_id,
              'id_periode' => $periodeAvailable->id,
-             'status' => 'Menunggu Validasi Jadwal!',
+             'status' => 'Menunggu Penjadwalan Sidang TA!',
              'created_by' => $user->user_id,
              'created_date' => now(), // Gunakan fungsi helper Laravel untuk tanggal dan waktu saat ini
          ];
@@ -188,7 +188,8 @@ class MahasiswaTugasAkhirController extends BaseController
              $berkasParams = [
                  'link_upload' => $validatedData['link_upload'],
                  'judul_ta_mhs' => $validatedData['judul_ta_mhs'],
-                 'status_individu' => 'Menunggu Validasi Jadwal!',
+                 'status_individu' => 'Menunggu Penjadwalan Sidang TA!',
+                 'status_tugas_akhir' => 'Menunggu Penjadwalan Sidang TA!',
              ];
 
              if (MahasiswaTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams)) {

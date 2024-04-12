@@ -19,7 +19,7 @@ class ApiTugasAkhirControllerTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -149,6 +149,11 @@ class ApiTugasAkhirControllerTest extends TestCase
     {
          // Menyiapkan data kelompok mahasiswa
          $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($this->user_id);
+
+         $params = [
+            'file_status_lta' => "Laporan TA Telah Disetujui!", 'file_status_mta' => "Makalah TA Telah Disetujui!"
+         ];
+         ApiTugasAkhirModel::updateKelompokMHS($this->user_id, $params);
 
         // Kirim permintaan API untuk mendaftarkan sidang tugas akhir
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])

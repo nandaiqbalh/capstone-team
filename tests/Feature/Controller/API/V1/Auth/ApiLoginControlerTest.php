@@ -10,7 +10,7 @@ class ApiLoginControllerTest extends TestCase
     public function testAuthenticationWithValidCredentials()
     {
         $payload = [
-            'nomor_induk' => '21120120130124',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
