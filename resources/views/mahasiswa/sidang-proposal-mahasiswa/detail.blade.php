@@ -17,14 +17,42 @@
             </div>
 
             <div class="card-body">
-
                 @if ($kelompok != null)
                     @if ($kelompok->nomor_kelompok == null)
-
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Kelompok Anda belum valid!</h6>
                     @elseif ($siklus_sudah_punya_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($rs_sidang == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Belum ada jadwal sidang!</h6>
                     @else
                         @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
@@ -88,12 +116,13 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Status</td>
+                                            <td>Status Sidang Proposal</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
-                                                <td>Menunggu Validasi Kelompok!</td>
+                                            @if ($kelompok->status_sidang_proposal == null)
+                                                <td>!</td>
                                             @else
-                                                <td>{{ $kelompok->status_kelompok }}</td>
+                                                <td style="color: {{ $kelompok->status_sidang_color }}">
+                                                    {{ $kelompok->status_sidang_proposal }}</td>
                                             @endif
                                         </tr>
                                         <tr>
@@ -111,7 +140,8 @@
                                             @if ($kelompok->nomor_kelompok == null)
                                                 <td>-</td>
                                             @else
-                                                <td>{{ $rs_sidang->waktu_sidang }} WIB</td>
+                                                <td>{{ $rs_sidang->waktu_sidang }} WIB -
+                                                    {{ $rs_sidang->waktu_selesai }} WIB
                                             @endif
                                         </tr>
                                         <tr>
@@ -136,11 +166,11 @@
                                 </table>
                             </div>
 
+                            <hr>
+
                             {{-- list mahasiswa  --}}
 
-                            <br>
-                            <h5 class="mb-0">List Mahasiswa</h5>
-
+                            <h6 class="mb-0">List Mahasiswa</h6>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -171,8 +201,7 @@
                             {{-- list dos pembimbing  --}}
 
                             <br>
-                            <h5 class="mb-0">List Dosen Pembimbing</h5>
-
+                            <h6 class="mb-0">List Dosen Pembimbing</h6>
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
                                     <thead class="thead-light">
@@ -192,7 +221,15 @@
                                                     <td>{{ $dosbing->user_name }}</td>
                                                     <td>{{ $dosbing->nomor_induk }}</td>
                                                     <td>{{ $dosbing->jenis_dosen }}</td>
-                                                    <td>{{ $dosbing->status_dosen }}</td>
+                                                    @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                                        <td style="color: {{ $kelompok->status_pembimbing1_color }}">
+                                                            {{ $dosbing->status_dosen }}</td>
+                                                    @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
+                                                        <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                            {{ $dosbing->status_dosen }}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @else
@@ -207,7 +244,7 @@
                             {{-- list dos penguji  --}}
 
                             <br>
-                            <h5 class="mb-0">List Dosen Penguji</h5>
+                            <h6 class="mb-0">List Dosen Penguji</h6>
 
                             <div class="table-responsive text-nowrap">
                                 <table class="table table-bordered">
@@ -228,7 +265,15 @@
                                                     <td>{{ $dospeng->user_name }}</td>
                                                     <td>{{ $dospeng->nomor_induk }}</td>
                                                     <td>{{ $dospeng->jenis_dosen }}</td>
-                                                    <td>{{ $dospeng->status_dosen }}</td>
+                                                    @if ($dospeng->jenis_dosen == 'Penguji 1')
+                                                        <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                                            {{ $dospeng->status_dosen }}</td>
+                                                    @elseif($dospeng->jenis_dosen == 'Penguji 2')
+                                                        <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                                            {{ $dospeng->status_dosen }}</td>
+                                                    @else
+                                                        <td>-</td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @else
@@ -243,6 +288,16 @@
 
                     @endif
                 @else
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Anda belum mendaftar capstone!</h6>
                 @endif
             </div>

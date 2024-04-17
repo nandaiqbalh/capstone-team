@@ -17,6 +17,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'app_user';
     protected $primaryKey = 'user_id';
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -24,9 +25,22 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_email',
+        'user_password',
+        'user_id',
+        'user_name',
+        'user_email',
+        'no_telp',
+        'user_',
+        'role_id',
+        'nomor_induk',
+        'user_active',
+        'angkatan',
+        'jenis_kelamin',
+        'created_by',
+        'created_date',
+        'modified_by',
+        'modified_date'
     ];
 
     /**

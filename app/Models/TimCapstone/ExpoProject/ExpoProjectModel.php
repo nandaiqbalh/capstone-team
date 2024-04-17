@@ -11,8 +11,9 @@ class ExpoProjectModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.id as id_siklus', 'b.tahun_ajaran')
+            ->select('a.*', 'b.id as id_siklus', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
+            ->orderBy('a.id', 'desc') // Mengurutkan berdasarkan ID terbaru (descending)
             ->paginate(20);
     }
 
@@ -63,9 +64,17 @@ class ExpoProjectModel extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.tahun_ajaran','c.*')
+            ->select('a.*', 'b.nama_siklus','c.*')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->join('pendaftaran_expo as c','a.id','c.id_expo')
+            ->where('a.id', $id)->first();
+    }
+
+    public static function getDataEditById($id)
+    {
+        return DB::table('jadwal_expo as a')
+            ->select('a.*', 'b.nama_siklus')
+            ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('a.id', $id)->first();
     }
 
@@ -99,6 +108,13 @@ class ExpoProjectModel extends BaseModel
             ->where('a.id', $id)->first();
     }
 
+    public static function getKelompokMendaftar($id)
+    {
+        return DB::table('pendaftaran_expo as a')
+            ->select('a.*')
+            ->where('a.id_expo', $id)->first();
+    }
+
     public static function deleteExpoProject($id)
     {
         return DB::table('jadwal_expo')->where('id', $id)->delete();
@@ -112,6 +128,11 @@ class ExpoProjectModel extends BaseModel
     public static function updateKelompok($id_kelompok, $params)
     {
         return DB::table('kelompok')->where('id', $id_kelompok)->update($params);
+    }
+
+    public static function updateKelompokMhsByKelompok($id_kelompok, $params)
+    {
+        return DB::table('kelompok_mhs')->where('id_kelompok', $id_kelompok)->update($params);
     }
 
     public static function getDataKelompok($id)

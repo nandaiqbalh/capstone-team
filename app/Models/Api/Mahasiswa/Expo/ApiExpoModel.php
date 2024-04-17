@@ -10,7 +10,7 @@ class ApiExpoModel extends ApiBaseModel
     public static function getDataExpo()
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.tahun_ajaran')
+            ->select('a.*', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('b.status', 'aktif')
             ->where('a.tanggal_selesai', '>', now())
@@ -68,6 +68,17 @@ class ApiExpoModel extends ApiBaseModel
         return DB::table('kelompok')
         ->where('id', $id_kelompok)
         ->update($params);
+    }
+
+    public static function fileMHS($user_id)
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.id as id_kel_mhs', 'a.file_status_lta', 'a.file_status_mta', 'a.id_mahasiswa', 'a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
+            ->join('kelompok as b','a.id_kelompok','b.id')
+            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->where('c.status','aktif')
+            ->where('a.id_mahasiswa', $user_id)
+            ->first();
     }
 
 }

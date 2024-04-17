@@ -40,6 +40,9 @@ use App\Http\Controllers\TimCapstone\Topik\TopikController;
 use App\Http\Controllers\TimCapstone\Peminatan\PeminatanController;
 use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
+use App\Http\Controllers\TimCapstone\Balancing\PembimbingKelompok\PembimbingKelompokController;
+use App\Http\Controllers\TimCapstone\Balancing\PembimbingMahasiswa\PembimbingMahasiswaController;
+use App\Http\Controllers\TimCapstone\Balancing\PengujiProposal\PengujiProposalController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
@@ -57,15 +60,19 @@ use App\Http\Controllers\Mahasiswa\SidangProposal_Mahasiswa\MahasiswaSidangPropo
 use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
 use App\Http\Controllers\Mahasiswa\TugasAkhir_Mahasiswa\MahasiswaTugasAkhirController;
 
-use App\Http\Controllers\TimCapstone\UploadFile\UploadFileController;
+use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
 
 // use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
-use App\Http\Controllers\Dosen\Bimbingan_Saya\BimbinganSayaController;
+use App\Http\Controllers\Dosen\KelompokBimbingan\KelompokBimbinganController;
+use App\Http\Controllers\Dosen\MahasiswaBimbingan\MahasiswaBimbinganController;
+use App\Http\Controllers\Dosen\PersetujuanC100\PersetujuanC100Controller;
+use App\Http\Controllers\Dosen\PersetujuanC200\PersetujuanC200Controller;
+use App\Http\Controllers\Dosen\PersetujuanC300\PersetujuanC300Controller;
+use App\Http\Controllers\Dosen\PersetujuanC400\PersetujuanC400Controller;
+use App\Http\Controllers\Dosen\PersetujuanC500\PersetujuanC500Controller;
+use App\Http\Controllers\Dosen\PersetujuanLaporanTA\PersetujuanLaporanTAController;
+use App\Http\Controllers\Dosen\PersetujuanMakalahTA\PersetujuanMakalahTAController;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
-
-// api
-use App\Http\Controllers\Api\V1\Mahasiswa\UploadFile\ApiUploadFileController;
-
 
 
 /**
@@ -115,6 +122,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::post('/admin/settings/accounts/edit_password_process', [AccountsController::class, 'editPasswordProcess']);
     Route::get('/admin/settings/accounts/delete_process/{id}', [AccountsController::class, 'deleteProcess']);
     Route::get('/admin/settings/accounts/search', [AccountsController::class, 'search']);
+    Route::post('/admin/settings/accounts/import-user', [AccountsController::class, 'import']);
 
      // take over login
     Route::get('admin/settings/take-over-login', [TakeOverLoginController::class, 'takeOverProcess']);
@@ -133,6 +141,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::post('/admin/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
      Route::get('/admin/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
      Route::get('/admin/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
+
 
      //topik
      Route::get('/admin/topik', [TopikController::class, 'index']);
@@ -173,14 +182,23 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/dosen/search', [DosenController::class, 'searchDosen']);
 
      // balancing dosen pembimbing
-     Route::get('/admin/balancing-dosbing', [DosenController::class, 'balancingDosbing']);
-     Route::get('/admin/balancing-dosbing/filter-siklus', [DosenController::class, 'filterBalancingDosbing']);
-     Route::get('/admin/balancing-dosbing/detail/{user_id}', [DosenController::class, 'detailBalancingDosbing']);
+     Route::get('/admin/balancing-dosbing-kelompok', [PembimbingKelompokController::class, 'balancingDosbingKelompok']);
+     Route::get('/admin/balancing-dosbing-kelompok/filter-siklus', [PembimbingKelompokController::class, 'filterBalancingDosbingKelompok']);
+     Route::get('/admin/balancing-dosbing-kelompok/detail/{user_id}', [PembimbingKelompokController::class, 'detailBalancingDosbingKelompok']);
+     Route::get('/admin/balancing-dosbing-kelompok/search', [PembimbingKelompokController::class, 'searchBalancingDosbingKelompok']);
+
+     // balancing dosen pembimbing mahasiswa
+     Route::get('/admin/balancing-dosbing-mahasiswa', [PembimbingMahasiswaController::class, 'balancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/filter-siklus', [PembimbingMahasiswaController::class, 'filterBalancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/detail/{user_id}', [PembimbingMahasiswaController::class, 'detailBalancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/search', [PembimbingMahasiswaController::class, 'searchBalancingDosbingMahasiswa']);
+     Route::get('/admin/balancing-dosbing-mahasiswa/detail-mahasiswa/{user_id}', [PembimbingMahasiswaController::class, 'detailMahasiswa']);
 
     // balancing dosen penguji proposal
-     Route::get('/admin/balancing-penguji-proposal', [DosenController::class, 'balancingPengujiProposal']);
-     Route::get('/admin/balancing-penguji-proposal/filter-siklus', [DosenController::class, 'filterBalancingPengujiProposal']);
-     Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [DosenController::class, 'detailBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal', [PengujiProposalController::class, 'balancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/filter-siklus', [PengujiProposalController::class, 'filterBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [PengujiProposalController::class, 'detailBalancingPengujiProposal']);
+     Route::get('/admin/balancing-penguji-proposal/search', [PengujiProposalController::class, 'searchBalancingPengujiProposal']);
 
      //siklus
      Route::get('/admin/siklus', [SiklusController::class, 'index']);
@@ -202,10 +220,12 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 
      //expo
      Route::get('/admin/expo-project', [ExpoProjectController::class, 'index']);
+     Route::get('/admin/expo-project/add', [ExpoProjectController::class, 'addExpoProject']);
      Route::post('/admin/expo-project/add-process', [ExpoProjectController::class, 'addExpoProjectProcess']);
-     Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
+     Route::get('/admin/expo-project/edit/{id}', [ExpoProjectController::class, 'editExpoProject']);
      Route::post('/admin/expo-project/edit-process', [ExpoProjectController::class, 'editExpoProjectProcess']);
      Route::get('/admin/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
+     Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
 
      // terima tolak expo
      Route::get('/admin/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
@@ -239,13 +259,12 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     //add delete dosen pembimbing
     Route::get('/admin/penetapan-dosbing/add-dosen-kelompok', [PenetapanDosbingController::class, 'addDosenKelompok']);
     Route::get('/admin/penetapan-dosbing/delete-dosen-process/{id_dosen}/{id_kelompok}', [PenetapanDosbingController::class, 'deleteDosenKelompok']);
-    // edit kelompok
-    Route::post('/admin/penetapan-dosbing/edit-kelompok-process', [PenetapanDosbingController::class, 'editKelompokProcess']);
 
     // validasi kelompok
     Route::get('/admin/validasi-kelompok', [ValidasiKelompokController::class, 'index']);
     Route::get('/admin/validasi-kelompok/detail/{id}', [ValidasiKelompokController::class, 'detailKelompok']);
     // edit dan delete kelompok
+    Route::post('/admin/validasi-kelompok/setujui-kelompok-process', [ValidasiKelompokController::class, 'setujuiKelompokProcess']);
     Route::post('/admin/validasi-kelompok/edit-kelompok-process', [ValidasiKelompokController::class, 'editKelompokProcess']);
     Route::get('/admin/validasi-kelompok/delete-process/{id}', [ValidasiKelompokController::class, 'deleteKelompokProcess']);
     // add/delete dosen & mahasiswa
@@ -256,6 +275,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 
     //kelompok valid
     Route::get('/admin/kelompok-valid', [KelompokValidController::class, 'index']);
+    Route::get('/admin/kelompok-valid/filter-siklus', [KelompokValidController::class, 'filterSiklusKelompok']);
     Route::get('/admin/kelompok-valid/search', [KelompokValidController::class, 'search']);
     Route::get('/admin/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
     Route::get('/admin/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
@@ -269,12 +289,14 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('admin/penjadwalan-sidang-proposal/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [PenjadwalanSidangProposalController::class, 'deleteDosenKelompok']);
     // jadwalkan sidang proposal
     Route::post('admin/penjadwalan-sidang-proposal/add-jadwal-process', [PenjadwalanSidangProposalController::class, 'addJadwalProcess']);
+    // detail
 
     //sidang proposal
     Route::get('/admin/jadwal-sidang-proposal', [JadwalSidangProposalController::class, 'index']);
     Route::get('/admin/jadwal-sidang-proposal/delete-process/{id}', [JadwalSidangProposalController::class, 'deleteJadwalSidangProposalProcess']);
     Route::get('/admin/jadwal-sidang-proposal/to-lulus/{id}', [JadwalSidangProposalController::class, 'toLulusSidangProposal']);
     Route::get('/admin/jadwal-sidang-proposal/to-gagal/{id}', [JadwalSidangProposalController::class, 'toGagalSidangProposal']);
+    Route::get('/admin/jadwal-sidang-proposal/detail/{id}', [JadwalSidangProposalController::class, 'detailKelompok']);
 
 });
 
@@ -282,26 +304,29 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
 Route::middleware(['auth', 'role:03'])->group(function () {
 
     // beranda
-    Route::get('mahasiswa/beranda', [DashboardController::class, 'index']);
+    Route::get('mahasiswa/beranda', [DashboardController::class, 'indexMahasiswa']);
 
     //mahasiswakelompok
     Route::get('/mahasiswa/kelompok', [MahasiswaKelompokController::class, 'index']);
     Route::post('/mahasiswa/kelompok/add-kelompok-process', [MahasiswaKelompokController::class, 'addKelompokProcess']);
     Route::post('/mahasiswa/kelompok/add-punya-kelompok-process', [MahasiswaKelompokController::class, 'addPunyaKelompokProcess']);
+    Route::post('/mahasiswa/kelompok/edit-kelompok-process', [MahasiswaKelompokController::class, 'editKelompokProcess']);
 
     Route::post('/mahasiswa/kelompok/terima-kelompok', [MahasiswaKelompokController::class, 'terimaKelompok'])->name('kelompok.accept');
     Route::post('/mahasiswa/kelompok/tolak-kelompok', [MahasiswaKelompokController::class, 'tolakKelompok'])->name('kelompok.reject');
+    // mahasiswa by id
+    Route::get('/admin/mahasiswa/get-by-id/{user_id}', [MahasiswaController::class, 'getById']);
 
     //mahasiswaFile
-    Route::get('/mahasiswa/dokumen', [UploadFileController::class, 'index']);
-    Route::post('/mahasiswa/dokumen/upload-makalah', [UploadFileController::class, 'uploadMakalahProcess']);
-    Route::post('/mahasiswa/dokumen/upload-laporan', [UploadFileController::class, 'uploadLaporanProcess']);
+    Route::get('/mahasiswa/dokumen', [DokumenMahasiswaController::class, 'index']);
+    Route::post('/mahasiswa/dokumen/upload-makalah', [DokumenMahasiswaController::class, 'uploadMakalahProcess']);
+    Route::post('/mahasiswa/dokumen/upload-laporan', [DokumenMahasiswaController::class, 'uploadLaporanProcess']);
 
-    Route::post('/mahasiswa/dokumen/upload-c100', [UploadFileController::class, 'uploadC100Process']);
-    Route::post('/mahasiswa/dokumen/upload-c200', [UploadFileController::class, 'uploadC200Process']);
-    Route::post('/mahasiswa/dokumen/upload-c300', [UploadFileController::class, 'uploadC300Process']);
-    Route::post('/mahasiswa/dokumen/upload-c400', [UploadFileController::class, 'uploadC400Process']);
-    Route::post('/mahasiswa/dokumen/upload-c500', [UploadFileController::class, 'uploadC500Process']);
+    Route::post('/mahasiswa/dokumen/upload-c100', [DokumenMahasiswaController::class, 'uploadC100Process']);
+    Route::post('/mahasiswa/dokumen/upload-c200', [DokumenMahasiswaController::class, 'uploadC200Process']);
+    Route::post('/mahasiswa/dokumen/upload-c300', [DokumenMahasiswaController::class, 'uploadC300Process']);
+    Route::post('/mahasiswa/dokumen/upload-c400', [DokumenMahasiswaController::class, 'uploadC400Process']);
+    Route::post('/mahasiswa/dokumen/upload-c500', [DokumenMahasiswaController::class, 'uploadC500Process']);
 
     // sidang proposal
     Route::get('/mahasiswa/sidang-proposal', [MahasiswaSidangProposalController::class, 'index']);
@@ -321,17 +346,77 @@ Route::middleware(['auth', 'role:03'])->group(function () {
 Route::middleware(['auth', 'role:04'])->group(function () {
 
      // beranda
-     Route::get('dosen/beranda', [DashboardController::class, 'index']);
+     Route::get('dosen/beranda', [DashboardController::class, 'indexDosen']);
 
      //halaman dosen
-     Route::get('/dosen/bimbingan-saya', [BimbinganSayaController::class, 'index']);
-     Route::get('/dosen/bimbingan-saya/terima/{id}', [BimbinganSayaController::class, 'terimaBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/tolak/{id}', [BimbinganSayaController::class, 'tolakBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/detail/{id}', [BimbinganSayaController::class, 'detailBimbinganSaya']);
-     Route::get('/dosen/bimbingan-saya/search', [BimbinganSayaController::class, 'search']);
+     Route::get('/dosen/kelompok-bimbingan', [KelompokBimbinganController::class, 'index']);
+     Route::get('/dosen/kelompok-bimbingan/terima/{id}', [KelompokBimbinganController::class, 'terimaKelompokBimbingan']);
+     Route::get('/dosen/kelompok-bimbingan/tolak/{id}', [KelompokBimbinganController::class, 'tolakKelompokBimbingan']);
+     Route::get('/dosen/kelompok-bimbingan/detail/{id}', [KelompokBimbinganController::class, 'detailKelompokBimbingan']);
+     Route::get('/dosen/kelompok-bimbingan/search', [KelompokBimbinganController::class, 'search']);
+     Route::get('/dosen/kelompok-bimbingan/filter-status', [KelompokBimbinganController::class, 'getKelompokBimbinganFilterStatus']);
 
      // detail mahasiswa bimbingan saya
-     Route::get('/dosen/bimbingan-saya/detail-mahasiswa/{user_id}', [BimbinganSayaController::class, 'detailMahasiswa']);
+     Route::get('/dosen/kelompok-bimbingan/detail-mahasiswa/{user_id}', [KelompokBimbinganController::class, 'detailMahasiswa']);
+
+     // mahasiswa bimbingan
+     Route::get('/dosen/mahasiswa-bimbingan', [MahasiswaBimbinganController::class, 'index']);
+     Route::get('/dosen/mahasiswa-bimbingan/search', [MahasiswaBimbinganController::class, 'search']);
+     Route::get('/dosen/mahasiswa-bimbingan/filter-status', [MahasiswaBimbinganController::class, 'getMahasiswaBimbinganFilterStatus']);
+
+     // detail mahasiswa bimbingan saya
+     Route::get('/dosen/mahasiswa-bimbingan/detail-mahasiswa/{user_id}', [MahasiswaBimbinganController::class, 'detailMahasiswa']);
+
+
+     // persetujuan c100
+    Route::get('/dosen/persetujuan-c100', [PersetujuanC100Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c100/terima/{id}', [PersetujuanC100Controller::class, 'terimaPersetujuanC100Saya']);
+    Route::get('/dosen/persetujuan-c100/tolak/{id}', [PersetujuanC100Controller::class, 'tolakPersetujuanC100Saya']);
+    Route::get('/dosen/persetujuan-c100/detail/{id}', [PersetujuanC100Controller::class, 'detailPersetujuanC100Saya']);
+    Route::get('/dosen/persetujuan-c100/search', [PersetujuanC100Controller::class, 'search']);
+
+    // persetujuan c200
+    Route::get('/dosen/persetujuan-c200', [PersetujuanC200Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c200/terima/{id}', [PersetujuanC200Controller::class, 'terimaPersetujuanC200Saya']);
+    Route::get('/dosen/persetujuan-c200/tolak/{id}', [PersetujuanC200Controller::class, 'tolakPersetujuanC200Saya']);
+    Route::get('/dosen/persetujuan-c200/detail/{id}', [PersetujuanC200Controller::class, 'detailPersetujuanC200Saya']);
+    Route::get('/dosen/persetujuan-c200/search', [PersetujuanC200Controller::class, 'search']);
+
+    // persetujuan c300
+    Route::get('/dosen/persetujuan-c300', [PersetujuanC300Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c300/terima/{id}', [PersetujuanC300Controller::class, 'terimaPersetujuanC300Saya']);
+    Route::get('/dosen/persetujuan-c300/tolak/{id}', [PersetujuanC300Controller::class, 'tolakPersetujuanC300Saya']);
+    Route::get('/dosen/persetujuan-c300/detail/{id}', [PersetujuanC300Controller::class, 'detailPersetujuanC300Saya']);
+    Route::get('/dosen/persetujuan-c300/search', [PersetujuanC300Controller::class, 'search']);
+
+    // persetujuan c400
+    Route::get('/dosen/persetujuan-c400', [PersetujuanC400Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c400/terima/{id}', [PersetujuanC400Controller::class, 'terimaPersetujuanC400Saya']);
+    Route::get('/dosen/persetujuan-c400/tolak/{id}', [PersetujuanC400Controller::class, 'tolakPersetujuanC400Saya']);
+    Route::get('/dosen/persetujuan-c400/detail/{id}', [PersetujuanC400Controller::class, 'detailPersetujuanC400Saya']);
+    Route::get('/dosen/persetujuan-c400/search', [PersetujuanC400Controller::class, 'search']);
+
+    // persetujuan c500
+    Route::get('/dosen/persetujuan-c500', [PersetujuanC500Controller::class, 'index']);
+    Route::get('/dosen/persetujuan-c500/terima/{id}', [PersetujuanC500Controller::class, 'terimaPersetujuanC500Saya']);
+    Route::get('/dosen/persetujuan-c500/tolak/{id}', [PersetujuanC500Controller::class, 'tolakPersetujuanC500Saya']);
+    Route::get('/dosen/persetujuan-c500/detail/{id}', [PersetujuanC500Controller::class, 'detailPersetujuanC500Saya']);
+    Route::get('/dosen/persetujuan-c500/search', [PersetujuanC500Controller::class, 'search']);
+
+    // persetujuan laporan
+    Route::get('/dosen/persetujuan-lta', [PersetujuanLaporanTAController::class, 'index']);
+    Route::get('/dosen/persetujuan-lta/terima/{id}', [PersetujuanLaporanTAController::class, 'terimaPersetujuanLaporanTASaya']);
+    Route::get('/dosen/persetujuan-lta/tolak/{id}', [PersetujuanLaporanTAController::class, 'tolakPersetujuanLaporanTASaya']);
+    Route::get('/dosen/persetujuan-lta/detail/{id}', [PersetujuanLaporanTAController::class, 'detailPersetujuanLaporanTASaya']);
+    Route::get('/dosen/persetujuan-lta/search', [PersetujuanLaporanTAController::class, 'search']);
+
+    // persetujuan makalah
+    Route::get('/dosen/persetujuan-mta', [PersetujuanMakalahTAController::class, 'index']);
+    Route::get('/dosen/persetujuan-mta/terima/{id}', [PersetujuanMakalahTAController::class, 'terimaPersetujuanMakalahTASaya']);
+    Route::get('/dosen/persetujuan-mta/tolak/{id}', [PersetujuanMakalahTAController::class, 'tolakPersetujuanMakalahTASaya']);
+    Route::get('/dosen/persetujuan-mta/detail/{id}', [PersetujuanMakalahTAController::class, 'detailPersetujuanMakalahTASaya']);
+    Route::get('/dosen/persetujuan-mta/search', [PersetujuanMakalahTAController::class, 'search']);
+
 
 
      //pengujian saya
@@ -343,6 +428,7 @@ Route::middleware(['auth', 'role:04'])->group(function () {
 
      // detail mahasiswa bimbingan proposal
      Route::get('/dosen/pengujian-proposal/detail-mahasiswa/{user_id}', [PengujianProposalController::class, 'detailMahasiswa']);
+
 
 });
 
@@ -357,10 +443,10 @@ Route::middleware(['auth'])->group(function () {
     // --------------------------------------------------------------------------------------------
 
     // profil acccount
-    Route::get('/admin/settings/account', [AccountController::class, 'index']);
-    Route::post('/admin/settings/account/edit_process', [AccountController::class, 'editProcess']);
-    Route::post('/admin/settings/account/edit_password', [AccountController::class, 'editPassword']);
+    Route::get('admin/settings/account', [AccountController::class, 'index']);
+    Route::post('admin/settings/account/edit_process', [AccountController::class, 'editProcess']);
+    Route::post('admin/settings/account/edit_password', [AccountController::class, 'editPassword']);
 
-    Route::post('/admin/settings/account/img_crop', [AccountController::class, 'ImgCrop'])->name('crop');
+    Route::post('admin/settings/account/img_crop', [AccountController::class, 'ImgCrop'])->name('crop');
 
 });

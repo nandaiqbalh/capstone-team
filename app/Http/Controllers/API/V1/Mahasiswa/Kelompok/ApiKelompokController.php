@@ -243,7 +243,6 @@ class ApiKelompokController extends Controller
                 $params = [
                     "angkatan" => $request->angkatan,
                     "user_name" => $request->user_name,
-                    "nomor_induk" => $request->nomor_induk,
                     "user_email" => $request->email,
                     "jenis_kelamin" => $request->jenis_kelamin,
                     "ipk" => $request->ipk,

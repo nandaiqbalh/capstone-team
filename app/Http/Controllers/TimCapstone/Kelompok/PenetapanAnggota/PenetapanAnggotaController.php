@@ -103,7 +103,7 @@ class PenetapanAnggotaController extends BaseController
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
-                'status_individu' => 'Menyetujui Kelompok!',
+                'status_individu' => 'Kelompok Diplot Tim Capstone!',
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];
@@ -112,7 +112,7 @@ class PenetapanAnggotaController extends BaseController
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
-                'status_individu' => 'Menyetujui Kelompok!',
+                'status_individu' => 'Kelompok Diplot Tim Capstone!',
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];
@@ -121,7 +121,7 @@ class PenetapanAnggotaController extends BaseController
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
-                'status_individu' => 'Menyetujui Kelompok!',
+                'status_individu' => 'Kelompok Diplot Tim Capstone!',
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];

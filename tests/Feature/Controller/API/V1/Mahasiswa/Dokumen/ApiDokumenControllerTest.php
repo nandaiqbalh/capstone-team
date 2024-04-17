@@ -21,7 +21,7 @@ class ApiDokumenControllerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -96,7 +96,7 @@ class ApiDokumenControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'success' => false,
-                'status' => 'Kelompok Anda belum valid.'
+                'status' => 'Anda belum mendaftar capstone!'
             ]);
     }
 
@@ -153,7 +153,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
     // Mock ApiDokumenModel::getById() to return a valid user
     $mock = Mockery::mock('ApiDokumenModel');
     $mock->shouldReceive('getById')
-        ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 1]);
+        ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
     // Mock ApiDokumenModel::fileMHS() to return a valid file
     $mock->shouldReceive('fileMHS')
@@ -225,7 +225,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 0]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah makalah dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -267,7 +267,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Mock ApiDokumenModel::getById() to return a valid user
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 1]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
         // Mock ApiDokumenModel::fileMHS() to return a valid file
         $mock = Mockery::mock('ApiDokumenModel');
@@ -340,7 +340,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => 0]);
+            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah laporan TA dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])

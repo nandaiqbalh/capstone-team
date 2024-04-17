@@ -15,17 +15,19 @@ class ApiSiklusModel extends ApiBaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
-            // ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
-            ->get();
+            ->where('status', 'aktif')
+            ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
+            ->first();
     }
 
     public static function getPeriodePendaftaranSiklus()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
-            ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
-            ->get();
+            ->where('status', 'aktif')
+            ->where('pendaftaran_mulai', '<', now())
+            ->where('pendaftaran_selesai', '>', now())
+            ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
+            ->first();
     }
 
 }

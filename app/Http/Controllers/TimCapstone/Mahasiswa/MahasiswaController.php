@@ -105,37 +105,43 @@ class MahasiswaController extends BaseController
     public function detailMahasiswa($user_id)
     {
 
-        // get data with pagination
-        $mahasiswa = MahasiswaModel::getDataById($user_id);
 
-        // check
-        if (empty($mahasiswa)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
-        }
-        $rs_peminatan = MahasiswaModel::peminatanMahasiswa($user_id);
+       // get data with pagination
+       $mahasiswa = MahasiswaModel::getDataById($user_id);
 
-        foreach ($rs_peminatan as $key => $peminatan) {
-            if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
-                $peminatan->prioritas = "Prioritas 1";
-            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
-                $peminatan->prioritas = "Prioritas 2";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
-                $peminatan->prioritas = "Prioritas 3";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
-                $peminatan->prioritas = "Prioritas 4";
-            } else {
-                $peminatan->prioritas = "Belum memilih";
+       $mahasiswa -> status_individu_color = $this->getStatusColor($mahasiswa->status_individu);
+       $mahasiswa -> status_tugas_akhir_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
+       $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
 
-            }
-        }
-        // dd($mahasiswa);
-        // data
-        $data = [
-            'mahasiswa' => $mahasiswa,
-            'rs_peminatan'=>$rs_peminatan
-        ];
+       // check
+       if (empty($mahasiswa)) {
+           // flash message
+           session()->flash('danger', 'Data tidak ditemukan.');
+           return redirect('/admin/mahasiswa');
+       }
+       $rs_peminatan = MahasiswaModel::peminatanMahasiswa($user_id);
+
+       foreach ($rs_peminatan as $key => $peminatan) {
+           if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
+               $peminatan->prioritas = "Prioritas 1";
+           } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
+               $peminatan->prioritas = "Prioritas 2";
+           }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
+               $peminatan->prioritas = "Prioritas 3";
+           }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
+               $peminatan->prioritas = "Prioritas 4";
+           } else {
+               $peminatan->prioritas = "Belum memilih";
+
+           }
+       }
+       // dd($mahasiswa);
+       // data
+       $data = [
+           'mahasiswa' => $mahasiswa,
+           'rs_peminatan'=>$rs_peminatan
+       ];
+
 
         // view
         return view('tim_capstone.mahasiswa.detail', $data);
@@ -266,4 +272,27 @@ class MahasiswaController extends BaseController
             return redirect('/admin/mahasiswa');
         }
     }
+
+
+public function getById($user_id)
+{
+    // Mengambil data mahasiswa berdasarkan user_id
+    $mahasiswa = MahasiswaModel::getMahasiswaById($user_id);
+
+    if ($mahasiswa) {
+        // Mengembalikan respons JSON sukses jika data ditemukan
+        return response()->json([
+            'success' => true,
+            'message' => 'Data mahasiswa ditemukan',
+            'data' => $mahasiswa
+        ]);
+    } else {
+        // Mengembalikan respons JSON error jika data tidak ditemukan
+        return response()->json([
+            'success' => false,
+            'message' => 'Data mahasiswa tidak ditemukan',
+            'data' => null
+        ], 404); // 404 Not Found sebagai contoh status code
+    }
+}
 }

@@ -18,11 +18,15 @@ class ValidasiKelompokModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', NULL)
+            ->where('a.status_kelompok', "Menunggu Persetujuan Tim Capstone!")
+            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Anggota!")
+            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
+            ->orWhere('a.status_kelompok', "Menunggu Penetapan Dosbing!")
             ->orderByDesc('a.id')
             ->paginate(20);
     }
@@ -59,7 +63,7 @@ class ValidasiKelompokModel extends BaseModel
     public static function getDataSearch($no_kel)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
@@ -91,7 +95,7 @@ class ValidasiKelompokModel extends BaseModel
     public static function getDataById($id)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as nama_topik', 'c.nama_siklus')
             ->join('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.id', $id)
@@ -159,6 +163,13 @@ class ValidasiKelompokModel extends BaseModel
             ->first();
     }
 
+    public static function getSiklusById($id)
+    {
+        return DB::table('siklus as a')
+            ->where('a.id', $id)
+            ->first();
+    }
+
     // pengecekan kelompok
     public static function listKelompokMahasiswa($id_kelompok)
     {
@@ -177,6 +188,12 @@ class ValidasiKelompokModel extends BaseModel
             ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
             ->where('a.id_topik_individu1', $id_topik)
             ->where('a.id_kelompok', null)
+            ->get();
+    }
+
+    public static function getPeminatan()
+    {
+        return DB::table('peminatan')
             ->get();
     }
 
@@ -221,6 +238,11 @@ class ValidasiKelompokModel extends BaseModel
     public static function updateKelompokMHS($user_id, $params)
     {
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
+    }
+
+    public static function updateKelompokMHSBasedOnKelompok($id_kelompok, $params)
+    {
+        return DB::table('kelompok_mhs')->where('id_kelompok', $id_kelompok)->update($params);
     }
 
     public static function updateKelompok($id_kelompok, $params)

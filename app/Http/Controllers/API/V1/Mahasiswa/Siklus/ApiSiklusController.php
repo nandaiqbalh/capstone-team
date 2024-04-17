@@ -28,12 +28,12 @@ class ApiSiklusController extends Controller
                 try {
                     $rs_siklus = ApiSiklusModel::getSiklusAktif();
 
-                    if($rs_siklus->isNotEmpty()){
+                    if($rs_siklus != null){
 
                         $periodePendaftaranCapstone = ApiSiklusModel::getPeriodePendaftaranSiklus();
 
-                        if ($periodePendaftaranCapstone->isEmpty()) {
-                            $response = $this->failureResponse('Belum memasuki periode pendaftaran capstone!');
+                        if ($periodePendaftaranCapstone == null) {
+                            $response = $this->failureResponse('Tidak dalam periode pendaftaran capstone!');
                         } else {
                             $data = [
                                 'rs_siklus' => $rs_siklus,

@@ -20,8 +20,11 @@ class MahasiswaTugasAkhirController extends BaseController
         // Get data kelompok
         $kelompok = MahasiswaTugasAkhirModel::pengecekan_kelompok_mahasiswa($user->user_id);
         $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
-        $rs_sidang = MahasiswaTugasAkhirModel::sidangTugasAkhirByMahasiswa($user->user_id);
+        $jadwal_sidang = MahasiswaTugasAkhirModel::sidangTugasAkhirByMahasiswa($user->user_id);
         $statusPendaftaran = MahasiswaTugasAkhirModel::getStatusPendaftaran($user->user_id);
+
+
+        $kelompok -> status_tugas_akhir_color = $this->getStatusColor($kelompok->status_tugas_akhir);
 
         if ($kelompok != null ) {
             $akun_mahasiswa = MahasiswaTugasAkhirModel::getAkunByID(Auth::user()->user_id);
@@ -52,7 +55,7 @@ class MahasiswaTugasAkhirController extends BaseController
                 }
             }
 
-            if ($rs_sidang == null ) {
+            if ($jadwal_sidang == null ) {
                 if ($periodeAvailable != null) {
                     // BATAS PENDAFTARAN
                     $waktubatas = strtotime($periodeAvailable->tanggal_selesai);
@@ -78,12 +81,12 @@ class MahasiswaTugasAkhirController extends BaseController
                     $periodeAvailable->waktu_batas = date('H:i:s', $waktubatas); // Time
 
                     // Extract day, date, and time from the "waktu" property
-                    $waktuSidang = strtotime($rs_sidang->waktu);
+                    $waktuSidang = strtotime($jadwal_sidang->waktu);
 
-                    $rs_sidang->hari_sidang = strftime('%A', $waktuSidang);
-                    $rs_sidang->hari_sidang = $this->convertDayToIndonesian($rs_sidang->hari_sidang);
-                    $rs_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
-                    $rs_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+                    $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+                    $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+                    $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
                 }
 
                 $statusPendaftaran = MahasiswaTugasAkhirModel::getStatusPendaftaran($user->user_id);
@@ -91,7 +94,7 @@ class MahasiswaTugasAkhirController extends BaseController
 
             $data = [
                 'kelompok' => $kelompok,
-                'rs_sidang' => $rs_sidang,
+                'jadwal_sidang' => $jadwal_sidang,
                 'rs_dosbing' => $rs_dosbing,
                 'rs_dospengta' => $rs_dospengta,
                 'periode' => $periodeAvailable,
@@ -120,31 +123,76 @@ class MahasiswaTugasAkhirController extends BaseController
 
      public function daftarTA(Request $request)
      {
-        $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+         // Validasi input data
+         $validatedData = $request->validate([
+             'judul_ta_mhs' => ['required', 'string', 'max:255'], // Memastikan judul TA tidak melebihi 255 karakter
+             'link_upload' => ['required', 'url'], // Memastikan link merupakan URL yang valid
+         ], [
+             'judul_ta_mhs.required' => 'Judul Tugas Akhir harus diisi.',
+             'judul_ta_mhs.max' => 'Judul Tugas Akhir tidak boleh lebih dari 20 kata.',
+             'link_upload.required' => 'Link upload harus diisi.',
+             'link_upload.url' => 'Format link upload tidak valid. Pastikan menyertakan protocol (contoh: http:// atau https://).',
+         ]);
+
+         // Memecah judul TA menjadi kata-kata untuk menghitung jumlah kata
+         $judulTa = $validatedData['judul_ta_mhs'];
+         $jumlahKata = str_word_count($judulTa);
+
+         // Validasi jumlah kata maksimal
+         if ($jumlahKata > 20) {
+             return redirect()->back()->with('danger', 'Judul Tugas Akhir tidak boleh lebih dari 20 kata.');
+         }
 
          $user = $request->user();
+         $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+
+         $kelompok = MahasiswaTugasAkhirModel::pengecekan_kelompok_mahasiswa(Auth::user()-> user_id);
+
+         if ($kelompok->status_expo != "Lulus Expo Project!") {
+             return redirect()->back()->with('danger', 'Anda harus lulus expo terlebih dahulu!');
+         }
+
+         // Cek apakah laporan TA sudah diunggah
+         $existingFile = MahasiswaTugasAkhirModel::fileMHS($user->user_id);
+         if (!$existingFile->file_name_laporan_ta) {
+             return redirect()->back()->with('danger', 'Lengkapi terlebih dahulu laporan TA sebelum mendaftar sidang Tugas Akhir.');
+         }
+
+         if (!$existingFile->file_name_makalah) {
+            return redirect()->back()->with('danger', 'Lengkapi terlebih dahulu makalah TA sebelum mendaftar sidang Tugas Akhir.');
+        }
+
+        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
+        }
+
+        if ($existingFile->file_status_mta != "Makalah TA Telah Disetujui!") {
+            return redirect()->back()->with('danger', 'Makalah TA belum disetujui kedua dosen pembimbing!');
+        }
+
          // Registration parameters
          $registrationParams = [
              'id_mahasiswa' => $user->user_id,
              'id_periode' => $periodeAvailable->id,
-             'status' => 'Menunggu Validasi Jadwal!',
+             'status' => 'Menunggu Penjadwalan Sidang TA!',
              'created_by' => $user->user_id,
-             'created_date' => now(), // Use Laravel helper function for the current date and time
+             'created_date' => now(), // Gunakan fungsi helper Laravel untuk tanggal dan waktu saat ini
          ];
 
-         // Use updateOrInsert to handle both insertion and updating
+         // Gunakan updateOrInsert untuk menangani penyisipan dan pembaruan
          if (DB::table('pendaftaran_sidang_ta')->updateOrInsert(
-             ['id_mahasiswa' => $user->user_id], // The condition to check if the record already exists
-             $registrationParams // The data to be updated or inserted
+             ['id_mahasiswa' => $user->user_id], // Kondisi untuk memeriksa apakah data sudah ada
+             $registrationParams // Data yang akan diperbarui atau disisipkan
          )) {
-             // Update kelompok mhs
+             // Perbarui kelompok mahasiswa
              $berkasParams = [
-                 'link_upload' => $request->link_upload,
-                 'judul_ta_mhs' => $request->judul_ta_mhs,
-                 'status_individu' => 'Menunggu Validasi Jadwal!',
+                 'link_upload' => $validatedData['link_upload'],
+                 'judul_ta_mhs' => $validatedData['judul_ta_mhs'],
+                 'status_individu' => 'Menunggu Penjadwalan Sidang TA!',
+                 'status_tugas_akhir' => 'Menunggu Penjadwalan Sidang TA!',
              ];
-             if (MahasiswaTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams)) {
 
+             if (MahasiswaTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams)) {
                  return redirect()->back()->with('success', 'Berhasil mendaftarkan sidang Tugas Akhir!');
              } else {
                  return redirect()->back()->with('danger', 'Gagal memperbarui data pendaftaran!');

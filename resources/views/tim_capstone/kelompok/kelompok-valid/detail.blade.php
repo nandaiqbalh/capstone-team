@@ -35,64 +35,58 @@
                             <tr>
                                 <td>Nomor Kelompok</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="nomor_kelompok"
-                                                value="{{ old('nomor_kelompok', $kelompok->nomor_kelompok) }}"
-                                                placeholder="Contoh: S1T23K12" readonly required>
-                                        </div>
-                                    </div>
-                                </td>
+                                @if ($kelompok->nomor_kelompok == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nomor_kelompok }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Siklus Pendaftaran</td>
+                                <td>:</td>
+                                @if ($kelompok->nama_siklus == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nama_siklus }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Status Kelompok</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="status_kelompok"
-                                                value="{{ old('status_kelompok', $kelompok->status_kelompok) }}" readonly
-                                                required>
-                                        </div>
-                                    </div>
-                                </td>
+                                @if ($kelompok->status_kelompok == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                        {{ $kelompok->status_kelompok }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Status Sidang Proposal</td>
+                                <td>:</td>
+                                @if ($kelompok->status_sidang_proposal == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_sidang_color }}">
+                                        {{ $kelompok->status_sidang_proposal }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Judul Capstone</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="judul_capstone"
-                                                value="{{ old('judul_capstone', $kelompok->judul_capstone) }}"
-                                                placeholder="Judul Capstone" readonly required>
-                                        </div>
-                                    </div>
-                                </td>
+                                @if ($kelompok->judul_capstone == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->judul_capstone }}</td>
+                                @endif
                             </tr>
                             <tr>
                                 <td>Topik</td>
                                 <td>:</td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <select class="form-select" name="topik" disabled>
-                                                <option value="" selected>-- Pilih --</option>
-                                                @foreach ($rs_topik as $topik)
-                                                    <option value="{{ $topik->id }}"
-                                                        @if ($topik->nama == $kelompok->nama_topik) selected @endif>
-                                                        {{ $topik->nama }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <!-- Hidden input field to send selected value to the server -->
-                                            <input type="hidden" name="selected_topik" value="{{ $kelompok->nama_topik }}">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
+                                @if ($kelompok->nama_topik == null)
+                                    <td>-</td>
+                                @else
+                                    <td>{{ $kelompok->nama_topik }}</td>
+                                @endif
                             </tr>
                         </tbody>
                     </table>
@@ -152,8 +146,13 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
-
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_dosbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td style="color: {{ $kelompok->status_dosbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else
@@ -162,6 +161,80 @@
                                 </tr>
                             @endif
                         </tbody>
+                    </table>
+                </div>
+
+                <br>
+                <h6 class="mb-0">Status Persetujuan Dokumen</h6>
+                <br>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th width="5%">No</th>
+                                <th>Nama Dokumen</th>
+                                <th>Status Persetujuan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1.</td>
+                                <td>Dokumen C100</td>
+                                <td style="color: {{ $kelompok->status_c100_color }}">
+                                    @if ($kelompok->file_status_c100 !== null)
+                                        {{ $kelompok->file_status_c100 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2.</td>
+                                <td>Dokumen C200</td>
+                                <td style="color: {{ $kelompok->status_c200_color }}">
+                                    @if ($kelompok->file_status_c200 !== null)
+                                        {{ $kelompok->file_status_c200 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3.</td>
+                                <td>Dokumen C300</td>
+                                <td style="color: {{ $kelompok->status_c300_color }}">
+                                    @if ($kelompok->file_status_c300 !== null)
+                                        {{ $kelompok->file_status_c300 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4.</td>
+                                <td>Dokumen C400</td>
+                                <td style="color: {{ $kelompok->status_c400_color }}">
+                                    @if ($kelompok->file_status_c400 !== null)
+                                        {{ $kelompok->file_status_c400 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5.</td>
+                                <td>Dokumen C500</td>
+                                <td style="color: {{ $kelompok->status_c500_color }}">
+                                    @if ($kelompok->file_status_c500 !== null)
+                                        {{ $kelompok->file_status_c500 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <!-- Tambahkan baris tambahan sesuai dengan jumlah dokumen yang ingin ditampilkan -->
+                        </tbody>
+
                     </table>
                 </div>
 
@@ -222,8 +295,8 @@
                                         <i class='bx bxs-file-doc bx-lg'></i>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control"
-                                            value="{{ $kelompok->file_name_c300 }}" readonly>
+                                        <input type="text" class="form-control" value="{{ $kelompok->file_name_c300 }}"
+                                            readonly>
                                         <a href="{{ url('/file/kelompok/c300') }}/{{ $kelompok->file_name_c300 }}"
                                             class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                     </div>

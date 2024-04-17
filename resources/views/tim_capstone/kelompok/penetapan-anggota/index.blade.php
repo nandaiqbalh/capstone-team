@@ -72,6 +72,7 @@
                                 <th width="5%">No</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Topik</th>
+                                <th>Peminatan</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -82,9 +83,12 @@
                                         <td class="text-center">{{ $index + $rs_pendaftaran->firstItem() }}.</td>
                                         <td>{{ $pendaftaran->user_name }}</td>
                                         <td>{{ $pendaftaran->prioritas_topik }}</td>
-                                        <td><a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
-                                                class="btn btn-secondary btn-xs float-right">
-                                                Detail</a></td>
+                                        <td>{{ $pendaftaran->prioritas_peminatan }}</td>
+                                        <td>
+                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                        </td>
+
                                     </tr>
                                 @endforeach
                             @else

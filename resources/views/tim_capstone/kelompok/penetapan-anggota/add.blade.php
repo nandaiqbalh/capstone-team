@@ -22,6 +22,8 @@
             <div class="card-body">
                 <form action="{{ url('/admin/penetapan-anggota/add-process') }}" method="post" autocomplete="off">
                     {{ csrf_field() }}
+                    <input type="hidden" name="id_siklus" value="{{ $rs_siklus->id }}">
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -34,14 +36,9 @@
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label>Pilih Siklus <span class="text-danger">*</span></label>
-                                <select class="form-select select-2" name="id_siklus" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($rs_siklus as $siklus)
-                                        <option value="{{ $siklus->id }}">{{ $siklus->tahun_ajaran }} |
-                                            {{ $siklus->tanggal_mulai }} sampai {{ $siklus->tanggal_selesai }}</option>
-                                    @endforeach
-                                </select>
+                                <label>Nama Siklus <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="nama_siklus"
+                                    value="{{ $rs_siklus->nama_siklus }}" readonly>
                             </div>
                         </div>
                     </div>
@@ -55,7 +52,9 @@
                                     <option value="" disabled selected>-- Pilih --</option>
                                     @foreach ($rs_mahasiswa as $mahasiswa)
                                         <option value="{{ $mahasiswa->user_id }}"
-                                            @if (old('id_mahasiswa1') == '{{ $mahasiswa->user_id }}') selected @endif>{{ $mahasiswa->user_name }}
+                                            @if (old('id_mahasiswa1') == '{{ $mahasiswa->user_id }}') selected @endif>{{ $mahasiswa->user_name }} ||
+                                            {{ $mahasiswa->prioritas_peminatan }} ||
+                                            {{ $mahasiswa->usulan_judul_capstone }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -69,6 +68,10 @@
                                     @foreach ($rs_mahasiswa as $mahasiswa)
                                         <option value="{{ $mahasiswa->user_id }}"
                                             @if (old('id_mahasiswa2') == '{{ $mahasiswa->user_id }}') selected @endif>{{ $mahasiswa->user_name }}
+                                            ||
+                                            {{ $mahasiswa->prioritas_peminatan }}
+                                            ||
+                                            {{ $mahasiswa->usulan_judul_capstone }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -82,6 +85,10 @@
                                     @foreach ($rs_mahasiswa as $mahasiswa)
                                         <option value="{{ $mahasiswa->user_id }}"
                                             @if (old('id_mahasiswa3') == '{{ $mahasiswa->user_id }}') selected @endif>{{ $mahasiswa->user_name }}
+                                            ||
+                                            {{ $mahasiswa->prioritas_peminatan }}
+                                            ||
+                                            {{ $mahasiswa->usulan_judul_capstone }}
                                         </option>
                                     @endforeach
                                 </select>

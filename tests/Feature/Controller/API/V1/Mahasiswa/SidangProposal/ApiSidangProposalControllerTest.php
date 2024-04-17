@@ -18,7 +18,7 @@ class ApiSidangProposalControllerTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 

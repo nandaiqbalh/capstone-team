@@ -1,12 +1,12 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Penetapan Penguji Proposal
+    Penjadwalan Sidang Proposal
 @endsection
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4">Penetapan Penguji Proposal</h5>
+        <h5 class="fw-bold py-3 mb-4">Penjadwalan Sidang Proposal</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -48,9 +48,36 @@
                                 @if ($kelompok->status_kelompok == null)
                                     <td>-</td>
                                 @else
-                                    <td>{{ $kelompok->status_kelompok }}</td>
+                                    <td style="color: {{ $kelompok->status_kelompok_color }}">
+                                        {{ $kelompok->status_kelompok }}</td>
                                 @endif
                             </tr>
+                            <tr>
+                                <td>Status Sidang Proposal</td>
+                                <td>:</td>
+
+                                @if ($kelompok->status_sidang_proposal == null)
+                                    <td style="color: {{ $kelompok->status_sidang_color }}"">Belum Dijadwalkan Sidang
+                                        Proposal!</td>
+                                @else
+                                    <td
+                                        style="color:
+                                        {{ $kelompok->status_sidang_color }}">
+                                        {{ $kelompok->status_sidang_proposal }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Status Dokumen C100</td>
+                                <td>:</td>
+
+                                @if ($kelompok->file_status_c100 == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_dokumen_color }}">
+                                        {{ $kelompok->file_status_c100 }}</td>
+                                @endif
+                            </tr>
+
                             <tr>
                                 <td>Hari, tanggal</td>
                                 <td>:</td>
@@ -108,7 +135,65 @@
                 </div>
                 <hr>
 
+                <br>
+                @if (count($rs_penguji_proposal) >= 2)
+                @else
+                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                        data-bs-target="#Dosen">
+                        Tambah Dosen Penguji Proposal
+                    </button>
+                @endif
+
+                <h6 class="mb-0">List Dosen Penguji Proposal</h6>
+                <br>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th width="5%">No</th>
+                                <th>Nama Penguji</th>
+                                <th>NIP/NIDN</th>
+                                <th>Posisi</th>
+                                <th>Status Persetujuan</th>
+                                <th>Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($rs_penguji_proposal->count() > 0)
+                                @foreach ($rs_penguji_proposal as $index => $penguji_proposal)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}.</td>
+                                        <td>{{ $penguji_proposal->user_name }}</td>
+                                        <td>{{ $penguji_proposal->nomor_induk }}</td>
+                                        <td>{{ $penguji_proposal->jenis_dosen }}</td>
+                                        @if ($penguji_proposal->jenis_dosen == 'Penguji 1')
+                                            <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                                {{ $penguji_proposal->status_dosen }}</td>
+                                        @elseif($penguji_proposal->jenis_dosen == 'Penguji 2')
+                                            <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                                {{ $penguji_proposal->status_dosen }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
+                                        <td class="text-center">
+                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
+                                                class="btn btn-outline-danger btn-xs m-1 "
+                                                onclick="return confirm('Apakah anda ingin menghapus {{ $penguji_proposal->user_name }} ?')">
+                                                Hapus</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="6">Tidak ada data.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+
                 <hr>
+                <br>
                 <h6 class="mb-0">Penjadwalan Sidang Proposal</h6>
                 <hr>
                 <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
@@ -124,18 +209,30 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Waktu Mulai<span class="text-danger">*</span></label>
-                                <input type="datetime-local" class="form-control" name="waktu"
-                                    value="{{ old('waktu') ? \Carbon\Carbon::parse(old('waktu'))->format('Y-m-d\TH:i:s') : '' }}"
-                                    required>
+
+                                @if ($jadwal_sidang == null)
+                                    <input placeholder="Atur waktu" id="waktu" type="text" class="form-control"
+                                        name="waktu" required>
+                                @else
+                                    <input value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
+                                        placeholder="Atur waktu" id="waktu" type="text" class="form-control"
+                                        name="waktu" required>
+                                @endif
+
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Waktu Selesai<span class="text-danger">*</span></label>
-                                <input type="datetime-local" class="form-control" name="waktu_selesai"
-                                    value="{{ old('waktu_selesai') ? \Carbon\Carbon::parse(old('waktu_selesai'))->format('Y-m-d\TH:i:s') : '' }}"
-                                    required>
+                                @if ($jadwal_sidang == null)
+                                    <input placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
+                                        name="waktu_selesai" required>
+                                @else
+                                    <input value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
+                                        placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
+                                        name="waktu_selesai" required>
+                                @endif
+
                             </div>
                         </div>
 
@@ -155,6 +252,7 @@
                     <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
                 </form>
 
+                <br>
                 <h6>Validasi Dokumen C100</h6>
 
                 <div class="card">
@@ -231,8 +329,15 @@
                                         <td>{{ $dosbing->user_name }}</td>
                                         <td>{{ $dosbing->nomor_induk }}</td>
                                         <td>{{ $dosbing->jenis_dosen }}</td>
-                                        <td>{{ $dosbing->status_dosen }}</td>
-
+                                        @if ($dosbing->jenis_dosen == 'Pembimbing 1')
+                                            <td style="color: {{ $kelompok->status_pembimbing1_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
+                                            <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                {{ $dosbing->status_dosen }}</td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             @else
@@ -245,53 +350,6 @@
                 </div>
 
                 <br>
-                @if (count($rs_penguji_proposal) >= 2)
-                @else
-                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
-                        data-bs-target="#Dosen">
-                        Tambah Dosen Penguji Proposal
-                    </button>
-                @endif
-
-                <h6 class="mb-0">List Dosen Penguji Proposal</h6>
-                <br>
-                <div class="table-responsive text-nowrap">
-                    <table class="table table-bordered">
-                        <thead class="thead-light">
-                            <tr class="text-center">
-                                <th width="5%">No</th>
-                                <th>Nama Penguji</th>
-                                <th>NIP/NIDN</th>
-                                <th>Posisi</th>
-                                <th>Status Persetujuan</th>
-                                <th>Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if ($rs_penguji_proposal->count() > 0)
-                                @foreach ($rs_penguji_proposal as $index => $penguji_proposal)
-                                    <tr>
-                                        <td class="text-center">{{ $index + 1 }}.</td>
-                                        <td>{{ $penguji_proposal->user_name }}</td>
-                                        <td>{{ $penguji_proposal->nomor_induk }}</td>
-                                        <td>{{ $penguji_proposal->jenis_dosen }}</td>
-                                        <td>{{ $penguji_proposal->status_dosen }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-danger btn-xs m-1 "
-                                                onclick="return confirm('Apakah anda ingin menghapus {{ $penguji_proposal->user_name }} ?')">
-                                                Hapus</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td class="text-center" colspan="6">Tidak ada data.</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
 
             </div>
 
@@ -363,4 +421,29 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi flatpickr untuk elemen waktu_mulai dan waktu_selesai
+            flatpickr('#waktu, #waktu_selesai', {
+                dateFormat: 'Y-m-d H:i', // Format tanggal dan waktu (YYYY-MM-DD HH:mm)
+                enableTime: true, // Izinkan pilihan waktu
+                time_24hr: true, // Format waktu 24-jam
+                minDate: new Date('2019-12-31'), // Batasi pilihan tanggal minimal ke hari ini
+                maxDate: new Date('2050-12-31'), // Batasi pilihan tanggal maksimal
+                defaultHour: 12, // Jam default jika tidak ada waktu terpilih
+                defaultMinute: 0, // Menit default jika tidak ada waktu terpilih
+                locale: {
+                    buttons: {
+                        now: 'Sekarang' // Mengganti teks tombol "Sekarang"
+                    }
+                },
+                appendTo: document.body, // Append kalender ke dalam body
+                inline: false, // Tidak menggunakan mode inline
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log('Tanggal dan waktu dipilih:', dateStr);
+                }
+            });
+        });
+    </script>
 @endsection

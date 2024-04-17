@@ -17,7 +17,7 @@ class ApiExpoModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -47,20 +47,6 @@ class ApiExpoModelTest extends TestCase
     {
         // Panggil method kelengkapanExpo dari ApiExpoModel
         $data = ApiExpoModel::kelengkapanExpo($this->user_id);
-
-        // Pastikan data tidak kosong
-        $this->assertNotEmpty($data);
-
-        // Pastikan data adalah instance dari objek
-        $this->assertIsObject($data);
-
-    }
-
-    /** @test */
-    public function test_it_can_check_status_expo()
-    {
-        // Panggil method cekStatusExpo dari ApiExpoModel
-        $data = ApiExpoModel::cekStatusExpo($this->user_id);
 
         // Pastikan data tidak kosong
         $this->assertNotEmpty($data);

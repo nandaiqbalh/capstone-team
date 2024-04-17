@@ -83,11 +83,37 @@ class ApiExpoController extends Controller
 
                 if ($this->validateKelompok($kelompok)) {
 
-                    if($kelompok -> file_name_c500 != null){
+                    $dokumen_mahasiwa = ApiExpoModel::fileMHS($user ->user_id);
+
+                    if ($kelompok->file_status_c100 != "C100 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C100 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c200 != "C200 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C200 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c300 != "C300 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C300 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c400 != "C400 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C400 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok->file_status_c500 != "C500 Telah Disetujui!") {
+                        $response = $this->failureResponse('Dokumen C500 belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($dokumen_mahasiwa->file_status_lta != "Laporan TA Telah Disetujui!") {
+                        return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
+                    }
+
+                    if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null) {
                         $registrationParams = [
                             'id_kelompok' => $kelompok->id,
                             'id_expo' => $request->id_expo,
-                            'status' => 'Menunggu Validasi Expo!',
+                            'status' => 'Menunggu Persetujuan Expo!',
                             'created_by' => $user->user_id,
                             'created_date' => now(),
                         ];
@@ -99,14 +125,16 @@ class ApiExpoController extends Controller
 
                         $kelompokParams = [
                             'link_berkas_expo' => $request->link_berkas_expo,
-                            'status_kelompok' => "Menunggu Validasi Expo!"
+                            'status_kelompok' => "Menunggu Persetujuan Expo!",
+                            'status_expo' => "Menunggu Persetujuan Expo!"
+
                         ];
 
                         ApiExpoModel::updateKelompokById($kelompok->id, $kelompokParams);
 
                         $kelompokMHSParams = [
                             'judul_ta_mhs' => $request->judul_ta_mhs,
-                            'status_individu' => "Menunggu Validasi Expo!"
+                            'status_individu' => "Menunggu Persetujuan Expo!"
                         ];
                         ApiExpoModel::updateKelompokMHS($user->user_id, $kelompokMHSParams);
 
@@ -114,7 +142,7 @@ class ApiExpoController extends Controller
 
                         $response = $this->successResponse('Berhasil mendaftarkan expo!', $cekStatusExpo);
                     } else {
-                        $response = $this->failureResponse('Lengkapi Dokumen Capstone!');
+                        $response = $this->failureResponse('Lengkapi terlebih dahulu dokumen Anda!');
                     }
 
                 } else {

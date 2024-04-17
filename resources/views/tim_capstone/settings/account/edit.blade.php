@@ -60,7 +60,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Nama<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" name="user_name"
+                                        <input type="text" class="form-control" name="user_name" readonly
                                             value="{{ old('user_name', $account->user_name) }}" required>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label>ID Pengguna<span class="text-danger">*</span></label>
+                                        <label>Nomor Induk<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="id_pengguna"
                                             value="{{ old('id_pengguna', $account->nomor_induk) }}" minlength="6"
                                             maxlength="11" pattern="[0-9]+" required readonly disabled>
@@ -157,8 +157,7 @@
                                 {{-- <input type="password" class="form-control" name="repeat_new_password" required> --}}
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" name="repeat_new_password"
-                                        id="repeat_new_password" placeholder="Masukkan konfirmasi kata sandi baru"
-                                        required>
+                                        id="repeat_new_password" placeholder="Masukkan ulang kata sandi baru" required>
                                     <span class="input-group-text toggle-password" data-target="repeat_new_password">
                                         <i class="fa fa-eye-slash" aria-hidden="true"></i>
                                     </span>

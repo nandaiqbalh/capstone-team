@@ -48,8 +48,7 @@ class MahasiswaKelompokModel extends BaseModel
                 ->select('a.*', 'c.role_name')
                 ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
                 ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
-                    $query->where('a.role_id', '04')
-                        ->orWhere('a.role_id', '02');
+                    $query->where('a.role_id', '04');
                 })
                 ->where('a.dosbing1', '1')
                 ->orderBy('a.user_name')
@@ -62,8 +61,7 @@ class MahasiswaKelompokModel extends BaseModel
                 ->select('a.*', 'c.role_name')
                 ->join('app_role as c', 'a.role_id', '=', 'c.role_id') // Penambahan '=' pada join condition
                 ->where(function ($query) { // Penggunaan fungsi where dengan closure untuk menangani OR condition
-                    $query->where('a.role_id', '04')
-                        ->orWhere('a.role_id', '02');
+                    $query->where('a.role_id', '04');
                 })
                 ->where('a.dosbing2', '1')
                 ->orderBy('a.user_name')
@@ -181,14 +179,17 @@ class MahasiswaKelompokModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('status', 'aktif')
-              ->get();
+              ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
+              ->first();
       }
 
       public static function getPeriodePendaftaranSiklus()
       {
           return DB::table('siklus')
-              ->where('status','aktif')
-              ->where('siklus.pendaftaran_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
+              ->where('status', 'aktif')
+              ->where('pendaftaran_mulai', '<', now())
+              ->where('pendaftaran_selesai', '>', now())
+              ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
               ->first();
       }
 

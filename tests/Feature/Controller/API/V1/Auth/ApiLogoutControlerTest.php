@@ -8,14 +8,32 @@ use Tests\TestCase;
 
 class ApiLogoutControlerTest extends TestCase
 {
+
+    protected $token;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Melakukan login untuk mendapatkan token
+        $loginPayload = [
+            'nomor_induk' => '21120120130058',
+            'password' => 'mahasiswa123',
+        ];
+
+        $loginResponse = $this->json('POST', '/api/v1/auth/login/', $loginPayload);
+
+        // Mengambil token dari response login
+        $this->token = $loginResponse->json('data.api_token');
+    }
+
     public function testLogoutWithValidToken()
     {
         // Assume you have a valid token for testing purposes
-        $validToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2NhcHN0b25lX3RlYW0vcHVibGljL2FwaS92MS9hdXRoL2xvZ2luIiwiaWF0IjoxNzEwMDA2MjAxLCJleHAiOjE3MTA2MTEwMDEsIm5iZiI6MTcxMDAwNjIwMSwianRpIjoiUHlFdncxaFNpUUJHVUZISCIsInN1YiI6IjE3MDY5MjUyMzgzMjk2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.P7IVoq_OCmq-7Uyxp8fsN7-rWd7HVDLncF3zf4f1epM';
 
         // Mock the request with the valid token
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $validToken,
+            'Authorization' => 'Bearer ' . $this->token,
         ])->json('GET', '/api/v1/auth/logout');
 
         $response->assertStatus(200)

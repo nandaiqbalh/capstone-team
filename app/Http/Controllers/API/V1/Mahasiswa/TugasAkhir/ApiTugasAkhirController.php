@@ -159,33 +159,48 @@ class ApiTugasAkhirController extends Controller
                      $dokumen_mahasiwa = ApiTugasAkhirModel::fileMHS($user ->user_id);
                     if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null && $dokumen_mahasiwa -> file_name_makalah != null) {
                         // Registration parameters
-                    $registrationParams = [
-                        'id_mahasiswa' => $user->user_id,
-                        'id_periode' => $periodeAvailable ->id,
-                        'status' => 'Menunggu Validasi Jadwal!',
-                        'created_by' => $user->user_id,
-                        'created_date' => now(), // Use Laravel helper function for the current date and time
-                    ];
 
-                     // Use updateOrInsert to handle both insertion and updating
-                    DB::table('pendaftaran_sidang_ta')->updateOrInsert(
-                        ['id_mahasiswa' => $user->user_id], // The condition to check if the record already exists
-                        $registrationParams // The data to be updated or inserted
-                    );
+                        if ($dokumen_mahasiwa->file_status_lta != "Laporan TA Telah Disetujui!") {
+                            return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
+                        }
 
-                    // Update kelompok mhs
-                    $berkasParams = [
-                        'link_upload' => $request->link_upload,
-                        'judul_ta_mhs' => $request->judul_ta_mhs,
-                        'status_individu' => 'Menunggu Validasi Jadwal!',
-                    ];
-                    ApiTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams);
+                        if ($dokumen_mahasiwa->file_status_mta != "Makalah TA Telah Disetujui!") {
+                            return $this->failureResponse('Makalah TA belum disetujui kedua dosen pembimbing!');
+                        }
 
-                    // cek status pendaftaran
-                    $cekStatusPendaftaran = ApiTugasAkhirModel::cekStatusPendaftaranSidangTA($user->user_id);
+                        if ($kelompok -> status_expo == "Lulus Expo Project!") {
+                            $registrationParams = [
+                                'id_mahasiswa' => $user->user_id,
+                                'id_periode' => $periodeAvailable ->id,
+                                'status' => 'Menunggu Penjadwalan Sidang TA!',
+                                'created_by' => $user->user_id,
+                                'created_date' => now(), // Use Laravel helper function for the current date and time
+                            ];
 
-                    $response = $this->successResponse('Berhasil mendaftarkan sidang Tugas Akhir!', $cekStatusPendaftaran ->status_pendaftaran);
+                            // Use updateOrInsert to handle both insertion and updating
+                            DB::table('pendaftaran_sidang_ta')->updateOrInsert(
+                                ['id_mahasiswa' => $user->user_id], // The condition to check if the record already exists
+                                $registrationParams // The data to be updated or inserted
+                            );
 
+                            // Update kelompok mhs
+                            $berkasParams = [
+                                'link_upload' => $request->link_upload,
+                                'judul_ta_mhs' => $request->judul_ta_mhs,
+                                'status_individu' => 'Menunggu Penjadwalan Sidang TA!',
+                                'status_tugas_akhir' => 'Menunggu Penjadwalan Sidang TA!',
+
+                            ];
+                            ApiTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams);
+
+                            // cek status pendaftaran
+                            $cekStatusPendaftaran = ApiTugasAkhirModel::cekStatusPendaftaranSidangTA($user->user_id);
+
+                            $response = $this->successResponse('Berhasil mendaftarkan sidang Tugas Akhir!', $cekStatusPendaftaran ->status_pendaftaran);
+
+                        } else {
+                            $response = $this->failureResponse('Anda harus lulus expo terlebih dahulu!');
+                        }
                     } else {
                         $response = $this->failureResponse('Lengkapi terlebih dahulu dokumen Anda!');
                     }

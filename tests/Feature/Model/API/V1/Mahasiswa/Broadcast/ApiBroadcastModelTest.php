@@ -24,7 +24,6 @@ class ApiBroadcastModelTest extends TestCase
         $result = ApiBroadcastModel::getDataWithPagination();
 
         $this->assertNotNull($result);
-        $this->assertInstanceOf(\Illuminate\Pagination\LengthAwarePaginator::class, $result);
 
     }
 

@@ -16,7 +16,7 @@ class ApiExpoControllerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -60,8 +60,8 @@ class ApiExpoControllerTest extends TestCase
     public function test_it_returns_failure_response_when_user_inactive()
     {
         // Menonaktifkan pengguna yang sedang diuji
-        $user = User::where('nomor_induk', '21120120130125')->first();
-        $user->update(['user_active' => 0], ['timestamps' => false]);
+        $user = User::where('nomor_induk', '21120120130058')->first();
+        $user->update(['user_active' => "0"], ['timestamps' => false]);
 
         // Mengirimkan permintaan API untuk mendapatkan jadwal expo
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -74,7 +74,7 @@ class ApiExpoControllerTest extends TestCase
             ]);
 
         // Mengaktifkan kembali pengguna setelah pengujian selesai
-        $user->update(['user_active' => 1], ['timestamps' => false]);
+        $user->update(['user_active' => "1"], ['timestamps' => false]);
     }
 
     /** @test */
@@ -132,7 +132,7 @@ class ApiExpoControllerTest extends TestCase
         // Menjalankan request API untuk mendaftar expo
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
             ->json('POST', '/api/v1/mahasiswa/expo-daftar/', [
-                'id_expo' => 8,
+                'id_expo' => 6,
                 'link_berkas_expo' => 'https://example.com/berkas_expo',
                 'judul_ta_mhs' => 'Judul Tugas Akhir Mahasiswa',
             ]);
@@ -151,7 +151,7 @@ class ApiExpoControllerTest extends TestCase
     {
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120120015',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -163,7 +163,7 @@ class ApiExpoControllerTest extends TestCase
         // Menjalankan request API untuk mendaftar expo
         $response = $this->withHeaders(['Authorization' => 'Bearer ' .  $token])
             ->json('POST', '/api/v1/mahasiswa/expo-daftar/', [
-                'id_expo' => 8,
+                'id_expo' => 6,
                 'link_berkas_expo' => 'https://example.com/berkas_expo',
                 'judul_ta_mhs' => 'Judul Tugas Akhir Mahasiswa',
             ]);
@@ -192,13 +192,13 @@ class ApiExpoControllerTest extends TestCase
     public function test_it_returns_failure_response_when_user_inactive_register_expo()
     {
         // Menonaktifkan pengguna yang sedang diuji
-        $user = User::where('nomor_induk', '21120120130125')->first();
-        $user->update(['user_active' => 0], ['timestamps' => false]);
+        $user = User::where('nomor_induk', '21120120130058')->first();
+        $user->update(['user_active' => "0"], ['timestamps' => false]);
 
         // Mengirimkan permintaan API untuk mendaftar expo
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
             ->json('POST', '/api/v1/mahasiswa/expo-daftar/', [
-                'id_expo' => 8,
+                'id_expo' => 6,
                 'link_berkas_expo' => 'https://example.com/berkas_expo',
                 'judul_ta_mhs' => 'Judul Tugas Akhir Mahasiswa',
             ]);
@@ -210,7 +210,7 @@ class ApiExpoControllerTest extends TestCase
             ]);
 
         // Mengaktifkan kembali pengguna setelah pengujian selesai
-        $user->update(['user_active' => 1], ['timestamps' => false]);
+        $user->update(['user_active' => "1"], ['timestamps' => false]);
     }
 
     /** @test */
@@ -219,7 +219,7 @@ class ApiExpoControllerTest extends TestCase
         // Mengirimkan permintaan API dengan token yang tidak valid
         $response = $this->withHeaders(['Authorization' => 'Bearer invalid_token'])
             ->json('POST', '/api/v1/mahasiswa/expo-daftar/', [
-                'id_expo' => 8,
+                'id_expo' => 6,
                 'link_berkas_expo' => 'https://example.com/berkas_expo',
                 'judul_ta_mhs' => 'Judul Tugas Akhir Mahasiswa',
             ]);
@@ -236,7 +236,7 @@ class ApiExpoControllerTest extends TestCase
     {
         // Mengirimkan permintaan API tanpa menyertakan token
         $response = $this->json('POST', '/api/v1/mahasiswa/expo-daftar/', [
-            'id_expo' => 8,
+            'id_expo' => 6,
             'link_berkas_expo' => 'https://example.com/berkas_expo',
             'judul_ta_mhs' => 'Judul Tugas Akhir Mahasiswa',
         ]);

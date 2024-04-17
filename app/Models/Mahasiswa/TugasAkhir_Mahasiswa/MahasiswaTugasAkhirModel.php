@@ -12,7 +12,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
       public static function pengecekan_kelompok_mahasiswa($user_id)
       {
           return DB::table('kelompok_mhs as a')
-              ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+              ->select('a.id_kelompok', 'a.status_individu',  'a.status_tugas_akhir',   'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
               ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
               ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
               ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
@@ -24,7 +24,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
       public static function sidangProposalByKelompok($idKelompok)
     {
         return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.id as siklus_id', 'b.tahun_ajaran', 'c.judul_capstone', 'c.status_kelompok', 'd.kode_ruang', 'd.nama_ruang')
+        ->select('a.*', 'b.id as siklus_id', 'b.nama_siklus', 'c.judul_capstone', 'c.status_kelompok', 'd.kode_ruang', 'd.nama_ruang')
         ->join('siklus as b', 'a.siklus_id', '=', 'b.id')
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')
@@ -201,6 +201,17 @@ class MahasiswaTugasAkhirModel extends BaseModel
         return DB::table('kelompok_mhs')
             ->where('id_mahasiswa', $id_mahasiswa)
             ->update($params);
+    }
+
+    public static function fileMHS()
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.id as id_kel_mhs', 'a.file_status_lta', 'a.file_status_mta', 'a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
+            ->join('kelompok as b','a.id_kelompok','b.id')
+            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->where('c.status','aktif')
+            ->where('a.id_mahasiswa', Auth::user()->user_id)
+            ->first();
     }
 
 }

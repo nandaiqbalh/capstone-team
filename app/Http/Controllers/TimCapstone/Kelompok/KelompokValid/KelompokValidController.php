@@ -26,9 +26,20 @@ class KelompokValidController extends BaseController
 
         // get data with pagination
         $rs_kelompok = KelompokValidModel::getDataWithPagination();
+        $rs_siklus = KelompokValidModel::getSiklusAktif();
 
+        foreach ($rs_kelompok as $kelompok) {
+
+            $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+            $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+            $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+        }
         // data
-        $data = ['rs_kelompok' => $rs_kelompok];
+        $data = [
+            'rs_kelompok' => $rs_kelompok,
+            'rs_siklus' => $rs_siklus,
+        ];
         // view
         return view('tim_capstone.kelompok.kelompok-valid.index', $data);
     }
@@ -39,6 +50,35 @@ class KelompokValidController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+     public function filterSiklusKelompok(Request $request)
+     {
+         // data request
+         $id_siklus = $request->id_siklus;
+
+         // new search or reset
+         if ($request->action == 'search') {
+             $rs_kelompok = KelompokValidModel::filterSiklusKelompok($id_siklus);
+             $rs_siklus = KelompokValidModel::getSiklusAktif();
+
+             foreach ($rs_kelompok as $kelompok) {
+
+                $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+                $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+                $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+            }
+             // data
+             $data = [
+                 'rs_kelompok' => $rs_kelompok,
+                 'rs_siklus' => $rs_siklus,
+             ];
+             // view
+             return view('tim_capstone.kelompok.kelompok-valid.index', $data);
+         } else {
+             return redirect('/admin/kelompok-valid');
+         }
+     }
     public function detailKelompok($id)
     {
 
@@ -81,6 +121,18 @@ class KelompokValidController extends BaseController
             session()->flash('danger', 'Data tidak ditemukan.');
             return redirect('/admin/kelompok-valid');
         }
+
+        // status color
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+        $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+        $kelompok -> status_c100_color = $this->getStatusColor($kelompok->file_status_c100);
+        $kelompok -> status_c200_color = $this->getStatusColor($kelompok->file_status_c200);
+        $kelompok -> status_c300_color = $this->getStatusColor($kelompok->file_status_c300);
+        $kelompok -> status_c400_color = $this->getStatusColor($kelompok->file_status_c400);
+        $kelompok -> status_c500_color = $this->getStatusColor($kelompok->file_status_c500);
 
         // data
         $data = [

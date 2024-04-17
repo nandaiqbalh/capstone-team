@@ -49,6 +49,7 @@
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
                                 <th>Posisi Dosen</th>
+                                <th>Status Saya</th>
                                 <th>Hari, tanggal</th>
                                 <th>Waktu</th>
                                 <th>Tempat</th>
@@ -62,12 +63,27 @@
                                         <td class="text-center">{{ $index + $rs_pengujian_proposal->firstItem() }}.</td>
                                         <td>{{ $kelompok->nomor_kelompok }}</td>
                                         <td>{{ $kelompok->jenis_dosen }}</td>
+                                        @if ($kelompok->jenis_dosen == 'Penguji 1')
+                                            <td style="color: {{ $kelompok->status_penguji1_color }}">
+                                                {{ $kelompok->status_dosen }}
+                                            </td>
+                                        @elseif($kelompok->jenis_dosen == 'Penguji 2')
+                                            <td style="color: {{ $kelompok->status_penguji2_color }}">
+                                                {{ $kelompok->status_dosen }}
+                                            </td>
+                                        @elseif($kelompok->jenis_dosen == 'Pembimbing 2')
+                                            <td style="color: {{ $kelompok->status_pembimbing2_color }}">
+                                                {{ $kelompok->status_dosen }}
+                                            </td>
+                                        @else
+                                            <td>-</td>
+                                        @endif
                                         <td>{{ $kelompok->hari_sidang }}, {{ $kelompok->tanggal_sidang }}</td>
                                         <td>{{ $kelompok->waktu_sidang }} WIB - {{ $kelompok->waktu_selesai }} WIB
                                         <td>{{ $kelompok->nama_ruang }}</td>
 
                                         <td class="text-center">
-                                            @if ($kelompok->status_dosen == 'Menyetujui Sidang Proposal!')
+                                            @if ($kelompok->status_dosen == 'Penguji Setuju!' || $kelompok->status_dosen == 'Pembimbing Setuju!')
                                                 <a href="{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
@@ -83,9 +99,7 @@
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
                                                     Tolak</a>
-                                            @elseif(
-                                                $kelompok->status_dosen == 'Persetujuan Penguji Gagal!' ||
-                                                    $kelompok->status_dosen == 'Persetujuan Pembimbing Gagal!')
+                                            @elseif($kelompok->status_dosen == 'Penguji Tidak Setuju!' || $kelompok->status_dosen == 'Pembimbing Tidak Setuju!')
                                                 <a href="{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}"
                                                     class="btn btn-outline-primary btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}')">
@@ -93,7 +107,7 @@
                                             @else
                                             @endif
                                             <a href="{{ url('/dosen/pengujian-proposal/detail') }}/{{ $kelompok->id_kelompok }}"
-                                                class="btn btn-outline-warning btn-xs m-1"> Detail</a>
+                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 
                                         <script>

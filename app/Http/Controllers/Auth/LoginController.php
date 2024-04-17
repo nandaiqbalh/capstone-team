@@ -53,13 +53,24 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             session()->put('login', 'true');
-            // return
-            return redirect()->intended('admin/dashboard');
-        } else {
 
+            // Redirect based on user role
+            $role = Auth::user()->role_id;
+
+            if ($role === '01') {
+                return redirect()->intended('admin/dashboard');
+            } elseif ($role === '02') {
+                return redirect()->intended('admin/dashboard');
+            } elseif ($role === '03') {
+                return redirect()->intended('mahasiswa/beranda');
+            } elseif ($role === '04') {
+                return redirect()->intended('dosen/beranda');
+            }
+        } else {
             // flash message
             $request->session()->flash('danger', 'Nomor induk atau kata sandi tidak sesuai!');
             return redirect('/login')->withInput();
         }
     }
+
 }

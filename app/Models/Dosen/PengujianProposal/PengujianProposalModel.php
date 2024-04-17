@@ -26,15 +26,92 @@ class PengujianProposalModel extends BaseModel
             ->where('a.id_dosen_pembimbing_2', Auth::user()->user_id)
             ->orWhere('a.id_dosen_penguji_1', Auth::user()->user_id)
             ->orWhere('a.id_dosen_penguji_2', Auth::user()->user_id)
+            ->orderBy('a.is_sidang_proposal', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
             ->orderBy('d.waktu')
             ->paginate(20);
     }
 
+    public static function getTopik()
+    {
+        return DB::table('topik')
+        ->get();
+    }
+
+    public static function listKelompokMahasiswa($id_kelompok)
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.*', 'b.*')
+            ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
+            ->where('a.id_kelompok', $id_kelompok)
+            ->whereNot('a.id_kelompok', null)
+            ->get();
+    }
+
+    public static function getAkunDosbingKelompok($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->join('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+            })
+            ->where('kelompok.id', '=', $id_kelompok)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok.id_dosen_pembimbing_1 THEN 1
+                    WHEN app_user.user_id = kelompok.id_dosen_pembimbing_2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
+    }
+
+    public static function getAkunPengujiProposalKelompok($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->join('kelompok', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+            })
+            ->where('kelompok.id', '=', $id_kelompok)
+            ->orderByRaw('
+                CASE
+                    WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
+                    WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
+                END
+            ')
+            ->select('app_user.*')
+            ->get();
+    }
+
+
+    public static function getJadwalSidangProposal($id_kelompok)
+    {
+        return DB::table('jadwal_sidang_proposal as a')
+        ->select('a.*', 'b.*')
+        ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
+        ->where('id_kelompok', $id_kelompok)
+        ->first();
+    }
+
+    public static function getDosenPengujiProposal($id_kelompok)
+    {
+        return DB::table('app_user')
+            ->where('app_user.role_id', '04')
+            ->select('app_user.*')
+            ->orderBy('app_user.user_name')
+            ->get();
+    }
+
+    public static function getRuangSidang()
+    {
+        return DB::table('ruang_sidangs')
+        ->get();
+    }
     // get search
     public static function getDataSearch($no_kel)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.tahun_ajaran')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")

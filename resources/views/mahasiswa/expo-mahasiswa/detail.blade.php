@@ -15,13 +15,32 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Expo Project</h5>
             </div>
-
             <div class="card-body">
 
                 @if ($kelompok != null)
                     @if ($siklus_sudah_punya_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @elseif($kelompok->nomor_kelompok == null)
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th width="5%"></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <br>
                         <h6>Kelompok Anda belum valid!</h6>
                     @else
                         @if ($rs_expo == null)
@@ -40,25 +59,31 @@
                                         <tr>
                                             <td>Status</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
-                                                <td>Menunggu Validasi Kelompok!</td>
-                                            @else
-                                                <td>{{ $kelompok->status_kelompok }}</td>
-                                            @endif
+                                            <td style="color: {{ $kelompok->status_expo_color }}">
+                                                {{ $kelompok->status_expo ?: 'Belum Mendaftar Expo Project!' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Siklus</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
+                                            @if ($rs_expo->nama_siklus == null)
                                                 <td>-</td>
                                             @else
-                                                <td>{{ $rs_expo->tahun_ajaran }}</td>
+                                                <td>{{ $rs_expo->nama_siklus }}</td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td>Batas Pendaftaran</td>
+                                            <td>:</td>
+                                            @if ($rs_expo->hari_expo == null)
+                                                <td>-</td>
+                                            @else
+                                                <td>{{ $rs_expo->hari_batas }}, {{ $rs_expo->tanggal_batas }}</td>
                                             @endif
                                         </tr>
                                         <tr>
                                             <td>Hari, tanggal</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
+                                            @if ($rs_expo->hari_expo == null)
                                                 <td>-</td>
                                             @else
                                                 <td>{{ $rs_expo->hari_expo }}, {{ $rs_expo->tanggal_expo }}</td>
@@ -67,7 +92,7 @@
                                         <tr>
                                             <td>Waktu</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
+                                            @if ($rs_expo->waktu_expo == null)
                                                 <td>-</td>
                                             @else
                                                 <td>{{ $rs_expo->waktu_expo }} WIB</td>
@@ -77,7 +102,7 @@
                                         <tr>
                                             <td>Tempat</td>
                                             <td>:</td>
-                                            @if ($kelompok->nomor_kelompok == null)
+                                            @if ($rs_expo->tempat == null)
                                                 <td>-</td>
                                             @else
                                                 <td>{{ $rs_expo->tempat }}</td>
@@ -92,7 +117,8 @@
 
                             <h5>Pendaftaran Expo Project</h5>
 
-                            <form action="{{ url('/mahasiswa/expo/expo-daftar') }}" method="post" autocomplete="off">
+                            <form id="confirmForm" action="{{ url('/mahasiswa/expo/expo-daftar') }}" method="post"
+                                autocomplete="off">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id_expo" value="{{ $rs_expo->id }}">
                                 <div class="row">
@@ -118,16 +144,57 @@
                                 </div>
 
                                 <br>
-                                <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#confirmModal">Daftar</button>
                             </form>
                         @endif
 
                     @endif
                 @else
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th width="5%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <br>
                     <h6>Anda belum mendaftar capstone!</h6>
                 @endif
 
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Konfirmasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin data yang Anda masukkan sudah sesuai?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                    <button type="button" class="btn btn-primary" id="confirmButton">Ya, Yakin</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var confirmButton = document.getElementById('confirmButton');
+
+            confirmButton.addEventListener('click', function() {
+                // Lakukan submit formulir secara langsung setelah konfirmasi
+                var form = document.getElementById('confirmForm');
+                form.submit();
+            });
+        });
+    </script>
 @endsection

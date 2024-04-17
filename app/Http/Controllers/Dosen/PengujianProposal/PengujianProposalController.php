@@ -31,8 +31,14 @@ class PengujianProposalController extends BaseController
                 $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_2;
 
             } else {
-                $pengujian_prososal->jenis_dosen = 'Belum diplot';
+                $pengujian_prososal->jenis_dosen = 'Belum Diplot';
+                $pengujian_prososal->status_dosen = 'Belum Diplot';
             }
+            $pengujian_prososal -> status_penguji1_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_1);
+            $pengujian_prososal -> status_penguji2_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_2);
+            $pengujian_prososal -> status_pembimbing1_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_1);
+            $pengujian_prososal -> status_pembimbing2_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_2);
+
         }
 
 
@@ -75,20 +81,84 @@ class PengujianProposalController extends BaseController
 
         // get data with pagination
         $kelompok = PengujianProposalModel::getDataById($id);
-        $rs_mahasiswa = PengujianProposalModel::getMahasiswa($kelompok->id);
+        $rs_topik = PengujianProposalModel::getTopik();
+        $rs_mahasiswa = PengujianProposalModel::listKelompokMahasiswa($id);
+        $rs_dosbing = PengujianProposalModel::getAkunDosbingKelompok($id);
+        $rs_penguji_proposal = PengujianProposalModel::getAkunPengujiProposalKelompok($id);
+
+        // get jadwal sidang
+        $jadwal_sidang = PengujianProposalModel::getJadwalSidangProposal($id);
+        if($jadwal_sidang != null){
+            $waktuSidang = strtotime($jadwal_sidang->waktu);
+
+            $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+            $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+            $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
+            $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+
+        }
+
+        // penguji avaliable
+        $rs_penguji = PengujianProposalModel::getDosenPengujiProposal($id);
+
+        $rs_ruang_sidang = PengujianProposalModel::getRuangSidang();
+
+        foreach ($rs_dosbing as $dosbing) {
+
+            if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
+                $dosbing->jenis_dosen = 'Pembimbing 1';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
+            } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
+                $dosbing->jenis_dosen = 'Pembimbing 2';
+                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
+            }
+
+        }
+
+        foreach ($rs_penguji_proposal as $penguji_proposal) {
+
+            if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_1) {
+                $penguji_proposal->jenis_dosen = 'Penguji 1';
+                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_1;
+            } else if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_2) {
+                $penguji_proposal->jenis_dosen = 'Penguji 2';
+                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_2;
+            }
+
+        }
 
         // check
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/dosen/pengujian-proposal');
+            return redirect('/admin/kelompok');
         }
+
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+        $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+        $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+        $kelompok -> status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
 
         // data
         $data = [
             'kelompok' => $kelompok,
+            'rs_topik' => $rs_topik,
             'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_dosbing' => $rs_dosbing,
+            'rs_penguji_proposal' => $rs_penguji_proposal,
+            'rs_penguji' => $rs_penguji,
+            'rs_ruang_sidang' => $rs_ruang_sidang,
+            'jadwal_sidang' => $jadwal_sidang,
+
         ];
+        // dd($data);
 
         // view
         return view('dosen.pengujian-proposal.detail', $data);
@@ -108,19 +178,19 @@ class PengujianProposalController extends BaseController
                 if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'Persetujuan Pembimbing Gagal!',
+                        'status_dosen_pembimbing_2' => 'Pembimbing Tidak Setuju!',
                     ];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Penguji 1';
                     $params = [
-                        'status_dosen_penguji_1' => 'Persetujuan Penguji Gagal!',
+                        'status_dosen_penguji_1' => 'Penguji Tidak Setuju!',
                     ];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Penguji 2';
                     $params = [
-                        'status_dosen_penguji_2' => 'Persetujuan Penguji Gagal!',
+                        'status_dosen_penguji_2' => 'Penguji Tidak Setuju!',
                     ];
                     break;
                 }
@@ -140,15 +210,15 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Persetujuan Pembimbing Gagal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Persetujuan Penguji Gagal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Persetujuan Penguji Gagal!") {
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Penguji Tidak Setuju!" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Tidak Setuju!" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Tidak Setuju!") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Persetujuan Penguji Gagal!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Penguji Tidak Setuju!'];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
 
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
 
@@ -165,7 +235,6 @@ class PengujianProposalController extends BaseController
         }
     }
 
-
     public function terimaPengujianProposalSaya(Request $request, $id)
     {
         $rs_pengujian_proposal = PengujianProposalModel::getDataWithPagination();
@@ -174,13 +243,13 @@ class PengujianProposalController extends BaseController
         foreach ($rs_pengujian_proposal as $pengujian_proposal) {
             if ($pengujian_proposal->id_kelompok == $id) {
                 if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_pembimbing_2' => 'Menyetujui Sidang Proposal!'];
+                    $params = ['status_dosen_pembimbing_2' => 'Pembimbing Setuju!'];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_1' => 'Menyetujui Sidang Proposal!'];
+                    $params = ['status_dosen_penguji_1' => 'Penguji Setuju!'];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_2' => 'Menyetujui Sidang Proposal!'];
+                    $params = ['status_dosen_penguji_2' => 'Penguji Setuju!'];
                     break;
                 }
             }
@@ -198,15 +267,15 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Menyetujui Sidang Proposal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Menyetujui Sidang Proposal!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Menyetujui Sidang Proposal!") {
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Pembimbing Setuju!" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Setuju!" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Setuju!") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Persetujuan Penguji Berhasil!'];
+                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!', 'status_sidang_proposal'=>"Dijadwalkan Sidang Proposal!"];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
 
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
 
@@ -275,9 +344,48 @@ class PengujianProposalController extends BaseController
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
-            $rs_kelompok = PengujianProposalModel::getDataSearch($nama);
+            $rs_pengujian_proposal = PengujianProposalModel::getDataSearch($nama);
+
+            foreach ($rs_pengujian_proposal as $pengujian_prososal) {
+                if ($pengujian_prososal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
+                    $pengujian_prososal->jenis_dosen = 'Pembimbing 2';
+                    $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_pembimbing_2;
+
+                } else if ($pengujian_prososal->id_dosen_penguji_1 == Auth::user()->user_id) {
+                    $pengujian_prososal->jenis_dosen = 'Penguji 1';
+                    $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_1;
+
+                } else if ($pengujian_prososal->id_dosen_penguji_2 == Auth::user()->user_id) {
+                    $pengujian_prososal->jenis_dosen = 'Penguji 2';
+                    $pengujian_prososal -> status_dosen = $pengujian_prososal ->status_dosen_penguji_2;
+
+                } else {
+                    $pengujian_prososal->jenis_dosen = 'Belum Diplot';
+                    $pengujian_prososal->status_dosen = 'Belum Diplot';
+                }
+                $pengujian_prososal -> status_penguji1_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_1);
+                $pengujian_prososal -> status_penguji2_color = $this->getStatusColor($pengujian_prososal->status_dosen_penguji_2);
+                $pengujian_prososal -> status_pembimbing1_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_1);
+                $pengujian_prososal -> status_pembimbing2_color = $this->getStatusColor($pengujian_prososal->status_dosen_pembimbing_2);
+
+            }
+
+
+            foreach ($rs_pengujian_proposal as $pengujian_proposal) {
+                if ($pengujian_proposal != null) {
+                    $waktuSidang = strtotime($pengujian_proposal->waktu);
+
+                    $pengujian_proposal->hari_sidang = strftime('%A', $waktuSidang);
+                    $pengujian_proposal->hari_sidang = $this->convertDayToIndonesian($pengujian_proposal->hari_sidang);
+                    $pengujian_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $pengujian_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                    $waktuSelesai = strtotime($pengujian_proposal->waktu_selesai);
+                    $pengujian_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
+                }
+            }
             // data
-            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
+            $data = ['rs_pengujian_proposal' => $rs_pengujian_proposal];
             // view
             return view('dosen.pengujian-proposal.index', $data);
         } else {

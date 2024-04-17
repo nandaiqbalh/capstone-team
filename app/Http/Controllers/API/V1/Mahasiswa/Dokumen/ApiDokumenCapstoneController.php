@@ -89,9 +89,12 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc100);
                                 $statusParam = [
-                                    'status_kelompok' => 'C100 Telah Disetujui!',
-                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C100!',
-                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C100!',
+                                    'status_kelompok' => 'Menunggu Persetujuan C100!',
+                                    'file_status_c100' => 'Menunggu Persetujuan C100!',
+                                    'file_status_c100_dosbing1' => 'Menunggu Persetujuan C100!',
+                                    'file_status_c100_dosbing2' => 'Menunggu Persetujuan C100!',
+                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
+                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
@@ -187,9 +190,12 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc200);
                                 $statusParam = [
-                                    'status_kelompok' => 'C200 Telah Disetujui!',
-                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C200!',
-                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C200!',
+                                    'status_kelompok' => 'Menunggu Persetujuan C200!',
+                                    'file_status_c200' => 'Menunggu Persetujuan C200!',
+                                    'file_status_c200_dosbing1' => 'Menunggu Persetujuan C200!',
+                                    'file_status_c200_dosbing2' => 'Menunggu Persetujuan C200!',
+                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C200!',
+                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C200!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
@@ -286,9 +292,12 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc300);
                                 $statusParam = [
-                                    'status_kelompok' => 'C300 Telah Disetujui!',
-                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C300!',
-                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C300!',
+                                    'status_kelompok' => 'Menunggu Persetujuan C300!',
+                                    'file_status_c300' => 'Menunggu Persetujuan C300!',
+                                    'file_status_c300_dosbing1' => 'Menunggu Persetujuan C300!',
+                                    'file_status_c300_dosbing2' => 'Menunggu Persetujuan C300!',
+                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C300!',
+                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C300!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
@@ -387,9 +396,12 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc400);
                                 $statusParam = [
-                                    'status_kelompok' => 'C400 Telah Disetujui!',
-                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C400!',
-                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C400!',
+                                    'status_kelompok' => 'Menunggu Persetujuan C400!',
+                                    'file_status_c400' => 'Menunggu Persetujuan C400!',
+                                    'file_status_c400_dosbing1' => 'Menunggu Persetujuan C400!',
+                                    'file_status_c400_dosbing2' => 'Menunggu Persetujuan C400!',
+                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C400!',
+                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C400!',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
@@ -488,9 +500,12 @@ class ApiDokumenCapstoneController extends Controller
                             if ($uploadFile) {
                                 $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc500);
                                 $statusParam = [
-                                    'status_kelompok' => 'C500 Telah Disetujui!',
-                                    'status_dosen_pembimbing_1' => 'Menyetujui Dokumen C500!',
-                                    'status_dosen_pembimbing_2' => 'Menyetujui Dokumen C500!',
+                                    'status_kelompok' => 'Menunggu Persetujuan C500!',
+                                    'file_status_c500' => 'Menunggu Persetujuan C500!',
+                                    'file_status_c500_dosbing1' => 'Menunggu Persetujuan C500!',
+                                    'file_status_c500_dosbing2' => 'Menunggu Persetujuan C500!',
+                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C500!',
+                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C500!',
                                 ];
 
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);

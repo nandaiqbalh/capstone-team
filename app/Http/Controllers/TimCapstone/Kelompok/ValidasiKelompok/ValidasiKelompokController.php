@@ -4,6 +4,7 @@ namespace App\Http\Controllers\TimCapstone\Kelompok\ValidasiKelompok;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\Kelompok\ValidasiKelompok\ValidasiKelompokModel;
@@ -17,7 +18,14 @@ class ValidasiKelompokController extends BaseController
 
         // get data with pagination
         $rs_kelompok = ValidasiKelompokModel::getDataWithPagination();
-        // dd($rs_kelompok);
+
+        foreach ($rs_kelompok as $kelompok) {
+
+            $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+            $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+            $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+        }
         // data
         $data = ['rs_kelompok' => $rs_kelompok, ];
         // view
@@ -47,6 +55,33 @@ class ValidasiKelompokController extends BaseController
             }
 
         }
+
+        $rs_peminatan = ValidasiKelompokModel::getPeminatan();
+
+        foreach ($rs_mahasiswa_nokel as $key => $mahasiswa) {
+            foreach ($rs_topik as $key => $topik) {
+                if ($topik->id == $mahasiswa->id_topik_individu1) {
+                    $mahasiswa->prioritas_topik = $topik->nama;
+                    break; // Exit the loop once the first match is found
+                } else {
+                    $mahasiswa->prioritas_topik = "Belum memilih";
+                }
+            }
+
+            foreach ($rs_peminatan as $key => $peminatan) {
+                if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
+                    $mahasiswa->prioritas_peminatan = $peminatan->nama_peminatan;
+                    break; // Exit the loop once the first match is found
+                } else {
+                    $mahasiswa->prioritas_peminatan = "Belum memilih";
+                }
+            }
+        }
+
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
 
         // check
         if (empty($kelompok)) {
@@ -139,7 +174,7 @@ class ValidasiKelompokController extends BaseController
             if ($kelompok->id_dosen_pembimbing_1 == null && $kelompok->id_dosen_pembimbing_2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_1' => $request->id_dosen,
-                    'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Berhasil!',
+                    'status_dosen_pembimbing_1' => 'Dosbing Diplot Tim Capstone!',
                 ];
             } else {
                 session()->flash('danger', 'Posisi/dosen sudah terisi!');
@@ -153,7 +188,7 @@ class ValidasiKelompokController extends BaseController
             if ($kelompok->id_dosen_pembimbing_2 == null && $kelompok->id_dosen_pembimbing_1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_2' => $request->id_dosen,
-                    'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Berhasil!',
+                    'status_dosen_pembimbing_2' => 'Dosbing Diplot Tim Capstone!',
                 ];
             } else {
                 session()->flash('danger', 'Posisi/dosen sudah terisi!');
@@ -168,7 +203,7 @@ class ValidasiKelompokController extends BaseController
 
             if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Menunggu Validasi Kelompok!"
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
                 ];
 
                 ValidasiKelompokModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -226,43 +261,108 @@ class ValidasiKelompokController extends BaseController
         }
     }
 
+    public function setujuiKelompokProcess(Request $request)
+    {
+        $rules = [
+            'id' => 'required',
+        ];
 
+        $this->validate($request, $rules);
+
+        // Ambil data kelompok berdasarkan ID
+        $kelompok = ValidasiKelompokModel::getKelompokById($request->id);
+
+        if (!$kelompok) {
+            return redirect()->back()->with('danger', 'Kelompok tidak ditemukan.');
+        }
+
+
+        if ($kelompok->id_dosen_pembimbing_1 == null) {
+            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 1!');
+        }
+
+        if ($kelompok->id_dosen_pembimbing_2 == null) {
+            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 2!');
+        }
+
+        $siklus = ValidasiKelompokModel::getSiklusById($kelompok->id_siklus);
+
+        // Ambil kode siklus dari variabel siklus
+        $kodeSiklus = $siklus->kode_siklus;
+
+        if (!$kodeSiklus) {
+            return redirect()->back()->with('danger', 'Gagal mendapatkan kode siklus.');
+        }
+
+        // Ambil nomor kelompok terakhir dari tabel kelompok
+        $lastNomorKelompok = DB::table('kelompok')
+            ->where('nomor_kelompok', 'like', $kodeSiklus . 'K%')
+            ->max(DB::raw('CAST(SUBSTRING(nomor_kelompok, CHAR_LENGTH("' . $kodeSiklus . 'K") + 1) AS UNSIGNED)'));
+        // Mengambil nomor terbesar setelah karakter 'K'
+
+        // Jika tidak ada nomor kelompok sebelumnya, mulai dari 0
+        $nextNumber = $lastNomorKelompok !== null ? $lastNomorKelompok + 1 : 1;
+
+        // Format nomor kelompok dengan kode siklus dan nomor urut
+        $nomor_kelompok = $kodeSiklus . 'K' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+
+        // Parameter untuk update data kelompok
+        $params = [
+            "nomor_kelompok" => $nomor_kelompok,
+            "id_topik" => $request->topik,
+            "status_kelompok" => "Kelompok Telah Disetujui!",
+            'modified_by' => Auth::user()->user_id,
+            'modified_date' => now()->format('Y-m-d H:i:s')
+        ];
+
+        // Proses update data kelompok
+        if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
+
+            $paramsMhsBasedOnKelompok = [
+                "status_individu" => "Kelompok Telah Disetujui!",
+            ];
+
+            if (ValidasiKelompokModel::updateKelompokMHSBasedOnKelompok($request->id, $paramsMhsBasedOnKelompok)) {
+                session()->flash('success', 'Data berhasil disimpan.');
+            } else {
+                session()->flash('danger', 'Gagal mengubah status mahasiswa.');
+            }
+            // Flash message sukses
+        } else {
+            // Flash message gagal
+            session()->flash('danger', 'Data gagal disimpan.');
+        }
+
+        return redirect()->back();
+    }
 
     public function editKelompokProcess(Request $request)
     {
-
-        // Validate & auto redirect when fail
         $rules = [
             'id' => 'required',
-            'nomor_kelompok' => 'required|unique:kelompok,nomor_kelompok,'.$request->id.',id',
         ];
 
-        $customMessages = [
-            'nomor_kelompok.unique' => 'Nomor Kelompok tidak tersedia!',
-        ];
 
-        $this->validate($request, $rules, $customMessages);
-
-        // params
+        // Parameter untuk update data kelompok
         $params = [
-            "nomor_kelompok" => $request->nomor_kelompok,
             "id_topik" => $request->topik,
-            "status_kelompok" => "Validasi Kelompok Berhasil!",
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'modified_by' => Auth::user()->user_id,
+            'modified_date' => now()->format('Y-m-d H:i:s')
         ];
 
-        // process
+        // Proses update data kelompok
         if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
-            // flash message
+            // Flash message sukses
             session()->flash('success', 'Data berhasil disimpan.');
-            return back();
         } else {
-            // flash message
+            // Flash message gagal
             session()->flash('danger', 'Data gagal disimpan.');
-            return back();
         }
+
+        return redirect()->back();
     }
+
+
 
     public function deleteKelompokProcess($id)
     {

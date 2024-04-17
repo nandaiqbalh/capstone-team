@@ -12,7 +12,7 @@ class MahasiswaExpoModel extends BaseModel
     public static function getDataExpo()
     {
         return DB::table('jadwal_expo as a')
-            ->select('a.*', 'b.tahun_ajaran')
+            ->select('a.*', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('b.status', 'aktif')
             ->where('a.tanggal_selesai', '>', now())
@@ -196,5 +196,16 @@ class MahasiswaExpoModel extends BaseModel
     public static function updateKelompokMHS($user_id, $params)
     {
         return DB::table('kelompok_mhs')->where('id_mahasiswa', $user_id)->update($params);
+    }
+
+    public static function fileMHS($user_id)
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select('a.id as id_kel_mhs', 'a.id_mahasiswa', 'a.file_status_mta','a.file_status_lta','a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
+            ->join('kelompok as b','a.id_kelompok','b.id')
+            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->where('c.status','aktif')
+            ->where('a.id_mahasiswa', $user_id)
+            ->first();
     }
 }

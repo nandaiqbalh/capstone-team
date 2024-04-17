@@ -32,26 +32,37 @@ class ApiDokumenController extends Controller
             if ($user != null && $user->user_active == 1) {
                 try {
 
-                    // get data kelompok
-                    $file_mhs = ApiDokumenModel::fileMHS($user->user_id);
+                    $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
 
-                    // data
-                    $data = ['file_mhs' => $file_mhs];
+                    if ($kelompok != null) {
 
-                    if ($file_mhs != null) {
+                        if ($kelompok -> nomor_kelompok != null) {
+                            $file_mhs = ApiDokumenModel::fileMHS($user->user_id);
 
-                        $file_mhs -> file_url_c100 = $this->getDokumenUrl($file_mhs -> file_path_c100, $file_mhs -> file_name_c100);
-                        $file_mhs -> file_url_c200 = $this->getDokumenUrl($file_mhs -> file_path_c200, $file_mhs -> file_name_c200);
-                        $file_mhs -> file_url_c300 = $this->getDokumenUrl($file_mhs -> file_path_c300, $file_mhs -> file_name_c300);
-                        $file_mhs -> file_url_c400 = $this->getDokumenUrl($file_mhs -> file_path_c400, $file_mhs -> file_name_c400);
-                        $file_mhs -> file_url_c500 = $this->getDokumenUrl($file_mhs -> file_path_c500, $file_mhs -> file_name_c500);
-                        $file_mhs -> file_url_laporan_ta = $this->getDokumenUrl($file_mhs -> file_path_laporan_ta, $file_mhs -> file_name_laporan_ta);
-                        $file_mhs -> file_url_makalah = $this->getDokumenUrl($file_mhs -> file_path_makalah, $file_mhs -> file_name_makalah);
+                            // data
+                            $data = ['file_mhs' => $file_mhs];
 
-                        $response = $this->successResponse('Berhasil mendapatkan dokumen mahasiswa.', $data);
+                            if ($file_mhs != null) {
+
+                                $file_mhs -> file_url_c100 = $this->getDokumenUrl($file_mhs -> file_path_c100, $file_mhs -> file_name_c100);
+                                $file_mhs -> file_url_c200 = $this->getDokumenUrl($file_mhs -> file_path_c200, $file_mhs -> file_name_c200);
+                                $file_mhs -> file_url_c300 = $this->getDokumenUrl($file_mhs -> file_path_c300, $file_mhs -> file_name_c300);
+                                $file_mhs -> file_url_c400 = $this->getDokumenUrl($file_mhs -> file_path_c400, $file_mhs -> file_name_c400);
+                                $file_mhs -> file_url_c500 = $this->getDokumenUrl($file_mhs -> file_path_c500, $file_mhs -> file_name_c500);
+                                $file_mhs -> file_url_laporan_ta = $this->getDokumenUrl($file_mhs -> file_path_laporan_ta, $file_mhs -> file_name_laporan_ta);
+                                $file_mhs -> file_url_makalah = $this->getDokumenUrl($file_mhs -> file_path_makalah, $file_mhs -> file_name_makalah);
+
+                                $response = $this->successResponse('Berhasil mendapatkan dokumen mahasiswa.', $data);
+                            } else {
+                                $response = $this->failureResponse('Kelompok Anda belum valid!');
+                            }
+                        } else {
+                            $response = $this->failureResponse('Kelompok Anda belum valid!');
+                        }
                     } else {
-                        $response = $this->failureResponse('Kelompok Anda belum valid!');
+                        $response = $this->failureResponse('Anda belum mendaftar capstone!');
                     }
+
                 } catch (\Exception $e) {
                     $response = $this->failureResponse('Gagal mendapatkan dokumen mahasiswa!');
                 }
@@ -100,47 +111,50 @@ class ApiDokumenController extends Controller
 
                     if ($existingFile -> file_name_laporan_ta != null) {
 
-                    $file = $request->file('makalah');
-
-                    // Generate a unique file name
-                    $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-
-                    // Check if the folder exists, if not, create it
-                    if (!is_dir(public_path($uploadPath))) {
-                        mkdir(public_path($uploadPath), 0755, true);
-                    }
-
-
-
-                    if ($existingFile->file_name_makalah) {
-                        $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
-
-                        if (file_exists($filePath) && !unlink($filePath)) {
-                            $response = $this->failureResponse('Gagal menghapus dokumen lama!');
+                        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+                            return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
                         }
-                    }
 
-                    // Move the uploaded file to the specified path
-                    if ($file->move(public_path($uploadPath), $newFileName)) {
-                        // Save the new file details in the database
-                        $urlMakalah = url($uploadPath . '/' . $newFileName);
+                        $file = $request->file('makalah');
 
-                        $params = [
-                            'file_name_makalah' => $newFileName,
-                            'file_path_makalah' => $uploadPath,
-                        ];
+                        // Generate a unique file name
+                        $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-                        $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
+                        // Check if the folder exists, if not, create it
+                        if (!is_dir(public_path($uploadPath))) {
+                            mkdir(public_path($uploadPath), 0755, true);
+                        }
 
-                        if ($uploadFile) {
-                            $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlMakalah);
-                            $statusParam = [
-                                'status_individu' => 'Mengunggah Laporan TA',
+                        if ($existingFile->file_name_makalah) {
+                            $filePath = public_path($existingFile->file_path_makalah . '/' . $existingFile->file_name_makalah);
+
+                            if (file_exists($filePath) && !unlink($filePath)) {
+                                $response = $this->failureResponse('Gagal menghapus dokumen lama!');
+                            }
+                        }
+
+                        // Move the uploaded file to the specified path
+                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                            // Save the new file details in the database
+                            $urlMakalah = url($uploadPath . '/' . $newFileName);
+
+                            $params = [
+                                'file_name_makalah' => $newFileName,
+                                'file_path_makalah' => $uploadPath,
+                                'file_status_mta' => 'Menunggu Persetujuan Makalah TA!',
+                                'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
+                                'file_status_mta_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
+                                'status_individu' => 'Menunggu Persetujuan Makalah TA!',
+
                             ];
-                            ApiDokumenModel::uploadFileMHS($user->user_id, $statusParam);
-                        } else {
-                            $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
-                        }
+
+                            $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
+
+                            if ($uploadFile) {
+                                $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlMakalah);
+                            } else {
+                                $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
+                            }
                     } else {
                         $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                     }
@@ -192,9 +206,8 @@ class ApiDokumenController extends Controller
                 $uploadPath = '/file/mahasiswa/laporan-ta';
 
                 $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
-
                 // Check and delete the existing file
-                $dokumenKelompok = ApiDokumenModel::getKelompokFile($$kelompok->id_kelompok);
+                $dokumenKelompok = ApiDokumenModel::getKelompokFile($kelompok->id_kelompok);
 
                 // Upload
                 if ($request->hasFile('laporan_ta')) {
@@ -229,6 +242,10 @@ class ApiDokumenController extends Controller
                             $params = [
                                 'file_name_laporan_ta' => $newFileName,
                                 'file_path_laporan_ta' => $uploadPath,
+                                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
+                                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
+                                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
+                                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);

@@ -10,7 +10,7 @@ class ApiLoginControllerTest extends TestCase
     public function testAuthenticationWithValidCredentials()
     {
         $payload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -34,7 +34,6 @@ class ApiLoginControllerTest extends TestCase
                     'ipk',
                     'sks',
                     'jenis_kelamin',
-                    'alamat',
                     'created_by',
                     'created_date',
                     'modified_by',
@@ -67,7 +66,7 @@ class ApiLoginControllerTest extends TestCase
             ])
             ->assertJson([
                 'success' => false,
-                'status' => 'Nomor Induk atau Password tidak valid.',
+                'status' => 'NIM atau Kata Sandi tidak valid.',
                 'data' => null,
             ]);
     }

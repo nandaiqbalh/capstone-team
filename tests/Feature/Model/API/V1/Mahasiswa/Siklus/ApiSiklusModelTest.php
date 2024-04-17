@@ -16,7 +16,7 @@ class ApiSiklusModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -47,11 +47,11 @@ class ApiSiklusModelTest extends TestCase
         // Panggil method getSiklusAktif dari ApiSiklusModel
         $data = ApiSiklusModel::getSiklusAktif();
 
-        // Pastikan data tidak kosong
-        $this->assertNotEmpty($data);
+         // Pastikan data tidak kosong
+         $this->assertNotNull($data);
 
-        // Pastikan data adalah instance dari koleksi (collection)
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $data);
+         // Pastikan data adalah instance dari objek
+         $this->assertIsObject($data);
 
 
     }
@@ -62,12 +62,11 @@ class ApiSiklusModelTest extends TestCase
         // Panggil method getPeriodePendaftaranSiklus dari ApiSiklusModel
         $data = ApiSiklusModel::getPeriodePendaftaranSiklus();
 
-        // Pastikan data tidak kosong
-        $this->assertNotEmpty($data);
+          // Pastikan data tidak kosong
+          $this->assertNotNull($data);
 
-        // Pastikan data adalah instance dari koleksi (collection)
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $data);
-
+          // Pastikan data adalah instance dari objek
+          $this->assertIsObject($data);
 
     }
 }

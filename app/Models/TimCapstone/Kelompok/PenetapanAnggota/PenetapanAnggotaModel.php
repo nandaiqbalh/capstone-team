@@ -22,7 +22,7 @@ class PenetapanAnggotaModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('app_user as a')
-            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.tahun_ajaran')
+            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.nama_siklus')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->join('siklus as d','b.id_siklus','d.id')
@@ -63,19 +63,24 @@ class PenetapanAnggotaModel extends BaseModel
     public static function getMahasiswa($id_topik)
     {
         return DB::table('app_user as a')
-            ->select('a.*', 'c.nama as nama_topik', 'c.id as id_topik')
+            ->select('a.*', 'c.nama as nama_topik', 'b.*', 'c.id as id_topik', 'd.nama_peminatan as prioritas_peminatan')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->join('topik as c', 'b.id_topik_individu1', 'c.id')
+            ->leftJoin('peminatan as d', 'b.id_peminatan_individu1', 'd.id') // Join peminatan dengan leftJoin
+            ->where('b.id_kelompok', NULL)
             ->where('b.id_topik_individu1', $id_topik)
             ->get();
     }
+
     // get data topik
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-        ->where('status', 'aktif')
-        ->get();
+            ->where('status', 'aktif')
+            ->orderBy('id', 'desc') // Urutkan berdasarkan id descending
+            ->first();
     }
+
     public static function getDosen($user_id)
     {
         return DB::table('app_user as a')
@@ -90,7 +95,7 @@ class PenetapanAnggotaModel extends BaseModel
     {
 
         return DB::table('app_user as a')
-            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.tahun_ajaran')
+            ->select('a.*', 'b.*', 'c.nama as nama_topik','d.nama_siklus')
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->join('siklus as d','b.id_siklus','d.id')

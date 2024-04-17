@@ -39,6 +39,15 @@ class MahasiswaSidangProposalController extends BaseController
             $rs_dosbing = MahasiswaSidangProposalModel::getAkunDosbingKelompok($kelompok->id_kelompok);
             $rs_dospeng = MahasiswaSidangProposalModel::getAkunDospengKelompok($kelompok->id_kelompok);
 
+            $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+            $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+            $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+            $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+            $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+            $kelompok -> status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+            $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
             foreach ($rs_dosbing as $dosbing) {
 
                 if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
@@ -69,6 +78,9 @@ class MahasiswaSidangProposalController extends BaseController
                 $rs_sidang->hari_sidang = $this->convertDayToIndonesian($rs_sidang->hari_sidang);
                 $rs_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
                 $rs_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                $waktuSelesai = strtotime($rs_sidang->waktu_selesai);
+                $rs_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
             }
 
 

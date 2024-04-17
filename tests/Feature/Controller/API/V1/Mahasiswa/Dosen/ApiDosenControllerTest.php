@@ -18,7 +18,7 @@ class ApiDosenControllerTest extends TestCase
 
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -41,7 +41,7 @@ class ApiDosenControllerTest extends TestCase
     {
         // Mengirimkan permintaan API untuk mendapatkan data dosen
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-            ->get('/api/v1/mahasiswa/data-dosen/');
+            ->get('/api/v1/mahasiswa/data-dosen-pembimbing1/');
 
         // Memastikan respons adalah sukses dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
@@ -61,11 +61,11 @@ class ApiDosenControllerTest extends TestCase
     {
         // Mock JWTAuth::parseToken()->authenticate() to return a user with inactive status
         JWTAuth::shouldReceive('parseToken->authenticate')
-            ->andReturn((object)['user_active' => 0]);
+            ->andReturn((object)['user_active' => "0"]);
 
         $controller = new ApiDosenController();
 
-        $response = $controller->index(new Request());
+        $response = $controller->dosbing1(new Request());
 
         $this->assertFalse($response->getData()->success);
         $this->assertEquals('Gagal mendapatkan data dosen!', $response->getData()->status);
@@ -76,7 +76,7 @@ class ApiDosenControllerTest extends TestCase
     {
         // Mengirimkan permintaan API untuk mengunggah makalah tanpa token
         $response = $this->withHeaders(['Authorization' => 'Bearer invalid_token'])
-            ->get('/api/v1/mahasiswa/data-dosen');
+            ->get('/api/v1/mahasiswa/data-dosen-pembimbing1');
 
         // Memastikan respons adalah kegagalan dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
@@ -98,7 +98,7 @@ class ApiDosenControllerTest extends TestCase
 
         $controller = new ApiDosenController();
 
-        $response = $controller->index(new Request());
+        $response = $controller->dosbing1(new Request());
 
         $this->assertFalse($response->getData()->success);
         $this->assertEquals('Token is Invalid', $response->getData()->status);
@@ -108,7 +108,7 @@ class ApiDosenControllerTest extends TestCase
     public function test_it_returns_not_found_response_for_missing_token()
     {
         // Mengirimkan permintaan API tanpa menyertakan token
-        $response = $this->get('/api/v1/mahasiswa/data-dosen/');
+        $response = $this->get('/api/v1/mahasiswa/data-dosen-pembimbing1/');
 
         // Memastikan respons adalah "Not Found" dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
@@ -126,7 +126,7 @@ class ApiDosenControllerTest extends TestCase
     {
         // Mengirimkan permintaan API untuk URL yang tidak valid
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-            ->get('/api/v1/mahasiswa/data-dosen-invalid-url/');
+            ->get('/api/v1/mahasiswa/data-dosen-pembimbing1-invalid-url/');
 
         // Memastikan respons adalah "Not Found"
         $response->assertStatus(404);
@@ -141,7 +141,7 @@ class ApiDosenControllerTest extends TestCase
     {
         // Mengirimkan permintaan API dengan metode yang tidak diizinkan
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-            ->post('/api/v1/mahasiswa/data-dosen/');
+            ->post('/api/v1/mahasiswa/data-dosen-pembimbing1/');
 
         // Memastikan respons adalah "Method Not Allowed"
         $response->assertStatus(405);

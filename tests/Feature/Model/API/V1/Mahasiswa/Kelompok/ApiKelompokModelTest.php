@@ -16,7 +16,7 @@ class ApiKelompokModelTest extends TestCase
 
         // Login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130125',
+            'nomor_induk' => '21120120130058',
             'password' => 'mahasiswa123',
         ];
 
@@ -30,16 +30,17 @@ class ApiKelompokModelTest extends TestCase
     /** @test */
     public function test_it_can_do_pengecekan_kelompok_mahasiswa()
     {
-        $result = ApiKelompokModel::pengecekan_kelompok_mahasiswa($this->user_id);
+        $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
-        $this->assertNotNull($result);
+        $this->assertNotNull($kelompok);
     }
 
     /** @test */
     public function test_it_can_list_kelompok_mahasiswa()
     {
-        $id_kelompok = 1;
+        $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
+        $id_kelompok = $kelompok->id;
         $result = ApiKelompokModel::listKelompokMahasiswa($id_kelompok);
 
         $this->assertNotNull($result);
@@ -120,7 +121,9 @@ class ApiKelompokModelTest extends TestCase
     /** @test */
     public function test_it_can_check_if_siklus_still_active()
     {
-        $id_siklus = 8;
+        $kelompok = ApiKelompokModel::pengecekan_kelompok_mahasiswa($this->user_id);
+
+        $id_siklus = $kelompok->id_siklus;
 
         $result = ApiKelompokModel::checkApakahSiklusMasihAktif($id_siklus);
 

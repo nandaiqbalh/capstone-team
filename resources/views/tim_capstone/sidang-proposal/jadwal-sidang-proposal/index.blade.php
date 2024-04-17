@@ -21,15 +21,12 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Siklus</th>
                                 <th>Nomor Kelompok</th>
+                                <th>Status Sidang</th>
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
                                 <th>Ruangan</th>
-                                <th>Status Kelompok</th>
-                                <th>Hasil</th>
                                 <th>Tindakan</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -37,48 +34,40 @@
                                 @foreach ($rs_sidang as $index => $sidang_proposal)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_sidang->firstItem() }}.</td>
-                                        <td>{{ $sidang_proposal->tahun_ajaran }}</td>
                                         <td>{{ $sidang_proposal->nomor_kelompok }}</td>
+                                        <td style="color: {{ $sidang_proposal->status_sidang_color }}">
+                                            {{ $sidang_proposal->status_sidang_proposal }}</td>
                                         <td>{{ $sidang_proposal->hari_sidang }}, {{ $sidang_proposal->tanggal_sidang }}</td>
                                         <td>{{ $sidang_proposal->waktu_sidang }} WIB - {{ $sidang_proposal->waktu_selesai }}
                                             WIB
                                         <td>{{ $sidang_proposal->nama_ruang }}</td>
-                                        <td>{{ $sidang_proposal->status_kelompok }}</td>
                                         <td class="text-center">
 
-                                            @if ($sidang_proposal->status_kelompok == 'Lulus Sidang Proposal!')
+                                            @if ($sidang_proposal->status_sidang_proposal == 'Lulus Sidang Proposal!')
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
                                                     Gagal</a>
-                                            @elseif($sidang_proposal->status_kelompok == 'Gagal Sidang Proposal!')
+                                            @elseif($sidang_proposal->status_sidang_proposal == 'Gagal Sidang Proposal!')
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                             @else
-                                                    <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
                                                     Gagal</a>
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                             @endif
+                                            <a href="{{ url('/admin/jadwal-sidang-proposal/detail') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                class="btn btn-outline-secondary btn-xs m-1">Detail</a>
 
                                         </td>
-                                        <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
-                                                class="btn btn-outline-warning btn-xs m-1">Ubah</a>
-                                            <a href="{{ url('/admin/jadwal-sidang-proposal/delete-process') }}/{{ $sidang_proposal->id }}"
-                                                class="btn btn-outline-danger btn-xs m-1 "
-                                                onclick="return confirm('Apakah anda ingin menghapus {{ $sidang_proposal->nomor_kelompok }} ?')">
-                                                Hapus</a>
-
-                                        </td>
-
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="7">Tidak ada data.</td>
+                                    <td class="text-center" colspan="8">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

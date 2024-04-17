@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use App\Models\User;
+use App\Imports\UsersImport;
+use Excel;
 
 use Illuminate\Support\Facades\Mail;
 // use App\Mail\SendMail;
@@ -66,6 +69,28 @@ class AccountsController extends BaseController
             return redirect('/admin/settings/accounts');
         }
     }
+
+    public function import()
+    {
+        $import = Excel::import(new UsersImport, request()->file('user_file'));
+
+        // process
+        if ($import) {
+
+            // send mail
+            // $this->sendMail($user_id, $request->user_password);
+
+            // flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+            return redirect('/admin/settings/accounts');
+        } else {
+            // flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+            return redirect('/admin/settings/accounts/add')->withInput();
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

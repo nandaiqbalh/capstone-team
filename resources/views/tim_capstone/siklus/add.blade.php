@@ -25,23 +25,20 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Nama - Tahun Ajaran<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="tahun_ajaran"
-                                    value="{{ old('tahun_ajaran') }}" required>
+                                <label>Nama Siklus<span class="text-danger">*</span></label>
+                                <select class="form-select" name="nama_siklus" required>
+                                    <option value="" disabled selected>Pilih Nama Siklus</option>
+                                    @foreach ($siklusOptions as $option)
+                                        <option value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Tanggal Mulai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="tanggal_mulai"
-                                    value="{{ old('tanggal_mulai') }}" required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label>Tanggal Selesai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="tanggal_selesai"
-                                    value="{{ old('tanggal_selesai') }}" required>
+                                <label>Kode Siklus<span class="text-danger">*</span></label>
+                                <input placeholder="Contoh: S2T24" type="text" class="form-control" name="kode_siklus"
+                                    required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -49,8 +46,8 @@
                                 <label>Status <span class="text-danger">*</span></label>
                                 <select class="form-select" name="status" required>
                                     <option value="" disabled selected>Pilih Status</option>
-                                    <option value="aktif" @if (old('status') == 'aktif') selected @endif>Aktif</option>
-                                    <option value="tidak aktif" @if (old('status') == 'tidak aktif') selected @endif>Tidak
+                                    <option value="aktif">Aktif</option>
+                                    <option value="tidak aktif">Tidak
                                         Aktif</option>
                                 </select>
                             </div>
@@ -58,22 +55,22 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="pendaftaran_mulai"
-                                    value="{{ old('pendaftaran_mulai') }}" required>
+                                <input placeholder="Atur waktu" id="pendaftaran_mulai" type="text" class="form-control"
+                                    name="pendaftaran_mulai" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Pendaftaran Selesai<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="pendaftaran_selesai"
-                                    value="{{ old('pendaftaran_selesai') }}" required>
+                                <input placeholder="Atur waktu" id="pendaftaran_selesai" type="text" class="form-control"
+                                    name="pendaftaran_selesai" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label>Batas Submit C100<span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" name="batas_submit_c100"
-                                    value="{{ old('batas_submit_c100') }}" required>
+                                <input placeholder="Atur waktu" id="batas_submit_c100" type="text" class="form-control"
+                                    name="batas_submit_c100" required>
                             </div>
                         </div>
                     </div>
@@ -84,4 +81,29 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi flatpickr dengan waktu
+            flatpickr('#pendaftaran_mulai, #pendaftaran_selesai, #batas_submit_c100', {
+                dateFormat: 'Y-m-d H:i', // Format tanggal dan waktu (YYYY-MM-DD HH:mm)
+                enableTime: true, // Izinkan pilihan waktu
+                time_24hr: true, // Format waktu 24-jam
+                minDate: new Date('2019-12-31'), // Batasi pilihan tanggal minimal ke hari ini
+                maxDate: new Date('2050-12-31'), // Batasi pilihan tanggal maksimal
+                defaultHour: 12, // Jam default jika tidak ada waktu terpilih
+                defaultMinute: 0, // Menit default jika tidak ada waktu terpilih
+                locale: {
+                    buttons: {
+                        now: 'Sekarang' // Mengganti teks tombol "Sekarang"
+                    }
+                },
+                appendTo: document.body, // Append kalender ke dalam body
+                inline: false, // Tidak menggunakan mode inline
+                onChange: function(selectedDates, dateStr, instance) {
+                    console.log('Tanggal dan waktu dipilih:', dateStr);
+                }
+            });
+        });
+    </script>
 @endsection

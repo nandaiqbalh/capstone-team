@@ -17,6 +17,14 @@ class PenetapanDosbingController extends BaseController
 
         // get data with pagination
         $rs_kelompok = PenetapanDosbingModel::getDataWithPagination();
+
+        foreach ($rs_kelompok as $kelompok) {
+
+            $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+            $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+            $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+        }
         // dd($rs_kelompok);
         // data
         $data = ['rs_kelompok' => $rs_kelompok];
@@ -46,6 +54,10 @@ class PenetapanDosbingController extends BaseController
             }
 
         }
+
+        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
 
         // check
         if (empty($kelompok)) {
@@ -82,7 +94,7 @@ class PenetapanDosbingController extends BaseController
             if ($kelompok->id_dosen_pembimbing_1 == null && $kelompok->id_dosen_pembimbing_2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_1' => $request->id_dosen,
-                    'status_dosen_pembimbing_1' => 'Persetujuan Dosbing Berhasil!',
+                    'status_dosen_pembimbing_1' => 'Dosbing Diplot Tim Capstone!',
                 ];
             } else {
                 session()->flash('danger', 'Posisi/dosen sudah terisi!');
@@ -96,7 +108,7 @@ class PenetapanDosbingController extends BaseController
             if ($kelompok->id_dosen_pembimbing_2 == null && $kelompok->id_dosen_pembimbing_1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_2' => $request->id_dosen,
-                    'status_dosen_pembimbing_2' => 'Persetujuan Dosbing Berhasil!',
+                    'status_dosen_pembimbing_2' => 'Dosbing Diplot Tim Capstone!',
                 ];
             } else {
                 session()->flash('danger', 'Posisi/dosen sudah terisi!');
@@ -109,9 +121,33 @@ class PenetapanDosbingController extends BaseController
 
             $kelompok_updated = PenetapanDosbingModel::getKelompokById($id_kelompok);
 
-            if ($kelompok_updated->status_dosen_pembimbing_1 == "Persetujuan Dosbing Berhasil!" && $kelompok_updated->status_dosen_pembimbing_2 == "Persetujuan Dosbing Berhasil!") {
+            if ($kelompok_updated->status_dosen_pembimbing_1 == "Dosbing Setuju!" && $kelompok_updated->status_dosen_pembimbing_2 == "Dosbing Setuju!") {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Menunggu Validasi Kelompok!"
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
+                ];
+
+                PenetapanDosbingModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
+            }
+
+            if ($kelompok_updated->status_dosen_pembimbing_1 == "Dosbing Setuju!" && $kelompok_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone!") {
+                $paramsStatusKelompok = [
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
+                ];
+
+                PenetapanDosbingModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
+            }
+
+            if ($kelompok_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone!" && $kelompok_updated->status_dosen_pembimbing_2 == "Dosbing Setuju!") {
+                $paramsStatusKelompok = [
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
+                ];
+
+                PenetapanDosbingModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
+            }
+
+            if ($kelompok_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone!" && $kelompok_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone!") {
+                $paramsStatusKelompok = [
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
                 ];
 
                 PenetapanDosbingModel::updateKelompok($id_kelompok, $paramsStatusKelompok);

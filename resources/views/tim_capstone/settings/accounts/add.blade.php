@@ -10,7 +10,6 @@
         <!-- notification -->
         @include('template.notification')
 
-        <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Akun User</h5>
@@ -18,6 +17,38 @@
                     <a href="{{ url('/admin/settings/accounts') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
+            </div>
+
+            <form action="{{ url('/admin/settings/accounts/import-user') }}" method="post" autocomplete="off"
+                enctype="multipart/form-data">
+
+                <div class="card-body">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="mb-6">
+
+                            <input type="file" class="form-control" name="user_file" value="" required>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card-footer float-end">
+                    <button type="submit" class="btn btn-primary ">Simpan</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <br>
+        <br>
+
+        <!-- Bordered Table -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Tambah Akun User</h5>
+
             </div>
             <form action="{{ url('/admin/settings/accounts/add_process') }}" method="post" autocomplete="off">
                 <div class="card-body">
