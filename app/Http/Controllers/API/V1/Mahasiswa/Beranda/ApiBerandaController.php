@@ -24,19 +24,26 @@ class ApiBerandaController extends Controller
 
                     // sidang proposal
                     $rsSidang = ApiBerandaModel::sidangProposalByKelompok($kelompok->id);
-                    if ($rsSidang != null) {
-                        $waktuSidang = strtotime($rsSidang->waktu);
-
-                        $rsSidang->hari_sidang = strftime('%A', $waktuSidang);
-                        $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
-                        $rsSidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
-
-                        $sidang_proposal = $rsSidang->hari_sidang . ', ' . date('d F Y', strtotime($rsSidang->tanggal_sidang));
-
-                    } else if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal!") {
+                    if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal!") {
                         $sidang_proposal = "Lulus Sidang Proposal!";
                     } else if($kelompok -> status_sidang_proposal == null){
                         $sidang_proposal = "Belum ada jadwal sidang!";
+                    } else if ($rsSidang != null) {
+                        $waktuSidang = strtotime($rsSidang->waktu);
+
+                        // Mendapatkan nama hari dalam bahasa Indonesia
+                        $rsSidang->hari_sidang = strftime('%A', $waktuSidang);
+                        $rsSidang->hari_sidang = $this->convertDayToIndonesian($rsSidang->hari_sidang);
+
+                        // Mendapatkan tanggal sidang dalam format d-m-Y
+                        $rsSidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+
+                        // Mendapatkan nama bulan dalam bahasa Indonesia
+                        $bulanSidangIndo = $this->convertMonthToIndonesian(date('F', $waktuSidang));
+
+                        // Menggabungkan nama hari, tanggal, dan bulan dalam bahasa Indonesia
+                        $sidang_proposal = $rsSidang->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
+
                     } else {
                         $sidang_proposal = $kelompok -> status_sidang_proposal;
                     }
@@ -54,22 +61,30 @@ class ApiBerandaController extends Controller
                     $pendaftaran_ta = ApiBerandaModel::cekStatusPendaftaranSidangTA($user->user_id);
                     $kelompok_mhs = ApiBerandaModel::checkKelompokMhs($user->user_id);
                      $sidang_ta = ApiBerandaModel::sidangTugasAkhirByMahasiswa($user->user_id);
-                     if ($sidang_ta != null) {
-                         $waktuSidang = strtotime($sidang_ta->waktu);
 
-                         $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
-                         $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
-                         $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
 
-                         $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d F Y', strtotime($rsSidang->tanggal_sidang));
-
-                     } else if ($kelompok_mhs -> status_individu == "Lulus Sidang TA!") {
+                    if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA!") {
                         $sidang_ta = "Lulus Sidang TA!";
-                     }  else if ($kelompok -> status_expo == "Lulus Expo Project!") {
-                        $sidang_ta = "Belum mendaftar sidang TA!";
+                    } else if ($sidang_ta != null) {
+                        $waktuSidang = strtotime($sidang_ta->waktu);
+
+                        // Mendapatkan nama hari dalam bahasa Indonesia
+                        $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
+                        $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
+
+                        // Mendapatkan tanggal sidang dalam format d-m-Y
+                        $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+
+                        // Mendapatkan nama bulan dalam bahasa Indonesia
+                        $bulanSidangIndo = $this->convertMonthToIndonesian(date('F', $waktuSidang));
+
+                        // Menggabungkan nama hari, tanggal, dan bulan dalam bahasa Indonesia
+                        $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
+
                     } else {
                         $sidang_ta = "Belum menyelesaikan capstone!";
-                     }
+                    }
+
                     $data = [
                         'sidang_proposal' => $sidang_proposal,
                         'expo' => $expo,
@@ -140,6 +155,29 @@ class ApiBerandaController extends Controller
 
         // Cek apakah nama hari ada di dalam mapping
         return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
+    }
+
+
+    private function convertMonthToIndonesian($month)
+    {
+        // Mapping nama bulan ke bahasa Indonesia
+        $monthMappings = [
+            'January' => 'Januari',
+            'February' => 'Februari',
+            'March' => 'Maret',
+            'April' => 'April',
+            'May' => 'Mei',
+            'June' => 'Juni',
+            'July' => 'Juli',
+            'August' => 'Agustus',
+            'September' => 'September',
+            'October' => 'Oktober',
+            'November' => 'November',
+            'December' => 'Desember',
+        ];
+
+        // Cek apakah nama bulan ada di dalam mapping
+        return array_key_exists($month, $monthMappings) ? $monthMappings[$month] : $month;
     }
 
 

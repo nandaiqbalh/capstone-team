@@ -21,7 +21,7 @@ class ApiTugasAkhirModel extends ApiBaseModel
     public static function sidangTugasAkhirByMahasiswa($id_mahasiswa)
     {
         return DB::table('jadwal_sidang_ta as a')
-            ->select('a.*','b.status_individu', 'b.id_dosen_penguji_ta1', 'b.status_dosen_penguji_ta1','b.id_dosen_penguji_ta2','b.status_dosen_penguji_ta2','b.judul_ta_mhs', 'b.link_upload','c.*', 'd.nama_ruang')
+            ->select('a.*','b.status_individu', 'b.status_tugas_akhir', 'b.id_dosen_penguji_ta1', 'b.status_dosen_penguji_ta1','b.id_dosen_penguji_ta2','b.status_dosen_penguji_ta2','b.judul_ta_mhs', 'b.link_upload','c.*', 'd.nama_ruang')
             ->join('kelompok_mhs as b', 'a.id_mahasiswa', 'b.id_mahasiswa')
             ->leftjoin('app_user as c','a.id_mahasiswa','c.user_id')
             ->leftjoin('ruang_sidangs as d','a.id_ruangan','d.id')
