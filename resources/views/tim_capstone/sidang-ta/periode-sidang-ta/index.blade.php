@@ -41,7 +41,9 @@
                             <td>{{ \Carbon\Carbon::parse($periode_sidang_ta->tanggal_selesai)->locale('id_ID')->isoFormat('D MMMM YYYY') }}</td>
                             </td>
                             <td class="text-center">
-                                <button class="btn btn-outline-secondary btn-xs m-1" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="populateModal('{{ $periode_sidang_ta->nama_periode }}', '{{ $periode_sidang_ta->tanggal_mulai }}', '{{ $periode_sidang_ta->tanggal_selesai }}')">Detail</button>
+                                {{-- <button class="btn btn-outline-secondary btn-xs m-1" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="populateModal('{{ $periode_sidang_ta->nama_periode }}', '{{ $periode_sidang_ta->tanggal_mulai }}', '{{ $periode_sidang_ta->tanggal_selesai }}')">Detail</button> --}}
+                                <a href="{{ url('/admin/periode-sidang-ta/detail') }}/{{ $periode_sidang_ta->id }}"
+                                    class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                 <a href="{{ url('/admin/periode-sidang-ta/edit') }}/{{ $periode_sidang_ta->id }}" class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                 <button class="btn btn-outline-danger btn-xs m-1" onclick="confirmDelete('{{ $periode_sidang_ta->id }}')">Hapus</button>
                                     <script>
@@ -87,7 +89,7 @@
     </div>
 </div>
 
-<!-- Modal Detail Siklus-->
+{{-- <!-- Modal Detail Siklus-->
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -104,9 +106,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
-<!-- Script untuk populate modal -->
+{{-- <!-- Script untuk populate modal -->
 <script>
     // Fungsi untuk memformat tanggal
     function formatDate(dateString) {
@@ -121,6 +123,6 @@
         document.getElementById("modal-tanggal-mulai").innerText = formatDate(tanggal_mulai);
         document.getElementById("modal-tanggal-selesai").innerText = formatDate(tanggal_selesai);
     }
-</script>
+</script> --}}
 
 @endsection
