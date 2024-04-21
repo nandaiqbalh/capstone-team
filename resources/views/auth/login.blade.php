@@ -47,7 +47,7 @@
                 </a>
               </div>
               <!-- Text -->
-              <h5 class="mb-2 text-center" style="color: blue;"><b>CAPSTONE TA <br> TEKNIK KOMPUTER</b></h5>
+              <h5 class="mb-2 text-center text-primary"><b>CAPSTONE TA <br> TEKNIK KOMPUTER</b></h5>
               @include("template.notification")
               <br>
               <!-- Form -->

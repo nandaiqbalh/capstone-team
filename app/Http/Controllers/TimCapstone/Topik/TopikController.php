@@ -18,8 +18,6 @@ class TopikController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    //coba comment
-
     public function index()
     {
         // get data with pagination

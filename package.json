@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "ckeditor4": "^4.24.0",
+        "summernote": "^0.8.20",
         "sweetalert2": "^11.10.3"
     }
 }
