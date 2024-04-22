@@ -131,6 +131,18 @@
                 }
             }
         </style>
+
+        <style>
+            .btn-primary:hover {
+            background-color: blue !important; /* Ganti dengan warna yang diinginkan */
+            border-color: blue !important;
+            }
+            .btn-outline-primary:hover {
+            color: #ffffff !important; /* Warna teks menjadi biru */
+            background-color: blue !important; /* Warna latar belakang menjadi biru */
+            border-color: blue !important; /* Warna border menjadi biru */
+            }
+        </style>
     </head>
 
     <body>

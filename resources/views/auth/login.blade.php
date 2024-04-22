@@ -30,6 +30,17 @@
     <link rel="stylesheet" href="{{ asset('vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('vendor/css/pages/page-auth.css') }}" />
+    <style>
+      .btn-primary:hover {
+        background-color: blue !important; /* Warna latar belakang sesuai dengan warna primary */
+        border-color: blue !important; /* Warna border sesuai dengan warna primary */
+      }
+      .btn-outline-primary:hover {
+        color: #ffffff !important; /* Warna teks menjadi biru */
+        background-color: blue !important; /* Warna latar belakang menjadi biru */
+        border-color: blue !important; /* Warna border menjadi biru */
+        }
+    </style>
   </head>
 
   <body >
