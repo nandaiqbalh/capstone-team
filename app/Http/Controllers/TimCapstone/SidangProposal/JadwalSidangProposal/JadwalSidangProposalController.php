@@ -19,19 +19,20 @@ class JadwalSidangProposalController extends BaseController
         // get data with pagination
         $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
 
-        foreach ($rs_sidang as $ruang_sidang) {
-            if ($ruang_sidang != null) {
-                $waktuSidang = strtotime($ruang_sidang->waktu);
+        foreach ($rs_sidang as $sidang_proposal) {
+            if ($sidang_proposal != null) {
+                $waktuSidang = strtotime($sidang_proposal->waktu);
 
-                $ruang_sidang->hari_sidang = strftime('%A', $waktuSidang);
-                $ruang_sidang->hari_sidang = $this->convertDayToIndonesian($ruang_sidang->hari_sidang);
-                $ruang_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
-                $ruang_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+                $sidang_proposal->hari_sidang = strftime('%A', $waktuSidang);
+                $sidang_proposal->hari_sidang = $this->convertDayToIndonesian($sidang_proposal->hari_sidang);
+                $sidang_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                $sidang_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
 
-                $waktuSelesai = strtotime($ruang_sidang->waktu_selesai);
-                $ruang_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+                $waktuSelesai = strtotime($sidang_proposal->waktu_selesai);
+                $sidang_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
             }
-            $ruang_sidang -> status_sidang_color = $this->getStatusColor($ruang_sidang->status_sidang_proposal);
+            $sidang_proposal -> status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
+            $sidang_proposal -> status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
 
         }
 

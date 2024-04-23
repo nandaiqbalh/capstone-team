@@ -130,14 +130,6 @@ class PengujianTAModel extends BaseModel
             ->get();
     }
 
-    public static function getJadwalSidangProposal($id_kelompok)
-    {
-        return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.*')
-        ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
-        ->where('id_kelompok', $id_kelompok)
-        ->first();
-    }
 
 public static function getDosenPengujiProposal($id_kelompok)
 {

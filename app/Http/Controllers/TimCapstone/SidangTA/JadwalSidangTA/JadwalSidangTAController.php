@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\TimCapstone\JadwalSidangTA;
+namespace App\Http\Controllers\TimCapstone\SidangTA\JadwalSidangTA;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,21 +16,22 @@ class JadwalSidangTAController extends BaseController
     {
 
         // get data with pagination
-        $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
+        $rs_sidang = JadwalSidangTAModel::getDataWithPagination();
 
-        foreach ($rs_sidang as $ruang_sidang) {
-            if ($ruang_sidang != null) {
-                $waktuSidang = strtotime($ruang_sidang->waktu);
+        foreach ($rs_sidang as $sidang_ta) {
+            if ($sidang_ta != null) {
+                $waktuSidang = strtotime($sidang_ta->waktu);
 
-                $ruang_sidang->hari_sidang = strftime('%A', $waktuSidang);
-                $ruang_sidang->hari_sidang = $this->convertDayToIndonesian($ruang_sidang->hari_sidang);
-                $ruang_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
-                $ruang_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+                $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
+                $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
+                $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                $sidang_ta->waktu_sidang = date('H:i:s', $waktuSidang);
 
-                $waktuSelesai = strtotime($ruang_sidang->waktu_selesai);
-                $ruang_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+                $waktuSelesai = strtotime($sidang_ta->waktu_selesai);
+                $sidang_ta->waktu_selesai = date('H:i:s', $waktuSelesai);
             }
-            $ruang_sidang -> status_sidang_color = $this->getStatusColor($ruang_sidang->status_sidang_proposal);
+            $sidang_ta -> status_sidang_color = $this->getStatusColor($sidang_ta->status_tugas_akhir);
+            $sidang_ta -> status_lta_color = $this->getStatusColor($sidang_ta->file_status_lta);
 
         }
 
@@ -45,178 +46,134 @@ class JadwalSidangTAController extends BaseController
         return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
     }
 
-    public function detailKelompok($id)
+    public function detailJadwalSidangTA($id)
     {
+       // get data with pagination
+       $mahasiswa = JadwalSidangTAModel::getDataDetailMahasiswaSidang($id);
+       $rs_dosbing = JadwalSidangTAModel::getAkunDosbingKelompok($mahasiswa->id_kelompok);
+       $rs_penguji_ta = JadwalSidangTAModel::getAkunPengujiTAKelompok($id);
+       $rs_mahasiswa = JadwalSidangTAModel::listMahasiswaSendiri($id, $mahasiswa->id_kelompok);
 
-        // get data with pagination
-        $kelompok = JadwalSidangProposalModel::getDataById($id);
-        $rs_topik = JadwalSidangProposalModel::getTopik();
-        $rs_mahasiswa = JadwalSidangProposalModel::listKelompokMahasiswa($id);
-        $rs_dosbing = JadwalSidangProposalModel::getAkunDosbingKelompok($id);
-        $rs_penguji_proposal = JadwalSidangProposalModel::getAkunPengujiProposalKelompok($id);
+       // get jadwal sidang
+       $jadwal_sidang = JadwalSidangTAModel::getJadwalSidangTA($id);
+       if($jadwal_sidang != null){
+           $waktuSidang = strtotime($jadwal_sidang->waktu);
 
-        // get jadwal sidang
-        $jadwal_sidang = JadwalSidangProposalModel::getJadwalSidangProposal($id);
-        if($jadwal_sidang != null){
-            $waktuSidang = strtotime($jadwal_sidang->waktu);
+           $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+           $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+           $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+           $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
 
-            $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
-            $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
-            $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
-            $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+           $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
+           $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
 
-            $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
-            $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+       }
 
-        }
+       $rs_ruang_sidang = JadwalSidangTAModel::getRuangSidang();
 
-        // penguji avaliable
-        $rs_penguji = JadwalSidangProposalModel::getDosenPengujiProposal($id);
+       foreach ($rs_dosbing as $dosbing) {
 
-        $rs_ruang_sidang = JadwalSidangProposalModel::getRuangSidang();
+           if ($dosbing->user_id == $mahasiswa->id_dosen_pembimbing_1) {
+               $dosbing->jenis_dosen = 'Pembimbing 1';
+               $dosbing->status_dosen = $mahasiswa->status_dosen_pembimbing_1;
+           } else if ($dosbing->user_id == $mahasiswa->id_dosen_pembimbing_2) {
+               $dosbing->jenis_dosen = 'Pembimbing 2';
+               $dosbing->status_dosen = $mahasiswa->status_dosen_pembimbing_2;
+           }
 
-        foreach ($rs_dosbing as $dosbing) {
+           $dosbing -> status_pembimbing1_color = $this->getStatusColor($mahasiswa->status_dosen_pembimbing_1);
+           $dosbing -> status_pembimbing2_color = $this->getStatusColor($mahasiswa->status_dosen_pembimbing_2);
 
-            if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_1) {
-                $dosbing->jenis_dosen = 'Pembimbing 1';
-                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_1;
-            } else if ($dosbing->user_id == $kelompok->id_dosen_pembimbing_2) {
-                $dosbing->jenis_dosen = 'Pembimbing 2';
-                $dosbing->status_dosen = $kelompok->status_dosen_pembimbing_2;
-            }
+       }
 
-        }
+       foreach ($rs_penguji_ta as $penguji_ta) {
+           if ($penguji_ta->user_id == $mahasiswa->id_dosen_penguji_ta1) {
+               $penguji_ta->jenis_dosen = 'Penguji 1';
+               $penguji_ta->status_dosen = $mahasiswa->status_dosen_penguji_ta1;
+           } else if ($penguji_ta->user_id == $mahasiswa->id_dosen_penguji_ta2) {
+               $penguji_ta->jenis_dosen = 'Penguji 2';
+               $penguji_ta->status_dosen = $mahasiswa->status_dosen_penguji_ta2;
+           }
+       }
 
-        foreach ($rs_penguji_proposal as $penguji_proposal) {
+       // check
+       if (empty($mahasiswa)) {
+           // flash message
+           session()->flash('danger', 'Data tidak ditemukan.');
+           return redirect('/admin/pengujian-ta');
+       }
 
-            if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_1) {
-                $penguji_proposal->jenis_dosen = 'Penguji 1';
-                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_1;
-            } else if ($penguji_proposal->user_id == $kelompok->id_dosen_penguji_2) {
-                $penguji_proposal->jenis_dosen = 'Penguji 2';
-                $penguji_proposal->status_dosen = $kelompok->status_dosen_penguji_2;
-            }
+       $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
+       $mahasiswa -> status_dokumen_color = $this->getStatusColor($mahasiswa->file_status_c100);
+       $mahasiswa -> status_sidang_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
 
-        }
+       $mahasiswa -> status_penguji1_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta1);
+       $mahasiswa -> status_penguji2_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta2);
 
-        // check
-        if (empty($kelompok)) {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/kelompok');
-        }
-
-        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
-        $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
-        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
-
-        $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
-        $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
-        $kelompok -> status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
-        $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
-
-        // data
-        $data = [
-            'kelompok' => $kelompok,
-            'rs_topik' => $rs_topik,
-            'rs_mahasiswa' => $rs_mahasiswa,
-            'rs_dosbing' => $rs_dosbing,
-            'rs_penguji_proposal' => $rs_penguji_proposal,
-            'rs_penguji' => $rs_penguji,
-            'rs_ruang_sidang' => $rs_ruang_sidang,
-            'jadwal_sidang' => $jadwal_sidang,
+       // data
+       $data = [
+           'mahasiswa' => $mahasiswa,
+           'rs_dosbing' => $rs_dosbing,
+           'rs_mahasiswa' => $rs_mahasiswa,
+           'rs_penguji_ta' => $rs_penguji_ta,
+           'rs_ruang_sidang' => $rs_ruang_sidang,
+           'jadwal_sidang' => $jadwal_sidang,
 
         ];
-        // dd($data);
-
         // view
-        return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.detail', $data);
+        return view('tim_capstone.sidang-ta.jadwal-sidang-ta.detail', $data);
     }
-    public function toLulusSidangProposal($id)
+
+
+    public function toLulusSidangTA($id)
     {
         // get data
-        $dataKelompok = JadwalSidangProposalModel::getKelompokById($id);
+        $dataMahasiswa = JadwalSidangTAModel::getKelompokMhs($id);
 
         // if exist
-        if ($dataKelompok != null) {
+        if ($dataMahasiswa != null) {
 
-            $paramKelompok = [
-                'status_sidang_proposal' => 'Lulus Sidang Proposal!',
-                'status_kelompok' => 'Lulus Sidang Proposal!',
-                'is_sidang_proposal' => 1,
+            $paramKelompokMhs = [
+                'status_tugas_akhir' => 'Lulus Sidang TA!',
+                'status_individu' => 'Lulus Sidang TA!',
+                'is_selesai' => 1,
             ];
 
-            JadwalSidangProposalModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+            JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
             session()->flash('success', 'Data berhasil diperbaharui!');
-            return redirect('/admin/jadwal-sidang-proposal');
+            return redirect('/admin/jadwal-sidang-ta');
 
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-proposal');
+            return redirect('/admin/jadwal-sidang-ta');
         }
     }
 
-    public function toGagalSidangProposal($id)
+    public function toGagalSidangTA($id)
     {
         // get data
-        $dataKelompok = JadwalSidangProposalModel::getKelompokById($id);
+        $dataMahasiswa = JadwalSidangTAModel::getKelompokMhs($id);
 
         // if exist
-        if ($dataKelompok != null) {
+        if ($dataMahasiswa != null) {
 
-            $paramKelompok = [
-                'status_sidang_proposal' => 'Gagal Sidang Proposal!',
-                'status_kelompok' => 'Gagal Sidang Proposal!',
+            $paramKelompokMhs = [
+                'status_tugas_akhir' => 'Gagal Sidang TA!',
+                'status_individu' => 'Gagal Sidang TA!',
             ];
 
-            JadwalSidangProposalModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+            JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
             session()->flash('success', 'Data berhasil diperbaharui!');
-            return redirect('/admin/jadwal-sidang-proposal');
+            return redirect('/admin/jadwal-sidang-ta');
 
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-proposal');
+            return redirect('/admin/jadwal-sidang-ta');
         }
     }
-
-    public function deleteJadwalSidangProposalProcess($id)
-    {
-        // get data
-        $delete = JadwalSidangProposalModel::getDataById($id);
-
-        // if exist
-        if (!empty($delete)) {
-
-            $paramKelompok = [
-                'status_sidang_proposal' => 'C100 Telah Disetujui!',
-                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
-                'id_dosen_penguji_1' => null,
-                'status_dosen_penguji_1' => null,
-                'id_dosen_penguji_2' => null,
-                'status_dosen_penguji_2' => null,
-            ];
-
-            JadwalSidangProposalModel::updateKelompok($delete -> id_kelompok, $paramKelompok);
-            // process
-            if (JadwalSidangProposalModel::deleteJadwalSidangProposal($id)) {
-                // flash message
-                session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/jadwal-sidang-proposal');
-            } else {
-                // flash message
-                session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/jadwal-sidang-proposal');
-            }
-        } else {
-            // flash message
-            session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-proposal');
-        }
-    }
-
 
 }
