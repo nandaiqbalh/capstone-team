@@ -65,7 +65,7 @@ class MahasiswaExpoModel extends BaseModel
     public static function pengecekan_kelompok_mahasiswa($user_id)
     {
         return DB::table('kelompok_mhs as a')
-            ->select('a.id_kelompok', 'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+            ->select('a.id_kelompok','b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
             ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
             ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
             ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')

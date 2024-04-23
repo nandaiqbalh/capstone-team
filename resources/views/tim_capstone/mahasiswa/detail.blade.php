@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Data Diri Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -34,44 +34,45 @@
                             <tr>
                                 <td>Nama</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->user_name }}</td>
+                                <td>{{ $mahasiswa->user_name ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>NIM</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->nomor_induk }}</td>
+                                <td>{{ $mahasiswa->nomor_induk ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Email</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->user_email }}</td>
+                                <td>{{ $mahasiswa->user_email ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Angkatan</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->angkatan }}</td>
+                                <td>{{ $mahasiswa->angkatan ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>IPK</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->ipk }}</td>
+                                <td>{{ $mahasiswa->ipk ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>SKS</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->sks }}</td>
+                                <td>{{ $mahasiswa->sks ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>No Telpon</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->no_telp }}</td>
+                                <td>{{ $mahasiswa->no_telp ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td>Jenis Kelamin</td>
                                 <td>:</td>
-                                <td>{{ $mahasiswa->jenis_kelamin }}</td>
+                                <td>{{ $mahasiswa->jenis_kelamin ?? '-' }}</td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
                 <br>
@@ -126,6 +127,7 @@
                                 <td>{{ $mahasiswa->judul_ta_mhs ?? '-' }}</td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
 
@@ -163,6 +165,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card-body">
+                        <h5 class="mb-0">Dokumen Mahasiswa</h5>
+                        <br>
                         <div class="card">
                             <h5 class="card-header">Upload Makalah</h5>
                             <div class="card-body">

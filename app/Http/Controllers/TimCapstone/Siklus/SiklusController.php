@@ -102,10 +102,13 @@ class SiklusController extends BaseController
                 ->withInput();
         }
 
+        // Mengonversi kode_siklus menjadi huruf kapital
+        $kodeSiklus = strtoupper($request->kode_siklus);
+
         // Persiapkan parameter untuk penyisipan
         $params = [
             'nama_siklus' => $request->nama_siklus,
-            'kode_siklus' => $request->kode_siklus,
+            'kode_siklus' => $kodeSiklus, // Gunakan nilai kode_siklus yang sudah dikonversi
             'pendaftaran_mulai' => $request->pendaftaran_mulai,
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'batas_submit_c100' => $request->batas_submit_c100,
@@ -226,10 +229,12 @@ class SiklusController extends BaseController
                 ->withInput();
         }
 
+          // Mengonversi kode_siklus menjadi huruf kapital
+        $kodeSiklus = strtoupper($request->kode_siklus);
         // Persiapkan parameter untuk pembaruan
         $params = [
             'nama_siklus' => $request->nama_siklus,
-            'kode_siklus' => $request->kode_siklus,
+            'kode_siklus' => $kodeSiklus, // Gunakan nilai kode_siklus yang sudah dikonversi
             'pendaftaran_mulai' => $request->pendaftaran_mulai,
             'pendaftaran_selesai' => $request->pendaftaran_selesai,
             'batas_submit_c100' => $request->batas_submit_c100,
