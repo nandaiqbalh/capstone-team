@@ -334,6 +334,12 @@ class ExpoProjectController extends BaseController
                 $paramKelompokMhs = [
                     'status_individu' => 'Lulus Expo Project!',
                     'status_tugas_akhir' => 'Belum Mendaftar Sidang TA!',
+                    'is_mendaftar_sidang' => '0',
+                    'status_dosen_penguji_ta1' => NULL,
+                    'status_dosen_penguji_ta2' => NULL,
+                    'id_dosen_penguji_ta1' => NULL,
+                    'id_dosen_penguji_ta2' => NULL
+
                 ];
 
                 ExpoProjectModel::updateKelompokMhsByKelompok($dataKelompok -> id, $paramKelompokMhs);
@@ -369,8 +375,13 @@ class ExpoProjectController extends BaseController
 
             if ($updateKelompok) {
                 $paramKelompokMhs = [
-                    'status_individu' => NULL,
+                    'status_individu' => 'Gagal Expo Project!',
                     'status_tugas_akhir' => NULL,
+                    'is_mendaftar_sidang' => '0',
+                    'status_dosen_penguji_ta1' => NULL,
+                    'status_dosen_penguji_ta2' => NULL,
+                    'id_dosen_penguji_ta1' => NULL,
+                    'id_dosen_penguji_ta2' => NULL
                 ];
 
                 ExpoProjectModel::updateKelompokMhsByKelompok($dataKelompok -> id, $paramKelompokMhs);
@@ -386,21 +397,6 @@ class ExpoProjectController extends BaseController
             session()->flash('danger', 'Data tidak ditemukan.');
             return back();
         }
-    }
-
-    private function convertDayToIndonesian($day)
-    {
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
     }
 
 }

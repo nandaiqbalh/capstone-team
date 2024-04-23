@@ -73,22 +73,27 @@ class DashboardController extends BaseController
             $pendaftaran_ta = Dashmo::cekStatusPendaftaranSidangTA($user->user_id);
             $kelompok_mhs = Dashmo::checkKelompokMhs($user->user_id);
              $sidang_ta = Dashmo::sidangTugasAkhirByMahasiswa($user->user_id);
-             if ($sidang_ta != null) {
-                 $waktuSidang = strtotime($sidang_ta->waktu);
-
-                 $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
-                 $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
-                 $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
-
-                 $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d F Y', strtotime($rsSidang->tanggal_sidang));
-
-             } else if ($kelompok_mhs -> status_individu == "Lulus Sidang TA!") {
+            if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA!") {
                 $sidang_ta = "Lulus Sidang TA!";
-             } else if ($kelompok -> status_expo == "Lulus Expo Project!") {
-                $sidang_ta = "Belum mendaftar sidang TA!";
-            } else {
-                $sidang_ta = "Belum menyelesaikan capstone!";
-             }
+            } else if ($sidang_ta != null) {
+                $waktuSidang = strtotime($sidang_ta->waktu);
+
+                // Mendapatkan nama hari dalam bahasa Indonesia
+                $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
+                $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
+
+                // Mendapatkan tanggal sidang dalam format d-m-Y
+                $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+
+                // Mendapatkan nama bulan dalam bahasa Indonesia
+                $bulanSidangIndo = $this->convertMonthToIndonesian(date('F', $waktuSidang));
+
+                // Menggabungkan nama hari, tanggal, dan bulan dalam bahasa Indonesia
+                $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
+
+             } else{
+                $sidang_ta = $kelompok_mhs->status_tugas_akhir;
+            }
 
             // data
             $data = [
@@ -128,23 +133,6 @@ class DashboardController extends BaseController
         return $kelompok && $kelompok->nomor_kelompok;
     }
 
-    private function convertDayToIndonesian($day)
-    {
-        // Mapping nama hari ke bahasa Indonesia
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        // Cek apakah nama hari ada di dalam mapping
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
-
     public function indexDosen()
     {
         // get data with pagination
@@ -153,6 +141,7 @@ class DashboardController extends BaseController
         $rs_kelompok = Dashmo::getDataBalancingDosbingKelompok();
         $rs_mahasiswa = Dashmo::getDataBalancingDosbingMahasiswa();
         $rs_pengujian_proposal = Dashmo::getJadwalSidangProposalTerdekat();
+        $rs_pengujian_ta = Dashmo::getJadwalSidangTATerdekat();
 
         if ($rs_pengujian_proposal != null) {
             $waktuSidang = strtotime($rs_pengujian_proposal->waktu);
@@ -166,7 +155,20 @@ class DashboardController extends BaseController
             $rs_pengujian_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
         }
 
+        if ($rs_pengujian_ta != null) {
+            $waktuSidang = strtotime($rs_pengujian_ta->waktu);
+
+            $rs_pengujian_ta->hari_sidang = strftime('%A', $waktuSidang);
+            $rs_pengujian_ta->hari_sidang = $this->convertDayToIndonesian($rs_pengujian_ta->hari_sidang);
+            $rs_pengujian_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $rs_pengujian_ta->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($rs_pengujian_ta->waktu_selesai);
+            $rs_pengujian_ta->waktu_selesai = date('H:i:s', $waktuSelesai);
+        }
+
         $rs_jumlah_sidang_proposal = Dashmo::getDataBalancingPengujiProposal();
+        $rs_jumlah_sidang_ta = Dashmo::getDataBalancingPengujiTA();
 
 
         // data
@@ -176,6 +178,8 @@ class DashboardController extends BaseController
             'rs_mahasiswa' => $rs_mahasiswa,
             'rs_pengujian_proposal' => $rs_pengujian_proposal,
             'rs_jumlah_sidang_proposal' => $rs_jumlah_sidang_proposal,
+            'rs_pengujian_ta' => $rs_pengujian_ta,
+            'rs_jumlah_sidang_ta' => $rs_jumlah_sidang_ta,
 
         ];
 

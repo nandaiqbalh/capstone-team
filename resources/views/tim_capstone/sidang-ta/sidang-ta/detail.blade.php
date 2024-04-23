@@ -13,9 +13,9 @@
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Detail Sidang Tugas Akhir</h5>
+                <h5 class="mb-0">Pendaftar Sidang Tugas Akhir</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/periode-sidang-ta') }}" class="btn btn-secondary btn-xs float-right"><i
+                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-secondary btn-xs float-right"><i
                             class="bx bx-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -31,7 +31,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                             <tr>
                                 <td>Nama Periode</td>
                                 <td>:</td>
@@ -70,38 +70,38 @@
                                         <td class="text-center">{{ $index + 1 }}.</td>
                                         <td>{{ $pendaftaran->nomor_kelompok }}</td>
                                         <td>{{ $pendaftaran->user_name }}</td>
-                                        <td style ="color: {{$pendaftaran->color_sidangta}}">
+                                        <td style ="color: {{ $pendaftaran->color_sidangta }}">
                                             {{ $pendaftaran->status_tugas_akhir }}</td>
                                         <td><a href="{{ $pendaftaran->link_upload }}"
-                                            style="text-decoration: underline; color: blue;" target="_blank">Link
-                                            berkas</a></td>
+                                                style="text-decoration: underline; color: blue;" target="_blank">Link
+                                                berkas</a></td>
                                         <td class="text-center">
-                                            @if ($pendaftaran->status == 'Menunggu Persetujuan Berkas TA!')
-                                                <a href="{{ url('/admin/periode-sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                            @if ($pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Berkas TA!')
+                                                <a href="{{ url('/admin/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->user_name }} ?')">
                                                     Terima</a>
-                                                <a href="{{ url('/admin/periode-sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                <a href="{{ url('/admin/sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->user_name }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status == 'Menunggu Penjadwalan Sidang TA!')
-                                                <a href="{{ url('/admin/periode-sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                            @elseif($pendaftaran->status_tugas_akhir == 'Menunggu Penjadwalan Sidang TA!')
+                                                <a href="{{ url('/admin/sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->user_name }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status == 'Berkas TA Tidak Disetujui!')
-                                                <a href="{{ url('/admin/periode-sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                            @elseif($pendaftaran->status_tugas_akhir == 'Berkas TA Tidak Disetujui!')
+                                                <a href="{{ url('/admin/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->user_name }} ?')">
                                                     Terima</a>
                                             @else
                                                 @if (
-                                                    $pendaftaran->status == 'Lulus Sidang TA!' ||
-                                                        $pendaftaran->status == 'Gagal Sidang TA!' ||
-                                                        $pendaftaran->status == 'Telah Dijadwalkan Sidang TA!' ||
-                                                        $pendaftaran->status == 'Menunggu Persetujuan Penguji!')
-                                                    <span style="color: #44B158">Mahasiswa Disetujui Sidang TA!</span>
+                                                    $pendaftaran->status_tugas_akhir == 'Lulus Sidang TA!' ||
+                                                        $pendaftaran->status_tugas_akhir == 'Gagal Sidang TA!' ||
+                                                        $pendaftaran->status_tugas_akhir == 'Telah Dijadwalkan Sidang TA!' ||
+                                                        $pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Penguji!')
+                                                    <span style="color: #44B158">Disetujui!</span>
                                                 @else
-                                                    <span style="color: #FF0000">Mahasiswa Tidak Disetujui Sidang TA!</span>
+                                                    <span style="color: #FF0000">Tidak Disetujui!</span>
                                                 @endif
                                             @endif
                                         </td>
@@ -110,23 +110,24 @@
                                         @else
                                             <td style="color: {{ $pendaftaran->status_color_penguji1 }}">
                                                 {{ $pendaftaran->status_dosen_penguji_ta1 }}</td>
-                                        @endif    
+                                        @endif
                                         @if ($pendaftaran->status_dosen_penguji_ta2 == null)
                                             <td>-</td>
                                         @else
                                             <td style="color: {{ $pendaftaran->status_color_penguji2 }}">
                                                 {{ $pendaftaran->status_dosen_penguji_ta2 }}</td>
                                         @endif
-                                        
+
                                         @if (
-                                            $pendaftaran->status_tugas_akhir == 'Berkas TA Tidak Disetujui!')
+                                            $pendaftaran->status_tugas_akhir == 'Berkas TA Tidak Disetujui!' ||
+                                                $pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Berkas TA!')
                                             <td>-</td>
                                         @else
                                             @if (
                                                 $pendaftaran->status_tugas_akhir == 'Menunggu Penjadwalan Sidang TA!' ||
                                                     $pendaftaran->status_tugas_akhir == 'Penguji Ditetapkan!')
                                                 <td class="text-center">
-                                                    <a href="{{ url('/admin/periode-sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                    <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1 ">Jadwalkan Sidang</a>
                                                 </td>
                                             @elseif($pendaftaran->status_tugas_akhir == 'Dijadwalkan Sidang TA!')
@@ -136,7 +137,7 @@
                                                 </td>
                                             @else
                                                 <td class="text-center">
-                                                    <a href="{{ url('/admin/periode-sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                    <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"
                                                         class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                                 </td>
                                             @endif
@@ -145,7 +146,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="9">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>

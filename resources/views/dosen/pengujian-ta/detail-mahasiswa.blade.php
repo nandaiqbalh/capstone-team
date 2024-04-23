@@ -242,10 +242,10 @@
                                         <td>{{ $dosbing->jenis_dosen }}</td>
                                         @if ($dosbing->jenis_dosen == 'Pembimbing 1')
                                             <td style="color: {{ $dosbing->status_pembimbing1_color }}">
-                                                {{ $mahasiswa->file_status_lta_dosbing1 }}</td>
+                                                {{ $dosbing->status_dosen }}</td>
                                         @elseif ($dosbing->jenis_dosen == 'Pembimbing 2')
                                             <td style="color: {{ $dosbing->status_pembimbing2_color }}">
-                                                {{ $mahasiswa->file_status_lta_dosbing2 }}</td>
+                                                {{ $dosbing->status_dosen }}</td>
                                         @else
                                             <td>-</td>
                                         @endif

@@ -21,9 +21,10 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Nomor Kelompok Mahasiswa</th>
+                                <th>Nomor Kelompok </th>
                                 <th>Nama Mahasiswa</th>
                                 <th>Status Sidang</th>
+                                <th>Status Laporan TA</th>
                                 <th>Periode Sidang</th>
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
@@ -33,35 +34,39 @@
                         </thead>
                         <tbody>
                             @if ($rs_sidang->count() > 0)
-                                @foreach ($rs_sidang as $index => $sidang_proposal)
+                                @foreach ($rs_sidang as $index => $sidang_ta)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_sidang->firstItem() }}.</td>
-                                        <td>{{ $sidang_proposal->nomor_kelompok }}</td>
-                                        <td style="color: {{ $sidang_proposal->status_sidang_color }}">
-                                            {{ $sidang_proposal->status_sidang_proposal }}</td>
-                                        <td>{{ $sidang_proposal->hari_sidang }}, {{ $sidang_proposal->tanggal_sidang }}</td>
-                                        <td>{{ $sidang_proposal->waktu_sidang }} WIB - {{ $sidang_proposal->waktu_selesai }}
+                                        <td>{{ $sidang_ta->nomor_kelompok }}</td>
+                                        <td>{{ $sidang_ta->user_name }}</td>
+                                        <td style="color: {{ $sidang_ta->status_sidang_color }}">
+                                            {{ $sidang_ta->status_tugas_akhir }}</td>
+                                        <td style="color: {{ $sidang_ta->status_lta_color }}">
+                                            {{ $sidang_ta->file_status_lta }}</td <td>
+                                        <td>{{ $sidang_ta->nama_periode }}</td>
+                                        <td>{{ $sidang_ta->hari_sidang }}, {{ $sidang_ta->tanggal_sidang }}</td>
+                                        <td>{{ $sidang_ta->waktu_sidang }} WIB - {{ $sidang_ta->waktu_selesai }}
                                             WIB
-                                        <td>{{ $sidang_proposal->nama_ruang }}</td>
+                                        <td>{{ $sidang_ta->nama_ruang }}</td>
                                         <td class="text-center">
 
-                                            @if ($sidang_proposal->status_sidang_proposal == 'Lulus Sidang Proposal!')
-                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
+                                            @if ($sidang_ta->status_tugas_akhir == 'Lulus Sidang TA!')
+                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
-                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
+                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_ta->user_name }} tidak lulus?')">
                                                     Gagal</a>
-                                            @elseif($sidang_proposal->status_sidang_proposal == 'Gagal Sidang Proposal!')
-                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
+                                            @elseif($sidang_ta->status_tugas_akhir == 'Gagal Sidang TA!')
+                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                             @else
-                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
-                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
+                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_ta->user_name }} tidak lulus?')">
                                                     Gagal</a>
-                                                <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                             @endif
-                                            <a href="{{ url('/admin/jadwal-sidang-proposal/detail') }}/{{ $sidang_proposal->id_kelompok }}"
+                                            <a href="{{ url('/admin/jadwal-sidang-ta/detail') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                 class="btn btn-outline-secondary btn-xs m-1">Detail</a>
 
                                         </td>

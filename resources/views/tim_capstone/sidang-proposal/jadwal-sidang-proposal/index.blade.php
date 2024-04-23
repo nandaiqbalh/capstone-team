@@ -23,6 +23,7 @@
                                 <th width="5%">No</th>
                                 <th>Nomor Kelompok</th>
                                 <th>Status Sidang</th>
+                                <th>Status C100</th>
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
                                 <th>Ruangan</th>
@@ -37,6 +38,8 @@
                                         <td>{{ $sidang_proposal->nomor_kelompok }}</td>
                                         <td style="color: {{ $sidang_proposal->status_sidang_color }}">
                                             {{ $sidang_proposal->status_sidang_proposal }}</td>
+                                        <td style="color: {{ $sidang_proposal->status_c100_color }}">
+                                            {{ $sidang_proposal->file_status_c100 }}</td>
                                         <td>{{ $sidang_proposal->hari_sidang }}, {{ $sidang_proposal->tanggal_sidang }}</td>
                                         <td>{{ $sidang_proposal->waktu_sidang }} WIB - {{ $sidang_proposal->waktu_selesai }}
                                             WIB

@@ -115,9 +115,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/mahasiswa/expo-daftar/', [ApiExpoController::class, 'daftarExpo']);
 
         // sidang TA
-        Route::post('/mahasiswa/sidang-tugas-akhir/updateStatusForward', [ApiTugasAkhirController::class, 'updateStatusMahasiswaForward']);
-        Route::post('/mahasiswa/sidang-tugas-akhir/updateStatusBackward', [ApiTugasAkhirController::class, 'updateStatusMahasiswaBackward']);
-
         Route::get('/mahasiswa/sidang-tugas-akhir-mahasiswa/', [ApiTugasAkhirController::class, 'sidangTugasAkhirByMahasiswa']);
         Route::post('/mahasiswa/sidang-tugas-akhir-daftar/', [ApiTugasAkhirController::class, 'daftarSidangTugasAkhir']);
 

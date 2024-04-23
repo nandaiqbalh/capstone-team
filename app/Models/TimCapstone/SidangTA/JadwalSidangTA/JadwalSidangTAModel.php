@@ -5,7 +5,7 @@ namespace App\Models\TimCapstone\SidangTA\JadwalSidangTA;
 use App\Models\TimCapstone\BaseModel;
 use Illuminate\Support\Facades\DB;
 
-class JadwalSidangTA extends BaseModel
+class JadwalSidangTAModel extends BaseModel
 {
 
     public function ruangSidang()
@@ -15,14 +15,15 @@ class JadwalSidangTA extends BaseModel
 
     public static function getDataWithPagination()
     {
-        return DB::table('jadwal_sidang_proposal as a')
-            ->select('a.*','b.id as siklus_id', 'b.nama_siklus','c.nomor_kelompok', 'c.status_kelompok', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang')
-            ->join('siklus as b', 'a.siklus_id', 'b.id')
-            ->join('ruang_sidangs as d', 'd.id', 'a.ruangan_id')
-            ->leftjoin('kelompok as c','a.id_kelompok','c.id')
-            ->orderBy('c.is_sidang_proposal', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
+        return DB::table('jadwal_sidang_ta as a')
+            ->select('a.*', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
+            ->join('ruang_sidangs as d', 'd.id', 'a.id_ruangan')
+            ->join('kelompok as c','a.id_kelompok','c.id')
+            ->join('kelompok_mhs as b','a.id_mahasiswa','b.id_mahasiswa')
+            ->join('app_user as u','a.id_mahasiswa','u.user_id')
+            ->join('jadwal_periode_sidang_ta as p','a.id_periode','p.id')
+            ->orderBy('b.is_selesai', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
             ->orderBy('a.waktu', 'asc')
-            ->where('b.status', 'aktif')
             ->paginate(20);
     }
 
@@ -56,6 +57,13 @@ class JadwalSidangTA extends BaseModel
     {
         return DB::table('jadwal_sidang_proposal')
         ->where('id', $id)
+        ->first();
+    }
+
+    public static function getKelompokMhs($id_mahasiswa)
+    {
+        return DB::table('kelompok_mhs')
+        ->where('id_mahasiswa', $id_mahasiswa)
         ->first();
     }
 
@@ -144,6 +152,11 @@ class JadwalSidangTA extends BaseModel
         return DB::table('kelompok')->where('id', $id)->update($params);
     }
 
+    public static function updateKelompokMhs($id_mahasiswa,$params)
+    {
+        return DB::table('kelompok_mhs')->where('id_mahasiswa', $id_mahasiswa)->update($params);
+    }
+
     public static function deleteJadwalSidangProposal($id)
     {
         return DB::table('jadwal_sidang_proposal')->where('id', $id)->delete();
@@ -169,6 +182,25 @@ class JadwalSidangTA extends BaseModel
             ->get();
     }
 
+
+    public static function getRuangSidang()
+    {
+        return DB::table('ruang_sidangs')
+        ->get();
+    }
+
+    public static function getDataDetailMahasiswaSidang($user_id)
+    {
+        return DB::table('kelompok_mhs as a')
+            ->select( 'b.*', 'c.nama as nama_topik', 'd.user_name', 'd.nomor_induk','a.*',)
+            ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
+            ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
+            ->leftJoin('app_user as d', 'd.user_id', 'a.id_mahasiswa')
+            ->where('a.id_mahasiswa', $user_id)
+            ->orderBy('a.created_date', 'desc') // Urutkan berdasarkan created_date secara descending
+            ->first();
+    }
+
     public static function getAkunDosbingKelompok($id_kelompok)
     {
         return DB::table('app_user')
@@ -187,45 +219,44 @@ class JadwalSidangTA extends BaseModel
             ->get();
     }
 
-    public static function getAkunPengujiProposalKelompok($id_kelompok)
+
+    public static function getAkunPengujiTAKelompok($id_mahasiswa)
     {
         return DB::table('app_user')
-            ->join('kelompok', function ($join) {
-                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
-                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+            ->join('kelompok_mhs', function ($join) use ($id_mahasiswa) {
+                $join->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta1')
+                     ->where('kelompok_mhs.id_mahasiswa', '=', $id_mahasiswa)
+                     ->orWhere(function ($query) use ($id_mahasiswa) {
+                         $query->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta2')
+                               ->where('kelompok_mhs.id_mahasiswa', '=', $id_mahasiswa);
+                     });
             })
-            ->where('kelompok.id', '=', $id_kelompok)
-            ->orderByRaw('
-                CASE
-                    WHEN app_user.user_id = kelompok.id_dosen_penguji_1 THEN 1
-                    WHEN app_user.user_id = kelompok.id_dosen_penguji_2 THEN 2
-                END
-            ')
+            ->orderBy('app_user.user_id')
             ->select('app_user.*')
             ->get();
     }
 
-
-    public static function getJadwalSidangProposal($id_kelompok)
+    public static function listMahasiswaSendiri($id_mahasiswa, $id_kelompok)
     {
-        return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.*')
-        ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
-        ->where('id_kelompok', $id_kelompok)
+        return DB::table('kelompok_mhs as a')
+            ->select( 'a.*', 'c.nama as nama_topik', 'd.*', 'b.*', )
+            ->leftJoin('kelompok as b', 'a.id_kelompok', '=', 'b.id')
+            ->leftJoin('topik as c', 'a.id_topik_mhs', '=', 'c.id')
+            ->leftJoin('app_user as d', 'd.user_id', '=', 'a.id_mahasiswa')
+            ->leftJoin('pendaftaran_sidang_ta as e', 'a.id_mahasiswa', '=', 'e.id_mahasiswa')
+            ->where('a.id_mahasiswa', $id_mahasiswa)
+            ->where('a.id_kelompok', $id_kelompok)
+            ->orderBy('a.created_date', 'desc') // Urutkan berdasarkan created_date secara descending
+            ->get();
+    }
+
+
+    public static function getJadwalSidangTA($id_mahasiswa)
+    {
+        return DB::table('jadwal_sidang_ta as a')
+        ->select('a.*', 'b.nama_ruang')
+        ->join('ruang_sidangs as b', 'b.id', 'a.id_ruangan')
+        ->where('id_mahasiswa', $id_mahasiswa)
         ->first();
-    }
-    public static function getDosenPengujiProposal($id_kelompok)
-    {
-        return DB::table('app_user')
-            ->where('app_user.role_id', '04')
-            ->select('app_user.*')
-            ->orderBy('app_user.user_name')
-            ->get();
-    }
-
-    public static function getRuangSidang()
-    {
-        return DB::table('ruang_sidangs')
-        ->get();
     }
 }
