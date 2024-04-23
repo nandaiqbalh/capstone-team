@@ -77,9 +77,6 @@ class AccountsController extends BaseController
         // process
         if ($import) {
 
-            // send mail
-            // $this->sendMail($user_id, $request->user_password);
-
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/accounts');

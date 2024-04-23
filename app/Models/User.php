@@ -19,6 +19,17 @@ class User extends Authenticatable implements JWTSubject
     protected $primaryKey = 'user_id';
     public $timestamps = false;
 
+    public static function rules(array $input)
+    {
+        return [
+            'role_id' => 'required',
+            'user_name' => 'required|string|max:255',
+            'user_password' => 'required|string|min:6',
+            'nomor_induk' => 'required|string|unique:app_user,nomor_induk', // Aturan unik untuk nomor_induk
+            'angkatan' => 'required|min:4',
+            'jenis_kelamin' => 'required',
+        ];
+    }
     /**
      * The attributes that are mass assignable.
      *

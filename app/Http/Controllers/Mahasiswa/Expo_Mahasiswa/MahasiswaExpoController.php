@@ -26,13 +26,13 @@ class MahasiswaExpoController extends BaseController
         $cekExpo = MahasiswaExpoModel::cekExpo();
 
         $kelompok = MahasiswaExpoModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
-        $kelompok -> status_expo_color = $this->getStatusColor($kelompok->status_expo);
 
         if ($kelompok != null) {
             $akun_mahasiswa = MahasiswaExpoModel::getAkunByID(Auth::user()->user_id);
             $siklusSudahPunyaKelompok = MahasiswaExpoModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);
             $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
             // get data expo
+            $kelompok -> status_expo_color = $this->getStatusColor($kelompok->status_expo);
 
             $showButton = true;
 
@@ -155,6 +155,7 @@ class MahasiswaExpoController extends BaseController
         $params = [
             'id_kelompok' => $kelompok->id,
             'id_expo' => $request->id_expo,
+            'id_siklus' => $kelompok->id_siklus,
             'status' => 'Menunggu Persetujuan Expo!',
             'created_by' => $request->user()->user_id,
             'created_date' => now(),
