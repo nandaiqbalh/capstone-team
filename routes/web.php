@@ -43,6 +43,7 @@ use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\Balancing\PembimbingKelompok\PembimbingKelompokController;
 use App\Http\Controllers\TimCapstone\Balancing\PembimbingMahasiswa\PembimbingMahasiswaController;
 use App\Http\Controllers\TimCapstone\Balancing\PengujiProposal\PengujiProposalController;
+use App\Http\Controllers\TimCapstone\Balancing\PengujiTA\PengujiTAController;
 use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
 use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
@@ -201,6 +202,13 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::get('/admin/balancing-penguji-proposal/filter-siklus', [PengujiProposalController::class, 'filterBalancingPengujiProposal']);
      Route::get('/admin/balancing-penguji-proposal/detail/{user_id}', [PengujiProposalController::class, 'detailBalancingPengujiProposal']);
      Route::get('/admin/balancing-penguji-proposal/search', [PengujiProposalController::class, 'searchBalancingPengujiProposal']);
+
+    // balancing dosen penguji proposal
+    Route::get('/admin/balancing-penguji-ta', [PengujiTAController::class, 'balancingPengujiTA']);
+    Route::get('/admin/balancing-penguji-ta/filter-periode', [PengujiTAController::class, 'filterBalancingPengujiTA']);
+    Route::get('/admin/balancing-penguji-ta/detail/{user_id}', [PengujiTAController::class, 'detailBalancingPengujiTA']);
+    Route::get('/admin/balancing-penguji-ta/detail-mahasiwa/{user_id}', [PengujiTAController::class, 'detailMahasiswa']);
+    Route::get('/admin/balancing-penguji-ta/search', [PengujiTAController::class, 'searchBalancingPengujiTA']);
 
      //siklus
      Route::get('/admin/siklus', [SiklusController::class, 'index']);

@@ -136,6 +136,7 @@ class DashboardController extends BaseController
         $rs_kelompok = Dashmo::getDataBalancingDosbingKelompok();
         $rs_mahasiswa = Dashmo::getDataBalancingDosbingMahasiswa();
         $rs_pengujian_proposal = Dashmo::getJadwalSidangProposalTerdekat();
+        $rs_pengujian_ta = Dashmo::getJadwalSidangTATerdekat();
 
         if ($rs_pengujian_proposal != null) {
             $waktuSidang = strtotime($rs_pengujian_proposal->waktu);
@@ -149,7 +150,20 @@ class DashboardController extends BaseController
             $rs_pengujian_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
         }
 
+        if ($rs_pengujian_ta != null) {
+            $waktuSidang = strtotime($rs_pengujian_ta->waktu);
+
+            $rs_pengujian_ta->hari_sidang = strftime('%A', $waktuSidang);
+            $rs_pengujian_ta->hari_sidang = $this->convertDayToIndonesian($rs_pengujian_ta->hari_sidang);
+            $rs_pengujian_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $rs_pengujian_ta->waktu_sidang = date('H:i:s', $waktuSidang);
+
+            $waktuSelesai = strtotime($rs_pengujian_ta->waktu_selesai);
+            $rs_pengujian_ta->waktu_selesai = date('H:i:s', $waktuSelesai);
+        }
+
         $rs_jumlah_sidang_proposal = Dashmo::getDataBalancingPengujiProposal();
+        $rs_jumlah_sidang_ta = Dashmo::getDataBalancingPengujiTA();
 
 
         // data
@@ -159,6 +173,8 @@ class DashboardController extends BaseController
             'rs_mahasiswa' => $rs_mahasiswa,
             'rs_pengujian_proposal' => $rs_pengujian_proposal,
             'rs_jumlah_sidang_proposal' => $rs_jumlah_sidang_proposal,
+            'rs_pengujian_ta' => $rs_pengujian_ta,
+            'rs_jumlah_sidang_ta' => $rs_jumlah_sidang_ta,
 
         ];
 
