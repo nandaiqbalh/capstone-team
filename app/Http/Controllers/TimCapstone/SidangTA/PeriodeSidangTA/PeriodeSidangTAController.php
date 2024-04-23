@@ -356,7 +356,7 @@ class PeriodeSidangTAController extends BaseController
         ];
         // dd($data);
 
-        dd($mahasiswa);
+        // dd($mahasiswa);
         // view
         return view('tim_capstone.sidang-ta.periode-sidang-ta.penjadwalan', $data);
     }
