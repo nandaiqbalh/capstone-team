@@ -33,7 +33,21 @@ class MahasiswaExpoController extends BaseController
             $siklusSudahPunyaKelompok = MahasiswaExpoModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);
             $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
             // get data expo
-            $rs_expo = MahasiswaExpoModel::getDataExpo();
+
+            $showButton = true;
+
+            if ($cekExpo != null) {
+                $rs_expo = MahasiswaExpoModel::getExpoById($cekExpo->id_expo);
+                $latest_expo = MahasiswaExpoModel::getLatestExpo();
+
+                if ($rs_expo ->id == $latest_expo ->id && $rs_expo -> tanggal_selesai > now() ) {
+                    $showButton = true;
+                } else {
+                    $showButton = false;
+                }
+            } else {
+                $rs_expo = MahasiswaExpoModel::getDataExpo();
+            }
 
             if ($rs_expo != null) {
                 $waktuExpo = strtotime($rs_expo->waktu);
@@ -55,11 +69,12 @@ class MahasiswaExpoController extends BaseController
 
             // data
             $data = [
+                'cekExpo' => $cekExpo,
+                'showButton' => $showButton,
                 'rs_expo' => $rs_expo,
                 'kelompok' => $kelompok,
                 'kelengkapan'=>$kelengkapanExpo,
                 'siklus_sudah_punya_kelompok' => $siklusSudahPunyaKelompok,
-
             ];
         } else{
             $data = [

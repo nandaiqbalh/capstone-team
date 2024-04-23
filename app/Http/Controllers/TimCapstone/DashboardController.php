@@ -73,22 +73,27 @@ class DashboardController extends BaseController
             $pendaftaran_ta = Dashmo::cekStatusPendaftaranSidangTA($user->user_id);
             $kelompok_mhs = Dashmo::checkKelompokMhs($user->user_id);
              $sidang_ta = Dashmo::sidangTugasAkhirByMahasiswa($user->user_id);
-             if ($sidang_ta != null) {
-                 $waktuSidang = strtotime($sidang_ta->waktu);
-
-                 $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
-                 $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
-                 $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
-
-                 $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d F Y', strtotime($rsSidang->tanggal_sidang));
-
-             } else if ($kelompok_mhs -> status_individu == "Lulus Sidang TA!") {
+            if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA!") {
                 $sidang_ta = "Lulus Sidang TA!";
-             } else if ($kelompok -> status_expo == "Lulus Expo Project!") {
-                $sidang_ta = "Belum mendaftar sidang TA!";
-            } else {
-                $sidang_ta = "Belum menyelesaikan capstone!";
-             }
+            } else if ($sidang_ta != null) {
+                $waktuSidang = strtotime($sidang_ta->waktu);
+
+                // Mendapatkan nama hari dalam bahasa Indonesia
+                $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
+                $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
+
+                // Mendapatkan tanggal sidang dalam format d-m-Y
+                $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+
+                // Mendapatkan nama bulan dalam bahasa Indonesia
+                $bulanSidangIndo = $this->convertMonthToIndonesian(date('F', $waktuSidang));
+
+                // Menggabungkan nama hari, tanggal, dan bulan dalam bahasa Indonesia
+                $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
+
+             } else{
+                $sidang_ta = $kelompok_mhs->status_tugas_akhir;
+            }
 
             // data
             $data = [

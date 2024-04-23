@@ -215,7 +215,10 @@
                                         </div>
 
                                         <br>
-                                        <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                        @if ($showButton == true)
+                                            <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                        @else
+                                        @endif
                                     </form>
                                 @else
                                     <!-- tampilkan jadwal sidang -->
@@ -232,17 +235,18 @@
                                                 <tr>
                                                     <td>Status</td>
                                                     <td>:</td>
-                                                    @if ($kelompok->nomor_kelompok == null)
-                                                        <td>Menunggu Persetujuan Tim Capstone!</td>
+                                                    @if ($kelompok->status_tugas_akhir == null)
+                                                        <td>-</td>
                                                     @else
-                                                        <td>{{ $data_mahasiswa->status_tugas_akhir }}</td>
+                                                        <td style="color: {{ $kelompok->status_tugas_akhir_color }}">
+                                                            {{ $data_mahasiswa->status_tugas_akhir }}</td>
                                                     @endif
                                                 </tr>
                                                 <tr>
                                                     <td>Hari, tanggal</td>
                                                     <td>:</td>
-                                                    @if ($kelompok->nomor_kelompok == null)
-                                                        <td>!</td>
+                                                    @if ($jadwal_sidang->hari_sidang == null)
+                                                        <td>-</td>
                                                     @else
                                                         <td>{{ $jadwal_sidang->hari_sidang }},
                                                             {{ $jadwal_sidang->tanggal_sidang }}</td>
@@ -251,7 +255,7 @@
                                                 <tr>
                                                     <td>Waktu</td>
                                                     <td>:</td>
-                                                    @if ($kelompok->nomor_kelompok == null)
+                                                    @if ($jadwal_sidang->waktu_sidang == null)
                                                         <td>-</td>
                                                     @else
                                                         <td>{{ $jadwal_sidang->waktu_sidang }} WIB</td>
@@ -260,19 +264,19 @@
                                                 <tr>
                                                     <td>Ruang Sidang</td>
                                                     <td>:</td>
-                                                    @if ($kelompok->nomor_kelompok == null)
+                                                    @if ($jadwal_sidang->nama_ruang == null)
                                                         <td>-</td>
                                                     @else
                                                         <td>{{ $jadwal_sidang->nama_ruang }}</td>
                                                     @endif
                                                 </tr>
                                                 <tr>
-                                                    <td>Judul Capstone</td>
+                                                    <td>Judul Tugas Akhir</td>
                                                     <td>:</td>
-                                                    @if ($kelompok->nomor_kelompok == null)
+                                                    @if ($kelompok->judul_ta_mhs == null)
                                                         <td>-</td>
                                                     @else
-                                                        <td>{{ $kelompok->judul_capstone }}</td>
+                                                        <td>{{ $kelompok->judul_ta_mhs }}</td>
                                                     @endif
                                                 </tr>
                                             </tbody>

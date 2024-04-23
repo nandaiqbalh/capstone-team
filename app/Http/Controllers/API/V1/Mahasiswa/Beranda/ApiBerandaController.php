@@ -82,7 +82,7 @@ class ApiBerandaController extends Controller
                         $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
 
                     } else {
-                        $sidang_ta = "Belum menyelesaikan capstone!";
+                        $sidang_ta = $kelompok_mhs->status_tugas_akhir;
                     }
 
                     $data = [

@@ -29,16 +29,31 @@ class ApiTugasAkhirController extends Controller
                 // Get data kelompok
                 $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
-                $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
                 $rsSidang = ApiTugasAkhirModel::sidangTugasAkhirByMahasiswa($user->user_id);
                 $statusPendaftaran = ApiTugasAkhirModel::getStatusPendaftaran($user->user_id);
 
                 if ($kelompok != null ) {
                     // dd($rsSidang);
 
+                    $showButton = true;
+
+                    if ($statusPendaftaran != null) {
+                        $periodeAvailable = ApiTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
+                        $latest_sidang = ApiTugasAkhirModel::getLatestPeriode();
+
+                        if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
+                            $showButton = true;
+                        } else {
+                            $showButton = false;
+                        }
+                    } else {
+                        $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
+                    }
+
                     if ($kelompok -> nomor_kelompok == null) {
                         $response = $this->failureResponse('Anda belum menyelesaikan capstone!');
                     } else {
+
                         if ($rsSidang == null ) {
 
                             if ($periodeAvailable != null) {
@@ -61,6 +76,7 @@ class ApiTugasAkhirController extends Controller
                                     'kelompok' => $kelompok,
                                     'rsSidang' => $rsSidang,
                                     'periode' => $periodeAvailable,
+                                    'showButton' => $showButton,
                                     'status_pendaftaran' => null,
                                 ];
 
@@ -71,6 +87,7 @@ class ApiTugasAkhirController extends Controller
                                     'kelompok' => $kelompok,
                                     'rsSidang' => $rsSidang,
                                     'periode' => $periodeAvailable,
+                                    'showButton' => $showButton,
                                     'status_pendaftaran' => $statusPendaftaran,
                                 ];
 
@@ -100,6 +117,7 @@ class ApiTugasAkhirController extends Controller
                                 'kelompok' => $kelompok,
                                 'rsSidang' => $rsSidang,
                                 'periode' => $periodeAvailable,
+                                'showButton' => $showButton,
                                 'status_pendaftaran' => $statusPendaftaran,
                             ];
 
@@ -117,6 +135,7 @@ class ApiTugasAkhirController extends Controller
                             'kelompok' => $kelompok,
                             'rsSidang' => $rsSidang,
                             'periode' => $periodeAvailable,
+                            'showButton' => $showButton,
                             'status_pendaftaran' => null,
                         ];
                     } else {
@@ -124,6 +143,7 @@ class ApiTugasAkhirController extends Controller
                             'kelompok' => $kelompok,
                             'rsSidang' => $rsSidang,
                             'periode' => $periodeAvailable,
+                            'showButton' => $showButton,
                             'status_pendaftaran' => $statusPendaftaran,
                         ];
                     }

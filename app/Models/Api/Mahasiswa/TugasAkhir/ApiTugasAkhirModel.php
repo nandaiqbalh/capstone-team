@@ -36,6 +36,23 @@ class ApiTugasAkhirModel extends ApiBaseModel
             ->update($params);
     }
 
+    public static function getLatestPeriode()
+    {
+        return DB::table('jadwal_periode_sidang_ta as a')
+            ->select('a.*',)
+            ->orderBy('a.id', 'asc')
+            ->first();
+    }
+
+    public static function getPeriodeSidangById($id_periode)
+    {
+        return DB::table('jadwal_periode_sidang_ta as a')
+            ->select('a.*', )
+            ->where('a.id', $id_periode)
+            ->orderBy('a.tanggal_mulai', 'asc')
+            ->first();
+    }
+
     public static function cekStatusPendaftaranSidangTA($user_id)
    {
        return DB::table('pendaftaran_sidang_ta as a')
@@ -74,7 +91,7 @@ class ApiTugasAkhirModel extends ApiBaseModel
     public static function pengecekan_kelompok_mahasiswa($user_id)
     {
        return DB::table('kelompok_mhs as a')
-           ->select('a.id_kelompok', 'a.judul_ta_mhs', 'a.link_upload','b.*','c.nama as nama_topik')
+           ->select('a.id_kelompok', 'a.status_tugas_akhir', 'a.judul_ta_mhs', 'a.link_upload','b.*','c.nama as nama_topik')
            ->leftjoin('kelompok as b','a.id_kelompok','b.id')
            ->leftjoin('topik as c', 'a.id_topik_mhs', 'c.id')
            ->where('a.id_mahasiswa', $user_id)
