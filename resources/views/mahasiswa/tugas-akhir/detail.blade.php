@@ -49,7 +49,7 @@
                                 </table>
                             </div>
                             <br>
-                            <h6>Belum ada periode sidang Tugas Akhir yang tersedia!</h6>
+                            <h6>Tidak dalam periode pendaftaran Sidang TA!</h6>
                         @else
                             <!-- ada periode -->
                             <!-- check sudah mandaftar belum -->

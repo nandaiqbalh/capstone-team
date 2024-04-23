@@ -188,6 +188,7 @@ class MahasiswaTugasAkhirController extends BaseController
              $berkasParams = [
                  'link_upload' => $validatedData['link_upload'],
                  'judul_ta_mhs' => $validatedData['judul_ta_mhs'],
+                 'is_mendaftar_sidang' => '1',
                  'status_individu' => 'Menunggu Persetujuan Berkas TA!',
                  'status_tugas_akhir' => 'Menunggu Persetujuan Berkas TA!',
              ];
@@ -201,23 +202,4 @@ class MahasiswaTugasAkhirController extends BaseController
              return redirect()->back()->with('danger', 'Gagal mendaftarkan sidang Tugas Akhir!');
          }
      }
-
-
-
-    private function convertDayToIndonesian($day)
-    {
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
-
-
 }

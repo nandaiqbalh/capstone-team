@@ -175,23 +175,6 @@ class ApiExpoController extends Controller
     {
         return $rs_expo !== null;
     }
-
-    private function convertDayToIndonesian($day)
-    {
-        // Mapping nama hari ke bahasa Indonesia
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        // Cek apakah nama hari ada di dalam mapping
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
     // Fungsi untuk menangani respons sukses
     private function successResponse($statusMessage, $data)
     {

@@ -162,6 +162,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
       {
           return DB::table('jadwal_periode_sidang_ta as a')
           ->select('a.*')
+          ->where('a.tanggal_mulai', '<', now())
           ->where('a.tanggal_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
           ->orderBy('a.id', 'desc')
           ->first();

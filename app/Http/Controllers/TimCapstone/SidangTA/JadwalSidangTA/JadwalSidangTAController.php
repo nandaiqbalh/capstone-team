@@ -218,19 +218,5 @@ class JadwalSidangTAController extends BaseController
         }
     }
 
-    private function convertDayToIndonesian($day)
-    {
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
 
 }

@@ -167,21 +167,4 @@ class MahasiswaExpoController extends BaseController
         }
     }
 
-
-    private function convertDayToIndonesian($day)
-    {
-        // Mapping nama hari ke bahasa Indonesia
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        // Cek apakah nama hari ada di dalam mapping
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
 }

@@ -50,7 +50,7 @@ use App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangProposal\Pe
 use App\Http\Controllers\TimCapstone\SidangTA\JadwalSidangTA\JadwalSidangTAController;
 use App\Http\Controllers\TimCapstone\SidangTA\PenjadwalanSidangTA\PenjadwalanSidangTAController;
 use App\Http\Controllers\TimCapstone\ExpoProject\ExpoProjectController;
-use App\Http\Controllers\TimCapstone\SidangTA\PeriodeSidangTA\PeriodeSidangTAController;
+use App\Http\Controllers\TimCapstone\SidangTA\SidangTA\SidangTAController;
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
 use App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingController;
@@ -75,6 +75,7 @@ use App\Http\Controllers\Dosen\PersetujuanC500\PersetujuanC500Controller;
 use App\Http\Controllers\Dosen\PersetujuanLaporanTA\PersetujuanLaporanTAController;
 use App\Http\Controllers\Dosen\PersetujuanMakalahTA\PersetujuanMakalahTAController;
 use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
+use App\Http\Controllers\Dosen\PengujianTA\PengujianTAController;
 
 
 /**
@@ -220,44 +221,6 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
      Route::post('/admin/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
      Route::get('/admin/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
-     //expo
-     Route::get('/admin/expo-project', [ExpoProjectController::class, 'index']);
-     Route::get('/admin/expo-project/add', [ExpoProjectController::class, 'addExpoProject']);
-     Route::post('/admin/expo-project/add-process', [ExpoProjectController::class, 'addExpoProjectProcess']);
-     Route::get('/admin/expo-project/edit/{id}', [ExpoProjectController::class, 'editExpoProject']);
-     Route::post('/admin/expo-project/edit-process', [ExpoProjectController::class, 'editExpoProjectProcess']);
-     Route::get('/admin/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
-     Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
-
-     // terima tolak expo
-     Route::get('/admin/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
-     Route::get('/admin/expo-project/tolak/{id}', [ExpoProjectController::class, 'tolakKelompok']);
-
-     // hasil expo
-     Route::get('/admin/expo-project/to-lulus/{id}', [ExpoProjectController::class, 'toLulusExpo']);
-     Route::get('/admin/expo-project/to-gagal/{id}', [ExpoProjectController::class, 'toGagalExpo']);
-
-     //sidang ta
-     Route::get('/admin/periode-sidang-ta', [PeriodeSidangTAController::class, 'index']);
-     Route::get('/admin/periode-sidang-ta/add', [PeriodeSidangTAController::class, 'addPeriodeSidangTA']);
-     Route::post('/admin/periode-sidang-ta/add-process', [PeriodeSidangTAController::class, 'addPeriodeSidangTAProcess']);
-     Route::get('/admin/periode-sidang-ta/delete-process/{id}', [PeriodeSidangTAController::class, 'deletePeriodeSidangTAProcess']);
-     Route::get('/admin/periode-sidang-ta/edit/{id}', [PeriodeSidangTAController::class, 'editPeriodeSidangTA']);
-     Route::post('/admin/periode-sidang-ta/edit-process', [PeriodeSidangTAController::class, 'editPeriodeSidangTAProcess']);
-     Route::get('/admin/periode-sidang-ta/detail/{id}', [PeriodeSidangTAController::class, 'detailPeriodeSidangTA']);
-     Route::get('admin/periode-sidang-ta/jadwalkan-sidang-ta/{id}', [PeriodeSidangTAController::class, 'detailPenjadwalanSidangTA']);
-
-    //add delete dosen pembimbing
-    Route::get('admin/periode-sidang-ta/add-dosen-penguji', [PeriodeSidangTAController::class, 'addDosenKelompok']);
-    Route::get('admin/periode-sidang-ta/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [PeriodeSidangTAController::class, 'deleteDosenKelompok']);
-    // jadwalkan sidang proposal
-    Route::post('admin/periode-sidang-ta/add-jadwal-process', [PeriodeSidangTAController::class, 'addJadwalProcess']);
- 
-     Route::get('/admin/periode-sidang-ta/terima/{id}', [PeriodeSidangTAController::class, 'terimaMahasiswa']);
-     Route::get('/admin/periode-sidang-ta/tolak/{id}', [PeriodeSidangTAController::class, 'tolakMahasiswa']);
-
-
-
      // penetapan kelompok
      Route::get('/admin/penetapan-anggota', [PenetapanAnggotaController::class, 'index']);
      Route::get('/admin/penetapan-anggota/add', [PenetapanAnggotaController::class, 'addPenetapanAnggota']);
@@ -309,14 +272,46 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/jadwal-sidang-proposal/to-gagal/{id}', [JadwalSidangProposalController::class, 'toGagalSidangProposal']);
     Route::get('/admin/jadwal-sidang-proposal/detail/{id}', [JadwalSidangProposalController::class, 'detailKelompok']);
 
-    // add sidang ta
-    Route::get('admin/penjadwalan-sidang-ta', [PenjadwalanSidangTAController::class, 'index']);
-    Route::get('admin/penjadwalan-sidang-ta/jadwalkan-sidang-ta/{id}', [PenjadwalanSidangTAController::class, 'detailPenjadwalanSidangTA']);
-    //add delete dosen pembimbing
-    Route::get('admin/penjadwalan-sidang-ta/add-dosen-penguji', [PenjadwalanSidangTAController::class, 'addDosenKelompok']);
-    Route::get('admin/penjadwalan-sidang-ta/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [PenjadwalanSidangTAController::class, 'deleteDosenKelompok']);
-    // jadwalkan sidang ta
-    Route::post('admin/penjadwalan-sidang-ta/add-jadwal-process', [PenjadwalanSidangTAController::class, 'addJadwalProcess']);
+      //expo
+      Route::get('/admin/expo-project', [ExpoProjectController::class, 'index']);
+      Route::get('/admin/expo-project/add', [ExpoProjectController::class, 'addExpoProject']);
+      Route::post('/admin/expo-project/add-process', [ExpoProjectController::class, 'addExpoProjectProcess']);
+      Route::get('/admin/expo-project/edit/{id}', [ExpoProjectController::class, 'editExpoProject']);
+      Route::post('/admin/expo-project/edit-process', [ExpoProjectController::class, 'editExpoProjectProcess']);
+      Route::get('/admin/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
+      Route::get('/admin/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
+
+      // terima tolak expo
+      Route::get('/admin/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
+      Route::get('/admin/expo-project/tolak/{id}', [ExpoProjectController::class, 'tolakKelompok']);
+
+      // hasil expo
+      Route::get('/admin/expo-project/to-lulus/{id}', [ExpoProjectController::class, 'toLulusExpo']);
+      Route::get('/admin/expo-project/to-gagal/{id}', [ExpoProjectController::class, 'toGagalExpo']);
+
+      //sidang ta
+      Route::get('/admin/sidang-ta', [SidangTAController::class, 'index']);
+      Route::get('/admin/sidang-ta/add', [SidangTAController::class, 'addPeriodeSidangTA']);
+      Route::post('/admin/sidang-ta/add-process', [SidangTAController::class, 'addPeriodeSidangTAProcess']);
+      Route::get('/admin/sidang-ta/delete-process/{id}', [SidangTAController::class, 'deletePeriodeSidangTAProcess']);
+      Route::get('/admin/sidang-ta/edit/{id}', [SidangTAController::class, 'editPeriodeSidangTA']);
+      Route::post('/admin/sidang-ta/edit-process', [SidangTAController::class, 'editPeriodeSidangTAProcess']);
+      Route::get('/admin/sidang-ta/detail/{id}', [SidangTAController::class, 'detailPeriodeSidangTA']);
+      Route::get('admin/sidang-ta/jadwalkan-sidang-ta/{id}/{id_periode}', [SidangTAController::class, 'detailPenjadwalanSidangTA']);
+
+     //add delete dosen pembimbing
+     Route::get('admin/sidang-ta/add-dosen-penguji', [SidangTAController::class, 'addDosenKelompok']);
+     Route::get('admin/sidang-ta/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [SidangTAController::class, 'deleteDosenKelompok']);
+     // jadwalkan sidang proposal
+     Route::post('admin/sidang-ta/add-jadwal-process', [SidangTAController::class, 'addJadwalProcess']);
+
+     // add jadwal to mahasiswa
+     Route::get('/admin/sidang-ta/add-jadwal-to-mahasiswa', [SidangTAController::class, 'addJadwalToMahasiswa']);
+
+      Route::get('/admin/sidang-ta/terima/{id}', [SidangTAController::class, 'terimaMahasiswa']);
+      Route::get('/admin/sidang-ta/tolak/{id}', [SidangTAController::class, 'tolakMahasiswa']);
+
+
 
     //sidang TA
     Route::get('/admin/jadwal-sidang-ta', [JadwalSidangTAController::class, 'index']);
@@ -443,8 +438,6 @@ Route::middleware(['auth', 'role:04'])->group(function () {
     Route::get('/dosen/persetujuan-mta/detail/{id}', [PersetujuanMakalahTAController::class, 'detailPersetujuanMakalahTASaya']);
     Route::get('/dosen/persetujuan-mta/search', [PersetujuanMakalahTAController::class, 'search']);
 
-
-
      //pengujian saya
      Route::get('/dosen/pengujian-proposal', [PengujianProposalController::class, 'index']);
      Route::get('/dosen/pengujian-proposal/terima/{id}', [PengujianProposalController::class, 'terimaPengujianProposalSaya']);
@@ -454,6 +447,14 @@ Route::middleware(['auth', 'role:04'])->group(function () {
 
      // detail mahasiswa bimbingan proposal
      Route::get('/dosen/pengujian-proposal/detail-mahasiswa/{user_id}', [PengujianProposalController::class, 'detailMahasiswa']);
+
+
+    //pengujian saya
+    Route::get('/dosen/pengujian-ta', [PengujianTAController::class, 'index']);
+    Route::get('/dosen/pengujian-ta/terima/{id}', [PengujianTAController::class, 'terimaPengujianTASaya']);
+    Route::get('/dosen/pengujian-ta/tolak/{id}', [PengujianTAController::class, 'tolakPengujianTASaya']);
+    Route::get('/dosen/pengujian-ta/detail/{id}', [PengujianTAController::class, 'detailPengujianTASaya']);
+    Route::get('/dosen/pengujian-ta/search', [PengujianTAController::class, 'search']);
 
 
 });

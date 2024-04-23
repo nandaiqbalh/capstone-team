@@ -122,21 +122,6 @@ class PenjadwalanSidangTAController extends BaseController
         return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.detail', $data);
     }
 
-    private function convertDayToIndonesian($day)
-    {
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
-
 
     public function addDosenKelompok(Request $request)
     {

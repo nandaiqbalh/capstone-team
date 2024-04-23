@@ -187,6 +187,7 @@ class ApiTugasAkhirController extends Controller
                             $berkasParams = [
                                 'link_upload' => $request->link_upload,
                                 'judul_ta_mhs' => $request->judul_ta_mhs,
+                                'is_mendaftar_sidang' => '1',
                                 'status_individu' => 'Menunggu Persetujuan Berkas TA!',
                                 'status_tugas_akhir' => 'Menunggu Persetujuan Berkas TA!',
 
@@ -216,24 +217,6 @@ class ApiTugasAkhirController extends Controller
 
         return response()->json($response);
     }
-
-    private function convertDayToIndonesian($day)
-    {
-        // Mapping nama hari ke bahasa Indonesia
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        // Cek apakah nama hari ada di dalam mapping
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
-
 
     private function successResponse($statusMessage, $data)
     {
