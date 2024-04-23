@@ -126,21 +126,21 @@
                             <div class="card-body">
                                 <h5 class="card-title text-primary">Pengujian Sidang TA</h5>
 
-                                @if ($rs_pengujian_proposal != null)
+                                @if ($rs_pengujian_ta != null)
                                     <span>Jadwal Terdekat:</span>
                                     <br>
-                                    <b><span>{{ $rs_pengujian_proposal->hari_sidang }},
-                                            {{ $rs_pengujian_proposal->waktu_sidang }} WIB</span></b>
-                                    <span>({{ $rs_pengujian_proposal->nama_ruang }})</span>
+                                    <b><span>{{ $rs_pengujian_ta->hari_sidang }},
+                                            {{ $rs_pengujian_ta->waktu_sidang }} WIB</span></b>
+                                    <span>({{ $rs_pengujian_ta->nama_ruang }})</span>
 
                                     <hr>
                                     <span
-                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
-                                        Kelompok Lulus Sidang</span>
+                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_tidak_aktif_dibimbing }}</b>
+                                        Mahasiswa Lulus Sidang</span>
                                     <br>
                                     <span
-                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing }}</b>
-                                        Kelompok Belum Sidang</span>
+                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_aktif_dibimbing }}</b>
+                                        Mahasiswa Belum Sidang</span>
                                 @else
                                     <span>Jadwal Terdekat:</span>
                                     <br>
@@ -148,12 +148,12 @@
 
                                     <hr>
                                     <span
-                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing }}</b>
-                                        Kelompok Lulus Sidang</span>
+                                        style="color: #44B158;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_tidak_aktif_dibimbing }}</b>
+                                        Mahasiswa Lulus Sidang</span>
                                     <br>
                                     <span
-                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing }}</b>
-                                        Kelompok Belum Sidang</span>
+                                        style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_aktif_dibimbing }}</b>
+                                        Mahasiswa Belum Sidang</span>
                                 @endif
                             </div>
                         </div>

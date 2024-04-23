@@ -44,7 +44,7 @@
                         <h6>Kelompok Anda belum valid!</h6>
                     @else
                         @if ($rs_expo == null)
-                            <h6>Belum memasuki periode expo!</h6>
+                            <h6>Tidak dalam periode expo!</h6>
                         @else
                             <div class="table-responsive">
                                 <table class="table table-borderless table-hover">
@@ -144,8 +144,12 @@
                                 </div>
 
                                 <br>
-                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
-                                    data-bs-target="#confirmModal">Daftar</button>
+                                @if ($showButton == true)
+                                    <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                        data-bs-target="#confirmModal">Daftar</button>
+                                @else
+                                @endif
+
                             </form>
                         @endif
 

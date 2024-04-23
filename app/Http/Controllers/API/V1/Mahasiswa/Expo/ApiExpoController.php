@@ -20,7 +20,22 @@ class ApiExpoController extends Controller
                 $kelompok = ApiExpoModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
                 if ($this->validateKelompok($kelompok)) {
-                    $rs_expo = ApiExpoModel::getDataExpo($user->user_id);
+
+                    $cekExpo = ApiExpoModel::cekExpo($user->user_id);
+
+                    $showButton = true;
+                    if ($cekExpo != null) {
+                        $rs_expo = ApiExpoModel::getExpoById($cekExpo->id_expo);
+                        $latest_expo = ApiExpoModel::getLatestExpo();
+
+                        if ($rs_expo ->id == $latest_expo ->id && $rs_expo -> tanggal_selesai > now() ) {
+                            $showButton = true;
+                        } else {
+                            $showButton = false;
+                        }
+                    } else {
+                        $rs_expo = ApiExpoModel::getDataExpo();
+                    }
 
                     if ($this->validateExpoData($rs_expo)) {
 
@@ -46,6 +61,7 @@ class ApiExpoController extends Controller
                         $data = [
                             'id_kelompok' => $id_kelompok,
                             'kelompok' => $kelompok,
+                            'showButton' => $showButton,
                             'cekStatusExpo' => $cekStatusExpo,
                             'rs_expo' => $rs_expo,
                             'kelengkapan' => $kelengkapanExpo
@@ -53,7 +69,7 @@ class ApiExpoController extends Controller
 
                         $response = $this->successResponse('Berhasil mendapatkan jadwal expo!', $data);
                     } else {
-                        $response = $this->failureResponse('Belum memasuki periode expo!');
+                        $response = $this->failureResponse('Tidak dalam periode expo!');
                     }
                 } else {
 
@@ -174,23 +190,6 @@ class ApiExpoController extends Controller
     private function validateExpoData($rs_expo)
     {
         return $rs_expo !== null;
-    }
-
-    private function convertDayToIndonesian($day)
-    {
-        // Mapping nama hari ke bahasa Indonesia
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        // Cek apakah nama hari ada di dalam mapping
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
     }
     // Fungsi untuk menangani respons sukses
     private function successResponse($statusMessage, $data)

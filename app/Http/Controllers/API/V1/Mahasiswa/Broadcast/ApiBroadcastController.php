@@ -105,30 +105,6 @@ class ApiBroadcastController extends Controller
         }
     }
 
-    private function convertMonthToIndonesian($month)
-    {
-        // Mapping nama bulan ke bahasa Indonesia
-        $monthMappings = [
-            'January' => 'Januari',
-            'February' => 'Februari',
-            'March' => 'Maret',
-            'April' => 'April',
-            'May' => 'Mei',
-            'June' => 'Juni',
-            'July' => 'Juli',
-            'August' => 'Agustus',
-            'September' => 'September',
-            'October' => 'Oktober',
-            'November' => 'November',
-            'December' => 'Desember',
-        ];
-
-        // Cek apakah nama bulan ada di dalam mapping
-        return array_key_exists($month, $monthMappings) ? $monthMappings[$month] : $month;
-    }
-
-
-
     public function detailBroadcastApi(Request $request)
     {
         try {

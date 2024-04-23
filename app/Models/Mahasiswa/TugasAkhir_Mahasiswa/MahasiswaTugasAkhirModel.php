@@ -12,7 +12,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
       public static function pengecekan_kelompok_mahasiswa($user_id)
       {
           return DB::table('kelompok_mhs as a')
-              ->select('a.id_kelompok', 'a.status_individu',  'a.status_tugas_akhir',   'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
+              ->select('a.id_kelompok', 'a.judul_ta_mhs', 'a.status_individu',  'a.status_tugas_akhir',   'b.*', 'c.nama as nama_topik', 'd.user_name as pengusul_kelompok')
               ->leftJoin('kelompok as b', 'a.id_kelompok', 'b.id')
               ->leftJoin('topik as c', 'a.id_topik_mhs', 'c.id')
               ->leftJoin('app_user as d', 'd.user_id', 'b.created_by')
@@ -162,6 +162,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
       {
           return DB::table('jadwal_periode_sidang_ta as a')
           ->select('a.*')
+          ->where('a.tanggal_mulai', '<', now())
           ->where('a.tanggal_selesai', '>', now()) // Menambahkan kondisi a.tanggal_selesai > waktu sekarang
           ->orderBy('a.id', 'desc')
           ->first();
@@ -185,6 +186,23 @@ class MahasiswaTugasAkhirModel extends BaseModel
               ->where('a.id_mahasiswa', $id_mahasiswa)
               ->first();
       }
+
+      public static function getLatestPeriode()
+    {
+        return DB::table('jadwal_periode_sidang_ta as a')
+            ->select('a.*',)
+            ->orderBy('a.id', 'asc')
+            ->first();
+    }
+
+    public static function getPeriodeSidangById($id_periode)
+    {
+        return DB::table('jadwal_periode_sidang_ta as a')
+            ->select('a.*', )
+            ->where('a.id', $id_periode)
+            ->orderBy('a.tanggal_mulai', 'asc')
+            ->first();
+    }
 
       public static function getDataMahasiswa()
       {

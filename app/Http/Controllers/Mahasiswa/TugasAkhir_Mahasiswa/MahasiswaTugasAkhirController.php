@@ -19,10 +19,8 @@ class MahasiswaTugasAkhirController extends BaseController
 
         // Get data kelompok
         $kelompok = MahasiswaTugasAkhirModel::pengecekan_kelompok_mahasiswa($user->user_id);
-        $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
         $jadwal_sidang = MahasiswaTugasAkhirModel::sidangTugasAkhirByMahasiswa($user->user_id);
         $statusPendaftaran = MahasiswaTugasAkhirModel::getStatusPendaftaran($user->user_id);
-
 
         $kelompok -> status_tugas_akhir_color = $this->getStatusColor($kelompok->status_tugas_akhir);
 
@@ -53,6 +51,21 @@ class MahasiswaTugasAkhirController extends BaseController
                     $dospengta->jenis_dosen = 'Penguji 2';
                     $dospengta->status_dosen = $data_mahasiswa->status_dosen_penguji_ta2;
                 }
+            }
+
+            $showButton = true;
+
+            if ($statusPendaftaran != null) {
+                $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
+                $latest_sidang = MahasiswaTugasAkhirModel::getLatestPeriode();
+
+                if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
+                    $showButton = true;
+                } else {
+                    $showButton = false;
+                }
+            } else {
+                $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
             }
 
             if ($jadwal_sidang == null ) {
@@ -96,6 +109,7 @@ class MahasiswaTugasAkhirController extends BaseController
                 'kelompok' => $kelompok,
                 'jadwal_sidang' => $jadwal_sidang,
                 'rs_dosbing' => $rs_dosbing,
+                'showButton' => $showButton,
                 'rs_dospengta' => $rs_dospengta,
                 'periode' => $periodeAvailable,
                 'status_pendaftaran' => $statusPendaftaran,
@@ -188,6 +202,7 @@ class MahasiswaTugasAkhirController extends BaseController
              $berkasParams = [
                  'link_upload' => $validatedData['link_upload'],
                  'judul_ta_mhs' => $validatedData['judul_ta_mhs'],
+                 'is_mendaftar_sidang' => '1',
                  'status_individu' => 'Menunggu Persetujuan Berkas TA!',
                  'status_tugas_akhir' => 'Menunggu Persetujuan Berkas TA!',
              ];
@@ -201,23 +216,4 @@ class MahasiswaTugasAkhirController extends BaseController
              return redirect()->back()->with('danger', 'Gagal mendaftarkan sidang Tugas Akhir!');
          }
      }
-
-
-
-    private function convertDayToIndonesian($day)
-    {
-        $dayMappings = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-        ];
-
-        return array_key_exists($day, $dayMappings) ? $dayMappings[$day] : $day;
-    }
-
-
 }

@@ -15,10 +15,30 @@ class MahasiswaExpoModel extends BaseModel
             ->select('a.*', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->where('b.status', 'aktif')
+            ->where('a.tanggal_mulai', '<', now())
             ->where('a.tanggal_selesai', '>', now())
             ->orderBy('a.tanggal_mulai', 'asc')
             ->first();
     }
+
+    public static function getLatestExpo()
+    {
+        return DB::table('jadwal_expo as a')
+            ->select('a.*',)
+            ->orderBy('a.id', 'asc')
+            ->first();
+    }
+
+    public static function getExpoById($id_expo)
+    {
+        return DB::table('jadwal_expo as a')
+            ->select('a.*', 'b.nama_siklus')
+            ->join('siklus as b', 'a.id_siklus', 'b.id')
+            ->where('a.id', $id_expo)
+            ->orderBy('a.tanggal_mulai', 'asc')
+            ->first();
+    }
+
 
     public static function kelengkapanExpo()
     {
@@ -33,7 +53,7 @@ class MahasiswaExpoModel extends BaseModel
     public static function cekExpo()
     {
         return DB::table('pendaftaran_expo as a')
-        ->select('a.status as status_expo')
+        ->select('a.*')
         ->join('jadwal_expo as b', 'a.id_expo', 'b.id')
         ->join('kelompok_mhs as c', 'a.id_kelompok', 'c.id_kelompok')
         ->join('siklus as d', 'b.id_siklus', 'd.id')

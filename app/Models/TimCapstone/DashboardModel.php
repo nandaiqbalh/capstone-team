@@ -155,6 +155,24 @@ class DashboardModel extends BaseModel
            ->first();
    }
 
+   public static function getJadwalSidangTATerdekat()
+   {
+       $currentTime = Carbon::now(); // Waktu sekarang
+
+       return DB::table('kelompok_mhs as a')
+           ->select('a.*','d.*', 'e.*')
+           ->join('jadwal_sidang_ta as d', 'a.id_mahasiswa', 'd.id_mahasiswa')
+           ->join('ruang_sidangs as e', 'e.id', 'd.id_ruangan')
+           ->where(function ($query) {
+               $query->where('a.id_dosen_penguji_ta1', Auth::user()->user_id)
+                     ->orWhere('a.id_dosen_penguji_ta2', Auth::user()->user_id);
+           })
+           ->where('d.waktu', '>', $currentTime) // Waktu harus lebih besar dari sekarang
+           ->orderBy('d.waktu') // Urutkan berdasarkan waktu terdekat
+           ->first();
+   }
+
+
 
     public static function getDataBalancingPengujiProposal()
     {
@@ -175,6 +193,29 @@ class DashboardModel extends BaseModel
                 DB::raw('COUNT(DISTINCT kelompok.id) AS jumlah_total_kelompok_dibimbing')
             )
             ->orderBy('jumlah_kelompok_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
+            ->groupBy('app_user.user_id', 'app_user.user_name')
+            ->first();
+    }
+
+    public static function getDataBalancingPengujiTA()
+    {
+        $loggedInUserId = Auth::user()->user_id;
+
+        return DB::table('app_user')
+            ->leftJoin('kelompok_mhs', function ($join) use ($loggedInUserId) {
+                $join->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta1')
+                    ->orOn('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta2');
+            })
+            ->where('app_user.user_id', $loggedInUserId) // Filter hanya data terkait dengan user yang sedang login
+            ->where('app_user.role_id', '04') // Menambahkan kondisi role_id = '04'
+            ->select(
+                'app_user.user_id',
+                'app_user.user_name',
+                DB::raw('SUM(CASE WHEN kelompok_mhs.is_selesai = 0 THEN 1 ELSE 0 END) AS jumlah_mhs_aktif_dibimbing'),
+                DB::raw('SUM(CASE WHEN kelompok_mhs.is_selesai = 1 THEN 1 ELSE 0 END) AS jumlah_mhs_tidak_aktif_dibimbing'),
+                DB::raw('COUNT(DISTINCT kelompok_mhs.id) AS jumlah_total_mhs_dibimbing')
+            )
+            ->orderBy('jumlah_mhs_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
             ->groupBy('app_user.user_id', 'app_user.user_name')
             ->first();
     }

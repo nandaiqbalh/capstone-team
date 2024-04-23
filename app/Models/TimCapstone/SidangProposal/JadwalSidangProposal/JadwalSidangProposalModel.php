@@ -16,7 +16,7 @@ class JadwalSidangProposalModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_sidang_proposal as a')
-            ->select('a.*','b.id as siklus_id', 'b.nama_siklus','c.nomor_kelompok', 'c.status_kelompok', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang')
+            ->select('a.*','b.id as siklus_id', 'b.nama_siklus','c.nomor_kelompok', 'c.status_kelompok',  'c.file_status_c100', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang')
             ->join('siklus as b', 'a.siklus_id', 'b.id')
             ->join('ruang_sidangs as d', 'd.id', 'a.ruangan_id')
             ->leftjoin('kelompok as c','a.id_kelompok','c.id')
