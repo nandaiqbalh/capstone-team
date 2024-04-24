@@ -108,6 +108,8 @@
                                             @elseif($sidang_proposal->status_sidang_proposal == 'Gagal Sidang Proposal!')
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                                <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
+                                                    class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                             @else
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "

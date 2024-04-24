@@ -25,6 +25,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->where('c.status', 'aktif')
             ->where('a.file_status_c100', "C100 Telah Disetujui!")
             ->where('a.status_sidang_proposal', '!=', NULL)
+            ->where('a.status_sidang_proposal', '!=', "Dijadwalkan Sidang Proposal!")
             ->where('a.nomor_kelompok', '!=', NULL)
             ->where('a.is_sidang_proposal', '0')
             ->where('a.id_dosen_pembimbing_1', '!=', NULL)
@@ -308,11 +309,13 @@ class PenjadwalanSidangProposalModel extends BaseModel
     public static function getJadwalSidangProposal($id_kelompok)
     {
         return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.nama_ruang')
-        ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
-        ->where('id_kelompok', $id_kelompok)
-        ->first();
+            ->select('c.*', 'a.*', 'b.nama_ruang')
+            ->join('ruang_sidangs as b', 'b.id', '=', 'a.ruangan_id')
+            ->leftJoin('kelompok as c', 'c.id', '=', 'a.id_kelompok') // Melakukan left join dengan tabel kelompok
+            ->where('a.id_kelompok', $id_kelompok)
+            ->first();
     }
+
 
     public static function checkOverlap($waktuMulai, $waktuSelesai, $ruangan_id)
     {
