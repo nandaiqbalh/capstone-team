@@ -301,6 +301,10 @@ class DokumenMahasiswaController extends BaseController
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
             return redirect()->back()->withInput();
         }
+        if ($existingFile->file_status_c100 != "C100 Telah Disetujui!") {
+            session()->flash('danger', 'Gagal mengunggah! Dokumen C100 Belum Disetujui Dosbing!');
+            return redirect()->back()->withInput();
+        }
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
@@ -381,6 +385,10 @@ class DokumenMahasiswaController extends BaseController
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
             return redirect()->back()->withInput();
         }
+        if ($existingFile->file_status_c200 != "C200 Telah Disetujui!") {
+            session()->flash('danger', 'Gagal mengunggah! Dokumen C200 Belum Disetujui Dosbing!');
+            return redirect()->back()->withInput();
+        }
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
@@ -457,6 +465,10 @@ class DokumenMahasiswaController extends BaseController
         // Pastikan sudah ada file C300 sebelum mengunggah C400
         if ($existingFile->file_name_c300 == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C300!');
+            return redirect()->back()->withInput();
+        }
+        if ($existingFile->file_status_c300 != "C300 Telah Disetujui!") {
+            session()->flash('danger', 'Gagal mengunggah! Dokumen C300 Belum Disetujui Dosbing!');
             return redirect()->back()->withInput();
         }
 
@@ -537,6 +549,10 @@ class DokumenMahasiswaController extends BaseController
         // Pastikan sudah ada file C400 sebelum mengunggah C500
         if ($existingFile->file_name_c400 == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
+            return redirect()->back()->withInput();
+        }
+        if ($existingFile->file_status_c400 != "C400 Telah Disetujui!") {
+            session()->flash('danger', 'Gagal mengunggah! Dokumen C400 Belum Disetujui Dosbing!');
             return redirect()->back()->withInput();
         }
 

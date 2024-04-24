@@ -38,8 +38,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                    <br>
+                    <button type="submit" class="btn btn-primary float-end">Simpan</button>
                 </form>
             </div>
         </div>

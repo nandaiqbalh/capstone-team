@@ -23,7 +23,7 @@
                     {{ csrf_field()}}
                     <input type="hidden" name="id" value="{{ $topik->id }}">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="mb-3">
                                 <label >Nama<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nama" value="{{ $topik->nama }}" required>

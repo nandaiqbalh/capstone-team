@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Validasi Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/validasi-kelompok') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/validasi-kelompok') }}" class="btn btn-danger btn-sm float-right"><i
+                        class="fas fa-chevron-left fa-sm"></i> Kembali</a>   
                 </small>
             </div>
             <div class="card-body">
@@ -109,7 +109,7 @@
                             </table>
 
                             <div class="float-end">
-                                <button type="submit" class="btn btn-sm btn-primary">Setujui</button>
+                                <button type="submit" class="btn btn btn-primary">Setujui</button>
                             </div>
                         </form>
                     @else
@@ -177,25 +177,26 @@
                             </table>
 
                             <div class="float-end">
-                                <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn btn-primary">Simpan</button>
                             </div>
                         </form>
                     @endif
 
                 </div>
                 <hr>
-
+                <br>
                 <div class="col-auto ">
                     @if (count($rs_mahasiswa) >= 3)
                     @else
-                        <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             Tambah Mahasiswa
                         </button>
                     @endif
                 </div>
-
-                <h6>List Mahasiswa</h6>
+                
+                <h6 class="mb-0">List Mahasiswa</h6>
+                <br>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead class="thead-light">
@@ -239,7 +240,7 @@
                 <br>
                 @if (count($rs_dosbing) >= 2)
                 @else
-                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
                         data-bs-target="#Dosen">
                         Tambah Dosen Pembimbing
                     </button>
@@ -305,6 +306,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Mahasiswa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                
                 <div class="modal-body">
                     <form action="{{ url('/admin/validasi-kelompok/add-mahasiswa-kelompok') }}" method="get"
                         autocomplete="off">
@@ -350,12 +352,11 @@
                             <option value="" disabled selected>-- Pilih Dosen--</option>
                             <!-- Options will be populated dynamically -->
                         </select>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary float-end">Simpan</button>
                     </form>
                 </div>
+                
 
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {

@@ -62,7 +62,7 @@
                                         <td>
                                             @if ($dosen->dosbing1 == 1)
                                                 <a href="{{ route('to.inaktif.ketersediaan.1', ['id' => $dosen->user_id]) }}"
-                                                    class="btn btn-outline-secondary btn-xs m-1 ">Tersedia</a>
+                                                    class="btn btn-outline-success btn-xs m-1 ">Tersedia</a>
                                             @else
                                                 <a href="{{ route('to.aktif.ketersediaan.1', ['id' => $dosen->user_id]) }}"
                                                     class="btn btn-outline-danger btn-xs m-1">Tidak Tersedia</a>
@@ -71,7 +71,7 @@
                                         <td>
                                             @if ($dosen->dosbing2 == 1)
                                                 <a href="{{ route('to.inaktif.ketersediaan.2', ['id' => $dosen->user_id]) }}"
-                                                    class="btn btn-outline-secondary btn-xs m-1 ">Tersedia</a>
+                                                    class="btn btn-outline-success btn-xs m-1 ">Tersedia</a>
                                             @else
                                                 <a href="{{ route('to.aktif.ketersediaan.2', ['id' => $dosen->user_id]) }}"
                                                     class="btn btn-outline-danger btn-xs m-1">Tidak Tersedia</a>

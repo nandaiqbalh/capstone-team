@@ -16,8 +16,6 @@
             <h5 class="card-header">Data Broadcast</h5>
 
             <div class="card-body">
-
-                <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
                         {{-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">

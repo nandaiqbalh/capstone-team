@@ -50,11 +50,10 @@
                                     </select>
                                 </div>
                                 <div class="col-auto mt-1">
-                                    <button class="btn btn-outline-secondary ml-1" data-bs-toggle="tooltip"
+                                    <button class="btn btn-info ml-1" data-bs-toggle="tooltip"
                                         data-bs-placement="bottom" title="Tambah Kelompok" type="submit">
                                         <i class="bx bx-plus"></i>
                                     </button>
-
                                 </div>
                             </div>
                         </form>
@@ -81,7 +80,7 @@
                                         <td>{{ $pendaftaran->user_name }}</td>
                                         <td>{{ $pendaftaran->prioritas_topik }}</td>
                                         <td>{{ $pendaftaran->prioritas_peminatan }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                         </td>

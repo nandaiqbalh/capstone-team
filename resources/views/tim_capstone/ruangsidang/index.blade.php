@@ -14,10 +14,7 @@
         <!-- Bordered Table -->
         <div class="card">
             <h5 class="card-header">Data Ruang Sidang</h5>
-
             <div class="card-body">
-
-                <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
                         <a href="{{ url('/admin/ruangan/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>

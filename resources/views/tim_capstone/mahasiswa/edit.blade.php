@@ -40,7 +40,10 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right" id="submitButton">Simpan</button>
+
+                    <br>
+                    <button type="submit" class="btn btn-primary float-end" id="submitButton">Simpan</button>
+
                 </form>
 
             </div>
