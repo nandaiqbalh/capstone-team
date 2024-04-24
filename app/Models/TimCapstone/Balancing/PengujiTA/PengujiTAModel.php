@@ -64,19 +64,19 @@ class PengujiTAModel extends BaseModel
     public static function searchBalancingPengujiTA($search)
     {
         return DB::table('app_user')
-            ->leftJoin('kelompok', function ($join) {
-                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_ta1')
-                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_ta2');
+            ->leftJoin('kelompok_mhs', function ($join) {
+                $join->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta1')
+                    ->orOn('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta2');
             })
             ->where('app_user.role_id', '=', '04') // Menambahkan kondisi role_id = '04'
             ->select(
                 'app_user.user_id',
                 'app_user.user_name',
-                DB::raw('COUNT(CASE WHEN kelompok.is_selesai = 0 THEN kelompok.id END) AS jumlah_kelompok_aktif_dibimbing'),
-                DB::raw('COUNT(CASE WHEN kelompok.is_selesai = 1 THEN kelompok.id END) AS jumlah_kelompok_tidak_aktif_dibimbing')
+                DB::raw('COUNT(CASE WHEN kelompok_mhs.is_selesai = 0 THEN kelompok_mhs.id END) AS jumlah_mhs_aktif_dibimbing'),
+                DB::raw('COUNT(CASE WHEN kelompok_mhs.is_selesai = 1 THEN kelompok_mhs.id END) AS jumlah_mhs_tidak_aktif_dibimbing')
             )
-            ->orderBy('jumlah_kelompok_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
             ->where('app_user.user_name', 'LIKE', "%" . $search . "%")
+            ->orderBy('jumlah_mhs_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
             ->groupBy('app_user.user_id', 'app_user.user_name')
             ->paginate(20);
     }

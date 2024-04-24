@@ -77,6 +77,7 @@ class ExpoProjectController extends BaseController
         // Data valid, lanjutkan menyimpan
         $params = [
             'id_siklus' => $request->id_siklus,
+            'nama_periode' => $request->nama_periode,
             'tempat' => $request->tempat,
             'waktu' => $waktuEvent,
             'tanggal_mulai' => $tanggalMulai,
@@ -145,6 +146,7 @@ class ExpoProjectController extends BaseController
         // Data valid, lanjutkan menyimpan
         $params = [
             'id_siklus' => $request->id_siklus,
+            'nama_periode' => $request->nama_periode,
             'tempat' => $request->tempat,
             'waktu' => $waktuEvent,
             'tanggal_mulai' => $tanggalMulai,

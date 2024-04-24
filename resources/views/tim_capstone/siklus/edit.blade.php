@@ -19,7 +19,7 @@
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/siklus/edit-process') }}" method="post" autocomplete="off">
+            <form id="updateForm" action="{{ url('/admin/siklus/edit-process') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{ $siklus->id }}">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="card-footer float-end">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" id="submitButton" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
@@ -101,6 +101,38 @@
                 onChange: function(selectedDates, dateStr, instance) {
                     console.log('Tanggal dan waktu dipilih:', dateStr);
                 }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil referensi form dan tombol submit
+            const form = document.getElementById('updateForm');
+            const submitButton = document.getElementById('submitButton');
+
+            // Tambahkan event listener untuk submit form
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Hentikan default submit form
+
+                // Tampilkan SweetAlert konfirmasi
+                Swal.fire({
+                    title: 'Konfirmasi!',
+                    text: 'Apakah Anda yakin ingin menyimpan perubahan?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, simpan!',
+                    cancelButtonText: 'Batalkan'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Lanjutkan submit form jika pengguna menekan "Ya"
+                        submitButton.disabled =
+                            true; // Matikan tombol submit untuk menghindari multiple submission
+                        form.submit(); // Submit form
+                    }
+                });
             });
         });
     </script>

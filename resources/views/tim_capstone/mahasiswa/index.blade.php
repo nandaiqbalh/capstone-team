@@ -30,10 +30,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
-                                        value="reset">
-                                        <i class="bx bx-reset"></i>
-                                    </button>
+
                                 </div>
                             </div>
                         </form>
@@ -72,25 +69,7 @@
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $mahasiswa->user_id }}', '{{ $mahasiswa->user_name }}')">Hapus</button>
-                                            <script>
-                                                function confirmDelete(userId, userName) {
-                                                    Swal.fire({
-                                                        title: 'Apakah Anda yakin?',
-                                                        text: "Anda tidak akan dapat mengembalikan ini!",
-                                                        icon: 'warning',
-                                                        showCancelButton: true,
-                                                        confirmButtonColor: '#d33',
-                                                        cancelButtonColor: '#3085d6',
-                                                        confirmButtonText: 'Ya, hapus!',
-                                                        cancelButtonText: 'Batal'
-                                                    }).then((result) => {
-                                                        if (result.isConfirmed) {
-                                                            // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/mahasiswa/delete-process') }}/" + userId;
-                                                        }
-                                                    });
-                                                }
-                                            </script>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -115,4 +94,23 @@
         </div>
     </div>
 
+    <script>
+        function confirmDelete(userId, userName) {
+            Swal.fire({
+                title: 'Konfirmasi!',
+                html: "Apakah anda yakin menghapus <strong>" + userName + "</strong>?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batalkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete URL if confirmed
+                    window.location.href = "{{ url('/admin/mahasiswa/delete-process') }}/" + userId;
+                }
+            });
+        }
+    </script>
 @endsection

@@ -28,11 +28,11 @@ class PersetujuanC300Model extends BaseModel
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);
             })
+            ->orderByDesc('a.id')
             ->orderBy('a.is_selesai', 'asc') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
-            ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id
             ->paginate(20);
     }
-    
+
 
     // get search
     public static function getDataSearch($no_kel)

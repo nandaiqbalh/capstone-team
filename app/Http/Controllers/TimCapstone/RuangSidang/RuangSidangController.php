@@ -125,34 +125,34 @@ class RuangSidangController extends BaseController
      */
     public function update(Request $request)
     {
+        // Validate
+        $rules = [
+            'nama_ruang' => 'required',
+            'kode_ruang' => 'required',
+        ];
+        $this->validate($request, $rules);
 
-       // Validate & auto redirect when fail
-       $rules = [
-        'nama_ruang' => 'required',
-        'kode_ruang' => 'required | unique:ruang_sidangs,kode_ruang',
-    ];
-    $this->validate($request, $rules);
-
-        // params
-        $user_id =RuangSidang::makeMicrotimeID();
+        // Params
         $params = [
             'nama_ruang' => $request->nama_ruang,
             'kode_ruang' => $request->kode_ruang,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'modified_by' => Auth::user()->user_id,
+            'modified_date' => now(), // Gunakan helper function now() untuk mendapatkan waktu saat ini
         ];
 
-       // process
-       if (RuangSidang::update($request->id, $params)) {
-           // flash message
-           session()->flash('success', 'Data berhasil disimpan.');
-           return redirect('/admin/ruangan');
-       } else {
-           // flash message
-           session()->flash('danger', 'Data gagal disimpan.');
-           return redirect('/admin/ruangan' . $request->id);
-       }
+        // Process update
+        if (RuangSidang::update($request->id, $params)) {
+            // Flash message
+            session()->flash('success', 'Data berhasil disimpan.');
+        } else {
+            // Flash message
+            session()->flash('danger', 'Data gagal disimpan.');
+        }
+
+        // Redirect back to the ruangan admin page
+        return redirect('/admin/ruangan');
     }
+
 
     /**
      * Remove the specified resource from storage.

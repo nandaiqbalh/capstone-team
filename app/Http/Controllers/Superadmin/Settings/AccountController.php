@@ -89,7 +89,7 @@ class AccountController extends BaseController
             'user_name' => 'required',
             'user_email' => 'required|email',
             'no_telp' => 'required|digits_between:10,13|numeric',
-            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+            'jenis_kelamin' => 'required',
             'user_img' => 'image|mimes:jpeg,jpg,png|max:5120'
 
         ];

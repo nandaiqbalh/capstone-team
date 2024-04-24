@@ -23,7 +23,7 @@ class KelompokValidModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('c.status', 'aktif')
             ->where('a.nomor_kelompok', '!=', NULL)
-            ->orderBy('a.nomor_kelompok', 'asc')
+            ->orderByDesc('a.id', 'asc')
             ->paginate(20);
     }
 
@@ -36,7 +36,7 @@ class KelompokValidModel extends BaseModel
             ->where('c.status', 'aktif')
             ->where('c.id', $id_siklus)
             ->where('a.nomor_kelompok', '!=', NULL)
-            ->orderBy('a.nomor_kelompok', 'asc')
+            ->orderByDesc('a.id', 'asc')
             ->paginate(20);
     }
 
@@ -50,7 +50,7 @@ class KelompokValidModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
             ->where('c.status', 'aktif')
-            ->orderByDesc('a.id')
+            ->orderByDesc('a.id', 'asc')
             ->paginate(20)->withQueryString();
     }
 

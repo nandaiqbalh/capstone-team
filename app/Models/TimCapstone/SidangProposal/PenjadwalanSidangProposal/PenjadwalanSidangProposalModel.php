@@ -25,12 +25,33 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->where('c.status', 'aktif')
             ->where('a.file_status_c100', "C100 Telah Disetujui!")
             ->where('a.status_sidang_proposal', '!=', NULL)
+            ->where('a.status_sidang_proposal', '!=', "Dijadwalkan Sidang Proposal!")
             ->where('a.nomor_kelompok', '!=', NULL)
             ->where('a.is_sidang_proposal', '0')
             ->where('a.id_dosen_pembimbing_1', '!=', NULL)
             ->where('a.id_dosen_pembimbing_2', '!=', NULL)
             ->where('a.file_name_c100', '!=', NULL)
             ->orderBy('a.is_sidang_proposal', 'asc') // Menambahkan pengurutan berdasarkan is_sidang_proposal
+            ->orderBy('a.nomor_kelompok', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterSiklusKelompok($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.status', 'aktif')
+            ->where('a.file_status_c100', "C100 Telah Disetujui!")
+            ->where('a.status_sidang_proposal', '!=', NULL)
+            ->where('a.nomor_kelompok', '!=', NULL)
+            ->where('a.is_sidang_proposal', '0')
+            ->where('a.id_dosen_pembimbing_1', '!=', NULL)
+            ->where('a.id_dosen_pembimbing_2', '!=', NULL)
+            ->where('a.file_name_c100', '!=', NULL)
+            ->where('a.id_siklus', $id_siklus) // Filter berdasarkan id_siklus yang diberikan pengguna
+            ->orderBy('a.is_sidang_proposal', 'asc')
             ->orderBy('a.nomor_kelompok', 'asc')
             ->paginate(20);
     }
@@ -75,16 +96,25 @@ class PenjadwalanSidangProposalModel extends BaseModel
 
     // get search
     public static function getDataSearch($no_kel)
-    {
-        return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
-            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
-            ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
-            ->orderByDesc('a.id')
-            ->paginate(20)->withQueryString();
-    }
+{
+    return DB::table('kelompok as a')
+        ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+        ->leftJoin('topik as b', 'a.id_topik', '=', 'b.id')
+        ->join('siklus as c', 'a.id_siklus', '=', 'c.id')
+        ->where('c.status', 'aktif')
+        ->where('a.file_status_c100', 'C100 Telah Disetujui!') // Memperbaiki kondisi string
+        ->whereNotNull('a.status_sidang_proposal') // Menggunakan whereNotNull untuk null check
+        ->whereNotNull('a.nomor_kelompok') // Menggunakan whereNotNull untuk null check
+        ->where('a.is_sidang_proposal', '0')
+        ->whereNotNull('a.id_dosen_pembimbing_1') // Menggunakan whereNotNull untuk null check
+        ->whereNotNull('a.id_dosen_pembimbing_2') // Menggunakan whereNotNull untuk null check
+        ->whereNotNull('a.file_name_c100') // Menggunakan whereNotNull untuk null check
+        ->orderBy('a.is_sidang_proposal', 'asc') // Menambahkan pengurutan berdasarkan is_sidang_proposal
+        ->orderBy('a.nomor_kelompok', 'asc')
+        ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
+        ->paginate(20);
+}
+
 
     public static function getAkunDosbingKelompok($id_kelompok)
     {
@@ -267,7 +297,6 @@ class PenjadwalanSidangProposalModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-        ->where('status', 'aktif')
         ->get();
     }
 
@@ -280,11 +309,13 @@ class PenjadwalanSidangProposalModel extends BaseModel
     public static function getJadwalSidangProposal($id_kelompok)
     {
         return DB::table('jadwal_sidang_proposal as a')
-        ->select('a.*', 'b.nama_ruang')
-        ->join('ruang_sidangs as b', 'b.id', 'a.ruangan_id')
-        ->where('id_kelompok', $id_kelompok)
-        ->first();
+            ->select('c.*', 'a.*', 'b.nama_ruang')
+            ->join('ruang_sidangs as b', 'b.id', '=', 'a.ruangan_id')
+            ->leftJoin('kelompok as c', 'c.id', '=', 'a.id_kelompok') // Melakukan left join dengan tabel kelompok
+            ->where('a.id_kelompok', $id_kelompok)
+            ->first();
     }
+
 
     public static function checkOverlap($waktuMulai, $waktuSelesai, $ruangan_id)
     {
@@ -322,7 +353,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
                             ->where('waktu_selesai', '>', $waktuSelesai);
                     });
             })
-            ->exists();
+            ->first();
     }
 
     public static function checkOverlapPenguji1($waktuMulai, $waktuSelesai, $dosenPenguji1Id)
@@ -341,7 +372,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
                         ->where('waktu_selesai', '>', $waktuSelesai);
                 });
         })
-        ->exists();
+        ->first();
     }
 
     public static function checkOverlapPenguji2($waktuMulai, $waktuSelesai, $dosenPenguji2Id)
@@ -360,8 +391,9 @@ class PenjadwalanSidangProposalModel extends BaseModel
                         ->where('waktu_selesai', '>', $waktuSelesai);
                 });
         })
-        ->exists();
+        ->first();
     }
+
 
 
     public static function insertJadwalSidangProposal($params)

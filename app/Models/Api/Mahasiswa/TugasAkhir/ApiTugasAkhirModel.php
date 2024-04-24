@@ -40,7 +40,7 @@ class ApiTugasAkhirModel extends ApiBaseModel
     {
         return DB::table('jadwal_periode_sidang_ta as a')
             ->select('a.*',)
-            ->orderBy('a.id', 'asc')
+            ->orderBy('a.id', 'desc')
             ->first();
     }
 

@@ -17,6 +17,7 @@ class JadwalSidangTAController extends BaseController
 
         // get data with pagination
         $rs_sidang = JadwalSidangTAModel::getDataWithPagination();
+        $rs_periode = JadwalSidangTAModel::getPeriode();
 
         foreach ($rs_sidang as $sidang_ta) {
             if ($sidang_ta != null) {
@@ -39,6 +40,8 @@ class JadwalSidangTAController extends BaseController
         // data
         $data = [
             'rs_sidang' => $rs_sidang,
+            'rs_periode' => $rs_periode,
+
         ];
 
         // dd($data);
@@ -172,6 +175,82 @@ class JadwalSidangTAController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/admin/jadwal-sidang-ta');
+        }
+    }
+
+    public function search(Request $request)
+    {
+        // data request
+        $nama = $request->nama;
+        $rs_periode = JadwalSidangTAModel::getPeriode();
+
+        // new search or reset
+        if ($request->action == 'search') {
+            // get data with pagination
+            $rs_sidang = JadwalSidangTAModel::getDataSearch($nama);
+
+            foreach ($rs_sidang as $sidang_ta) {
+                if ($sidang_ta != null) {
+                    $waktuSidang = strtotime($sidang_ta->waktu);
+
+                    $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
+                    $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
+                    $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $sidang_ta->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                    $waktuSelesai = strtotime($sidang_ta->waktu_selesai);
+                    $sidang_ta->waktu_selesai = date('H:i:s', $waktuSelesai);
+                }
+                $sidang_ta -> status_sidang_color = $this->getStatusColor($sidang_ta->status_tugas_akhir);
+                $sidang_ta -> status_lta_color = $this->getStatusColor($sidang_ta->file_status_lta);
+
+            }
+
+            // data
+            $data = ['rs_sidang' => $rs_sidang, 'rs_periode' => $rs_periode,  'nama' => $nama];
+            // view
+            return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
+        } else {
+            return redirect('/admin/jadwal-sidang-ta');
+        }
+    }
+
+    public function filterPeriodeKelompok(Request $request)
+    {
+        // data request
+        $id_periode = $request->id_periode;
+
+        // new search or reset
+        if ($request->action == 'filter') {
+            $rs_sidang = JadwalSidangTAModel::filterPeriodeKelompok($id_periode);
+            $rs_periode = JadwalSidangTAModel::getPeriode();
+
+            foreach ($rs_sidang as $sidang_ta) {
+                if ($sidang_ta != null) {
+                    $waktuSidang = strtotime($sidang_ta->waktu);
+
+                    $sidang_ta->hari_sidang = strftime('%A', $waktuSidang);
+                    $sidang_ta->hari_sidang = $this->convertDayToIndonesian($sidang_ta->hari_sidang);
+                    $sidang_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $sidang_ta->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                    $waktuSelesai = strtotime($sidang_ta->waktu_selesai);
+                    $sidang_ta->waktu_selesai = date('H:i:s', $waktuSelesai);
+                }
+                $sidang_ta -> status_sidang_color = $this->getStatusColor($sidang_ta->status_tugas_akhir);
+                $sidang_ta -> status_lta_color = $this->getStatusColor($sidang_ta->file_status_lta);
+
+            }
+
+            // data
+            $data = [
+                'rs_sidang' => $rs_sidang,
+                'rs_periode' => $rs_periode,
+            ];
+            // view
+            return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
+        } else {
             return redirect('/admin/jadwal-sidang-ta');
         }
     }

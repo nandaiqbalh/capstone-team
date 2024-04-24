@@ -370,7 +370,7 @@ class PengujianProposalController extends BaseController
                 }
             }
             // data
-            $data = ['rs_pengujian_proposal' => $rs_pengujian_proposal];
+            $data = ['rs_pengujian_proposal' => $rs_pengujian_proposal, 'nama' => $nama];
             // view
             return view('dosen.pengujian-proposal.index', $data);
         } else {

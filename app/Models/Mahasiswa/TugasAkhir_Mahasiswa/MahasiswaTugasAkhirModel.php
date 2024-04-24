@@ -191,7 +191,7 @@ class MahasiswaTugasAkhirModel extends BaseModel
     {
         return DB::table('jadwal_periode_sidang_ta as a')
             ->select('a.*',)
-            ->orderBy('a.id', 'asc')
+            ->orderBy('a.id', 'desc')
             ->first();
     }
 

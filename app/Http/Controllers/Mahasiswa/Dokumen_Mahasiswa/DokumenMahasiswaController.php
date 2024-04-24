@@ -52,6 +52,10 @@ class DokumenMahasiswaController extends BaseController
      */
     public function uploadMakalahProcess(Request $request)
     {
+        $request->validate([
+            'makalah' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
+
         $upload_path = '/file/mahasiswa/makalah';
 
         // Cek apakah file laporan_ta sudah diunggah sebelumnya
@@ -120,6 +124,10 @@ class DokumenMahasiswaController extends BaseController
 
     public function uploadLaporanProcess(Request $request)
     {
+        $request->validate([
+            'laporan_ta' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
+
         $upload_path = '/file/mahasiswa/laporan-ta';
 
         // Cek apakah file laporan_ta diunggah
@@ -189,6 +197,10 @@ class DokumenMahasiswaController extends BaseController
 
     public function uploadC100Process(Request $request)
     {
+        $request->validate([
+            'c100' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
+
         // upload path
         $upload_path = '/file/kelompok/c100';
         // UPLOAD FOTO
@@ -204,6 +216,11 @@ class DokumenMahasiswaController extends BaseController
 
             $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            if ($existingFile->is_lulus_expo == 1) {
+                session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
+                return redirect()->back()->withInput();
+            }
 
             $siklus = DokumenMahasiswaModel::getSiklusKelompok($existingFile->id_siklus);
 
@@ -271,6 +288,9 @@ class DokumenMahasiswaController extends BaseController
 
     public function uploadC200Process(Request $request)
     {
+        $request->validate([
+            'c200' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
         $upload_path = '/file/kelompok/c200';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
@@ -283,6 +303,11 @@ class DokumenMahasiswaController extends BaseController
         }
         if ($existingFile->file_status_c100 != "C100 Telah Disetujui!") {
             session()->flash('danger', 'Gagal mengunggah! Dokumen C100 Belum Disetujui Dosbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 
@@ -325,24 +350,18 @@ class DokumenMahasiswaController extends BaseController
             }
 
             // Update status kelompok dan dosen pembimbing terkait
-            $params = [
-                'file_name_laporan_ta' => $new_file_name,
-                'file_path_laporan_ta' => $upload_path,
-                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
-                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
-                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
-                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
+            $statusParam = [
+                'status_kelompok' => 'Menunggu Persetujuan C200!',
+                'file_status_c200' => 'Menunggu Persetujuan C200!',
+                'file_status_c200_dosbing1' => 'Menunggu Persetujuan C200!',
+                'file_status_c200_dosbing2' => 'Menunggu Persetujuan C200!',
+                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C200!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C200!',
             ];
-            $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
+            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
-            if ($uploadFileMhs) {
-                session()->flash('success', 'Berhasil mengunggah dokumen!');
-                return redirect()->back();
-
-            } else {
-                session()->flash('danger', 'Gagal mengunggah! Dokumen Laporan TA tidak ditemukan!');
-                return redirect()->back()->withInput();
-            }
+            session()->flash('success', 'Berhasil mengunggah dokumen C200!');
+            return redirect()->back();
         }
 
         session()->flash('danger', 'Gagal mengunggah! Dokumen C200 tidak ditemukan!');
@@ -352,6 +371,10 @@ class DokumenMahasiswaController extends BaseController
 
     public function uploadC300Process(Request $request)
     {
+        $request->validate([
+            'c300' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
+
         $upload_path = '/file/kelompok/c300';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
@@ -364,6 +387,11 @@ class DokumenMahasiswaController extends BaseController
         }
         if ($existingFile->file_status_c200 != "C200 Telah Disetujui!") {
             session()->flash('danger', 'Gagal mengunggah! Dokumen C200 Belum Disetujui Dosbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 
@@ -426,6 +454,9 @@ class DokumenMahasiswaController extends BaseController
 
     public function uploadC400Process(Request $request)
     {
+        $request->validate([
+            'c400' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
         $upload_path = '/file/kelompok/c400';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
@@ -438,6 +469,11 @@ class DokumenMahasiswaController extends BaseController
         }
         if ($existingFile->file_status_c300 != "C300 Telah Disetujui!") {
             session()->flash('danger', 'Gagal mengunggah! Dokumen C300 Belum Disetujui Dosbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 
@@ -501,6 +537,10 @@ class DokumenMahasiswaController extends BaseController
 
     public function uploadC500Process(Request $request)
     {
+        $request->validate([
+            'c500' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+        ]);
+
         $upload_path = '/file/kelompok/c500';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
@@ -513,6 +553,11 @@ class DokumenMahasiswaController extends BaseController
         }
         if ($existingFile->file_status_c400 != "C400 Telah Disetujui!") {
             session()->flash('danger', 'Gagal mengunggah! Dokumen C400 Belum Disetujui Dosbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 

@@ -31,10 +31,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
-                                        value="reset">
-                                        <i class="bx bx-reset"></i>
-                                    </button>
+
                                 </div>
                             </div>
                         </form>
@@ -56,7 +53,7 @@
                             </div>
                             <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <button type="submit" class="btn btn-primary float-end" name="action"
-                                    value="search">Terapkan Filter</button>
+                                    value="filter">Terapkan Filter</button>
                             </div>
                         </div>
                     </form>
@@ -72,6 +69,7 @@
                                 <th>Nomor Kelompok</th>
                                 <th>Status Kelompok</th>
                                 <th>Siklus Pendaftaran</th>
+                                <th>Lulus</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -84,6 +82,13 @@
                                         <td style="color: {{ $kelompok->status_kelompok_color }}">
                                             {{ $kelompok->status_kelompok }}</td>
                                         <td>{{ $kelompok->nama_siklus }}</td>
+                                        <td>
+                                            @if ($kelompok->is_lulus_expo == 1)
+                                                <span style="color: #44B158">Lulus Expo!</span>
+                                            @else
+                                                <span style="color: #FF0000">Belum Lulus Expo!</span>
+                                            @endif
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/kelompok-valid/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>

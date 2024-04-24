@@ -115,8 +115,9 @@ class KelompokBimbinganModel extends BaseModel
     public static function getKelompokBimbinganStatus($status)
     {
         return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as nama_topik')
+            ->select('a.*', 'b.nama as nama_topik', 'c.nama_siklus')
             ->join('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id') // Join dengan tabel siklus
             ->where('a.is_selesai', $status)
             ->where('a.id_dosen_pembimbing_1', Auth::user()->user_id)
             ->orWhere('a.id_dosen_pembimbing_2', Auth::user()->user_id)

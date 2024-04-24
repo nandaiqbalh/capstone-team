@@ -14,8 +14,52 @@
         <!-- Bordered Table -->
         <div class="card">
             <h5 class="card-header">Data Kelompok</h5>
-
             <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <form class="form-inline" action="{{ url('/admin/penjadwalan-sidang-proposal/search') }}"
+                            method="get" autocomplete="off">
+                            <div class="row">
+                                <div class="col-auto mt-1">
+                                    <input class="form-control mr-sm-2" type="search" name="nama"
+                                        value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nomor Kelompok" minlength="3"
+                                        required>
+                                </div>
+                                <div class="col-auto mt-1">
+                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
+                                        value="search">
+                                        <i class="bx bx-search-alt-2"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <form action="{{ url('/admin/penjadwalan-sidang-proposal/filter-siklus') }}" method="get"
+                        autocomplete="off">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <div class="mb-3">
+                                    <select class="form-select select-2" name="id_siklus" required>
+                                        <option value="" disabled selected>-- Filter Berdasarkan Siklus --
+                                        </option>
+                                        @foreach ($rs_siklus as $siklus)
+                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <button type="submit" class="btn btn-primary float-end" name="action"
+                                    value="filter">Terapkan
+                                    Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead class="thead-light">
@@ -91,6 +135,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 

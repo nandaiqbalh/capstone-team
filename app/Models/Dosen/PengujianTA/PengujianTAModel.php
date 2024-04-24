@@ -146,17 +146,24 @@ public static function getDosenPengujiProposal($id_kelompok)
         ->get();
     }
     // get search
-    public static function getDataSearch($no_kel)
+    public static function getDataSearch($nama_mahasiswa)
     {
-        return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
-            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
-            ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
-            ->orderByDesc('a.id')
-            ->paginate(20)->withQueryString();
+        return DB::table('kelompok_mhs as a')
+            ->select('b.*', 'a.*', 'd.*', 'e.*', 'u.user_name') // Menambahkan 'u.user_name' untuk memilih kolom user_name dari tabel app_user
+            ->leftJoin('kelompok as b', 'a.id_kelompok', '=', 'b.id')
+            ->join('jadwal_sidang_ta as d', 'a.id_mahasiswa', '=', 'd.id_mahasiswa')
+            ->join('ruang_sidangs as e', 'e.id', '=', 'd.id_ruangan')
+            ->leftJoin('app_user as u', 'a.id_mahasiswa', '=', 'u.user_id') // Join dengan tabel app_user
+            ->where(function ($query) {
+                $query->where('a.id_dosen_penguji_ta1', Auth::user()->user_id)
+                    ->orWhere('a.id_dosen_penguji_ta2', Auth::user()->user_id);
+            })
+            ->where('u.user_name', 'like', '%' . $nama_mahasiswa . '%') // Cari user_name yang mengandung nilai $nama_mahasiswa
+            ->orderBy('a.is_selesai', 'asc') // Urutkan berdasarkan is_selesai dari 0 ke 1
+            ->orderBy('d.waktu')
+            ->paginate(20);
     }
+
 
     // get data by id
     public static function getDataById($id_mahasiswa)

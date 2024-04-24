@@ -86,19 +86,32 @@ class PersetujuanC400Controller extends BaseController
             $persetujuan_c400_updated = PersetujuanC400Model::getDataById($id);
 
             if ($persetujuan_c400_updated->id == $id) {
-                if ($persetujuan_c400_updated->file_status_c400_dosbing1 == "C400 Tidak Disetujui Dosbing 1!" ||
-                    $persetujuan_c400_updated->file_status_c400_dosbing2 == "C400 Tidak Disetujui Dosbing 2!") {
+                if ($persetujuan_c400_updated->file_status_c400_dosbing1 == "C400 Tidak Disetujui Dosbing 1!" &&
+                     $persetujuan_c400_updated->file_status_c400_dosbing2 == "C400 Tidak Disetujui Dosbing 2!") {
 
-                    $paramsUpdated = [
-                        'status_kelompok' => 'C400 Tidak Disetujui!',
-                    ];
-                    // Update status kelompok
-                    PersetujuanC400Model::updateKelompok($id, $paramsUpdated);
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C400 Tidak Disetujui!',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC400Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c400_updated->file_status_c400_dosbing1 == "C400 Tidak Disetujui Dosbing 1!" ) {
+
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C400 Tidak Disetujui Dosbing 1!',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC400Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c400_updated->file_status_c400_dosbing2 == "C400 Tidak Disetujui Dosbing 2!" ) {
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C400 Tidak Disetujui Dosbing 2!',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC400Model::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = [
-                        'status_kelompok' => 'Menunggu Persetujuan Penguji!',
-                    ];
-                    PersetujuanC400Model::updateKelompok($id, $paramsUpdated);
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                        ];
+                        PersetujuanC400Model::updateKelompok($id, $paramsUpdated);
                 }
             }
             // flash message

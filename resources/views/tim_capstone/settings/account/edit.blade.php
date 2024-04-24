@@ -93,15 +93,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Jenis Kelamin<span class="text-danger">*</span></label>
-                                        <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" required>
-                                            <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                                            <option value="laki-laki"
-                                                {{ old('jenis_kelamin', $account->jenis_kelamin) == 'laki-laki' ? 'selected' : '' }}>
-                                                Laki-laki</option>
-                                            <option value="perempuan"
-                                                {{ old('jenis_kelamin', $account->jenis_kelamin) == 'perempuan' ? 'selected' : '' }}>
-                                                Perempuan</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="jenis_kelamin"
+                                            value="{{ old('jenis_kelamin', $account->jenis_kelamin) }}" readonly required>
                                     </div>
                                 </div>
                             </div>

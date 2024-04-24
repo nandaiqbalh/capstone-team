@@ -389,7 +389,7 @@ class PengujianTAController extends BaseController
                 }
             }
             // data
-            $data = ['rs_pengujian_ta' => $rs_pengujian_ta];
+            $data = ['rs_pengujian_ta' => $rs_pengujian_ta, 'nama' => $nama];
             // view
             return view('dosen.pengujian-ta.index', $data);
         } else {

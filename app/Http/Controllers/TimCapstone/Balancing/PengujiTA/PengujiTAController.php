@@ -27,27 +27,7 @@ class PengujiTAController extends BaseController
         return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
     }
 
-    public function filterBalancingPengujiTA(Request $request)
-    {
-        // data request
-        $id_periode = $request->id_periode;
 
-        // new search or reset
-        if ($request->action == 'search') {
-            $dt_dosen = PengujiTAModel::getDataBalancingPengujiTAFilterPeriode($id_periode);
-            $rs_periode = PengujiTAModel::getPeriode();
-
-            // data
-            $data = [
-                'dt_dosen' => $dt_dosen,
-                'rs_periode' => $rs_periode,
-            ];
-            // view
-            return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
-        } else {
-            return redirect('/admin/balancing-penguji-ta');
-        }
-    }
 
     public function detailBalancingPengujiTA($user_id)
     {
@@ -71,30 +51,6 @@ class PengujiTAController extends BaseController
         $data = ['rs_penguji_ta' => $rs_penguji_ta];
         // view
         return view('tim_capstone.dosen.balancing.penguji-ta.detail', $data);
-    }
-
-    public function searchBalancingPengujiTA(Request $request)
-    {
-        // data request
-        $user_name = $request->nama;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $dt_dosen = PengujiTAModel::searchBalancingPengujiTA($user_name);
-            $rs_siklus = PengujiTAModel::getSiklusAktif();
-
-            // data
-            $data = [
-                'dt_dosen' => $dt_dosen,
-                'rs_siklus' => $rs_siklus,
-                'nama' => $user_name
-            ];
-            // view
-            return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
-        } else {
-            return redirect('/admin/dosen');
-        }
     }
 
 
@@ -141,4 +97,48 @@ class PengujiTAController extends BaseController
         return view('dosen.mahasiswa-bimbingan.detail-mahasiswa', $data);
     }
 
+    public function searchBalancingPengujiTA(Request $request)
+    {
+        // data request
+        $nama = $request->nama;
+
+        // new search or reset
+        if ($request->action == 'search') {
+            // get data with pagination
+            $dt_dosen = PengujiTAModel::searchBalancingPengujiTA($nama);
+            $rs_periode = PengujiTAModel::getPeriode();
+            // data
+            $data = [
+                'dt_dosen' => $dt_dosen,
+                'rs_periode' => $rs_periode,
+                'nama' => $nama
+            ];
+            // view
+            return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
+        } else {
+            return redirect('/admin/dosen');
+        }
+    }
+
+    public function filterBalancingPengujiTA(Request $request)
+    {
+        // data request
+        $id_periode = $request->id_periode;
+
+        // new search or reset
+        if ($request->action == 'search') {
+            $dt_dosen = PengujiTAModel::getDataBalancingPengujiTAFilterPeriode($id_periode);
+            $rs_periode = PengujiTAModel::getPeriode();
+
+            // data
+            $data = [
+                'dt_dosen' => $dt_dosen,
+                'rs_periode' => $rs_periode,
+            ];
+            // view
+            return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
+        } else {
+            return redirect('/admin/balancing-penguji-ta');
+        }
+    }
 }

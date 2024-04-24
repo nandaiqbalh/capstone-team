@@ -317,8 +317,13 @@
                                             </div>
                                         </div>
 
+
                                         <br>
-                                        <button type="submit" class="btn btn btn-primary float-end">Daftar</button>
+                                        @if ($showButton == true)
+                                            <button type="submit"
+                                                class="btn btn-primary float-end">Daftar</button>
+                                        @else
+                                        @endif
                                     </form>
                                 @endif
                             @endif

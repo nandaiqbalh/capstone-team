@@ -597,7 +597,7 @@ class MahasiswaKelompokController extends BaseController
                 $update_kelompok_mhs = MahasiswaKelompokModel::updateKelompokMHS($user->user_id, $params);
 
                 // Inisialisasi variabel untuk menyimpan status setuju semua atau tidak
-                $semuaSetuju = true;
+            $semuaSetuju = true;
 
                 if ($update_kelompok_mhs) {
                     $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa($user->user_id);

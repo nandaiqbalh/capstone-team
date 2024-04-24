@@ -113,11 +113,32 @@ class ValidasiKelompokController extends BaseController
         $params = [
             'id_kelompok' => $request->id_kelompok,
             'modified_by'   => Auth::user()->user_id,
+            'status_individu' => "Menyetujui Kelompok!",
             'modified_date'  => date('Y-m-d H:i:s')
         ];
         // dd($params);
         // process
         if (ValidasiKelompokModel::updateKelompokMHS($request->id_mahasiswa_nokel, $params)) {
+
+            $rs_mahasiswa = ValidasiKelompokModel::getKelompokMhsAll($request->id_kelompok);
+            $semuaSetuju = true;
+
+            foreach ($rs_mahasiswa as $key => $mahasiswa) {
+                // Jika status individu bukan "menyetujui kelompok", set variabel $semuaSetuju menjadi false
+                if ($mahasiswa->status_individu !== "Menyetujui Kelompok!") {
+                    $semuaSetuju = false;
+                    // Jika salah satu mahasiswa tidak setuju, Anda bisa langsung keluar dari loop
+                    break;
+                }
+            }
+
+            // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
+            if ($semuaSetuju) {
+                $paramKelompok = [
+                    "status_kelompok" => "Menunggu Persetujuan Dosbing!",
+                ];
+                $update_kelompok = ValidasiKelompokModel::updateKelompok($request->id_kelompok, $paramKelompok);
+            }
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return back();
@@ -311,6 +332,8 @@ class ValidasiKelompokController extends BaseController
             "nomor_kelompok" => $nomor_kelompok,
             "id_topik" => $request->topik,
             "status_kelompok" => "Kelompok Telah Disetujui!",
+            "status_dosen_pembimbing_1" => "Dosbing Setuju!",
+            "status_dosen_pembimbing_2" => "Dosbing Setuju!",
             'modified_by' => Auth::user()->user_id,
             'modified_date' => now()->format('Y-m-d H:i:s')
         ];

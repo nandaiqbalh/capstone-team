@@ -76,7 +76,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="4">Tidak ada data.</td>
+                                    <td class="text-center" colspan="5">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>
