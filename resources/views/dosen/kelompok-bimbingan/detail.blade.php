@@ -162,10 +162,82 @@
                         </tbody>
                     </table>
                 </div>
+                <br>
+                <h6 class="mb-0">Status Persetujuan Dokumen</h6>
+                <br>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th width="5%">No</th>
+                                <th>Nama Dokumen</th>
+                                <th>Status Persetujuan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1.</td>
+                                <td>Dokumen C100</td>
+                                <td style="color: {{ $kelompok->status_c100_color }}">
+                                    @if ($kelompok->file_status_c100 !== null)
+                                        {{ $kelompok->file_status_c100 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2.</td>
+                                <td>Dokumen C200</td>
+                                <td style="color: {{ $kelompok->status_c200_color }}">
+                                    @if ($kelompok->file_status_c200 !== null)
+                                        {{ $kelompok->file_status_c200 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3.</td>
+                                <td>Dokumen C300</td>
+                                <td style="color: {{ $kelompok->status_c300_color }}">
+                                    @if ($kelompok->file_status_c300 !== null)
+                                        {{ $kelompok->file_status_c300 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4.</td>
+                                <td>Dokumen C400</td>
+                                <td style="color: {{ $kelompok->status_c400_color }}">
+                                    @if ($kelompok->file_status_c400 !== null)
+                                        {{ $kelompok->file_status_c400 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5.</td>
+                                <td>Dokumen C500</td>
+                                <td style="color: {{ $kelompok->status_c500_color }}">
+                                    @if ($kelompok->file_status_c500 !== null)
+                                        {{ $kelompok->file_status_c500 }}
+                                    @else
+                                        Belum Mengunggah!
+                                    @endif
+                                </td>
+                            </tr>
+                            <!-- Tambahkan baris tambahan sesuai dengan jumlah dokumen yang ingin ditampilkan -->
+                        </tbody>
 
+                    </table>
+                </div>
             </div>
-            {{-- c series  --}}
 
+            {{-- c series  --}}
             <div class="row">
                 <div class="col-md-6">
                     <div class="card-body">
@@ -240,8 +312,8 @@
                                         <i class='bx bxs-file-doc bx-lg'></i>
                                     </div>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" value="{{ $kelompok->file_name_c400 }}"
-                                            readonly>
+                                        <input type="text" class="form-control"
+                                            value="{{ $kelompok->file_name_c400 }}" readonly>
                                         <a href="{{ url('/file/kelompok/c400') }}/{{ $kelompok->file_name_c400 }}"
                                             class="btn btn-primary float-end m-1 btn-sm">Download</a>
                                     </div>

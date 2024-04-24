@@ -30,10 +30,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
-                                        value="reset">
-                                        <i class="bx bx-reset"></i>
-                                    </button>
+
                                 </div>
                             </div>
                         </form>
@@ -49,8 +46,10 @@
                                 <div class="mb-3">
                                     <select class="form-select" name="status" id="status" required>
                                         <option value="" disabled selected>-- Filter Status --</option>
-                                        <option value="0">Belum Lulus Capstone</option>
-                                        <option value="1">Sudah Lulus Capstone</option>
+                                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Belum Lulus
+                                            Capstone</option>
+                                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Sudah Lulus
+                                            Capstone</option>
                                     </select>
                                 </div>
                             </div>

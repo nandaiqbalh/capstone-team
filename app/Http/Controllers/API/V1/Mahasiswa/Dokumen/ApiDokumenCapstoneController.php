@@ -29,7 +29,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'c100' => 'required|file|mimes:pdf|max:10240',
+                    'c100' => 'required|file|mimes:pdf|max:50240',
                     'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);
@@ -135,7 +135,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'c200' => 'required|file|mimes:pdf|max:10240',
+                    'c200' => 'required|file|mimes:pdf|max:50240',
                     'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);
@@ -239,7 +239,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'c300' => 'required|file|mimes:pdf|max:10240',
+                    'c300' => 'required|file|mimes:pdf|max:50240',
                     'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);
@@ -340,7 +340,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'c400' => 'required|file|mimes:pdf|max:10240',
+                    'c400' => 'required|file|mimes:pdf|max:50240',
                     'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);
@@ -444,7 +444,7 @@ class ApiDokumenCapstoneController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'c500' => 'required|file|mimes:pdf|max:10240',
+                    'c500' => 'required|file|mimes:pdf|max:50240',
                     'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);

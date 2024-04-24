@@ -30,10 +30,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
-                                        value="reset">
-                                        <i class="bx bx-reset"></i>
-                                    </button>
+
                                 </div>
                             </div>
                         </form>

@@ -31,6 +31,7 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
+                                <th>Nama Periode</th>
                                 <th>Siklus</th>
                                 <th>Tempat</th>
                                 <th>Hari, Tanggal</th>
@@ -44,6 +45,7 @@
                                 @foreach ($rs_expo as $index => $pendaftaran)
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_expo->firstItem() }}.</td>
+                                        <td>{{ $pendaftaran->nama_periode }}</td>
                                         <td>{{ $pendaftaran->nama_siklus }}</td>
                                         <td>{{ $pendaftaran->tempat }}</td>
                                         <td>{{ $pendaftaran->hari_expo }}, {{ $pendaftaran->tanggal_expo }}</td>

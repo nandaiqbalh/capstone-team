@@ -39,6 +39,13 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Nama Periode Expo<span class="text-danger">*</span></label>
+                                <input value="{{ $expo->nama_periode }}" type="text" class="form-control"
+                                    placeholder="Masukkan Nama Periode" name="nama_periode" required>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">

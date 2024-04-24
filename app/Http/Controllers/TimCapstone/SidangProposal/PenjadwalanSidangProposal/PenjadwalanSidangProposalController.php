@@ -4,7 +4,7 @@ namespace App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangPropo
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\SidangProposal\PenjadwalanSidangProposal\PenjadwalanSidangProposalModel;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +14,7 @@ class PenjadwalanSidangProposalController extends BaseController
 {
     public function index()
     {
+        $rs_siklus = PenjadwalanSidangProposalModel::getSiklusAktif();
 
         $rs_kelompok = PenjadwalanSidangProposalModel::getDataWithPagination();
 
@@ -26,10 +27,11 @@ class PenjadwalanSidangProposalController extends BaseController
 
         }
         // data
-        $data = ['rs_kelompok' => $rs_kelompok];
+        $data = ['rs_kelompok' => $rs_kelompok, 'rs_siklus' => $rs_siklus];
         // view
         return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.index', $data);
     }
+
 
     public function detailKelompok($id)
     {
@@ -239,6 +241,65 @@ class PenjadwalanSidangProposalController extends BaseController
     public function addJadwalProcess(Request $request)
     {
 
+        // Validasi semua parameter required dengan pesan kustom
+        $validator = Validator::make($request->all(), [
+            'siklus_id' => 'required',
+            'id_kelompok' => 'required',
+            'waktu' => 'required',
+            'waktu_selesai' => 'required',
+            'id_dosen_pembimbing_2' => 'required',
+            'id_dosen_penguji_1' => 'required',
+            'id_dosen_penguji_2' => 'required',
+            'ruangan_id' => 'required'
+        ], [
+            'siklus_id.required' => 'Kolom siklus wajib diisi!',
+            'id_kelompok.required' => 'Kolom kelompok wajib diisi!',
+            'waktu.required' => 'Kolom waktu wajib diisi!',
+            'waktu_selesai.required' => 'Kolom waktu selesai wajib diisi!',
+            'id_dosen_pembimbing_2.required' => 'Kolom pembimbing 2 wajib diisi!',
+            'id_dosen_penguji_1.required' => 'Kolom penguji 1 wajib diisi!',
+            'id_dosen_penguji_2.required' => 'Kolom penguji 2 wajib diisi!',
+            'ruangan_id.required' => 'Kolom ruangan wajib diisi!'
+        ]);
+
+        // Cek jika validasi gagal
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+         // Validasi pilihan dosen penguji
+         if ($request->id_dosen_penguji_1 == null || $request->id_dosen_penguji_2 == null) {
+            session()->flash('danger', 'Dosen penguji 1 dan penguji 2 harus dipilih.');
+            return back()->withInput();
+        }
+
+        $overlapPenguji1 = PenjadwalanSidangProposalModel::checkOverlapPenguji1($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_1);
+        if ($overlapPenguji1 != null) {
+            session()->flash('danger', 'Dosen Penguji 1 sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+
+        $overlapPenguji2 = PenjadwalanSidangProposalModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_2);
+        if ($overlapPenguji2 != null) {
+            session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+
+
+        $overlapPembimbing2 = PenjadwalanSidangProposalModel::checkOverlapPembimbing2($request->waktu, $request->waktu_selesai, $request->id_dosen_pembimbing_2);
+        if ($overlapPembimbing2 != null) {
+            session()->flash('danger', 'Dosen Pembimbing 2 sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+
+        // Validasi waktu mulai dan selesai
+        if ($request->waktu >= $request->waktu_selesai) {
+            session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
+            return back()->withInput();
+        }
+
         // Memasukkan atau memperbarui jadwal sidang proposal
         $params = [
             'siklus_id' => $request->siklus_id,
@@ -266,22 +327,11 @@ class PenjadwalanSidangProposalController extends BaseController
                 session()->flash('danger', 'Gagal memperbarui data.');
             }
         } else {
-             // Validasi pilihan dosen penguji
-            if ($request->id_dosen_penguji_1 == null || $request->id_dosen_penguji_2 == null) {
-                session()->flash('danger', 'Dosen penguji 1 dan penguji 2 harus dipilih.');
-                return back()->withInput();
-            }
 
-            // Validasi overlapping schedule
+              // Validasi overlapping schedule
             $overlap = PenjadwalanSidangProposalModel::checkOverlap($request->waktu, $request->waktu_selesai, $request->ruangan_id);
             if ($overlap) {
                 session()->flash('danger', 'Ruangan tersebut sudah terjadwal pada waktu yang sama.');
-                return back()->withInput();
-            }
-
-            // Validasi waktu mulai dan selesai
-            if ($request->waktu >= $request->waktu_selesai) {
-                session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
                 return back()->withInput();
             }
             // Melakukan insert jadwal sidang proposal baru
@@ -303,5 +353,64 @@ class PenjadwalanSidangProposalController extends BaseController
         PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
 
         return redirect('/admin/penjadwalan-sidang-proposal');
+    }
+
+
+    public function search(Request $request)
+    {
+        // data request
+        $nama = $request->nama;
+        $rs_siklus = PenjadwalanSidangProposalModel::getSiklusAktif();
+
+        // new search or reset
+        if ($request->action == 'search') {
+            // get data with pagination
+            $rs_kelompok = PenjadwalanSidangProposalModel::getDataSearch($nama);
+            foreach ($rs_kelompok as $kelompok) {
+                $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+                $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+                $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+                $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+                $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+            }
+            // data
+            $data = ['rs_kelompok' => $rs_kelompok, 'rs_siklus' => $rs_siklus,  'nama' => $nama];
+            // view
+            return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.index', $data);
+        } else {
+            return redirect('/admin/penjadwalan-sidang-proposal');
+        }
+    }
+
+    public function filterSiklusKelompok(Request $request)
+    {
+        // data request
+        $id_siklus = $request->id_siklus;
+
+        // new search or reset
+        if ($request->action == 'filter') {
+            $rs_kelompok = PenjadwalanSidangProposalModel::filterSiklusKelompok($id_siklus);
+            $rs_siklus = PenjadwalanSidangProposalModel::getSiklusAktif();
+
+            foreach ($rs_kelompok as $kelompok) {
+
+                $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+                $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+                $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+                $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+                $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+
+           }
+            // data
+            $data = [
+                'rs_kelompok' => $rs_kelompok,
+                'rs_siklus' => $rs_siklus,
+            ];
+            // view
+            return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.index', $data);
+        } else {
+            return redirect('/admin/penjadwalan-sidang-proposal');
+        }
     }
 }

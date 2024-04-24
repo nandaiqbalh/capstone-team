@@ -16,15 +16,32 @@ class JadwalSidangProposalModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_sidang_proposal as a')
-            ->select('a.*','b.id as siklus_id', 'b.nama_siklus','c.nomor_kelompok', 'c.status_kelompok',  'c.file_status_c100', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang')
+            ->select('a.*', 'b.id as siklus_id', 'b.nama_siklus', 'c.nomor_kelompok', 'c.status_kelompok', 'c.file_status_c100', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang', 'dpem2.user_name as nama_dosen_pembimbing_2', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2')
             ->join('siklus as b', 'a.siklus_id', 'b.id')
             ->join('ruang_sidangs as d', 'd.id', 'a.ruangan_id')
-            ->leftjoin('kelompok as c','a.id_kelompok','c.id')
-            ->orderBy('c.is_sidang_proposal', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
+            ->leftjoin('kelompok as c', 'a.id_kelompok', 'c.id')
+            ->leftjoin('app_user as dpem2', 'a.id_dosen_pembimbing_2', 'dpem2.user_id')
+            ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_1', 'dp1.user_id')
+            ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
             ->orderBy('a.waktu', 'asc')
             ->where('b.status', 'aktif')
             ->paginate(20);
     }
+    public static function filterSiklusKelompok($id_siklus){
+        return DB::table('jadwal_sidang_proposal as a')
+        ->select('a.*', 'b.id as siklus_id', 'b.nama_siklus', 'c.nomor_kelompok', 'c.status_kelompok', 'c.file_status_c100', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang', 'dpem2.user_name as nama_dosen_pembimbing_2', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2')
+        ->join('siklus as b', 'a.siklus_id', 'b.id')
+        ->join('ruang_sidangs as d', 'd.id', 'a.ruangan_id')
+        ->leftjoin('kelompok as c', 'a.id_kelompok', 'c.id')
+        ->leftjoin('app_user as dpem2', 'a.id_dosen_pembimbing_2', 'dpem2.user_id')
+        ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_1', 'dp1.user_id')
+        ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
+        ->orderBy('a.waktu', 'asc')
+        ->where('c.id_siklus', $id_siklus)
+        ->where('b.status', 'aktif')
+        ->paginate(20);
+    }
+
 
     public static function getSiklus()
     {
@@ -106,15 +123,20 @@ class JadwalSidangProposalModel extends BaseModel
 
 
     // get search
-    public static function getDataSearch($search)
+    public static function getDataSearch($no_kel)
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
-            ->paginate(20);
+        return DB::table('jadwal_sidang_proposal as a')
+        ->select('a.*', 'b.id as siklus_id', 'b.nama_siklus', 'c.nomor_kelompok', 'c.status_kelompok', 'c.file_status_c100', 'c.status_sidang_proposal', 'd.id as id_ruang', 'd.nama_ruang', 'dpem2.user_name as nama_dosen_pembimbing_2', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2')
+        ->join('siklus as b', 'a.siklus_id', 'b.id')
+        ->join('ruang_sidangs as d', 'd.id', 'a.ruangan_id')
+        ->leftjoin('kelompok as c', 'a.id_kelompok', 'c.id')
+        ->leftjoin('app_user as dpem2', 'a.id_dosen_pembimbing_2', 'dpem2.user_id')
+        ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_1', 'dp1.user_id')
+        ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
+        ->orderBy('a.waktu', 'asc')
+        ->where('b.status', 'aktif')
+        ->where('c.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
+        ->paginate(20);
     }
 
     public static function getDataById($id)
@@ -226,6 +248,12 @@ class JadwalSidangProposalModel extends BaseModel
     public static function getRuangSidang()
     {
         return DB::table('ruang_sidangs')
+        ->get();
+    }
+
+    public static function getSiklusAktif()
+    {
+        return DB::table('siklus')
         ->get();
     }
 }

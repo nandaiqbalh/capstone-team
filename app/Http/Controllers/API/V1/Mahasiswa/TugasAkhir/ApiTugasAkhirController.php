@@ -134,8 +134,6 @@ class ApiTugasAkhirController extends Controller
                         $data = [
                             'kelompok' => $kelompok,
                             'rsSidang' => $rsSidang,
-                            'periode' => $periodeAvailable,
-                            'showButton' => $showButton,
                             'status_pendaftaran' => null,
                         ];
                     } else {

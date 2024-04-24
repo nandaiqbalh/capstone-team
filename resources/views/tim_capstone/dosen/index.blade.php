@@ -29,10 +29,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
-                                        value="reset">
-                                        <i class="bx bx-reset"></i>
-                                    </button>
+
                                 </div>
                             </div>
                         </form>
@@ -41,8 +38,7 @@
                 <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/dosen/add') }}" class="btn btn-primary btn-xs float-right"><i
-                                class="fas fa-plus"></i> Tambah Data</a>
+                        <a href="{{ url('/admin/dosen/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
                     </div>
                 </div>
 
@@ -92,14 +88,14 @@
                                             <script>
                                                 function confirmDelete(userId, userName) {
                                                     Swal.fire({
-                                                        title: 'Apakah Anda yakin?',
-                                                        text: "Anda tidak akan dapat mengembalikan ini!",
+                                                        title: 'Konfirmasi!',
+                                                        html: "Apakah anda yakin menghapus <strong>" + userName + "</strong>?",
                                                         icon: 'warning',
                                                         showCancelButton: true,
                                                         confirmButtonColor: '#d33',
                                                         cancelButtonColor: '#3085d6',
                                                         confirmButtonText: 'Ya, hapus!',
-                                                        cancelButtonText: 'Batal'
+                                                        cancelButtonText: 'Batalkan'
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed

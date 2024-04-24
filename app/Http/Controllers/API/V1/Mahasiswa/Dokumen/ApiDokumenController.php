@@ -93,7 +93,7 @@ class ApiDokumenController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'makalah' => 'required|file|mimes:pdf|max:10240',
+                    'makalah' => 'required|file|mimes:pdf|max:50240',
                 ]);
 
                 // Check if validation fails
@@ -193,7 +193,7 @@ class ApiDokumenController extends Controller
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
-                    'laporan_ta' => 'required|file|mimes:pdf|max:10240',
+                    'laporan_ta' => 'required|file|mimes:pdf|max:50240',
                 ]);
 
                 // Check if validation fails

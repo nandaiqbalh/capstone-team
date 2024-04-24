@@ -18,6 +18,7 @@ class JadwalSidangProposalController extends BaseController
 
         // get data with pagination
         $rs_sidang = JadwalSidangProposalModel::getDataWithPagination();
+        $rs_siklus = JadwalSidangProposalModel::getSiklusAktif();
 
         foreach ($rs_sidang as $sidang_proposal) {
             if ($sidang_proposal != null) {
@@ -40,6 +41,7 @@ class JadwalSidangProposalController extends BaseController
         // data
         $data = [
             'rs_sidang' => $rs_sidang,
+            'rs_siklus' => $rs_siklus,
         ];
 
         // dd($data);
@@ -220,4 +222,81 @@ class JadwalSidangProposalController extends BaseController
         }
     }
 
+    public function search(Request $request)
+    {
+        // data request
+        $nama = $request->nama;
+        $rs_siklus = JadwalSidangProposalModel::getSiklusAktif();
+
+        // new search or reset
+        if ($request->action == 'search') {
+            // get data with pagination
+            $rs_sidang = JadwalSidangProposalModel::getDataSearch($nama);
+
+            foreach ($rs_sidang as $sidang_proposal) {
+                if ($sidang_proposal != null) {
+                    $waktuSidang = strtotime($sidang_proposal->waktu);
+
+                    $sidang_proposal->hari_sidang = strftime('%A', $waktuSidang);
+                    $sidang_proposal->hari_sidang = $this->convertDayToIndonesian($sidang_proposal->hari_sidang);
+                    $sidang_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $sidang_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                    $waktuSelesai = strtotime($sidang_proposal->waktu_selesai);
+                    $sidang_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
+                }
+                $sidang_proposal -> status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
+                $sidang_proposal -> status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
+
+            }
+
+            // data
+            $data = ['rs_sidang' => $rs_sidang, 'rs_siklus' => $rs_siklus,  'nama' => $nama];
+            // view
+            return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.index', $data);
+        } else {
+            return redirect('/admin/jadwal-sidang-proposal');
+        }
+    }
+
+    public function filterSiklusKelompok(Request $request)
+    {
+        // data request
+        $id_siklus = $request->id_siklus;
+
+        // new search or reset
+        if ($request->action == 'filter') {
+            $rs_sidang = JadwalSidangProposalModel::filterSiklusKelompok($id_siklus);
+            $rs_siklus = JadwalSidangProposalModel::getSiklusAktif();
+
+            foreach ($rs_sidang as $sidang_proposal) {
+                if ($sidang_proposal != null) {
+                    $waktuSidang = strtotime($sidang_proposal->waktu);
+
+                    $sidang_proposal->hari_sidang = strftime('%A', $waktuSidang);
+                    $sidang_proposal->hari_sidang = $this->convertDayToIndonesian($sidang_proposal->hari_sidang);
+                    $sidang_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                    $sidang_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                    $waktuSelesai = strtotime($sidang_proposal->waktu_selesai);
+                    $sidang_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
+                }
+                $sidang_proposal -> status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
+                $sidang_proposal -> status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
+
+            }
+
+            // data
+            $data = [
+                'rs_sidang' => $rs_sidang,
+                'rs_siklus' => $rs_siklus,
+            ];
+            // view
+            return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.index', $data);
+        } else {
+            return redirect('/admin/jadwal-sidang-proposal');
+        }
+    }
 }
+
+

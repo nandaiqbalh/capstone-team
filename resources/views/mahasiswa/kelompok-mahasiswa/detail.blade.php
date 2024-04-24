@@ -39,7 +39,7 @@
                                     function confirmDelete(userName) {
                                         Swal.fire({
                                             title: 'Konfirmasi',
-                                            text: "Setuju bergabung dengan " + userName + "?",
+                                            html: "Setuju bergabung dengan <strong>" + userName + "</strong>?",
                                             icon: 'warning',
                                             showCancelButton: true,
                                             confirmButtonColor: '#3085d6',

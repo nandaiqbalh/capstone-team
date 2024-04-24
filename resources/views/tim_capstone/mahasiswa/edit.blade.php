@@ -20,7 +20,8 @@
                 </small>
             </div>
             <div class="card-body">
-                <form action="{{ url('/admin/mahasiswa/edit-process') }}" method="post" autocomplete="off">
+                <!-- Form untuk update data mahasiswa -->
+                <form id="updateForm" action="{{ url('/admin/mahasiswa/edit-process') }}" method="post" autocomplete="off">
                     {{ csrf_field() }}
                     <input type="hidden" name="user_id" value="{{ $mahasiswa->user_id }}">
                     <div class="row">
@@ -39,9 +40,42 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                    <button type="submit" class="btn btn-primary float-right" id="submitButton">Simpan</button>
                 </form>
+
             </div>
         </div>
     </div>
+    <!-- Script untuk menangani konfirmasi update -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil referensi form dan tombol submit
+            const form = document.getElementById('updateForm');
+            const submitButton = document.getElementById('submitButton');
+
+            // Tambahkan event listener untuk submit form
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Hentikan default submit form
+
+                // Tampilkan SweetAlert konfirmasi
+                Swal.fire({
+                    title: 'Konfirmasi!',
+                    text: 'Apakah Anda yakin ingin menyimpan perubahan?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, simpan!',
+                    cancelButtonText: 'Batalkan'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Lanjutkan submit form jika pengguna menekan "Ya"
+                        submitButton.disabled =
+                            true; // Matikan tombol submit untuk menghindari multiple submission
+                        form.submit(); // Submit form
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
