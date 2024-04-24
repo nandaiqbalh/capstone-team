@@ -74,9 +74,9 @@
                         </div>
 
                     </div>
-                    <div class="card-footer float-end">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
+                </div>
+                <div class="card-footer float-end">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>

@@ -131,7 +131,7 @@
 
                                     <br>
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#confirmModal"
-                                        class="btn btn-sm btn-primary float-end">Simpan</button>
+                                        class="btn btn btn-primary float-end">Daftar</button>
                                 </form>
                             @else
                                 <!-- ada periode, dengan status sudah mendaftar -->
@@ -216,7 +216,7 @@
 
                                         <br>
                                         @if ($showButton == true)
-                                            <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                            <button type="submit" class="btn btn btn-primary float-end">Daftar</button>
                                         @else
                                         @endif
                                     </form>
@@ -318,7 +318,7 @@
                                         </div>
 
                                         <br>
-                                        <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                        <button type="submit" class="btn btn btn-primary float-end">Daftar</button>
                                     </form>
                                 @endif
                             @endif

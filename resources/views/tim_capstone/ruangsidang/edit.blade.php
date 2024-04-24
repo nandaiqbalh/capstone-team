@@ -15,11 +15,12 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Ubah Ruang Sidang</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/admin/ruangan') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/ruangan') }}" class="btn btn-danger btn-sm float-right"><i 
+                                class="fas fa-chevron-left"></i> Kembali</a>
                         </small>
                     </div>
-                    <div class="card-body">
-                        <form action="{{ url('/admin/ruangan/edit-process') }}" method="post" autocomplete="off">
+                    <form action="{{ url('/admin/ruangan/edit-process') }}" method="post" autocomplete="off">
+                        <div class="card-body">
                             {{ csrf_field()}}
                             <input type="hidden" name="id" value="{{ $ruangan->id }}">
                             <div class="row">
@@ -36,11 +37,11 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <br>
+                        </div>
+                        <div class="card-footer float-end">
                             <button type="submit" class="btn btn-primary">Simpan</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 @endsection
