@@ -106,12 +106,12 @@
                                                     Tolak</a>
                                             @elseif($kelompok->status_dosen == 'Dosbing Tidak Setuju!')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
-                                                    class="btn btn-outline-primary btn-xs m-1"
+                                                    class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
                                             @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing!')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
-                                                    class="btn btn-outline-primary btn-xs m-1"
+                                                    class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}"

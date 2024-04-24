@@ -16,7 +16,8 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Ubah Dosen</h5>
                         <small class="text-muted float-end">
-                            <a href="{{ url('/admin/dosen') }}" class="btn btn-secondary btn-xs float-right"><i class="bx bx-chevron-left"></i> Kembali</a>
+                            <a href="{{ url('/admin/dosen') }}" class="btn btn-danger btn-sm float-right"><i
+                                class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                         </small>
                     </div>
                     <div class="card-body">
@@ -58,7 +59,7 @@
                             </div>
 
                             <br>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary float-end">Simpan</button>
                         </form>
                     </div>
                 </div>

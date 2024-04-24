@@ -39,7 +39,7 @@
                                             {{ $kelompok->status_dosen_pembimbing_2 }}</td>
                                         <td class="text-center">
                                             <a href="{{ url('/admin/penetapan-dosbing/detail') }}/{{ $kelompok->id }}"
-                                                class="btn btn-outline-secondary btn-xs m-1 "> Tetapkan Dosen Pembimbing</a>
+                                                class="btn btn-outline-primary btn-xs m-1 "> Tetapkan Dosen Pembimbing</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -21,11 +21,8 @@
                     <div class="col-auto ">
                         <a href="{{ url('/admin/expo-project/add') }}" class="btn btn-info btn-sm float-right"> Tambah
                             Data</a>
-
                     </div>
                 </div>
-
-                <br>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead class="thead-light">
