@@ -38,7 +38,7 @@
                             <div class="mb-3">
                                 <label>Kode Siklus<span class="text-danger">*</span></label>
                                 <input placeholder="Contoh: S2T24" type="text" class="form-control" name="kode_siklus"
-                                    required>
+                                    id="kode_siklus_input" required>
                             </div>
                         </div>
                         <div class="col-md-4">

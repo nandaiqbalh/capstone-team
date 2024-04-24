@@ -31,41 +31,7 @@ class AccountController extends BaseController
         //view
         return view('tim_capstone.settings.account.edit', $data);
     }
-    /**
-     * Crop Image.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function ImgCrop(Request $request)
-    // {
-    //     // return $request;
-    //     $path = public_path($this->upload_path);
-    //     $file = $request->file('user_img');
-    //     $new_image_name = Str::slug(Auth::user()->user_name, '-') . '-' . uniqid() . '.jpg';
 
-    //     // unlink image
-
-    //     $account = Account::getById(Auth::user()->user_id);
-    //     $old_img = public_path($this->upload_path). $account->user_img_name;
-    //     if(file_exists($old_img) && $account->user_img_name != 'default.png') {
-    //         unlink($old_img);
-    //     }
-
-    //     $upload = $file->move($path, $new_image_name);
-    //     if ($upload) {
-    //         $params = [
-    //             'user_img_path' => $this->upload_path,
-    //             'user_img_name' => $new_image_name,
-    //             'modified_by'   => Auth::user()->user_id,
-    //             'modified_date'  => date('Y-m-d H:i:s')
-    //         ];
-    //         Account::update(Auth::user()->user_id, $params);
-    //         return response()->json(['status' => 1, 'msg' => 'Foto berhasil diunggah.', 'name' => $new_image_name]);
-    //     } else {
-    //         return response()->json(['status' => 0, 'msg' => 'Upload foto gagal']);
-    //     }
-    // }
-    
     public function ImgCrop(Request $request)
     {
         $path = public_path($this->upload_path);
@@ -111,7 +77,7 @@ class AccountController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
      public function editProcess(Request $request)
     {
 
@@ -156,7 +122,7 @@ class AccountController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
      public function editPassword(Request $request)
     {
         // Validate & auto redirect when fail
