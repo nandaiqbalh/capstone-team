@@ -75,6 +75,7 @@
                                 <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
                                 <th>Status Saya</th>
+                                <th>Lulus</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
@@ -95,6 +96,13 @@
                                         <td>{{ $kelompok->jenis_dosen }}</td>
                                         <td style="color: {{ $kelompok->status_dosen_color }}">
                                             {{ $kelompok->status_dosen }}</td>
+                                        <td>
+                                            @if ($kelompok->is_lulus_expo == 1)
+                                                <span style="color: #44B158">Lulus Expo!</span>
+                                            @else
+                                                <span style="color: #FF0000">Belum Lulus Expo!</span>
+                                            @endif
+                                        </td>
 
                                         <td class="text-center">
                                             @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui!')

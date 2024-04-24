@@ -23,6 +23,7 @@ class JadwalSidangProposalModel extends BaseModel
             ->leftjoin('app_user as dpem2', 'a.id_dosen_pembimbing_2', 'dpem2.user_id')
             ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_1', 'dp1.user_id')
             ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
+            ->orderByRaw("CASE WHEN a.waktu >= NOW() THEN 0 ELSE 1 END, a.waktu ASC")
             ->orderBy('a.waktu', 'asc')
             ->where('b.status', 'aktif')
             ->paginate(20);

@@ -126,7 +126,7 @@
                                                 <td>:</td>
                                                 <td>
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-12">
                                                             <input type="text" class="form-control" name="judul_capstone"
                                                                 value="{{ old('judul_capstone', $kelompok->judul_capstone) }}"
                                                                 placeholder="Judul Capstone" required>
@@ -140,7 +140,7 @@
                                                 <td>:</td>
                                                 <td>
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-12">
                                                             <select class="form-select" name="topik" required>
                                                                 <option value="" disabled selected>-- Pilih --
                                                                 </option>

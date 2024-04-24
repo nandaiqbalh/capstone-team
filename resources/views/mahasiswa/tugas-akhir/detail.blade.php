@@ -317,8 +317,11 @@
                                             </div>
                                         </div>
 
-                                        <br>
-                                        <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                                        @if ($showButton == true)
+                                            <button type="submit"
+                                                class="btn btn-sm btn-primary float-end">Simpan</button>
+                                        @else
+                                        @endif
                                     </form>
                                 @endif
                             @endif

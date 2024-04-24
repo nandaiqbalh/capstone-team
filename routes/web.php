@@ -331,6 +331,9 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/jadwal-sidang-ta/to-lulus/{id}', [JadwalSidangTAController::class, 'toLulusSidangTA']);
     Route::get('/admin/jadwal-sidang-ta/to-gagal/{id}', [JadwalSidangTAController::class, 'toGagalSidangTA']);
     Route::get('/admin/jadwal-sidang-ta/detail/{id}', [JadwalSidangTAController::class, 'detailJadwalSidangTA']);
+    Route::get('/admin/jadwal-sidang-ta/filter-periode', [JadwalSidangTAController::class, 'filterPeriodeKelompok']);
+    Route::get('/admin/jadwal-sidang-ta/search', [JadwalSidangTAController::class, 'search']);
+
 });
 
 // mahasiswa

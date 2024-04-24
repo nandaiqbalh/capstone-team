@@ -217,6 +217,11 @@ class DokumenMahasiswaController extends BaseController
             $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
+            if ($existingFile->is_lulus_expo == 1) {
+                session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
+                return redirect()->back()->withInput();
+            }
+
             $siklus = DokumenMahasiswaModel::getSiklusKelompok($existingFile->id_siklus);
 
             if($siklus != null){
@@ -286,7 +291,6 @@ class DokumenMahasiswaController extends BaseController
         $request->validate([
             'c200' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
-
         $upload_path = '/file/kelompok/c200';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
@@ -295,6 +299,11 @@ class DokumenMahasiswaController extends BaseController
         // Pastikan sudah ada file C100 sebelum mengunggah C200
         if ($existingFile->file_name_c100 == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 
@@ -337,24 +346,18 @@ class DokumenMahasiswaController extends BaseController
             }
 
             // Update status kelompok dan dosen pembimbing terkait
-            $params = [
-                'file_name_laporan_ta' => $new_file_name,
-                'file_path_laporan_ta' => $upload_path,
-                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
-                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
-                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
-                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
+            $statusParam = [
+                'status_kelompok' => 'Menunggu Persetujuan C200!',
+                'file_status_c200' => 'Menunggu Persetujuan C200!',
+                'file_status_c200_dosbing1' => 'Menunggu Persetujuan C200!',
+                'file_status_c200_dosbing2' => 'Menunggu Persetujuan C200!',
+                'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C200!',
+                'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C200!',
             ];
-            $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
+            DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
 
-            if ($uploadFileMhs) {
-                session()->flash('success', 'Berhasil mengunggah dokumen!');
-                return redirect()->back();
-
-            } else {
-                session()->flash('danger', 'Gagal mengunggah! Dokumen Laporan TA tidak ditemukan!');
-                return redirect()->back()->withInput();
-            }
+            session()->flash('success', 'Berhasil mengunggah dokumen C200!');
+            return redirect()->back();
         }
 
         session()->flash('danger', 'Gagal mengunggah! Dokumen C200 tidak ditemukan!');
@@ -376,6 +379,11 @@ class DokumenMahasiswaController extends BaseController
         // Pastikan sudah ada file C200 sebelum mengunggah C300
         if ($existingFile->file_name_c200 == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 
@@ -452,6 +460,11 @@ class DokumenMahasiswaController extends BaseController
             return redirect()->back()->withInput();
         }
 
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c400')) {
             $file = $request->file('c400');
             $file_extension = $file->getClientOriginalExtension();
@@ -524,6 +537,11 @@ class DokumenMahasiswaController extends BaseController
         // Pastikan sudah ada file C400 sebelum mengunggah C500
         if ($existingFile->file_name_c400 == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->is_lulus_expo == 1) {
+            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
             return redirect()->back()->withInput();
         }
 

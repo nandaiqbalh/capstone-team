@@ -335,23 +335,23 @@ class PenjadwalanSidangProposalController extends BaseController
                 return back()->withInput();
             }
             $overlapPenguji1 = PenjadwalanSidangProposalModel::checkOverlapPenguji1($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_1);
-        if ($overlapPenguji1 != null) {
-            session()->flash('danger', 'Dosen Penguji 1 sudah terjadwal pada waktu yang sama.');
-            return back()->withInput();
-        }
+            if ($overlapPenguji1 != null) {
+                session()->flash('danger', 'Dosen Penguji 1 sudah terjadwal pada waktu yang sama.');
+                return back()->withInput();
+            }
 
-        $overlapPenguji2 = PenjadwalanSidangProposalModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_2);
-        if ($overlapPenguji2 != null) {
-            session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
-            return back()->withInput();
-        }
+            $overlapPenguji2 = PenjadwalanSidangProposalModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_2);
+            if ($overlapPenguji2 != null) {
+                session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
+                return back()->withInput();
+            }
 
 
-        $overlapPembimbing2 = PenjadwalanSidangProposalModel::checkOverlapPembimbing2($request->waktu, $request->waktu_selesai, $request->id_dosen_pembimbing_2);
-        if ($overlapPembimbing2 != null) {
-            session()->flash('danger', 'Dosen Pembimbing 2 sudah terjadwal pada waktu yang sama.');
-            return back()->withInput();
-        }
+            $overlapPembimbing2 = PenjadwalanSidangProposalModel::checkOverlapPembimbing2($request->waktu, $request->waktu_selesai, $request->id_dosen_pembimbing_2);
+            if ($overlapPembimbing2 != null) {
+                session()->flash('danger', 'Dosen Pembimbing 2 sudah terjadwal pada waktu yang sama.');
+                return back()->withInput();
+            }
             // Melakukan insert jadwal sidang proposal baru
             $insert = PenjadwalanSidangProposalModel::insertJadwalSidangProposal($params);
             if ($insert) {

@@ -80,31 +80,37 @@
                                         <td>{{ $kelompok->nama_ruang }}</td>
 
                                         <td class="text-center">
-                                            @if ($kelompok->status_dosen == 'Penguji Setuju!' || $kelompok->status_dosen == 'Pembimbing Setuju!')
-                                                <a href="{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}"
-                                                    class="btn btn-outline-danger btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
-                                                    Tolak</a>
-                                            @elseif(
-                                                $kelompok->status_dosen == 'Menunggu Persetujuan Penguji!' ||
-                                                    $kelompok->status_dosen == 'Menunggu Persetujuan Pembimbing!')
-                                                <a href="{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}"
-                                                    class="btn btn-outline-primary btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}')">
-                                                    Terima</a>
-                                                <a href="{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}"
-                                                    class="btn btn-outline-danger btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
-                                                    Tolak</a>
-                                            @elseif($kelompok->status_dosen == 'Penguji Tidak Setuju!' || $kelompok->status_dosen == 'Pembimbing Tidak Setuju!')
-                                                <a href="{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}"
-                                                    class="btn btn-outline-primary btn-xs m-1"
-                                                    onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}')">
-                                                    Terima</a>
+                                            @if ($kelompok->is_sidang_proposal == 1)
+                                                <a href="{{ url('/dosen/pengujian-proposal/detail') }}/{{ $kelompok->id_kelompok }}"
+                                                    class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                             @else
+                                                @if ($kelompok->status_dosen == 'Penguji Setuju!' || $kelompok->status_dosen == 'Pembimbing Setuju!')
+                                                    <a href="{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}"
+                                                        class="btn btn-outline-danger btn-xs m-1"
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
+                                                        Tolak</a>
+                                                @elseif(
+                                                    $kelompok->status_dosen == 'Menunggu Persetujuan Penguji!' ||
+                                                        $kelompok->status_dosen == 'Menunggu Persetujuan Pembimbing!')
+                                                    <a href="{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}"
+                                                        class="btn btn-outline-primary btn-xs m-1"
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}')">
+                                                        Terima</a>
+                                                    <a href="{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}"
+                                                        class="btn btn-outline-danger btn-xs m-1"
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/tolak') }}/{{ $kelompok->id_kelompok }}')">
+                                                        Tolak</a>
+                                                @elseif($kelompok->status_dosen == 'Penguji Tidak Setuju!' || $kelompok->status_dosen == 'Pembimbing Tidak Setuju!')
+                                                    <a href="{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}"
+                                                        class="btn btn-outline-primary btn-xs m-1"
+                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/pengujian-proposal/terima') }}/{{ $kelompok->id_kelompok }}')">
+                                                        Terima</a>
+                                                @else
+                                                @endif
+                                                <a href="{{ url('/dosen/pengujian-proposal/detail') }}/{{ $kelompok->id_kelompok }}"
+                                                    class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                             @endif
-                                            <a href="{{ url('/dosen/pengujian-proposal/detail') }}/{{ $kelompok->id_kelompok }}"
-                                                class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
+
                                         </td>
 
                                         <script>

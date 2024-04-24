@@ -29,8 +29,8 @@ class PersetujuanC100Model extends BaseModel
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);
             })
+            ->orderByDesc('a.id')
             ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
-            ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id
             ->paginate(20);
     }
 

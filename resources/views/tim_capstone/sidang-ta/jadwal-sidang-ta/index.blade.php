@@ -16,6 +16,50 @@
             <h5 class="card-header">Data Jadwal Sidang Tugas Akhir</h5>
 
             <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <form class="form-inline" action="{{ url('/admin/jadwal-sidang-ta/search') }}" method="get"
+                            autocomplete="off">
+                            <div class="row">
+                                <div class="col-auto mt-1">
+                                    <input class="form-control mr-sm-2" type="search" name="nama"
+                                        value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama Mahasiswa" minlength="3"
+                                        required>
+                                </div>
+                                <div class="col-auto mt-1">
+                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
+                                        value="search">
+                                        <i class="bx bx-search-alt-2"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <form action="{{ url('/admin/jadwal-sidang-ta/filter-periode') }}" method="get" autocomplete="off">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <div class="mb-3">
+                                    <select class="form-select select-2" name="id_periode" required>
+                                        <option value="" disabled selected>-- Filter Berdasarkan periode --
+                                        </option>
+                                        @foreach ($rs_periode as $periode)
+                                            <option value="{{ $periode->id }}">{{ $periode->nama_periode }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
+                                <button type="submit" class="btn btn-primary float-end" name="action"
+                                    value="filter">Terapkan
+                                    Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
                         <thead class="thead-light">
@@ -29,6 +73,8 @@
                                 <th>Tanggal</th>
                                 <th>Waktu</th>
                                 <th>Ruangan</th>
+                                <th>Penguji 1</th>
+                                <th>Penguji 2</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -48,6 +94,9 @@
                                         <td>{{ $sidang_ta->waktu_sidang }} WIB - {{ $sidang_ta->waktu_selesai }}
                                             WIB
                                         <td>{{ $sidang_ta->nama_ruang }}</td>
+                                        <td>{{ $sidang_ta->nama_dosen_penguji_1 }}</td>
+                                        <td>{{ $sidang_ta->nama_dosen_penguji_2 }}</td>
+
                                         <td class="text-center">
 
                                             @if ($sidang_ta->status_tugas_akhir == 'Lulus Sidang TA!')
@@ -74,7 +123,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="text-center" colspan="8">Tidak ada data.</td>
+                                    <td class="text-center" colspan="10">Tidak ada data.</td>
                                 </tr>
                             @endif
                         </tbody>
