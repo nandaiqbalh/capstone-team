@@ -41,7 +41,7 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/kelompok/c100';
+                $upload_path = '/../../file/kelompok/c100';
                 // Check and delete the existing file
                 $id_kelompok = $request -> id_kelompok;
 
@@ -62,8 +62,8 @@ class ApiDokumenCapstoneController extends Controller
                         $newFileName = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
 
@@ -78,13 +78,13 @@ class ApiDokumenCapstoneController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlc100 = url($uploadPath . '/' . $newFileName);
+                            $urlc100 = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_c100' => $newFileName,
-                                'file_path_c100' => $uploadPath,
+                                'file_path_c100' => $upload_path,
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
@@ -150,7 +150,7 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/kelompok/c200';
+                $upload_path = '/../../file/kelompok/c200';
                 // Check and delete the existing file
                 $id_kelompok = $request -> id_kelompok;
 
@@ -168,8 +168,8 @@ class ApiDokumenCapstoneController extends Controller
                         $newFileName = 'c200-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
 
@@ -183,13 +183,13 @@ class ApiDokumenCapstoneController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlc200 = url($uploadPath . '/' . $newFileName);
+                            $urlc200 = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_c200' => $newFileName,
-                                'file_path_c200' => $uploadPath,
+                                'file_path_c200' => $upload_path,
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
@@ -257,7 +257,7 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/kelompok/c300';
+                $upload_path = '/../../file/kelompok/c300';
                 // Check and delete the existing file
                 $id_kelompok = $request -> id_kelompok;
 
@@ -275,8 +275,8 @@ class ApiDokumenCapstoneController extends Controller
                         $newFileName = 'c300-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
 
@@ -290,13 +290,13 @@ class ApiDokumenCapstoneController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlc300 = url($uploadPath . '/' . $newFileName);
+                            $urlc300 = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_c300' => $newFileName,
-                                'file_path_c300' => $uploadPath,
+                                'file_path_c300' => $upload_path,
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
@@ -364,7 +364,7 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/kelompok/c400';
+                $upload_path = '/../../file/kelompok/c400';
                 // Check and delete the existing file
                 $id_kelompok = $request -> id_kelompok;
 
@@ -383,8 +383,8 @@ class ApiDokumenCapstoneController extends Controller
                         $newFileName = 'c400-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
                         if ($existingFile->file_name_c400) {
@@ -398,13 +398,13 @@ class ApiDokumenCapstoneController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlc400 = url($uploadPath . '/' . $newFileName);
+                            $urlc400 = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_c400' => $newFileName,
-                                'file_path_c400' => $uploadPath,
+                                'file_path_c400' => $upload_path,
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
@@ -472,7 +472,7 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/kelompok/c500';
+                $upload_path = '/../../file/kelompok/c500';
                 // Check and delete the existing file
                 $id_kelompok = $request -> id_kelompok;
 
@@ -491,8 +491,8 @@ class ApiDokumenCapstoneController extends Controller
                         $newFileName = 'c500-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
 
@@ -506,13 +506,13 @@ class ApiDokumenCapstoneController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlc500 = url($uploadPath . '/' . $newFileName);
+                            $urlc500 = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_c500' => $newFileName,
-                                'file_path_c500' => $uploadPath,
+                                'file_path_c500' => $upload_path,
                             ];
 
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);

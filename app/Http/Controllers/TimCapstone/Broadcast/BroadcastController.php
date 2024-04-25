@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class BroadcastController extends BaseController
 {
     // path store in database
-    protected $upload_path = '/img/broadcast/';
+    protected $upload_path = '/../../img/broadcast/';
 
     /**
      * Display a listing of the resource.
@@ -114,7 +114,7 @@ class BroadcastController extends BaseController
             'created_by'   => Auth::user()->user_id,
             'created_date'  => now(), // You can directly use now() function to get current date and time
         ];
-        
+
         // Process
         $insert_broadcast = BroadcastModel::insertbroadcast($params);
         if ($insert_broadcast) {
@@ -171,11 +171,11 @@ class BroadcastController extends BaseController
             session()->flash('danger', 'Data tidak ditemukan.');
             return redirect('/admin/broadcast');
         }
-        
+
 
         // data
         $data = ['broadcast' => $broadcast];
-        
+
 
         // view
         return view('tim_capstone.broadcast.edit', $data);
@@ -210,7 +210,7 @@ class BroadcastController extends BaseController
         //     // Mengupdate path gambar di database
         //     $broadcast->broadcast_image = '/img/broadcast/' . $imageName;
         // }
-            
+
         // params
         $params = [
             'nama_event' => $request->nama_event,
@@ -234,7 +234,7 @@ class BroadcastController extends BaseController
         }
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      *

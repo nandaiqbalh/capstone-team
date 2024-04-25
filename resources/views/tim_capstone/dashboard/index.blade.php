@@ -4,7 +4,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Dasboard Tim Capstone
+    Beranda
 @endsection
 
 @section('content')
