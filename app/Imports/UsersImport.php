@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
+use App\Models\Superadmin\Settings\Accounts;
 class UsersImport implements ToModel, WithHeadingRow
 {
     /**
