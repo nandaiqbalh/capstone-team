@@ -17,6 +17,13 @@ class DashboardModel extends BaseModel
             ->get();
     }
 
+    public static function getSiklusAktif()
+    {
+        return DB::table('siklus')
+            ->where('siklus.status', 'aktif')
+            ->get();
+    }
+
     public static function getDataWithPagination()
     {
         return DB::table('broadcast')->orderBy('created_date', 'desc')->get();

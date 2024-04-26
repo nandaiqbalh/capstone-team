@@ -115,7 +115,7 @@ class PeriodeSidangTAController extends BaseController
     public function tolakMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Berkas TA Tidak Disetujui!'];
+        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui!'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = PeriodeSidangTAModel::getDataMahasiswa($id);
@@ -124,8 +124,8 @@ class PeriodeSidangTAController extends BaseController
             // Process
             if (PeriodeSidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Berkas TA Tidak Disetujui!",
-                    'status_individu' => "Berkas TA Tidak Disetujui!"];
+                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui!",
+                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui!"];
                 if (PeriodeSidangTAModel::updateKelompokMhs($id, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');

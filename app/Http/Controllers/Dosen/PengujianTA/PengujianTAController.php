@@ -166,8 +166,8 @@ class PengujianTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             if ($anggota_kelompok->is_mendaftar_sidang != 0 &&
-                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!" &&
-                $anggota_kelompok->status_tugas_akhir != "Berkas TA Tidak Disetujui!") {
+                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" &&
+                $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
 
                     // Get data pendaftaran sidang TA untuk mahasiswa saat ini
                     $rs_periodeSekarang = PengujianTAModel::getDataPendaftaranSidangTA($id);
@@ -237,8 +237,8 @@ class PengujianTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             if ($anggota_kelompok->is_mendaftar_sidang != 0 &&
-                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!" &&
-                $anggota_kelompok->status_tugas_akhir != "Berkas TA Tidak Disetujui!") {
+                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" &&
+                $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
 
                 $rs_periodeSekarang = PengujianTAModel::getDataPendaftaranSidangTA($id);
                 $rs_periodeLalu = PengujianTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
