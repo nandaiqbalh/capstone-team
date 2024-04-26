@@ -124,7 +124,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $mahasiswa->file_name_makalah }}" readonly>
                                         <a href="{{ url('/file/mahasiswa/makalah') }}/{{ $mahasiswa->file_name_makalah }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $mahasiswa->file_name_laporan_ta }}" readonly>
                                         <a href="{{ url('/file/mahasiswa/laporan-ta') }}/{{ $mahasiswa->file_name_laporan_ta }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>

@@ -266,7 +266,7 @@
                                 <input type="text" class="form-control" value="{{ $kelompok->file_name_c100 }}"
                                     readonly>
                                 <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
-                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                    class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                             </div>
                         </div>
                     </div>
