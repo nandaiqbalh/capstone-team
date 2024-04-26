@@ -18,13 +18,10 @@ class DashboardController extends BaseController
     {
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithPagination();
-
-
         // data
 
         $data = [
             'rs_broadcast' => $rs_broadcast,
-
         ];
 
         //view
@@ -34,7 +31,7 @@ class DashboardController extends BaseController
     public function indexMahasiswa()
     {
         // get data with pagination
-          $rs_broadcast = Dashmo::getDataWithPagination();
+        $rs_broadcast = Dashmo::getDataWithPagination();
 
         $user = Auth::user();
         $kelompok = Dashmo::pengecekan_kelompok_mahasiswa($user->user_id);

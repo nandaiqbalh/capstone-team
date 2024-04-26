@@ -53,7 +53,7 @@ class DashboardModel extends BaseModel
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')
         ->where('c.id', $idKelompok)
-        ->where('b.status', 'aktif')
+
         ->first();
     }
 
@@ -82,7 +82,7 @@ class DashboardModel extends BaseModel
            ->select('a.*')
            ->join('siklus as b', 'a.id_siklus', 'b.id')
            ->leftJoin('kelompok as c', 'a.id_kelompok', 'c.id')
-           ->where('b.status', 'aktif')
+
            ->where('a.id_mahasiswa', $user_id)
            ->first();
    }

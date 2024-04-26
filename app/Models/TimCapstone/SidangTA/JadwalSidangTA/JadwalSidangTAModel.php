@@ -33,7 +33,6 @@ class JadwalSidangTAModel extends BaseModel
     public static function getSiklus()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
             ->get();
     }
 
@@ -48,7 +47,7 @@ class JadwalSidangTAModel extends BaseModel
             ->select('a.*','c.id as id_prop')
             ->join('siklus as b','a.id_siklus','b.id')
             ->leftjoin('jadwal_sidang_proposal as c', 'a.id','c.id_kelompok' )
-            ->where('b.status', 'aktif')
+
             ->where('c.id',null)
             ->whereNotNull('a.nomor_kelompok')
             ->get();

@@ -29,7 +29,6 @@ class MahasiswaTugasAkhirModel extends BaseModel
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')
         ->where('c.id', $idKelompok)
-        ->where('b.status', 'aktif')
         ->first();
     }
 
@@ -155,7 +154,6 @@ class MahasiswaTugasAkhirModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('id', $id_siklus)
-              ->where('status', 'aktif')
               ->first();
       }
       public static function getPeriodeAvailable()
@@ -209,7 +207,6 @@ class MahasiswaTugasAkhirModel extends BaseModel
           return DB::table('kelompok_mhs as a')
               ->select('a.*')
               ->join('siklus as b','a.id_siklus','b.id')
-              ->where('b.status','aktif')
               ->where('a.id_mahasiswa',Auth::user()->user_id)
               ->first();
       }
@@ -227,7 +224,6 @@ class MahasiswaTugasAkhirModel extends BaseModel
             ->select('a.id as id_kel_mhs', 'a.file_status_lta', 'a.file_status_mta', 'a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
             ->join('kelompok as b','a.id_kelompok','b.id')
             ->join('siklus as c' ,'a.id_siklus', 'c.id')
-            ->where('c.status','aktif')
             ->where('a.id_mahasiswa', Auth::user()->user_id)
             ->first();
     }

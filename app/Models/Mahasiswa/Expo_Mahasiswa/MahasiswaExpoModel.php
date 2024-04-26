@@ -14,7 +14,6 @@ class MahasiswaExpoModel extends BaseModel
         return DB::table('jadwal_expo as a')
             ->select('a.*', 'b.nama_siklus')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
-            ->where('b.status', 'aktif')
             ->where('a.tanggal_mulai', '<', now())
             ->where('a.tanggal_selesai', '>', now())
             ->orderBy('a.tanggal_mulai', 'asc')
@@ -45,7 +44,6 @@ class MahasiswaExpoModel extends BaseModel
         return DB::table('kelompok_mhs as a')
             ->select('a.*')
             ->join('siklus as b','a.id_siklus','b.id')
-            ->where('b.status','aktif')
             ->where('a.id_mahasiswa',Auth::user()->user_id)
             ->first();
     }
@@ -57,7 +55,6 @@ class MahasiswaExpoModel extends BaseModel
         ->join('jadwal_expo as b', 'a.id_expo', 'b.id')
         ->join('kelompok_mhs as c', 'a.id_kelompok', 'c.id_kelompok')
         ->join('siklus as d', 'b.id_siklus', 'd.id')
-        ->where('d.status', 'aktif')
         ->where('c.id_mahasiswa', Auth::user()->user_id)
         ->first();
     }
@@ -85,7 +82,6 @@ class MahasiswaExpoModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('id', $id_siklus)
-              ->where('status', 'aktif')
               ->first();
       }
     // get akun by id user
@@ -167,7 +163,6 @@ class MahasiswaExpoModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
             ->get();
     }
 
@@ -224,7 +219,6 @@ class MahasiswaExpoModel extends BaseModel
             ->select('a.id as id_kel_mhs', 'a.id_mahasiswa', 'a.file_status_mta','a.file_status_lta','a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
             ->join('kelompok as b','a.id_kelompok','b.id')
             ->join('siklus as c' ,'a.id_siklus', 'c.id')
-            ->where('c.status','aktif')
             ->where('a.id_mahasiswa', $user_id)
             ->first();
     }

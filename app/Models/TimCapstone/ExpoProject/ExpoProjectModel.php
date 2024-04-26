@@ -20,7 +20,6 @@ class ExpoProjectModel extends BaseModel
     public static function getSiklus()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
             ->get();
     }
 

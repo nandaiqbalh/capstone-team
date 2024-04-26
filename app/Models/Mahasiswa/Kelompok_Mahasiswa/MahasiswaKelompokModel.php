@@ -182,7 +182,6 @@ class MahasiswaKelompokModel extends BaseModel
       public static function getSiklusAktif()
       {
           return DB::table('siklus')
-              ->where('status', 'aktif')
               ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
               ->first();
       }
@@ -190,7 +189,6 @@ class MahasiswaKelompokModel extends BaseModel
       public static function getPeriodePendaftaranSiklus()
       {
           return DB::table('siklus')
-              ->where('status', 'aktif')
               ->where('pendaftaran_mulai', '<', now())
               ->where('pendaftaran_selesai', '>', now())
               ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
@@ -201,7 +199,6 @@ class MahasiswaKelompokModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('id', $id_siklus)
-              ->where('status', 'aktif')
               ->first();
       }
 

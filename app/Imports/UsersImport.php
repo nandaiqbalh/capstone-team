@@ -21,6 +21,11 @@ class UsersImport implements ToModel, WithHeadingRow
         // Validate the nomor_induk field for uniqueness against existing database records
         $validator = Validator::make($row, [
             'nomor_induk' => 'required|unique:app_user,nomor_induk', // Assuming 'nomor_induk' is the column name for nomor_induk in database table
+            'role_id' => 'required',
+            'user_name' => 'required|string|max:255',
+            'user_password' => 'required|string|min:6',
+            'angkatan' => 'required|min:4',
+            'jenis_kelamin' => 'required',
         ]);
 
         // Check if validation fails

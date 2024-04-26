@@ -264,8 +264,11 @@ class SiklusController extends BaseController
      */
     public function deleteSiklusProcess($id)
     {
-        try {
-            // Hapus entitas terkait dengan siklus secara berurutan
+
+        $kelompokDiSiklusTerkait = SiklusModel::getKelompokDiSiklusTerkait($id);
+
+        if ($kelompokDiSiklusTerkait == null) {
+                // Hapus entitas terkait dengan siklus secara berurutan
             SiklusModel::deletependaftaranExpo($id);
             SiklusModel::deleteJadwalExpo($id);
             SiklusModel::deleteJadwalSidangProposal($id);
@@ -280,9 +283,9 @@ class SiklusController extends BaseController
                 // Flash message gagal jika penghapusan siklus gagal
                 session()->flash('danger', 'Gagal menghapus data siklus.');
             }
-        } catch (\Exception $e) {
-            // Tangani kesalahan dan beri pesan sesuai
-            session()->flash('danger', 'Terjadi kesalahan dalam menghapus data siklus.');
+        } else {
+            session()->flash('danger', 'Gagal! Terdapat kelompok aktif disiklus tersebut!');
+
         }
 
         // Redirect kembali ke halaman siklus setelah selesai penghapusan
