@@ -190,7 +190,7 @@ class ApiTugasAkhirController extends Controller
                             $registrationParams = [
                                 'id_mahasiswa' => $user->user_id,
                                 'id_periode' => $periodeAvailable ->id,
-                                'status' => 'Menunggu Persetujuan Berkas TA!',
+                                'status' => 'Menunggu Persetujuan Pendaftaran Sidang!',
                                 'created_by' => $user->user_id,
                                 'created_date' => now(), // Use Laravel helper function for the current date and time
                             ];
@@ -206,8 +206,8 @@ class ApiTugasAkhirController extends Controller
                                 'link_upload' => $request->link_upload,
                                 'judul_ta_mhs' => $request->judul_ta_mhs,
                                 'is_mendaftar_sidang' => '1',
-                                'status_individu' => 'Menunggu Persetujuan Berkas TA!',
-                                'status_tugas_akhir' => 'Menunggu Persetujuan Berkas TA!',
+                                'status_individu' => 'Menunggu Persetujuan Pendaftaran Sidang!',
+                                'status_tugas_akhir' => 'Menunggu Persetujuan Pendaftaran Sidang!',
 
                             ];
                             ApiTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams);

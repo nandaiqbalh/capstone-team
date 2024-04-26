@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use App\Imports\UsersImport;
 use Excel;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Mail;
 // use App\Mail\SendMail;
@@ -69,25 +70,41 @@ class AccountsController extends BaseController
             return redirect('/admin/settings/accounts');
         }
     }
-
-    public function import()
+    public function import(Request $request)
     {
-        $import = Excel::import(new UsersImport, request()->file('user_file'));
-
-        // process
+        // Validasi file
+        $validator = Validator::make($request->all(), [
+            'user_file' => 'required|file|mimes:xls,xlsx'
+        ]);
+    
+        // Cek apakah validasi gagal
+        if ($validator->fails()) {
+            // Flash message untuk file tidak valid
+            session()->flash('danger', 'File harus berupa file Excel (xls, xlsx).');
+            return redirect('/admin/settings/accounts/add');
+        }
+    
+        // Inisialisasi array untuk menyimpan failed rows
+        $failedRows = [];
+    
+        // Import data
+        $import = Excel::import(new UsersImport($failedRows), $request->file('user_file'));
+    
+        // Check if import was successful
         if ($import) {
-
-            // flash message
+            // Flash message untuk import berhasil
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/accounts');
         } else {
-            // flash message
+            // Flash message untuk import gagal
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/accounts/add')->withInput();
+    
+            // Pass failed rows data to the view
+            return redirect('/admin/settings/accounts/add')->withInput()->with('failedRows', $failedRows);
         }
     }
-
-
+    
+    
 
     /**
      * Show the form for creating a new resource.
