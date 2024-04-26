@@ -224,7 +224,6 @@ class DosenController extends BaseController
         $rules = [
             'nama' => 'required',
             "nip" => 'required' ,
-            // "alamat" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -233,7 +232,7 @@ class DosenController extends BaseController
             'user_name' => $request->nama,
             "nomor_induk" => $request->nip,
             'role_id' =>  $request->role,
-            // "alamat" => $request->alamat,
+            "user_email" => $request->user_email,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];

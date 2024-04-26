@@ -167,15 +167,31 @@ class DokumenMahasiswaController extends BaseController
                 return redirect()->back()->withInput();
             }
 
+            $isMahasiswaSidangTA = DokumenMahasiswaModel::isMahasiswaSidangTA($existingFile->id_kel_mhs);
+
+            if ($isMahasiswaSidangTA) {
+                $params = [
+                    'file_name_laporan_ta' => $new_file_name,
+                    'file_path_laporan_ta' => $upload_path,
+                    'file_status_lta' => 'Menunggu Persetujuan Final Laporan TA!',
+                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Final Laporan TA!',
+                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Final Laporan TA!',
+                    'status_individu' => 'Menunggu Persetujuan Final Laporan TA!',
+                ];
+            } else {
+                $params = [
+                    'file_name_laporan_ta' => $new_file_name,
+                    'file_path_laporan_ta' => $upload_path,
+                    'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
+                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
+                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
+                    'status_individu' => 'Menunggu Persetujuan Laporan TA!',
+                ];
+
+            }
+
             // Update informasi file laporan_ta pada database
-            $params = [
-                'file_name_laporan_ta' => $new_file_name,
-                'file_path_laporan_ta' => $upload_path,
-                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
-                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
-                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
-                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
-            ];
+
 
             $uploadFileMhs = DokumenMahasiswaModel::uploadFileMHS($request->id_kel_mhs, $params);
 
@@ -260,14 +276,29 @@ class DokumenMahasiswaController extends BaseController
                 $uploadFile = DokumenMahasiswaModel::uploadFileKel($kelompok->id, $params);
 
                 if ($uploadFile) {
-                    $statusParam = [
-                        'status_kelompok' => 'Menunggu Persetujuan C100!',
-                        'file_status_c100' => 'Menunggu Persetujuan C100!',
-                        'file_status_c100_dosbing1' => 'Menunggu Persetujuan C100!',
-                        'file_status_c100_dosbing2' => 'Menunggu Persetujuan C100!',
-                        'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
-                        'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
-                    ];
+
+                    $isKelompokSidang = DokumenMahasiswaModel::isKelompokSidang($kelompok->id);
+
+                    if ($isKelompokSidang) {
+                        $statusParam = [
+                            'status_kelompok' => 'Menunggu Persetujuan Final C100!',
+                            'file_status_c100' => 'Menunggu Persetujuan Final C100!',
+                            'file_status_c100_dosbing1' => 'Menunggu Persetujuan Final C100!',
+                            'file_status_c100_dosbing2' => 'Menunggu Persetujuan Final C100!',
+                            'status_dosen_pembimbing_1' => 'Menunggu Persetujuan Final C100!',
+                            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Final C100!',
+                        ];
+                    } else {
+                        $statusParam = [
+                            'status_kelompok' => 'Menunggu Persetujuan C100!',
+                            'file_status_c100' => 'Menunggu Persetujuan C100!',
+                            'file_status_c100_dosbing1' => 'Menunggu Persetujuan C100!',
+                            'file_status_c100_dosbing2' => 'Menunggu Persetujuan C100!',
+                            'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
+                            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
+                        ];
+
+                    }
 
                     DokumenMahasiswaModel::uploadFileKel($kelompok->id, $statusParam);
                 } else {

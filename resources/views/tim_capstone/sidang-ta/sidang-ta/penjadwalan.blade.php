@@ -199,6 +199,7 @@
                     <input type="hidden" name="id_periode" value="{{ $periode_sidang_ta->id }}">
                     <input type="hidden" name="id_dosen_penguji_ta1" value="{{ $mahasiswa->id_dosen_penguji_ta1 }}">
                     <input type="hidden" name="id_dosen_penguji_ta2" value="{{ $mahasiswa->id_dosen_penguji_ta2 }}">
+                    <input type="hidden" name="id_dosen_pembimbing_1" value="{{ $mahasiswa->id_dosen_pembimbing_1 }}">
 
                     <div class="row">
                         <div class="col-md-4">
@@ -206,10 +207,11 @@
                                 <label>Waktu Mulai<span class="text-danger">*</span></label>
 
                                 @if ($jadwal_sidang == null)
-                                    <input placeholder="Atur waktu" id="waktu" type="text" class="form-control"
-                                        name="waktu" required>
+                                    <input style="background-color: transparent;" placeholder="Atur waktu" id="waktu"
+                                        type="text" class="form-control" name="waktu" required>
                                 @else
-                                    <input value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
+                                    <input style="background-color: transparent;"
+                                        value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
                                         placeholder="Atur waktu" id="waktu" type="text" class="form-control"
                                         name="waktu" required>
                                 @endif
@@ -221,8 +223,9 @@
                                 <label>Waktu Selesai<span class="text-danger">*</span></label>
 
                                 @if ($jadwal_sidang == null)
-                                    <input placeholder="Atur waktu selesai" id="waktu_selesai" type="date"
-                                        class="form-control" name="waktu_selesai" required>
+                                    <input style="background-color: transparent;" placeholder="Atur waktu selesai"
+                                        id="waktu_selesai" type="date" class="form-control" name="waktu_selesai"
+                                        required>
                                 @else
                                     <input value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
                                         placeholder="Atur waktu selesai" id="waktu_selesai" type="date"

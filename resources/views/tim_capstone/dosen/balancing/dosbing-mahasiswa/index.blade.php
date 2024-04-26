@@ -30,7 +30,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    
+
                                 </div>
                             </div>
                         </form>
@@ -45,16 +45,20 @@
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
                                     <select class="form-select select-2" name="id_siklus" required>
-                                        <option value="" disabled selected>-- Filter Berdasarkan Siklus --</option>
-                                        @foreach ($rs_siklus as $siklus)
-                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
+                                        <option value="" disabled selected> -- Filter Berdasarkan Siklus -- </option>
+                                        @foreach ($rs_siklus as $s)
+                                            <option value="{{ $s->id }}"
+                                                {{ isset($siklus) && $siklus->id == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_siklus }}
+                                            </option>
                                         @endforeach
                                     </select>
+
                                 </div>
                             </div>
                             <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <button type="submit" class="btn btn-primary float-end" name="action"
-                                    value="search">Terapkan Filter</button>
+                                    value="filter">Terapkan Filter</button>
                             </div>
                         </div>
                     </form>

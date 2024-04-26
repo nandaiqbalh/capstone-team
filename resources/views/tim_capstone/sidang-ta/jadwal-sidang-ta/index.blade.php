@@ -44,10 +44,12 @@
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
                                     <select class="form-select select-2" name="id_periode" required>
-                                        <option value="" disabled selected>-- Filter Berdasarkan periode --
-                                        </option>
-                                        @foreach ($rs_periode as $periode)
-                                            <option value="{{ $periode->id }}">{{ $periode->nama_periode }} </option>
+                                        <option value="" disabled selected> -- Filter Berdasarkan Periode -- </option>
+                                        @foreach ($rs_periode as $s)
+                                            <option value="{{ $s->id }}"
+                                                {{ isset($periode) && $periode->id == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_periode }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -75,6 +77,7 @@
                                 <th>Ruangan</th>
                                 <th>Penguji 1</th>
                                 <th>Penguji 2</th>
+                                <th>Pembimbing 1</th>
                                 <th>Tindakan</th>
                             </tr>
                         </thead>
@@ -96,6 +99,7 @@
                                         <td>{{ $sidang_ta->nama_ruang }}</td>
                                         <td>{{ $sidang_ta->nama_dosen_penguji_1 }}</td>
                                         <td>{{ $sidang_ta->nama_dosen_penguji_2 }}</td>
+                                        <td>{{ $sidang_ta->nama_dosen_pembimbing_1 }}</td>
 
                                         <td class="text-center">
 
@@ -107,6 +111,8 @@
                                             @elseif($sidang_ta->status_tugas_akhir == 'Gagal Sidang TA!')
                                                 <a href="{{ url('/admin/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-success btn-xs m-1">Lulus</a>
+                                                <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $sidang_ta->id_mahasiswa }}/{{ $sidang_ta->id_periode }}"
+                                                    class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                             @else
                                                 <a href="{{ url('/admin/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "

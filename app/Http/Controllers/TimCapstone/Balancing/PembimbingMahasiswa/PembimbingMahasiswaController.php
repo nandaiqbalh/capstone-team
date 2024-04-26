@@ -33,14 +33,16 @@ class PembimbingMahasiswaController extends BaseController
         $id_siklus = $request->id_siklus;
 
         // new search or reset
-        if ($request->action == 'search') {
+        if ($request->action == 'filter') {
             $dt_dosen = PembimbingMahasiswaModel::getDataBalancingDosbingMahasiswaFilterSiklus($id_siklus);
             $rs_siklus = PembimbingMahasiswaModel::getSiklusAktif();
+            $siklus = PembimbingMahasiswaModel::getSiklusById($id_siklus);
 
             // data
             $data = [
                 'dt_dosen' => $dt_dosen,
                 'rs_siklus' => $rs_siklus,
+                'siklus' => $siklus,
             ];
             // view
             return view('tim_capstone.dosen.balancing.dosbing-mahasiswa.index', $data);

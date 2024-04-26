@@ -125,7 +125,7 @@ class MahasiswaBimbinganController extends BaseController
         $status = $request->status;
 
         // new search or reset
-        if ($request->action == 'search') {
+        if ($request->action == 'filter') {
             // get data with pagination
             $rs_bimbingan_saya = MahasiswaBimbinganModel::getMahasiswaBimbinganStatus($status);
             foreach ($rs_bimbingan_saya as $bimbingan) {

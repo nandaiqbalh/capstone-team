@@ -26,7 +26,7 @@ class DashboardModel extends BaseModel
 
     public static function getDataWithPagination()
     {
-        return DB::table('broadcast')->orderBy('created_date', 'desc')->get();
+        return DB::table('broadcast')->orderBy('created_date', 'desc')->paginate(10);
     }
 
     public static function getDataWithHomePagination()

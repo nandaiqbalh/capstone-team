@@ -45,10 +45,12 @@
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
                                     <select class="form-select select-2" name="id_siklus" required>
-                                        <option value="" disabled selected>-- Filter Berdasarkan Siklus --
-                                        </option>
-                                        @foreach ($rs_siklus as $siklus)
-                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
+                                        <option value="" disabled selected> -- Filter Berdasarkan Siklus -- </option>
+                                        @foreach ($rs_siklus as $s)
+                                            <option value="{{ $s->id }}"
+                                                {{ isset($siklus) && $siklus->id == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_siklus }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -107,11 +109,9 @@
                                                     Gagal</a>
                                             @elseif($sidang_proposal->status_sidang_proposal == 'Gagal Sidang Proposal!')
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
-
                                                     class="btn btn-outline-success btn-xs m-1">Lulus</a>
                                                 <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
-
                                             @else
                                                 <a href="{{ url('/admin/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "

@@ -231,6 +231,8 @@ class BaseController extends Controller
                 'Penguji Tidak Setuju!',
                 'C100 Tidak Disetujui Dosbing 1!',
                 'C100 Tidak Disetujui Dosbing 2!',
+                'Final C100 Tidak Disetujui Dosbing 1!',
+                'Final C100 Tidak Disetujui Dosbing 2!',
                 'C200 Tidak Disetujui Dosbing 1!',
                 'C200 Tidak Disetujui Dosbing 2!',
                 'C300 Tidak Disetujui Dosbing 1!',
@@ -241,10 +243,13 @@ class BaseController extends Controller
                 'C500 Tidak Disetujui Dosbing 2!',
                 'Laporan TA Tidak Disetujui Dosbing 1!',
                 'Laporan TA Tidak Disetujui Dosbing 2!',
+                'Final Laporan TA Tidak Disetujui Dosbing 1!',
+                'Final Laporan TA Tidak Disetujui Dosbing 2!',
                 'Makalah TA Tidak Disetujui Dosbing 1!',
                 'Makalah TA Tidak Disetujui Dosbing 2!',
                 'Kelompok Tidak Disetujui Expo!',
                 'Laporan TA Tidak Disetujui!',
+                'Final Laporan TA Tidak Disetujui!',
                 'Makalah TA Tidak Disetujui!',
                 'Belum Mendaftar Sidang TA!',
                 'Gagal Expo Project!',
@@ -255,6 +260,8 @@ class BaseController extends Controller
                 'Menunggu Persetujuan Dosbing!',
                 'C100 Menunggu Persetujuan Dosbing 1!',
                 'C100 Menunggu Persetujuan Dosbing 2!',
+                'Final C100 Menunggu Persetujuan Dosbing 1!',
+                'Final C100 Menunggu Persetujuan Dosbing 2!',
                 'C200 Menunggu Persetujuan Dosbing 1!',
                 'C200 Menunggu Persetujuan Dosbing 2!',
                 'C300 Menunggu Persetujuan Dosbing 1!',
@@ -265,6 +272,8 @@ class BaseController extends Controller
                 'C500 Menunggu Persetujuan Dosbing 2!',
                 'Laporan TA Menunggu Persetujuan Dosbing 1!',
                 'Laporan TA Menunggu Persetujuan Dosbing 2!',
+                'Final Laporan TA Menunggu Persetujuan Dosbing 1!',
+                'Final Laporan TA Menunggu Persetujuan Dosbing 2!',
                 'Makalah TA Menunggu Persetujuan Dosbing 1!',
                 'Makalah TA Menunggu Persetujuan Dosbing 2!',
                 'Menunggu Persetujuan Anggota!',
@@ -272,42 +281,47 @@ class BaseController extends Controller
                 'Menunggu Penetapan Dosbing!',
                 'Menunggu Persetujuan Tim Capstone!',
                 'Menunggu Persetujuan C100!',
+                'Menunggu Persetujuan Final C100!',
                 'Menunggu Persetujuan C200!',
                 'Menunggu Persetujuan C300!',
                 'Menunggu Persetujuan C400!',
                 'Menunggu Persetujuan C500!',
                 'Menunggu Persetujuan Expo!',
                 'Menunggu Persetujuan Laporan TA!',
+                'Menunggu Persetujuan Final Laporan TA!',
                 'Menunggu Persetujuan Makalah TA!',
                 'Menunggu Persetujuan Penguji!',
                 'Menunggu Persetujuan Pembimbing!',
                 'Menunggu Penjadwalan Sidang TA!',
                 'Menunggu Persetujuan Pendaftaran Sidang!'
             ],
+            'biru' => [
+                'Kelompok Diplot Tim Capstone!',
+                'Dosbing Diplot Tim Capstone!',
+                'Dijadwalkan Sidang Proposal!',
+                'Kelompok Disetujui Expo!',
+                'Telah Dijadwalkan Sidang TA!',
+            ],
             'ijo' => [
                 'Menyetujui Kelompok!',
                 'Dosbing Setuju!',
-                'Kelompok Diplot Tim Capstone!',
-                'Dosbing Diplot Tim Capstone!',
                 'Kelompok Telah Disetujui!',
                 'C100 Telah Disetujui!',
+                'Final C100 Telah Disetujui!',
                 'Penguji Proposal Ditetapkan!',
                 'Pembimbing Setuju!',
                 'Penguji Setuju!',
-                'Dijadwalkan Sidang Proposal!',
                 'Lulus Sidang Proposal!',
                 'C200 Telah Disetujui!',
                 'C300 Telah Disetujui!',
                 'C400 Telah Disetujui!',
                 'C500 Telah Disetujui!',
-                'Kelompok Disetujui Expo!',
                 'Lulus Expo Project!',
                 'Laporan TA Telah Disetujui!',
+                'Final Laporan TA Telah Disetujui!',
                 'Makalah TA Telah Disetujui!',
                 'Penguji TA Setuju!',
-                'Telah Dijadwalkan Sidang TA!',
                 'Lulus Sidang TA!',
-                'Pendaftaran Sidang Tidak Disetujui!'
             ]
         ];
 
@@ -321,9 +335,13 @@ class BaseController extends Controller
                     case 'orange':
                         $color = '#F86F03'; // Warna orange
                         break;
+                    case 'biru':
+                        $color = '#1E90FF'; // Warna biru
+                        break;
                     case 'ijo':
                         $color = '#44B158'; // Warna hijau
                         break;
+
                     // Tidak perlu menangani 'merah' karena sudah menjadi default
                 }
                 break; // Hentikan loop setelah menemukan kategori yang sesuai

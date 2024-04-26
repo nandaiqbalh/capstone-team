@@ -85,6 +85,22 @@ class PersetujuanLaporanTAModel extends BaseModel
             ->get();
     }
 
+    public static function isMahasiswaSidangTA($id_kelompok_mhs)
+{
+    $jadwal_sidang = DB::table('jadwal_sidang_ta as a')
+                        ->select('a.*')
+                        ->where('a.id_kelompok_mhs', $id_kelompok_mhs)
+                        ->first();
+
+    if ($jadwal_sidang) {
+        // Jika waktu pada tabel telah lewat waktu sekarang
+        return now()->gt($jadwal_sidang->waktu);
+    }
+
+    // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
+    return false;
+}
+
     public static function updateKelompok($id_kelompok, $params)
     {
         return DB::table('kelompok')->where('id', $id_kelompok)->update($params);

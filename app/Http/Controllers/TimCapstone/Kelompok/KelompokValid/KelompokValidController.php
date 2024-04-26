@@ -61,6 +61,7 @@ class KelompokValidController extends BaseController
          if ($request->action == 'filter') {
              $rs_kelompok = KelompokValidModel::filterSiklusKelompok($id_siklus);
              $rs_siklus = KelompokValidModel::getSiklusAktif();
+             $siklus = KelompokValidModel::getSiklusById($id_siklus);
 
              foreach ($rs_kelompok as $kelompok) {
 
@@ -73,6 +74,7 @@ class KelompokValidController extends BaseController
              $data = [
                  'rs_kelompok' => $rs_kelompok,
                  'rs_siklus' => $rs_siklus,
+                 'siklus' => $siklus,
                 ];
              // view
              return view('tim_capstone.kelompok.kelompok-valid.index', $data);
@@ -193,6 +195,39 @@ class KelompokValidController extends BaseController
             return back();
         }
     }
+
+    public function deleteMahasiswaKelompokProcess($id_mahasiswa, $id)
+    {
+
+        // get data
+        $mahasiswa = KelompokValidModel::getKelompokMhs($id_mahasiswa, $id);
+
+         // params
+         $params = [
+            'id_kelompok' => NULL,
+            'modified_by'   => Auth::user()->user_id,
+            'modified_date'  => date('Y-m-d H:i:s')
+        ];
+
+        // if exist
+        if (!empty($mahasiswa)) {
+            // process
+            if (KelompokValidModel::updateKelompokMHS($mahasiswa->id_mahasiswa, $params)) {
+                // flash message
+                session()->flash('success', 'Data berhasil dihapus.');
+                return back();
+            } else {
+                // flash message
+                session()->flash('danger', 'Data gagal dihapus.');
+                return back();
+            }
+        } else {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return back();
+        }
+    }
+
 
     public function search(Request $request)
     {

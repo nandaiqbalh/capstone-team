@@ -104,7 +104,7 @@ class MahasiswaExpoController extends BaseController
         }
 
         // Validasi berkas Capstone (file_name_c500)
-        if ($kelompok->file_status_c100 != "C100 Telah Disetujui!") {
+        if ($kelompok->file_status_c100 != "C100 Telah Disetujui!" && $kelompok->file_status_c100 != "Final C100 Telah Disetujui!" ) {
             return redirect()->back()->with('danger', 'Dokumen C100 belum disetujui kedua dosen pembimbing!');
         }
 

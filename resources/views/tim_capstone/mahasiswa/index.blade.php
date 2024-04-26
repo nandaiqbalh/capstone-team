@@ -22,8 +22,9 @@
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
-                                    <input class="form-control mr-sm-2" type="search" name="nama"
-                                        value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama" minlength="1" required>
+                                    <input class="form-control mr-sm-2" type="search" name="user_name"
+                                        value="{{ !empty($user_name) ? $user_name : '' }}" placeholder="Nama" minlength="1"
+                                        required>
                                 </div>
                                 <div class="col-auto mt-1">
                                     <button class="btn btn-outline-secondary ml-1" type="submit" name="action"

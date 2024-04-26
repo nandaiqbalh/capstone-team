@@ -86,6 +86,14 @@ class PengujiTAModel extends BaseModel
         return DB::table('jadwal_periode_sidang_ta')
         ->get();
     }
+
+    public static function getPeriodeById($id_periode)
+    {
+        return DB::table('jadwal_periode_sidang_ta')
+            ->where('id', $id_periode)
+            ->first();
+    }
+
     public static function getDataMahasiswaBimbinganById($user_id)
     {
         return DB::table('app_user as a')

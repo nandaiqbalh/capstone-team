@@ -62,6 +62,17 @@
                                 @endif
                             </tr>
                             <tr>
+                                <td>Status Laporan TA</td>
+                                <td>:</td>
+
+                                @if ($mahasiswa->file_status_lta == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $mahasiswa->status_lta_color }}">
+                                        {{ $mahasiswa->file_status_lta }}</td>
+                                @endif
+                            </tr>
+                            <tr>
                                 <td>Status Tugas Akhir</td>
                                 <td>:</td>
 

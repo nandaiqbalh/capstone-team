@@ -268,6 +268,8 @@ class JadwalSidangProposalController extends BaseController
         if ($request->action == 'filter') {
             $rs_sidang = JadwalSidangProposalModel::filterSiklusKelompok($id_siklus);
             $rs_siklus = JadwalSidangProposalModel::getSiklusAktif();
+            $siklus = JadwalSidangProposalModel::getSiklusById($id_siklus);
+
 
             foreach ($rs_sidang as $sidang_proposal) {
                 if ($sidang_proposal != null) {
@@ -290,6 +292,8 @@ class JadwalSidangProposalController extends BaseController
             $data = [
                 'rs_sidang' => $rs_sidang,
                 'rs_siklus' => $rs_siklus,
+                'siklus' => $siklus,
+
             ];
             // view
             return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.index', $data);

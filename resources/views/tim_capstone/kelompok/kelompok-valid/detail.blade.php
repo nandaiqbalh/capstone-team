@@ -102,6 +102,7 @@
                                 <th>Nama</th>
                                 <th>NIM</th>
                                 <th>Judul Tugas Akhir</th>
+                                <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,7 +113,14 @@
                                         <td>{{ $mahasiswa->user_name }}</td>
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td>{{ $mahasiswa->judul_ta_mhs }}</td>
-
+                                        <td class="text-center">
+                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                            <a href="{{ url('/admin/kelompok-valid/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
+                                                class="btn btn-outline-danger btn-xs m-1 "
+                                                onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')">
+                                                Hapus</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @else

@@ -300,6 +300,13 @@ class PenjadwalanSidangProposalModel extends BaseModel
         ->get();
     }
 
+    public static function getSiklusById($id_siklus)
+    {
+        return DB::table('siklus')
+        ->where('id', $id_siklus)
+        ->first();
+    }
+
     public static function getRuangSidang()
     {
         return DB::table('ruang_sidangs')

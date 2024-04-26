@@ -110,7 +110,7 @@
                                                     $pendaftaran->status_expo == 'Lulus Expo Project!' ||
                                                         $pendaftaran->status_expo == 'Gagal Expo Project!' ||
                                                         $pendaftaran->status_expo == 'Kelompok Disetujui Expo!')
-                                                    <span style="color: #44B158">Kelompok Disetujui Expo!</span>
+                                                    <span style="color: #1E90FF">Kelompok Disetujui Expo!</span>
                                                 @else
                                                     <span style="color: #FF0000">Kelompok Tidak Disetujui Expo!</span>
                                                 @endif

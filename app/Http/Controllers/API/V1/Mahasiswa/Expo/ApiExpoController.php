@@ -101,7 +101,7 @@ class ApiExpoController extends Controller
 
                     $dokumen_mahasiwa = ApiExpoModel::fileMHS($user ->user_id);
 
-                    if ($kelompok->file_status_c100 != "C100 Telah Disetujui!") {
+                    if ($kelompok->file_status_c100 != "C100 Telah Disetujui!" && $kelompok->file_status_c100 != "Final C100 Telah Disetujui!") {
                         $response = $this->failureResponse('Dokumen C100 belum disetujui kedua dosen pembimbing!');
                     }
 

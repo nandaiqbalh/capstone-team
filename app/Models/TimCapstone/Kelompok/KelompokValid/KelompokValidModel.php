@@ -227,4 +227,11 @@ class KelompokValidModel extends BaseModel
         return DB::table('siklus')
         ->get();
     }
+
+    public static function getSiklusById($id_siklus)
+    {
+        return DB::table('siklus')
+        ->where('id', $id_siklus)
+        ->first();
+    }
 }

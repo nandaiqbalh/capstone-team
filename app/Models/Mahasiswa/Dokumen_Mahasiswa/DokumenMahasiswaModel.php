@@ -57,6 +57,39 @@ class DokumenMahasiswaModel extends BaseModel
             ->get();
     }
 
+    public static function isKelompokSidang($id_kelompok)
+{
+    $jadwal_sidang = DB::table('jadwal_sidang_proposal as a')
+                        ->select('a.*')
+                        ->join('kelompok as b', 'a.id_kelompok', 'b.id')
+                        ->where('b.id', $id_kelompok)
+                        ->first();
+
+    if ($jadwal_sidang) {
+        // Jika waktu pada tabel telah lewat waktu sekarang
+        return now()->gt($jadwal_sidang->waktu);
+    }
+
+    // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
+    return false;
+}
+
+public static function isMahasiswaSidangTA($id_kelompok_mhs)
+{
+    $jadwal_sidang = DB::table('jadwal_sidang_ta as a')
+                        ->select('a.*')
+                        ->where('id_kelompok_mhs', $id_kelompok_mhs)
+                        ->first();
+
+    if ($jadwal_sidang) {
+        // Jika waktu pada tabel telah lewat waktu sekarang
+        return now()->gt($jadwal_sidang->waktu);
+    }
+
+    // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
+    return false;
+}
+
     // get akun by id user
     public static function getAkunByID($user_id)
     {

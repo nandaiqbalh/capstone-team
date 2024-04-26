@@ -410,6 +410,7 @@ class PenjadwalanSidangProposalController extends BaseController
         if ($request->action == 'filter') {
             $rs_kelompok = PenjadwalanSidangProposalModel::filterSiklusKelompok($id_siklus);
             $rs_siklus = PenjadwalanSidangProposalModel::getSiklusAktif();
+            $siklus = PenjadwalanSidangProposalModel::getSiklusById($id_siklus);
 
             foreach ($rs_kelompok as $kelompok) {
 
@@ -424,6 +425,7 @@ class PenjadwalanSidangProposalController extends BaseController
             $data = [
                 'rs_kelompok' => $rs_kelompok,
                 'rs_siklus' => $rs_siklus,
+                'siklus' => $siklus,
             ];
             // view
             return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.index', $data);

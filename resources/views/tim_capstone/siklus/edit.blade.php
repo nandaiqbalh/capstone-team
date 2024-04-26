@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Siklus</h5>
+        <h5 class="fw-bold py-3 mb-6"><span class="text-muted fw-light">Admin /</span> Siklus</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -24,21 +24,21 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{ $siklus->id }}">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Nama Siklus<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nama_siklus"
                                     value="{{ $siklus->nama_siklus }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Kode Siklus<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="kode_siklus"
                                     value="{{ $siklus->kode_siklus }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Status <span class="text-danger">*</span></label>
                                 <select class="form-select" name="status" required>
@@ -50,25 +50,28 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
-                                <input id="pendaftaran_mulai" type="text" class="form-control" name="pendaftaran_mulai"
-                                    value="{{ $siklus->pendaftaran_mulai }}" required>
+                                <input style="background-color: transparent;" id="pendaftaran_mulai" type="text"
+                                    class="form-control" name="pendaftaran_mulai" value="{{ $siklus->pendaftaran_mulai }}"
+                                    required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Pendaftaran Selesai<span class="text-danger">*</span></label>
-                                <input id="pendaftaran_selesai" type="text" class="form-control"
-                                    name="pendaftaran_selesai" value="{{ $siklus->pendaftaran_selesai }}" required>
+                                <input style="background-color: transparent;" id="pendaftaran_selesai" type="text"
+                                    class="form-control" name="pendaftaran_selesai"
+                                    value="{{ $siklus->pendaftaran_selesai }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Batas Submit C100<span class="text-danger">*</span></label>
-                                <input id="batas_submit_c100" type="text" class="form-control" name="batas_submit_c100"
-                                    value="{{ $siklus->batas_submit_c100 }}" required>
+                                <input style="background-color: transparent;" id="batas_submit_c100" type="text"
+                                    class="form-control" name="batas_submit_c100" value="{{ $siklus->batas_submit_c100 }}"
+                                    required>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Periode Sidang Tugas Akhir</h5>
+        <h5 class="fw-bold py-3 mb-6"><span class="text-muted fw-light">Admin /</span> Periode Sidang Tugas Akhir</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -23,21 +23,21 @@
                 <div class="card-body">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Nama Periode<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nama_periode"
                                     value="{{ old('nama_periode') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Tanggal Mulai<span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" name="tanggal_mulai"
                                     value="{{ old('tanggal_mulai') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Tanggal Selesai<span class="text-danger">*</span></label>
                                 <input type="date" class="form-control" name="tanggal_selesai"

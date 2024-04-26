@@ -20,33 +20,32 @@
                             <div class="card-body">
                                 <h5 class="card-title text-primary">Halo, {{ Auth::user()->user_name }}👋</h5>
                                 @foreach ($rs_siklus as $key => $siklus)
-                                    <p style="display: inline-block; margin-right: 5px; color: #44B158"><b>{{$siklus->nama_siklus}}</b></p>
+                                    <p style="display: inline-block; margin-right: 5px; color: #44B158">
+                                        <b>{{ $siklus->nama_siklus }}</b></p>
                                     @if ($key != count($rs_siklus) - 1)
                                         <span style="margin-right: 5px;">||</span>
                                     @endif
                                 @endforeach
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Pengumuman -->
         <div class="card">
             <div class="d-flex align-items-end row">
                 <div class="col-sm-12">
                     <div class="card-body">
-                        <h5 class="card-title text-primary">Pengumuman Tim Capstone</h5>
+                        <h5 class="card-title text-primary">Pengumuman Terbaru</h5>
                         <div>
                             <div class="accordion" id="accordionExample">
                                 @foreach ($rs_broadcast as $item)
                                     <div class="accordion-item">
                                         <h2 class="accordion-header" id="headingOne">
-                                            {{-- <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{$item->id}}" aria-expanded="false" aria-controls="collapseOne">
-                    {{$item->nama_event}}
-                  </button> --}}
+
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseOne{{ $item->id }}" aria-expanded="false"
                                                 aria-controls="collapseOne{{ $item->id }}">
@@ -85,5 +84,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- pagination -->
+        <div class="row mt-3 justify-content-between">
+            <div class="col-auto mr-auto">
+                <!-- Jumlah data yang ditampilkan -->
+                <p>Menampilkan {{ $rs_broadcast->count() }} dari total {{ $rs_broadcast->total() }} pengumuman.</p>
+            </div>
+            <div class="col-auto">
+                <!-- Tampilkan pagination -->
+                {{ $rs_broadcast->links() }}
+            </div>
+        </div>
+
     </div>
 @endsection

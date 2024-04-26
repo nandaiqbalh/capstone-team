@@ -45,16 +45,19 @@
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
                                     <select class="form-select select-2" name="id_periode" required>
-                                        <option value="" disabled selected>-- Filter Berdasarkan Periode --</option>
-                                        @foreach ($rs_periode as $periode)
-                                            <option value="{{ $periode->id }}">{{ $periode->nama_periode }}</option>
+                                        <option value="" disabled selected> -- Filter Berdasarkan Periode -- </option>
+                                        @foreach ($rs_periode as $s)
+                                            <option value="{{ $s->id }}"
+                                                {{ isset($periode) && $periode->id == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_periode }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <button type="submit" class="btn btn-primary float-end" name="action"
-                                    value="search">Terapkan Filter</button>
+                                    value="filter">Terapkan Filter</button>
                             </div>
                         </div>
                     </form>

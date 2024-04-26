@@ -16,7 +16,7 @@
                 <h5 class="mb-0">Validasi Kelompok</h5>
                 <small class="text-muted float-end">
                     <a href="{{ url('/admin/validasi-kelompok') }}" class="btn btn-danger btn-sm float-right"><i
-                        class="fas fa-chevron-left fa-sm"></i> Kembali</a>   
+                            class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -185,16 +185,14 @@
                 </div>
                 <hr>
                 <br>
+
                 <div class="col-auto ">
-                    @if (count($rs_mahasiswa) >= 3)
-                    @else
-                        <button type="button" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
-                            Tambah Mahasiswa
-                        </button>
-                    @endif
+                    <button type="button" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Tambah Mahasiswa
+                    </button>
                 </div>
-                
+
                 <h6 class="mb-0">List Mahasiswa</h6>
                 <br>
                 <div class="table-responsive text-nowrap">
@@ -306,7 +304,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Mahasiswa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
+
                 <div class="modal-body">
                     <form action="{{ url('/admin/validasi-kelompok/add-mahasiswa-kelompok') }}" method="get"
                         autocomplete="off">
@@ -356,7 +354,6 @@
                         <button type="submit" class="btn btn-primary float-end">Simpan</button>
                     </form>
                 </div>
-                
 
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {

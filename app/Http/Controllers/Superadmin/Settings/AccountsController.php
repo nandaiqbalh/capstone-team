@@ -76,20 +76,20 @@ class AccountsController extends BaseController
         $validator = Validator::make($request->all(), [
             'user_file' => 'required|file|mimes:xls,xlsx'
         ]);
-    
+
         // Cek apakah validasi gagal
         if ($validator->fails()) {
             // Flash message untuk file tidak valid
             session()->flash('danger', 'File harus berupa file Excel (xls, xlsx).');
             return redirect('/admin/settings/accounts/add');
         }
-    
+
         // Inisialisasi array untuk menyimpan failed rows
         $failedRows = [];
-    
+
         // Import data
         $import = Excel::import(new UsersImport($failedRows), $request->file('user_file'));
-    
+
         // Check if import was successful
         if ($import) {
             // Flash message untuk import berhasil
@@ -98,13 +98,13 @@ class AccountsController extends BaseController
         } else {
             // Flash message untuk import gagal
             session()->flash('danger', 'Data gagal disimpan.');
-    
+
             // Pass failed rows data to the view
             return redirect('/admin/settings/accounts/add')->withInput()->with('failedRows', $failedRows);
         }
     }
-    
-    
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -136,28 +136,33 @@ class AccountsController extends BaseController
      */
     public function addProcess(Request $request)
     {
-
-
         // Validate & auto redirect when fail
         $rules = [
             'user_name' => 'required',
-            'user_email' => 'required|email',
-            'user_password' => ['required', Password::min(8)],
+            'user_password' => ['required', 'min:8'],
             'user_active' => 'required',
             'role_id' => 'required',
-            'nomor_induk' => 'required|digits_between:6,30|numeric',
+            'jenis_kelamin' => 'required',
+            'nomor_induk' => 'required|unique:app_user,nomor_induk',
         ];
+
+        // Check if role_id is '03'
+        if ($request->role_id === '03') {
+            $rules['angkatan'] = 'required';
+        } else {
+            $rules['angkatan'] = 'nullable';
+        }
+
         $this->validate($request, $rules);
 
-        // cek email
-        $email = Accounts::getByEmail($request->user_email);
-        if (!empty($email)) {
-            // flash message
-            session()->flash('danger', 'Email sudah digunakan.');
+        // Check if role_id is '02' or '04' and angkatan is not allowed
+        if (in_array($request->role_id, ['02', '04']) && $request->filled('angkatan')) {
+            // Flash message
+            session()->flash('danger', 'Role tersebut tidak boleh memiliki angkatan.');
             return redirect('/admin/settings/accounts/add')->withInput();
         }
 
-        // params
+        // Params
         $user_id = Accounts::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
@@ -166,29 +171,24 @@ class AccountsController extends BaseController
             'user_email' => $request->user_email,
             'user_password' => Hash::make($request->user_password),
             'user_active' => $request->user_active,
-            'user_img_path' => '/img/user/',
-            'user_img_name' => 'default.png',
             'nomor_induk' => $request->nomor_induk,
             'no_telp' => $request->no_telp,
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
+            'created_by' => Auth::user()->user_id,
+            'created_date' => now(),
         ];
 
-        // process
+        // Process
         if (Accounts::insert($params)) {
-
-            // send mail
-            // $this->sendMail($user_id, $request->user_password);
-
-            // flash message
+            // Flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/accounts');
         } else {
-            // flash message
+            // Flash message
             session()->flash('danger', 'Data gagal disimpan.');
             return redirect('/admin/settings/accounts/add')->withInput();
         }
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -228,51 +228,69 @@ class AccountsController extends BaseController
      */
     public function editProcess(Request $request)
     {
-
-
         // Validate & auto redirect when fail
         $rules = [
             'user_id' => 'required',
             'user_name' => 'required',
             'user_active' => 'required',
             'role_id' => 'required',
-            'nomor_induk' => 'required|digits_between:6,30|numeric',
         ];
+
+        // Check if role_id is '03'
+        if ($request->role_id === '03') {
+            $rules['angkatan'] = 'required';
+        } else {
+            $rules['angkatan'] = 'nullable';
+        }
+
+        // Add validation rule for nomor_induk if it's changed
+        $account = Accounts::getById($request->user_id);
+        if ($request->nomor_induk != $account->nomor_induk) {
+            $rules['nomor_induk'] = 'required|unique:app_user,nomor_induk';
+        } else {
+            $rules['nomor_induk'] = 'required';
+        }
+
+        // Check if role_id is '02' or '04' and angkatan is not allowed
+        if (in_array($request->role_id, ['02', '04']) && $request->filled('angkatan')) {
+            // Flash message
+            session()->flash('danger', 'Role tersebut tidak boleh memiliki angkatan.');
+            return redirect('/admin/settings/accounts/edit/' . $request->user_id)->withInput();
+        }
+
         $this->validate($request, $rules);
 
-        // params
+        // Params
         $params = [
             'user_name' => $request->user_name,
             'user_active' => $request->user_active,
             'nomor_induk' => $request->nomor_induk,
             'no_telp' => $request->no_telp,
             'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
+            'modified_date'  => now(),
         ];
 
-        // process
+        // Process
         if (Accounts::update($request->user_id, $params)) {
-
-            // get data by id
-            $account = Accounts::getById($request->user_id);
-            // cek apakah role_id lama dgn role_id di request baru sama/tidak
+            // Check if old role_id is different from new role_id
             if ($account->role_id != $request->role_id) {
-                // update role baru
+                // Update new role
                 $params = [
                     'role_id' => $request->role_id,
                 ];
                 Accounts::update($request->user_id, $params);
             }
 
-            // flash message
+            // Flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/settings/accounts');
         } else {
-            // flash message
+            // Flash message
             session()->flash('danger', 'Data gagal disimpan.');
             return redirect('/admin/settings/accounts/edit/' . $request->user_id);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -214,7 +214,8 @@
                                     <input placeholder="Atur waktu" id="waktu" type="text" class="form-control"
                                         name="waktu" required>
                                 @else
-                                    <input value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
+                                    <input style="background-color: transparent;"
+                                        value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
                                         placeholder="Atur waktu" id="waktu" type="text" class="form-control"
                                         name="waktu" required>
                                 @endif
@@ -228,7 +229,8 @@
                                     <input placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
                                         name="waktu_selesai" required>
                                 @else
-                                    <input value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
+                                    <input style="background-color: transparent;"
+                                        value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
                                         placeholder="Atur waktu" id="waktu_selesai" type="date" class="form-control"
                                         name="waktu_selesai" required>
                                 @endif

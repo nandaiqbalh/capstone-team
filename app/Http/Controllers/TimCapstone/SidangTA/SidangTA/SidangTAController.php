@@ -509,7 +509,6 @@ class SidangTAController extends BaseController
         $rs_penguji_ta = SidangTAModel::getAkunPengujiTAKelompok($id);
         $rs_mahasiswa = SidangTAModel::listMahasiswaSendiri($id, $mahasiswa->id_kelompok);
 
-
         // get jadwal sidang
         $jadwal_sidang = SidangTAModel::getJadwalSidangTA($id);
         if($jadwal_sidang != null){
@@ -643,6 +642,7 @@ class SidangTAController extends BaseController
                                 'id_periode' => $request->id_periode,
                                 'waktu' => $request->waktu,
                                 'waktu_selesai' => $request->waktu_selesai,
+                                'id_dosen_pembimbing_1' => $request->id_dosen_pembimbing_1,
                                 'id_dosen_penguji_ta1' => $request->id_dosen_penguji_ta1,
                                 'id_dosen_penguji_ta2' => $request->id_dosen_penguji_ta2,
                                 'created_by' => Auth::user()->user_id,
@@ -671,6 +671,12 @@ class SidangTAController extends BaseController
                                 $overlapPenguji2 = SidangTAModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_ta2, $request->id_kelompok);
                                 if ($overlapPenguji2 != null) {
                                     session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
+                                    return back()->withInput();
+                                }
+
+                                $overlapPembimbing1 = SidangTAModel::checkOverlapPembimbing1($request->waktu, $request->waktu_selesai, $request->id_dosen_pembimbing_1, $request->id_kelompok);
+                                if ($overlapPembimbing1 != null) {
+                                    session()->flash('danger', 'Dosen Pembimbing 1 sudah terjadwal pada waktu yang sama.');
                                     return back()->withInput();
                                 }
 

@@ -260,6 +260,7 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/kelompok-valid/search', [KelompokValidController::class, 'search']);
     Route::get('/admin/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
     Route::get('/admin/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
+    Route::get('/admin/kelompok-valid/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokValidController::class, 'deleteMahasiswaKelompokProcess']);
 
 
     // add sidang proposal

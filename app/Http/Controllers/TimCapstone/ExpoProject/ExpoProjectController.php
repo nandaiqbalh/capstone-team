@@ -371,6 +371,8 @@ class ExpoProjectController extends BaseController
             $paramKelompok = [
                 'status_kelompok' => 'Gagal Expo Project!',
                 'status_expo' => 'Gagal Expo Project!',
+                'is_lulus_expo' => '0',
+
             ];
 
             $updateKelompok = ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);

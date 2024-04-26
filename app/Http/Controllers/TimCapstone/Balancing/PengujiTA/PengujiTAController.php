@@ -126,14 +126,16 @@ class PengujiTAController extends BaseController
         $id_periode = $request->id_periode;
 
         // new search or reset
-        if ($request->action == 'search') {
+        if ($request->action == 'filter') {
             $dt_dosen = PengujiTAModel::getDataBalancingPengujiTAFilterPeriode($id_periode);
             $rs_periode = PengujiTAModel::getPeriode();
+            $periode = PengujiTAModel::getPeriodeById($id_periode);
 
             // data
             $data = [
                 'dt_dosen' => $dt_dosen,
                 'rs_periode' => $rs_periode,
+                'periode' => $periode,
             ];
             // view
             return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);

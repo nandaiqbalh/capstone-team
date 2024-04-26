@@ -26,17 +26,53 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Nama<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama" value="{{ old('nama') }}"
-                                    required>
+                                <input type="text" class="form-control" name="user_name" value="{{ old('user_name') }}"
+                                    placeholder="Masukkan Nama" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>NIM<span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="nim" value="{{ old('nim') }}"
-                                    required>
+                                <input type="number" class="form-control" name="nomor_induk"
+                                    value="{{ old('nomor_induk') }}" placeholder="Masukkan NIM" required>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Angkatan<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="angkatan" value="{{ old('angkatan') }}"
+                                    placeholder="Masukkan Angkatan" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Jenis Kelamin<span class="text-danger">*</span></label>
+                                <select class="form-select" name="jenis_kelamin" required>
+                                    <option value="" disabled selected>-- Pilih Jenis Kelamin --</option>
+                                    <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>
+                                        Laki-laki
+                                    </option>
+                                    <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                                        Perempuan
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>Email<span class="text-danger"></span></label>
+                                <input type="email" class="form-control" name="user_email" value="{{ old('user_email') }}"
+                                    placeholder="Masukkan Email">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label>No Telp<span class="text-danger"></span></label>
+                                <input type="tel" class="form-control" name="no_telp" value="{{ old('no_telp') }}"
+                                    placeholder="Masukkan No. Telepon">
+                            </div>
+                        </div>
+
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary float-end">Simpan</button>

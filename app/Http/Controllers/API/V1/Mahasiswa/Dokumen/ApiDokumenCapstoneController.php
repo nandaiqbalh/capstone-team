@@ -90,16 +90,40 @@ class ApiDokumenCapstoneController extends Controller
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
 
                             if ($uploadFile) {
-                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc100);
-                                $statusParam = [
-                                    'status_kelompok' => 'Menunggu Persetujuan C100!',
-                                    'file_status_c100' => 'Menunggu Persetujuan C100!',
-                                    'file_status_c100_dosbing1' => 'Menunggu Persetujuan C100!',
-                                    'file_status_c100_dosbing2' => 'Menunggu Persetujuan C100!',
-                                    'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
-                                    'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
-                                ];
-                                ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+
+                                $isKelompokSidang = ApiDokumenModel::isKelompokSidang($id_kelompok);
+
+                                if ($isKelompokSidang) {
+                                    $statusParam = [
+                                        'status_kelompok' => 'Menunggu Persetujuan Final C100!',
+                                        'file_status_c100' => 'Menunggu Persetujuan Final C100!',
+                                        'file_status_c100_dosbing1' => 'Menunggu Persetujuan Final C100!',
+                                        'file_status_c100_dosbing2' => 'Menunggu Persetujuan Final C100!',
+                                        'status_dosen_pembimbing_1' => 'Menunggu Persetujuan Final C100!',
+                                        'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Final C100!',
+                                    ];
+                                } else {
+                                    $statusParam = [
+                                        'status_kelompok' => 'Menunggu Persetujuan C100!',
+                                        'file_status_c100' => 'Menunggu Persetujuan C100!',
+                                        'file_status_c100_dosbing1' => 'Menunggu Persetujuan C100!',
+                                        'file_status_c100_dosbing2' => 'Menunggu Persetujuan C100!',
+                                        'status_dosen_pembimbing_1' => 'Menunggu Persetujuan C100!',
+                                        'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C100!',
+                                    ];
+
+                                }
+
+
+                                $upload = ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+
+                                if (!$upload) {
+                                    return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc100);
+
+                                } else {
+                                    return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
+
+                                }
 
                             } else {
                                 return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');

@@ -51,41 +51,43 @@ class MahasiswaController extends BaseController
      */
     public function addMahasiswaProcess(Request $request)
     {
-
-        // Validate & auto redirect when fail
+        // Validate
         $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            // "angkatan" => 'required',
-            // "ipk" => 'required',
-            // "sks" => 'required',
+            'user_name' => 'required',
+            'nomor_induk' => 'required|digits:14|unique:app_user,nomor_induk',
+            'angkatan' => 'required|digits:4',
+            'jenis_kelamin' => 'required',
         ];
-        $this->validate($request, $rules);
 
+        $messages = [
+            'nomor_induk.digits' => 'NIM harus terdiri dari 14 digit angka.',
+            'nomor_induk.unique' => 'NIM sudah digunakan oleh mahasiswa lain.',
+            'angkatan.digits' => 'Angkatan harus terdiri dari 4 digit angka.',
+            'no_telp.digits_between' => 'Nomor telepon harus terdiri antara 10-15 digit angka.'
+        ];
+
+        $this->validate($request, $rules, $messages);
 
         // params
         // default passwordnya mahasiswa123
         $user_id = MahasiswaModel::makeMicrotimeID();
         $params = [
             'user_id' => $user_id,
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
+            'user_name' => $request->user_name,
+            "nomor_induk" => $request->nomor_induk,
             "role_id" => '03',
-            // 'user_email' => $request->email,
-            // "angkatan" => $request->angkatan,
-            // "ipk" => $request->ipk,
-            // "sks" => $request->sks,
+            'user_email' => $request->user_email,
+            'no_telp' => $request->no_telp,
+            "angkatan" => $request->angkatan,
             'user_password' => Hash::make('mahasiswa123'),
-            // "jenis_kelamin" => $request->jenis_kelamin,
-            'created_by'   => Auth::user()->user_id,
-            'created_date'  => date('Y-m-d H:i:s')
+            "jenis_kelamin" => $request->jenis_kelamin,
+            'created_by' => Auth::user()->user_id,
+            'created_date' => now()->format('Y-m-d H:i:s')
         ];
-        // dd($params);
 
         // process
         $insert_mahasiswa = MahasiswaModel::insertmahasiswa($params);
         if ($insert_mahasiswa) {
-
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
             return redirect('/admin/mahasiswa');
@@ -95,6 +97,7 @@ class MahasiswaController extends BaseController
             return redirect('/admin/mahasiswa/add')->withInput();
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -180,42 +183,50 @@ class MahasiswaController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public function editMahasiswaProcess(Request $request)
-    {
+{
+    // Validate
+    $rules = [
+        'user_name' => 'required',
+        'nomor_induk' => 'required|digits:14|unique:app_user,nomor_induk,' . $request->user_id . ',user_id',
+        'angkatan' => 'required|digits:4',
+        'jenis_kelamin' => 'required',
 
-        // Validate & auto redirect when fail
-        $rules = [
-            'nama' => 'required',
-            "nim" => 'required',
-            // "angkatan" => 'required',
-            // "ipk" => 'required',
-            // "sks" => 'required',
-        ];
-        $this->validate($request, $rules);
+    ];
 
-        // params
-        $params = [
-            'user_name' => $request->nama,
-            "nomor_induk" => $request->nim,
-            // 'user_email' => $request->email,
-            // "angkatan" => $request->angkatan,
-            // "ipk" => $request->ipk,
-            // "sks" => $request->sks,
-            // "jenis_kelamin" => $request->jenis_kelamin,
-            'modified_by'   => Auth::user()->user_id,
-            'modified_date'  => date('Y-m-d H:i:s')
-        ];
+    $messages = [
+        'nomor_induk.required' => 'NIM wajib diisi.',
+        'nomor_induk.digits' => 'NIM harus terdiri dari 14 digit angka.',
+        'nomor_induk.unique' => 'NIM sudah digunakan oleh mahasiswa lain.',
+        'angkatan.required' => 'Angkatan wajib diisi.',
+        'angkatan.digits' => 'Angkatan harus terdiri dari 4 digit angka.',
+        'jenis_kelamin.required' => 'Jenis Kelamin wajib dipilih.',
+    ];
 
-        // process
-        if (MahasiswaModel::update($request->user_id, $params)) {
-            // flash message
-            session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
-        } else {
-            // flash message
-            session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/edit/' . $request->user_id);
-        }
+    $this->validate($request, $rules, $messages);
+
+    // params
+    $params = [
+        'user_name' => $request->user_name,
+        'nomor_induk' => $request->nomor_induk,
+        'angkatan' => $request->angkatan,
+        'jenis_kelamin' => $request->jenis_kelamin,
+        'user_email' => $request->user_email,
+        'no_telp' => $request->no_telp,
+        'modified_by' => Auth::user()->user_id,
+        'modified_date' => now()->format('Y-m-d H:i:s')
+    ];
+
+    // process
+    if (MahasiswaModel::update($request->user_id, $params)) {
+        // flash message
+        session()->flash('success', 'Data berhasil disimpan.');
+        return redirect('/admin/mahasiswa');
+    } else {
+        // flash message
+        session()->flash('danger', 'Data gagal disimpan.');
+        return redirect('/admin/mahasiswa/edit/' . $request->user_id);
     }
+}
 
     /**
      * Remove the specified resource from storage.
@@ -257,7 +268,7 @@ class MahasiswaController extends BaseController
     public function searchMahasiswa(Request $request)
     {
         // data request
-        $user_name = $request->nama;
+        $user_name = $request->user_name;
 
         // new search or reset
         if ($request->action == 'search') {
@@ -265,7 +276,7 @@ class MahasiswaController extends BaseController
             $rs_mahasiswa = MahasiswaModel::getDataSearch($user_name);
             // dd($rs_mahasiswa);
             // data
-            $data = ['rs_mahasiswa' => $rs_mahasiswa, 'nama' => $user_name];
+            $data = ['rs_mahasiswa' => $rs_mahasiswa, 'user_name' => $user_name];
             // view
             return view('tim_capstone.mahasiswa.index', $data);
         } else {

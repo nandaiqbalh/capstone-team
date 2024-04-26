@@ -24,6 +24,40 @@ class ApiDokumenModel extends ApiBaseModel
             ->first();
     }
 
+    public static function isKelompokSidang($id_kelompok)
+    {
+        $jadwal_sidang = DB::table('jadwal_sidang_proposal as a')
+                            ->select('a.*')
+                            ->join('kelompok as b', 'a.id_kelompok', 'b.id')
+                            ->where('b.id', $id_kelompok)
+                            ->first();
+
+        if ($jadwal_sidang) {
+            // Jika waktu pada tabel telah lewat waktu sekarang
+            return now()->gt($jadwal_sidang->waktu);
+        }
+
+        // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
+        return false;
+    }
+
+    public static function isMahasiswaSidangTA($id_mahasiswa)
+    {
+        $jadwal_sidang = DB::table('jadwal_sidang_ta as a')
+                            ->select('a.*')
+                            ->join('kelompok_mhs as b', 'a.id_mahasiswa', 'b.id_mahasiswa')
+                            ->where('b.id_mahasiswa', $id_mahasiswa)
+                            ->first();
+
+        if ($jadwal_sidang) {
+            // Jika waktu pada tabel telah lewat waktu sekarang
+            return now()->gt($jadwal_sidang->waktu);
+        }
+
+        // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
+        return false;
+    }
+
     public static function getKelompokFile($id_kelompok)
     {
         return DB::table('kelompok as a')

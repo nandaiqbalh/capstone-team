@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Periode Sidang Tugas Akhir</h5>
+        <h5 class="fw-bold py-3 mb-6"><span class="text-muted fw-light">Admin /</span> Periode Sidang Tugas Akhir</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -25,24 +25,26 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{ $periode_sidang_ta->id }}">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Nama<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nama_periode"
                                     value="{{ $periode_sidang_ta->nama_periode }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Mulai Pendaftaran<span class="text-danger">*</span></label>
-                                <input id="tanggal_mulai" type="text" class="form-control" name="tanggal_mulai"
+                                <input style="background-color: transparent;" id="tanggal_mulai" type="text"
+                                    class="form-control" name="tanggal_mulai"
                                     value="{{ $periode_sidang_ta->tanggal_mulai }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Batas Pendaftaran<span class="text-danger">*</span></label>
-                                <input id="tanggal_selesai" type="text" class="form-control" name="tanggal_selesai"
+                                <input style="background-color: transparent;" id="tanggal_selesai" type="text"
+                                    class="form-control" name="tanggal_selesai"
                                     value="{{ $periode_sidang_ta->tanggal_selesai }}" required>
                             </div>
                         </div>

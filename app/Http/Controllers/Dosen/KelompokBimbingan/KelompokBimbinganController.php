@@ -257,7 +257,7 @@ class KelompokBimbinganController extends BaseController
         $status = $request->status;
 
         // new search or reset
-        if ($request->action == 'search') {
+        if ($request->action == 'filter') {
             // get data with pagination
             $rs_bimbingan_saya = KelompokBimbinganModel::getKelompokBimbinganStatus($status);
             foreach ($rs_bimbingan_saya as $bimbingan) {
@@ -277,6 +277,7 @@ class KelompokBimbinganController extends BaseController
             }
             // data
             $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya, 'status' => $status];
+            
             // view
             return view('dosen.kelompok-bimbingan.index', $data);
         } else {
