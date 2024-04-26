@@ -55,9 +55,10 @@ class KelompokValidController extends BaseController
      {
          // data request
          $id_siklus = $request->id_siklus;
+         $rs_siklus = KelompokValidModel::getSiklusAktif();
 
          // new search or reset
-         if ($request->action == 'search') {
+         if ($request->action == 'filter') {
              $rs_kelompok = KelompokValidModel::filterSiklusKelompok($id_siklus);
              $rs_siklus = KelompokValidModel::getSiklusAktif();
 
@@ -72,7 +73,7 @@ class KelompokValidController extends BaseController
              $data = [
                  'rs_kelompok' => $rs_kelompok,
                  'rs_siklus' => $rs_siklus,
-             ];
+                ];
              // view
              return view('tim_capstone.kelompok.kelompok-valid.index', $data);
          } else {
@@ -197,13 +198,21 @@ class KelompokValidController extends BaseController
     {
         // data request
         $nama = $request->nama;
+        $rs_siklus = KelompokValidModel::getSiklusAktif();
 
         // new search or reset
         if ($request->action == 'search') {
             // get data with pagination
             $rs_kelompok = KelompokValidModel::getDataSearch($nama);
+            foreach ($rs_kelompok as $kelompok) {
+
+                $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+                $kelompok -> status_dosbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+                $kelompok -> status_dosbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+
+            }
             // data
-            $data = ['rs_kelompok' => $rs_kelompok, 'nama' => $nama];
+            $data = ['rs_kelompok' => $rs_kelompok, 'rs_siklus' => $rs_siklus,  'nama' => $nama];
             // view
             return view('tim_capstone.kelompok.kelompok-valid.index', $data);
         } else {

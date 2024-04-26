@@ -60,8 +60,7 @@ class ApiBerandaController extends Controller
                     // sidang ta
                     $pendaftaran_ta = ApiBerandaModel::cekStatusPendaftaranSidangTA($user->user_id);
                     $kelompok_mhs = ApiBerandaModel::checkKelompokMhs($user->user_id);
-                     $sidang_ta = ApiBerandaModel::sidangTugasAkhirByMahasiswa($user->user_id);
-
+                    $sidang_ta = ApiBerandaModel::sidangTugasAkhirByMahasiswa($user->user_id);
 
                     if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA!") {
                         $sidang_ta = "Lulus Sidang TA!";
@@ -82,7 +81,16 @@ class ApiBerandaController extends Controller
                         $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
 
                     } else {
-                        $sidang_ta = $kelompok_mhs->status_tugas_akhir;
+
+                        if ($kelompok_mhs->status_tugas_akhir != null) {
+                            $sidang_ta = $kelompok_mhs->status_tugas_akhir;
+                        } else {
+                            if ($kelompok -> status_expo == "Lulus Expo Project!") {
+                                $sidang_ta = "Belum menyelesaikan capstone!";
+                            } else {
+                                $sidang_ta = "Belum Mendaftar Sidang TA!";
+                            }
+                        }
                     }
 
                     $data = [

@@ -18,13 +18,10 @@ class DashboardController extends BaseController
     {
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithPagination();
-
-
         // data
 
         $data = [
             'rs_broadcast' => $rs_broadcast,
-
         ];
 
         //view
@@ -34,7 +31,7 @@ class DashboardController extends BaseController
     public function indexMahasiswa()
     {
         // get data with pagination
-          $rs_broadcast = Dashmo::getDataWithPagination();
+        $rs_broadcast = Dashmo::getDataWithPagination();
 
         $user = Auth::user();
         $kelompok = Dashmo::pengecekan_kelompok_mahasiswa($user->user_id);
@@ -91,9 +88,14 @@ class DashboardController extends BaseController
                 // Menggabungkan nama hari, tanggal, dan bulan dalam bahasa Indonesia
                 $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
 
-             } else{
-                $sidang_ta = $kelompok_mhs->status_tugas_akhir;
+             } else {
+                if ($kelompok_mhs->status_tugas_akhir != null) {
+                    $sidang_ta = $kelompok_mhs->status_tugas_akhir;
+                } else {
+                    $sidang_ta = "Belum menyelesaikan capstone!";
+                }
             }
+
 
             // data
             $data = [

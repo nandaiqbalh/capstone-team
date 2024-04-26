@@ -28,11 +28,11 @@ class PersetujuanC300Model extends BaseModel
                 $query->where('a.id_dosen_pembimbing_1', $userId)
                       ->orWhere('a.id_dosen_pembimbing_2', $userId);
             })
+            ->orderByDesc('a.id')
             ->orderBy('a.is_selesai', 'asc') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
-            ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id
             ->paginate(20);
     }
-    
+
 
     // get search
     public static function getDataSearch($no_kel)
@@ -42,7 +42,6 @@ class PersetujuanC300Model extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
             ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }

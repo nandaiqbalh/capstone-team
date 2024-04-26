@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class ApiProfileController extends Controller
 {
     // Path store in database
-    protected $upload_path = '/img/user/';
+    protected $upload_path = '/../../img/user/';
 
     public function index(Request $request)
     {

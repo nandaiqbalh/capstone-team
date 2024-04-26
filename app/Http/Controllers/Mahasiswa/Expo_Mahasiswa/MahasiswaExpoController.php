@@ -130,6 +130,10 @@ class MahasiswaExpoController extends BaseController
             return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
         }
 
+        if ($existingFile->file_status_mta != "Makalah TA Telah Disetujui!") {
+            return redirect()->back()->with('danger', 'Makalah TA belum disetujui kedua dosen pembimbing!');
+        }
+
         // Validasi laporan TA sudah diunggah
         if (!$existingFile || !$existingFile->file_name_laporan_ta) {
             return redirect()->back()->with('danger', 'Lengkapi laporan TA terlebih dahulu sebelum mendaftar expo!');

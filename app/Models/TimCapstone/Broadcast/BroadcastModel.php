@@ -18,6 +18,7 @@ class BroadcastModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('broadcast')
+            ->orderBy('id', 'desc')
             ->paginate(20);
     }
 

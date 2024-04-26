@@ -16,13 +16,16 @@ class JadwalSidangTAModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_sidang_ta as a')
-            ->select('a.*', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
+            ->select('a.*', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
             ->join('ruang_sidangs as d', 'd.id', 'a.id_ruangan')
             ->join('kelompok as c','a.id_kelompok','c.id')
             ->join('kelompok_mhs as b','a.id_mahasiswa','b.id_mahasiswa')
             ->join('app_user as u','a.id_mahasiswa','u.user_id')
+            ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_ta1', 'dp1.user_id')
+            ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_ta2', 'dp2.user_id')
             ->join('jadwal_periode_sidang_ta as p','a.id_periode','p.id')
             ->orderBy('b.is_selesai', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
+            ->orderByRaw("CASE WHEN a.waktu >= NOW() THEN 0 ELSE 1 END, a.waktu ASC")
             ->orderBy('a.waktu', 'asc')
             ->paginate(20);
     }
@@ -30,7 +33,12 @@ class JadwalSidangTAModel extends BaseModel
     public static function getSiklus()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
+            ->get();
+    }
+
+    public static function getPeriode()
+    {
+        return DB::table('jadwal_periode_sidang_ta')
             ->get();
     }
     public static function getKelompok()
@@ -39,7 +47,7 @@ class JadwalSidangTAModel extends BaseModel
             ->select('a.*','c.id as id_prop')
             ->join('siklus as b','a.id_siklus','b.id')
             ->leftjoin('jadwal_sidang_proposal as c', 'a.id','c.id_kelompok' )
-            ->where('b.status', 'aktif')
+
             ->where('c.id',null)
             ->whereNotNull('a.nomor_kelompok')
             ->get();
@@ -116,12 +124,37 @@ class JadwalSidangTAModel extends BaseModel
     // get search
     public static function getDataSearch($search)
     {
-        return DB::table('app_user as a')
-            ->select('a.*', 'c.role_name')
-            ->join('app_role as c', 'a.role_id', 'c.role_id')
-            ->where('c.role_id', '03')
-            ->where('a.user_name', 'LIKE', "%" . $search . "%")
-            // ->orwhere('a.nomor_induk', 'LIKE', "%" . $search . "%")
+        return DB::table('jadwal_sidang_ta as a')
+            ->select('a.*', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
+            ->join('ruang_sidangs as d', 'd.id', 'a.id_ruangan')
+            ->join('kelompok as c','a.id_kelompok','c.id')
+            ->join('kelompok_mhs as b','a.id_mahasiswa','b.id_mahasiswa')
+            ->join('app_user as u','a.id_mahasiswa','u.user_id')
+            ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_ta1', 'dp1.user_id')
+            ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_ta2', 'dp2.user_id')
+            ->join('jadwal_periode_sidang_ta as p','a.id_periode','p.id')
+            ->where('u.user_name', 'LIKE', "%" . $search . "%")
+            ->orderBy('b.is_selesai', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
+            ->orderByRaw("CASE WHEN a.waktu >= NOW() THEN 0 ELSE 1 END, a.waktu ASC")
+            ->orderBy('a.waktu', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterPeriodeKelompok($id_periode)
+    {
+        return DB::table('jadwal_sidang_ta as a')
+            ->select('a.*', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
+            ->join('ruang_sidangs as d', 'd.id', 'a.id_ruangan')
+            ->join('kelompok as c','a.id_kelompok','c.id')
+            ->join('kelompok_mhs as b','a.id_mahasiswa','b.id_mahasiswa')
+            ->join('app_user as u','a.id_mahasiswa','u.user_id')
+            ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_ta1', 'dp1.user_id')
+            ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_ta2', 'dp2.user_id')
+            ->join('jadwal_periode_sidang_ta as p','a.id_periode','p.id')
+            ->where('a.id_periode', 'LIKE', "%" . $id_periode . "%")
+            ->orderBy('b.is_selesai', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
+            ->orderByRaw("CASE WHEN a.waktu >= NOW() THEN 0 ELSE 1 END, a.waktu ASC")
+            ->orderBy('a.waktu', 'asc')
             ->paginate(20);
     }
 

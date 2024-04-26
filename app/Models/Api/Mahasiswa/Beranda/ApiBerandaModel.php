@@ -25,7 +25,6 @@ class ApiBerandaModel extends ApiBaseModel
             ->select('a.*')
             ->join('siklus as b', 'a.id_siklus', 'b.id')
             ->leftJoin('kelompok as c', 'a.id_kelompok', 'c.id')
-            ->where('b.status', 'aktif')
             ->where('a.id_mahasiswa', $user_id)
             ->first();
     }
@@ -56,7 +55,6 @@ class ApiBerandaModel extends ApiBaseModel
             ->join('jadwal_expo as b', 'a.id_expo', 'b.id')
             ->join('kelompok_mhs as c', 'a.id_kelompok', 'c.id_kelompok')
             ->join('siklus as d', 'b.id_siklus', 'd.id')
-            ->where('d.status', 'aktif')
             ->where('c.id_mahasiswa', $user_id)
             ->first();
     }
@@ -64,7 +62,6 @@ class ApiBerandaModel extends ApiBaseModel
     public static function checkApakahSiklusMasihAktif($id_siklus)
     {
         return DB::table('siklus')
-            ->where('status','aktif')
             ->where('id', $id_siklus)
             ->first();
     }
@@ -84,7 +81,6 @@ class ApiBerandaModel extends ApiBaseModel
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')
         ->where('c.id', $idKelompok)
-        ->where('b.status', 'aktif')
         ->first();
     }
 }

@@ -135,6 +135,10 @@
                                                     <a href="{{ url('/admin/jadwal-sidang-ta/detail') }}/{{ $pendaftaran->id }}"
                                                         class="btn btn-outline-secondary btn-xs m-1 ">Detail</a>
                                                 </td>
+                                            @elseif($pendaftaran->status_tugas_akhir == 'Lulus Sidang TA!')
+                                                <td class="text-center">
+                                                    -
+                                                </td>
                                             @else
                                                 <td class="text-center">
                                                     <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"

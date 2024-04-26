@@ -21,9 +21,9 @@ class KelompokValidModel extends BaseModel
             ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('c.status', 'aktif')
+
             ->where('a.nomor_kelompok', '!=', NULL)
-            ->orderBy('a.nomor_kelompok', 'asc')
+            ->orderByDesc('a.id', 'asc')
             ->paginate(20);
     }
 
@@ -33,10 +33,10 @@ class KelompokValidModel extends BaseModel
             ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('c.status', 'aktif')
+
             ->where('c.id', $id_siklus)
             ->where('a.nomor_kelompok', '!=', NULL)
-            ->orderBy('a.nomor_kelompok', 'asc')
+            ->orderByDesc('a.id', 'asc')
             ->paginate(20);
     }
 
@@ -49,8 +49,8 @@ class KelompokValidModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
-            ->orderByDesc('a.id')
+
+            ->orderByDesc('a.id', 'asc')
             ->paginate(20)->withQueryString();
     }
 
@@ -225,7 +225,6 @@ class KelompokValidModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-        ->where('status', 'aktif')
         ->get();
     }
 }

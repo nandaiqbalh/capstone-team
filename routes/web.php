@@ -265,6 +265,9 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     // add sidang proposal
     Route::get('admin/penjadwalan-sidang-proposal', [PenjadwalanSidangProposalController::class, 'index']);
     Route::get('admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal/{id}', [PenjadwalanSidangProposalController::class, 'detailKelompok']);
+    Route::get('/admin/penjadwalan-sidang-proposal/filter-siklus', [PenjadwalanSidangProposalController::class, 'filterSiklusKelompok']);
+    Route::get('/admin/penjadwalan-sidang-proposal/search', [PenjadwalanSidangProposalController::class, 'search']);
+
     //add delete dosen pembimbing
     Route::get('admin/penjadwalan-sidang-proposal/add-dosen-penguji', [PenjadwalanSidangProposalController::class, 'addDosenKelompok']);
     Route::get('admin/penjadwalan-sidang-proposal/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [PenjadwalanSidangProposalController::class, 'deleteDosenKelompok']);
@@ -278,6 +281,8 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/jadwal-sidang-proposal/to-lulus/{id}', [JadwalSidangProposalController::class, 'toLulusSidangProposal']);
     Route::get('/admin/jadwal-sidang-proposal/to-gagal/{id}', [JadwalSidangProposalController::class, 'toGagalSidangProposal']);
     Route::get('/admin/jadwal-sidang-proposal/detail/{id}', [JadwalSidangProposalController::class, 'detailKelompok']);
+    Route::get('/admin/jadwal-sidang-proposal/filter-siklus', [JadwalSidangProposalController::class, 'filterSiklusKelompok']);
+    Route::get('/admin/jadwal-sidang-proposal/search', [JadwalSidangProposalController::class, 'search']);
 
     //expo
     Route::get('/admin/expo-project', [ExpoProjectController::class, 'index']);
@@ -326,6 +331,9 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/jadwal-sidang-ta/to-lulus/{id}', [JadwalSidangTAController::class, 'toLulusSidangTA']);
     Route::get('/admin/jadwal-sidang-ta/to-gagal/{id}', [JadwalSidangTAController::class, 'toGagalSidangTA']);
     Route::get('/admin/jadwal-sidang-ta/detail/{id}', [JadwalSidangTAController::class, 'detailJadwalSidangTA']);
+    Route::get('/admin/jadwal-sidang-ta/filter-periode', [JadwalSidangTAController::class, 'filterPeriodeKelompok']);
+    Route::get('/admin/jadwal-sidang-ta/search', [JadwalSidangTAController::class, 'search']);
+
 });
 
 // mahasiswa

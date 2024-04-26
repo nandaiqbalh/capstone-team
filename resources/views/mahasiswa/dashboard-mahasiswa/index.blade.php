@@ -4,7 +4,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Beranda Mahasiswa
+    Beranda
 @endsection
 
 @section('content')

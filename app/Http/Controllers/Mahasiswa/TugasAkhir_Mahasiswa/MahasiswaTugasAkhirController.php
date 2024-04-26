@@ -22,7 +22,6 @@ class MahasiswaTugasAkhirController extends BaseController
         $jadwal_sidang = MahasiswaTugasAkhirModel::sidangTugasAkhirByMahasiswa($user->user_id);
         $statusPendaftaran = MahasiswaTugasAkhirModel::getStatusPendaftaran($user->user_id);
 
-        $kelompok -> status_tugas_akhir_color = $this->getStatusColor($kelompok->status_tugas_akhir);
 
         if ($kelompok != null ) {
             $akun_mahasiswa = MahasiswaTugasAkhirModel::getAkunByID(Auth::user()->user_id);
@@ -30,6 +29,7 @@ class MahasiswaTugasAkhirController extends BaseController
 
             $rs_dosbing = MahasiswaTugasAkhirModel::getAkunDosbingKelompok($kelompok->id_kelompok);
             $rs_dospengta = MahasiswaTugasAkhirModel::getAkunDospengTa($akun_mahasiswa ->user_id);
+            $kelompok -> status_tugas_akhir_color = $this->getStatusColor($kelompok->status_tugas_akhir);
 
             foreach ($rs_dosbing as $dosbing) {
 

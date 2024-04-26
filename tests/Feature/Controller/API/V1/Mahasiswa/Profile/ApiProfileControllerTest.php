@@ -115,6 +115,7 @@ class ApiProfileControllerTest extends TestCase
             'user_name' => 'New Name',
             'no_telp' => '081201201301',
             'user_email' => 'newemail@example.com',
+            'jenis_kelamin' => 'Laki-laki',
          ];
 
          $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])

@@ -86,19 +86,32 @@ class PersetujuanC500Controller extends BaseController
             $persetujuan_c500_updated = PersetujuanC500Model::getDataById($id);
 
             if ($persetujuan_c500_updated->id == $id) {
-                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" ||
-                    $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2!") {
+                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" &&
+                     $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2!") {
 
-                    $paramsUpdated = [
-                        'status_kelompok' => 'C500 Tidak Disetujui!',
-                    ];
-                    // Update status kelompok
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C500 Tidak Disetujui!',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" ) {
+
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C500 Tidak Disetujui Dosbing 1!',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2!" ) {
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C500 Tidak Disetujui Dosbing 2!',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = [
-                        'status_kelompok' => 'Menunggu Persetujuan Penguji!',
-                    ];
-                    PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                        ];
+                        PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
                 }
             }
             // flash message
@@ -229,7 +242,7 @@ class PersetujuanC500Controller extends BaseController
                     $persetujuan_c500 -> status_dokumen_color = $this->getStatusColor($persetujuan_c500->file_status_c500);
                     $persetujuan_c500 -> status_dosen_color = $this->getStatusColor($persetujuan_c500->status_dosen);
 
-                }   
+                }
 
                 // Prepare data for view
                 $data = ['rs_persetujuan_500' => $rs_persetujuan_500, 'nama' => $nama];

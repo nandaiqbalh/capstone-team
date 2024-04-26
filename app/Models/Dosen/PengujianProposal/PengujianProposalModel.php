@@ -109,16 +109,23 @@ class PengujianProposalModel extends BaseModel
     }
     // get search
     public static function getDataSearch($no_kel)
-    {
-        return DB::table('kelompok as a')
-            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
-            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
-            ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
-            ->orderByDesc('a.id')
-            ->paginate(20)->withQueryString();
-    }
+{
+    return DB::table('kelompok as a')
+        ->select('a.*', 'b.nama as nama_topik', 'd.*', 'e.*')
+        ->join('topik as b', 'a.id_topik', 'b.id')
+        ->join('jadwal_sidang_proposal as d', 'a.id', 'd.id_kelompok')
+        ->join('ruang_sidangs as e', 'e.id', 'd.ruangan_id')
+        ->where(function ($query) use ($no_kel) {
+            $query->where('a.id_dosen_pembimbing_2', Auth::user()->user_id)
+                ->orWhere('a.id_dosen_penguji_1', Auth::user()->user_id)
+                ->orWhere('a.id_dosen_penguji_2', Auth::user()->user_id);
+        })
+        ->where('a.nomor_kelompok', 'like', '%' . $no_kel . '%') // Cari nomor_kelompok yang mengandung nilai $no_kel
+        ->orderBy('a.is_sidang_proposal', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
+        ->orderBy('d.waktu')
+        ->paginate(20);
+}
+
 
     // get data by id
     public static function getDataById($id)

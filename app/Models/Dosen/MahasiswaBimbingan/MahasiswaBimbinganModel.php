@@ -22,7 +22,7 @@ class MahasiswaBimbinganModel extends BaseModel
             ->leftJoin('siklus as s', 'a.id_siklus', '=', 's.id') // Melakukan join dengan tabel siklus
             ->where('a.id_dosen_pembimbing_1', $loggedInUserId)
             ->orWhere('a.id_dosen_pembimbing_2', $loggedInUserId)
-            ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari 0 ke 1
+            ->orderBy('km.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari 0 ke 1
             ->orderByDesc('a.id') // Urutkan secara descending berdasarkan id (opsional)
             ->paginate(20);
     }
@@ -37,7 +37,6 @@ class MahasiswaBimbinganModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->join('app_user as u', 'km.id_mahasiswa', 'u.user_id')
             ->where('u.user_name', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
             ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }
@@ -96,10 +95,11 @@ class MahasiswaBimbinganModel extends BaseModel
         $loggedInUserId = Auth::user()->user_id;
 
         return DB::table('kelompok_mhs as km')
-            ->select('a.*', 'b.nama as nama_topik', 'c.*', 'km.*')
+            ->select('a.*', 'b.nama as nama_topik', 'c.*', 'km.*', 's.*') // Menambahkan s.* untuk mendapatkan kolom dari tabel siklus
             ->join('kelompok as a', 'km.id_kelompok', '=', 'a.id')
             ->join('topik as b', 'a.id_topik', '=', 'b.id')
             ->join('app_user as c', 'km.id_mahasiswa', '=', 'c.user_id')
+            ->leftJoin('siklus as s', 'a.id_siklus', '=', 's.id') // Melakukan join dengan tabel siklus
             ->where('km.is_selesai', $status)
             ->where(function ($query) use ($loggedInUserId) {
                 $query->where('a.id_dosen_pembimbing_1', $loggedInUserId)

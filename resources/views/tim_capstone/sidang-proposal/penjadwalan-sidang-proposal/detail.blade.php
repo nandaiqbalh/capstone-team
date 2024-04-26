@@ -229,7 +229,7 @@
                                         name="waktu_selesai" required>
                                 @else
                                     <input value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
-                                        placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
+                                        placeholder="Atur waktu" id="waktu_selesai" type="date" class="form-control"
                                         name="waktu_selesai" required>
                                 @endif
 
@@ -266,7 +266,7 @@
                                 <input type="text" class="form-control" value="{{ $kelompok->file_name_c100 }}"
                                     readonly>
                                 <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
-                                    class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                    class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                             </div>
                         </div>
                     </div>

@@ -101,7 +101,7 @@
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status_expo == 'Kelompok Tidak Disetujui Expo!!')
+                                            @elseif($pendaftaran->status_expo == 'Kelompok Tidak Disetujui Expo!')
                                                 <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
@@ -119,21 +119,28 @@
 
                                         <td class="text-center">
 
-                                            @if ($pendaftaran->status_kelompok == 'Lulus Expo Project!')
-                                                <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
-                                                    class="btn btn-outline-danger btn-xs m-1 "
-                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
-                                                    Gagal</a>
-                                            @elseif($pendaftaran->status_kelompok == 'Gagal Expo Project!')
-                                                <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
-                                                    class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                            @if (
+                                                $pendaftaran->status_expo == 'Lulus Expo Project!' ||
+                                                    $pendaftaran->status_expo == 'Gagal Expo Project!' ||
+                                                    $pendaftaran->status_expo == 'Kelompok Disetujui Expo!')
+                                                @if ($pendaftaran->status_kelompok == 'Lulus Expo Project!')
+                                                    <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-danger btn-xs m-1 "
+                                                        onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
+                                                        Gagal</a>
+                                                @elseif($pendaftaran->status_kelompok == 'Gagal Expo Project!')
+                                                    <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                                @else
+                                                    <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-danger btn-xs m-1 "
+                                                        onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
+                                                        Gagal</a>
+                                                    <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                                @endif
                                             @else
-                                                <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
-                                                    class="btn btn-outline-danger btn-xs m-1 "
-                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
-                                                    Gagal</a>
-                                                <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
-                                                    class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                                -
                                             @endif
 
                                         </td>

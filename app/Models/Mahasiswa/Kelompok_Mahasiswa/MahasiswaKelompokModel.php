@@ -158,16 +158,20 @@ class MahasiswaKelompokModel extends BaseModel
       }
 
       public static function getDataMahasiswaAvailable()
-    {
-        return DB::table('app_user as a')
-        ->select('a.*', 'c.role_name')
-        ->join('app_role as c', 'a.role_id', 'c.role_id')
-        ->leftJoin('kelompok_mhs as km', 'a.user_id', 'km.id_mahasiswa')
-        ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
-        ->whereNull('km.id_mahasiswa') // Pastikan user_id tidak terdapat pada kelompok_mhs
-        ->orderBy('a.user_name') // Sort the result by user_name
-        ->get();
-    }
+      {
+          $loggedInUserId = Auth::user()->user_id;
+
+          return DB::table('app_user as a')
+              ->select('a.*', 'c.role_name')
+              ->join('app_role as c', 'a.role_id', 'c.role_id')
+              ->leftJoin('kelompok_mhs as km', 'a.user_id', 'km.id_mahasiswa')
+              ->where('a.role_id', '03') // Filter berdasarkan role_id di tabel app_user
+              ->whereNull('km.id_mahasiswa') // Pastikan user_id tidak terdapat pada kelompok_mhs
+              ->where('a.user_id', '!=', $loggedInUserId) // Filter agar tidak termasuk user yang sedang login
+              ->orderBy('a.user_name') // Sort the result by user_name
+              ->get();
+      }
+
       public static function getDataPendaftaranMhs($user_id)
       {
           return DB::table('kelompok_mhs')
@@ -178,7 +182,6 @@ class MahasiswaKelompokModel extends BaseModel
       public static function getSiklusAktif()
       {
           return DB::table('siklus')
-              ->where('status', 'aktif')
               ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
               ->first();
       }
@@ -186,7 +189,6 @@ class MahasiswaKelompokModel extends BaseModel
       public static function getPeriodePendaftaranSiklus()
       {
           return DB::table('siklus')
-              ->where('status', 'aktif')
               ->where('pendaftaran_mulai', '<', now())
               ->where('pendaftaran_selesai', '>', now())
               ->orderBy('id', 'desc') // Urutkan berdasarkan 'id' secara descending
@@ -197,7 +199,6 @@ class MahasiswaKelompokModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('id', $id_siklus)
-              ->where('status', 'aktif')
               ->first();
       }
 

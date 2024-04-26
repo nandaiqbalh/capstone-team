@@ -349,7 +349,7 @@ class SidangTAController extends BaseController
         $all_dosen_assigned = true;
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
-            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!") {
+            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!" && $anggota_kelompok->status_tugas_akhir != "Berkas TA Tidak Disetujui!") {
 
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu= SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
@@ -418,7 +418,7 @@ class SidangTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             // Check if the member is eligible for dosen update
-            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!") {
+            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!" && $anggota_kelompok->status_tugas_akhir != "Berkas TA Tidak Disetujui!") {
                 // Prepare update parameters including status_tugas_akhir
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu= SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
@@ -604,6 +604,24 @@ class SidangTAController extends BaseController
             'id_dosen_penguji_ta2' => 'required',
         ]);
 
+        $overlap = SidangTAModel::checkOverlap($request->waktu, $request->waktu_selesai, $request->id_ruangan, $request ->id_kelompok);
+
+        if ($overlap != null) {
+            session()->flash('danger', 'Ruangan tersebut sudah terjadwal pada waktu yang sama.');
+            return back()->withInput();
+        }
+
+        if (empty($request->id_dosen_penguji_ta1) || empty($request->id_dosen_penguji_ta2)) {
+            session()->flash('danger', 'Dosen penguji 1 dan penguji 2 harus dipilih.');
+            return back()->withInput();
+        }
+
+        // Validate start and end time
+        if ($request->waktu >= $request->waktu_selesai) {
+            session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
+            return back()->withInput();
+        }
+
         $id_mahasiswa = $request->id_mahasiswa;
 
         // Get anggota kelompok
@@ -643,6 +661,19 @@ class SidangTAController extends BaseController
                             $existingJadwal = SidangTAModel::getJadwalSidangTA($anggota_kelompok->id_mahasiswa);
 
                             if ($existingJadwal) {
+
+                                $overlapPenguji1 = SidangTAModel::checkOverlapPenguji1($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_ta1, $request->id_kelompok);
+                                if ($overlapPenguji1 != null) {
+                                    session()->flash('danger', 'Dosen Penguji 1 sudah terjadwal pada waktu yang sama.');
+                                    return back()->withInput();
+                                }
+
+                                $overlapPenguji2 = SidangTAModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_ta2, $request->id_kelompok);
+                                if ($overlapPenguji2 != null) {
+                                    session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
+                                    return back()->withInput();
+                                }
+
                                 // Update existing jadwal sidang TA
                                 $update = SidangTAModel::updateJadwalSidangTA($existingJadwal->id, $params);
                                 if ($update) {
@@ -651,24 +682,21 @@ class SidangTAController extends BaseController
                                     session()->flash('danger', 'Gagal memperbarui data.');
                                 }
                             } else {
-                                // Validate dosen penguji selections
-                                if (empty($request->id_dosen_penguji_ta1) || empty($request->id_dosen_penguji_ta2)) {
-                                    session()->flash('danger', 'Dosen penguji 1 dan penguji 2 harus dipilih.');
+
+                                // Validasi overlapping schedule
+
+                                $overlapPenguji1 = SidangTAModel::checkOverlapPenguji1($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_ta1, $request->id_kelompok);
+                                if ($overlapPenguji1 != null) {
+                                    session()->flash('danger', 'Dosen Penguji 1 sudah terjadwal pada waktu yang sama.');
                                     return back()->withInput();
                                 }
 
-                                // Validate overlapping schedule
-                                $overlap = SidangTAModel::checkOverlap($request->waktu, $request->waktu_selesai, $request->id_ruangan, $anggota_kelompok->id_kelompok);
-                                if ($overlap) {
-                                    session()->flash('danger', 'Ruangan tersebut sudah terjadwal pada waktu yang sama.');
+                                $overlapPenguji2 = SidangTAModel::checkOverlapPenguji2($request->waktu, $request->waktu_selesai, $request->id_dosen_penguji_ta2, $request->id_kelompok);
+                                if ($overlapPenguji2 != null) {
+                                    session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
                                     return back()->withInput();
                                 }
 
-                                // Validate start and end time
-                                if ($request->waktu >= $request->waktu_selesai) {
-                                    session()->flash('danger', 'Waktu mulai harus lebih awal dari waktu selesai.');
-                                    return back()->withInput();
-                                }
 
                                 // Insert new jadwal sidang TA
                                 $insert = SidangTAModel::insertJadwalSidangTA($params);

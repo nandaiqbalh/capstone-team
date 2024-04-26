@@ -270,27 +270,6 @@ class SidangTAModel extends BaseModel
         ->where('id', $id)
         ->update($params);
     }
-    public static function checkOverlap($waktuMulai, $waktuSelesai, $id_ruangan, $id_kelompok)
-    {
-        $isOverlap = DB::table('jadwal_sidang_ta as j')
-            ->join('kelompok as k', 'j.id_kelompok', '=', 'k.id')
-            ->where('j.id_ruangan', $id_ruangan)
-            ->where('k.id', '<>', $id_kelompok) // Tidak overlap jika id_kelompok sama
-            ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
-                $query->where(function ($subquery) use ($waktuMulai, $waktuSelesai) {
-                    $subquery->whereBetween('j.waktu', [$waktuMulai, $waktuSelesai])
-                             ->orWhereBetween('j.waktu_selesai', [$waktuMulai, $waktuSelesai]);
-                })
-                ->orWhere(function ($subquery) use ($waktuMulai, $waktuSelesai) {
-                    $subquery->where('j.waktu', '<', $waktuSelesai)
-                             ->where('j.waktu_selesai', '>', $waktuMulai);
-                });
-            })
-            ->exists();
-
-        return $isOverlap;
-    }
-
 
     public static function updateAllMahasiswaKelompok($id_kelompok, $params)
     {
@@ -315,5 +294,89 @@ class SidangTAModel extends BaseModel
             ->where('a.id_mahasiswa', $id_mahasiswa)
             ->get();
     }
+
+    public static function checkOverlap($waktuMulai, $waktuSelesai, $id_ruangan, $currentIdKelompok)
+    {
+        // Periksa apakah terdapat jadwal yang bertabrakan
+        $overlapRecord = DB::table('jadwal_sidang_ta')
+            ->where('id_ruangan', $id_ruangan)
+            ->where(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
+                $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                        ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai]);
+                })
+                ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
+                    $query->where('waktu', '<', $waktuMulai)
+                        ->where('waktu_selesai', '>', $waktuSelesai);
+                });
+            })
+            ->where('id_kelompok', '<>', $currentIdKelompok) // Exclude records with the same kelompok id
+            ->first(); // Retrieve the first matching record
+
+        return $overlapRecord;
+    }
+
+
+    public static function checkOverlapPembimbing1($waktuMulai, $waktuSelesai, $dosenPembimbing1Id)
+    {
+        return DB::table('jadwal_sidang_ta')
+            ->where(function ($query) use ($dosenPembimbing1Id) {
+                $query->where('id_dosen_penguji_ta1', $dosenPembimbing1Id)
+                    ->orWhere('id_dosen_penguji_ta2', $dosenPembimbing1Id);
+            })
+            ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                    ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                    ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                        $query->where('waktu', '<', $waktuMulai)
+                            ->where('waktu_selesai', '>', $waktuSelesai);
+                    });
+            })
+            ->first();
+    }
+
+    public static function checkOverlapPenguji1($waktuMulai, $waktuSelesai, $dosenPenguji1Id, $currentIdKelompok)
+    {
+        return DB::table('jadwal_sidang_ta')
+            ->where(function ($query) use ($dosenPenguji1Id) {
+                $query->where('id_dosen_penguji_ta1', $dosenPenguji1Id)
+                    ->orWhere('id_dosen_penguji_ta2', $dosenPenguji1Id);
+            })
+            ->where(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
+                $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                          ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                          ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                              $query->where('waktu', '<', $waktuMulai)
+                                    ->where('waktu_selesai', '>', $waktuSelesai);
+                          });
+                })
+                ->where('id_kelompok', '<>', $currentIdKelompok); // Exclude records with the same kelompok id
+            })
+            ->first();
+    }
+
+
+    public static function checkOverlapPenguji2($waktuMulai, $waktuSelesai, $dosenPenguji2Id, $currentIdKelompok)
+{
+    return DB::table('jadwal_sidang_ta')
+        ->where(function ($query) use ($dosenPenguji2Id) {
+            $query->where('id_dosen_penguji_ta1', $dosenPenguji2Id)
+                ->orWhere('id_dosen_penguji_ta2', $dosenPenguji2Id);
+        })
+        ->where(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
+            $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                      ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                      ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                          $query->where('waktu', '<', $waktuMulai)
+                                ->where('waktu_selesai', '>', $waktuSelesai);
+                      });
+            })
+            ->where('id_kelompok', '<>', $currentIdKelompok); // Exclude records with the same kelompok id
+        })
+        ->first();
+}
+
 
 }

@@ -82,7 +82,6 @@ class PengujiProposalModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-        ->where('status', 'aktif')
         ->get();
     }
 }

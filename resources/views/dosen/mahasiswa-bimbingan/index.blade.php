@@ -31,10 +31,7 @@
                                         value="search">
                                         <i class="bx bx-search-alt-2"></i>
                                     </button>
-                                    <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
-                                        value="reset">
-                                        <i class="bx bx-reset"></i>
-                                    </button>
+
                                 </div>
                             </div>
                         </form>
@@ -76,6 +73,7 @@
                                 <th>Status Mahasiswa</th>
                                 <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
+                                <th>Lulus</th>
                                 <th width="18%">Tindakan</th>
                             </tr>
                         </thead>
@@ -89,7 +87,13 @@
                                         </td>
                                         <td>{{ $mahasiswa->nama_siklus }}</td>
                                         <td>{{ $mahasiswa->jenis_dosen }}</td>
-
+                                        <td>
+                                            @if ($mahasiswa->is_selesai == 1)
+                                                <span style="color: #44B158">Lulus!</span>
+                                            @else
+                                                <span style="color: #FF0000">Belum Lulus!</span>
+                                            @endif
+                                        </td>
                                         <td class="text-center">
 
                                             <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
