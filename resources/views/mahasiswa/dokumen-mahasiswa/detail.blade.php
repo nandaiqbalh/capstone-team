@@ -94,7 +94,7 @@
                                                                 }
                                                             </script>
                                                             <a href="{{ url('/file/mahasiswa/laporan-ta') }}/{{ $file_mhs->file_name_laporan_ta }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -158,7 +158,7 @@
                                                                 }
                                                             </script>
                                                             <a href="{{ url('/file/mahasiswa/makalah') }}/{{ $file_mhs->file_name_makalah }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -226,7 +226,7 @@
                                                                                                                                                                                                                                                                                 }
                                                                                                                                                                                                                                                                             </script> -->
                                                             <a href="{{ url('/file/kelompok/c100') }}/{{ $file_mhs->file_name_c100 }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -268,7 +268,7 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <a href="{{ url('/file/kelompok/c200') }}/{{ $file_mhs->file_name_c200 }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -315,7 +315,7 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <a href="{{ url('/file/kelompok/c300') }}/{{ $file_mhs->file_name_c300 }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -357,7 +357,7 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <a href="{{ url('/file/kelompok/c400') }}/{{ $file_mhs->file_name_c400 }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
@@ -404,7 +404,7 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <a href="{{ url('/file/kelompok/c500') }}/{{ $file_mhs->file_name_c500 }}"
-                                                                class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                                                class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
                                                             <button type="submit"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Simpan</button>
