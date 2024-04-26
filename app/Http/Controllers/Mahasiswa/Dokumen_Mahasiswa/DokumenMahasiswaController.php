@@ -56,7 +56,7 @@ class DokumenMahasiswaController extends BaseController
             'makalah' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
 
-        $upload_path = '/file/mahasiswa/makalah';
+        $upload_path = '/../../file/mahasiswa/makalah';
 
         // Cek apakah file laporan_ta sudah diunggah sebelumnya
         $existingFile = DokumenMahasiswaModel::fileMHS($request->id_mahasiswa);
@@ -128,7 +128,7 @@ class DokumenMahasiswaController extends BaseController
             'laporan_ta' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
 
-        $upload_path = '/file/mahasiswa/laporan-ta';
+        $upload_path = '/../../file/mahasiswa/laporan-ta';
 
         // Cek apakah file laporan_ta diunggah
         if ($request->hasFile('laporan_ta')) {
@@ -202,7 +202,7 @@ class DokumenMahasiswaController extends BaseController
         ]);
 
         // upload path
-        $upload_path = '/file/kelompok/c100';
+        $upload_path = '/../../file/kelompok/c100';
         // UPLOAD FOTO
         if ($request->hasFile('c100')) {
 
@@ -291,7 +291,7 @@ class DokumenMahasiswaController extends BaseController
         $request->validate([
             'c200' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
-        $upload_path = '/file/kelompok/c200';
+        $upload_path = '/../../file/kelompok/c200';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
         $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
@@ -301,6 +301,7 @@ class DokumenMahasiswaController extends BaseController
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C100!');
             return redirect()->back()->withInput();
         }
+
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
@@ -371,7 +372,7 @@ class DokumenMahasiswaController extends BaseController
             'c300' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
 
-        $upload_path = '/file/kelompok/c300';
+        $upload_path = '/../../file/kelompok/c300';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
         $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
@@ -381,6 +382,7 @@ class DokumenMahasiswaController extends BaseController
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C200!');
             return redirect()->back()->withInput();
         }
+
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
@@ -449,7 +451,7 @@ class DokumenMahasiswaController extends BaseController
         $request->validate([
             'c400' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
-        $upload_path = '/file/kelompok/c400';
+        $upload_path = '/../../file/kelompok/c400';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
         $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);
@@ -459,6 +461,7 @@ class DokumenMahasiswaController extends BaseController
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C300!');
             return redirect()->back()->withInput();
         }
+
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project!');
@@ -529,7 +532,7 @@ class DokumenMahasiswaController extends BaseController
             'c500' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
         ]);
 
-        $upload_path = '/file/kelompok/c500';
+        $upload_path = '/../../file/kelompok/c500';
 
         $kelompok = MahasiswaKelompokModel::pengecekan_kelompok_mahasiswa(Auth::user()->user_id);
         $existingFile = DokumenMahasiswaModel::getKelompokFile($kelompok->id);

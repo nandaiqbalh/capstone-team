@@ -10,6 +10,7 @@
         <!-- notification -->
         @include('template.notification')
 
+
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -23,7 +24,7 @@
                 <div class="card-body">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="mb-3">
                                 <label>Nama Topik<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nama" value="{{ old('nama') }}"

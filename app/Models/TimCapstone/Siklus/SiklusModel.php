@@ -77,4 +77,9 @@ class SiklusModel extends BaseModel
     {
         return DB::table('kelompok_mhs')->where('id_siklus', $id_siklus)->delete();
     }
+
+    public static function getKelompokDiSiklusTerkait($id_siklus)
+    {
+        return DB::table('kelompok')->where('id_siklus', $id_siklus)->first();
+    }
 }

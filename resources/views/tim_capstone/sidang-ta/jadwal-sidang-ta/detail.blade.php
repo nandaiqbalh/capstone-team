@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -191,7 +191,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $mahasiswa->file_name_laporan_ta }}" readonly>
                                         <a href="{{ url('/file/mahasiswa/laporan-ta') }}/{{ $mahasiswa->file_name_laporan_ta }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $mahasiswa->file_name_makalah }}" readonly>
                                         <a href="{{ url('/file/mahasiswa/makalah') }}/{{ $mahasiswa->file_name_makalah }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>

@@ -25,7 +25,7 @@ class JadwalSidangProposalModel extends BaseModel
             ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
             ->orderByRaw("CASE WHEN a.waktu >= NOW() THEN 0 ELSE 1 END, a.waktu ASC")
             ->orderBy('a.waktu', 'asc')
-            ->where('b.status', 'aktif')
+
             ->paginate(20);
     }
     public static function filterSiklusKelompok($id_siklus){
@@ -39,7 +39,7 @@ class JadwalSidangProposalModel extends BaseModel
         ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
         ->orderBy('a.waktu', 'asc')
         ->where('c.id_siklus', $id_siklus)
-        ->where('b.status', 'aktif')
+
         ->paginate(20);
     }
 
@@ -47,7 +47,6 @@ class JadwalSidangProposalModel extends BaseModel
     public static function getSiklus()
     {
         return DB::table('siklus')
-            ->where('status','aktif')
             ->get();
     }
     public static function getKelompok()
@@ -56,7 +55,7 @@ class JadwalSidangProposalModel extends BaseModel
             ->select('a.*','c.id as id_prop')
             ->join('siklus as b','a.id_siklus','b.id')
             ->leftjoin('jadwal_sidang_proposal as c', 'a.id','c.id_kelompok' )
-            ->where('b.status', 'aktif')
+
             ->where('c.id',null)
             ->whereNotNull('a.nomor_kelompok')
             ->get();
@@ -135,7 +134,7 @@ class JadwalSidangProposalModel extends BaseModel
         ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_1', 'dp1.user_id')
         ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_2', 'dp2.user_id')
         ->orderBy('a.waktu', 'asc')
-        ->where('b.status', 'aktif')
+
         ->where('c.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
         ->paginate(20);
     }

@@ -5,50 +5,30 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\API\V1\Mahasiswa\Broadcast\ApiBroadcastController;
+use App\Http\Controllers\API\V1\Auth\ApiLoginController;
+use App\Http\Controllers\API\V1\Auth\ApiLogoutController;
+use App\Http\Controllers\API\V1\Auth\ResetPasswordController;
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+use App\Http\Controllers\API\V1\Mahasiswa\Beranda\ApiBerandaController;
 
-/**
- * API VERSION 1
- */
+use App\Http\Controllers\API\V1\Mahasiswa\Mahasiswa\ApiMahasiswaController;
+use App\Http\Controllers\API\V1\Mahasiswa\Dosen\ApiDosenController;
 
-use App\Http\Controllers\Api\V1\Mahasiswa\Broadcast\ApiBroadcastController;
-use App\Http\Controllers\Api\V1\Auth\ApiLoginController;
-use App\Http\Controllers\Api\V1\Auth\ApiLogoutController;
-use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\API\V1\Mahasiswa\Kelompok\ApiKelompokController;
+use App\Http\Controllers\API\V1\Mahasiswa\Siklus\ApiSiklusController;
+use App\Http\Controllers\API\V1\Mahasiswa\Topik\ApiTopikController;
 
-use App\Http\Controllers\Api\V1\Mahasiswa\Beranda\ApiBerandaController;
+use App\Http\Controllers\API\V1\Mahasiswa\Dokumen\ApiDokumenController;
+use App\Http\Controllers\API\V1\Mahasiswa\Dokumen\ApiDokumenCapstoneController;
 
-use App\Http\Controllers\Api\V1\Mahasiswa\Mahasiswa\ApiMahasiswaController;
-use App\Http\Controllers\Api\V1\Mahasiswa\Dosen\ApiDosenController;
+use App\Http\Controllers\API\V1\Mahasiswa\SidangProposal\ApiSidangProposalController;
+use App\Http\Controllers\API\V1\Mahasiswa\TugasAkhir\ApiTugasAkhirController;
 
-use App\Http\Controllers\Api\V1\Mahasiswa\Kelompok\ApiKelompokController;
-use App\Http\Controllers\Api\V1\Mahasiswa\Siklus\ApiSiklusController;
-use App\Http\Controllers\Api\V1\Mahasiswa\Topik\ApiTopikController;
-
-use App\Http\Controllers\Api\V1\Mahasiswa\Dokumen\ApiDokumenController;
-use App\Http\Controllers\Api\V1\Mahasiswa\Dokumen\ApiDokumenCapstoneController;
-
-use App\Http\Controllers\Api\V1\Mahasiswa\SidangProposal\ApiSidangProposalController;
-use App\Http\Controllers\Api\V1\Mahasiswa\TugasAkhir\ApiTugasAkhirController;
-
-use App\Http\Controllers\Api\V1\Mahasiswa\Expo\ApiExpoController;
-
+use App\Http\Controllers\API\V1\Mahasiswa\Expo\ApiExpoController;
 
 // profile
-use App\Http\Controllers\Api\V1\Mahasiswa\Profile\ApiProfileController;
+use App\Http\Controllers\API\V1\Mahasiswa\Profile\ApiProfileController;
 
 
 

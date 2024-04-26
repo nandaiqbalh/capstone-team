@@ -75,11 +75,10 @@
                                     name="tanggal_selesai" required>
                             </div>
                         </div>
-
                     </div>
-                    <div class="card-footer float-end">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
+                </div>
+                <div class="card-footer float-end">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>

@@ -10,13 +10,14 @@
         <!-- notification -->
         @include('template.notification')
 
+
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Ubah Dosen</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/dosen') }}" class="btn btn-danger btn-sm float-right"><i
-                            class="fas fa-chevron-left fa-sm"></i> Kembali</a>
+                     <a href="{{ url('/admin/dosen') }}" class="btn btn-danger btn-sm float-right"><i
+                                class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -29,6 +30,7 @@
                                 <label>Nama<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="nama" value="{{ $dosen->user_name }}"
                                     required>
+
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -56,7 +58,7 @@
                     </div>
 
                     <br>
-                    <button type="submit" id="submitButton" class="btn btn-primary">Simpan</button>
+                    <button type="submit" id="submitButton" class="btn btn-primary float-end">Simpan</button>
                 </form>
             </div>
         </div>

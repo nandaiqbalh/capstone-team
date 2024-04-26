@@ -102,7 +102,7 @@ class ApiDokumenController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/mahasiswa/makalah';
+                $upload_path = '/../../file/mahasiswa/makalah';
 
                 // Upload
                 if ($request->hasFile('makalah')) {
@@ -121,8 +121,8 @@ class ApiDokumenController extends Controller
                         $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
                         if ($existingFile->file_name_makalah) {
@@ -134,13 +134,13 @@ class ApiDokumenController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlMakalah = url($uploadPath . '/' . $newFileName);
+                            $urlMakalah = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_makalah' => $newFileName,
-                                'file_path_makalah' => $uploadPath,
+                                'file_path_makalah' => $upload_path,
                                 'file_status_mta' => 'Menunggu Persetujuan Makalah TA!',
                                 'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
                                 'file_status_mta_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
@@ -203,7 +203,7 @@ class ApiDokumenController extends Controller
                 }
 
                 // Upload path
-                $uploadPath = '/file/mahasiswa/laporan-ta';
+                $upload_path = '/../../file/mahasiswa/laporan-ta';
 
                 $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
                 // Check and delete the existing file
@@ -219,8 +219,8 @@ class ApiDokumenController extends Controller
                         $newFileName = 'laporan_ta-' . Str::slug($user ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
-                        if (!is_dir(public_path($uploadPath))) {
-                            mkdir(public_path($uploadPath), 0755, true);
+                        if (!is_dir(public_path($upload_path))) {
+                            mkdir(public_path($upload_path), 0755, true);
                         }
 
                         // Check and delete the existing file
@@ -235,13 +235,13 @@ class ApiDokumenController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($uploadPath), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $newFileName)) {
                             // Save the new file details in the database
-                            $urlDokumen = url($uploadPath . '/' . $newFileName);
+                            $urlDokumen = url($upload_path . '/' . $newFileName);
 
                             $params = [
                                 'file_name_laporan_ta' => $newFileName,
-                                'file_path_laporan_ta' => $uploadPath,
+                                'file_path_laporan_ta' => $upload_path,
                                 'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
                                 'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
                                 'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',

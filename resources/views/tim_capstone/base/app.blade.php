@@ -6,16 +6,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport"
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <meta name="author" content="Hermina">
-        <meta name="description" content="Bamasama">
-        <meta name="application-name" content="Bamasama">
-        <meta name="generator" content="Ports Abarobotics">
+        <meta name="author" content="Capstone TA Tekkom">
+        <meta name="description" content="Capstone TA Tekkom">
+        <meta name="application-name" content="Capstone TA Tekkom">
+        <meta name="generator" content="Teknik Komputer">
         <meta name="robots" content="noindex, nofollow">
         <meta property="og:type" content="website">
         <meta property="og:title" content="@yield('title')">
-        <meta property="og:description" content="Bamasama">
+        <meta property="og:description" content="Capstone TA Tekkom">
         <meta property="og:url" content="{{ url()->current() }}">
-        <meta property="og:site_name" content="Bamasama">
+        <meta property="og:site_name" content="Capstone TA Tekkom">
         <meta property="og:image" content="{{ asset('favicon.png') }}">
         <meta property="og:image:secure_url" content="{{ asset('favicon.png') }}">
         <link href="{{ asset('favicon.png') }}" rel="icon">
@@ -129,6 +129,23 @@
                 #custom-branch-title {
                     min-width: 200px;
                 }
+            }
+        </style>
+
+        <style>
+            .btn-primary:hover {
+                background-color: blue !important;
+                /* Ganti dengan warna yang diinginkan */
+                border-color: blue !important;
+            }
+
+            .btn-outline-primary:hover {
+                color: #ffffff !important;
+                /* Warna teks menjadi biru */
+                background-color: blue !important;
+                /* Warna latar belakang menjadi biru */
+                border-color: blue !important;
+                /* Warna border menjadi biru */
             }
         </style>
     </head>

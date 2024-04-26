@@ -29,7 +29,6 @@ class MahasiswaSidangProposalModel extends BaseModel
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')
         ->where('c.id', $idKelompok)
-        ->where('b.status', 'aktif')
         ->first();
     }
 
@@ -155,7 +154,6 @@ class MahasiswaSidangProposalModel extends BaseModel
       {
           return DB::table('siklus')
               ->where('id', $id_siklus)
-              ->where('status', 'aktif')
               ->first();
       }
 

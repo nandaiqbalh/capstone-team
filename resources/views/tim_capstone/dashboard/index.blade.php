@@ -4,7 +4,7 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Dasboard Tim Capstone
+    Beranda
 @endsection
 
 @section('content')
@@ -19,12 +19,20 @@
                         <div class="col-sm-7">
                             <div class="card-body">
                                 <h5 class="card-title text-primary">Halo, {{ Auth::user()->user_name }}👋</h5>
+                                @foreach ($rs_siklus as $key => $siklus)
+                                    <p style="display: inline-block; margin-right: 5px; color: #44B158"><b>{{$siklus->nama_siklus}}</b></p>
+                                    @if ($key != count($rs_siklus) - 1)
+                                        <span style="margin-right: 5px;">||</span>
+                                    @endif
+                                @endforeach
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <!-- Pengumuman -->
         <div class="card">
             <div class="d-flex align-items-end row">

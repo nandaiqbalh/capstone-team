@@ -21,7 +21,7 @@ class ValidasiKelompokModel extends BaseModel
             ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('c.status', 'aktif')
+
             ->where('a.nomor_kelompok', NULL)
             ->where('a.status_kelompok', "Menunggu Persetujuan Tim Capstone!")
             ->orWhere('a.status_kelompok', "Menunggu Persetujuan Anggota!")
@@ -67,7 +67,7 @@ class ValidasiKelompokModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
+
             ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }

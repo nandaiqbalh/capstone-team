@@ -1,12 +1,12 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Penetapan Penguji Proposal
+    Jadwal Sidang Proposal
 @endsection
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4">Penetapan Penguji Proposal</h5>
+        <h5 class="fw-bold py-3 mb-4">Jadwal Sidang Proposal</h5>
         <!-- notification -->
         @include('template.notification')
 
@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penjadwalan-sidang-proposal') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/jadwal-sidang-proposal') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">

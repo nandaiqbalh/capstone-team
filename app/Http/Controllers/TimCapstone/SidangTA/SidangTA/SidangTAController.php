@@ -206,7 +206,7 @@ class SidangTAController extends BaseController
     public function tolakMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Berkas TA Tidak Disetujui!'];
+        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui!'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = SidangTAModel::getDataMahasiswa($id);
@@ -215,8 +215,8 @@ class SidangTAController extends BaseController
             // Process
             if (SidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Berkas TA Tidak Disetujui!",
-                    'status_individu' => "Berkas TA Tidak Disetujui!",
+                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui!",
+                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui!",
                     'status_dosen_penguji_ta1' => NULL,
                     'status_dosen_penguji_ta2' => NULL,
                     'id_dosen_penguji_ta1' => NULL,
@@ -349,7 +349,7 @@ class SidangTAController extends BaseController
         $all_dosen_assigned = true;
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
-            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!" && $anggota_kelompok->status_tugas_akhir != "Berkas TA Tidak Disetujui!") {
+            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" && $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
 
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu= SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
@@ -418,7 +418,7 @@ class SidangTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             // Check if the member is eligible for dosen update
-            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Berkas TA!" && $anggota_kelompok->status_tugas_akhir != "Berkas TA Tidak Disetujui!") {
+            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" && $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
                 // Prepare update parameters including status_tugas_akhir
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu= SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);

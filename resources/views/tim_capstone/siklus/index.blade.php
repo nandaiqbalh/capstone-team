@@ -15,7 +15,6 @@
         <div class="card">
             <h5 class="card-header">Data Siklus</h5>
             <div class="card-body">
-                <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
                         <a href="{{ url('/admin/siklus/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
@@ -28,6 +27,7 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama Siklus</th>
+                                <th>Kode</th>
                                 <th>Pendaftaran Mulai</th>
                                 <th>Pendaftaran Selesai</th>
                                 <th>Batas Submit C100</th>
@@ -41,6 +41,7 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $dt_siklus->firstItem() }}.</td>
                                         <td>{{ $siklus->nama_siklus }}</td>
+                                        <td>{{ $siklus->kode_siklus }}</td>
                                         <td>{{ \Carbon\Carbon::parse($siklus->pendaftaran_mulai)->format('d-m-Y') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($siklus->pendaftaran_selesai)->format('d-m-Y') }}</td>
                                         <td>{{ \Carbon\Carbon::parse($siklus->batas_submit_c100)->format('d-m-Y') }}</td>
@@ -53,8 +54,8 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}"
-                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
+                                            {{-- <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}"
+                                                class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
                                             <a href="{{ url('/admin/siklus/edit') }}/{{ $siklus->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"

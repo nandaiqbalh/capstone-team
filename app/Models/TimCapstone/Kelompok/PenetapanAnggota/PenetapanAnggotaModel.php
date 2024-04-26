@@ -26,7 +26,6 @@ class PenetapanAnggotaModel extends BaseModel
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->join('siklus as d','b.id_siklus','d.id')
-            ->where('d.status','aktif')
             ->where('b.id_kelompok', NULL)
             ->orderby('b.created_date', 'asc')
             ->paginate(20);
@@ -76,7 +75,6 @@ class PenetapanAnggotaModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-            ->where('status', 'aktif')
             ->orderBy('id', 'desc') // Urutkan berdasarkan id descending
             ->first();
     }
@@ -99,7 +97,6 @@ class PenetapanAnggotaModel extends BaseModel
             ->join('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
             ->leftjoin('topik as c', 'b.id_topik_mhs', 'c.id')
             ->join('siklus as d','b.id_siklus','d.id')
-            ->where('d.status','aktif')
             ->where('b.id_kelompok', NULL)
             ->orderby('b.created_date', 'asc')
             ->where('a.user_name', 'LIKE', "%" . $search . "%")

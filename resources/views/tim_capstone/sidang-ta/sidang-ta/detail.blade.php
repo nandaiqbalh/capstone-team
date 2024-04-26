@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Pendaftar Sidang Tugas Akhir</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -76,7 +76,7 @@
                                                 style="text-decoration: underline; color: blue;" target="_blank">Link
                                                 berkas</a></td>
                                         <td class="text-center">
-                                            @if ($pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Berkas TA!')
+                                            @if ($pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Pendaftaran Sidang!')
                                                 <a href="{{ url('/admin/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->user_name }} ?')">
                                                     Terima</a>
@@ -89,7 +89,7 @@
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->user_name }} ?')">
                                                     Tolak</a>
-                                            @elseif($pendaftaran->status_tugas_akhir == 'Berkas TA Tidak Disetujui!')
+                                            @elseif($pendaftaran->status_tugas_akhir == 'Pendaftaran Sidang Tidak Disetujui!')
                                                 <a href="{{ url('/admin/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->user_name }} ?')">
                                                     Terima</a>
@@ -119,8 +119,8 @@
                                         @endif
 
                                         @if (
-                                            $pendaftaran->status_tugas_akhir == 'Berkas TA Tidak Disetujui!' ||
-                                                $pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Berkas TA!')
+                                            $pendaftaran->status_tugas_akhir == 'Pendaftaran Sidang Tidak Disetujui!' ||
+                                                $pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Pendaftaran Sidang!')
                                             <td>-</td>
                                         @else
                                             @if (

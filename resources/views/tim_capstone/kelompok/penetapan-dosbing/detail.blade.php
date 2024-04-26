@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Penetapan Dosbing</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penetapan-dosbing') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/penetapan-dosbing') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -75,7 +75,7 @@
                     </form>
                 </div>
                 <hr>
-
+                
                 <h6>List Mahasiswa</h6>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -110,7 +110,7 @@
                 <br>
                 @if (count($rs_dosbing) >= 2)
                 @else
-                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
                         data-bs-target="#Dosen">
                         Tambah Dosen Pembimbing
                     </button>
@@ -191,10 +191,8 @@
                             <option value="" disabled selected>-- Pilih Dosen--</option>
                             <!-- Options will be populated dynamically -->
                         </select>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary float-end">Simpan</button>
                     </form>
                 </div>
 

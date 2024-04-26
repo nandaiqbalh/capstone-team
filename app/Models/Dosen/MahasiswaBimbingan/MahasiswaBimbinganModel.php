@@ -37,7 +37,6 @@ class MahasiswaBimbinganModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->join('app_user as u', 'km.id_mahasiswa', 'u.user_id')
             ->where('u.user_name', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
             ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }

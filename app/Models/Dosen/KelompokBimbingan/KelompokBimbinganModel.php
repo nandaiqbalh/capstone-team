@@ -35,7 +35,6 @@ class KelompokBimbinganModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.nomor_kelompok', 'LIKE', "%" . $no_kel . "%")
-            ->where('c.status', 'aktif')
             ->orderByDesc('a.id')
             ->paginate(20)->withQueryString();
     }

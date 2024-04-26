@@ -248,7 +248,7 @@ class BaseController extends Controller
                 'Makalah TA Tidak Disetujui!',
                 'Belum Mendaftar Sidang TA!',
                 'Gagal Expo Project!',
-                'Berkas TA Tidak Disetujui!'
+                'Pendaftaran Sidang Tidak Disetujui!'
             ],
             'orange' => [
                 'Menunggu Penetapan Kelompok!',
@@ -282,7 +282,7 @@ class BaseController extends Controller
                 'Menunggu Persetujuan Penguji!',
                 'Menunggu Persetujuan Pembimbing!',
                 'Menunggu Penjadwalan Sidang TA!',
-                'Menunggu Persetujuan Berkas TA!'
+                'Menunggu Persetujuan Pendaftaran Sidang!'
             ],
             'ijo' => [
                 'Menyetujui Kelompok!',
@@ -307,7 +307,7 @@ class BaseController extends Controller
                 'Penguji TA Setuju!',
                 'Telah Dijadwalkan Sidang TA!',
                 'Lulus Sidang TA!',
-                'Berkas TA Disetujui!'
+                'Pendaftaran Sidang Tidak Disetujui!'
             ]
         ];
 

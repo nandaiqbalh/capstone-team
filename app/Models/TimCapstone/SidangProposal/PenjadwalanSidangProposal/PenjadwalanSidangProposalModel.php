@@ -22,7 +22,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus', )
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('c.status', 'aktif')
+
             ->where('a.file_status_c100', "C100 Telah Disetujui!")
             ->where('a.status_sidang_proposal', '!=', NULL)
             ->where('a.status_sidang_proposal', '!=', "Dijadwalkan Sidang Proposal!")
@@ -42,7 +42,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
             ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
             ->leftJoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
-            ->where('c.status', 'aktif')
+
             ->where('a.file_status_c100', "C100 Telah Disetujui!")
             ->where('a.status_sidang_proposal', '!=', NULL)
             ->where('a.nomor_kelompok', '!=', NULL)
@@ -101,7 +101,7 @@ class PenjadwalanSidangProposalModel extends BaseModel
         ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
         ->leftJoin('topik as b', 'a.id_topik', '=', 'b.id')
         ->join('siklus as c', 'a.id_siklus', '=', 'c.id')
-        ->where('c.status', 'aktif')
+
         ->where('a.file_status_c100', 'C100 Telah Disetujui!') // Memperbaiki kondisi string
         ->whereNotNull('a.status_sidang_proposal') // Menggunakan whereNotNull untuk null check
         ->whereNotNull('a.nomor_kelompok') // Menggunakan whereNotNull untuk null check

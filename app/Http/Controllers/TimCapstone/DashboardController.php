@@ -18,13 +18,13 @@ class DashboardController extends BaseController
     {
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithPagination();
-
-
+        $rs_siklus = Dashmo::getSiklusAktif();
+    
         // data
 
         $data = [
+            'rs_siklus' => $rs_siklus,
             'rs_broadcast' => $rs_broadcast,
-
         ];
 
         //view
@@ -34,7 +34,8 @@ class DashboardController extends BaseController
     public function indexMahasiswa()
     {
         // get data with pagination
-          $rs_broadcast = Dashmo::getDataWithPagination();
+        $rs_broadcast = Dashmo::getDataWithPagination();
+        $rs_siklus = Dashmo::getSiklusAktif();
 
         $user = Auth::user();
         $kelompok = Dashmo::pengecekan_kelompok_mahasiswa($user->user_id);
@@ -105,7 +106,9 @@ class DashboardController extends BaseController
                 'rs_broadcast' => $rs_broadcast,
                 'sidang_proposal' => $sidang_proposal,
                 'expo' => $expo,
-                'sidang_ta' => $sidang_ta
+                'sidang_ta' => $sidang_ta,
+                'rs_siklus' => $rs_siklus,
+
             ];
 
 
@@ -116,7 +119,9 @@ class DashboardController extends BaseController
                     'rs_broadcast' => $rs_broadcast,
                     'sidang_proposal' => "Kelompok Anda belum valid!",
                     'expo' => "Kelompok Anda belum valid!",
-                    'sidang_ta' => "Anda belum menyelesaikan capstone!"
+                    'sidang_ta' => "Anda belum menyelesaikan capstone!",
+                    'rs_siklus' => $rs_siklus,
+
                 ];
 
             } else {
@@ -124,7 +129,9 @@ class DashboardController extends BaseController
                     'rs_broadcast' => $rs_broadcast,
                     'sidang_proposal' => "Anda belum mendaftar capstone!",
                     'expo' => "Anda belum mendaftar capstone!",
-                    'sidang_ta' => "Anda belum menyelesaikan capstone!"
+                    'sidang_ta' => "Anda belum menyelesaikan capstone!",
+                    'rs_siklus' => $rs_siklus,
+
                 ];
             }
         }
@@ -142,6 +149,7 @@ class DashboardController extends BaseController
     {
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithPagination();
+        $rs_siklus = Dashmo::getSiklusAktif();
 
         $rs_kelompok = Dashmo::getDataBalancingDosbingKelompok();
         $rs_mahasiswa = Dashmo::getDataBalancingDosbingMahasiswa();
@@ -185,6 +193,7 @@ class DashboardController extends BaseController
             'rs_jumlah_sidang_proposal' => $rs_jumlah_sidang_proposal,
             'rs_pengujian_ta' => $rs_pengujian_ta,
             'rs_jumlah_sidang_ta' => $rs_jumlah_sidang_ta,
+            'rs_siklus' => $rs_siklus,
 
         ];
 

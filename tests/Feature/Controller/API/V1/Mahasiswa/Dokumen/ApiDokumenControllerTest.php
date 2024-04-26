@@ -79,7 +79,7 @@ class ApiDokumenControllerTest extends TestCase
     {
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120120015',
+            'nomor_induk' => '21120120130053',
             'password' => 'mahasiswa123',
         ];
 

@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Bimbingan Saya</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/dosen/kelompok-bimbingan') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/dosen/kelompok-bimbingan') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -252,7 +252,7 @@
                                         <input type="text" class="form-control" value="{{ $kelompok->file_name_c100 }}"
                                             readonly>
                                         <a href="{{ url('/file/kelompok/c100') }}/{{ $kelompok->file_name_c100 }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +272,7 @@
                                         <input type="text" class="form-control" value="{{ $kelompok->file_name_c200 }}"
                                             readonly>
                                         <a href="{{ url('/file/kelompok/c200') }}/{{ $kelompok->file_name_c200 }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +295,7 @@
                                         <input type="text" class="form-control" value="{{ $kelompok->file_name_c300 }}"
                                             readonly>
                                         <a href="{{ url('/file/kelompok/c300') }}/{{ $kelompok->file_name_c300 }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>
@@ -315,7 +315,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $kelompok->file_name_c400 }}" readonly>
                                         <a href="{{ url('/file/kelompok/c400') }}/{{ $kelompok->file_name_c400 }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +338,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $kelompok->file_name_c500 }}" readonly>
                                         <a href="{{ url('/file/kelompok/c500') }}/{{ $kelompok->file_name_c500 }}"
-                                            class="btn btn-primary float-end m-1 btn-sm">Download</a>
+                                            class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                     </div>
                                 </div>
                             </div>

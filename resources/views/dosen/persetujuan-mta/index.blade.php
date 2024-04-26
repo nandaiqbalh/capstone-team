@@ -81,7 +81,7 @@
                                                         Tolak</a>
                                                 @elseif($kelompok->file_status_mta_dosbing1 == 'Menunggu Persetujuan Makalah TA!')
                                                     <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-primary btn-xs m-1"
+                                                        class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                     <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
@@ -90,7 +90,7 @@
                                                         Tolak</a>
                                                 @elseif($kelompok->file_status_mta_dosbing1 == 'Makalah TA Tidak Disetujui Dosbing 1!')
                                                     <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-primary btn-xs m-1"
+                                                        class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
@@ -105,7 +105,7 @@
                                                         Tolak</a>
                                                 @elseif($kelompok->file_status_mta_dosbing2 == 'Menunggu Persetujuan Makalah TA!')
                                                     <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-primary btn-xs m-1"
+                                                        class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                     <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
@@ -114,7 +114,7 @@
                                                         Tolak</a>
                                                 @elseif($kelompok->file_status_mta_dosbing2 == 'Makalah TA Tidak Disetujui Dosbing 2!')
                                                     <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-primary btn-xs m-1"
+                                                        class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else

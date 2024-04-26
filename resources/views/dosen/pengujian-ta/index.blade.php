@@ -89,7 +89,7 @@
                                                     Tolak</a>
                                             @elseif($mahasiswa->status_dosen == 'Menunggu Persetujuan Penguji!')
                                                 <a href="{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}"
-                                                    class="btn btn-outline-primary btn-xs m-1"
+                                                    class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}')">
                                                     Terima</a>
                                                 <a href="{{ url('/dosen/pengujian-ta/tolak') }}/{{ $mahasiswa->id_mahasiswa }}"
@@ -98,7 +98,7 @@
                                                     Tolak</a>
                                             @elseif($mahasiswa->status_dosen == 'Penguji Tidak Setuju!' || $mahasiswa->status_dosen == 'Pembimbing Tidak Setuju!')
                                                 <a href="{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}"
-                                                    class="btn btn-outline-primary btn-xs m-1"
+                                                    class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}')">
                                                     Terima</a>
                                             @else

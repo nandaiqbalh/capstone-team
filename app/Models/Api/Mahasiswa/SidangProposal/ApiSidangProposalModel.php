@@ -16,7 +16,6 @@ class ApiSidangProposalModel extends ApiBaseModel
         ->leftJoin('kelompok as c', 'a.id_kelompok', '=', 'c.id')
         ->leftJoin('ruang_sidangs as d', 'a.ruangan_id', '=', 'd.id')
         ->where('c.id', $idKelompok)
-        ->where('b.status', 'aktif')
         ->first();
     }
 
@@ -40,7 +39,6 @@ class ApiSidangProposalModel extends ApiBaseModel
     public static function checkApakahSiklusMasihAktif($id_siklus)
     {
         return DB::table('siklus')
-            ->where('status','aktif')
             ->where('id', $id_siklus)
             ->first();
     }

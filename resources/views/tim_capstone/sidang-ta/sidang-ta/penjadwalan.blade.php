@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-secondary btn-xs float-right"><i
-                            class="bx bx-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -133,7 +133,7 @@
                 <br>
                 @if (count($rs_penguji_ta) >= 2)
                 @else
-                    <button type="button" class="btn btn-primary btn-xs float-end" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-info btn-sm float-end" data-bs-toggle="modal"
                         data-bs-target="#Dosen">
                         Tambah Dosen Penguji TA
                     </button>
@@ -245,11 +245,11 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-sm btn-primary float-end">Simpan</button>
+                    <button type="submit" class="btn btn btn-primary float-end">Simpan</button>
                 </form>
 
                 <br>
-
+                <br>
                 <h6 class="mb-0">List Dosen Pembimbing</h6>
                 <br>
                 <div class="table-responsive text-nowrap">
@@ -321,10 +321,8 @@
                             <option value="" disabled selected>-- Pilih Dosen--</option>
                             <!-- Options will be populated dynamically -->
                         </select>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary float-end">Simpan</button>
                     </form>
                 </div>
 

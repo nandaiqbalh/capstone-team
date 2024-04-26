@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class AccountController extends BaseController
 {
     // path store in database
-    protected $upload_path = '/img/user/';
+    protected $upload_path = '/../../img/user/';
 
     /**
      * Display a listing of the resource.
