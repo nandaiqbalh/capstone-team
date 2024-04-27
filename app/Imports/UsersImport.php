@@ -3,13 +3,13 @@
 namespace App\Imports;
 
 use App\Models\User;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Models\Superadmin\Settings\Accounts;
-
 
 class UsersImport implements ToModel, WithHeadingRow
 {
@@ -24,11 +24,16 @@ class UsersImport implements ToModel, WithHeadingRow
     {
         // Validate the nomor_induk field for uniqueness against existing database records
         $validator = Validator::make($row, [
-            'nomor_induk' => 'required|unique:app_user,nomor_induk', // Assuming 'nomor_induk' is the column name for nomor_induk in database table
+            'nomor_induk' => [
+                'required',
+                Rule::unique('app_user')->where(function ($query) use ($row) {
+                    return $query->where('nomor_induk', $row['nomor_induk']);
+                }),
+            ],
             'role_id' => 'required',
             'user_name' => 'required',
             'user_password' => 'required',
-            'angkatan' => 'required',
+            'angkatan' => 'required_if:role_id,03',
             'jenis_kelamin' => 'required',
         ]);
 
@@ -58,7 +63,7 @@ class UsersImport implements ToModel, WithHeadingRow
             'user_name' => $row['user_name'],
             'user_password' => Hash::make($row['user_password']),
             'nomor_induk' => $row['nomor_induk'],
-            'angkatan' => $row['angkatan'],
+            'angkatan' => $row['angkatan'] ?? null,
             'jenis_kelamin' => $row['jenis_kelamin'],
             'created_by' => Auth::user()->user_id,
             'created_date' => now()

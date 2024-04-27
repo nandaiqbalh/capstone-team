@@ -70,41 +70,62 @@ class AccountsController extends BaseController
             return redirect('/admin/settings/accounts');
         }
     }
+
     public function import(Request $request)
     {
-        // Validasi file
-        $validator = Validator::make($request->all(), [
-            'user_file' => 'required|file|mimes:xls,xlsx'
-        ]);
+        try {
+            // Validasi file
+            $validator = Validator::make($request->all(), [
+                'user_file' => 'required|file|mimes:xls,xlsx'
+            ]);
 
-        // Cek apakah validasi gagal
-        if ($validator->fails()) {
-            // Flash message untuk file tidak valid
-            session()->flash('danger', 'File harus berupa file Excel (xls, xlsx).');
-            return redirect('/admin/settings/accounts/add');
-        }
+            // Cek apakah validasi gagal
+            if ($validator->fails()) {
+                // Flash message untuk file tidak valid
+                session()->flash('danger', 'File harus berupa file Excel (xls, xlsx).');
+                return redirect('/admin/settings/accounts/add');
+            }
 
-        // Inisialisasi array untuk menyimpan failed rows
-        $failedRows = [];
+            // Inisialisasi array untuk menyimpan failed rows
+            $failedRows = [];
 
-        // Import data
-        $import = Excel::import(new UsersImport($failedRows), $request->file('user_file'));
+            // Import data
+            $import = Excel::import(new UsersImport($failedRows), $request->file('user_file'));
 
-        // Check if import was successful
-        if ($import) {
-            // Flash message untuk import berhasil
-            session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/settings/accounts');
-        } else {
+            // Check if import was successful
+            if ($import) {
+                if (!empty($failedRows)) {
+                    return redirect('/admin/settings/accounts')->withInput()->with('failedRows', $failedRows);
+
+                } else {
+                    session()->flash('success', 'Data berhasil disimpan.');
+                    return redirect('/admin/settings/accounts');
+                }
+
+            } else {
+                // Flash message untuk import gagal
+                session()->flash('danger', 'Data gagal disimpan.');
+
+                // Pass failed rows data to the view
+                return redirect('/admin/settings/accounts/add')->withInput()->with('failedRows', $failedRows);
+            }
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            // Tangani pengecualian ValidationException
+            $failures = $e->failures();
+
+            $failedRows = [];
+            foreach ($failures as $failure) {
+                // Menambahkan username dari baris yang gagal ke array failedRows
+                $failedRows[] = $failure->values()['user_name']; // Atur kunci kolom yang sesuai
+            }
+
             // Flash message untuk import gagal
-            session()->flash('danger', 'Data gagal disimpan.');
+            session()->flash('danger', 'Data gagal diimpor. Pastikan semua baris data valid.');
 
-            // Pass failed rows data to the view
+            // Redirect ke halaman tambah dengan informasi baris yang gagal
             return redirect('/admin/settings/accounts/add')->withInput()->with('failedRows', $failedRows);
         }
     }
-
-
 
     /**
      * Show the form for creating a new resource.
