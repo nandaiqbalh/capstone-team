@@ -627,7 +627,7 @@ class SidangTAController extends BaseController
         $rs_anggota_kelompok = SidangTAModel::getAnggotaKelompok($request->id_kelompok);
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
-            if (($anggota_kelompok->is_mendaftar_sidang == 1 && $anggota_kelompok->status_tugas_akhir == "Menunggu Penjadwalan Sidang TA!") || $anggota_kelompok->status_tugas_akhir == "Menunggu Persetujuan Penguji!"|| $anggota_kelompok->status_tugas_akhir == "Telah Dijadwalkan Sidang TA!") {
+            if (($anggota_kelompok->is_mendaftar_sidang == 1 && $anggota_kelompok->status_tugas_akhir == "Menunggu Penjadwalan Sidang TA!") || $anggota_kelompok->status_tugas_akhir == "Menunggu Persetujuan Penguji!" || $anggota_kelompok->status_tugas_akhir == "Telah Dijadwalkan Sidang TA!"  || $anggota_kelompok->status_tugas_akhir == "Gagal Sidang TA!") {
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu = SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
 
@@ -702,7 +702,11 @@ class SidangTAController extends BaseController
                                     session()->flash('danger', 'Dosen Penguji 2 sudah terjadwal pada waktu yang sama.');
                                     return back()->withInput();
                                 }
-
+                                $overlapPembimbing1 = SidangTAModel::checkOverlapPembimbing1($request->waktu, $request->waktu_selesai, $request->id_dosen_pembimbing_1, $request->id_kelompok);
+                                if ($overlapPembimbing1 != null) {
+                                    session()->flash('danger', 'Dosen Pembimbing 1 sudah terjadwal pada waktu yang sama.');
+                                    return back()->withInput();
+                                }
 
                                 // Insert new jadwal sidang TA
                                 $insert = SidangTAModel::insertJadwalSidangTA($params);

@@ -172,37 +172,18 @@ class ExpoProjectController extends BaseController
         $pendaftaranExpo = ExpoProjectModel::getKelompokMendaftar($id);
 
         if ($pendaftaranExpo != null) {
-            // Delete pendaftaran expo
-            if (ExpoProjectModel::deletePendaftaranExpo($id)) {
-                // Process delete expo project
-                if (ExpoProjectModel::deleteExpoProject($id)) {
-                    // Update status kelompok
-                    $paramKelompok = ['status_kelompok' => "C500 Telah Disetujui!", 'status_expo' => NULL];
-                    if (ExpoProjectModel::updateKelompok($pendaftaranExpo->id_kelompok, $paramKelompok)) {
-                        // Flash message for success
-                        session()->flash('success', 'Data berhasil dihapus.');
-                    } else {
-                        // Flash message for failure
-                        session()->flash('danger', 'Gagal memperbarui status kelompok.');
-                    }
-                } else {
-                    // Flash message for failure
-                    session()->flash('danger', 'Gagal menghapus data proyek expo.');
-                }
-            } else {
-                // Flash message for failure
-                session()->flash('danger', 'Gagal menghapus pendaftaran expo.');
-            }
+            session()->flash('danger', 'Gagal! Terdapat kelompok yang mendaftar pada expo terkait!');
+
         } else {
-            // Directly delete expo project
             if (ExpoProjectModel::deleteExpoProject($id)) {
-                // Flash message for success
+                // Update status kelompok
                 session()->flash('success', 'Data berhasil dihapus.');
             } else {
                 // Flash message for failure
-                session()->flash('danger', 'Gagal menghapus data proyek expo.');
+                session()->flash('danger', 'Gagal menghapus data expo.');
             }
         }
+
 
         return redirect('/admin/expo-project');
 
@@ -372,7 +353,7 @@ class ExpoProjectController extends BaseController
                 'status_kelompok' => 'Gagal Expo Project!',
                 'status_expo' => 'Gagal Expo Project!',
                 'is_lulus_expo' => '0',
-
+                'is_selesai' => '0',
             ];
 
             $updateKelompok = ExpoProjectModel::updateKelompok($dataKelompok -> id, $paramKelompok);

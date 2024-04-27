@@ -55,17 +55,28 @@ class MahasiswaTugasAkhirController extends BaseController
 
             $showButton = true;
 
-            if ($statusPendaftaran != null) {
-                $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
-                $latest_sidang = MahasiswaTugasAkhirModel::getLatestPeriode();
-
-                if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
-                    $showButton = true;
-                } else {
-                    $showButton = false;
-                }
-            } else {
+            if ($data_mahasiswa -> status_tugas_akhir == "Gagal Sidang TA!") {
+                $showButton = true;
                 $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+
+                $jadwal_sidang = null;
+            } else {
+                if ($statusPendaftaran != null) {
+                    $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
+                    $latest_sidang = MahasiswaTugasAkhirModel::getLatestPeriode();
+
+                    if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
+                        if ($data_mahasiswa-> status_tugas_akhir == "Lulus Sidang TA!") {
+                            $showButton = false;
+                        } else {
+                            $showButton = true;
+                        }
+                    } else {
+                        $showButton = false;
+                    }
+                } else {
+                    $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+                }
             }
 
             if ($jadwal_sidang == null ) {
@@ -176,7 +187,9 @@ class MahasiswaTugasAkhirController extends BaseController
             return redirect()->back()->with('danger', 'Lengkapi terlebih dahulu makalah TA sebelum mendaftar sidang Tugas Akhir.');
         }
 
-        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+        $statusesAllowed = ["Laporan TA Telah Disetujui!", "Final Laporan TA Telah Disetujui!"];
+
+        if (!in_array($existingFile->file_status_lta, $statusesAllowed)) {
             return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
         }
 

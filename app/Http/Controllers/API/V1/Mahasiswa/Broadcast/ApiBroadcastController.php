@@ -49,7 +49,7 @@ class ApiBroadcastController extends Controller
 
             return response()->json($response);
         } catch (\Exception $e) {
-            $response = $this->failureResponse('Error mendapatkan data.');
+            $response = $this->failureResponse('Mohon periksa kembali koneksi internet Anda!');
 
             return response()->json($response);
         }
@@ -99,7 +99,7 @@ class ApiBroadcastController extends Controller
 
             return response()->json($response);
         } catch (\Exception $e) {
-            $response = $this->failureResponse('Error mendapatkan data.');
+            $response = $this->failureResponse('Mohon periksa kembali koneksi Internet Anda!');
 
             return response()->json($response);
         }
@@ -116,12 +116,12 @@ class ApiBroadcastController extends Controller
 
                 $response = $this->successResponse('Berhasil mendapatkan data.', ['broadcast' => $broadcast]);
             } else {
-                $response = $this->failureResponse('Error mendapatkan data.');
+                $response = $this->failureResponse('Mohon periksa kembali koneksi Internet Anda!');
             }
 
             return response()->json($response);
         } catch (\Exception $e) {
-            $response = $this->failureResponse('Error mendapatkan data.');
+            $response = $this->failureResponse('Mohon periksa kembali koneksi Internet Anda!');
 
             return response()->json($response);
         }

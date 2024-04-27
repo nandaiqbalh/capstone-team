@@ -33,6 +33,8 @@ class KelompokBimbinganController extends BaseController
             }
             $bimbingan -> status_dosen_color = $this->getStatusColor($bimbingan->status_dosen);
             $bimbingan -> status_kelompok_color = $this->getStatusColor($bimbingan->status_kelompok);
+
+
         }
         // data
         $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya];
@@ -84,7 +86,8 @@ class KelompokBimbinganController extends BaseController
       $kelompok -> status_c300_color = $this->getStatusColor($kelompok->file_status_c300);
       $kelompok -> status_c400_color = $this->getStatusColor($kelompok->file_status_c400);
       $kelompok -> status_c500_color = $this->getStatusColor($kelompok->file_status_c500);
-
+      $kelompok -> status_sempro_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+      $kelompok -> status_expo_color = $this->getStatusColor($kelompok->status_expo);
 
         // data
         $data = [
@@ -277,7 +280,7 @@ class KelompokBimbinganController extends BaseController
             }
             // data
             $data = ['rs_bimbingan_saya' => $rs_bimbingan_saya, 'status' => $status];
-            
+
             // view
             return view('dosen.kelompok-bimbingan.index', $data);
         } else {

@@ -239,14 +239,28 @@ class ApiDokumenController extends Controller
                             // Save the new file details in the database
                             $urlDokumen = url($upload_path . '/' . $newFileName);
 
-                            $params = [
-                                'file_name_laporan_ta' => $newFileName,
-                                'file_path_laporan_ta' => $upload_path,
-                                'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
-                                'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
-                                'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
-                                'status_individu' => 'Menunggu Persetujuan Laporan TA!',
-                            ];
+                            $isMahasiswaSidangTA = ApiDokumenModel::isMahasiswaSidangTA($existingFile->id_kel_mhs);
+
+                            if ($isMahasiswaSidangTA) {
+                                $params = [
+                                    'file_name_laporan_ta' => $new_file_name,
+                                    'file_path_laporan_ta' => $upload_path,
+                                    'file_status_lta' => 'Menunggu Persetujuan Final Laporan TA!',
+                                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Final Laporan TA!',
+                                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Final Laporan TA!',
+                                    'status_individu' => 'Menunggu Persetujuan Final Laporan TA!',
+                                ];
+                            } else {
+                                $params = [
+                                    'file_name_laporan_ta' => $new_file_name,
+                                    'file_path_laporan_ta' => $upload_path,
+                                    'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
+                                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
+                                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
+                                    'status_individu' => 'Menunggu Persetujuan Laporan TA!',
+                                ];
+
+                            }
 
                             $uploadFile = ApiDokumenModel::uploadFileMHS($user->user_id, $params);
 

@@ -166,12 +166,19 @@ class JadwalSidangTAController extends BaseController
             $paramKelompokMhs = [
                 'status_tugas_akhir' => 'Gagal Sidang TA!',
                 'status_individu' => 'Gagal Sidang TA!',
+                'is_mendaftar_sidang' => '0',
             ];
 
-            JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
-            session()->flash('success', 'Data berhasil diperbaharui!');
-            return redirect('/admin/jadwal-sidang-ta');
+            $update = JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
+
+            if ($update) {
+                session()->flash('success', 'Data berhasil diperbaharui!');
+                return redirect('/admin/jadwal-sidang-ta');
+            } else {
+                session()->flash('danger', 'Data tidak ditemukan.');
+                return redirect('/admin/jadwal-sidang-ta');
+            }
 
         } else {
             // flash message

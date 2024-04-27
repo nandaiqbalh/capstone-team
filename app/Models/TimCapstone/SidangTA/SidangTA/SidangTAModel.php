@@ -317,7 +317,7 @@ class SidangTAModel extends BaseModel
     }
 
 
-    public static function checkOverlapPembimbing1($waktuMulai, $waktuSelesai, $dosenPembimbing1Id)
+    public static function checkOverlapPembimbing1($waktuMulai, $waktuSelesai, $dosenPembimbing1Id, $currentIdKelompok)
     {
         return DB::table('jadwal_sidang_ta')
             ->where(function ($query) use ($dosenPembimbing1Id) {

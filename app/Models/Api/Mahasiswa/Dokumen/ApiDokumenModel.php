@@ -41,12 +41,11 @@ class ApiDokumenModel extends ApiBaseModel
         return false;
     }
 
-    public static function isMahasiswaSidangTA($id_mahasiswa)
+    public static function isMahasiswaSidangTA($id_kelompok_mhs)
     {
         $jadwal_sidang = DB::table('jadwal_sidang_ta as a')
                             ->select('a.*')
-                            ->join('kelompok_mhs as b', 'a.id_mahasiswa', 'b.id_mahasiswa')
-                            ->where('b.id_mahasiswa', $id_mahasiswa)
+                            ->where('id_kelompok_mhs', $id_kelompok_mhs)
                             ->first();
 
         if ($jadwal_sidang) {
@@ -57,6 +56,7 @@ class ApiDokumenModel extends ApiBaseModel
         // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
         return false;
     }
+
 
     public static function getKelompokFile($id_kelompok)
     {

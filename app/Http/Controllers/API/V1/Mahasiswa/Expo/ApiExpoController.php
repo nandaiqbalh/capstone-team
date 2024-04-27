@@ -24,17 +24,23 @@ class ApiExpoController extends Controller
                     $cekExpo = ApiExpoModel::cekExpo($user->user_id);
 
                     $showButton = true;
-                    if ($cekExpo != null) {
-                        $rs_expo = ApiExpoModel::getExpoById($cekExpo->id_expo);
-                        $latest_expo = ApiExpoModel::getLatestExpo();
-
-                        if ($rs_expo ->id == $latest_expo ->id && $rs_expo -> tanggal_selesai > now() ) {
-                            $showButton = true;
-                        } else {
-                            $showButton = false;
-                        }
-                    } else {
+                    if ($kelompok -> status_expo == "Gagal Expo Project!") {
+                        $showButton = true;
                         $rs_expo = ApiExpoModel::getDataExpo();
+
+                    } else {
+                        if ($cekExpo != null) {
+                            $rs_expo = ApiExpoModel::getExpoById($cekExpo->id_expo);
+                            $latest_expo = ApiExpoModel::getLatestExpo();
+
+                            if ($rs_expo ->id == $latest_expo ->id && $rs_expo -> tanggal_selesai > now() ) {
+                                $showButton = true;
+                            } else {
+                                $showButton = false;
+                            }
+                        } else {
+                            $rs_expo = ApiExpoModel::getDataExpo();
+                        }
                     }
 
                     if ($this->validateExpoData($rs_expo)) {
@@ -147,7 +153,9 @@ class ApiExpoController extends Controller
                         $kelompokParams = [
                             'link_berkas_expo' => $request->link_berkas_expo,
                             'status_kelompok' => "Menunggu Persetujuan Expo!",
-                            'status_expo' => "Menunggu Persetujuan Expo!"
+                            'status_expo' => "Menunggu Persetujuan Expo!",
+                            'is_selesai' => '0',
+                            'is_lulus_expo' => '0',
 
                         ];
 
