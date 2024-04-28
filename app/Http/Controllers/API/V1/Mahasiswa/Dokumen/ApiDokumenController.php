@@ -118,7 +118,7 @@ class ApiDokumenController extends Controller
                         $file = $request->file('makalah');
 
                         // Generate a unique file name
-                        $newFileName = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $new_file_name = 'makalah-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
@@ -134,12 +134,12 @@ class ApiDokumenController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($upload_path), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $new_file_name)) {
                             // Save the new file details in the database
-                            $urlMakalah = url($upload_path . '/' . $newFileName);
+                            $urlMakalah = url($upload_path . '/' . $new_file_name);
 
                             $params = [
-                                'file_name_makalah' => $newFileName,
+                                'file_name_makalah' => $new_file_name,
                                 'file_path_makalah' => $upload_path,
                                 'file_status_mta' => 'Menunggu Persetujuan Makalah TA!',
                                 'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
@@ -216,7 +216,7 @@ class ApiDokumenController extends Controller
                         $file = $request->file('laporan_ta');
 
                         // Generate a unique file name
-                        $newFileName = 'laporan_ta-' . Str::slug($user ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $new_file_name = 'laporan_ta-' . Str::slug($user ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
@@ -235,9 +235,9 @@ class ApiDokumenController extends Controller
                         }
 
                         // Move the uploaded file to the specified path
-                        if ($file->move(public_path($upload_path), $newFileName)) {
+                        if ($file->move(public_path($upload_path), $new_file_name)) {
                             // Save the new file details in the database
-                            $urlDokumen = url($upload_path . '/' . $newFileName);
+                            $urlDokumen = url($upload_path . '/' . $new_file_name);
 
                             $isMahasiswaSidangTA = ApiDokumenModel::isMahasiswaSidangTA($existingFile->id_kel_mhs);
 

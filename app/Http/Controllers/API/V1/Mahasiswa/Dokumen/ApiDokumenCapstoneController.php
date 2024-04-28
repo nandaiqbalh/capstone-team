@@ -73,8 +73,6 @@ class ApiDokumenCapstoneController extends Controller
                             if (file_exists($filePath) && !unlink($filePath)) {
                                 return $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
-                        } else {
-                            return $response = $this->failureResponse('Gagal! Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path
@@ -202,8 +200,6 @@ class ApiDokumenCapstoneController extends Controller
                             if (file_exists($filePath) && !unlink($filePath)) {
                                 return $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
-                        } else {
-                            return $response = $this->failureResponse('Gagal! Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path
@@ -309,8 +305,6 @@ class ApiDokumenCapstoneController extends Controller
                             if (file_exists($filePath) && !unlink($filePath)) {
                                 return $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
-                        } else {
-                            return $response = $this->failureResponse('Gagal! Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path
@@ -416,9 +410,6 @@ class ApiDokumenCapstoneController extends Controller
                             if (file_exists($filePath) && !unlink($filePath)) {
                                 return $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
-                        } else {
-                            return $response = $this->failureResponse('Gagal! Kelompok tidak valid!');
-
                         }
 
                         // Move the uploaded file to the specified path
@@ -525,8 +516,6 @@ class ApiDokumenCapstoneController extends Controller
                             if (file_exists($filePath) && !unlink($filePath)) {
                                 return $response = $this->failureResponse('Gagal menghapus dokumen lama!');
                             }
-                        } else {
-                            return $response = $this->failureResponse('Gagal! Kelompok tidak valid!');
                         }
 
                         // Move the uploaded file to the specified path

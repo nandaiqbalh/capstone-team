@@ -37,29 +37,29 @@ class ApiTugasAkhirController extends Controller
 
                     $showButton = true;
 
-                    if ($rsSidang -> status_tugas_akhir == "Gagal Sidang TA!") {
+                    if ($statusPendaftaran != null) {
+                        $periodeAvailable = ApiTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
+                    } else {
+                        $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
+                    }
+
+                    if ($periodeAvailable->id == ApiTugasAkhirModel::getLatestPeriode()->id && $periodeAvailable->tanggal_selesai > now()) {
+                        if ($rsSidang != null && $rsSidang->status_tugas_akhir == "Lulus Sidang TA!") {
+                            $showButton = false;
+                        } else {
+                            $showButton = true;
+                        }
+                    } else {
+                        $showButton = false;
+                    }
+
+                    if ($rsSidang != null && $rsSidang->status_tugas_akhir == "Gagal Sidang TA!") {
                         $showButton = true;
                         $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
-
-                        $jadwal_sidang = null;
-                    } else {
-                        if ($statusPendaftaran != null) {
-                            $periodeAvailable = ApiTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
-                            $latest_sidang = ApiTugasAkhirModel::getLatestPeriode();
-
-                            if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
-                                if ($rsSidang-> status_tugas_akhir == "Lulus Sidang TA!") {
-                                    $showButton = false;
-                                } else {
-                                    $showButton = true;
-                                }
-                            } else {
-                                $showButton = false;
-                            }
-                        } else {
-                            $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
-                        }
+                        $rsSidang = null;
                     }
+
+
 
 
                     if ($kelompok -> nomor_kelompok == null) {
