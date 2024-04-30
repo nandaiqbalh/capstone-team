@@ -384,6 +384,7 @@ Route::middleware(['auth', 'role:04'])->group(function () {
 
      // beranda
      Route::get('dosen/beranda', [DashboardController::class, 'indexDosen']);
+     Route::get('dosen/beranda/filter-siklus', [DashboardController::class, 'filterSiklusByDosen']);
 
      //halaman dosen
      Route::get('/dosen/kelompok-bimbingan', [KelompokBimbinganController::class, 'index']);

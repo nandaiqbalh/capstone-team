@@ -20,8 +20,14 @@ class DashboardModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-            ->where('siklus.status', 'aktif')
             ->get();
+    }
+
+     public static function getSiklusById($id_siklus)
+    {
+        return DB::table('siklus')
+            ->where('id', $id_siklus)
+            ->first();
     }
 
     public static function getDataWithPagination()
@@ -119,6 +125,32 @@ class DashboardModel extends BaseModel
            ->first();
    }
 
+   public static function filterSiklusDataBalancingDosbingKelompok($id_siklus)
+{
+    $loggedInUserId = Auth::user()->user_id;
+
+    return DB::table('app_user')
+        ->leftJoin('kelompok', function ($join) use ($loggedInUserId, $id_siklus) {
+            $join->on(function ($query) use ($loggedInUserId) {
+                $query->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+            })
+            ->where('kelompok.id_siklus', '=', $id_siklus); // Filter berdasarkan id_siklus yang diberikan pengguna
+        })
+        ->where('app_user.user_id', $loggedInUserId) // Filter berdasarkan user_id yang sedang login
+        ->where('app_user.role_id', '04') // Menggunakan string tanpa tanda petik karena operator adalah string
+        ->select(
+            'app_user.user_id',
+            'app_user.user_name',
+            DB::raw('SUM(CASE WHEN kelompok.is_selesai = 0 THEN 1 ELSE 0 END) AS jumlah_kelompok_aktif_dibimbing'),
+            DB::raw('SUM(CASE WHEN kelompok.is_selesai = 1 THEN 1 ELSE 0 END) AS jumlah_kelompok_tidak_aktif_dibimbing'),
+            DB::raw('COUNT(kelompok.id) AS jumlah_total_kelompok_dibimbing')
+        )
+        ->groupBy('app_user.user_id', 'app_user.user_name')
+        ->orderBy('jumlah_kelompok_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
+        ->first();
+   }
+
    public static function getDataBalancingDosbingMahasiswa()
    {
         $loggedInUserId = Auth::user()->user_id;
@@ -142,6 +174,32 @@ class DashboardModel extends BaseModel
            ->groupBy('app_user.user_id', 'app_user.user_name')
            ->first();
    }
+
+   public static function filterSiklusBalancingDosbingMahasiswa($id_siklus)
+{
+    $loggedInUserId = Auth::user()->user_id;
+
+    return DB::table('app_user')
+        ->leftJoin('kelompok', function ($join) use ($loggedInUserId) {
+            $join->on('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_1')
+                ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_pembimbing_2');
+        })
+        ->leftJoin('kelompok_mhs', 'kelompok.id', '=', 'kelompok_mhs.id_kelompok')
+        ->where('app_user.user_id', $loggedInUserId) // Filter hanya data terkait dengan user yang sedang login
+        ->where('app_user.role_id', '04') // Menambahkan kondisi role_id = '04'
+        ->where('kelompok.id_siklus', $id_siklus) // Menambahkan kondisi filter berdasarkan id_siklus
+        ->select(
+            'app_user.user_id',
+            'app_user.user_name',
+            DB::raw('SUM(CASE WHEN kelompok_mhs.is_selesai = 0 THEN 1 ELSE 0 END) AS jumlah_mahasiswa_aktif_dibimbing'),
+            DB::raw('SUM(CASE WHEN kelompok_mhs.is_selesai = 1 THEN 1 ELSE 0 END) AS jumlah_mahasiswa_tidak_aktif_dibimbing'),
+            DB::raw('COUNT(DISTINCT kelompok_mhs.id_mahasiswa) AS jumlah_total_mahasiswa_dibimbing')
+        )
+        ->orderBy('jumlah_mahasiswa_aktif_dibimbing') // Mengurutkan berdasarkan jumlah mahasiswa aktif yang belum selesai paling sedikit
+        ->groupBy('app_user.user_id', 'app_user.user_name')
+        ->first();
+}
+
 
    public static function getJadwalSidangProposalTerdekat()
    {
@@ -204,6 +262,31 @@ class DashboardModel extends BaseModel
             ->first();
     }
 
+    public static function filterSIklusBalancingPengujiProposal($id_siklus)
+    {
+        $loggedInUserId = Auth::user()->user_id;
+
+        return DB::table('app_user')
+            ->leftJoin('kelompok', function ($join) use ($loggedInUserId) {
+                $join->on('app_user.user_id', '=', 'kelompok.id_dosen_penguji_1')
+                    ->orOn('app_user.user_id', '=', 'kelompok.id_dosen_penguji_2');
+            })
+            ->where('app_user.user_id', $loggedInUserId) // Filter hanya data terkait dengan user yang sedang login
+            ->where('app_user.role_id', '04') // Menambahkan kondisi role_id = '04'
+            ->where('kelompok.id_siklus', $id_siklus) // Menambahkan kondisi role_id = '04'
+            ->select(
+                'app_user.user_id',
+                'app_user.user_name',
+                DB::raw('SUM(CASE WHEN kelompok.is_sidang_proposal = 0 THEN 1 ELSE 0 END) AS jumlah_kelompok_aktif_dibimbing'),
+                DB::raw('SUM(CASE WHEN kelompok.is_sidang_proposal = 1 THEN 1 ELSE 0 END) AS jumlah_kelompok_tidak_aktif_dibimbing'),
+                DB::raw('COUNT(DISTINCT kelompok.id) AS jumlah_total_kelompok_dibimbing')
+            )
+            ->orderBy('jumlah_kelompok_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
+            ->groupBy('app_user.user_id', 'app_user.user_name')
+            ->first();
+    }
+
+
     public static function getDataBalancingPengujiTA()
     {
         $loggedInUserId = Auth::user()->user_id;
@@ -226,6 +309,32 @@ class DashboardModel extends BaseModel
             ->groupBy('app_user.user_id', 'app_user.user_name')
             ->first();
     }
+
+    public static function filterSiklusBalancingPengujiTA($id_siklus)
+{
+    $loggedInUserId = Auth::user()->user_id;
+
+    return DB::table('app_user')
+        ->leftJoin('kelompok_mhs', function ($join) use ($loggedInUserId) {
+            $join->on('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta1')
+                ->orOn('app_user.user_id', '=', 'kelompok_mhs.id_dosen_penguji_ta2');
+        })
+        ->leftJoin('kelompok', 'kelompok_mhs.id_kelompok', '=', 'kelompok.id')
+        ->where('app_user.user_id', $loggedInUserId) // Filter hanya data terkait dengan user yang sedang login
+        ->where('app_user.role_id', '04') // Menambahkan kondisi role_id = '04'
+        ->where('kelompok.id_siklus', $id_siklus) // Menambahkan kondisi filter berdasarkan id_siklus
+        ->select(
+            'app_user.user_id',
+            'app_user.user_name',
+            DB::raw('SUM(CASE WHEN kelompok_mhs.is_selesai = 0 THEN 1 ELSE 0 END) AS jumlah_mhs_aktif_dibimbing'),
+            DB::raw('SUM(CASE WHEN kelompok_mhs.is_selesai = 1 THEN 1 ELSE 0 END) AS jumlah_mhs_tidak_aktif_dibimbing'),
+            DB::raw('COUNT(DISTINCT kelompok_mhs.id) AS jumlah_total_mhs_dibimbing')
+        )
+        ->orderBy('jumlah_mhs_aktif_dibimbing') // Mengurutkan berdasarkan jumlah kelompok aktif yang belum selesai paling sedikit
+        ->groupBy('app_user.user_id', 'app_user.user_name')
+        ->first();
+}
+
 
 
 }

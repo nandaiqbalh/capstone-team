@@ -19,7 +19,7 @@ class DashboardController extends BaseController
         // get data with pagination
         $rs_broadcast = Dashmo::getDataWithPagination();
         $rs_siklus = Dashmo::getSiklusAktif();
-    
+
         // data
 
         $data = [
@@ -199,5 +199,68 @@ class DashboardController extends BaseController
 
         //view
         return view('dosen.dashboard-dosen.index', $data);
+    }
+
+    public function filterSiklusByDosen(Request $request)
+    {
+        // data request
+        $id_siklus = $request->id_siklus;
+
+        // new search or reset
+        if ($request->action == 'filter') {
+             // get data with pagination
+            $rs_broadcast = Dashmo::getDataWithPagination();
+            $rs_siklus = Dashmo::getSiklusAktif();
+            $siklus = Dashmo::getSiklusById($id_siklus);
+
+            $rs_kelompok = Dashmo::filterSiklusDataBalancingDosbingKelompok($id_siklus);
+            $rs_mahasiswa = Dashmo::filterSiklusBalancingDosbingMahasiswa($id_siklus);
+            $rs_pengujian_proposal = Dashmo::getJadwalSidangProposalTerdekat();
+            $rs_pengujian_ta = Dashmo::getJadwalSidangTATerdekat();
+
+            if ($rs_pengujian_proposal != null) {
+                $waktuSidang = strtotime($rs_pengujian_proposal->waktu);
+
+                $rs_pengujian_proposal->hari_sidang = strftime('%A', $waktuSidang);
+                $rs_pengujian_proposal->hari_sidang = $this->convertDayToIndonesian($rs_pengujian_proposal->hari_sidang);
+                $rs_pengujian_proposal->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                $rs_pengujian_proposal->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                $waktuSelesai = strtotime($rs_pengujian_proposal->waktu_selesai);
+                $rs_pengujian_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
+            }
+
+            if ($rs_pengujian_ta != null) {
+                $waktuSidang = strtotime($rs_pengujian_ta->waktu);
+
+                $rs_pengujian_ta->hari_sidang = strftime('%A', $waktuSidang);
+                $rs_pengujian_ta->hari_sidang = $this->convertDayToIndonesian($rs_pengujian_ta->hari_sidang);
+                $rs_pengujian_ta->tanggal_sidang = date('d-m-Y', $waktuSidang);
+                $rs_pengujian_ta->waktu_sidang = date('H:i:s', $waktuSidang);
+
+                $waktuSelesai = strtotime($rs_pengujian_ta->waktu_selesai);
+                $rs_pengujian_ta->waktu_selesai = date('H:i:s', $waktuSelesai);
+            }
+
+            $rs_jumlah_sidang_proposal = Dashmo::filterSiklusBalancingPengujiProposal($id_siklus);
+            $rs_jumlah_sidang_ta = Dashmo::filterSiklusBalancingPengujiTA($id_siklus);
+
+            // data
+            $data = [
+                'rs_broadcast' => $rs_broadcast,
+                'rs_kelompok' => $rs_kelompok,
+                'rs_mahasiswa' => $rs_mahasiswa,
+                'rs_pengujian_proposal' => $rs_pengujian_proposal,
+                'rs_jumlah_sidang_proposal' => $rs_jumlah_sidang_proposal,
+                'rs_pengujian_ta' => $rs_pengujian_ta,
+                'rs_jumlah_sidang_ta' => $rs_jumlah_sidang_ta,
+                'rs_siklus' => $rs_siklus,
+                'siklus' => $siklus,
+
+            ];
+            return view('dosen.dashboard-dosen.index', $data);
+        } else {
+            return view('dosen.dashboard-dosen.index', $data);
+        }
     }
 }
