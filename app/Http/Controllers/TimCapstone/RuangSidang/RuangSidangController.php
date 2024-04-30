@@ -75,7 +75,7 @@ class RuangSidangController extends BaseController
        } else {
            // flash message
            session()->flash('danger', 'Data gagal disimpan.');
-           return redirect('/tim-capstone/settings/contoh-halaman/add')->withInput();
+           return redirect('/tim-capstone/ruangan/add')->withInput();
        }
     }
 

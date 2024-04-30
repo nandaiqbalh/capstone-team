@@ -31,6 +31,24 @@ class DashboardController extends BaseController
         return view('tim_capstone.dashboard.index', $data);
     }
 
+    public function indexTimCapstone()
+    {
+        // get data with pagination
+        $rs_broadcast = Dashmo::getDataWithPagination();
+        $rs_siklus = Dashmo::getSiklusAktif();
+
+        // data
+
+        $data = [
+            'rs_siklus' => $rs_siklus,
+            'rs_broadcast' => $rs_broadcast,
+        ];
+
+        //view
+        return view('tim_capstone.dashboard-tim-capstone.index', $data);
+    }
+
+
     public function indexMahasiswa()
     {
         // get data with pagination

@@ -72,7 +72,7 @@ class TopikController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/tim-capstone/settings/contoh-halaman/add')->withInput();
+            return redirect('/tim-capstone/topik/add')->withInput();
         }
     }
 
@@ -171,21 +171,5 @@ class TopikController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
-    {
-        // data request
-        $nama = $request->nama;
 
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_ch =TopikModel::getDataSearch($nama);
-            // data
-            $data = ['rs_ch' => $rs_ch, 'nama' => $nama];
-            // view
-            return view('tim_capstone.settings.contoh-halaman.index', $data);
-        } else {
-            return redirect('/tim-capstone/settings/contoh-halaman');
-        }
-    }
 }

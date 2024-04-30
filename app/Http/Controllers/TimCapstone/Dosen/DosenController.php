@@ -270,7 +270,7 @@ class DosenController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/tim-capstone/settings/contoh-halaman');
+            return redirect('/tim-capstone/dosen');
         }
     }
 

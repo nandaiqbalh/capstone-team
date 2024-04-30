@@ -67,7 +67,7 @@ class PeminatanController extends BaseController
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/tim-capstone/settings/contoh-halaman/add')->withInput();
+            return redirect('/tim-capstone/peminatan/add')->withInput();
         }
     }
 
@@ -166,22 +166,4 @@ class PeminatanController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
-    {
-
-        // data request
-        $nama_peminatan = $request->nama_peminatan;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_ch =PeminatanModel::getDataSearch($nama_peminatan);
-            // data
-            $data = ['rs_ch' => $rs_ch, 'nama_peminatan' => $nama_peminatan];
-            // view
-            return view('tim_capstone.settings.contoh-halaman.index', $data);
-        } else {
-            return redirect('/tim-capstone/settings/contoh-halaman');
-        }
-    }
 }

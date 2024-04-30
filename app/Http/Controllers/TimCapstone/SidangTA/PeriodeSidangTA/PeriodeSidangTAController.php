@@ -367,23 +367,6 @@ class PeriodeSidangTAController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
-    {
-        // data request
-        $nama_periode = $request->nama_periode;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_ch =PeriodeSidangTAMOdel::getDataSearch($nama);
-            // data
-            $data = ['rs_ch' => $rs_ch, 'nama_periode' => $nama_periode];
-            // view
-            return view('tim_capstone.settings.contoh-halaman.index', $data);
-        } else {
-            return redirect('/tim-capstone/settings/contoh-halaman');
-        }
-    }
 
     public function addDosenKelompok(Request $request)
     {

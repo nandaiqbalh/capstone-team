@@ -136,8 +136,8 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
  Route::middleware(['auth', 'role:02'])->group(function () {
 
     // beranda
-    Route::get('tim-capstone/beranda', [DashboardController::class, 'indexDosen']);
-    Route::get('tim-capstone/beranda/filter-siklus', [DashboardController::class, 'filterSiklusByDosen']);
+    Route::get('tim-capstone/beranda', [DashboardController::class, 'indexTimCapstone']);
+    Route::get('tim-capstone/beranda/filter-siklus', [DashboardController::class, 'filterSiklusByTimCapstone']);
 
      //mahasiswa
      Route::get('/tim-capstone/mahasiswa', [MahasiswaController::class, 'index']);
