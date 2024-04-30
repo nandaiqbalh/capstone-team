@@ -63,11 +63,11 @@ class PeminatanController extends BaseController
         if ($insert_peminatan) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/peminatan');
+            return redirect('/tim-capstone/peminatan');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/contoh-halaman/add')->withInput();
+            return redirect('/tim-capstone/settings/contoh-halaman/add')->withInput();
         }
     }
 
@@ -86,7 +86,7 @@ class PeminatanController extends BaseController
         if (empty($peminatan)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/peminatan');
+            return redirect('/tim-capstone/peminatan');
         }
 
         // data
@@ -122,11 +122,11 @@ class PeminatanController extends BaseController
         if (PeminatanModel::update($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/peminatan');
+            return redirect('/tim-capstone/peminatan');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/peminatan' . $request->id);
+            return redirect('/tim-capstone/peminatan' . $request->id);
         }
     }
 
@@ -147,16 +147,16 @@ class PeminatanController extends BaseController
             if (PeminatanModel::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/peminatan');
+                return redirect('/tim-capstone/peminatan');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/peminatan');
+                return redirect('/tim-capstone/peminatan');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/peminatan');
+            return redirect('/tim-capstone/peminatan');
         }
     }
 
@@ -181,7 +181,7 @@ class PeminatanController extends BaseController
             // view
             return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/tim-capstone/settings/contoh-halaman');
         }
     }
 }

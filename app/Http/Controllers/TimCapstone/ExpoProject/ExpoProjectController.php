@@ -64,14 +64,14 @@ class ExpoProjectController extends BaseController
         if ($tanggalMulai >= $tanggalSelesai) {
             // Flash message untuk kesalahan
             session()->flash('danger', 'Tanggal mulai harus lebih awal dari tanggal selesai.');
-            return redirect('/admin/expo-project/add')->withInput();
+            return redirect('/tim-capstone/expo-project/add')->withInput();
         }
 
         // Memeriksa apakah tanggal mulai sebelum waktu event
         if ($tanggalSelesai >= $waktuEvent) {
             // Flash message untuk kesalahan
             session()->flash('danger', 'Tanggal selesai harus sebelum waktu expo.');
-            return redirect('/admin/expo-project/add')->withInput();
+            return redirect('/tim-capstone/expo-project/add')->withInput();
         }
 
         // Data valid, lanjutkan menyimpan
@@ -91,11 +91,11 @@ class ExpoProjectController extends BaseController
         if ($insert) {
             // Flash message untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/expo-project');
+            return redirect('/tim-capstone/expo-project');
         } else {
             // Flash message untuk kegagalan
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/expo-project/add')->withInput();
+            return redirect('/tim-capstone/expo-project/add')->withInput();
         }
     }
 
@@ -109,7 +109,7 @@ class ExpoProjectController extends BaseController
          if (empty($expo)) {
              // flash message
              session()->flash('danger', 'Data tidak ditemukan.');
-             return redirect('/admin/expo-project');
+             return redirect('/tim-capstone/expo-project');
          }
 
          // data
@@ -133,14 +133,14 @@ class ExpoProjectController extends BaseController
         if ($tanggalMulai >= $tanggalSelesai) {
             // Flash message untuk kesalahan
             session()->flash('danger', 'Tanggal mulai harus lebih awal dari tanggal selesai.');
-            return redirect('/admin/expo-project/edit/' . $request->id)->withInput();
+            return redirect('/tim-capstone/expo-project/edit/' . $request->id)->withInput();
         }
 
         // Memeriksa apakah tanggal mulai sebelum waktu event
         if ($tanggalSelesai >= $waktuEvent) {
             // Flash message untuk kesalahan
             session()->flash('danger', 'Tanggal selesai harus sebelum waktu expo.');
-            return redirect('/admin/expo-project/edit/' . $request->id)->withInput();
+            return redirect('/tim-capstone/expo-project/edit/' . $request->id)->withInput();
         }
 
         // Data valid, lanjutkan menyimpan
@@ -159,11 +159,11 @@ class ExpoProjectController extends BaseController
         if (ExpoProjectModel::updateExpoProject($request->id, $params)) {
             // Flash message untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/expo-project');
+            return redirect('/tim-capstone/expo-project');
         } else {
             // Flash message untuk kegagalan
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/expo-project/edit/' . $request->id)->withInput();
+            return redirect('/tim-capstone/expo-project/edit/' . $request->id)->withInput();
         }
     }
 
@@ -185,7 +185,7 @@ class ExpoProjectController extends BaseController
         }
 
 
-        return redirect('/admin/expo-project');
+        return redirect('/tim-capstone/expo-project');
 
     }
 
@@ -208,7 +208,7 @@ class ExpoProjectController extends BaseController
         if (empty($expo_project)) {
             // Flash message
             session()->flash('danger', 'Belum ada kelompok yang mendaftar!');
-            return redirect('/admin/expo-project');
+            return redirect('/tim-capstone/expo-project');
         }
 
         $rs_kel_expo = ExpoProjectModel::getExpoDaftar($id);

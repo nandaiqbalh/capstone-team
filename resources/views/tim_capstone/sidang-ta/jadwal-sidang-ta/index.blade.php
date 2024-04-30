@@ -18,7 +18,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/jadwal-sidang-ta/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/tim-capstone/jadwal-sidang-ta/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -38,7 +38,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form action="{{ url('/admin/jadwal-sidang-ta/filter-periode') }}" method="get" autocomplete="off">
+                    <form action="{{ url('/tim-capstone/jadwal-sidang-ta/filter-periode') }}" method="get"
+                        autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
@@ -104,24 +105,24 @@
                                         <td class="text-center">
 
                                             @if ($sidang_ta->status_tugas_akhir == 'Lulus Sidang TA!')
-                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_ta->user_name }} tidak lulus?')">
                                                     Gagal</a>
                                             @elseif($sidang_ta->status_tugas_akhir == 'Gagal Sidang TA!')
-                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-success btn-xs m-1">Lulus</a>
-                                                <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $sidang_ta->id_mahasiswa }}/{{ $sidang_ta->id_periode }}"
+                                                <a href="{{ url('/tim-capstone/sidang-ta/jadwalkan-sidang-ta') }}/{{ $sidang_ta->id_mahasiswa }}/{{ $sidang_ta->id_periode }}"
                                                     class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                             @else
-                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_ta->user_name }} tidak lulus?')">
                                                     Gagal</a>
-                                                <a href="{{ url('/admin/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-success btn-xs m-1">Lulus</a>
                                             @endif
-                                            <a href="{{ url('/admin/jadwal-sidang-ta/detail') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                            <a href="{{ url('/tim-capstone/jadwal-sidang-ta/detail') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                 class="btn btn-outline-secondary btn-xs m-1">Detail</a>
 
                                         </td>

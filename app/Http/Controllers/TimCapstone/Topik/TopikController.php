@@ -68,11 +68,11 @@ class TopikController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/topik');
+            return redirect('/tim-capstone/topik');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/settings/contoh-halaman/add')->withInput();
+            return redirect('/tim-capstone/settings/contoh-halaman/add')->withInput();
         }
     }
 
@@ -91,7 +91,7 @@ class TopikController extends BaseController
         if (empty($topik)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/topik');
+            return redirect('/tim-capstone/topik');
         }
 
         // data
@@ -127,11 +127,11 @@ class TopikController extends BaseController
         if (TopikModel::update($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/topik');
+            return redirect('/tim-capstone/topik');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/topik' . $request->id);
+            return redirect('/tim-capstone/topik' . $request->id);
         }
     }
 
@@ -152,16 +152,16 @@ class TopikController extends BaseController
             if (TopikModel::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/topik');
+                return redirect('/tim-capstone/topik');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/topik');
+                return redirect('/tim-capstone/topik');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/topik');
+            return redirect('/tim-capstone/topik');
         }
     }
 
@@ -185,7 +185,7 @@ class TopikController extends BaseController
             // view
             return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/tim-capstone/settings/contoh-halaman');
         }
     }
 }

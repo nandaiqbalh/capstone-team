@@ -120,11 +120,11 @@ class BroadcastController extends BaseController
         if ($insert_broadcast) {
             // Flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/broadcast');
+            return redirect('/tim-capstone/broadcast');
         } else {
             // Flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/broadcast/add')->withInput();
+            return redirect('/tim-capstone/broadcast/add')->withInput();
         }
     }
 
@@ -144,7 +144,7 @@ class BroadcastController extends BaseController
         if (empty($broadcast)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/broadcast');
+            return redirect('/tim-capstone/broadcast');
         }
 
         // data
@@ -169,7 +169,7 @@ class BroadcastController extends BaseController
         if (empty($broadcast)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/broadcast');
+            return redirect('/tim-capstone/broadcast');
         }
 
 
@@ -226,11 +226,11 @@ class BroadcastController extends BaseController
         if (BroadcastModel::update($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/broadcast');
+            return redirect('/tim-capstone/broadcast');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/broadcast/edit/' . $request->id);
+            return redirect('/tim-capstone/broadcast/edit/' . $request->id);
         }
     }
 
@@ -258,7 +258,7 @@ class BroadcastController extends BaseController
                     if (!unlink($imagePath)) {
                         // flash message
                         session()->flash('danger', 'Gagal menghapus gambar.');
-                        return redirect('/admin/broadcast');
+                        return redirect('/tim-capstone/broadcast');
                     }
                 }
             }
@@ -276,7 +276,7 @@ class BroadcastController extends BaseController
             session()->flash('danger', 'Data tidak ditemukan.');
         }
 
-        return redirect('/admin/broadcast');
+        return redirect('/tim-capstone/broadcast');
     }
 
     /**
@@ -301,7 +301,7 @@ class BroadcastController extends BaseController
             // view
             return view('tim_capstone.broadcast.index', $data);
         } else {
-            return redirect('/admin/broadcast');
+            return redirect('/tim-capstone/broadcast');
         }
     }
 }

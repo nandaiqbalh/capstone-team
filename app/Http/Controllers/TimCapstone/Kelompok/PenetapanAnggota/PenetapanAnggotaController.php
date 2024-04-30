@@ -129,11 +129,11 @@ class PenetapanAnggotaController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/penetapan-anggota');
+            return redirect('/tim-capstone/penetapan-anggota');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/penetapan-anggota/add')->withInput();
+            return redirect('/tim-capstone/penetapan-anggota/add')->withInput();
         }
     }
 
@@ -152,7 +152,7 @@ class PenetapanAnggotaController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         // data
@@ -177,7 +177,7 @@ class PenetapanAnggotaController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         // data
@@ -231,7 +231,7 @@ class PenetapanAnggotaController extends BaseController
             // view
             return view('tim_capstone.kelompok.penetapan-anggota.index', $data);
         } else {
-            return redirect('/admin/penetapan-anggota');
+            return redirect('/tim-capstone/penetapan-anggota');
         }
     }
 }

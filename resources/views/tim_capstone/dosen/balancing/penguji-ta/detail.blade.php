@@ -47,7 +47,7 @@
                                         @endif
 
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-penguji-ta/detail-mahasiwa') }}/{{ $mahasiswa->id_mahasiswa }}"
+                                            <a href="{{ url('/tim-capstone/balancing-penguji-ta/detail-mahasiwa') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                 class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 

@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/kelompok-valid') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/kelompok-valid') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -114,9 +114,9 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td>{{ $mahasiswa->judul_ta_mhs }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
+                                            <a href="{{ url('/tim-capstone/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/kelompok-valid/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/kelompok-valid/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')">
                                                 Hapus</a>

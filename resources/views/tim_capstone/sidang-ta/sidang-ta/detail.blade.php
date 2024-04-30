@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Pendaftar Sidang Tugas Akhir</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -77,20 +77,20 @@
                                                 berkas</a></td>
                                         <td class="text-center">
                                             @if ($pendaftaran->status_tugas_akhir == 'Menunggu Persetujuan Pendaftaran Sidang!')
-                                                <a href="{{ url('/admin/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->user_name }} ?')">
                                                     Terima</a>
-                                                <a href="{{ url('/admin/sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->user_name }} ?')">
                                                     Tolak</a>
                                             @elseif($pendaftaran->status_tugas_akhir == 'Menunggu Penjadwalan Sidang TA!')
-                                                <a href="{{ url('/admin/sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/sidang-ta/tolak') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->user_name }} ?')">
                                                     Tolak</a>
                                             @elseif($pendaftaran->status_tugas_akhir == 'Pendaftaran Sidang Tidak Disetujui!')
-                                                <a href="{{ url('/admin/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
+                                                <a href="{{ url('/tim-capstone/sidang-ta/terima') }}/{{ $pendaftaran->id_mahasiswa }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->user_name }} ?')">
                                                     Terima</a>
                                             @else
@@ -127,12 +127,12 @@
                                                 $pendaftaran->status_tugas_akhir == 'Menunggu Penjadwalan Sidang TA!' ||
                                                     $pendaftaran->status_tugas_akhir == 'Penguji Ditetapkan!')
                                                 <td class="text-center">
-                                                    <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"
+                                                    <a href="{{ url('/tim-capstone/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"
                                                         class="btn btn-outline-primary btn-xs m-1 ">Jadwalkan Sidang</a>
                                                 </td>
                                             @elseif($pendaftaran->status_tugas_akhir == 'Dijadwalkan Sidang TA!')
                                                 <td class="text-center">
-                                                    <a href="{{ url('/admin/jadwal-sidang-ta/detail') }}/{{ $pendaftaran->id }}"
+                                                    <a href="{{ url('/tim-capstone/jadwal-sidang-ta/detail') }}/{{ $pendaftaran->id }}"
                                                         class="btn btn-outline-secondary btn-xs m-1 ">Detail</a>
                                                 </td>
                                             @elseif($pendaftaran->status_tugas_akhir == 'Lulus Sidang TA!')
@@ -141,7 +141,7 @@
                                                 </td>
                                             @else
                                                 <td class="text-center">
-                                                    <a href="{{ url('/admin/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"
+                                                    <a href="{{ url('/tim-capstone/sidang-ta/jadwalkan-sidang-ta') }}/{{ $pendaftaran->id_mahasiswa }}/{{ $sidang_ta->id }}"
                                                         class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                                 </td>
                                             @endif

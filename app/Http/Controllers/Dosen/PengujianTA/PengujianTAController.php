@@ -107,7 +107,7 @@ class PengujianTAController extends BaseController
        if (empty($mahasiswa)) {
            // flash message
            session()->flash('danger', 'Data tidak ditemukan.');
-           return redirect('/admin/pengujian-ta');
+           return redirect('/tim-capstone/pengujian-ta');
        }
 
        $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
@@ -309,7 +309,7 @@ class PengujianTAController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
         $rs_peminatan = PengujianTAModel::peminatanMahasiswa($user_id);
 

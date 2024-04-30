@@ -79,7 +79,7 @@ class KelompokValidController extends BaseController
              // view
              return view('tim_capstone.kelompok.kelompok-valid.index', $data);
          } else {
-             return redirect('/admin/kelompok-valid');
+             return redirect('/tim-capstone/kelompok-valid');
          }
      }
     public function detailKelompok($id)
@@ -122,7 +122,7 @@ class KelompokValidController extends BaseController
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/kelompok-valid');
+            return redirect('/tim-capstone/kelompok-valid');
         }
 
         // status color
@@ -251,7 +251,7 @@ class KelompokValidController extends BaseController
             // view
             return view('tim_capstone.kelompok.kelompok-valid.index', $data);
         } else {
-            return redirect('/admin/kelompok-valid');
+            return redirect('/tim-capstone/kelompok-valid');
         }
     }
 }

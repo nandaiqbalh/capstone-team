@@ -119,7 +119,7 @@ class PengujianProposalController extends BaseController
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/kelompok');
+            return redirect('/tim-capstone/kelompok');
         }
 
         $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
@@ -290,7 +290,7 @@ class PengujianProposalController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
         $rs_peminatan = PengujianProposalModel::peminatanMahasiswa($user_id);
 

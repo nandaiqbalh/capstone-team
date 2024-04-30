@@ -18,7 +18,8 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/dosen/search') }}" method="get" autocomplete="off">
+                        <form class="form-inline" action="{{ url('/tim-capstone/dosen/search') }}" method="get"
+                            autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
                                     <input class="form-control mr-sm-2" type="search" name="nama"
@@ -38,7 +39,8 @@
                 <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/dosen/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
+                        <a href="{{ url('/tim-capstone/dosen/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                            Data</a>
                     </div>
                 </div>
 
@@ -79,9 +81,9 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/dosen/detail') }}/{{ $dosen->user_id }}"
+                                            <a href="{{ url('/tim-capstone/dosen/detail') }}/{{ $dosen->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/dosen/edit') }}/{{ $dosen->user_id }}"
+                                            <a href="{{ url('/tim-capstone/dosen/edit') }}/{{ $dosen->user_id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $dosen->user_id }}', '{{ $dosen->user_name }}')">Hapus</button>
@@ -99,7 +101,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/dosen/delete-process') }}/" + userId;
+                                                            window.location.href = "{{ url('/tim-capstone/dosen/delete-process') }}/" + userId;
                                                         }
                                                     });
                                                 }

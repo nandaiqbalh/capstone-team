@@ -15,11 +15,11 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Expo Project</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/expo-project') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/expo-project') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/expo-project/add-process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/tim-capstone/expo-project/add-process') }}" method="post" autocomplete="off">
                 {{ csrf_field() }}
                 <div class="card-body">
                     <div class="row">

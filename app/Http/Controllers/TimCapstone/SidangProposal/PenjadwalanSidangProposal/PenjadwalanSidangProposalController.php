@@ -95,7 +95,7 @@ class PenjadwalanSidangProposalController extends BaseController
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/kelompok');
+            return redirect('/tim-capstone/kelompok');
         }
 
         $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
@@ -370,7 +370,7 @@ class PenjadwalanSidangProposalController extends BaseController
         ];
         PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
 
-        return redirect('/admin/penjadwalan-sidang-proposal');
+        return redirect('/tim-capstone/penjadwalan-sidang-proposal');
     }
 
 
@@ -397,7 +397,7 @@ class PenjadwalanSidangProposalController extends BaseController
             // view
             return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.index', $data);
         } else {
-            return redirect('/admin/penjadwalan-sidang-proposal');
+            return redirect('/tim-capstone/penjadwalan-sidang-proposal');
         }
     }
 
@@ -430,7 +430,7 @@ class PenjadwalanSidangProposalController extends BaseController
             // view
             return view('tim_capstone.sidang-proposal.penjadwalan-sidang-proposal.index', $data);
         } else {
-            return redirect('/admin/penjadwalan-sidang-proposal');
+            return redirect('/tim-capstone/penjadwalan-sidang-proposal');
         }
     }
 }

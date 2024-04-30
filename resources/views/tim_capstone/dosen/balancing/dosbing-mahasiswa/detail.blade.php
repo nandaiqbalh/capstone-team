@@ -50,7 +50,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-dosbing-mahasiswa/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
+                                            <a href="{{ url('/tim-capstone/balancing-dosbing-mahasiswa/detail-mahasiswa') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                 class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 

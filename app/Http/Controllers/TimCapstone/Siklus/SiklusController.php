@@ -97,7 +97,7 @@ class SiklusController extends BaseController
 
         // Periksa jika validasi gagal
         if ($validator->fails()) {
-            return redirect('/admin/siklus/add')
+            return redirect('/tim-capstone/siklus/add')
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -124,11 +124,11 @@ class SiklusController extends BaseController
         if ($insert_siklus) {
             // Pesan flash untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/siklus');
+            return redirect('/tim-capstone/siklus');
         } else {
             // Pesan flash untuk gagal
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/siklus/add')->withInput();
+            return redirect('/tim-capstone/siklus/add')->withInput();
         }
     }
 
@@ -149,7 +149,7 @@ class SiklusController extends BaseController
         if (empty($siklus)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/siklus');
+            return redirect('/tim-capstone/siklus');
         }
 
         // data
@@ -175,7 +175,7 @@ class SiklusController extends BaseController
         if (empty($siklus)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/siklus');
+            return redirect('/tim-capstone/siklus');
         }
 
         // data
@@ -224,7 +224,7 @@ class SiklusController extends BaseController
 
         // Periksa jika validasi gagal
         if ($validator->fails()) {
-            return redirect('/admin/siklus/edit/' . $request->id)
+            return redirect('/tim-capstone/siklus/edit/' . $request->id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -247,11 +247,11 @@ class SiklusController extends BaseController
         if (SiklusModel::update($request->id, $params)) {
             // Pesan flash untuk sukses
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/siklus');
+            return redirect('/tim-capstone/siklus');
         } else {
             // Pesan flash untuk gagal
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/siklus/edit/' . $request->id)->withInput();
+            return redirect('/tim-capstone/siklus/edit/' . $request->id)->withInput();
         }
     }
 
@@ -289,7 +289,7 @@ class SiklusController extends BaseController
         }
 
         // Redirect kembali ke halaman siklus setelah selesai penghapusan
-        return redirect('/admin/siklus');
+        return redirect('/tim-capstone/siklus');
     }
 
 
@@ -314,7 +314,7 @@ class SiklusController extends BaseController
             // view
             return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/tim-capstone/settings/contoh-halaman');
         }
     }
 }

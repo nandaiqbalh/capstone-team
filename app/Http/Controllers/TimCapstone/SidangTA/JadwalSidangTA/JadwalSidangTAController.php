@@ -103,7 +103,7 @@ class JadwalSidangTAController extends BaseController
        if (empty($mahasiswa)) {
            // flash message
            session()->flash('danger', 'Data tidak ditemukan.');
-           return redirect('/admin/pengujian-ta');
+           return redirect('/tim-capstone/pengujian-ta');
        }
 
        $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
@@ -146,12 +146,12 @@ class JadwalSidangTAController extends BaseController
             JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
             session()->flash('success', 'Data berhasil diperbaharui!');
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
 
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 
@@ -174,16 +174,16 @@ class JadwalSidangTAController extends BaseController
 
             if ($update) {
                 session()->flash('success', 'Data berhasil diperbaharui!');
-                return redirect('/admin/jadwal-sidang-ta');
+                return redirect('/tim-capstone/jadwal-sidang-ta');
             } else {
                 session()->flash('danger', 'Data tidak ditemukan.');
-                return redirect('/admin/jadwal-sidang-ta');
+                return redirect('/tim-capstone/jadwal-sidang-ta');
             }
 
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 
@@ -220,7 +220,7 @@ class JadwalSidangTAController extends BaseController
             // view
             return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
         } else {
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 
@@ -261,7 +261,7 @@ class JadwalSidangTAController extends BaseController
             // view
             return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
         } else {
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 

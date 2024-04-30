@@ -808,7 +808,7 @@
                 // Menggunakan AJAX untuk mendapatkan data mahasiswa berdasarkan user_id
                 // (Anda perlu menyesuaikan endpoint dan implementasi AJAX sesuai kebutuhan)
                 $.ajax({
-                    url: '/admin/mahasiswa/get-by-id/' +
+                    url: '/tim-capstone/mahasiswa/get-by-id/' +
                         selectedUserId, // Endpoint untuk mendapatkan data mahasiswa
                     type: 'GET',
                     success: function(response) {
@@ -837,7 +837,7 @@
                 // Menggunakan AJAX untuk mendapatkan data mahasiswa berdasarkan user_id
                 // (Anda perlu menyesuaikan endpoint dan implementasi AJAX sesuai kebutuhan)
                 $.ajax({
-                    url: '/admin/mahasiswa/get-by-id/' +
+                    url: '/tim-capstone/mahasiswa/get-by-id/' +
                         selectedUserId, // Endpoint untuk mendapatkan data mahasiswa
                     type: 'GET',
                     success: function(response) {

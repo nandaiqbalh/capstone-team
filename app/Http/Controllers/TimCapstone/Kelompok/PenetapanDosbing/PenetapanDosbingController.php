@@ -63,7 +63,7 @@ class PenetapanDosbingController extends BaseController
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/kelompok');
+            return redirect('/tim-capstone/kelompok');
         }
 
         // data

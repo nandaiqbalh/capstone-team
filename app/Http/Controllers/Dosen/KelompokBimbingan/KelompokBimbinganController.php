@@ -302,7 +302,7 @@ class KelompokBimbinganController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
         $rs_peminatan = KelompokBimbinganModel::peminatanMahasiswa($user_id);
 

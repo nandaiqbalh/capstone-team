@@ -60,7 +60,7 @@ class LoginController extends Controller
             if ($role === '01') {
                 return redirect()->intended('admin/dashboard');
             } elseif ($role === '02') {
-                return redirect()->intended('admin/dashboard');
+                return redirect()->intended('tim-capstone/dashboard');
             } elseif ($role === '03') {
                 return redirect()->intended('mahasiswa/beranda');
             } elseif ($role === '04') {

@@ -58,11 +58,11 @@ class SidangTAController extends BaseController
         if ($insert_periode_sidang_ta) {
             // Flash message for success
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         } else {
             // Flash message for failure
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/siklus/sidang-ta/add')->withInput();
+            return redirect('/tim-capstone/siklus/sidang-ta/add')->withInput();
         }
     }
 
@@ -76,7 +76,7 @@ class SidangTAController extends BaseController
         if (empty($periode_sidang_ta)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         }
 
         // data
@@ -114,11 +114,11 @@ class SidangTAController extends BaseController
         if (SidangTAModel::update($request->id, $params)) {
             // Flash message for success
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         } else {
             // Flash message for failure
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/sidang-ta/' . $request->id);
+            return redirect('/tim-capstone/sidang-ta/' . $request->id);
         }
     }
 
@@ -155,16 +155,16 @@ class SidangTAController extends BaseController
                 SidangTAModel::deletePendaftaranSidangTA($id);
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/sidang-ta');
+                return redirect('/tim-capstone/sidang-ta');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/sidang-ta');
+                return redirect('/tim-capstone/sidang-ta');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         }
     }
 
@@ -286,7 +286,7 @@ class SidangTAController extends BaseController
             // view
             return view('tim_capstone.settings.contoh-halaman.index', $data);
         } else {
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/tim-capstone/settings/contoh-halaman');
         }
     }
 
@@ -559,7 +559,7 @@ class SidangTAController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
@@ -727,7 +727,7 @@ class SidangTAController extends BaseController
             }
         }
 
-        return redirect('/admin/sidang-ta');
+        return redirect('/tim-capstone/sidang-ta');
     }
 
 

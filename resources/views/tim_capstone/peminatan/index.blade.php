@@ -18,7 +18,8 @@
                 <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/peminatan/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
+                        <a href="{{ url('/tim-capstone/peminatan/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                            Data</a>
                     </div>
                 </div>
                 <div class="table-responsive text-nowrap">
@@ -37,7 +38,7 @@
                                         <td class="text-center">{{ $index + $rs_peminatan->firstItem() }}.</td>
                                         <td>{{ $peminatan->nama_peminatan }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/peminatan/edit') }}/{{ $peminatan->id }}"
+                                            <a href="{{ url('/tim-capstone/peminatan/edit') }}/{{ $peminatan->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $peminatan->id }}', '{{ $peminatan->nama_peminatan }}')">Hapus</button>
@@ -55,7 +56,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/peminatan/delete-process') }}/" + peminatanId;
+                                                            window.location.href = "{{ url('/tim-capstone/peminatan/delete-process') }}/" + peminatanId;
                                                         }
                                                     });
                                                 }

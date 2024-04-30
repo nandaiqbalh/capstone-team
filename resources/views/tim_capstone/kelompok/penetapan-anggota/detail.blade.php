@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/mahasiswa') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>

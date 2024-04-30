@@ -50,7 +50,7 @@ class PembimbingKelompokController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.dosbing-kelompok.index', $data);
         } else {
-            return redirect('/admin/balancing-dosbing-kelompok');
+            return redirect('/tim-capstone/balancing-dosbing-kelompok');
         }
     }
 
@@ -98,7 +98,7 @@ class PembimbingKelompokController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.dosbing-kelompok.index', $data);
         } else {
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
     }
 

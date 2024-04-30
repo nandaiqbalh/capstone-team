@@ -71,11 +71,11 @@ class RuangSidangController extends BaseController
 
            // flash message
            session()->flash('success', 'Data berhasil disimpan.');
-           return redirect('/admin/ruangan');
+           return redirect('/tim-capstone/ruangan');
        } else {
            // flash message
            session()->flash('danger', 'Data gagal disimpan.');
-           return redirect('/admin/settings/contoh-halaman/add')->withInput();
+           return redirect('/tim-capstone/settings/contoh-halaman/add')->withInput();
        }
     }
 
@@ -106,7 +106,7 @@ class RuangSidangController extends BaseController
        if (empty($ruangan)) {
            // flash message
            session()->flash('danger', 'Data tidak ditemukan.');
-           return redirect('/admin/ruangan');
+           return redirect('/tim-capstone/ruangan');
        }
 
        // data
@@ -150,7 +150,7 @@ class RuangSidangController extends BaseController
         }
 
         // Redirect back to the ruangan admin page
-        return redirect('/admin/ruangan');
+        return redirect('/tim-capstone/ruangan');
     }
 
 
@@ -172,16 +172,16 @@ class RuangSidangController extends BaseController
             if (RuangSidang::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/ruangan');
+                return redirect('/tim-capstone/ruangan');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/ruangan');
+                return redirect('/tim-capstone/ruangan');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/ruangan');
+            return redirect('/tim-capstone/ruangan');
         }
     }
 }

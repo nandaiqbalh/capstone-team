@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Expo</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/expo-project') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/expo-project') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -89,20 +89,20 @@
                                         <td class="text-center">
 
                                             @if ($pendaftaran->status_expo == 'Menunggu Persetujuan Expo!')
-                                                <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                <a href="{{ url('/tim-capstone/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
-                                                <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
                                             @elseif($pendaftaran->status_expo == 'Kelompok Disetujui Expo!')
-                                                <a href="{{ url('/admin/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Tolak</a>
                                             @elseif($pendaftaran->status_expo == 'Kelompok Tidak Disetujui Expo!')
-                                                <a href="{{ url('/admin/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                <a href="{{ url('/tim-capstone/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
                                                     Terima</a>
                                             @else
@@ -124,19 +124,19 @@
                                                     $pendaftaran->status_expo == 'Gagal Expo Project!' ||
                                                     $pendaftaran->status_expo == 'Kelompok Disetujui Expo!')
                                                 @if ($pendaftaran->status_kelompok == 'Lulus Expo Project!')
-                                                    <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
                                                         class="btn btn-outline-danger btn-xs m-1 "
                                                         onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
                                                         Gagal</a>
                                                 @elseif($pendaftaran->status_kelompok == 'Gagal Expo Project!')
-                                                    <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    <a href="{{ url('/tim-capstone/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
                                                         class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                                 @else
-                                                    <a href="{{ url('/admin/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
                                                         class="btn btn-outline-danger btn-xs m-1 "
                                                         onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
                                                         Gagal</a>
-                                                    <a href="{{ url('/admin/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    <a href="{{ url('/tim-capstone/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
                                                         class="btn btn-outline-primary btn-xs m-1">Lulus</a>
                                                 @endif
                                             @else

@@ -47,7 +47,7 @@ class PembimbingMahasiswaController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.dosbing-mahasiswa.index', $data);
         } else {
-            return redirect('/admin/balancing-dosbing-mahasiswa');
+            return redirect('/tim-capstone/balancing-dosbing-mahasiswa');
         }
     }
 
@@ -86,7 +86,7 @@ class PembimbingMahasiswaController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.dosbing-mahasiswa.index', $data);
         } else {
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
     }
 
@@ -104,7 +104,7 @@ class PembimbingMahasiswaController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
         $rs_peminatan = PembimbingMahasiswaModel::peminatanMahasiswa($user_id);
 

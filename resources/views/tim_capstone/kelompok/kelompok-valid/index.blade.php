@@ -18,7 +18,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/kelompok-valid/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/tim-capstone/kelompok-valid/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -38,7 +38,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form action="{{ url('/admin/kelompok-valid/filter-siklus') }}" method="get" autocomplete="off">
+                    <form action="{{ url('/tim-capstone/kelompok-valid/filter-siklus') }}" method="get"
+                        autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
@@ -93,7 +94,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/kelompok-valid/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/kelompok-valid/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $kelompok->id }}', '{{ $kelompok->nomor_kelompok }}')">Hapus</button>
@@ -111,7 +112,8 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/kelompok-valid/delete-process') }}/" + kelompokId;
+                                                            window.location.href = "{{ url('/tim-capstone/kelompok-valid/delete-process') }}/" +
+                                                            kelompokId;
                                                         }
                                                     });
                                                 }
