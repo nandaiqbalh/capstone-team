@@ -44,7 +44,7 @@ class ApiTugasAkhirController extends Controller
                     }
 
                     if ($periodeAvailable->id == ApiTugasAkhirModel::getLatestPeriode()->id && $periodeAvailable->tanggal_selesai > now()) {
-                        if ($rsSidang != null && $rsSidang->status_tugas_akhir == "Lulus Sidang TA!") {
+                        if ($rsSidang != null && $rsSidang->status_tugas_akhir == "Lulus Sidang TA") {
                             $showButton = false;
                         } else {
                             $showButton = true;
@@ -53,7 +53,7 @@ class ApiTugasAkhirController extends Controller
                         $showButton = false;
                     }
 
-                    if ($rsSidang != null && $rsSidang->status_tugas_akhir == "Gagal Sidang TA!") {
+                    if ($rsSidang != null && $rsSidang->status_tugas_akhir == "Gagal Sidang TA") {
                         $showButton = true;
                         $periodeAvailable = ApiTugasAkhirModel::getPeriodeAvailable();
                         $rsSidang = null;
@@ -190,19 +190,19 @@ class ApiTugasAkhirController extends Controller
                     if ($kelompok-> file_name_c500 != null && $dokumen_mahasiwa -> file_name_laporan_ta != null && $dokumen_mahasiwa -> file_name_makalah != null) {
                         // Registration parameters
 
-                        if ($dokumen_mahasiwa->file_status_lta != "Laporan TA Telah Disetujui!") {
+                        if ($dokumen_mahasiwa->file_status_lta != "Laporan TA Telah Disetujui") {
                             return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
                         }
 
-                        if ($dokumen_mahasiwa->file_status_mta != "Makalah TA Telah Disetujui!") {
+                        if ($dokumen_mahasiwa->file_status_mta != "Makalah TA Telah Disetujui") {
                             return $this->failureResponse('Makalah TA belum disetujui kedua dosen pembimbing!');
                         }
 
-                        if ($kelompok -> status_expo == "Lulus Expo Project!") {
+                        if ($kelompok -> status_expo == "Lulus Expo Project") {
                             $registrationParams = [
                                 'id_mahasiswa' => $user->user_id,
                                 'id_periode' => $periodeAvailable ->id,
-                                'status' => 'Menunggu Persetujuan Pendaftaran Sidang!',
+                                'status' => 'Menunggu Persetujuan Pendaftaran Sidang',
                                 'created_by' => $user->user_id,
                                 'created_date' => now(), // Use Laravel helper function for the current date and time
                             ];
@@ -218,8 +218,8 @@ class ApiTugasAkhirController extends Controller
                                 'link_upload' => $request->link_upload,
                                 'judul_ta_mhs' => $request->judul_ta_mhs,
                                 'is_mendaftar_sidang' => '1',
-                                'status_individu' => 'Menunggu Persetujuan Pendaftaran Sidang!',
-                                'status_tugas_akhir' => 'Menunggu Persetujuan Pendaftaran Sidang!',
+                                'status_individu' => 'Menunggu Persetujuan Pendaftaran Sidang',
+                                'status_tugas_akhir' => 'Menunggu Persetujuan Pendaftaran Sidang',
 
                             ];
                             ApiTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams);

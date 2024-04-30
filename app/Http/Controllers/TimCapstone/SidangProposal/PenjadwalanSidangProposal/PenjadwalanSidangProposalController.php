@@ -138,16 +138,16 @@ class PenjadwalanSidangProposalController extends BaseController
             if ($kelompok->id_dosen_penguji_1 == null && $kelompok->id_dosen_penguji_2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_penguji_1' => $request->id_dosen,
-                    'status_dosen_penguji_1' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_penguji_1' => 'Menunggu Persetujuan Penguji',
                 ];
 
                 if ($request->id_dosen == $kelompok -> id_dosen_pembimbing_1 || $request->id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing!');
+                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing');
                     return back();
                 }
 
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -158,15 +158,15 @@ class PenjadwalanSidangProposalController extends BaseController
             if ($kelompok->id_dosen_penguji_2 == null && $kelompok->id_dosen_penguji_1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_penguji_2' => $request->id_dosen,
-                    'status_dosen_penguji_2' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_penguji_2' => 'Menunggu Persetujuan Penguji',
                 ];
 
                 if ($request->id_dosen == $kelompok -> id_dosen_pembimbing_1 || $request->id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing!');
+                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing');
                     return back();
                 }
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -179,8 +179,8 @@ class PenjadwalanSidangProposalController extends BaseController
 
             if ($kelompok_updated->id_dosen_penguji_1 != null && $kelompok_updated->id_dosen_penguji_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_sidang_proposal' => "Penguji Proposal Ditetapkan!",
-                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pembimbing!"
+                    'status_sidang_proposal' => "Penguji Proposal Ditetapkan",
+                    'status_dosen_pembimbing_2' => "Menunggu Persetujuan Pembimbing"
                 ];
 
                 PenjadwalanSidangProposalModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -206,16 +206,16 @@ class PenjadwalanSidangProposalController extends BaseController
             $params = [
                 'id_dosen_penguji_1' => null,
                 'status_dosen_penguji_1' => null,
-                'status_sidang_proposal' => "Menunggu Dijadwalkan Sidang!",
-                'status_dosen_pembimbing_2' => "Menunggu Persetujuan C100!"
+                'status_sidang_proposal' => "Menunggu Dijadwalkan Sidang",
+                'status_dosen_pembimbing_2' => "Menunggu Persetujuan C100"
 
             ];
         } else if ($id_dosen == $kelompok -> id_dosen_penguji_2) {
             $params = [
                 'id_dosen_penguji_2' => null,
                 'status_dosen_penguji_2' => null,
-                'status_sidang_proposal' => "Menunggu Dijadwalkan Sidang!",
-                'status_dosen_pembimbing_2' => "Menunggu Persetujuan C100!"
+                'status_sidang_proposal' => "Menunggu Dijadwalkan Sidang",
+                'status_dosen_pembimbing_2' => "Menunggu Persetujuan C100"
             ];
         } else {
             $params = [
@@ -252,14 +252,14 @@ class PenjadwalanSidangProposalController extends BaseController
             'id_dosen_penguji_2' => 'required',
             'ruangan_id' => 'required'
         ], [
-            'siklus_id.required' => 'Kolom siklus wajib diisi!',
-            'id_kelompok.required' => 'Kolom kelompok wajib diisi!',
-            'waktu.required' => 'Kolom waktu wajib diisi!',
-            'waktu_selesai.required' => 'Kolom waktu selesai wajib diisi!',
-            'id_dosen_pembimbing_2.required' => 'Kolom pembimbing 2 wajib diisi!',
-            'id_dosen_penguji_1.required' => 'Kolom penguji 1 wajib diisi!',
-            'id_dosen_penguji_2.required' => 'Kolom penguji 2 wajib diisi!',
-            'ruangan_id.required' => 'Kolom ruangan wajib diisi!'
+            'siklus_id.required' => 'Kolom siklus wajib diisi',
+            'id_kelompok.required' => 'Kolom kelompok wajib diisi',
+            'waktu.required' => 'Kolom waktu wajib diisi',
+            'waktu_selesai.required' => 'Kolom waktu selesai wajib diisi',
+            'id_dosen_pembimbing_2.required' => 'Kolom pembimbing 2 wajib diisi',
+            'id_dosen_penguji_1.required' => 'Kolom penguji 1 wajib diisi',
+            'id_dosen_penguji_2.required' => 'Kolom penguji 2 wajib diisi',
+            'ruangan_id.required' => 'Kolom ruangan wajib diisi'
         ]);
 
         // Cek jika validasi gagal
@@ -363,10 +363,10 @@ class PenjadwalanSidangProposalController extends BaseController
 
         // Update status kelompok
         $paramsStatusKelompok = [
-            'status_sidang_proposal' => 'Menunggu Persetujuan Penguji!',
-            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Pembimbing!',
-            'status_dosen_penguji_1' => 'Menunggu Persetujuan Penguji!',
-            'status_dosen_penguji_2' => 'Menunggu Persetujuan Penguji!'
+            'status_sidang_proposal' => 'Menunggu Persetujuan Penguji',
+            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Pembimbing',
+            'status_dosen_penguji_1' => 'Menunggu Persetujuan Penguji',
+            'status_dosen_penguji_2' => 'Menunggu Persetujuan Penguji'
         ];
         PenjadwalanSidangProposalModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
 

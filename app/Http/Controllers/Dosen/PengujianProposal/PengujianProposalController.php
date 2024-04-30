@@ -163,19 +163,19 @@ class PengujianProposalController extends BaseController
                 if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'Pembimbing Tidak Setuju!',
+                        'status_dosen_pembimbing_2' => 'Pembimbing Tidak Setuju',
                     ];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Penguji 1';
                     $params = [
-                        'status_dosen_penguji_1' => 'Penguji Tidak Setuju!',
+                        'status_dosen_penguji_1' => 'Penguji Tidak Setuju',
                     ];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Penguji 2';
                     $params = [
-                        'status_dosen_penguji_2' => 'Penguji Tidak Setuju!',
+                        'status_dosen_penguji_2' => 'Penguji Tidak Setuju',
                     ];
                     break;
                 }
@@ -195,15 +195,15 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Penguji Tidak Setuju!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Tidak Setuju!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Tidak Setuju!") {
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Penguji Tidak Setuju" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Tidak Setuju" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Tidak Setuju") {
 
-                    $paramsUpdated = ['status_sidang_proposal' => 'Penguji Tidak Setuju!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Penguji Tidak Setuju'];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji'];
 
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
 
@@ -228,13 +228,13 @@ class PengujianProposalController extends BaseController
         foreach ($rs_pengujian_proposal as $pengujian_proposal) {
             if ($pengujian_proposal->id_kelompok == $id) {
                 if ($pengujian_proposal->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_pembimbing_2' => 'Pembimbing Setuju!'];
+                    $params = ['status_dosen_pembimbing_2' => 'Pembimbing Setuju'];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_1' => 'Penguji Setuju!'];
+                    $params = ['status_dosen_penguji_1' => 'Penguji Setuju'];
                     break;
                 } else if ($pengujian_proposal->id_dosen_penguji_2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_2' => 'Penguji Setuju!'];
+                    $params = ['status_dosen_penguji_2' => 'Penguji Setuju'];
                     break;
                 }
             }
@@ -252,15 +252,15 @@ class PengujianProposalController extends BaseController
             $pengujian_proposal_updated = PengujianProposalModel::getDataById($id);
 
             if ($pengujian_proposal_updated->id == $id) {
-                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Pembimbing Setuju!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Setuju!" &&
-                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Setuju!") {
+                if ($pengujian_proposal_updated->status_dosen_pembimbing_2 == "Pembimbing Setuju" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_1 == "Penguji Setuju" &&
+                    $pengujian_proposal_updated->status_dosen_penguji_2 == "Penguji Setuju") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal!', 'status_sidang_proposal'=>"Dijadwalkan Sidang Proposal!"];
+                    $paramsUpdated = ['status_kelompok' => 'Dijadwalkan Sidang Proposal', 'status_sidang_proposal'=>"Dijadwalkan Sidang Proposal"];
                     // Update status kelompok
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji!'];
+                    $paramsUpdated = ['status_sidang_proposal' => 'Menunggu Persetujuan Penguji'];
 
                     PengujianProposalModel::updateKelompok($id, $paramsUpdated);
 

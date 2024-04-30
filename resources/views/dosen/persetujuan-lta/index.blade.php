@@ -75,15 +75,15 @@
 
                                             @if ($kelompok->jenis_dosen == 'Pembimbing 1')
                                                 @if (
-                                                    $kelompok->file_status_lta_dosbing1 == 'Laporan TA Telah Disetujui!' ||
-                                                        $kelompok->file_status_lta_dosbing1 == 'Final Laporan TA Telah Disetujui!')
+                                                    $kelompok->file_status_lta_dosbing1 == 'Laporan TA Telah Disetujui' ||
+                                                        $kelompok->file_status_lta_dosbing1 == 'Final Laporan TA Telah Disetujui')
                                                     <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
                                                 @elseif(
-                                                    $kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Laporan TA!' ||
-                                                        $kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Final Laporan TA!')
+                                                    $kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Laporan TA' ||
+                                                        $kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Final Laporan TA')
                                                     <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
@@ -93,8 +93,8 @@
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
                                                 @elseif(
-                                                    $kelompok->file_status_lta_dosbing1 == 'Laporan TA Tidak Disetujui Dosbing 1!' ||
-                                                        $kelompok->file_status_lta_dosbing1 == 'Final Laporan TA Tidak Disetujui Dosbing 1!')
+                                                    $kelompok->file_status_lta_dosbing1 == 'Laporan TA Tidak Disetujui Dosbing 1' ||
+                                                        $kelompok->file_status_lta_dosbing1 == 'Final Laporan TA Tidak Disetujui Dosbing 1')
                                                     <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
@@ -105,15 +105,15 @@
                                                 @endif
                                             @else
                                                 @if (
-                                                    $kelompok->file_status_lta_dosbing2 == 'Laporan TA Telah Disetujui!' ||
-                                                        $kelompok->file_status_lta_dosbing2 == 'Final Laporan TA Telah Disetujui!')
+                                                    $kelompok->file_status_lta_dosbing2 == 'Laporan TA Telah Disetujui' ||
+                                                        $kelompok->file_status_lta_dosbing2 == 'Final Laporan TA Telah Disetujui')
                                                     <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-danger btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
                                                 @elseif(
-                                                    $kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Laporan TA!' ||
-                                                        $kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Final Laporan TA!')
+                                                    $kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Laporan TA' ||
+                                                        $kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Final Laporan TA')
                                                     <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
@@ -123,8 +123,8 @@
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
                                                         Tolak</a>
                                                 @elseif(
-                                                    $kelompok->file_status_lta_dosbing2 == 'Laporan TA Tidak Disetujui Dosbing 2!' ||
-                                                        $kelompok->file_status_lta_dosbing2 == 'Final Laporan TA Tidak Disetujui Dosbing 2!')
+                                                    $kelompok->file_status_lta_dosbing2 == 'Laporan TA Tidak Disetujui Dosbing 2' ||
+                                                        $kelompok->file_status_lta_dosbing2 == 'Final Laporan TA Tidak Disetujui Dosbing 2')
                                                     <a href="{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-success btn-xs m-1"
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
@@ -146,7 +146,7 @@
                                                     showCancelButton: true,
                                                     confirmButtonColor: '#3085d6',
                                                     cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                                    confirmButtonText: 'Ya, Lanjutkan',
                                                     cancelButtonText: 'Batal'
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {

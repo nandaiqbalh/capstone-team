@@ -59,13 +59,13 @@ class PersetujuanLaporanTAController extends BaseController
                     $jenis_dosen = 'Pembimbing 1';
                     if ($isMahasiswaSidangTA) {
                         $params = [
-                            'file_status_lta_dosbing1' => 'Final Laporan TA Tidak Disetujui Dosbing 1!',
-                            'file_status_lta' => 'Final Laporan TA Tidak Disetujui Dosbing 1!',
+                            'file_status_lta_dosbing1' => 'Final Laporan TA Tidak Disetujui Dosbing 1',
+                            'file_status_lta' => 'Final Laporan TA Tidak Disetujui Dosbing 1',
                         ];
                     } else {
                         $params = [
-                            'file_status_lta_dosbing1' => 'Laporan TA Tidak Disetujui Dosbing 1!',
-                            'file_status_lta' => 'Laporan TA Tidak Disetujui Dosbing 1!',
+                            'file_status_lta_dosbing1' => 'Laporan TA Tidak Disetujui Dosbing 1',
+                            'file_status_lta' => 'Laporan TA Tidak Disetujui Dosbing 1',
                         ];
                     }
 
@@ -74,13 +74,13 @@ class PersetujuanLaporanTAController extends BaseController
                     $jenis_dosen = 'Pembimbing 1';
                     if ($isMahasiswaSidangTA) {
                         $params = [
-                            'file_status_lta_dosbing2' => 'Final Laporan TA Tidak Disetujui Dosbing 2!',
-                            'file_status_lta' => 'Final Laporan TA Tidak Disetujui Dosbing 2!',
+                            'file_status_lta_dosbing2' => 'Final Laporan TA Tidak Disetujui Dosbing 2',
+                            'file_status_lta' => 'Final Laporan TA Tidak Disetujui Dosbing 2',
                         ];
                     } else {
                         $params = [
-                            'file_status_lta_dosbing2' => 'Laporan TA Tidak Disetujui Dosbing 2!',
-                            'file_status_lta' => 'Laporan TA Tidak Disetujui Dosbing 2!',
+                            'file_status_lta_dosbing2' => 'Laporan TA Tidak Disetujui Dosbing 2',
+                            'file_status_lta' => 'Laporan TA Tidak Disetujui Dosbing 2',
                         ];
                     }
 
@@ -121,22 +121,22 @@ class PersetujuanLaporanTAController extends BaseController
 
                     if ($isMahasiswaSidangTA) {
                         $params = [
-                            'file_status_lta_dosbing1' => 'Final Laporan TA Telah Disetujui!'
+                            'file_status_lta_dosbing1' => 'Final Laporan TA Telah Disetujui'
                         ];
                     } else {
                         $params = [
-                            'file_status_lta_dosbing1' => 'Laporan TA Telah Disetujui!'
+                            'file_status_lta_dosbing1' => 'Laporan TA Telah Disetujui'
                         ];
                     }
                     break;
                 } else if ($persetujuan_lta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     if ($isMahasiswaSidangTA) {
                         $params = [
-                            'file_status_lta_dosbing2' => 'Final Laporan TA Telah Disetujui!'
+                            'file_status_lta_dosbing2' => 'Final Laporan TA Telah Disetujui'
                         ];
                     } else {
                         $params = [
-                            'file_status_lta_dosbing2' => 'Laporan TA Telah Disetujui!'
+                            'file_status_lta_dosbing2' => 'Laporan TA Telah Disetujui'
                         ];
                     }
 
@@ -161,30 +161,30 @@ class PersetujuanLaporanTAController extends BaseController
                 if ($isMahasiswaSidangTA) {
 
                     // ini sudah sidang
-                    if ($persetujuan_lta_updated->file_status_lta_dosbing1 == "Final Laporan TA Telah Disetujui!" &&
-                    $persetujuan_lta_updated->file_status_lta_dosbing2 == "Final Laporan TA Telah Disetujui!" ) {
+                    if ($persetujuan_lta_updated->file_status_lta_dosbing1 == "Final Laporan TA Telah Disetujui" &&
+                    $persetujuan_lta_updated->file_status_lta_dosbing2 == "Final Laporan TA Telah Disetujui" ) {
 
                     $paramsUpdated = [
-                        'file_status_lta'=> "Final Laporan TA Telah Disetujui!",
+                        'file_status_lta'=> "Final Laporan TA Telah Disetujui",
                     ];
 
                     // Update status kelompok
                     PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
-                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing1 == "Final Laporan TA Telah Disetujui!"){
+                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing1 == "Final Laporan TA Telah Disetujui"){
                         $paramsUpdated = [
-                            'file_status_lta'=> "Final Laporan TA Menunggu Persetujuan Dosbing 2!",
+                            'file_status_lta'=> "Final Laporan TA Menunggu Persetujuan Dosbing 2",
                         ];
 
                         PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
-                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing2 == "Final Laporan TA Telah Disetujui!"){
+                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing2 == "Final Laporan TA Telah Disetujui"){
                         $paramsUpdated = [
-                            'file_status_lta'=> "Final Laporan TA Menunggu Persetujuan Dosbing 1!",
+                            'file_status_lta'=> "Final Laporan TA Menunggu Persetujuan Dosbing 1",
                         ];
 
                         PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
                     } else {
                         $paramsUpdated = [
-                            'file_status_lta'=> "Menunggu Persetujuan Final Laporan TA!",
+                            'file_status_lta'=> "Menunggu Persetujuan Final Laporan TA",
                         ];
 
                         PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
@@ -193,30 +193,30 @@ class PersetujuanLaporanTAController extends BaseController
                 } else {
 
                     // ini belum sidang
-                    if ($persetujuan_lta_updated->file_status_lta_dosbing1 == "Laporan TA Telah Disetujui!" &&
-                    $persetujuan_lta_updated->file_status_lta_dosbing2 == "Laporan TA Telah Disetujui!" ) {
+                    if ($persetujuan_lta_updated->file_status_lta_dosbing1 == "Laporan TA Telah Disetujui" &&
+                    $persetujuan_lta_updated->file_status_lta_dosbing2 == "Laporan TA Telah Disetujui" ) {
 
                     $paramsUpdated = [
-                        'file_status_lta'=> "Laporan TA Telah Disetujui!",
+                        'file_status_lta'=> "Laporan TA Telah Disetujui",
                     ];
 
                     // Update status kelompok
                     PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
-                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing1 == "Laporan TA Telah Disetujui!"){
+                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing1 == "Laporan TA Telah Disetujui"){
                         $paramsUpdated = [
-                            'file_status_lta'=> "Laporan TA Menunggu Persetujuan Dosbing 2!",
+                            'file_status_lta'=> "Laporan TA Menunggu Persetujuan Dosbing 2",
                         ];
 
                         PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
-                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing2 == "Laporan TA Telah Disetujui!"){
+                    } elseif($persetujuan_lta_updated->file_status_lta_dosbing2 == "Laporan TA Telah Disetujui"){
                         $paramsUpdated = [
-                            'file_status_lta'=> "Laporan TA Menunggu Persetujuan Dosbing 1!",
+                            'file_status_lta'=> "Laporan TA Menunggu Persetujuan Dosbing 1",
                         ];
 
                         PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);
                     } else {
                         $paramsUpdated = [
-                            'file_status_lta'=> "Menunggu Persetujuan Laporan TA!",
+                            'file_status_lta'=> "Menunggu Persetujuan Laporan TA",
                         ];
 
                         PersetujuanLaporanTAModel::updateKelompokMhs($id, $paramsUpdated);

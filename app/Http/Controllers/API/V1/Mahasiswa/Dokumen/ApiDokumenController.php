@@ -111,7 +111,7 @@ class ApiDokumenController extends Controller
 
                     if ($existingFile -> file_name_laporan_ta != null) {
 
-                        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
+                        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui") {
                             return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
                         }
 
@@ -141,10 +141,10 @@ class ApiDokumenController extends Controller
                             $params = [
                                 'file_name_makalah' => $new_file_name,
                                 'file_path_makalah' => $upload_path,
-                                'file_status_mta' => 'Menunggu Persetujuan Makalah TA!',
-                                'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA!',
-                                'file_status_mta_dosbing2' => 'Menunggu Persetujuan Makalah TA!',
-                                'status_individu' => 'Menunggu Persetujuan Makalah TA!',
+                                'file_status_mta' => 'Menunggu Persetujuan Makalah TA',
+                                'file_status_mta_dosbing1' => 'Menunggu Persetujuan Makalah TA',
+                                'file_status_mta_dosbing2' => 'Menunggu Persetujuan Makalah TA',
+                                'status_individu' => 'Menunggu Persetujuan Makalah TA',
 
                             ];
 
@@ -245,19 +245,19 @@ class ApiDokumenController extends Controller
                                 $params = [
                                     'file_name_laporan_ta' => $new_file_name,
                                     'file_path_laporan_ta' => $upload_path,
-                                    'file_status_lta' => 'Menunggu Persetujuan Final Laporan TA!',
-                                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Final Laporan TA!',
-                                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Final Laporan TA!',
-                                    'status_individu' => 'Menunggu Persetujuan Final Laporan TA!',
+                                    'file_status_lta' => 'Menunggu Persetujuan Final Laporan TA',
+                                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Final Laporan TA',
+                                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Final Laporan TA',
+                                    'status_individu' => 'Menunggu Persetujuan Final Laporan TA',
                                 ];
                             } else {
                                 $params = [
                                     'file_name_laporan_ta' => $new_file_name,
                                     'file_path_laporan_ta' => $upload_path,
-                                    'file_status_lta' => 'Menunggu Persetujuan Laporan TA!',
-                                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA!',
-                                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA!',
-                                    'status_individu' => 'Menunggu Persetujuan Laporan TA!',
+                                    'file_status_lta' => 'Menunggu Persetujuan Laporan TA',
+                                    'file_status_lta_dosbing1' => 'Menunggu Persetujuan Laporan TA',
+                                    'file_status_lta_dosbing2' => 'Menunggu Persetujuan Laporan TA',
+                                    'status_individu' => 'Menunggu Persetujuan Laporan TA',
                                 ];
 
                             }

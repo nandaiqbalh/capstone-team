@@ -23,10 +23,10 @@ class ValidasiKelompokModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
 
             ->where('a.nomor_kelompok', NULL)
-            ->where('a.status_kelompok', "Menunggu Persetujuan Tim Capstone!")
-            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Anggota!")
-            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Dosbing!")
-            ->orWhere('a.status_kelompok', "Menunggu Penetapan Dosbing!")
+            ->where('a.status_kelompok', "Menunggu Persetujuan Tim Capstone")
+            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Anggota")
+            ->orWhere('a.status_kelompok', "Menunggu Persetujuan Dosbing")
+            ->orWhere('a.status_kelompok', "Menunggu Penetapan Dosbing")
             ->orderByDesc('a.id')
             ->paginate(20);
     }

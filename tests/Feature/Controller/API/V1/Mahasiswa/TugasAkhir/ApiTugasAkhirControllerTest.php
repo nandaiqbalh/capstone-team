@@ -151,7 +151,7 @@ class ApiTugasAkhirControllerTest extends TestCase
          $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
          $params = [
-            'file_status_lta' => "Laporan TA Telah Disetujui!", 'file_status_mta' => "Makalah TA Telah Disetujui!"
+            'file_status_lta' => "Laporan TA Telah Disetujui", 'file_status_mta' => "Makalah TA Telah Disetujui"
          ];
          ApiTugasAkhirModel::updateKelompokMHS($this->user_id, $params);
 

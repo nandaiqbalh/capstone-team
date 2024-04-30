@@ -138,14 +138,14 @@ class JadwalSidangTAController extends BaseController
         if ($dataMahasiswa != null) {
 
             $paramKelompokMhs = [
-                'status_tugas_akhir' => 'Lulus Sidang TA!',
-                'status_individu' => 'Lulus Sidang TA!',
+                'status_tugas_akhir' => 'Lulus Sidang TA',
+                'status_individu' => 'Lulus Sidang TA',
                 'is_selesai' => 1,
             ];
 
             JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
-            session()->flash('success', 'Data berhasil diperbaharui!');
+            session()->flash('success', 'Data berhasil diperbaharui');
             return redirect('/tim-capstone/jadwal-sidang-ta');
 
         } else {
@@ -164,8 +164,8 @@ class JadwalSidangTAController extends BaseController
         if ($dataMahasiswa != null) {
 
             $paramKelompokMhs = [
-                'status_tugas_akhir' => 'Gagal Sidang TA!',
-                'status_individu' => 'Gagal Sidang TA!',
+                'status_tugas_akhir' => 'Gagal Sidang TA',
+                'status_individu' => 'Gagal Sidang TA',
                 'is_mendaftar_sidang' => '0',
             ];
 
@@ -173,7 +173,7 @@ class JadwalSidangTAController extends BaseController
             $update = JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
             if ($update) {
-                session()->flash('success', 'Data berhasil diperbaharui!');
+                session()->flash('success', 'Data berhasil diperbaharui');
                 return redirect('/tim-capstone/jadwal-sidang-ta');
             } else {
                 session()->flash('danger', 'Data tidak ditemukan.');

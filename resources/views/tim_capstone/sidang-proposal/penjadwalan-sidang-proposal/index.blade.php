@@ -99,13 +99,13 @@
                                         </td>
 
                                         @if (
-                                            $kelompok->status_sidang_proposal == 'Menunggu Dijadwalkan Sidang!' ||
-                                                $kelompok->status_sidang_proposal == 'Penguji Proposal Ditetapkan!')
+                                            $kelompok->status_sidang_proposal == 'Menunggu Dijadwalkan Sidang' ||
+                                                $kelompok->status_sidang_proposal == 'Penguji Proposal Ditetapkan')
                                             <td class="text-center">
                                                 <a href="{{ url('/tim-capstone/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-primary btn-xs m-1 ">Jadwalkan Sidang</a>
                                             </td>
-                                        @elseif($kelompok->status_sidang_proposal == 'Dijadwalkan Sidang Proposal!')
+                                        @elseif($kelompok->status_sidang_proposal == 'Dijadwalkan Sidang Proposal')
                                             <td class="text-center">
                                                 <a href="{{ url('/tim-capstone/jadwal-sidang-proposal/detail') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-secondary btn-xs m-1 ">Detail</a>

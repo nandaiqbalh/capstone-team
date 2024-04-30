@@ -82,12 +82,12 @@
                                         <td>{{ $mahasiswa->nama_ruang }}</td>
 
                                         <td class="text-center">
-                                            @if ($mahasiswa->status_dosen == 'Penguji Setuju!' || $mahasiswa->status_dosen == 'Pembimbing Setuju!')
+                                            @if ($mahasiswa->status_dosen == 'Penguji Setuju' || $mahasiswa->status_dosen == 'Pembimbing Setuju')
                                                 <a href="{{ url('/dosen/pengujian-ta/tolak') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/tolak') }}/{{ $mahasiswa->id_mahasiswa }}')">
                                                     Tolak</a>
-                                            @elseif($mahasiswa->status_dosen == 'Menunggu Persetujuan Penguji!')
+                                            @elseif($mahasiswa->status_dosen == 'Menunggu Persetujuan Penguji')
                                                 <a href="{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                     class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}')">
@@ -96,7 +96,7 @@
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/tolak') }}/{{ $mahasiswa->id_mahasiswa }}')">
                                                     Tolak</a>
-                                            @elseif($mahasiswa->status_dosen == 'Penguji Tidak Setuju!' || $mahasiswa->status_dosen == 'Pembimbing Tidak Setuju!')
+                                            @elseif($mahasiswa->status_dosen == 'Penguji Tidak Setuju' || $mahasiswa->status_dosen == 'Pembimbing Tidak Setuju')
                                                 <a href="{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                     class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/terima') }}/{{ $mahasiswa->id_mahasiswa }}')">
@@ -116,7 +116,7 @@
                                                     showCancelButton: true,
                                                     confirmButtonColor: '#3085d6',
                                                     cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                                    confirmButtonText: 'Ya, Lanjutkan',
                                                     cancelButtonText: 'Batal'
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {

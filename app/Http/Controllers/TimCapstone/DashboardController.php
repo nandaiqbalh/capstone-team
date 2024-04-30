@@ -137,19 +137,19 @@ class DashboardController extends BaseController
 
                 $sidang_proposal = $rsSidang->hari_sidang . ', ' . date('d F Y', strtotime($rsSidang->tanggal_sidang));
 
-            } else if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal!") {
-                $sidang_proposal = "Lulus Sidang Proposal!";
+            } else if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal") {
+                $sidang_proposal = "Lulus Sidang Proposal";
             } else if($kelompok -> status_sidang_proposal == null){
-                $sidang_proposal = "Belum ada jadwal sidang!";
+                $sidang_proposal = "Belum ada jadwal sidang";
             } else {
                 $sidang_proposal = $kelompok -> status_sidang_proposal;
             }
 
             // expo
-            if ($kelompok -> status_expo == "Lulus Expo Project!") {
-                $expo = "Lulus Expo Project!";
+            if ($kelompok -> status_expo == "Lulus Expo Project") {
+                $expo = "Lulus Expo Project";
             } else if($kelompok -> status_expo == null){
-                $expo = "Belum mendaftar Expo!";
+                $expo = "Belum mendaftar Expo";
             } else {
                 $expo = $kelompok -> status_expo;
             }
@@ -158,8 +158,8 @@ class DashboardController extends BaseController
             $pendaftaran_ta = Dashmo::cekStatusPendaftaranSidangTA($user->user_id);
             $kelompok_mhs = Dashmo::checkKelompokMhs($user->user_id);
              $sidang_ta = Dashmo::sidangTugasAkhirByMahasiswa($user->user_id);
-            if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA!") {
-                $sidang_ta = "Lulus Sidang TA!";
+            if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA") {
+                $sidang_ta = "Lulus Sidang TA";
             } else if ($sidang_ta != null) {
                 $waktuSidang = strtotime($sidang_ta->waktu);
 
@@ -180,7 +180,7 @@ class DashboardController extends BaseController
                 if ($kelompok_mhs->status_tugas_akhir != null) {
                     $sidang_ta = $kelompok_mhs->status_tugas_akhir;
                 } else {
-                    $sidang_ta = "Belum menyelesaikan capstone!";
+                    $sidang_ta = "Belum menyelesaikan capstone";
                 }
             }
 
@@ -201,9 +201,9 @@ class DashboardController extends BaseController
             if ($kelompok != null && $kelompok -> nomor_kelompok == null) {
                 $data = [
                     'rs_broadcast' => $rs_broadcast,
-                    'sidang_proposal' => "Kelompok Anda belum valid!",
-                    'expo' => "Kelompok Anda belum valid!",
-                    'sidang_ta' => "Anda belum menyelesaikan capstone!",
+                    'sidang_proposal' => "Kelompok Anda belum valid",
+                    'expo' => "Kelompok Anda belum valid",
+                    'sidang_ta' => "Anda belum menyelesaikan capstone",
                     'rs_siklus' => $rs_siklus,
 
                 ];
@@ -211,9 +211,9 @@ class DashboardController extends BaseController
             } else {
                 $data = [
                     'rs_broadcast' => $rs_broadcast,
-                    'sidang_proposal' => "Anda belum mendaftar capstone!",
-                    'expo' => "Anda belum mendaftar capstone!",
-                    'sidang_ta' => "Anda belum menyelesaikan capstone!",
+                    'sidang_proposal' => "Anda belum mendaftar capstone",
+                    'expo' => "Anda belum mendaftar capstone",
+                    'sidang_ta' => "Anda belum menyelesaikan capstone",
                     'rs_siklus' => $rs_siklus,
 
                 ];

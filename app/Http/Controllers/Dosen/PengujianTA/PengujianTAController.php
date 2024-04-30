@@ -141,10 +141,10 @@ class PengujianTAController extends BaseController
         foreach ($rs_pengujian_ta as $pengujian_ta) {
             if ($pengujian_ta->id_mahasiswa == $id) {
                 if ($pengujian_ta->id_dosen_penguji_ta1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_ta1' => 'Penguji Tidak Setuju!'];
+                    $params = ['status_dosen_penguji_ta1' => 'Penguji Tidak Setuju'];
                     break;
                 } elseif ($pengujian_ta->id_dosen_penguji_ta2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_ta2' => 'Penguji Tidak Setuju!'];
+                    $params = ['status_dosen_penguji_ta2' => 'Penguji Tidak Setuju'];
                     break;
                 }
             }
@@ -166,8 +166,8 @@ class PengujianTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             if ($anggota_kelompok->is_mendaftar_sidang != 0 &&
-                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" &&
-                $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
+                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang" &&
+                $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui") {
 
                     // Get data pendaftaran sidang TA untuk mahasiswa saat ini
                     $rs_periodeSekarang = PengujianTAModel::getDataPendaftaranSidangTA($id);
@@ -182,11 +182,11 @@ class PengujianTAController extends BaseController
                                     $pengujian_ta_updated = PengujianTAModel::getDataById($id);
 
                                     // Check updated status for pengujian TA
-                                    if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Tidak Setuju!" &&
-                                        $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Tidak Setuju!") {
-                                        $paramsUpdated = ['status_tugas_akhir' => 'Penguji Tidak Setuju!'];
+                                    if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Tidak Setuju" &&
+                                        $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Tidak Setuju") {
+                                        $paramsUpdated = ['status_tugas_akhir' => 'Penguji Tidak Setuju'];
                                     } else {
-                                        $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji!'];
+                                        $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji'];
                                     }
 
                                     // Update status kelompok based on updated parameters
@@ -214,10 +214,10 @@ class PengujianTAController extends BaseController
         foreach ($rs_pengujian_ta as $pengujian_ta) {
             if ($pengujian_ta->id_mahasiswa == $id) {
                 if ($pengujian_ta->id_dosen_penguji_ta1 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_ta1' => 'Penguji Setuju!'];
+                    $params = ['status_dosen_penguji_ta1' => 'Penguji Setuju'];
                     break;
                 } elseif ($pengujian_ta->id_dosen_penguji_ta2 == Auth::user()->user_id) {
-                    $params = ['status_dosen_penguji_ta2' => 'Penguji Setuju!'];
+                    $params = ['status_dosen_penguji_ta2' => 'Penguji Setuju'];
                     break;
                 }
             }
@@ -237,8 +237,8 @@ class PengujianTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             if ($anggota_kelompok->is_mendaftar_sidang != 0 &&
-                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" &&
-                $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
+                $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang" &&
+                $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui") {
 
                 $rs_periodeSekarang = PengujianTAModel::getDataPendaftaranSidangTA($id);
                 $rs_periodeLalu = PengujianTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
@@ -254,11 +254,11 @@ class PengujianTAController extends BaseController
                                 $pengujian_ta_updated = PengujianTAModel::getDataById($anggota_kelompok->id_mahasiswa);
 
                                 // Determine updated status for pengujian TA
-                                if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Setuju!" &&
-                                    $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Setuju!") {
-                                    $paramsUpdated = ['status_individu' => 'Telah Dijadwalkan Sidang TA!', 'status_tugas_akhir' => 'Telah Dijadwalkan Sidang TA!'];
+                                if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Setuju" &&
+                                    $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Setuju") {
+                                    $paramsUpdated = ['status_individu' => 'Telah Dijadwalkan Sidang TA', 'status_tugas_akhir' => 'Telah Dijadwalkan Sidang TA'];
                                 } else {
-                                    $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji!'];
+                                    $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji'];
                                 }
 
                                 // Update status kelompok based on updated parameters
@@ -275,11 +275,11 @@ class PengujianTAController extends BaseController
                                 $pengujian_ta_updated = PengujianTAModel::getDataById($id);
 
                                 // Determine updated status for pengujian TA
-                                if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Setuju!" &&
-                                    $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Setuju!") {
-                                    $paramsUpdated = ['status_individu' => 'Telah Dijadwalkan Sidang TA!', 'status_tugas_akhir' => 'Telah Dijadwalkan Sidang TA!'];
+                                if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Setuju" &&
+                                    $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Setuju") {
+                                    $paramsUpdated = ['status_individu' => 'Telah Dijadwalkan Sidang TA', 'status_tugas_akhir' => 'Telah Dijadwalkan Sidang TA'];
                                 } else {
-                                    $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji!'];
+                                    $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji'];
                                 }
 
                                 // Update status kelompok based on updated parameters

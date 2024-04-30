@@ -112,31 +112,31 @@ class MahasiswaKelompokController extends BaseController
                 if (!$request->has($param) || empty($request->input($param))) {
                     switch ($param) {
                         case 'judul_capstone':
-                            session()->flash('danger', "Judul Capstone kosong atau belum diisi!");
+                            session()->flash('danger', "Judul Capstone kosong atau belum diisi");
                             break;
                         case 'id_siklus':
-                            session()->flash('danger', "Siklus kosong atau belum diisi!");
+                            session()->flash('danger', "Siklus kosong atau belum diisi");
                             break;
                         case 'angkatan':
-                            session()->flash('danger', "Angkatan kosong atau belum diisi!");
+                            session()->flash('danger', "Angkatan kosong atau belum diisi");
                             break;
                         case 'email':
-                            session()->flash('danger', "Email kosong atau belum diisi!");
+                            session()->flash('danger', "Email kosong atau belum diisi");
                             break;
                         case 'nim':
-                            session()->flash('danger', "NIM kosong atau belum diisi!");
+                            session()->flash('danger', "NIM kosong atau belum diisi");
                             break;
                         case 'ipk':
-                            session()->flash('danger', "IPK kosong atau belum diisi!");
+                            session()->flash('danger', "IPK kosong atau belum diisi");
                             break;
                         case 'sks':
-                            session()->flash('danger', "SKS kosong atau belum diisi!");
+                            session()->flash('danger', "SKS kosong atau belum diisi");
                             break;
                         case 'no_telp':
-                            session()->flash('danger', "Nomor telepon kosong atau belum diisi!");
+                            session()->flash('danger', "Nomor telepon kosong atau belum diisi");
                             break;
                         default:
-                            session()->flash('danger', "Parameter '$param' kosong atau belum diisi!");
+                            session()->flash('danger', "Parameter '$param' kosong atau belum diisi");
                             break;
                     }
                     return back()->withInput();
@@ -146,19 +146,19 @@ class MahasiswaKelompokController extends BaseController
                 switch ($param) {
                     case 'angkatan':
                         if (!preg_match('/^\d{4}$/', $request->input($param))) {
-                            session()->flash('danger', "Format angkatan tidak valid!");
+                            session()->flash('danger', "Format angkatan tidak valid");
                             return back()->withInput();
                         }
                         break;
                     case 'email':
                         if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
-                            session()->flash('danger', "Format email tidak valid!");
+                            session()->flash('danger', "Format email tidak valid");
                             return back()->withInput();
                         }
                         break;
                     case 'nim':
                         if (!preg_match('/^\d{14}$/', $request->input($param))) {
-                            session()->flash('danger', "Format NIM tidak valid!");
+                            session()->flash('danger', "Format NIM tidak valid");
                             return back()->withInput();
                         }
                         break;
@@ -194,13 +194,13 @@ class MahasiswaKelompokController extends BaseController
                         break;
                     case 'email':
                         if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
-                            session()->flash('danger', "Format email tidak valid!");
+                            session()->flash('danger', "Format email tidak valid");
                             return back()->withInput();
                         }
                         break;
                     case 'no_telp':
                         if (!preg_match('/^\d{10,14}$/', $request->input($param))) {
-                            session()->flash('danger', "Format nomor telepon tidak valid!");
+                            session()->flash('danger', "Format nomor telepon tidak valid");
                             return back()->withInput();
                         }
                         break;
@@ -219,7 +219,7 @@ class MahasiswaKelompokController extends BaseController
 
                             // Periksa apakah semua angka adalah unik
                             if (count(array_unique($valuesArray)) !== 4) {
-                                session()->flash('danger', "Angka pada $param harus unik!");
+                                session()->flash('danger', "Angka pada $param harus unik");
                                 return back()->withInput();
                             }
 
@@ -271,7 +271,7 @@ class MahasiswaKelompokController extends BaseController
                          'usulan_judul_capstone' => $request->judul_capstone,
                          'id_siklus' => $request->id_siklus,
                          'id_mahasiswa' => $user->user_id,
-                         'status_individu' => 'Menunggu Penetapan Kelompok!',
+                         'status_individu' => 'Menunggu Penetapan Kelompok',
                          'id_topik_individu1' => $topik1->id,
                          'id_topik_individu2' => $topik2->id,
                          'id_topik_individu3' => $topik3->id,
@@ -287,20 +287,20 @@ class MahasiswaKelompokController extends BaseController
                      MahasiswaKelompokModel::insertKelompokMHS($params2);
 
                     // flash message
-                    session()->flash('success', 'Berhasil mendaftar capstone!');
+                    session()->flash('success', 'Berhasil mendaftar capstone');
                     return redirect('/mahasiswa/kelompok');
                  } else {
-                     session()->flash('danger', 'Pengguna tidak ditemukan!');
+                     session()->flash('danger', 'Pengguna tidak ditemukan');
                     return back()->withInput();
 
                  }
              } catch (\Exception $e) {
-                 session()->flash('danger', 'Gagal mendaftar capstone!');
+                 session()->flash('danger', 'Gagal mendaftar capstone');
                 return back()->withInput();
 
              }
          } else {
-            session()->flash('danger', 'Pengguna tidak ditemukan!');
+            session()->flash('danger', 'Pengguna tidak ditemukan');
             return back()->withInput();
 
          }
@@ -325,7 +325,7 @@ class MahasiswaKelompokController extends BaseController
             foreach ($requiredParams as $param) {
                 if (!$request->has($param) || empty($request->input($param))) {
                     $paramName = ucfirst(str_replace('_', ' ', $param));
-                    session()->flash('danger', "$paramName kosong atau belum diisi!");
+                    session()->flash('danger', "$paramName kosong atau belum diisi");
                     return back()->withInput();
                 }
 
@@ -333,7 +333,7 @@ class MahasiswaKelompokController extends BaseController
                 switch ($param) {
                     case 'judul_capstone':
                         if (strlen($request->input($param)) > 255) {
-                            session()->flash('danger', "Judul Capstone terlalu panjang!");
+                            session()->flash('danger', "Judul Capstone terlalu panjang");
                             return back()->withInput();
                         }
                         break;
@@ -352,7 +352,7 @@ class MahasiswaKelompokController extends BaseController
                         // Validasi angkatan (4 digit angka)
                         if (!preg_match('/^\d{4}$/', $request->input($param))) {
                             $paramName = ucfirst(str_replace('_', ' ', $param));
-                            session()->flash('danger', "Format angkatan tidak valid untuk $paramName!");
+                            session()->flash('danger', "Format angkatan tidak valid untuk $paramName");
                             return back()->withInput();
                         }
                         break;
@@ -362,7 +362,7 @@ class MahasiswaKelompokController extends BaseController
                         // Validasi email
                         if (!filter_var($request->input($param), FILTER_VALIDATE_EMAIL)) {
                             $paramName = ucfirst(str_replace('_', ' ', $param));
-                            session()->flash('danger', "Format email tidak valid untuk $paramName!");
+                            session()->flash('danger', "Format email tidak valid untuk $paramName");
                             return back()->withInput();
                         }
                         break;
@@ -412,7 +412,7 @@ class MahasiswaKelompokController extends BaseController
                     case 'no_telp3':
                         // Validasi nomor telepon (10-14 digit angka)
                         if (!preg_match('/^\d{10,14}$/', $request->input($param))) {
-                            session()->flash('danger', "Format nomor telepon tidak valid untuk $paramName!");
+                            session()->flash('danger', "Format nomor telepon tidak valid untuk $paramName");
                             return back()->withInput();
                         }
                         break;
@@ -425,12 +425,12 @@ class MahasiswaKelompokController extends BaseController
 
             // Validasi tambahan setelah iterasi
             if ($request->dosbing_1 == $request->dosbing_2) {
-                session()->flash('danger', "Dosen pembimbing tidak boleh sama!");
+                session()->flash('danger', "Dosen pembimbing tidak boleh sama");
                 return back()->withInput();
             }
 
             if ($request->user_id1 == $request->user_id2 || $request->user_id1 == $request->user_id3 || $request->user_id2 == $request->user_id3) {
-                session()->flash('danger', "Mahasiswa tidak boleh sama!");
+                session()->flash('danger', "Mahasiswa tidak boleh sama");
                 return back()->withInput();
             }
 
@@ -442,11 +442,11 @@ class MahasiswaKelompokController extends BaseController
                         "id_siklus" => $request->id_siklus,
                         "judul_capstone" => $request->judul_capstone,
                         "id_topik" => $request->id_topik,
-                        "status_kelompok" => 'Menunggu Persetujuan Anggota!',
+                        "status_kelompok" => 'Menunggu Persetujuan Anggota',
                         "id_dosen_pembimbing_1" => $request->dosbing_1,
-                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan Dosbing!',
+                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan Dosbing',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
-                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan Dosbing!',
+                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan Dosbing',
                         'created_by' => $user->user_id,
                         'created_date' => now()
                     ];
@@ -473,7 +473,7 @@ class MahasiswaKelompokController extends BaseController
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $user->user_id,
-                            'status_individu' => 'Menyetujui Kelompok!',
+                            'status_individu' => 'Menyetujui Kelompok',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -501,7 +501,7 @@ class MahasiswaKelompokController extends BaseController
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id2,
-                            'status_individu' => 'Didaftarkan!',
+                            'status_individu' => 'Didaftarkan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -529,7 +529,7 @@ class MahasiswaKelompokController extends BaseController
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id3,
-                            'status_individu' => 'Didaftarkan!',
+                            'status_individu' => 'Didaftarkan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -538,17 +538,17 @@ class MahasiswaKelompokController extends BaseController
                         MahasiswaKelompokModel::insertKelompokMHS($params33);
                     }
 
-                    session()->flash('success', "Berhasil mendaftar capstone!");
+                    session()->flash('success', "Berhasil mendaftar capstone");
                 } else {
-                    session()->flash('danger', "Pastikan semua mahasiswa merupakan mahasiswa aktif!");
+                    session()->flash('danger', "Pastikan semua mahasiswa merupakan mahasiswa aktif");
                 }
 
             } catch (\Exception $e) {
-                session()->flash('danger', "Gagal mendaftar capstone!");
+                session()->flash('danger', "Gagal mendaftar capstone");
             }
         } else {
             // User not found or api_token is null
-            session()->flash('danger', "Pengguna tidak ditemukan!");
+            session()->flash('danger', "Pengguna tidak ditemukan");
         }
 
         return redirect('/mahasiswa/kelompok');
@@ -566,15 +566,15 @@ class MahasiswaKelompokController extends BaseController
                 $update_kelompok_mhs = MahasiswaKelompokModel::deleteKelompokMhs($user->user_id);
 
                 // Simpan pesan sukses ke dalam session flash
-                session()->flash('success', 'Berhasil menolak kelompok!');
+                session()->flash('success', 'Berhasil menolak kelompok');
 
             } catch (\Exception $e) {
                 // Simpan pesan kegagalan ke dalam session flash
-                session()->flash('danger', 'Gagal menolak!');
+                session()->flash('danger', 'Gagal menolak');
             }
         } else {
             // Simpan pesan kegagalan pengguna tidak ditemukan ke dalam session flash
-            session()->flash('danger', 'Pengguna tidak ditemukan!');
+            session()->flash('danger', 'Pengguna tidak ditemukan');
         }
 
         // Kembalikan pengguna ke halaman sebelumnya dengan session flash
@@ -590,7 +590,7 @@ class MahasiswaKelompokController extends BaseController
             try {
                 // parameter
                 $params = [
-                    "status_individu" => "Menyetujui Kelompok!",
+                    "status_individu" => "Menyetujui Kelompok",
                 ];
 
                 // Proses penerimaan kelompok
@@ -605,7 +605,7 @@ class MahasiswaKelompokController extends BaseController
 
                     foreach ($rs_mahasiswa as $key => $mahasiswa) {
                         // Jika status individu bukan "menyetujui kelompok", set variabel $semuaSetuju menjadi false
-                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok!") {
+                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok") {
                             $semuaSetuju = false;
                             // Jika salah satu mahasiswa tidak setuju, Anda bisa langsung keluar dari loop
                             break;
@@ -615,22 +615,22 @@ class MahasiswaKelompokController extends BaseController
                     // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
                     if ($semuaSetuju) {
                         $paramKelompok = [
-                            "status_kelompok" => "Menunggu Persetujuan Dosbing!",
+                            "status_kelompok" => "Menunggu Persetujuan Dosbing",
                         ];
                         $update_kelompok = MahasiswaKelompokModel::updateKelompok($kelompok ->id, $paramKelompok);
                     }
                 }
 
                 // Simpan pesan sukses ke dalam session flash
-                session()->flash('success', 'Berhasil menyetujui kelompok!');
+                session()->flash('success', 'Berhasil menyetujui kelompok');
 
             } catch (\Exception $e) {
                 // Simpan pesan kegagalan ke dalam session flash
-                session()->flash('danger', 'Gagal menyetujui!');
+                session()->flash('danger', 'Gagal menyetujui');
             }
         } else {
             // Simpan pesan kegagalan pengguna tidak ditemukan ke dalam session flash
-            session()->flash('danger', 'Pengguna tidak ditemukan!');
+            session()->flash('danger', 'Pengguna tidak ditemukan');
         }
 
         // Kembalikan pengguna ke halaman sebelumnya dengan session flash

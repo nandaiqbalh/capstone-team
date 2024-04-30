@@ -36,7 +36,7 @@ class MahasiswaExpoController extends BaseController
 
             $showButton = true;
 
-            if ($kelompok -> status_expo == "Gagal Expo Project!") {
+            if ($kelompok -> status_expo == "Gagal Expo Project") {
                 $showButton = true;
                 $rs_expo = MahasiswaExpoModel::getDataExpo();
 
@@ -101,49 +101,49 @@ class MahasiswaExpoController extends BaseController
     {
         // Validasi user
         if (!$request->user()) {
-            return redirect()->back()->with('danger', 'Gagal mendapatkan data user!');
+            return redirect()->back()->with('danger', 'Gagal mendapatkan data user');
         }
 
         // Validasi kelompok mahasiswa
         $kelompok = MahasiswaExpoModel::pengecekan_kelompok_mahasiswa($request->user()->user_id);
         if (!$kelompok) {
-            return redirect()->back()->with('danger', 'Anda belum memiliki kelompok!');
+            return redirect()->back()->with('danger', 'Anda belum memiliki kelompok');
         }
 
         // Validasi berkas Capstone (file_name_c500)
-        if ($kelompok->file_status_c100 != "C100 Telah Disetujui!" && $kelompok->file_status_c100 != "Final C100 Telah Disetujui!" ) {
-            return redirect()->back()->with('danger', 'Dokumen C100 belum disetujui kedua dosen pembimbing!');
+        if ($kelompok->file_status_c100 != "C100 Telah Disetujui" && $kelompok->file_status_c100 != "Final C100 Telah Disetujui" ) {
+            return redirect()->back()->with('danger', 'Dokumen C100 belum disetujui kedua dosen pembimbing');
         }
 
-        if ($kelompok->file_status_c200 != "C200 Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Dokumen C200 belum disetujui kedua dosen pembimbing!');
+        if ($kelompok->file_status_c200 != "C200 Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Dokumen C200 belum disetujui kedua dosen pembimbing');
         }
 
-        if ($kelompok->file_status_c300 != "C300 Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Dokumen C300 belum disetujui kedua dosen pembimbing!');
+        if ($kelompok->file_status_c300 != "C300 Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Dokumen C300 belum disetujui kedua dosen pembimbing');
         }
 
-        if ($kelompok->file_status_c400 != "C400 Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Dokumen C400 belum disetujui kedua dosen pembimbing!');
+        if ($kelompok->file_status_c400 != "C400 Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Dokumen C400 belum disetujui kedua dosen pembimbing');
         }
 
-        if ($kelompok->file_status_c500 != "C500 Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Dokumen C500 belum disetujui kedua dosen pembimbing!');
+        if ($kelompok->file_status_c500 != "C500 Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Dokumen C500 belum disetujui kedua dosen pembimbing');
         }
 
         $existingFile = MahasiswaExpoModel::fileMHS(Auth::user()->user_id);
 
-        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
+        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing');
         }
 
-        if ($existingFile->file_status_mta != "Makalah TA Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Makalah TA belum disetujui kedua dosen pembimbing!');
+        if ($existingFile->file_status_mta != "Makalah TA Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Makalah TA belum disetujui kedua dosen pembimbing');
         }
 
         // Validasi laporan TA sudah diunggah
         if (!$existingFile || !$existingFile->file_name_laporan_ta) {
-            return redirect()->back()->with('danger', 'Lengkapi laporan TA terlebih dahulu sebelum mendaftar expo!');
+            return redirect()->back()->with('danger', 'Lengkapi laporan TA terlebih dahulu sebelum mendaftar expo');
         }
 
         // Validasi judul TA mahasiswa (maksimum 20 kata)
@@ -151,7 +151,7 @@ class MahasiswaExpoController extends BaseController
         $wordCount = str_word_count($judulTaMhs);
 
         if ($wordCount > 20) {
-            return redirect()->back()->with('danger', 'Judul TA maksimal 20 kata!');
+            return redirect()->back()->with('danger', 'Judul TA maksimal 20 kata');
         }
 
         // Validasi link upload sebagai URL
@@ -167,7 +167,7 @@ class MahasiswaExpoController extends BaseController
             'id_kelompok' => $kelompok->id,
             'id_expo' => $request->id_expo,
             'id_siklus' => $kelompok->id_siklus,
-            'status' => 'Menunggu Persetujuan Expo!',
+            'status' => 'Menunggu Persetujuan Expo',
             'created_by' => $request->user()->user_id,
             'created_date' => now(),
         ];
@@ -177,8 +177,8 @@ class MahasiswaExpoController extends BaseController
             // Update status kelompok dan mahasiswa
             $kelompokParams = [
                 'link_berkas_expo' => $validatedData['link_berkas_expo'],
-                'status_kelompok' => "Menunggu Persetujuan Expo!",
-                'status_expo' => "Menunggu Persetujuan Expo!",
+                'status_kelompok' => "Menunggu Persetujuan Expo",
+                'status_expo' => "Menunggu Persetujuan Expo",
                 'is_selesai' => '0',
                 'is_lulus_expo' => '0',
 
@@ -187,13 +187,13 @@ class MahasiswaExpoController extends BaseController
 
             $kelompokMHSParams = [
                 'judul_ta_mhs' => $judulTaMhs,
-                'status_individu' => "Menunggu Persetujuan Expo!"
+                'status_individu' => "Menunggu Persetujuan Expo"
             ];
             $statusDaftar = MahasiswaExpoModel::updateKelompokMHS($request->user()->user_id, $kelompokMHSParams);
 
-            return redirect()->back()->with('success', 'Berhasil mendaftarkan expo!');
+            return redirect()->back()->with('success', 'Berhasil mendaftarkan expo');
         } else {
-            return redirect()->back()->with('danger', 'Gagal menyimpan data pendaftaran expo!');
+            return redirect()->back()->with('danger', 'Gagal menyimpan data pendaftaran expo');
         }
     }
 

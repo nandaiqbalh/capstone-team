@@ -55,15 +55,15 @@
                                                 $color = '';
 
                                                 switch ($statusKelompok) {
-                                                    case 'Menunggu Penetapan Kelompok!':
-                                                    case 'Menunggu Penetapan Dosbing!':
-                                                    case 'Menunggu Persetujuan Anggota!':
-                                                    case 'Menunggu Persetujuan Dosbing!':
-                                                    case 'Menunggu Persetujuan Penguji!':
-                                                    case 'Menunggu Persetujuan Tim Capstone!':
+                                                    case 'Menunggu Penetapan Kelompok':
+                                                    case 'Menunggu Penetapan Dosbing':
+                                                    case 'Menunggu Persetujuan Anggota':
+                                                    case 'Menunggu Persetujuan Dosbing':
+                                                    case 'Menunggu Persetujuan Penguji':
+                                                    case 'Menunggu Persetujuan Tim Capstone':
                                                         $color = '#F86F03'; // Warna Orange
                                                         break;
-                                                    case 'Kelompok Telah Disetujui!':
+                                                    case 'Kelompok Telah Disetujui':
                                                         $color = '#44B158'; // Warna Hijau
                                                         break;
                                                     default:
@@ -73,7 +73,7 @@
                                             @endphp
 
                                             <span style="color: {{ $color }};">
-                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
+                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone' }}
                                             </span>
                                         </td>
                                     </tr>

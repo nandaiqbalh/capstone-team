@@ -56,17 +56,17 @@ class PersetujuanC500Controller extends BaseController
                 if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'C500 Tidak Disetujui Dosbing 1!',
-                        'file_status_c500_dosbing1' => 'C500 Tidak Disetujui Dosbing 1!',
-                        'file_status_c500' => 'C500 Tidak Disetujui Dosbing 1!',
+                        'status_dosen_pembimbing_1' => 'C500 Tidak Disetujui Dosbing 1',
+                        'file_status_c500_dosbing1' => 'C500 Tidak Disetujui Dosbing 1',
+                        'file_status_c500' => 'C500 Tidak Disetujui Dosbing 1',
                     ];
                     break;
                 } else if ($persetujuan_c500->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'C500 Tidak Disetujui Dosbing 2!',
-                        'file_status_c500_dosbing2' => 'C500 Tidak Disetujui Dosbing 2!',
-                        'file_status_c500' => 'C500 Tidak Disetujui Dosbing 2!',
+                        'status_dosen_pembimbing_2' => 'C500 Tidak Disetujui Dosbing 2',
+                        'file_status_c500_dosbing2' => 'C500 Tidak Disetujui Dosbing 2',
+                        'file_status_c500' => 'C500 Tidak Disetujui Dosbing 2',
                     ];
                     break;
                 }
@@ -86,30 +86,30 @@ class PersetujuanC500Controller extends BaseController
             $persetujuan_c500_updated = PersetujuanC500Model::getDataById($id);
 
             if ($persetujuan_c500_updated->id == $id) {
-                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" &&
-                     $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2!") {
+                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1" &&
+                     $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2") {
 
                         $paramsUpdated = [
-                            'status_kelompok' => 'C500 Tidak Disetujui!',
+                            'status_kelompok' => 'C500 Tidak Disetujui',
                         ];
                         // Update status kelompok
                         PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
-                } else if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1!" ) {
+                } else if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Tidak Disetujui Dosbing 1" ) {
 
                         $paramsUpdated = [
-                            'status_kelompok' => 'C500 Tidak Disetujui Dosbing 1!',
+                            'status_kelompok' => 'C500 Tidak Disetujui Dosbing 1',
                         ];
                         // Update status kelompok
                         PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
-                } else if ($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2!" ) {
+                } else if ($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Tidak Disetujui Dosbing 2" ) {
                         $paramsUpdated = [
-                            'status_kelompok' => 'C500 Tidak Disetujui Dosbing 2!',
+                            'status_kelompok' => 'C500 Tidak Disetujui Dosbing 2',
                         ];
                         // Update status kelompok
                         PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
                 } else {
                         $paramsUpdated = [
-                            'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                            'status_kelompok' => 'Menunggu Persetujuan Penguji',
                         ];
                         PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
                 }
@@ -134,14 +134,14 @@ class PersetujuanC500Controller extends BaseController
             if ($persetujuan_c500->id == $id) {
                 if ($persetujuan_c500->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $params = [
-                        'status_dosen_pembimbing_1' => 'C500 Telah Disetujui!',
-                        'file_status_c500_dosbing1' => 'C500 Telah Disetujui!'
+                        'status_dosen_pembimbing_1' => 'C500 Telah Disetujui',
+                        'file_status_c500_dosbing1' => 'C500 Telah Disetujui'
                     ];
                     break;
                 } else if ($persetujuan_c500->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $params = [
-                        'status_dosen_pembimbing_2' => 'C500 Telah Disetujui!',
-                        'file_status_c500_dosbing2' => 'C500 Telah Disetujui!'
+                        'status_dosen_pembimbing_2' => 'C500 Telah Disetujui',
+                        'file_status_c500_dosbing2' => 'C500 Telah Disetujui'
                     ];
 
                     break;
@@ -161,34 +161,34 @@ class PersetujuanC500Controller extends BaseController
             $persetujuan_c500_updated = PersetujuanC500Model::getDataById($id);
 
             if ($persetujuan_c500_updated->id == $id) {
-                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui!" &&
-                    $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui!" ) {
+                if ($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui" &&
+                    $persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui" ) {
 
                     $paramsUpdated = [
-                        'status_kelompok' => 'C500 Telah Disetujui!',
-                        'file_status_c500'=> "C500 Telah Disetujui!",
+                        'status_kelompok' => 'C500 Telah Disetujui',
+                        'file_status_c500'=> "C500 Telah Disetujui",
                     ];
 
                     // Update status kelompok
                     PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui!"){
+                } elseif($persetujuan_c500_updated->file_status_c500_dosbing1 == "C500 Telah Disetujui"){
                     $paramsUpdated = [
-                        'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 2!',
-                        'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 2!",
+                        'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 2',
+                        'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 2",
                     ];
 
                     PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui!"){
+                } elseif($persetujuan_c500_updated->file_status_c500_dosbing2 == "C500 Telah Disetujui"){
                     $paramsUpdated = [
-                        'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 1!',
-                        'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 1!",
+                        'status_kelompok' => 'C500 Menunggu Persetujuan Dosbing 1',
+                        'file_status_c500'=> "C500 Menunggu Persetujuan Dosbing 1",
                     ];
 
                     PersetujuanC500Model::updateKelompok($id, $paramsUpdated);
                 } else {
                     $paramsUpdated = [
-                        'status_kelompok' => 'Menunggu Persetujuan C500!',
-                        'file_status_c500'=> "Menunggu Persetujuan C500!",
+                        'status_kelompok' => 'Menunggu Persetujuan C500',
+                        'file_status_c500'=> "Menunggu Persetujuan C500",
                     ];
 
                     PersetujuanC500Model::updateKelompok($id, $paramsUpdated);

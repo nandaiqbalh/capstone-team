@@ -80,7 +80,7 @@ class PeriodeSidangTAController extends BaseController
     public function terimaMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Menunggu Penjadwalan Sidang TA!'];
+        $params = ['status' => 'Menunggu Penjadwalan Sidang TA'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = PeriodeSidangTAModel::getDataMahasiswa($id);
@@ -89,8 +89,8 @@ class PeriodeSidangTAController extends BaseController
             // Process
             if (PeriodeSidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA!",
-                    'status_individu' => "Menunggu Penjadwalan Sidang TA!"];
+                    'status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA",
+                    'status_individu' => "Menunggu Penjadwalan Sidang TA"];
                 if (PeriodeSidangTAModel::updateKelompokMhs($id, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -115,7 +115,7 @@ class PeriodeSidangTAController extends BaseController
     public function tolakMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui!'];
+        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = PeriodeSidangTAModel::getDataMahasiswa($id);
@@ -124,8 +124,8 @@ class PeriodeSidangTAController extends BaseController
             // Process
             if (PeriodeSidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui!",
-                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui!"];
+                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui",
+                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui"];
                 if (PeriodeSidangTAModel::updateKelompokMhs($id, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -248,7 +248,7 @@ class PeriodeSidangTAController extends BaseController
         // Check
         if (empty($sidang_ta)) {
             // Flash message
-            session()->flash('danger', 'Belum ada mahasiswa yang mendaftar!');
+            session()->flash('danger', 'Belum ada mahasiswa yang mendaftar');
             return redirect('/tim-capstone/periode-sidang-ta');
         }
 
@@ -381,16 +381,16 @@ class PeriodeSidangTAController extends BaseController
             if ($kelompok_mhs->id_dosen_penguji_ta1 == null && $kelompok_mhs->id_dosen_penguji_ta2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_penguji_ta1' => $request->id_dosen,
-                    'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji',
                 ];
 
                 if ($request->id_dosen == $kelompok -> id_dosen_pembimbing_1 || $request->id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing!');
+                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing');
                     return back();
                 }
 
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -401,15 +401,15 @@ class PeriodeSidangTAController extends BaseController
             if ($kelompok_mhs->id_dosen_penguji_ta2 == null && $kelompok_mhs->id_dosen_penguji_ta1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_penguji_ta2' => $request->id_dosen,
-                    'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji',
                 ];
 
                 if ($request->id_dosen == $kelompok -> id_dosen_pembimbing_1 || $request->id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing!');
+                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing');
                     return back();
                 }
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -422,7 +422,7 @@ class PeriodeSidangTAController extends BaseController
 
             if ($kelompok_mhs_updated->id_dosen_penguji_ta1 != null && $kelompok_mhs_updated->id_dosen_penguji_ta2 != null) {
                 $paramsStatusKelompok = [
-                    'status_tugas_akhir' => "Menunggu Persetujuan Penguji!",
+                    'status_tugas_akhir' => "Menunggu Persetujuan Penguji",
                 ];
 
                 PeriodeSidangTAModel::updateKelompokMhs($id_mahasiswa, $paramsStatusKelompok);
@@ -535,10 +535,10 @@ class PeriodeSidangTAController extends BaseController
 
         // Update status kelompok
         $paramsStatusKelompok = [
-            'status_sidang_proposal' => 'Menunggu Persetujuan Penguji!',
-            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Pembimbing!',
-            'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji!',
-            'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji!'
+            'status_sidang_proposal' => 'Menunggu Persetujuan Penguji',
+            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Pembimbing',
+            'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji',
+            'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji'
         ];
         PeriodeSidangTAModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
 

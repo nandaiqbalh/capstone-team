@@ -32,7 +32,7 @@
                         <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @else
-                        @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
+                        @if ($akun_mahasiswa->status_individu == 'Didaftarkan')
 
                             <div>
                                 <script>

@@ -70,7 +70,7 @@
                                                 <td>Status</td>
                                                 <td>:</td>
                                                 <td style="color: {{ $kelompok->status_tugas_akhir_color }}">
-                                                    {{ $kelompok->status_tugas_akhir ?: 'Belum Mendaftar Sidang TA!' }}
+                                                    {{ $kelompok->status_tugas_akhir ?: 'Belum Mendaftar Sidang TA' }}
                                                 </td>
                                             </tr>
 
@@ -153,7 +153,7 @@
                                                     <td>Status</td>
                                                     <td>:</td>
                                                     <td style="color: {{ $kelompok->status_tugas_akhir_color }}">
-                                                        {{ $kelompok->status_tugas_akhir ?: 'Belum Mendaftar Sidang TA!' }}
+                                                        {{ $kelompok->status_tugas_akhir ?: 'Belum Mendaftar Sidang TA' }}
                                                     </td>
                                                 </tr>
 
@@ -317,11 +317,9 @@
                                             </div>
                                         </div>
 
-
                                         <br>
                                         @if ($showButton == true)
-                                            <button type="submit"
-                                                class="btn btn-primary float-end">Daftar</button>
+                                            <button type="submit" class="btn btn-primary float-end">Daftar</button>
                                         @else
                                         @endif
                                     </form>

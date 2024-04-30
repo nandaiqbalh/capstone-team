@@ -72,18 +72,17 @@
 
                                         <td class="text-center">
 
-
                                             @if ($kelompok->is_lulus_expo == 1)
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                             @else
                                                 @if ($kelompok->jenis_dosen == 'Pembimbing 1')
-                                                    @if ($kelompok->file_status_c500_dosbing1 == 'C500 Telah Disetujui!')
+                                                    @if ($kelompok->file_status_c500_dosbing1 == 'C500 Telah Disetujui')
                                                         <a href="{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-danger btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                             Tolak</a>
-                                                    @elseif($kelompok->file_status_c500_dosbing1 == 'Menunggu Persetujuan C500!')
+                                                    @elseif($kelompok->file_status_c500_dosbing1 == 'Menunggu Persetujuan C500')
                                                         <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-success btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
@@ -92,7 +91,7 @@
                                                             class="btn btn-outline-danger btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                             Tolak</a>
-                                                    @elseif($kelompok->file_status_c500_dosbing1 == 'C500 Tidak Disetujui Dosbing 1!')
+                                                    @elseif($kelompok->file_status_c500_dosbing1 == 'C500 Tidak Disetujui Dosbing 1')
                                                         <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-success btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
@@ -101,14 +100,13 @@
                                                         <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                     @endif
-
                                                 @else
-                                                    @if ($kelompok->file_status_c500_dosbing2 == 'C500 Telah Disetujui!')
+                                                    @if ($kelompok->file_status_c500_dosbing2 == 'C500 Telah Disetujui')
                                                         <a href="{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-danger btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                             Tolak</a>
-                                                    @elseif($kelompok->file_status_c500_dosbing2 == 'Menunggu Persetujuan C500!')
+                                                    @elseif($kelompok->file_status_c500_dosbing2 == 'Menunggu Persetujuan C500')
                                                         <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-success btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
@@ -117,7 +115,7 @@
                                                             class="btn btn-outline-danger btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/tolak') }}/{{ $kelompok->id }}')">
                                                             Tolak</a>
-                                                    @elseif($kelompok->file_status_c500_dosbing2 == 'C500 Tidak Disetujui Dosbing 2!')
+                                                    @elseif($kelompok->file_status_c500_dosbing2 == 'C500 Tidak Disetujui Dosbing 2')
                                                         <a href="{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}"
                                                             class="btn btn-outline-success btn-xs m-1"
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c500/terima') }}/{{ $kelompok->id }}')">
@@ -140,7 +138,7 @@
                                                     showCancelButton: true,
                                                     confirmButtonColor: '#3085d6',
                                                     cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                                    confirmButtonText: 'Ya, Lanjutkan',
                                                     cancelButtonText: 'Batal'
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {

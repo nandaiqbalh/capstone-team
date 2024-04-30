@@ -112,13 +112,13 @@ class KelompokBimbinganController extends BaseController
                 if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'Dosbing Setuju!',
+                        'status_dosen_pembimbing_1' => 'Dosbing Setuju',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'Dosbing Setuju!',
+                        'status_dosen_pembimbing_2' => 'Dosbing Setuju',
                     ];
                     break;
                 }
@@ -132,20 +132,20 @@ class KelompokBimbinganController extends BaseController
             $bimbingan_saya_updated = KelompokBimbinganModel::getDataById($id);
 
             if ($bimbingan_saya_updated->id == $id) {
-                if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Setuju!" &&
-                    $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Setuju!") {
-                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
-                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone!" &&
-                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Setuju!") {
-                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
-                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Setuju!" &&
-                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone!") {
-                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
-                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone!" &&
-                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone!") {
-                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone!';
+                if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Setuju" &&
+                    $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Setuju") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone';
+                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone" &&
+                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Setuju") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone';
+                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Setuju" &&
+                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone';
+                } elseif ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Diplot Tim Capstone" &&
+                          $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Diplot Tim Capstone") {
+                    $status_kelompok = 'Menunggu Persetujuan Tim Capstone';
                 } else {
-                    $status_kelompok = 'Menunggu Persetujuan Dosbing!';
+                    $status_kelompok = 'Menunggu Persetujuan Dosbing';
                 }
 
                 KelompokBimbinganModel::update($id, ['status_kelompok' => $status_kelompok]);
@@ -174,13 +174,13 @@ class KelompokBimbinganController extends BaseController
                 if ($bimbingan->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'status_dosen_pembimbing_1' => 'Dosbing Tidak Setuju!',
+                        'status_dosen_pembimbing_1' => 'Dosbing Tidak Setuju',
                     ];
                     break;
                 } else if ($bimbingan->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'status_dosen_pembimbing_2' => 'Dosbing Tidak Setuju!',
+                        'status_dosen_pembimbing_2' => 'Dosbing Tidak Setuju',
                     ];
                     break;
                 }
@@ -196,14 +196,14 @@ class KelompokBimbinganController extends BaseController
             $bimbingan_saya_updated = KelompokBimbinganModel::getDataById($id);
 
             if ($bimbingan_saya_updated->id == $id) {
-                if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Tidak Setuju!" &&
-                    $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Tidak Setuju!") {
+                if ($bimbingan_saya_updated->status_dosen_pembimbing_1 == "Dosbing Tidak Setuju" &&
+                    $bimbingan_saya_updated->status_dosen_pembimbing_2 == "Dosbing Tidak Setuju") {
 
-                    $paramsUpdated = ['status_kelompok' => 'Dosbing Tidak Setuju!'];
+                    $paramsUpdated = ['status_kelompok' => 'Dosbing Tidak Setuju'];
                     // Update status kelompok
                     KelompokBimbinganModel::update($id, $paramsUpdated);
                 } else {
-                    $paramsUpdated = ['status_kelompok' => 'Menunggu Penetapan Dosbing!'];
+                    $paramsUpdated = ['status_kelompok' => 'Menunggu Penetapan Dosbing'];
 
                     KelompokBimbinganModel::update($id, $paramsUpdated);
 

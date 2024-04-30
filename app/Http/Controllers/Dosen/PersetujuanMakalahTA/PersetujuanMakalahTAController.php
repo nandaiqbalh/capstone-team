@@ -56,15 +56,15 @@ class PersetujuanMakalahTAController extends BaseController
                 if ($persetujuan_mta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
                     $params = [
-                        'file_status_mta_dosbing1' => 'Makalah TA Tidak Disetujui Dosbing 1!',
-                        'file_status_mta' => 'Makalah TA Tidak Disetujui Dosbing 1!',
+                        'file_status_mta_dosbing1' => 'Makalah TA Tidak Disetujui Dosbing 1',
+                        'file_status_mta' => 'Makalah TA Tidak Disetujui Dosbing 1',
                     ];
                     break;
                 } else if ($persetujuan_mta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
                     $params = [
-                        'file_status_mta_dosbing2' => 'Makalah TA Tidak Disetujui Dosbing 2!',
-                        'file_status_mta' => 'Makalah TA Tidak Disetujui Dosbing 2!',
+                        'file_status_mta_dosbing2' => 'Makalah TA Tidak Disetujui Dosbing 2',
+                        'file_status_mta' => 'Makalah TA Tidak Disetujui Dosbing 2',
                     ];
                     break;
                 }
@@ -99,12 +99,12 @@ class PersetujuanMakalahTAController extends BaseController
             if ($persetujuan_mta->id == $id) {
                 if ($persetujuan_mta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $params = [
-                        'file_status_mta_dosbing1' => 'Makalah TA Telah Disetujui!'
+                        'file_status_mta_dosbing1' => 'Makalah TA Telah Disetujui'
                     ];
                     break;
                 } else if ($persetujuan_mta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $params = [
-                        'file_status_mta_dosbing2' => 'Makalah TA Telah Disetujui!'
+                        'file_status_mta_dosbing2' => 'Makalah TA Telah Disetujui'
                     ];
 
                     break;
@@ -124,30 +124,30 @@ class PersetujuanMakalahTAController extends BaseController
             $persetujuan_mta_updated = PersetujuanMakalahTAModel::getDataById($id);
 
             if ($persetujuan_mta_updated->id == $id) {
-                if ($persetujuan_mta_updated->file_status_mta_dosbing1 == "Makalah TA Telah Disetujui!" &&
-                    $persetujuan_mta_updated->file_status_mta_dosbing2 == "Makalah TA Telah Disetujui!" ) {
+                if ($persetujuan_mta_updated->file_status_mta_dosbing1 == "Makalah TA Telah Disetujui" &&
+                    $persetujuan_mta_updated->file_status_mta_dosbing2 == "Makalah TA Telah Disetujui" ) {
 
                     $paramsUpdated = [
-                        'file_status_mta'=> "Makalah TA Telah Disetujui!",
+                        'file_status_mta'=> "Makalah TA Telah Disetujui",
                     ];
 
                     // Update status kelompok
                     PersetujuanMakalahTAModel::updateKelompokMhs($id, $paramsUpdated);
-                } elseif($persetujuan_mta_updated->file_status_mta_dosbing1 == "Makalah TA Telah Disetujui!"){
+                } elseif($persetujuan_mta_updated->file_status_mta_dosbing1 == "Makalah TA Telah Disetujui"){
                     $paramsUpdated = [
-                        'file_status_mta'=> "Makalah TA Menunggu Persetujuan Dosbing 2!",
+                        'file_status_mta'=> "Makalah TA Menunggu Persetujuan Dosbing 2",
                     ];
 
                     PersetujuanMakalahTAModel::updateKelompokMhs($id, $paramsUpdated);
-                } elseif($persetujuan_mta_updated->file_status_mta_dosbing2 == "Makalah TA Telah Disetujui!"){
+                } elseif($persetujuan_mta_updated->file_status_mta_dosbing2 == "Makalah TA Telah Disetujui"){
                     $paramsUpdated = [
-                        'file_status_mta'=> "Makalah TA Menunggu Persetujuan Dosbing 1!",
+                        'file_status_mta'=> "Makalah TA Menunggu Persetujuan Dosbing 1",
                     ];
 
                     PersetujuanMakalahTAModel::updateKelompokMhs($id, $paramsUpdated);
                 } else {
                     $paramsUpdated = [
-                        'file_status_mta'=> "Menunggu Persetujuan Makalah TA!",
+                        'file_status_mta'=> "Menunggu Persetujuan Makalah TA",
                     ];
 
                     PersetujuanMakalahTAModel::updateKelompokMhs($id, $paramsUpdated);

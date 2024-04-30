@@ -102,12 +102,12 @@
 
                                         <td class="text-center">
 
-                                            @if ($sidang_proposal->status_sidang_proposal == 'Lulus Sidang Proposal!')
+                                            @if ($sidang_proposal->status_sidang_proposal == 'Lulus Sidang Proposal')
                                                 <a href="{{ url('/tim-capstone/jadwal-sidang-proposal/to-gagal') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_proposal->nomor_kelompok }} tidak lulus?')">
                                                     Gagal</a>
-                                            @elseif($sidang_proposal->status_sidang_proposal == 'Gagal Sidang Proposal!')
+                                            @elseif($sidang_proposal->status_sidang_proposal == 'Gagal Sidang Proposal')
                                                 <a href="{{ url('/tim-capstone/jadwal-sidang-proposal/to-lulus') }}/{{ $sidang_proposal->id_kelompok }}"
                                                     class="btn btn-outline-success btn-xs m-1">Lulus</a>
                                                 <a href="{{ url('/tim-capstone/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $sidang_proposal->id_kelompok }}"
