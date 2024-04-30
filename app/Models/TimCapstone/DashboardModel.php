@@ -335,6 +335,225 @@ class DashboardModel extends BaseModel
         ->first();
 }
 
+    // dashboard tim capstone
+    public static function getJumlahKelompokMendaftar()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(nomor_kelompok IS NULL, 1, 0)) AS jumlah_kelompok_tidak_valid'),
+                DB::raw('SUM(IF(nomor_kelompok IS NOT NULL, 1, 0)) AS jumlah_kelompok_valid')
+            )
+            ->first();
+    }
 
+    public static function getJumlahC100()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c100 IS NOT NULL, 1, 0)) AS total_kelompok_file_c100'),
+                DB::raw('SUM(IF(file_status_c100 IN ("C100 Telah Disetujui!", "Final C100 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c100 NOT IN ("C100 Telah Disetujui!", "Final C100 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function getJumlahSidangProposal()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(is_sidang_proposal = 1, 1, 0)) AS total_kelompok_sidang'),
+                DB::raw('SUM(IF(is_sidang_proposal != 1, 1, 0)) AS total_kelompok_belum_sidang')
+            )
+            ->first();
+    }
+
+    public static function getJumlahC200()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c200 IS NOT NULL, 1, 0)) AS total_kelompok_file_c200'),
+                DB::raw('SUM(IF(file_status_c200 IN ("C200 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c200 NOT IN ("C200 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function getJumlahC300()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c300 IS NOT NULL, 1, 0)) AS total_kelompok_file_c300'),
+                DB::raw('SUM(IF(file_status_c300 IN ("C300 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c300 NOT IN ("C300 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function getJumlahC400()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c400 IS NOT NULL, 1, 0)) AS total_kelompok_file_c400'),
+                DB::raw('SUM(IF(file_status_c400 IN ("C400 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c400 NOT IN ("C400 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function getJumlahC500()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c500 IS NOT NULL, 1, 0)) AS total_kelompok_file_c500'),
+                DB::raw('SUM(IF(file_status_c500 IN ("C500 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c500 NOT IN ("C500 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function getJumlahKelompokMendaftarExpo()
+    {
+        return DB::table('kelompok')
+            ->leftJoin('pendaftaran_expo', 'kelompok.id', '=', 'pendaftaran_expo.id_kelompok')
+            ->select(
+                DB::raw('COUNT(kelompok.id) AS total_kelompok'),
+                DB::raw('COUNT(pendaftaran_expo.id_kelompok) AS total_kelompok_mendaftar_expo'),
+                DB::raw('COUNT(CASE WHEN pendaftaran_expo.id_kelompok IS NULL THEN kelompok.id ELSE NULL END) AS total_kelompok_belum_mendaftar_expo')
+            )
+            ->first();
+    }
+
+    public static function getJumlahLulusExpo()
+    {
+        return DB::table('kelompok')
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(is_lulus_expo = 1, 1, 0)) AS total_kelompok_expo'),
+                DB::raw('SUM(IF(is_lulus_expo != 1, 1, 0)) AS total_kelompok_belum_expo')
+            )
+            ->first();
+    }
+
+    // filter by siklus
+    public static function filterSiklusJumlahKelompokMendaftar($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(nomor_kelompok IS NULL, 1, 0)) AS jumlah_kelompok_tidak_valid'),
+                DB::raw('SUM(IF(nomor_kelompok IS NOT NULL, 1, 0)) AS jumlah_kelompok_valid')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahC100($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c100 IS NOT NULL, 1, 0)) AS total_kelompok_file_c100'),
+                DB::raw('SUM(IF(file_status_c100 IN ("C100 Telah Disetujui!", "Final C100 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c100 NOT IN ("C100 Telah Disetujui!", "Final C100 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahSidangProposal($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(is_sidang_proposal = 1, 1, 0)) AS total_kelompok_sidang'),
+                DB::raw('SUM(IF(is_sidang_proposal != 1, 1, 0)) AS total_kelompok_belum_sidang')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahC200($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c200 IS NOT NULL, 1, 0)) AS total_kelompok_file_c200'),
+                DB::raw('SUM(IF(file_status_c200 IN ("C200 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c200 NOT IN ("C200 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahC300($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c300 IS NOT NULL, 1, 0)) AS total_kelompok_file_c300'),
+                DB::raw('SUM(IF(file_status_c300 IN ("C300 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c300 NOT IN ("C300 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahC400($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c400 IS NOT NULL, 1, 0)) AS total_kelompok_file_c400'),
+                DB::raw('SUM(IF(file_status_c400 IN ("C400 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c400 NOT IN ("C400 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahC500($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(file_name_c500 IS NOT NULL, 1, 0)) AS total_kelompok_file_c500'),
+                DB::raw('SUM(IF(file_status_c500 IN ("C500 Telah Disetujui!"), 1, 0)) AS total_kelompok_disetujui'),
+                DB::raw('SUM(IF(file_status_c500 NOT IN ("C500 Telah Disetujui!"), 1, 0)) AS total_kelompok_belum_disetujui')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahKelompokMendaftarExpo($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->leftJoin('pendaftaran_expo', 'kelompok.id', '=', 'pendaftaran_expo.id_kelompok')
+            ->select(
+                DB::raw('COUNT(kelompok.id) AS total_kelompok'),
+                DB::raw('COUNT(pendaftaran_expo.id_kelompok) AS total_kelompok_mendaftar_expo'),
+                DB::raw('COUNT(CASE WHEN pendaftaran_expo.id_kelompok IS NULL THEN kelompok.id ELSE NULL END) AS total_kelompok_belum_mendaftar_expo')
+            )
+            ->first();
+    }
+
+    public static function filterSiklusJumlahLulusExpo($id_siklus)
+    {
+        return DB::table('kelompok')
+            ->where('kelompok.id_siklus', $id_siklus)
+            ->select(
+                DB::raw('COUNT(*) AS total_kelompok'),
+                DB::raw('SUM(IF(is_lulus_expo = 1, 1, 0)) AS total_kelompok_expo'),
+                DB::raw('SUM(IF(is_lulus_expo != 1, 1, 0)) AS total_kelompok_belum_expo')
+            )
+            ->first();
+    }
 
 }

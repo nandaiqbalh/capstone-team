@@ -37,17 +37,83 @@ class DashboardController extends BaseController
         $rs_broadcast = Dashmo::getDataWithPagination();
         $rs_siklus = Dashmo::getSiklusAktif();
 
-        // data
+        $rs_mahasiswa = Dashmo::getDataBalancingDosbingMahasiswa();
+        $rs_pengujian_proposal = Dashmo::getJadwalSidangProposalTerdekat();
+        $rs_pengujian_ta = Dashmo::getJadwalSidangTATerdekat();
+        $kelompok = Dashmo::getJumlahKelompokMendaftar();
+        $kelompok_c100 = Dashmo::getJumlahC100();
+        $kelompok_sidang_proposal = Dashmo::getJumlahSidangProposal();
+        $kelompok_c200 = Dashmo::getJumlahC200();
+        $kelompok_c300 = Dashmo::getJumlahC300();
+        $kelompok_c400 = Dashmo::getJumlahC400();
+        $kelompok_c500 = Dashmo::getJumlahC500();
+        $kelompok_mendaftar_expo = Dashmo::getJumlahKelompokMendaftarExpo();
+        $kelompok_lulus_expo = Dashmo::getJumlahLulusExpo();
 
+        // data
         $data = [
             'rs_siklus' => $rs_siklus,
             'rs_broadcast' => $rs_broadcast,
+            'kelompok' => $kelompok,
+            'kelompok_c100' => $kelompok_c100,
+            'kelompok_sidang_proposal' => $kelompok_sidang_proposal,
+            'kelompok_c200' => $kelompok_c200,
+            'kelompok_c300' => $kelompok_c300,
+            'kelompok_c400' => $kelompok_c400,
+            'kelompok_c500' => $kelompok_c500,
+            'kelompok_mendaftar_expo' => $kelompok_mendaftar_expo,
+            'kelompok_lulus_expo' => $kelompok_lulus_expo,
+
         ];
 
         //view
         return view('tim_capstone.dashboard-tim-capstone.index', $data);
     }
 
+    public function filterSiklusByTimCapstone(Request $request)
+    {
+        // data request
+        $id_siklus = $request->id_siklus;
+
+        // new search or reset
+        if ($request->action == 'filter') {
+             // get data with pagination
+             $rs_broadcast = Dashmo::getDataWithPagination($id_siklus);
+             $rs_siklus = Dashmo::getSiklusAktif($id_siklus);
+
+             $kelompok = Dashmo::filterSiklusJumlahKelompokMendaftar($id_siklus);
+             $kelompok_c100 = Dashmo::filterSiklusJumlahC100($id_siklus);
+             $kelompok_sidang_proposal = Dashmo::filterSiklusJumlahSidangProposal($id_siklus);
+             $kelompok_c200 = Dashmo::filterSiklusJumlahC200($id_siklus);
+             $kelompok_c300 = Dashmo::filterSiklusJumlahC300($id_siklus);
+             $kelompok_c400 = Dashmo::filterSiklusJumlahC400($id_siklus);
+             $kelompok_c500 = Dashmo::filterSiklusJumlahC500($id_siklus);
+             $kelompok_mendaftar_expo = Dashmo::filterSiklusJumlahKelompokMendaftarExpo($id_siklus);
+             $kelompok_lulus_expo = Dashmo::filterSiklusJumlahLulusExpo($id_siklus);
+
+             $siklus = Dashmo::getSiklusById($id_siklus);
+
+             // data
+             $data = [
+                 'rs_siklus' => $rs_siklus,
+                 'rs_broadcast' => $rs_broadcast,
+                 'kelompok' => $kelompok,
+                 'kelompok_c100' => $kelompok_c100,
+                 'kelompok_sidang_proposal' => $kelompok_sidang_proposal,
+                 'kelompok_c200' => $kelompok_c200,
+                 'kelompok_c300' => $kelompok_c300,
+                 'kelompok_c400' => $kelompok_c400,
+                 'kelompok_c500' => $kelompok_c500,
+                 'kelompok_mendaftar_expo' => $kelompok_mendaftar_expo,
+                 'kelompok_lulus_expo' => $kelompok_lulus_expo,
+                 'siklus' => $siklus,
+
+             ];
+            return view('tim_capstone.dashboard-tim-capstone.index', $data);
+        } else {
+            return view('tim_capstone.dashboard-tim-capstone.index', $data);
+        }
+    }
 
     public function indexMahasiswa()
     {

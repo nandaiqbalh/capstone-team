@@ -28,43 +28,52 @@
         </div>
         <div class="row">
             <div class="col-lg-4 mb-4 order-0">
-                <div class="card">
-                    <div class="d-flex align-items-end row">
-                        <div class="col-sm-12">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">Sidang Proposal</h5>
-                                <span style="color: gray;">{{ $sidang_proposal }}</span>
+                <a href="{{ url('mahasiswa/sidang-proposal') }}">
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Sidang Proposal</h5>
+                                    <span style="color: gray;">{{ $sidang_proposal }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="col-lg-4 mb-4 order-0">
-                <div class="card">
-                    <div class="d-flex align-items-end row">
-                        <div class="col-sm-12">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">Expo Project</h5>
-                                <span style="color: gray;">{{ $expo }}</span>
+                <a href="{{ url('mahasiswa/expo') }}">
 
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Expo Project</h5>
+                                    <span style="color: gray;">{{ $expo }}</span>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="col-lg-4 mb-4 order-0">
-                <div class="card">
-                    <div class="d-flex align-items-end row">
-                        <div class="col-sm-12">
-                            <div class="card-body">
-                                <h5 class="card-title text-primary">Sidang TA</h5>
-                                <span style="color: gray;">{{ $sidang_ta }}</span>
+                <a href="{{ url('mahasiswa/tugas-akhir') }}">
+
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Sidang TA</h5>
+                                    <span style="color: gray;">{{ $sidang_ta }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
+
             </div>
 
         </div>

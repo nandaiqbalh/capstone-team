@@ -33,7 +33,8 @@
                     <div class="d-flex align-items-end row">
                         <div class="col-sm-12">
                             <div class="card-body">
-                                <form action="{{ url('/dosen/beranda/filter-siklus') }}" method="get" autocomplete="off">
+                                <form action="{{ url('/tim-capstone/beranda/filter-siklus') }}" method="get"
+                                    autocomplete="off">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
@@ -65,25 +66,25 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6 mb-4 order-0">
-                <a href="{{ url('dosen/kelompok-bimbingan') }}">
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/validasi-kelompok') }}">
                     <div class="card">
                         <div class="d-flex align-items-end row">
                             <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Bimbingan</h5>
+                                    <h5 class="card-title text-primary">Kelompok Mendaftar</h5>
                                     <b>
-                                        <span>{{ $rs_kelompok->jumlah_total_kelompok_dibimbing ?? 0 }} Kelompok</span>
+                                        <span>{{ $kelompok->total_kelompok ?? 0 }} Kelompok</span>
                                     </b>
                                     <hr>
                                     <span style="color: #44B158;">
-                                        <b>{{ $rs_kelompok->jumlah_kelompok_tidak_aktif_dibimbing ?? 0 }}</b>
-                                        Kelompok Telah Lulus
+                                        <b>{{ $kelompok->jumlah_kelompok_valid ?? 0 }}</b>
+                                        Kelompok Valid
                                     </span>
                                     <br>
                                     <span style="color: #F86F03;">
-                                        <b>{{ $rs_kelompok->jumlah_kelompok_aktif_dibimbing ?? 0 }}</b>
-                                        Kelompok Belum Lulus
+                                        <b>{{ $kelompok->jumlah_kelompok_tidak_valid ?? 0 }}</b>
+                                        Kelompok Belum Valid
                                     </span>
                                 </div>
                             </div>
@@ -92,74 +93,82 @@
                 </a>
             </div>
 
-            <div class="col-lg-6 mb-4 order-0">
-                <a href="{{ url('dosen/mahasiswa-bimbingan') }}">
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/kelompok-valid') }}">
                     <div class="card">
                         <div class="d-flex align-items-end row">
                             <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title text-primary">Mahasiswa Bimbingan</h5>
+                                    <h5 class="card-title text-primary">Kelompok Mengunggah C100</h5>
                                     <b>
-                                        <span>{{ $rs_mahasiswa->jumlah_total_mahasiswa_dibimbing ?? 0 }} Mahasiswa</span>
+                                        <span>{{ $kelompok_c100->total_kelompok_file_c100 ?? 0 }} Kelompok</span>
                                     </b>
                                     <hr>
                                     <span style="color: #44B158;">
-                                        <b>{{ $rs_mahasiswa->jumlah_mahasiswa_tidak_aktif_dibimbing ?? 0 }}</b>
-                                        Mahasiswa Telah Lulus
+                                        <b>{{ $kelompok_c100->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui
                                     </span>
                                     <br>
                                     <span style="color: #F86F03;">
-                                        <b>{{ $rs_mahasiswa->jumlah_mahasiswa_aktif_dibimbing ?? 0 }}</b>
-                                        Mahasiswa Belum Lulus
+                                        <b>{{ $kelompok_c100->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </a>
-
             </div>
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/penjadwalan-sidang-proposal') }}">
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Kelompok Sidang Proposal</h5>
+                                    <b>
+                                        <span>{{ $kelompok_sidang_proposal->total_kelompok ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_sidang_proposal->total_kelompok_sidang ?? 0 }}</b>
+                                        Sudang Sidang
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_sidang_proposal->total_kelompok_belum_sidang ?? 0 }}</b>
+                                        Belum Sidang
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
         </div>
 
         <div class="row">
-            <div class="col-lg-6 mb-4 order-0">
-                <a href="{{ url('dosen/pengujian-proposal') }}">
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/kelompok-valid') }}">
                     <div class="card">
                         <div class="d-flex align-items-end row">
                             <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title text-primary">Pengujian Sidang Proposal</h5>
-
-                                    @if ($rs_pengujian_proposal != null)
-                                        <span>Jadwal Terdekat:</span>
-                                        <br>
-                                        <b><span>{{ $rs_pengujian_proposal->hari_sidang }},
-                                                {{ $rs_pengujian_proposal->waktu_sidang }} WIB</span></b>
-                                        <span>({{ $rs_pengujian_proposal->nama_ruang }})</span>
-
-                                        <hr>
-                                        <span
-                                            style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing ?? 0 }}</b>
-                                            Kelompok Lulus Sidang</span>
-                                        <br>
-                                        <span
-                                            style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing ?? 0 }}</b>
-                                            Kelompok Belum Sidang</span>
-                                    @else
-                                        <span>Jadwal Terdekat:</span>
-                                        <br>
-                                        <b><span>Belum ada jadwal</span></b>
-
-                                        <hr>
-                                        <span
-                                            style="color: #44B158;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_tidak_aktif_dibimbing ?? 0 }}</b>
-                                            Kelompok Lulus Sidang</span>
-                                        <br>
-                                        <span
-                                            style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_proposal->jumlah_kelompok_aktif_dibimbing ?? 0 }}</b>
-                                            Kelompok Belum Sidang</span>
-                                    @endif
-
+                                    <h5 class="card-title text-primary">Kelompok Mengunggah C200</h5>
+                                    <b>
+                                        <span>{{ $kelompok_c200->total_kelompok_file_c200 ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_c200->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_c200->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -167,50 +176,143 @@
                 </a>
             </div>
 
-            <div class="col-lg-6 mb-4 order-0">
-                <a href="{{ url('dosen/pengujian-ta') }}">
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/kelompok-valid') }}">
                     <div class="card">
                         <div class="d-flex align-items-end row">
                             <div class="col-sm-12">
                                 <div class="card-body">
-                                    <h5 class="card-title text-primary">Pengujian Sidang TA</h5>
-
-                                    @if ($rs_pengujian_ta != null)
-                                        <span>Jadwal Terdekat:</span>
-                                        <br>
-                                        <b><span>{{ $rs_pengujian_ta->hari_sidang }},
-                                                {{ $rs_pengujian_ta->waktu_sidang }} WIB</span></b>
-                                        <span>({{ $rs_pengujian_ta->nama_ruang }})</span>
-
-                                        <hr>
-                                        <span
-                                            style="color: #44B158;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_tidak_aktif_dibimbing ?? 0 }}</b>
-                                            Mahasiswa Lulus Sidang</span>
-                                        <br>
-                                        <span
-                                            style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_aktif_dibimbing ?? 0 }}</b>
-                                            Mahasiswa Belum Sidang</span>
-                                    @else
-                                        <span>Jadwal Terdekat:</span>
-                                        <br>
-                                        <b><span>Belum ada jadwal</span></b>
-
-                                        <hr>
-                                        <span
-                                            style="color: #44B158;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_tidak_aktif_dibimbing ?? 0 }}</b>
-                                            Mahasiswa Lulus Sidang</span>
-                                        <br>
-                                        <span
-                                            style="color: #F86F03;"><b>{{ $rs_jumlah_sidang_ta->jumlah_mhs_aktif_dibimbing ?? 0 }}</b>
-                                            Mahasiswa Belum Sidang</span>
-                                    @endif
+                                    <h5 class="card-title text-primary">Kelompok Mengunggah C300</h5>
+                                    <b>
+                                        <span>{{ $kelompok_c300->total_kelompok_file_c300 ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_c300->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_c300->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </a>
-
             </div>
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/kelompok-valid') }}">
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Kelompok Mengunggah C400</h5>
+                                    <b>
+                                        <span>{{ $kelompok_c400->total_kelompok_file_c400 ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_c400->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_c400->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/kelompok-valid') }}">
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Kelompok Mengunggah C500</h5>
+                                    <b>
+                                        <span>{{ $kelompok_c500->total_kelompok_file_c500 ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_c500->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_c500->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/expo-project') }}">
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Kelompok Mendaftar Expo</h5>
+                                    <b>
+                                        <span>{{ $kelompok_mendaftar_expo->total_kelompok ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_mendaftar_expo->total_kelompok_mendaftar_expo ?? 0 }}</b>
+                                        Telah Mendaftar
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_mendaftar_expo->total_kelompok_belum_mendaftar_expo ?? 0 }}</b>
+                                        Belum Mendaftar
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 mb-4 order-0">
+                <a href="{{ url('tim-capstone/expo-project') }}">
+                    <div class="card">
+                        <div class="d-flex align-items-end row">
+                            <div class="col-sm-12">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary">Kelompok Lulus Expo</h5>
+                                    <b>
+                                        <span>{{ $kelompok_lulus_expo->total_kelompok ?? 0 }} Kelompok</span>
+                                    </b>
+                                    <hr>
+                                    <span style="color: #44B158;">
+                                        <b>{{ $kelompok_lulus_expo->total_kelompok_expo ?? 0 }}</b>
+                                        Telah Lulus
+                                    </span>
+                                    <br>
+                                    <span style="color: #F86F03;">
+                                        <b>{{ $kelompok_lulus_expo->total_kelompok_belum_expo ?? 0 }}</b>
+                                        Belum Lulus
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
         </div>
 
         <!-- Pengumuman -->
