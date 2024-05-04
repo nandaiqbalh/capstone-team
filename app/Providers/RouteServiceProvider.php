@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * The path to the "home" route for your application.
-     *
-     * This is used by Laravel authentication to redirect users after login.
-     *
-     * @var string
-     */
+
+    const HOME_ADMIN = '/admin/dashboard';
+    const HOME_TIM_CAPSTONE = '/tim-capstone/beranda';
+    const HOME_MAHASISWA = '/mahasiswa/beranda';
+    const HOME_DOSEN = '/dosen/beranda';
+
     public function boot()
     {
         $this->configureRateLimiting();
@@ -32,34 +31,47 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         // Redirect based on user role
-        if (Auth::check()) {
-            $role = Auth::user()->role_id;
-
-            if ($role === '01') {
-                $this->app->bind(self::HOME, function () {
-                    return self::HOME_ADMIN;
-                });
-            } elseif ($role === '02') {
-                $this->app->bind(self::HOME, function () {
-                    return self::HOME_TIM_CAPSTONE;
-                });
-            } elseif ($role === '03') {
-                $this->app->bind(self::HOME, function () {
-                    return self::HOME_MAHASISWA;
-                });
-            } elseif ($role === '04') {
-                $this->app->bind(self::HOME, function () {
-                    return self::HOME_DOSEN;
-                });
-            }
-        }
+        $this->map();
     }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
+    protected function map()
+    {
+        Route::middleware('web')
+            ->group(function () {
+                Route::middleware('auth')
+                    ->group(function () {
+                        // Redirect based on user role
+                        if (Auth::check()) {
+                            $role = Auth::user()->role_id;
+                            switch ($role) {
+                                case '01':
+                                    $this->redirectUser(self::HOME_ADMIN);
+                                    break;
+                                case '02':
+                                    $this->redirectUser(self::HOME_TIM_CAPSTONE);
+                                    break;
+                                case '03':
+                                    $this->redirectUser(self::HOME_MAHASISWA);
+                                    break;
+                                case '04':
+                                    $this->redirectUser(self::HOME_DOSEN);
+                                    break;
+                                default:
+                                    $this->redirectUser(self::HOME_MAHASISWA);
+                                    break;
+                            }
+                        }
+                    });
+            });
+    }
+
+    protected function redirectUser($homeRoute)
+    {
+        Route::get('/', function () use ($homeRoute) {
+            return redirect($homeRoute);
+        });
+    }
+
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
