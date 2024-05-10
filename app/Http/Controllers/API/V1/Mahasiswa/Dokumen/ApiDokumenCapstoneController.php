@@ -24,14 +24,14 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
                     'c100' => 'required|file|mimes:pdf|max:50240',
-                    'id_kelompok' => 'required|exists:kelompok,id',
-
                 ]);
 
                 // Check if validation fails
@@ -43,7 +43,7 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c100';
                 // Check and delete the existing file
-                $id_kelompok = $request -> id_kelompok;
+                $id_kelompok = $kelompok -> id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
@@ -155,14 +155,14 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
                     'c200' => 'required|file|mimes:pdf|max:50240',
-                    'id_kelompok' => 'required|exists:kelompok,id',
-
                 ]);
 
                 // Check if validation fails
@@ -174,13 +174,21 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c200';
                 // Check and delete the existing file
-                $id_kelompok = $request -> id_kelompok;
+                $id_kelompok = $kelompok -> id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
                     return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                }
+
+                if ($existingFile->file_status_c100 != "Final C100 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C100 belum disetujui kedua dosen pembimbing!');
+                }
+
+                if ($existingFile->file_status_c200 == "C200 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C200 telah disetujui kedua dosen pembimbing!');
                 }
 
                 if ($request->hasFile('c200') && $existingFile != null) {
@@ -261,14 +269,14 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
                     'c300' => 'required|file|mimes:pdf|max:50240',
-                    'id_kelompok' => 'required|exists:kelompok,id',
-
                 ]);
 
                 // Check if validation fails
@@ -279,13 +287,21 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c300';
                 // Check and delete the existing file
-                $id_kelompok = $request -> id_kelompok;
+                $id_kelompok = $kelompok -> id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
                     return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                }
+
+                if ($existingFile->file_status_c200 != "C200 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C200 belum disetujui kedua dosen pembimbing!');
+                }
+
+                if ($existingFile->file_status_c300 == "C300 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C300 telah disetujui kedua dosen pembimbing!');
                 }
 
                 if ($request->hasFile('c300') && $existingFile != null) {
@@ -365,13 +381,14 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
                     'c400' => 'required|file|mimes:pdf|max:50240',
-                    'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);
 
@@ -384,13 +401,21 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c400';
                 // Check and delete the existing file
-                $id_kelompok = $request -> id_kelompok;
+                $id_kelompok = $kelompok -> id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
                     return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                }
+
+                if ($existingFile->file_status_c300 != "C300 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C300 belum disetujui kedua dosen pembimbing!');
+                }
+
+                if ($existingFile->file_status_c400 == "C400 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C400 telah disetujui kedua dosen pembimbing!');
                 }
 
                 if ($request->hasFile('c400') && $existingFile != null) {
@@ -470,13 +495,14 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
 
                 // Validate the request
                 $validator = Validator::make($request->all(), [
                     'c500' => 'required|file|mimes:pdf|max:50240',
-                    'id_kelompok' => 'required|exists:kelompok,id',
 
                 ]);
 
@@ -489,13 +515,21 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c500';
                 // Check and delete the existing file
-                $id_kelompok = $request -> id_kelompok;
+                $id_kelompok = $kelompok -> id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                }
+
+                if ($existingFile->file_status_c400 != "C400 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C400 belum disetujui kedua dosen pembimbing!');
+                }
+
+                if ($existingFile->file_status_c500 == "C500 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C500 telah disetujui kedua dosen pembimbing!');
                 }
 
                 if ($request->hasFile('c500') && $existingFile != null) {

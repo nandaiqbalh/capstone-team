@@ -339,6 +339,16 @@ class DokumenMahasiswaController extends BaseController
             return redirect()->back()->withInput();
         }
 
+        if ($existingFile->file_status_c100 != "Final C100 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C100 belum disetujui kedua dosen pembimbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->file_status_c200 == "C200 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C200 telah disetujui kedua dosen pembimbing!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c200')) {
             $file = $request->file('c200');
             $file_extension = $file->getClientOriginalExtension();
@@ -417,6 +427,16 @@ class DokumenMahasiswaController extends BaseController
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->file_status_c200 != "C200 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C200 belum disetujui kedua dosen pembimbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->file_status_c300 == "C300 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C300 telah disetujui kedua dosen pembimbing!');
             return redirect()->back()->withInput();
         }
 
@@ -499,6 +519,16 @@ class DokumenMahasiswaController extends BaseController
             return redirect()->back()->withInput();
         }
 
+        if ($existingFile->file_status_c300 != "C300 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C300 belum disetujui kedua dosen pembimbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->file_status_c400 == "C400 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C400 telah disetujui kedua dosen pembimbing!');
+            return redirect()->back()->withInput();
+        }
+
         if ($request->hasFile('c400')) {
             $file = $request->file('c400');
             $file_extension = $file->getClientOriginalExtension();
@@ -576,6 +606,16 @@ class DokumenMahasiswaController extends BaseController
 
         if ($existingFile->is_lulus_expo == 1) {
             session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->file_status_c400 != "C400 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C400 belum disetujui kedua dosen pembimbing!');
+            return redirect()->back()->withInput();
+        }
+
+        if ($existingFile->file_status_c500 == "C500 Telah Disetujui") {
+            session()->flash('danger', 'Gagal mengunggah! C500 telah disetujui kedua dosen pembimbing!');
             return redirect()->back()->withInput();
         }
 
