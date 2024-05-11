@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\TimCapstone;
 
 use App\Http\Controllers\TimCapstone\BaseController;
-use Illuminate\Http\Request;
 use App\Models\TimCapstone\DashboardModel as Dashmo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends BaseController
@@ -77,41 +77,41 @@ class DashboardController extends BaseController
 
         // new search or reset
         if ($request->action == 'filter') {
-             // get data with pagination
-             $rs_broadcast = Dashmo::getDataWithPagination($id_siklus);
-             $rs_siklus = Dashmo::getSiklusAktif($id_siklus);
+            // get data with pagination
+            $rs_broadcast = Dashmo::getDataWithPagination($id_siklus);
+            $rs_siklus = Dashmo::getSiklusAktif($id_siklus);
 
-             $kelompok = Dashmo::filterSiklusJumlahKelompokMendaftar($id_siklus);
-             $kelompok_c100 = Dashmo::filterSiklusJumlahC100($id_siklus);
-             $kelompok_sidang_proposal = Dashmo::filterSiklusJumlahSidangProposal($id_siklus);
-             $kelompok_c200 = Dashmo::filterSiklusJumlahC200($id_siklus);
-             $kelompok_c300 = Dashmo::filterSiklusJumlahC300($id_siklus);
-             $kelompok_c400 = Dashmo::filterSiklusJumlahC400($id_siklus);
-             $kelompok_c500 = Dashmo::filterSiklusJumlahC500($id_siklus);
-             $kelompok_mendaftar_expo = Dashmo::filterSiklusJumlahKelompokMendaftarExpo($id_siklus);
-             $kelompok_lulus_expo = Dashmo::filterSiklusJumlahLulusExpo($id_siklus);
+            $kelompok = Dashmo::filterSiklusJumlahKelompokMendaftar($id_siklus);
+            $kelompok_c100 = Dashmo::filterSiklusJumlahC100($id_siklus);
+            $kelompok_sidang_proposal = Dashmo::filterSiklusJumlahSidangProposal($id_siklus);
+            $kelompok_c200 = Dashmo::filterSiklusJumlahC200($id_siklus);
+            $kelompok_c300 = Dashmo::filterSiklusJumlahC300($id_siklus);
+            $kelompok_c400 = Dashmo::filterSiklusJumlahC400($id_siklus);
+            $kelompok_c500 = Dashmo::filterSiklusJumlahC500($id_siklus);
+            $kelompok_mendaftar_expo = Dashmo::filterSiklusJumlahKelompokMendaftarExpo($id_siklus);
+            $kelompok_lulus_expo = Dashmo::filterSiklusJumlahLulusExpo($id_siklus);
 
-             $siklus = Dashmo::getSiklusById($id_siklus);
+            $siklus = Dashmo::getSiklusById($id_siklus);
 
-             // data
-             $data = [
-                 'rs_siklus' => $rs_siklus,
-                 'rs_broadcast' => $rs_broadcast,
-                 'kelompok' => $kelompok,
-                 'kelompok_c100' => $kelompok_c100,
-                 'kelompok_sidang_proposal' => $kelompok_sidang_proposal,
-                 'kelompok_c200' => $kelompok_c200,
-                 'kelompok_c300' => $kelompok_c300,
-                 'kelompok_c400' => $kelompok_c400,
-                 'kelompok_c500' => $kelompok_c500,
-                 'kelompok_mendaftar_expo' => $kelompok_mendaftar_expo,
-                 'kelompok_lulus_expo' => $kelompok_lulus_expo,
-                 'siklus' => $siklus,
+            // data
+            $data = [
+                'rs_siklus' => $rs_siklus,
+                'rs_broadcast' => $rs_broadcast,
+                'kelompok' => $kelompok,
+                'kelompok_c100' => $kelompok_c100,
+                'kelompok_sidang_proposal' => $kelompok_sidang_proposal,
+                'kelompok_c200' => $kelompok_c200,
+                'kelompok_c300' => $kelompok_c300,
+                'kelompok_c400' => $kelompok_c400,
+                'kelompok_c500' => $kelompok_c500,
+                'kelompok_mendaftar_expo' => $kelompok_mendaftar_expo,
+                'kelompok_lulus_expo' => $kelompok_lulus_expo,
+                'siklus' => $siklus,
 
-             ];
+            ];
             return view('tim_capstone.dashboard-tim-capstone.index', $data);
         } else {
-            return view('tim_capstone.dashboard-tim-capstone.index', $data);
+            return view('tim_capstone.dashboard-tim-capstone.index');
         }
     }
 
@@ -137,28 +137,28 @@ class DashboardController extends BaseController
 
                 $sidang_proposal = $rsSidang->hari_sidang . ', ' . date('d F Y', strtotime($rsSidang->tanggal_sidang));
 
-            } else if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal") {
+            } else if ($kelompok->status_sidang_proposal == "Lulus Sidang Proposal") {
                 $sidang_proposal = "Lulus Sidang Proposal";
-            } else if($kelompok -> status_sidang_proposal == null){
+            } else if ($kelompok->status_sidang_proposal == null) {
                 $sidang_proposal = "Belum ada jadwal sidang";
             } else {
-                $sidang_proposal = $kelompok -> status_sidang_proposal;
+                $sidang_proposal = $kelompok->status_sidang_proposal;
             }
 
             // expo
-            if ($kelompok -> status_expo == "Lulus Expo Project") {
+            if ($kelompok->status_expo == "Lulus Expo Project") {
                 $expo = "Lulus Expo Project";
-            } else if($kelompok -> status_expo == null){
+            } else if ($kelompok->status_expo == null) {
                 $expo = "Belum mendaftar Expo";
             } else {
-                $expo = $kelompok -> status_expo;
+                $expo = $kelompok->status_expo;
             }
 
             // sidang ta
             $pendaftaran_ta = Dashmo::cekStatusPendaftaranSidangTA($user->user_id);
             $kelompok_mhs = Dashmo::checkKelompokMhs($user->user_id);
-             $sidang_ta = Dashmo::sidangTugasAkhirByMahasiswa($user->user_id);
-            if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA") {
+            $sidang_ta = Dashmo::sidangTugasAkhirByMahasiswa($user->user_id);
+            if ($kelompok_mhs->status_tugas_akhir == "Lulus Sidang TA") {
                 $sidang_ta = "Lulus Sidang TA";
             } else if ($sidang_ta != null) {
                 $waktuSidang = strtotime($sidang_ta->waktu);
@@ -176,14 +176,13 @@ class DashboardController extends BaseController
                 // Menggabungkan nama hari, tanggal, dan bulan dalam bahasa Indonesia
                 $sidang_ta = $sidang_ta->hari_sidang . ', ' . date('d', $waktuSidang) . ' ' . $bulanSidangIndo . ' ' . date('Y', $waktuSidang);
 
-             } else {
+            } else {
                 if ($kelompok_mhs->status_tugas_akhir != null) {
                     $sidang_ta = $kelompok_mhs->status_tugas_akhir;
                 } else {
                     $sidang_ta = "Belum menyelesaikan capstone";
                 }
             }
-
 
             // data
             $data = [
@@ -195,10 +194,9 @@ class DashboardController extends BaseController
 
             ];
 
-
         } else {
 
-            if ($kelompok != null && $kelompok -> nomor_kelompok == null) {
+            if ($kelompok != null && $kelompok->nomor_kelompok == null) {
                 $data = [
                     'rs_broadcast' => $rs_broadcast,
                     'sidang_proposal' => "Kelompok Anda belum valid",
@@ -267,7 +265,6 @@ class DashboardController extends BaseController
         $rs_jumlah_sidang_proposal = Dashmo::getDataBalancingPengujiProposal();
         $rs_jumlah_sidang_ta = Dashmo::getDataBalancingPengujiTA();
 
-
         // data
         $data = [
             'rs_broadcast' => $rs_broadcast,
@@ -292,7 +289,7 @@ class DashboardController extends BaseController
 
         // new search or reset
         if ($request->action == 'filter') {
-             // get data with pagination
+            // get data with pagination
             $rs_broadcast = Dashmo::getDataWithPagination();
             $rs_siklus = Dashmo::getSiklusAktif();
             $siklus = Dashmo::getSiklusById($id_siklus);
@@ -344,7 +341,7 @@ class DashboardController extends BaseController
             ];
             return view('dosen.dashboard-dosen.index', $data);
         } else {
-            return view('dosen.dashboard-dosen.index', $data);
+            return view('dosen.dashboard-dosen.index');
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,62 +11,18 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 /**
  * USE
  */
 
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-
-use App\Http\Controllers\TimCapstone\DashboardController;
-
-use App\Http\Controllers\Superadmin\Settings\RoleController;
-use App\Http\Controllers\Superadmin\Settings\MenuController;
-use App\Http\Controllers\Superadmin\Settings\AccountController;
-use App\Http\Controllers\Superadmin\Settings\AccountsController;
-use App\Http\Controllers\Superadmin\Settings\SmtpController;
-use App\Http\Controllers\Superadmin\Settings\RestApiController;
-use App\Http\Controllers\Superadmin\Settings\ContohHalamanController;
-use App\Http\Controllers\Superadmin\Settings\LogsController;
-use App\Http\Controllers\Superadmin\Settings\TakeOverLoginController;
-
-use App\Http\Controllers\User\Home\HomeController;
-use App\Http\Controllers\TimCapstone\Mahasiswa\MahasiswaController;
-use App\Http\Controllers\TimCapstone\Topik\TimCapstoneController;
-use App\Http\Controllers\TimCapstone\Topik\TopikController;
-use App\Http\Controllers\TimCapstone\Peminatan\PeminatanController;
-use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
-use App\Http\Controllers\TimCapstone\Dosen\DosenController;
-use App\Http\Controllers\TimCapstone\Balancing\PembimbingKelompok\PembimbingKelompokController;
-use App\Http\Controllers\TimCapstone\Balancing\PembimbingMahasiswa\PembimbingMahasiswaController;
-use App\Http\Controllers\TimCapstone\Balancing\PengujiProposal\PengujiProposalController;
-use App\Http\Controllers\TimCapstone\Balancing\PengujiTA\PengujiTAController;
-use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
-use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
-use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
-use App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangProposal\PenjadwalanSidangProposalController;
-use App\Http\Controllers\TimCapstone\ExpoProject\ExpoProjectController;
-use App\Http\Controllers\TimCapstone\SidangTA\SidangTA\SidangTAController;
-use App\Http\Controllers\TimCapstone\SidangTA\JadwalSidangTA\JadwalSidangTAController;
-use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
-use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
-use App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingController;
-use App\Http\Controllers\TimCapstone\Kelompok\ValidasiKelompok\ValidasiKelompokController;
-
-// mahasiswa
-use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
-use App\Http\Controllers\Mahasiswa\SidangProposal_Mahasiswa\MahasiswaSidangProposalController;
-use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
-use App\Http\Controllers\Mahasiswa\TugasAkhir_Mahasiswa\MahasiswaTugasAkhirController;
-
-use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
-
-// use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
 use App\Http\Controllers\Dosen\KelompokBimbingan\KelompokBimbinganController;
 use App\Http\Controllers\Dosen\MahasiswaBimbingan\MahasiswaBimbinganController;
+use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
+use App\Http\Controllers\Dosen\PengujianTA\PengujianTAController;
 use App\Http\Controllers\Dosen\PersetujuanC100\PersetujuanC100Controller;
 use App\Http\Controllers\Dosen\PersetujuanC200\PersetujuanC200Controller;
 use App\Http\Controllers\Dosen\PersetujuanC300\PersetujuanC300Controller;
@@ -74,9 +30,42 @@ use App\Http\Controllers\Dosen\PersetujuanC400\PersetujuanC400Controller;
 use App\Http\Controllers\Dosen\PersetujuanC500\PersetujuanC500Controller;
 use App\Http\Controllers\Dosen\PersetujuanLaporanTA\PersetujuanLaporanTAController;
 use App\Http\Controllers\Dosen\PersetujuanMakalahTA\PersetujuanMakalahTAController;
-use App\Http\Controllers\Dosen\PengujianProposal\PengujianProposalController;
-use App\Http\Controllers\Dosen\PengujianTA\PengujianTAController;
+use App\Http\Controllers\Mahasiswa\Dokumen_Mahasiswa\DokumenMahasiswaController;
+use App\Http\Controllers\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoController;
+use App\Http\Controllers\Mahasiswa\Kelompok_Mahasiswa\MahasiswaKelompokController;
+use App\Http\Controllers\Mahasiswa\SidangProposal_Mahasiswa\MahasiswaSidangProposalController;
+use App\Http\Controllers\Mahasiswa\TugasAkhir_Mahasiswa\MahasiswaTugasAkhirController;
+use App\Http\Controllers\Superadmin\Settings\AccountController;
+use App\Http\Controllers\Superadmin\Settings\AccountsController;
+use App\Http\Controllers\Superadmin\Settings\MenuController;
+use App\Http\Controllers\Superadmin\Settings\RoleController;
+use App\Http\Controllers\Superadmin\Settings\TakeOverLoginController;
+use App\Http\Controllers\TimCapstone\Balancing\PembimbingKelompok\PembimbingKelompokController;
+use App\Http\Controllers\TimCapstone\Balancing\PembimbingMahasiswa\PembimbingMahasiswaController;
+use App\Http\Controllers\TimCapstone\Balancing\PengujiProposal\PengujiProposalController;
+use App\Http\Controllers\TimCapstone\Balancing\PengujiTA\PengujiTAController;
+use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
+use App\Http\Controllers\TimCapstone\DashboardController;
+use App\Http\Controllers\TimCapstone\Dosen\DosenController;
+use App\Http\Controllers\TimCapstone\ExpoProject\ExpoProjectController;
 
+// mahasiswa
+use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
+use App\Http\Controllers\TimCapstone\Kelompok\PenetapanAnggota\PenetapanAnggotaController;
+use App\Http\Controllers\TimCapstone\Kelompok\PenetapanDosbing\PenetapanDosbingController;
+use App\Http\Controllers\TimCapstone\Kelompok\ValidasiKelompok\ValidasiKelompokController;
+use App\Http\Controllers\TimCapstone\Mahasiswa\MahasiswaController;
+
+// use App\Http\Controllers\Mahasiswa\Kelompok\MahasiswaKelompokController;
+use App\Http\Controllers\TimCapstone\Peminatan\PeminatanController;
+use App\Http\Controllers\TimCapstone\RuangSidang\RuangSidangController;
+use App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalController;
+use App\Http\Controllers\TimCapstone\SidangProposal\PenjadwalanSidangProposal\PenjadwalanSidangProposalController;
+use App\Http\Controllers\TimCapstone\SidangTA\JadwalSidangTA\JadwalSidangTAController;
+use App\Http\Controllers\TimCapstone\SidangTA\SidangTA\SidangTAController;
+use App\Http\Controllers\TimCapstone\Siklus\SiklusController;
+use App\Http\Controllers\TimCapstone\Topik\TopikController;
+use Illuminate\Support\Facades\Route;
 
 /**
  * PUBLIC
@@ -93,8 +82,8 @@ Route::post('/lupa-password/process', [ResetPasswordController::class, 'resetPas
 Route::get('/ubah-password', [ResetPasswordController::class, 'ubahPassword']);
 Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPasswordProcess']);
 
- // superadmin
- Route::middleware(['auth', 'role:01'])->group(function () {
+// superadmin
+Route::middleware(['auth', 'role:01'])->group(function () {
 
     Route::get('/admin/settings/role', [RoleController::class, 'index']);
     Route::get('/admin/settings/role/add', [RoleController::class, 'add']);
@@ -127,85 +116,86 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/admin/settings/accounts/search', [AccountsController::class, 'search']);
     Route::post('/admin/settings/accounts/import-user', [AccountsController::class, 'import']);
 
-     // take over login
+    // take over login
     Route::get('admin/settings/take-over-login', [TakeOverLoginController::class, 'takeOverProcess']);
 
 });
 
 // tim capstone
- Route::middleware(['auth', 'role:02'])->group(function () {
+Route::middleware(['auth', 'role:02'])->group(function () {
 
     // beranda
     Route::get('tim-capstone/beranda', [DashboardController::class, 'indexTimCapstone']);
     Route::get('tim-capstone/beranda/filter-siklus', [DashboardController::class, 'filterSiklusByTimCapstone']);
 
-     //mahasiswa
-     Route::get('/tim-capstone/mahasiswa', [MahasiswaController::class, 'index']);
-     Route::get('/tim-capstone/mahasiswa/add', [MahasiswaController::class, 'addMahasiswa']);
-     Route::post('/tim-capstone/mahasiswa/add-process', [MahasiswaController::class, 'addMahasiswaProcess']);
-     Route::get('/tim-capstone/mahasiswa/delete-process/{user_id}', [MahasiswaController::class, 'deleteMahasiswaProcess']);
-     Route::get('/tim-capstone/mahasiswa/edit/{user_id}', [MahasiswaController::class, 'editMahasiswa']);
-     Route::post('/tim-capstone/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
-     Route::get('/tim-capstone/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
-     Route::get('/tim-capstone/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
+    Route::get('/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus', [KelompokValidController::class, 'filterKelompokProgressDanSiklus']);
 
+    //mahasiswa
+    Route::get('/tim-capstone/mahasiswa', [MahasiswaController::class, 'index']);
+    Route::get('/tim-capstone/mahasiswa/add', [MahasiswaController::class, 'addMahasiswa']);
+    Route::post('/tim-capstone/mahasiswa/add-process', [MahasiswaController::class, 'addMahasiswaProcess']);
+    Route::get('/tim-capstone/mahasiswa/delete-process/{user_id}', [MahasiswaController::class, 'deleteMahasiswaProcess']);
+    Route::get('/tim-capstone/mahasiswa/edit/{user_id}', [MahasiswaController::class, 'editMahasiswa']);
+    Route::post('/tim-capstone/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
+    Route::get('/tim-capstone/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
+    Route::get('/tim-capstone/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
 
-     //topik
-     Route::get('/tim-capstone/topik', [TopikController::class, 'index']);
-     Route::get('/tim-capstone/topik/add', [TopikController::class, 'addTopik']);
-     Route::post('/tim-capstone/topik/add-process', [TopikController::class, 'addTopikProcess']);
-     Route::get('/tim-capstone/topik/delete-process/{id}', [TopikController::class, 'deleteTopikProcess']);
-     Route::get('/tim-capstone/topik/edit/{id}', [TopikController::class, 'editTopik']);
-     Route::post('/tim-capstone/topik/edit-process', [TopikController::class, 'editTopikProcess']);
+    //topik
+    Route::get('/tim-capstone/topik', [TopikController::class, 'index']);
+    Route::get('/tim-capstone/topik/add', [TopikController::class, 'addTopik']);
+    Route::post('/tim-capstone/topik/add-process', [TopikController::class, 'addTopikProcess']);
+    Route::get('/tim-capstone/topik/delete-process/{id}', [TopikController::class, 'deleteTopikProcess']);
+    Route::get('/tim-capstone/topik/edit/{id}', [TopikController::class, 'editTopik']);
+    Route::post('/tim-capstone/topik/edit-process', [TopikController::class, 'editTopikProcess']);
 
-     //topik
-     Route::get('/tim-capstone/peminatan', [PeminatanController::class, 'index']);
-     Route::get('/tim-capstone/peminatan/add', [PeminatanController::class, 'addPeminatan']);
-     Route::post('/tim-capstone/peminatan/add-process', [PeminatanController::class, 'addPeminatanProcess']);
-     Route::get('/tim-capstone/peminatan/delete-process/{id}', [PeminatanController::class, 'deletePeminatanProcess']);
-     Route::get('/tim-capstone/peminatan/edit/{id}', [PeminatanController::class, 'editPeminatan']);
-     Route::post('/tim-capstone/peminatan/edit-process', [PeminatanController::class, 'editPeminatanProcess']);
+    //topik
+    Route::get('/tim-capstone/peminatan', [PeminatanController::class, 'index']);
+    Route::get('/tim-capstone/peminatan/add', [PeminatanController::class, 'addPeminatan']);
+    Route::post('/tim-capstone/peminatan/add-process', [PeminatanController::class, 'addPeminatanProcess']);
+    Route::get('/tim-capstone/peminatan/delete-process/{id}', [PeminatanController::class, 'deletePeminatanProcess']);
+    Route::get('/tim-capstone/peminatan/edit/{id}', [PeminatanController::class, 'editPeminatan']);
+    Route::post('/tim-capstone/peminatan/edit-process', [PeminatanController::class, 'editPeminatanProcess']);
 
-     //ruang sidang
-     Route::get('/tim-capstone/ruangan', [RuangSidangController::class, 'index']);
-     Route::get('/tim-capstone/ruangan/add', [RuangSidangController::class, 'create']);
-     Route::post('/tim-capstone/ruangan/add-process', [RuangSidangController::class, 'store']);
-     Route::get('/tim-capstone/ruangan/delete-process/{id}', [RuangSidangController::class, 'delete']);
-     Route::get('/tim-capstone/ruangan/edit/{id}', [RuangSidangController::class, 'edit']);
-     Route::post('/tim-capstone/ruangan/edit-process', [RuangSidangController::class, 'update']);
+    //ruang sidang
+    Route::get('/tim-capstone/ruangan', [RuangSidangController::class, 'index']);
+    Route::get('/tim-capstone/ruangan/add', [RuangSidangController::class, 'create']);
+    Route::post('/tim-capstone/ruangan/add-process', [RuangSidangController::class, 'store']);
+    Route::get('/tim-capstone/ruangan/delete-process/{id}', [RuangSidangController::class, 'delete']);
+    Route::get('/tim-capstone/ruangan/edit/{id}', [RuangSidangController::class, 'edit']);
+    Route::post('/tim-capstone/ruangan/edit-process', [RuangSidangController::class, 'update']);
 
-     //dosen
-     Route::get('/tim-capstone/dosen/dosen-to-aktif-1/{id}', [DosenController::class, 'toAktifKetersediaan1'])->name('to.aktif.ketersediaan.1');
-     Route::get('/tim-capstone/dosen/dosen-to-inaktif-1/{id}', [DosenController::class, 'toInaktifKetersediaan1'])->name('to.inaktif.ketersediaan.1');
-     Route::get('/tim-capstone/dosen/dosen-to-aktif-2/{id}', [DosenController::class, 'toAktifKetersediaan2'])->name('to.aktif.ketersediaan.2');
-     Route::get('/tim-capstone/dosen/dosen-to-inaktif-2/{id}', [DosenController::class, 'toInaktifKetersediaan2'])->name('to.inaktif.ketersediaan.2');
-     Route::get('/tim-capstone/dosen', [DosenController::class, 'index']);
-     Route::get('/tim-capstone/dosen/add', [DosenController::class, 'addDosen']);
-     Route::post('/tim-capstone/dosen/add-process', [DosenController::class, 'addDosenProcess']);
-     Route::get('/tim-capstone/dosen/delete-process/{user_id}', [DosenController::class, 'deleteDosenProcess']);
-     Route::get('/tim-capstone/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
-     Route::post('/tim-capstone/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
-     Route::get('/tim-capstone/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
-     Route::get('/tim-capstone/dosen/search', [DosenController::class, 'searchDosen']);
+    //dosen
+    Route::get('/tim-capstone/dosen/dosen-to-aktif-1/{id}', [DosenController::class, 'toAktifKetersediaan1'])->name('to.aktif.ketersediaan.1');
+    Route::get('/tim-capstone/dosen/dosen-to-inaktif-1/{id}', [DosenController::class, 'toInaktifKetersediaan1'])->name('to.inaktif.ketersediaan.1');
+    Route::get('/tim-capstone/dosen/dosen-to-aktif-2/{id}', [DosenController::class, 'toAktifKetersediaan2'])->name('to.aktif.ketersediaan.2');
+    Route::get('/tim-capstone/dosen/dosen-to-inaktif-2/{id}', [DosenController::class, 'toInaktifKetersediaan2'])->name('to.inaktif.ketersediaan.2');
+    Route::get('/tim-capstone/dosen', [DosenController::class, 'index']);
+    Route::get('/tim-capstone/dosen/add', [DosenController::class, 'addDosen']);
+    Route::post('/tim-capstone/dosen/add-process', [DosenController::class, 'addDosenProcess']);
+    Route::get('/tim-capstone/dosen/delete-process/{user_id}', [DosenController::class, 'deleteDosenProcess']);
+    Route::get('/tim-capstone/dosen/edit/{user_id}', [DosenController::class, 'editDosen']);
+    Route::post('/tim-capstone/dosen/edit-process', [DosenController::class, 'editDosenProcess']);
+    Route::get('/tim-capstone/dosen/detail/{user_id}', [DosenController::class, 'detailDosen']);
+    Route::get('/tim-capstone/dosen/search', [DosenController::class, 'searchDosen']);
 
-     // balancing dosen pembimbing
-     Route::get('/tim-capstone/balancing-dosbing-kelompok', [PembimbingKelompokController::class, 'balancingDosbingKelompok']);
-     Route::get('/tim-capstone/balancing-dosbing-kelompok/filter-siklus', [PembimbingKelompokController::class, 'filterBalancingDosbingKelompok']);
-     Route::get('/tim-capstone/balancing-dosbing-kelompok/detail/{user_id}', [PembimbingKelompokController::class, 'detailBalancingDosbingKelompok']);
-     Route::get('/tim-capstone/balancing-dosbing-kelompok/search', [PembimbingKelompokController::class, 'searchBalancingDosbingKelompok']);
+    // balancing dosen pembimbing
+    Route::get('/tim-capstone/balancing-dosbing-kelompok', [PembimbingKelompokController::class, 'balancingDosbingKelompok']);
+    Route::get('/tim-capstone/balancing-dosbing-kelompok/filter-siklus', [PembimbingKelompokController::class, 'filterBalancingDosbingKelompok']);
+    Route::get('/tim-capstone/balancing-dosbing-kelompok/detail/{user_id}', [PembimbingKelompokController::class, 'detailBalancingDosbingKelompok']);
+    Route::get('/tim-capstone/balancing-dosbing-kelompok/search', [PembimbingKelompokController::class, 'searchBalancingDosbingKelompok']);
 
-     // balancing dosen pembimbing mahasiswa
-     Route::get('/tim-capstone/balancing-dosbing-mahasiswa', [PembimbingMahasiswaController::class, 'balancingDosbingMahasiswa']);
-     Route::get('/tim-capstone/balancing-dosbing-mahasiswa/filter-siklus', [PembimbingMahasiswaController::class, 'filterBalancingDosbingMahasiswa']);
-     Route::get('/tim-capstone/balancing-dosbing-mahasiswa/detail/{user_id}', [PembimbingMahasiswaController::class, 'detailBalancingDosbingMahasiswa']);
-     Route::get('/tim-capstone/balancing-dosbing-mahasiswa/search', [PembimbingMahasiswaController::class, 'searchBalancingDosbingMahasiswa']);
-     Route::get('/tim-capstone/balancing-dosbing-mahasiswa/detail-mahasiswa/{user_id}', [PembimbingMahasiswaController::class, 'detailMahasiswa']);
+    // balancing dosen pembimbing mahasiswa
+    Route::get('/tim-capstone/balancing-dosbing-mahasiswa', [PembimbingMahasiswaController::class, 'balancingDosbingMahasiswa']);
+    Route::get('/tim-capstone/balancing-dosbing-mahasiswa/filter-siklus', [PembimbingMahasiswaController::class, 'filterBalancingDosbingMahasiswa']);
+    Route::get('/tim-capstone/balancing-dosbing-mahasiswa/detail/{user_id}', [PembimbingMahasiswaController::class, 'detailBalancingDosbingMahasiswa']);
+    Route::get('/tim-capstone/balancing-dosbing-mahasiswa/search', [PembimbingMahasiswaController::class, 'searchBalancingDosbingMahasiswa']);
+    Route::get('/tim-capstone/balancing-dosbing-mahasiswa/detail-mahasiswa/{user_id}', [PembimbingMahasiswaController::class, 'detailMahasiswa']);
 
     // balancing dosen penguji proposal
-     Route::get('/tim-capstone/balancing-penguji-proposal', [PengujiProposalController::class, 'balancingPengujiProposal']);
-     Route::get('/tim-capstone/balancing-penguji-proposal/filter-siklus', [PengujiProposalController::class, 'filterBalancingPengujiProposal']);
-     Route::get('/tim-capstone/balancing-penguji-proposal/detail/{user_id}', [PengujiProposalController::class, 'detailBalancingPengujiProposal']);
-     Route::get('/tim-capstone/balancing-penguji-proposal/search', [PengujiProposalController::class, 'searchBalancingPengujiProposal']);
+    Route::get('/tim-capstone/balancing-penguji-proposal', [PengujiProposalController::class, 'balancingPengujiProposal']);
+    Route::get('/tim-capstone/balancing-penguji-proposal/filter-siklus', [PengujiProposalController::class, 'filterBalancingPengujiProposal']);
+    Route::get('/tim-capstone/balancing-penguji-proposal/detail/{user_id}', [PengujiProposalController::class, 'detailBalancingPengujiProposal']);
+    Route::get('/tim-capstone/balancing-penguji-proposal/search', [PengujiProposalController::class, 'searchBalancingPengujiProposal']);
 
     // balancing dosen penguji proposal
     Route::get('/tim-capstone/balancing-penguji-ta', [PengujiTAController::class, 'balancingPengujiTA']);
@@ -214,29 +204,29 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/tim-capstone/balancing-penguji-ta/detail-mahasiwa/{user_id}', [PengujiTAController::class, 'detailMahasiswa']);
     Route::get('/tim-capstone/balancing-penguji-ta/search', [PengujiTAController::class, 'searchBalancingPengujiTA']);
 
-     //siklus
-     Route::get('/tim-capstone/siklus', [SiklusController::class, 'index']);
-     Route::get('/tim-capstone/siklus/add', [SiklusController::class, 'addSiklus']);
-     Route::post('/tim-capstone/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
-     Route::get('/tim-capstone/siklus/delete-process/{id}', [SiklusController::class, 'deleteSiklusProcess']);
-     Route::get('/tim-capstone/siklus/edit/{id}', [SiklusController::class, 'editSiklus']);
-     Route::post('/tim-capstone/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
-     Route::get('/tim-capstone/siklus/detail/{id}', [SiklusController::class, 'detailSiklus']);
+    //siklus
+    Route::get('/tim-capstone/siklus', [SiklusController::class, 'index']);
+    Route::get('/tim-capstone/siklus/add', [SiklusController::class, 'addSiklus']);
+    Route::post('/tim-capstone/siklus/add-process', [SiklusController::class, 'addSiklusProcess']);
+    Route::get('/tim-capstone/siklus/delete-process/{id}', [SiklusController::class, 'deleteSiklusProcess']);
+    Route::get('/tim-capstone/siklus/edit/{id}', [SiklusController::class, 'editSiklus']);
+    Route::post('/tim-capstone/siklus/edit-process', [SiklusController::class, 'editSiklusProcess']);
+    Route::get('/tim-capstone/siklus/detail/{id}', [SiklusController::class, 'detailSiklus']);
 
-     //broadcast
-     Route::get('/tim-capstone/broadcast', [BroadcastController::class, 'index']);
-     Route::get('/tim-capstone/broadcast/add', [BroadcastController::class, 'addBroadcast']);
-     Route::post('/tim-capstone/broadcast/add-process', [BroadcastController::class, 'addBroadcastProcess']);
-     Route::get('/tim-capstone/broadcast/delete-process/{id}', [BroadcastController::class, 'deleteBroadcastProcess']);
-     Route::get('/tim-capstone/broadcast/edit/{user_id}', [BroadcastController::class, 'editBroadcast']);
-     Route::post('/tim-capstone/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
-     Route::get('/tim-capstone/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
+    //broadcast
+    Route::get('/tim-capstone/broadcast', [BroadcastController::class, 'index']);
+    Route::get('/tim-capstone/broadcast/add', [BroadcastController::class, 'addBroadcast']);
+    Route::post('/tim-capstone/broadcast/add-process', [BroadcastController::class, 'addBroadcastProcess']);
+    Route::get('/tim-capstone/broadcast/delete-process/{id}', [BroadcastController::class, 'deleteBroadcastProcess']);
+    Route::get('/tim-capstone/broadcast/edit/{user_id}', [BroadcastController::class, 'editBroadcast']);
+    Route::post('/tim-capstone/broadcast/edit-process', [BroadcastController::class, 'editBroadcastProcess']);
+    Route::get('/tim-capstone/broadcast/detail/{user_id}', [BroadcastController::class, 'detailBroadcast']);
 
-     // penetapan kelompok
-     Route::get('/tim-capstone/penetapan-anggota', [PenetapanAnggotaController::class, 'index']);
-     Route::get('/tim-capstone/penetapan-anggota/add', [PenetapanAnggotaController::class, 'addPenetapanAnggota']);
-     Route::get('/tim-capstone/penetapan-anggota/search', [PenetapanAnggotaController::class, 'searchMahasiswa']);
-     Route::post('/tim-capstone/penetapan-anggota/add-process', [PenetapanAnggotaController::class, 'addPenetapanAnggotaProcess']);
+    // penetapan kelompok
+    Route::get('/tim-capstone/penetapan-anggota', [PenetapanAnggotaController::class, 'index']);
+    Route::get('/tim-capstone/penetapan-anggota/add', [PenetapanAnggotaController::class, 'addPenetapanAnggota']);
+    Route::get('/tim-capstone/penetapan-anggota/search', [PenetapanAnggotaController::class, 'searchMahasiswa']);
+    Route::post('/tim-capstone/penetapan-anggota/add-process', [PenetapanAnggotaController::class, 'addPenetapanAnggotaProcess']);
 
     // penetapan dosbing kelompok
     Route::get('/tim-capstone/penetapan-dosbing', [PenetapanDosbingController::class, 'index']);
@@ -265,7 +255,6 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/tim-capstone/kelompok-valid/delete-process/{id}', [KelompokValidController::class, 'deleteKelompokProcess']);
     Route::get('/tim-capstone/kelompok-valid/detail/{id}', [KelompokValidController::class, 'detailKelompok']);
     Route::get('/tim-capstone/kelompok-valid/delete-mahasiswa-process/{id_mahasiswa}/{id}', [KelompokValidController::class, 'deleteMahasiswaKelompokProcess']);
-
 
     // add sidang proposal
     Route::get('tim-capstone/penjadwalan-sidang-proposal', [PenjadwalanSidangProposalController::class, 'index']);
@@ -298,37 +287,35 @@ Route::post('/ubah-password/process', [ResetPasswordController::class, 'ubahPass
     Route::get('/tim-capstone/expo-project/detail/{user_id}', [ExpoProjectController::class, 'detailExpoProject']);
     Route::get('/tim-capstone/expo-project/delete-process/{id}', [ExpoProjectController::class, 'deleteExpoProjectProcess']);
 
-      // terima tolak expo
-      Route::get('/tim-capstone/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
-      Route::get('/tim-capstone/expo-project/tolak/{id}', [ExpoProjectController::class, 'tolakKelompok']);
+    // terima tolak expo
+    Route::get('/tim-capstone/expo-project/terima/{id}', [ExpoProjectController::class, 'terimaKelompok']);
+    Route::get('/tim-capstone/expo-project/tolak/{id}', [ExpoProjectController::class, 'tolakKelompok']);
 
-      // hasil expo
-      Route::get('/tim-capstone/expo-project/to-lulus/{id}', [ExpoProjectController::class, 'toLulusExpo']);
-      Route::get('/tim-capstone/expo-project/to-gagal/{id}', [ExpoProjectController::class, 'toGagalExpo']);
+    // hasil expo
+    Route::get('/tim-capstone/expo-project/to-lulus/{id}', [ExpoProjectController::class, 'toLulusExpo']);
+    Route::get('/tim-capstone/expo-project/to-gagal/{id}', [ExpoProjectController::class, 'toGagalExpo']);
 
-      //sidang ta
-      Route::get('/tim-capstone/sidang-ta', [SidangTAController::class, 'index']);
-      Route::get('/tim-capstone/sidang-ta/add', [SidangTAController::class, 'addPeriodeSidangTA']);
-      Route::post('/tim-capstone/sidang-ta/add-process', [SidangTAController::class, 'addPeriodeSidangTAProcess']);
-      Route::get('/tim-capstone/sidang-ta/delete-process/{id}', [SidangTAController::class, 'deletePeriodeSidangTAProcess']);
-      Route::get('/tim-capstone/sidang-ta/edit/{id}', [SidangTAController::class, 'editPeriodeSidangTA']);
-      Route::post('/tim-capstone/sidang-ta/edit-process', [SidangTAController::class, 'editPeriodeSidangTAProcess']);
-      Route::get('/tim-capstone/sidang-ta/detail/{id}', [SidangTAController::class, 'detailPeriodeSidangTA']);
-      Route::get('tim-capstone/sidang-ta/jadwalkan-sidang-ta/{id}/{id_periode}', [SidangTAController::class, 'detailPenjadwalanSidangTA']);
+    //sidang ta
+    Route::get('/tim-capstone/sidang-ta', [SidangTAController::class, 'index']);
+    Route::get('/tim-capstone/sidang-ta/add', [SidangTAController::class, 'addPeriodeSidangTA']);
+    Route::post('/tim-capstone/sidang-ta/add-process', [SidangTAController::class, 'addPeriodeSidangTAProcess']);
+    Route::get('/tim-capstone/sidang-ta/delete-process/{id}', [SidangTAController::class, 'deletePeriodeSidangTAProcess']);
+    Route::get('/tim-capstone/sidang-ta/edit/{id}', [SidangTAController::class, 'editPeriodeSidangTA']);
+    Route::post('/tim-capstone/sidang-ta/edit-process', [SidangTAController::class, 'editPeriodeSidangTAProcess']);
+    Route::get('/tim-capstone/sidang-ta/detail/{id}', [SidangTAController::class, 'detailPeriodeSidangTA']);
+    Route::get('tim-capstone/sidang-ta/jadwalkan-sidang-ta/{id}/{id_periode}', [SidangTAController::class, 'detailPenjadwalanSidangTA']);
 
-     //add delete dosen pembimbing
-     Route::get('tim-capstone/sidang-ta/add-dosen-penguji', [SidangTAController::class, 'addDosenKelompok']);
-     Route::get('tim-capstone/sidang-ta/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [SidangTAController::class, 'deleteDosenKelompok']);
-     // jadwalkan sidang proposal
-     Route::post('tim-capstone/sidang-ta/add-jadwal-process', [SidangTAController::class, 'addJadwalProcess']);
+    //add delete dosen pembimbing
+    Route::get('tim-capstone/sidang-ta/add-dosen-penguji', [SidangTAController::class, 'addDosenKelompok']);
+    Route::get('tim-capstone/sidang-ta/delete-dosen-penguji/{id_dosen}/{id_kelompok}', [SidangTAController::class, 'deleteDosenKelompok']);
+    // jadwalkan sidang proposal
+    Route::post('tim-capstone/sidang-ta/add-jadwal-process', [SidangTAController::class, 'addJadwalProcess']);
 
-     // add jadwal to mahasiswa
-     Route::get('/tim-capstone/sidang-ta/add-jadwal-to-mahasiswa', [SidangTAController::class, 'addJadwalToMahasiswa']);
+    // add jadwal to mahasiswa
+    Route::get('/tim-capstone/sidang-ta/add-jadwal-to-mahasiswa', [SidangTAController::class, 'addJadwalToMahasiswa']);
 
-      Route::get('/tim-capstone/sidang-ta/terima/{id}', [SidangTAController::class, 'terimaMahasiswa']);
-      Route::get('/tim-capstone/sidang-ta/tolak/{id}', [SidangTAController::class, 'tolakMahasiswa']);
-
-
+    Route::get('/tim-capstone/sidang-ta/terima/{id}', [SidangTAController::class, 'terimaMahasiswa']);
+    Route::get('/tim-capstone/sidang-ta/tolak/{id}', [SidangTAController::class, 'tolakMahasiswa']);
 
     //sidang TA
     Route::get('/tim-capstone/jadwal-sidang-ta', [JadwalSidangTAController::class, 'index']);
@@ -372,7 +359,6 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     // sidang proposal
     Route::get('/mahasiswa/sidang-proposal', [MahasiswaSidangProposalController::class, 'index']);
 
-
     //mahasiswa Expo
     Route::get('/mahasiswa/expo', [MahasiswaExpoController::class, 'index']);
     Route::post('/mahasiswa/expo/expo-daftar', [MahasiswaExpoController::class, 'daftarExpo']);
@@ -382,35 +368,33 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::post('/mahasiswa/tugas-akhir/tugas-akhir-daftar', [MahasiswaTugasAkhirController::class, 'daftarTA']);
 });
 
-
 // dosen
 Route::middleware(['auth', 'role:04'])->group(function () {
 
-     // beranda
-     Route::get('dosen/beranda', [DashboardController::class, 'indexDosen']);
-     Route::get('dosen/beranda/filter-siklus', [DashboardController::class, 'filterSiklusByDosen']);
+    // beranda
+    Route::get('dosen/beranda', [DashboardController::class, 'indexDosen']);
+    Route::get('dosen/beranda/filter-siklus', [DashboardController::class, 'filterSiklusByDosen']);
 
-     //halaman dosen
-     Route::get('/dosen/kelompok-bimbingan', [KelompokBimbinganController::class, 'index']);
-     Route::get('/dosen/kelompok-bimbingan/terima/{id}', [KelompokBimbinganController::class, 'terimaKelompokBimbingan']);
-     Route::get('/dosen/kelompok-bimbingan/tolak/{id}', [KelompokBimbinganController::class, 'tolakKelompokBimbingan']);
-     Route::get('/dosen/kelompok-bimbingan/detail/{id}', [KelompokBimbinganController::class, 'detailKelompokBimbingan']);
-     Route::get('/dosen/kelompok-bimbingan/search', [KelompokBimbinganController::class, 'search']);
-     Route::get('/dosen/kelompok-bimbingan/filter-status', [KelompokBimbinganController::class, 'getKelompokBimbinganFilterStatus']);
+    //halaman dosen
+    Route::get('/dosen/kelompok-bimbingan', [KelompokBimbinganController::class, 'index']);
+    Route::get('/dosen/kelompok-bimbingan/terima/{id}', [KelompokBimbinganController::class, 'terimaKelompokBimbingan']);
+    Route::get('/dosen/kelompok-bimbingan/tolak/{id}', [KelompokBimbinganController::class, 'tolakKelompokBimbingan']);
+    Route::get('/dosen/kelompok-bimbingan/detail/{id}', [KelompokBimbinganController::class, 'detailKelompokBimbingan']);
+    Route::get('/dosen/kelompok-bimbingan/search', [KelompokBimbinganController::class, 'search']);
+    Route::get('/dosen/kelompok-bimbingan/filter-status', [KelompokBimbinganController::class, 'getKelompokBimbinganFilterStatus']);
 
-     // detail mahasiswa bimbingan saya
-     Route::get('/dosen/kelompok-bimbingan/detail-mahasiswa/{user_id}', [KelompokBimbinganController::class, 'detailMahasiswa']);
+    // detail mahasiswa bimbingan saya
+    Route::get('/dosen/kelompok-bimbingan/detail-mahasiswa/{user_id}', [KelompokBimbinganController::class, 'detailMahasiswa']);
 
-     // mahasiswa bimbingan
-     Route::get('/dosen/mahasiswa-bimbingan', [MahasiswaBimbinganController::class, 'index']);
-     Route::get('/dosen/mahasiswa-bimbingan/search', [MahasiswaBimbinganController::class, 'search']);
-     Route::get('/dosen/mahasiswa-bimbingan/filter-status', [MahasiswaBimbinganController::class, 'getMahasiswaBimbinganFilterStatus']);
+    // mahasiswa bimbingan
+    Route::get('/dosen/mahasiswa-bimbingan', [MahasiswaBimbinganController::class, 'index']);
+    Route::get('/dosen/mahasiswa-bimbingan/search', [MahasiswaBimbinganController::class, 'search']);
+    Route::get('/dosen/mahasiswa-bimbingan/filter-status', [MahasiswaBimbinganController::class, 'getMahasiswaBimbinganFilterStatus']);
 
-     // detail mahasiswa bimbingan saya
-     Route::get('/dosen/mahasiswa-bimbingan/detail-mahasiswa/{user_id}', [MahasiswaBimbinganController::class, 'detailMahasiswa']);
+    // detail mahasiswa bimbingan saya
+    Route::get('/dosen/mahasiswa-bimbingan/detail-mahasiswa/{user_id}', [MahasiswaBimbinganController::class, 'detailMahasiswa']);
 
-
-     // persetujuan c100
+    // persetujuan c100
     Route::get('/dosen/persetujuan-c100', [PersetujuanC100Controller::class, 'index']);
     Route::get('/dosen/persetujuan-c100/terima/{id}', [PersetujuanC100Controller::class, 'terimaPersetujuanC100Saya']);
     Route::get('/dosen/persetujuan-c100/tolak/{id}', [PersetujuanC100Controller::class, 'tolakPersetujuanC100Saya']);
@@ -459,16 +443,15 @@ Route::middleware(['auth', 'role:04'])->group(function () {
     Route::get('/dosen/persetujuan-mta/detail/{id}', [PersetujuanMakalahTAController::class, 'detailPersetujuanMakalahTASaya']);
     Route::get('/dosen/persetujuan-mta/search', [PersetujuanMakalahTAController::class, 'search']);
 
-     //pengujian saya
-     Route::get('/dosen/pengujian-proposal', [PengujianProposalController::class, 'index']);
-     Route::get('/dosen/pengujian-proposal/terima/{id}', [PengujianProposalController::class, 'terimaPengujianProposalSaya']);
-     Route::get('/dosen/pengujian-proposal/tolak/{id}', [PengujianProposalController::class, 'tolakPengujianProposalSaya']);
-     Route::get('/dosen/pengujian-proposal/detail/{id}', [PengujianProposalController::class, 'detailPengujianProposalSaya']);
-     Route::get('/dosen/pengujian-proposal/search', [PengujianProposalController::class, 'search']);
+    //pengujian saya
+    Route::get('/dosen/pengujian-proposal', [PengujianProposalController::class, 'index']);
+    Route::get('/dosen/pengujian-proposal/terima/{id}', [PengujianProposalController::class, 'terimaPengujianProposalSaya']);
+    Route::get('/dosen/pengujian-proposal/tolak/{id}', [PengujianProposalController::class, 'tolakPengujianProposalSaya']);
+    Route::get('/dosen/pengujian-proposal/detail/{id}', [PengujianProposalController::class, 'detailPengujianProposalSaya']);
+    Route::get('/dosen/pengujian-proposal/search', [PengujianProposalController::class, 'search']);
 
-     // detail mahasiswa bimbingan proposal
-     Route::get('/dosen/pengujian-proposal/detail-mahasiswa/{user_id}', [PengujianProposalController::class, 'detailMahasiswa']);
-
+    // detail mahasiswa bimbingan proposal
+    Route::get('/dosen/pengujian-proposal/detail-mahasiswa/{user_id}', [PengujianProposalController::class, 'detailMahasiswa']);
 
     //pengujian saya
     Route::get('/dosen/pengujian-ta', [PengujianTAController::class, 'index']);
@@ -477,9 +460,7 @@ Route::middleware(['auth', 'role:04'])->group(function () {
     Route::get('/dosen/pengujian-ta/detail/{id}', [PengujianTAController::class, 'detailPengujianTASaya']);
     Route::get('/dosen/pengujian-ta/search', [PengujianTAController::class, 'search']);
 
-
 });
-
 
 Route::middleware(['auth'])->group(function () {
 

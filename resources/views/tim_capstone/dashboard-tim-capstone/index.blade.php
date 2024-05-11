@@ -39,7 +39,8 @@
                                     <div class="row">
                                         <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                             <div>
-                                                <select class="form-select select-2" name="id_siklus" required>
+                                                <select class="form-select select-2" id="selectSiklus" name="id_siklus"
+                                                    required>
                                                     <option value="" disabled selected> -- Filter Berdasarkan Siklus
                                                         -- </option>
                                                     @foreach ($rs_siklus as $s)
@@ -66,251 +67,301 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/validasi-kelompok') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mendaftar</h5>
-                                    <b>
-                                        <span>{{ $kelompok->total_kelompok ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok->jumlah_kelompok_valid ?? 0 }}</b>
-                                        Kelompok Valid
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
-                                        <b>{{ $kelompok->jumlah_kelompok_tidak_valid ?? 0 }}</b>
-                                        Kelompok Belum Valid
-                                    </span>
-                                </div>
+            <div class="col-lg-3 mb-3 order-0">
+
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Kelompok Mendaftar</h5>
+                                <hr>
+                                <form action="{{ url('tim-capstone/validasi-kelompok') }}" method="GET">
+                                    @csrf
+                                    <button type="submit"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok->jumlah_kelompok_tidak_valid ?? 0 }}</b> Kelompok Belum Valid
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="1">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok->jumlah_kelompok_valid ?? 0 }}</b> Kelompok Valid
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
+
             </div>
 
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/kelompok-valid') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mengunggah C100</h5>
-                                    <b>
-                                        <span>{{ $kelompok_c100->total_kelompok_file_c100 ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_c100->total_kelompok_disetujui ?? 0 }}</b>
-                                        Telah Disetujui
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
-                                        <b>{{ $kelompok_c100->total_kelompok_belum_disetujui ?? 0 }}</b>
-                                        Belum Disetujui
-                                    </span>
-                                </div>
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Mengunggah C100</h5>
+
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="2">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c100->total_kelompok_belum_disetujui ?? 0 }}</b> Belum
+                                        Disetujui
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="3">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c100->total_kelompok_disetujui ?? 0 }}</b> Telah Disetujui
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/penjadwalan-sidang-proposal') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Sidang Proposal</h5>
-                                    <b>
-                                        <span>{{ $kelompok_sidang_proposal->total_kelompok ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_sidang_proposal->total_kelompok_sidang ?? 0 }}</b>
-                                        Sudang Sidang
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Sidang Proposal</h5>
+
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="4">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
                                         <b>{{ $kelompok_sidang_proposal->total_kelompok_belum_sidang ?? 0 }}</b>
                                         Belum Sidang
-                                    </span>
-                                </div>
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="5">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_sidang_proposal->total_kelompok_sidang ?? 0 }}</b>
+                                        Sudang Sidang </button>
+                                </form>
+
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
 
-        </div>
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Mengunggah C200</h5>
 
-        <div class="row">
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/kelompok-valid') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mengunggah C200</h5>
-                                    <b>
-                                        <span>{{ $kelompok_c200->total_kelompok_file_c200 ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_c200->total_kelompok_disetujui ?? 0 }}</b>
-                                        Telah Disetujui
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="6">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
                                         <b>{{ $kelompok_c200->total_kelompok_belum_disetujui ?? 0 }}</b>
                                         Belum Disetujui
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="7">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c200->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui </button>
+                                </form>
 
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/kelompok-valid') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mengunggah C300</h5>
-                                    <b>
-                                        <span>{{ $kelompok_c300->total_kelompok_file_c300 ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_c300->total_kelompok_disetujui ?? 0 }}</b>
-                                        Telah Disetujui
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
-                                        <b>{{ $kelompok_c300->total_kelompok_belum_disetujui ?? 0 }}</b>
-                                        Belum Disetujui
-                                    </span>
-                                </div>
                             </div>
                         </div>
                     </div>
-                </a>
-            </div>
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/kelompok-valid') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mengunggah C400</h5>
-                                    <b>
-                                        <span>{{ $kelompok_c400->total_kelompok_file_c400 ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_c400->total_kelompok_disetujui ?? 0 }}</b>
-                                        Telah Disetujui
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
-                                        <b>{{ $kelompok_c400->total_kelompok_belum_disetujui ?? 0 }}</b>
-                                        Belum Disetujui
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+                </div>
             </div>
 
         </div>
 
         <div class="row">
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/kelompok-valid') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mengunggah C500</h5>
-                                    <b>
-                                        <span>{{ $kelompok_c500->total_kelompok_file_c500 ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_c500->total_kelompok_disetujui ?? 0 }}</b>
-                                        Telah Disetujui
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
+
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Mengunggah C300</h5>
+
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="8">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c300->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="9">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c300->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Mengunggah C400</h5>
+
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="10">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c400->total_kelompok_belum_disetujui ?? 0 }}</b>
+                                        Belum Disetujui
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="11">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c400->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Mengunggah C500</h5>
+
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="12">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
                                         <b>{{ $kelompok_c500->total_kelompok_belum_disetujui ?? 0 }}</b>
                                         Belum Disetujui
-                                    </span>
-                                </div>
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="13">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_c500->total_kelompok_disetujui ?? 0 }}</b>
+                                        Telah Disetujui </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
 
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/expo-project') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Mendaftar Expo</h5>
-                                    <b>
-                                        <span>{{ $kelompok_mendaftar_expo->total_kelompok ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_mendaftar_expo->total_kelompok_mendaftar_expo ?? 0 }}</b>
-                                        Telah Mendaftar
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
-                                        <b>{{ $kelompok_mendaftar_expo->total_kelompok_belum_mendaftar_expo ?? 0 }}</b>
-                                        Belum Mendaftar
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+            <div class="col-lg-3 mb-3 order-0">
+                <div class="card">
+                    <div class="d-flex align-items-end row">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Lulus Expo</h5>
 
-            <div class="col-lg-4 mb-4 order-0">
-                <a href="{{ url('tim-capstone/expo-project') }}">
-                    <div class="card">
-                        <div class="d-flex align-items-end row">
-                            <div class="col-sm-12">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Kelompok Lulus Expo</h5>
-                                    <b>
-                                        <span>{{ $kelompok_lulus_expo->total_kelompok ?? 0 }} Kelompok</span>
-                                    </b>
-                                    <hr>
-                                    <span style="color: #44B158;">
-                                        <b>{{ $kelompok_lulus_expo->total_kelompok_expo ?? 0 }}</b>
-                                        Telah Lulus
-                                    </span>
-                                    <br>
-                                    <span style="color: #F86F03;">
+                                <hr>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="14">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #F86F03; background-color: transparent; border: none; cursor: pointer;">
                                         <b>{{ $kelompok_lulus_expo->total_kelompok_belum_expo ?? 0 }}</b>
                                         Belum Lulus
-                                    </span>
-                                </div>
+                                    </button>
+                                </form>
+                                <form action="/tim-capstone/kelompok-valid/filter-kelompok-progress-dan-siklus"
+                                    method="GET">
+                                    @csrf
+                                    <input type="hidden" name="id_siklus"
+                                        @if (isset($siklus)) value="{{ $siklus->id }}" @endif>
+                                    <input type="hidden" name="id_progress" value="15">
+                                    <button type="submit" name="action" value="filter"
+                                        style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
+                                        <b>{{ $kelompok_lulus_expo->total_kelompok_expo ?? 0 }}</b>
+                                        Telah Lulus
+                                </form>
+
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
 
         </div>

@@ -158,10 +158,12 @@
                                         </tbody>
                                     </table>
                                     <div class="float-end">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal" data-target-form="form1">
-                                            Simpan
-                                        </button>
+                                        @if ($kelompok->is_sidang_proposal != '1')
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal" data-target-form="form1">
+                                                Simpan
+                                            </button>
+                                        @endif
                                     </div>
                                 </form>
                             </div>
