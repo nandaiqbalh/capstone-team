@@ -5,14 +5,10 @@ namespace App\Http\Controllers\API\V1\Mahasiswa\Dokumen;
 use App\Http\Controllers\Controller;
 use App\Models\Api\Mahasiswa\Dokumen\ApiDokumenModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
-
-use Barryvdh\DomPDF\Facade as PDF;
 
 class ApiDokumenController extends Controller
 {
@@ -32,11 +28,11 @@ class ApiDokumenController extends Controller
             if ($user != null && $user->user_active == 1) {
                 try {
 
-                    $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+                    $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
                     if ($kelompok != null) {
 
-                        if ($kelompok -> nomor_kelompok != null) {
+                        if ($kelompok->nomor_kelompok != null) {
                             $file_mhs = ApiDokumenModel::fileMHS($user->user_id);
 
                             // data
@@ -44,13 +40,13 @@ class ApiDokumenController extends Controller
 
                             if ($file_mhs != null) {
 
-                                $file_mhs -> file_url_c100 = $this->getDokumenUrl($file_mhs -> file_path_c100, $file_mhs -> file_name_c100);
-                                $file_mhs -> file_url_c200 = $this->getDokumenUrl($file_mhs -> file_path_c200, $file_mhs -> file_name_c200);
-                                $file_mhs -> file_url_c300 = $this->getDokumenUrl($file_mhs -> file_path_c300, $file_mhs -> file_name_c300);
-                                $file_mhs -> file_url_c400 = $this->getDokumenUrl($file_mhs -> file_path_c400, $file_mhs -> file_name_c400);
-                                $file_mhs -> file_url_c500 = $this->getDokumenUrl($file_mhs -> file_path_c500, $file_mhs -> file_name_c500);
-                                $file_mhs -> file_url_laporan_ta = $this->getDokumenUrl($file_mhs -> file_path_laporan_ta, $file_mhs -> file_name_laporan_ta);
-                                $file_mhs -> file_url_makalah = $this->getDokumenUrl($file_mhs -> file_path_makalah, $file_mhs -> file_name_makalah);
+                                $file_mhs->file_url_c100 = $this->getDokumenUrl($file_mhs->file_path_c100, $file_mhs->file_name_c100);
+                                $file_mhs->file_url_c200 = $this->getDokumenUrl($file_mhs->file_path_c200, $file_mhs->file_name_c200);
+                                $file_mhs->file_url_c300 = $this->getDokumenUrl($file_mhs->file_path_c300, $file_mhs->file_name_c300);
+                                $file_mhs->file_url_c400 = $this->getDokumenUrl($file_mhs->file_path_c400, $file_mhs->file_name_c400);
+                                $file_mhs->file_url_c500 = $this->getDokumenUrl($file_mhs->file_path_c500, $file_mhs->file_name_c500);
+                                $file_mhs->file_url_laporan_ta = $this->getDokumenUrl($file_mhs->file_path_laporan_ta, $file_mhs->file_name_laporan_ta);
+                                $file_mhs->file_url_makalah = $this->getDokumenUrl($file_mhs->file_path_makalah, $file_mhs->file_name_makalah);
 
                                 return $response = $this->successResponse('Berhasil mendapatkan dokumen mahasiswa.', $data);
                             } else {
@@ -75,7 +71,6 @@ class ApiDokumenController extends Controller
 
         return response()->json($response);
     }
-
 
     public function uploadMakalahProcess(Request $request)
     {
@@ -107,12 +102,16 @@ class ApiDokumenController extends Controller
                 // Upload
                 if ($request->hasFile('makalah')) {
                     // Check and delete the existing file
-                    $existingFile = ApiDokumenModel::fileMHS($user ->user_id);
+                    $existingFile = ApiDokumenModel::fileMHS($user->user_id);
 
-                    if ($existingFile -> file_name_laporan_ta != null) {
+                    if ($existingFile->file_name_laporan_ta != null) {
 
                         if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui") {
                             return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
+                        }
+
+                        if ($existingFile->file_status_mta == "Makalah TA Telah Disetujui") {
+                            return $response = $this->failureResponse('Gagal mengunggah! Makalah TA telah disetujui kedua dosen pembimbing!');
                         }
 
                         $file = $request->file('makalah');
@@ -155,10 +154,10 @@ class ApiDokumenController extends Controller
                             } else {
                                 return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                             }
+                        } else {
+                            return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
+                        }
                     } else {
-                        return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
-                    }
-                    } else{
                         return $response = $this->failureResponse('Lengkapi terlebih dahulu laporan Tugas Akhir!');
 
                     }
@@ -205,18 +204,26 @@ class ApiDokumenController extends Controller
                 // Upload path
                 $upload_path = '/../../file/mahasiswa/laporan-ta';
 
-                $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+                $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
                 // Check and delete the existing file
                 $dokumenKelompok = ApiDokumenModel::getKelompokFile($kelompok->id_kelompok);
+
+                if ($dokumenKelompok->file_name_c500 == null) {
+                    return $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu dokumen capstone!');
+                }
+
+                if ($dokumenKelompok->file_status_c500 != "C500 Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! C500 belum disetujui kedua dosen pembimbing!');
+                }
 
                 // Upload
                 if ($request->hasFile('laporan_ta')) {
 
-                    if ($dokumenKelompok -> file_name_c500 != null) {
+                    if ($dokumenKelompok->file_name_c500 != null) {
                         $file = $request->file('laporan_ta');
 
                         // Generate a unique file name
-                        $new_file_name = 'laporan_ta-' . Str::slug($user ->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $new_file_name = 'laporan_ta-' . Str::slug($user->user_name, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
@@ -224,7 +231,15 @@ class ApiDokumenController extends Controller
                         }
 
                         // Check and delete the existing file
-                        $existingFile = ApiDokumenModel::fileMHS($user ->user_id);
+                        $existingFile = ApiDokumenModel::fileMHS($user->user_id);
+
+                        if ($existingFile->file_status_lta == "Laporan TA Telah Disetujui") {
+                            return $response = $this->failureResponse('Gagal mengunggah! Laporan TA telah disetujui kedua dosen pembimbing!');
+                        }
+
+                        if ($existingFile->file_status_lta == "Final Laporan TA Telah Disetujui") {
+                            return $response = $this->failureResponse('Gagal mengunggah! Laporan TA telah disetujui kedua dosen pembimbing!');
+                        }
 
                         if ($existingFile->file_name_laporan_ta) {
                             $filePath = public_path($existingFile->file_path_laporan_ta . '/' . $existingFile->file_name_laporan_ta);
@@ -272,7 +287,7 @@ class ApiDokumenController extends Controller
                         } else {
                             return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                         }
-                    } else{
+                    } else {
                         return $response = $this->failureResponse('Lengkapi terlebih dahulu dokumen capstone!');
                     }
 
@@ -293,7 +308,7 @@ class ApiDokumenController extends Controller
     private function getDokumenUrl($path, $name)
     {
         if (!empty($name)) {
-            $dokumenUrl = url($path . '/'. $name);
+            $dokumenUrl = url($path . '/' . $name);
         } else {
             $dokumenUrl = null;
         }

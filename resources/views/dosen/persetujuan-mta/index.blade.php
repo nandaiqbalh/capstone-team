@@ -75,10 +75,8 @@
 
                                             @if ($kelompok->jenis_dosen == 'Pembimbing 1')
                                                 @if ($kelompok->file_status_mta_dosbing1 == 'Makalah TA Telah Disetujui')
-                                                    <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}')">
-                                                        Tolak</a>
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
+                                                        class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @elseif($kelompok->file_status_mta_dosbing1 == 'Menunggu Persetujuan Makalah TA')
                                                     <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-success btn-xs m-1"
@@ -94,15 +92,13 @@
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
-                                                    <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
                                                         class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @endif
                                             @else
                                                 @if ($kelompok->file_status_mta_dosbing2 == 'Makalah TA Telah Disetujui')
-                                                    <a href="{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/tolak') }}/{{ $kelompok->id }}')">
-                                                        Tolak</a>
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
+                                                        class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @elseif($kelompok->file_status_mta_dosbing2 == 'Menunggu Persetujuan Makalah TA')
                                                     <a href="{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}"
                                                         class="btn btn-outline-success btn-xs m-1"
@@ -118,7 +114,7 @@
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-mta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
-                                                    <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
                                                         class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @endif
                                             @endif

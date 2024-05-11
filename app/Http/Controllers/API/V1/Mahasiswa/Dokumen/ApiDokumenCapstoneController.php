@@ -7,9 +7,7 @@ use App\Models\Api\Mahasiswa\Dokumen\ApiDokumenModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 class ApiDokumenCapstoneController extends Controller
 {
@@ -24,7 +22,7 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
-            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
@@ -43,7 +41,7 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c100';
                 // Check and delete the existing file
-                $id_kelompok = $kelompok -> id_kelompok;
+                $id_kelompok = $kelompok->id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
@@ -54,18 +52,17 @@ class ApiDokumenCapstoneController extends Controller
                 // get siklus kelompok
                 $siklus = ApiDokumenModel::getSiklusKelompok($existingFile->id_siklus);
 
-                if($siklus != null){
+                if ($siklus != null) {
                     if ($request->hasFile('c100') && $existingFile != null) {
                         $file = $request->file('c100');
 
                         // Generate a unique file name
-                        $newFileName = 'c100-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $newFileName = 'c100-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
                             mkdir(public_path($upload_path), 0755, true);
                         }
-
 
                         if ($existingFile->file_name_c100) {
                             $filePath = public_path($existingFile->file_path_c100 . '/' . $existingFile->file_name_c100);
@@ -112,7 +109,6 @@ class ApiDokumenCapstoneController extends Controller
 
                                 }
 
-
                                 $upload = ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
 
                                 if (!$upload) {
@@ -132,7 +128,7 @@ class ApiDokumenCapstoneController extends Controller
                     } else {
                         return $response = $this->failureResponse('Gagal! Validasi dokumen tidak berhasil!');
                     }
-                } else{
+                } else {
                     return $response = $this->failureResponse('Gagal! Sudah melewati batas waktu unggah dokumen C100!');
                 }
             } else {
@@ -155,7 +151,7 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
-            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
@@ -174,7 +170,7 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c200';
                 // Check and delete the existing file
-                $id_kelompok = $kelompok -> id_kelompok;
+                $id_kelompok = $kelompok->id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
@@ -192,16 +188,15 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 if ($request->hasFile('c200') && $existingFile != null) {
-                    if ($existingFile -> file_name_c100 != null) {
+                    if ($existingFile->file_name_c100 != null) {
                         $file = $request->file('c200');
                         // Generate a unique file name
-                        $newFileName = 'c200-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $newFileName = 'c200-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
                             mkdir(public_path($upload_path), 0755, true);
                         }
-
 
                         if ($existingFile->file_name_c200) {
                             $filePath = public_path($existingFile->file_path_c200 . '/' . $existingFile->file_name_c200);
@@ -269,7 +264,7 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
-            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
@@ -287,7 +282,7 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c300';
                 // Check and delete the existing file
-                $id_kelompok = $kelompok -> id_kelompok;
+                $id_kelompok = $kelompok->id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
@@ -305,16 +300,15 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 if ($request->hasFile('c300') && $existingFile != null) {
-                    if ($existingFile -> file_name_c200 != null) {
+                    if ($existingFile->file_name_c200 != null) {
                         $file = $request->file('c300');
                         // Generate a unique file name
-                        $newFileName = 'c300-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $newFileName = 'c300-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
                             mkdir(public_path($upload_path), 0755, true);
                         }
-
 
                         if ($existingFile->file_name_c300) {
                             $filePath = public_path($existingFile->file_path_c300 . '/' . $existingFile->file_name_c300);
@@ -381,7 +375,7 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
-            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
@@ -401,7 +395,7 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c400';
                 // Check and delete the existing file
-                $id_kelompok = $kelompok -> id_kelompok;
+                $id_kelompok = $kelompok->id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
@@ -419,11 +413,11 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 if ($request->hasFile('c400') && $existingFile != null) {
-                    if ($existingFile -> file_name_c300 != null) {
+                    if ($existingFile->file_name_c300 != null) {
 
                         $file = $request->file('c400');
                         // Generate a unique file name
-                        $newFileName = 'c400-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $newFileName = 'c400-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
@@ -495,7 +489,7 @@ class ApiDokumenCapstoneController extends Controller
 
             $user = ApiDokumenModel::getById($jwtUser->user_id);
 
-            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user-> user_id);
+            $kelompok = ApiDokumenModel::pengecekan_kelompok_mahasiswa($user->user_id);
 
             // Check if the user exists
             if ($user != null && $user->user_active == 1) {
@@ -515,13 +509,13 @@ class ApiDokumenCapstoneController extends Controller
                 // Upload path
                 $upload_path = '/../../file/kelompok/c500';
                 // Check and delete the existing file
-                $id_kelompok = $kelompok -> id_kelompok;
+                $id_kelompok = $kelompok->id_kelompok;
 
                 // Check and delete the existing file
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
-                   return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
                 }
 
                 if ($existingFile->file_status_c400 != "C400 Telah Disetujui") {
@@ -533,17 +527,16 @@ class ApiDokumenCapstoneController extends Controller
                 }
 
                 if ($request->hasFile('c500') && $existingFile != null) {
-                    if ($existingFile -> file_name_c400 != null) {
+                    if ($existingFile->file_name_c400 != null) {
 
                         $file = $request->file('c500');
                         // Generate a unique file name
-                        $newFileName = 'c500-' . Str::slug($existingFile->nomor_kelompok , '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                        $newFileName = 'c500-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
                             mkdir(public_path($upload_path), 0755, true);
                         }
-
 
                         if ($existingFile->file_name_c500) {
                             $filePath = public_path($existingFile->file_path_c500 . '/' . $existingFile->file_name_c500);
@@ -582,7 +575,7 @@ class ApiDokumenCapstoneController extends Controller
                         } else {
                             return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                         }
-                    }else{
+                    } else {
                         return $response = $this->failureResponse('Gagal mengunggah! Lengkapi terlebih dahulu Dokumen C400!');
                     }
                 } else {

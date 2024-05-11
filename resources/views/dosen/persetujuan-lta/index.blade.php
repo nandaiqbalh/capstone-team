@@ -77,10 +77,8 @@
                                                 @if (
                                                     $kelompok->file_status_lta_dosbing1 == 'Laporan TA Telah Disetujui' ||
                                                         $kelompok->file_status_lta_dosbing1 == 'Final Laporan TA Telah Disetujui')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
-                                                        Tolak</a>
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
+                                                        class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @elseif(
                                                     $kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Laporan TA' ||
                                                         $kelompok->file_status_lta_dosbing1 == 'Menunggu Persetujuan Final Laporan TA')
@@ -100,17 +98,15 @@
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
-                                                    <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
                                                         class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @endif
                                             @else
                                                 @if (
                                                     $kelompok->file_status_lta_dosbing2 == 'Laporan TA Telah Disetujui' ||
                                                         $kelompok->file_status_lta_dosbing2 == 'Final Laporan TA Telah Disetujui')
-                                                    <a href="{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}"
-                                                        class="btn btn-outline-danger btn-xs m-1"
-                                                        onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/tolak') }}/{{ $kelompok->id }}')">
-                                                        Tolak</a>
+                                                    <a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
+                                                        class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @elseif(
                                                     $kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Laporan TA' ||
                                                         $kelompok->file_status_lta_dosbing2 == 'Menunggu Persetujuan Final Laporan TA')
@@ -130,7 +126,7 @@
                                                         onclick="event.preventDefault(); swalConfirm('{{ $kelompok->user_name }}', '{{ url('/dosen/persetujuan-lta/terima') }}/{{ $kelompok->id }}')">
                                                         Terima</a>
                                                 @else
-                                                    <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
+                                                    <<a href="{{ url('/dosen/mahasiswa-bimbingan/detail-mahasiswa') }}/{{ $kelompok->id_mahasiswa }}"
                                                         class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                 @endif
                                             @endif
