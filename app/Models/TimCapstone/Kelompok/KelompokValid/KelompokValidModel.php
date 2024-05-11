@@ -22,7 +22,7 @@ class KelompokValidModel extends BaseModel
             ->leftjoin('topik as b', 'a.id_topik', 'b.id')
             ->join('siklus as c', 'a.id_siklus', 'c.id')
 
-            ->where('a.nomor_kelompok', '!=', NULL)
+            ->where('a.nomor_kelompok', '!=', null)
             ->orderByDesc('a.id', 'asc')
             ->paginate(20);
     }
@@ -35,11 +35,10 @@ class KelompokValidModel extends BaseModel
             ->join('siklus as c', 'a.id_siklus', 'c.id')
 
             ->where('c.id', $id_siklus)
-            ->where('a.nomor_kelompok', '!=', NULL)
+            ->where('a.nomor_kelompok', '!=', null)
             ->orderByDesc('a.id', 'asc')
             ->paginate(20);
     }
-
 
     // get search
     public static function getDataSearch($no_kel)
@@ -74,24 +73,24 @@ class KelompokValidModel extends BaseModel
             ->first();
     }
 
-    public static function getKelompokMhsAll( $id)
+    public static function getKelompokMhsAll($id)
     {
         return DB::table('kelompok_mhs')
-        ->where('id_kelompok', $id)
-        ->get();
+            ->where('id_kelompok', $id)
+            ->get();
     }
 
     public static function getTopik()
     {
         return DB::table('topik')
-        ->get();
+            ->get();
     }
 
     public static function updateKelompokMhsAll($id)
     {
         return DB::table('kelompok_mhs')
-        ->where('id_mahasiswa', $id)
-        ->update(["id_kelompok"=>null]);
+            ->where('id_mahasiswa', $id)
+            ->update(["id_kelompok" => null]);
     }
     public static function getKelompokDosen($id_mahasiswa, $id)
     {
@@ -111,12 +110,11 @@ class KelompokValidModel extends BaseModel
         return DB::table('kelompok')->where('id', $id)->delete();
     }
 
-
     public static function deleteKelompokMhs($id)
     {
         return DB::table('kelompok_mhs')
-        ->where('id_mahasiswa', $id)
-        ->delete();
+            ->where('id_mahasiswa', $id)
+            ->delete();
     }
 
     public static function getKelompokById($id)
@@ -176,35 +174,35 @@ class KelompokValidModel extends BaseModel
     public static function listDosbingAvail()
     {
         return DB::table('app_user as a')
-        ->select('a.user_name', 'a.user_id', 'a.nomor_induk')
-        ->where('role_id','02')
-        ->orwhere('role_id','04')
-        ->get();
+            ->select('a.user_name', 'a.user_id', 'a.nomor_induk')
+            ->where('role_id', '02')
+            ->orwhere('role_id', '04')
+            ->get();
     }
     // pengecekan Dosbing
     public static function checkDosbing($id_kelompok, $id_dosen)
     {
         return DB::table('kelompok as a')
-        ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
-        ->join('app_user as b', 'a.id_dosen_pembimbing_1', 'b.user_id')
-        ->where('a.id', $id_kelompok)
-        ->get();
+            ->select('a.*', 'b.user_name', 'b.user_id', 'b.nomor_induk')
+            ->join('app_user as b', 'a.id_dosen_pembimbing_1', 'b.user_id')
+            ->where('a.id', $id_kelompok)
+            ->get();
     }
 
     public static function checkStatusDosen($id_kelompok, $id_dosen)
     {
         return DB::table('dosen_kelompok as a')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->where('a.id_dosen', $id_dosen)
-        ->first();
+            ->where('a.id_kelompok', $id_kelompok)
+            ->where('a.id_dosen', $id_dosen)
+            ->first();
     }
 
     public static function checkPosisi($id_kelompok, $status)
     {
         return DB::table('dosen_kelompok as a')
-        ->where('a.id_kelompok', $id_kelompok)
-        ->where('a.status_dosen', $status)
-        ->first();
+            ->where('a.id_kelompok', $id_kelompok)
+            ->where('a.status_dosen', $status)
+            ->first();
     }
 
     public static function updateKelompokMHS($user_id, $params)
@@ -225,13 +223,414 @@ class KelompokValidModel extends BaseModel
     public static function getSiklusAktif()
     {
         return DB::table('siklus')
-        ->get();
+            ->get();
     }
 
     public static function getSiklusById($id_siklus)
     {
         return DB::table('siklus')
-        ->where('id', $id_siklus)
-        ->first();
+            ->where('id', $id_siklus)
+            ->first();
+    }
+
+    // redirect beranda
+    public static function filterKelompokValid()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('a.nomor_kelompok', '!=', null)
+            ->orderByDesc('a.id', 'asc')
+            ->paginate(20);
+    }
+    public static function filterKelompokValidSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftjoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->where('a.nomor_kelompok', '!=', null)
+            ->orderByDesc('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC100BelumDisetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c100')
+            ->where(function ($query) {
+                $query->where('a.file_status_c100', '!=', "C100 Telah Disetujui")
+                    ->where('a.file_status_c100', '!=', "Final C100 Telah Disetujui");
+            })
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC100BelumDisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c100')
+            ->where(function ($query) {
+                $query->where('a.file_status_c100', '!=', "C100 Telah Disetujui")
+                    ->where('a.file_status_c100', '!=', "Final C100 Telah Disetujui");
+            })
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }   
+
+    public static function filterKelompokC100Disetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c100')
+            ->orWhere(function ($query) {
+                $query->where('a.file_status_c100', '=', "C100 Telah Disetujui")
+                    ->where('a.file_status_c100', '=', "Final C100 Telah Disetujui");
+            })
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC100DisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c100')
+            ->where('c.id', $id_siklus)
+            ->orWhere(function ($query) {
+                $query->where('a.file_status_c100', '=', "C100 Telah Disetujui")
+                    ->where('a.file_status_c100', '=', "Final C100 Telah Disetujui");
+            })
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokBelumSempro()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('a.is_sidang_proposal', 0)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokBelumSemproSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('c.id', $id_siklus)
+            ->where('a.is_sidang_proposal', 0)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+    public static function filterKelompokSempro()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('a.is_sidang_proposal', 1)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+    public static function filterKelompokSemproSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('c.id', $id_siklus)
+            ->where('a.is_sidang_proposal', 1)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+    public static function filterKelompokC200BelumDisetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c200')
+            ->where('a.file_status_c200', '!=', "C200 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+    public static function filterKelompokC200BelumDisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c200')
+            ->where('a.file_status_c200', '!=', "C200 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC200Disetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c200')
+            ->where('a.file_status_c200', '=', "C200 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC200DisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c200')
+            ->where('a.file_status_c200', '=', "C200 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC300BelumDisetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c300')
+            ->where('a.file_status_c300', '!=', "C300 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC300BelumDisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c300')
+            ->where('a.file_status_c300', '!=', "C300 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC300Disetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c300')
+            ->where('a.file_status_c300', '=', "C300 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC300DisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c300')
+            ->where('a.file_status_c300', '=', "C300 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC400BelumDisetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c400')
+            ->where('a.file_status_c400', '!=', "C400 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC400BelumDisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c400')
+            ->where('a.file_status_c400', '!=', "C400 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC400Disetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c400')
+            ->where('a.file_status_c400', '=', "C400 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC400DisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c400')
+            ->where('a.file_status_c400', '=', "C400 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC500BelumDisetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c500')
+            ->where('a.file_status_c500', '!=', "C500 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC500BelumDisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c500')
+            ->where('a.file_status_c500', '!=', "C500 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC500Disetujui()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c500')
+            ->where('a.file_status_c500', '=', "C500 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokC500DisetujuiSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->whereNotNull('a.file_name_c500')
+            ->where('a.file_status_c500', '=', "C500 Telah Disetujui")
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokBelumExpo()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('a.is_lulus_expo', 0)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokBelumExpoSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('a.is_lulus_expo', 0)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokExpo()
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('a.is_lulus_expo', 1)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
+    }
+
+    public static function filterKelompokExpoSiklus($id_siklus)
+    {
+        return DB::table('kelompok as a')
+            ->select('a.*', 'b.nama as topik_name', 'c.nama_siklus')
+            ->leftJoin('topik as b', 'a.id_topik', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
+            ->where('c.id', $id_siklus)
+            ->whereNotNull('a.nomor_kelompok')
+            ->where('a.is_lulus_expo', 1)
+            ->orderBy('a.id', 'asc')
+            ->paginate(20);
     }
 }

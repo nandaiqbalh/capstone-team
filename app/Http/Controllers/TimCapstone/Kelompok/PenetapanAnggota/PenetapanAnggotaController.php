@@ -84,13 +84,13 @@ class PenetapanAnggotaController extends BaseController
     {
 
         if ($request->id_mahasiswa1 == $request->id_mahasiswa2 || $request->id_mahasiswa1 == $request->id_mahasiswa3 || $request->id_mahasiswa2 == $request->id_mahasiswa3) {
-            session()->flash('danger', 'Mahasiswa tidak boleh sama!');
+            session()->flash('danger', 'Mahasiswa tidak boleh sama');
             return back()->withInput();
         }
         $params = [
             'id_topik' => $request->id_topik,
             'id_siklus' => $request->id_siklus,
-            'status_kelompok' => 'Menunggu Penetapan Dosbing!',
+            'status_kelompok' => 'Menunggu Penetapan Dosbing',
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
         ];
@@ -103,7 +103,7 @@ class PenetapanAnggotaController extends BaseController
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
-                'status_individu' => 'Kelompok Diplot Tim Capstone!',
+                'status_individu' => 'Kelompok Diplot Tim Capstone',
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];
@@ -112,7 +112,7 @@ class PenetapanAnggotaController extends BaseController
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
-                'status_individu' => 'Kelompok Diplot Tim Capstone!',
+                'status_individu' => 'Kelompok Diplot Tim Capstone',
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];
@@ -121,7 +121,7 @@ class PenetapanAnggotaController extends BaseController
                 'id_kelompok' => $id_kelompok,
                 'id_siklus' => $request->id_siklus,
                 'id_topik_mhs' => $request->id_topik,
-                'status_individu' => 'Kelompok Diplot Tim Capstone!',
+                'status_individu' => 'Kelompok Diplot Tim Capstone',
                 'modified_by'   => Auth::user()->user_id,
                 'modified_date'  => date('Y-m-d H:i:s')
             ];
@@ -129,11 +129,11 @@ class PenetapanAnggotaController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/penetapan-anggota');
+            return redirect('/tim-capstone/penetapan-anggota');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/penetapan-anggota/add')->withInput();
+            return redirect('/tim-capstone/penetapan-anggota/add')->withInput();
         }
     }
 
@@ -152,7 +152,7 @@ class PenetapanAnggotaController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         // data
@@ -177,7 +177,7 @@ class PenetapanAnggotaController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         // data
@@ -231,7 +231,7 @@ class PenetapanAnggotaController extends BaseController
             // view
             return view('tim_capstone.kelompok.penetapan-anggota.index', $data);
         } else {
-            return redirect('/admin/penetapan-anggota');
+            return redirect('/tim-capstone/penetapan-anggota');
         }
     }
 }

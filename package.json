@@ -16,7 +16,10 @@
         "postcss": "^8.1.14"
     },
     "dependencies": {
+        "@prettier/plugin-php": "^0.22.2",
+        "and": "^0.0.3",
         "ckeditor4": "^4.24.0",
+        "prettier": "^3.2.5",
         "summernote": "^0.8.20",
         "sweetalert2": "^11.10.3"
     }

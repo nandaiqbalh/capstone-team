@@ -58,11 +58,11 @@ class SidangTAController extends BaseController
         if ($insert_periode_sidang_ta) {
             // Flash message for success
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         } else {
             // Flash message for failure
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/siklus/sidang-ta/add')->withInput();
+            return redirect('/tim-capstone/siklus/sidang-ta/add')->withInput();
         }
     }
 
@@ -76,7 +76,7 @@ class SidangTAController extends BaseController
         if (empty($periode_sidang_ta)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         }
 
         // data
@@ -114,11 +114,11 @@ class SidangTAController extends BaseController
         if (SidangTAModel::update($request->id, $params)) {
             // Flash message for success
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         } else {
             // Flash message for failure
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/sidang-ta/' . $request->id);
+            return redirect('/tim-capstone/sidang-ta/' . $request->id);
         }
     }
 
@@ -133,9 +133,9 @@ class SidangTAController extends BaseController
         foreach ($rs_mahasiswa_sidang_ta as $mahasiswa_sidang_ta) {
 
             $paramsKelompokMhs = [
-                'status_tugas_akhir' => 'Belum Mendaftar Sidang TA!',
+                'status_tugas_akhir' => 'Belum Mendaftar Sidang TA',
                 'is_mendaftar_sidang' => '0',
-                'status_individu' => 'Lulus Expo Project!',
+                'status_individu' => 'Lulus Expo Project',
                 'status_dosen_penguji_ta1' => NULL,
                 'status_dosen_penguji_ta2' => NULL,
                 'id_dosen_penguji_ta1' => NULL,
@@ -155,23 +155,23 @@ class SidangTAController extends BaseController
                 SidangTAModel::deletePendaftaranSidangTA($id);
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/sidang-ta');
+                return redirect('/tim-capstone/sidang-ta');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/sidang-ta');
+                return redirect('/tim-capstone/sidang-ta');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/sidang-ta');
+            return redirect('/tim-capstone/sidang-ta');
         }
     }
 
     public function terimaMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Menunggu Penjadwalan Sidang TA!'];
+        $params = ['status' => 'Menunggu Penjadwalan Sidang TA'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = SidangTAModel::getDataMahasiswa($id);
@@ -180,8 +180,8 @@ class SidangTAController extends BaseController
             // Process
             if (SidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA!",
-                    'status_individu' => "Menunggu Penjadwalan Sidang TA!"];
+                    'status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA",
+                    'status_individu' => "Menunggu Penjadwalan Sidang TA"];
                 if (SidangTAModel::updateKelompokMhs($id, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -206,7 +206,7 @@ class SidangTAController extends BaseController
     public function tolakMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui!'];
+        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = SidangTAModel::getDataMahasiswa($id);
@@ -215,8 +215,8 @@ class SidangTAController extends BaseController
             // Process
             if (SidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui!",
-                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui!",
+                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui",
+                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui",
                     'status_dosen_penguji_ta1' => NULL,
                     'status_dosen_penguji_ta2' => NULL,
                     'id_dosen_penguji_ta1' => NULL,
@@ -272,23 +272,6 @@ class SidangTAController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
-    {
-        // data request
-        $nama_periode = $request->nama_periode;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_ch =SidangTAMOdel::getDataSearch($nama);
-            // data
-            $data = ['rs_ch' => $rs_ch, 'nama_periode' => $nama_periode];
-            // view
-            return view('tim_capstone.settings.contoh-halaman.index', $data);
-        } else {
-            return redirect('/admin/settings/contoh-halaman');
-        }
-    }
 
     public function addDosenKelompok(Request $request)
     {
@@ -327,7 +310,7 @@ class SidangTAController extends BaseController
             }
             $params = [
                 'id_dosen_penguji_ta1' => $id_dosen,
-                'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji!',
+                'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji',
             ];
         } elseif ($status_dosen == "penguji 2") {
             if ($kelompok_mhs->id_dosen_penguji_ta2 != null) {
@@ -336,7 +319,7 @@ class SidangTAController extends BaseController
             }
             $params = [
                 'id_dosen_penguji_ta2' => $id_dosen,
-                'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji!',
+                'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji',
             ];
         } else {
             session()->flash('danger', 'Status dosen tidak valid.');
@@ -349,7 +332,7 @@ class SidangTAController extends BaseController
         $all_dosen_assigned = true;
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
-            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" && $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
+            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang" && $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui") {
 
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu= SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
@@ -418,7 +401,7 @@ class SidangTAController extends BaseController
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
             // Check if the member is eligible for dosen update
-            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang!" && $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui!") {
+            if ($anggota_kelompok->is_mendaftar_sidang != 0 && $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang" && $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui") {
                 // Prepare update parameters including status_tugas_akhir
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu= SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
@@ -427,7 +410,7 @@ class SidangTAController extends BaseController
                     foreach ($rs_periodeSekarang as $periodeSekarang) {
                         if ($periodeSekarang->id_periode == $periodeLalu->id_periode) {
                             // Update each mahasiswa in the kelompok with the specified dosen
-                            $update_params = array_merge($params, ['status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA!"]);
+                            $update_params = array_merge($params, ['status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA"]);
 
                             // Ensure we're not passing the same value for update
                             $existing_data = [
@@ -457,7 +440,7 @@ class SidangTAController extends BaseController
                                 $success = true; // Mark as success since no update was needed
                             }
                         } else {
-                            $update_params = array_merge($params, ['status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA!"]);
+                            $update_params = array_merge($params, ['status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA"]);
 
                             // Ensure we're not passing the same value for update
                             $existing_data = [
@@ -559,7 +542,7 @@ class SidangTAController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
@@ -627,7 +610,7 @@ class SidangTAController extends BaseController
         $rs_anggota_kelompok = SidangTAModel::getAnggotaKelompok($request->id_kelompok);
 
         foreach ($rs_anggota_kelompok as $anggota_kelompok) {
-            if (($anggota_kelompok->is_mendaftar_sidang == 1 && $anggota_kelompok->status_tugas_akhir == "Menunggu Penjadwalan Sidang TA!") || $anggota_kelompok->status_tugas_akhir == "Menunggu Persetujuan Penguji!" || $anggota_kelompok->status_tugas_akhir == "Telah Dijadwalkan Sidang TA!"  || $anggota_kelompok->status_tugas_akhir == "Gagal Sidang TA!") {
+            if (($anggota_kelompok->is_mendaftar_sidang == 1 && $anggota_kelompok->status_tugas_akhir == "Menunggu Penjadwalan Sidang TA") || $anggota_kelompok->status_tugas_akhir == "Menunggu Persetujuan Penguji" || $anggota_kelompok->status_tugas_akhir == "Telah Dijadwalkan Sidang TA"  || $anggota_kelompok->status_tugas_akhir == "Gagal Sidang TA") {
                 $rs_periodeSekarang = SidangTAModel::getDataPendaftaranSidangTA($id_mahasiswa);
                 $rs_periodeLalu = SidangTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
 
@@ -650,9 +633,9 @@ class SidangTAController extends BaseController
                             ];
 
                             $paramsStatusKelompokMhs = [
-                                'status_tugas_akhir' => "Menunggu Persetujuan Penguji!",
-                                'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji!',
-                                'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji!'
+                                'status_tugas_akhir' => "Menunggu Persetujuan Penguji",
+                                'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji',
+                                'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji'
                             ];
 
                             SidangTAModel::updateKelompokMhs($anggota_kelompok->id_mahasiswa, $paramsStatusKelompokMhs);
@@ -727,7 +710,7 @@ class SidangTAController extends BaseController
             }
         }
 
-        return redirect('/admin/sidang-ta');
+        return redirect('/tim-capstone/sidang-ta');
     }
 
 

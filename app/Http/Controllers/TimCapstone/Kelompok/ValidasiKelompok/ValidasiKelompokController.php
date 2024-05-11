@@ -87,7 +87,7 @@ class ValidasiKelompokController extends BaseController
         if (empty($kelompok)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/kelompok');
+            return redirect('/tim-capstone/kelompok');
         }
 
         // data
@@ -113,7 +113,7 @@ class ValidasiKelompokController extends BaseController
         $params = [
             'id_kelompok' => $request->id_kelompok,
             'modified_by'   => Auth::user()->user_id,
-            'status_individu' => "Menyetujui Kelompok!",
+            'status_individu' => "Menyetujui Kelompok",
             'modified_date'  => date('Y-m-d H:i:s')
         ];
         // dd($params);
@@ -125,7 +125,7 @@ class ValidasiKelompokController extends BaseController
 
             foreach ($rs_mahasiswa as $key => $mahasiswa) {
                 // Jika status individu bukan "menyetujui kelompok", set variabel $semuaSetuju menjadi false
-                if ($mahasiswa->status_individu !== "Menyetujui Kelompok!") {
+                if ($mahasiswa->status_individu !== "Menyetujui Kelompok") {
                     $semuaSetuju = false;
                     // Jika salah satu mahasiswa tidak setuju, Anda bisa langsung keluar dari loop
                     break;
@@ -135,7 +135,7 @@ class ValidasiKelompokController extends BaseController
             // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
             if ($semuaSetuju) {
                 $paramKelompok = [
-                    "status_kelompok" => "Menunggu Persetujuan Dosbing!",
+                    "status_kelompok" => "Menunggu Persetujuan Dosbing",
                 ];
                 $update_kelompok = ValidasiKelompokModel::updateKelompok($request->id_kelompok, $paramKelompok);
             }
@@ -195,10 +195,10 @@ class ValidasiKelompokController extends BaseController
             if ($kelompok->id_dosen_pembimbing_1 == null && $kelompok->id_dosen_pembimbing_2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_1' => $request->id_dosen,
-                    'status_dosen_pembimbing_1' => 'Dosbing Diplot Tim Capstone!',
+                    'status_dosen_pembimbing_1' => 'Dosbing Diplot Tim Capstone',
                 ];
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -209,10 +209,10 @@ class ValidasiKelompokController extends BaseController
             if ($kelompok->id_dosen_pembimbing_2 == null && $kelompok->id_dosen_pembimbing_1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_pembimbing_2' => $request->id_dosen,
-                    'status_dosen_pembimbing_2' => 'Dosbing Diplot Tim Capstone!',
+                    'status_dosen_pembimbing_2' => 'Dosbing Diplot Tim Capstone',
                 ];
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -224,7 +224,7 @@ class ValidasiKelompokController extends BaseController
 
             if ($kelompok_updated->id_dosen_pembimbing_1 != null && $kelompok_updated->id_dosen_pembimbing_2 != null) {
                 $paramsStatusKelompok = [
-                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone!"
+                    'status_kelompok' => "Menunggu Persetujuan Tim Capstone"
                 ];
 
                 ValidasiKelompokModel::updateKelompok($id_kelompok, $paramsStatusKelompok);
@@ -250,13 +250,13 @@ class ValidasiKelompokController extends BaseController
             $params = [
                 'id_dosen_pembimbing_1' => null,
                 'status_dosen_pembimbing_1' => null,
-                'status_kelompok' => "Menunggu Penetapan Dosbing!"
+                'status_kelompok' => "Menunggu Penetapan Dosbing"
             ];
         } else if ($id_dosen == $kelompok -> id_dosen_pembimbing_2) {
             $params = [
                 'id_dosen_pembimbing_2' => null,
                 'status_dosen_pembimbing_2' => null,
-                'status_kelompok' => "Menunggu Penetapan Dosbing!"
+                'status_kelompok' => "Menunggu Penetapan Dosbing"
             ];
         } else {
             $params = [
@@ -299,11 +299,11 @@ class ValidasiKelompokController extends BaseController
 
 
         if ($kelompok->id_dosen_pembimbing_1 == null) {
-            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 1!');
+            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 1');
         }
 
         if ($kelompok->id_dosen_pembimbing_2 == null) {
-            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 2!');
+            return redirect()->back()->with('danger', 'Kelompok belum memiliki dosen pembimbing 2');
         }
 
         $siklus = ValidasiKelompokModel::getSiklusById($kelompok->id_siklus);
@@ -331,9 +331,9 @@ class ValidasiKelompokController extends BaseController
         $params = [
             "nomor_kelompok" => $nomor_kelompok,
             "id_topik" => $request->topik,
-            "status_kelompok" => "Kelompok Telah Disetujui!",
-            "status_dosen_pembimbing_1" => "Dosbing Setuju!",
-            "status_dosen_pembimbing_2" => "Dosbing Setuju!",
+            "status_kelompok" => "Kelompok Telah Disetujui",
+            "status_dosen_pembimbing_1" => "Dosbing Setuju",
+            "status_dosen_pembimbing_2" => "Dosbing Setuju",
             'modified_by' => Auth::user()->user_id,
             'modified_date' => now()->format('Y-m-d H:i:s')
         ];
@@ -342,7 +342,7 @@ class ValidasiKelompokController extends BaseController
         if (ValidasiKelompokModel::updateKelompok($request->id, $params)) {
 
             $paramsMhsBasedOnKelompok = [
-                "status_individu" => "Kelompok Telah Disetujui!",
+                "status_individu" => "Kelompok Telah Disetujui",
             ];
 
             if (ValidasiKelompokModel::updateKelompokMHSBasedOnKelompok($request->id, $paramsMhsBasedOnKelompok)) {

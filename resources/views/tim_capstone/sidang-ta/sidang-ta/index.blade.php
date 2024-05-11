@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/sidang-ta/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                        <a href="{{ url('/tim-capstone/sidang-ta/add') }}" class="btn btn-info btn-sm float-right"> Tambah
                             Data</a>
                     </div>
                 </div>
@@ -45,9 +45,9 @@
                                         </td>
                                         <td class="text-center">
                                             {{-- <button class="btn btn-outline-secondary btn-xs m-1" data-bs-toggle="modal" data-bs-target="#detailModal" onclick="populateModal('{{ $periode_sidang_ta->nama_periode }}', '{{ $periode_sidang_ta->tanggal_mulai }}', '{{ $periode_sidang_ta->tanggal_selesai }}')">Detail</button> --}}
-                                            <a href="{{ url('/admin/sidang-ta/detail') }}/{{ $periode_sidang_ta->id }}"
+                                            <a href="{{ url('/tim-capstone/sidang-ta/detail') }}/{{ $periode_sidang_ta->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/sidang-ta/edit') }}/{{ $periode_sidang_ta->id }}"
+                                            <a href="{{ url('/tim-capstone/sidang-ta/edit') }}/{{ $periode_sidang_ta->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $periode_sidang_ta->id }}')">Hapus</button>
@@ -65,7 +65,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/sidang-ta/delete-process') }}/" +
+                                                            window.location.href = "{{ url('/tim-capstone/sidang-ta/delete-process') }}/" +
                                                                 periode_sidang_taId;
                                                         }
                                                     });

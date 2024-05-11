@@ -1,4 +1,3 @@
-
 @extends('tim_capstone.base.app')
 
 @section('title')
@@ -9,18 +8,19 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Broadcast</h5>
         <!-- notification -->
-        @include("template.notification")
+        @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Broadcast</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/broadcast') }}" class="btn btn-danger btn-sm float-right"><i class="fas fa-chevron-left fa-sm"></i> Kembali</a>
+                    <a href="{{ url('/tim-capstone/broadcast') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
-                    <!-- table info -->
+                <!-- table info -->
                 <div class="table-responsive">
                     <table class="table table-borderless table-hover">
                         <thead class="thead-light">
@@ -40,9 +40,10 @@
                                 <td style="vertical-align: top; text-align: left;"><strong>Link Pendukung</strong></td>
                                 <td style="vertical-align: top;"><strong>:</strong></td>
                                 <td style="vertical-align: top;">
-                                @if ($broadcast->link_pendukung != null)
-                                <a href="http://{{($broadcast->link_pendukung)}}" target="_blank">{{ $broadcast->link_pendukung }}</a>
-                                @endif
+                                    @if ($broadcast->link_pendukung != null)
+                                        <a href="http://{{ $broadcast->link_pendukung }}"
+                                            target="_blank">{{ $broadcast->link_pendukung }}</a>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
@@ -62,8 +63,9 @@
                             </tr>
                             <tr>
                                 <td colspan="3" style="vertical-align: top;">
-                                    @if($broadcast->broadcast_image_name)
-                                    <img src="/img/broadcast/{{ $broadcast->broadcast_image_name }}" alt="Gambar Event" style="max-width: 100%; max-height: 250px; border-radius: 10px;">
+                                    @if ($broadcast->broadcast_image_name)
+                                        <img src="/img/broadcast/{{ $broadcast->broadcast_image_name }}" alt="Gambar Event"
+                                            style="max-width: 100%; max-height: 250px; border-radius: 10px;">
                                     @endif
                                 </td>
                             </tr>
@@ -76,11 +78,11 @@
                     </table>
                 </div>
             </div>
-        </div> 
+        </div>
         <style>
             .white-bg {
                 background-color: white !important;
             }
-            </style>
+        </style>
     </div>
 @endsection

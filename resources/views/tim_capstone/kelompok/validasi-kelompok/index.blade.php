@@ -37,7 +37,7 @@
                                             {{ $kelompok->status_kelompok }}</td>
                                         <td>{{ $kelompok->nama_siklus }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/validasi-kelompok/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/validasi-kelompok/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $kelompok->id }}', '{{ $kelompok->nomor_kelompok }}')">Hapus</button>
@@ -55,7 +55,8 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/validasi-kelompok/delete-process') }}/" + kelompokId;
+                                                            window.location.href = "{{ url('/tim-capstone/validasi-kelompok/delete-process') }}/" +
+                                                                kelompokId;
                                                         }
                                                     });
                                                 }

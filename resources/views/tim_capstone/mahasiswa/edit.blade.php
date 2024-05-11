@@ -15,13 +15,14 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Ubah Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/mahasiswa') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/mahasiswa') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
                 <!-- Form untuk update data mahasiswa -->
-                <form id="updateForm" action="{{ url('/admin/mahasiswa/edit-process') }}" method="post" autocomplete="off">
+                <form id="updateForm" action="{{ url('/tim-capstone/mahasiswa/edit-process') }}" method="post"
+                    autocomplete="off">
                     {{ csrf_field() }}
                     <input type="hidden" name="user_id" value="{{ $mahasiswa->user_id }}">
                     <div class="row">

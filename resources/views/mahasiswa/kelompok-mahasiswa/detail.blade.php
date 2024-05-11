@@ -32,7 +32,7 @@
                         <br>
                         <h6>Siklus capstone sudah tidak aktif!</h6>
                     @else
-                        @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
+                        @if ($akun_mahasiswa->status_individu == 'Didaftarkan')
 
                             <div>
                                 <script>
@@ -158,10 +158,12 @@
                                         </tbody>
                                     </table>
                                     <div class="float-end">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#confirmModal" data-target-form="form1">
-                                            Simpan
-                                        </button>
+                                        @if ($kelompok->is_sidang_proposal != '1')
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#confirmModal" data-target-form="form1">
+                                                Simpan
+                                            </button>
+                                        @endif
                                     </div>
                                 </form>
                             </div>
@@ -808,7 +810,7 @@
                 // Menggunakan AJAX untuk mendapatkan data mahasiswa berdasarkan user_id
                 // (Anda perlu menyesuaikan endpoint dan implementasi AJAX sesuai kebutuhan)
                 $.ajax({
-                    url: '/admin/mahasiswa/get-by-id/' +
+                    url: '/tim-capstone/mahasiswa/get-by-id/' +
                         selectedUserId, // Endpoint untuk mendapatkan data mahasiswa
                     type: 'GET',
                     success: function(response) {
@@ -837,7 +839,7 @@
                 // Menggunakan AJAX untuk mendapatkan data mahasiswa berdasarkan user_id
                 // (Anda perlu menyesuaikan endpoint dan implementasi AJAX sesuai kebutuhan)
                 $.ajax({
-                    url: '/admin/mahasiswa/get-by-id/' +
+                    url: '/tim-capstone/mahasiswa/get-by-id/' +
                         selectedUserId, // Endpoint untuk mendapatkan data mahasiswa
                     type: 'GET',
                     success: function(response) {

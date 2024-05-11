@@ -15,12 +15,13 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Ubah Dosen</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/dosen') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/dosen') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
-                <form id="updateForm" action="{{ url('/admin/dosen/edit-process') }}" method="post" autocomplete="off">
+                <form id="updateForm" action="{{ url('/tim-capstone/dosen/edit-process') }}" method="post"
+                    autocomplete="off">
                     {{ csrf_field() }}
                     <input type="hidden" name="user_id" value="{{ $dosen->user_id }}">
                     <div class="row">

@@ -18,8 +18,8 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/balancing-penguji-ta/search') }}" method="get"
-                            autocomplete="off">
+                        <form class="form-inline" action="{{ url('/tim-capstone/balancing-penguji-ta/search') }}"
+                            method="get" autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
                                     <input class="form-control mr-sm-2" type="search" name="nama"
@@ -38,7 +38,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    <form action="{{ url('/admin/balancing-penguji-ta/filter-periode') }}" method="get"
+                    <form action="{{ url('/tim-capstone/balancing-penguji-ta/filter-periode') }}" method="get"
                         autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
@@ -84,7 +84,7 @@
                                         <td>{{ $dosen->jumlah_mhs_aktif_dibimbing }} mahasiswa</td>
                                         <td>{{ $dosen->jumlah_mhs_tidak_aktif_dibimbing }} mahasiswa</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-penguji-ta/detail') }}/{{ $dosen->user_id }}"
+                                            <a href="{{ url('/tim-capstone/balancing-penguji-ta/detail') }}/{{ $dosen->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
 
                                         </td>

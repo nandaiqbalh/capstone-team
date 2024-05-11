@@ -3,12 +3,12 @@
 namespace App\Models\Api\Mahasiswa\Dokumen;
 
 use App\Models\Api\ApiBaseModel;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ApiDokumenModel extends ApiBaseModel
 {
-    public static function getById($id) {
+    public static function getById($id)
+    {
         return DB::table('app_user')->where('user_id', $id)->first();
     }
 
@@ -27,10 +27,10 @@ class ApiDokumenModel extends ApiBaseModel
     public static function isKelompokSidang($id_kelompok)
     {
         $jadwal_sidang = DB::table('jadwal_sidang_proposal as a')
-                            ->select('a.*')
-                            ->join('kelompok as b', 'a.id_kelompok', 'b.id')
-                            ->where('b.id', $id_kelompok)
-                            ->first();
+            ->select('a.*')
+            ->join('kelompok as b', 'a.id_kelompok', 'b.id')
+            ->where('b.id', $id_kelompok)
+            ->first();
 
         if ($jadwal_sidang) {
             // Jika waktu pada tabel telah lewat waktu sekarang
@@ -44,9 +44,9 @@ class ApiDokumenModel extends ApiBaseModel
     public static function isMahasiswaSidangTA($id_kelompok_mhs)
     {
         $jadwal_sidang = DB::table('jadwal_sidang_ta as a')
-                            ->select('a.*')
-                            ->where('id_kelompok_mhs', $id_kelompok_mhs)
-                            ->first();
+            ->select('a.*')
+            ->where('id_kelompok_mhs', $id_kelompok_mhs)
+            ->first();
 
         if ($jadwal_sidang) {
             // Jika waktu pada tabel telah lewat waktu sekarang
@@ -56,7 +56,6 @@ class ApiDokumenModel extends ApiBaseModel
         // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
         return false;
     }
-
 
     public static function getKelompokFile($id_kelompok)
     {
@@ -77,9 +76,9 @@ class ApiDokumenModel extends ApiBaseModel
     public static function fileMHS($user_id)
     {
         return DB::table('kelompok_mhs as a')
-            ->select('a.id as id_kel_mhs', 'a.file_status_mta', 'a.file_status_lta', 'a.id_mahasiswa', 'a.file_name_makalah', 'a.file_path_makalah','a.file_name_laporan_ta', 'a.file_path_laporan_ta','b.*')
-            ->join('kelompok as b','a.id_kelompok','b.id')
-            ->join('siklus as c' ,'a.id_siklus', 'c.id')
+            ->select('a.id as id_kel_mhs', 'a.file_status_mta', 'a.file_status_lta', 'a.id_mahasiswa', 'a.file_name_makalah', 'a.file_path_makalah', 'a.file_name_laporan_ta', 'a.file_path_laporan_ta', 'b.*')
+            ->join('kelompok as b', 'a.id_kelompok', 'b.id')
+            ->join('siklus as c', 'a.id_siklus', 'c.id')
             ->where('a.id_mahasiswa', $user_id)
             ->first();
     }

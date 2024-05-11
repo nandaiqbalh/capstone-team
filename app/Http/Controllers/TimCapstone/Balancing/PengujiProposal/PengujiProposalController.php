@@ -47,7 +47,7 @@ class PengujiProposalController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.penguji-proposal.index', $data);
         } else {
-            return redirect('/admin/balancing-penguji-proposal');
+            return redirect('/tim-capstone/balancing-penguji-proposal');
         }
     }
 
@@ -95,7 +95,7 @@ class PengujiProposalController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.penguji-proposal.index', $data);
         } else {
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
     }
 

@@ -234,7 +234,7 @@ class ApiKelompokController extends Controller
             $requiredParams = ['angkatan', 'email', 'jenis_kelamin', 'ipk', 'sks', 'no_telp', 'id_siklus', 's', 'e', 'c', 'm', 'ews', 'bac', 'smb', 'smc'];
             foreach ($requiredParams as $param) {
                 if (!$request->has($param) || empty($request->input($param))) {
-                    $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi!");
+                    $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi");
                 }
             }
 
@@ -272,7 +272,7 @@ class ApiKelompokController extends Controller
                         'usulan_judul_capstone' => $request->judul_capstone,
                         'id_siklus' => $request->id_siklus,
                         'id_mahasiswa' => $user->user_id,
-                        'status_individu' => 'Menunggu Penetapan Kelompok!',
+                        'status_individu' => 'Menunggu Penetapan Kelompok',
                         'id_topik_individu1' => $topik1->id,
                         'id_topik_individu2' => $topik2->id,
                         'id_topik_individu3' => $topik3->id,
@@ -323,16 +323,16 @@ class ApiKelompokController extends Controller
 
             foreach ($requiredParams as $param) {
                 if (!$request->has($param) || empty($request->input($param))) {
-                    $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi!");
+                    $response = $this->failureResponse("Parameter '$param' kosong atau belum diisi");
                 }
             }
 
             if ($request->dosbing_1 == $request->dosbing_2) {
-                $response = $this->failureResponse("Dosen pembimbing tidak boleh sama!");
+                $response = $this->failureResponse("Dosen pembimbing tidak boleh sama");
             }
 
             if ($request->user_id1 == $request->user_id2 || $request->user_id1 == $request->user_id3 || $request->user_id2 == $request->user_id3) {
-                $response = $this->failureResponse("Mahasiswa tidak boleh sama!");
+                $response = $this->failureResponse("Mahasiswa tidak boleh sama");
             }
 
             try {
@@ -343,11 +343,11 @@ class ApiKelompokController extends Controller
                         "id_siklus" => $request->id_siklus,
                         "judul_capstone" => $request->judul_capstone,
                         "id_topik" => $request->id_topik,
-                        "status_kelompok" => 'Menunggu Persetujuan Anggota!',
+                        "status_kelompok" => 'Menunggu Persetujuan Anggota',
                         "id_dosen_pembimbing_1" => $request->dosbing_1,
-                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan Dosbing!',
+                        "status_dosen_pembimbing_1" =>'Menunggu Persetujuan Dosbing',
                         "id_dosen_pembimbing_2" => $request->dosbing_2,
-                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan Dosbing!',
+                        "status_dosen_pembimbing_2" =>'Menunggu Persetujuan Dosbing',
                         'created_by' => $user->user_id,
                         'created_date' => now()
                     ];
@@ -374,7 +374,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $user->user_id,
-                            'status_individu' => 'Menyetujui Kelompok!',
+                            'status_individu' => 'Menyetujui Kelompok',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -402,7 +402,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id2,
-                            'status_individu' => 'Didaftarkan!',
+                            'status_individu' => 'Didaftarkan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -430,7 +430,7 @@ class ApiKelompokController extends Controller
                             "id_siklus" => $request->id_siklus,
                             'id_kelompok' => $id_kelompok,
                             'id_mahasiswa' => $request->user_id3,
-                            'status_individu' => 'Didaftarkan!',
+                            'status_individu' => 'Didaftarkan',
                             'usulan_judul_capstone' => $request -> judul_capstone,
                             'id_topik_mhs' => $request->id_topik,
                             'created_by'   => $user->user_id,
@@ -438,18 +438,18 @@ class ApiKelompokController extends Controller
                         ];
                         ApiKelompokModel::insertKelompokMHS($params33);
                     }
-                        $response = $this->successResponse("Berhasil mendaftar capstone!", null);
+                        $response = $this->successResponse("Berhasil mendaftar capstone", null);
                     } else {
-                        $response = $this->failureResponse("Pastikan semua mahasiswa merupakan mahasiswa aktif!");
+                        $response = $this->failureResponse("Pastikan semua mahasiswa merupakan mahasiswa aktif");
                     }
 
             } catch (\Exception $e) {
-                $response = $this->failureResponse("Gagal mendaftar capstone!");
+                $response = $this->failureResponse("Gagal mendaftar capstone");
 
             }
         } else {
             // User not found or api_token is null
-            $response = $this->failureResponse("Pengguna tidak ditemukan!");
+            $response = $this->failureResponse("Pengguna tidak ditemukan");
         }
         return response()->json($response);
     }
@@ -499,7 +499,7 @@ class ApiKelompokController extends Controller
             try {
                 // params
                 $params = [
-                    "status_individu" => "Menyetujui Kelompok!",
+                    "status_individu" => "Menyetujui Kelompok",
                 ];
 
                 // process
@@ -514,7 +514,7 @@ class ApiKelompokController extends Controller
 
                     foreach ($rs_mahasiswa as $key => $mahasiswa) {
                         // Jika status individu bukan "menyetujui kelompok", set variabel $semuaSetuju menjadi false
-                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok!") {
+                        if ($mahasiswa->status_individu !== "Menyetujui Kelompok") {
                             $semuaSetuju = false;
                             // Jika salah satu mahasiswa tidak setuju, Anda bisa langsung keluar dari loop
                             break;
@@ -524,7 +524,7 @@ class ApiKelompokController extends Controller
                     // Jika semua mahasiswa setuju dengan kelompok, lakukan aksi
                     if ($semuaSetuju) {
                         $paramKelompok = [
-                            "status_kelompok" => "Menunggu Persetujuan Dosbing!",
+                            "status_kelompok" => "Menunggu Persetujuan Dosbing",
                         ];
                         $update_kelompok = ApiKelompokModel::updateKelompok($kelompok ->id, $paramKelompok);
                     }

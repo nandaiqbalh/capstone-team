@@ -106,18 +106,18 @@
                                         </td>
 
                                         <td class="text-center">
-                                            @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui!')
-                                            @elseif ($kelompok->status_dosen == 'Dosbing Setuju!' || $kelompok->status_dosen == 'Dosbing Diplot Tim Capstone!')
+                                            @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui')
+                                            @elseif ($kelompok->status_dosen == 'Dosbing Setuju' || $kelompok->status_dosen == 'Dosbing Diplot Tim Capstone')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}')">
                                                     Tolak</a>
-                                            @elseif($kelompok->status_dosen == 'Dosbing Tidak Setuju!')
+                                            @elseif($kelompok->status_dosen == 'Dosbing Tidak Setuju')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
-                                            @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing!')
+                                            @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
@@ -141,7 +141,7 @@
                                                     showCancelButton: true,
                                                     confirmButtonColor: '#3085d6',
                                                     cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                                    confirmButtonText: 'Ya, Lanjutkan',
                                                     cancelButtonText: 'Batal'
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {

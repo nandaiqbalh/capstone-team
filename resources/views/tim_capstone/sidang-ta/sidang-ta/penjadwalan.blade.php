@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -171,7 +171,7 @@
                                             <td>-</td>
                                         @endif
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/sidang-ta/delete-dosen-penguji') }}/{{ $penguji_sidangta->user_id }}/{{ $mahasiswa->id_mahasiswa }}"
+                                            <a href="{{ url('/tim-capstone/sidang-ta/delete-dosen-penguji') }}/{{ $penguji_sidangta->user_id }}/{{ $mahasiswa->id_mahasiswa }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $penguji_sidangta->user_name }} ?')">
                                                 Hapus</a>
@@ -191,7 +191,7 @@
                 <br>
                 <h6 class="mb-0">Penjadwalan Sidang TA</h6>
                 <hr>
-                <form action="{{ url('/admin/sidang-ta/add-jadwal-process') }}" method="post" autocomplete="off">
+                <form action="{{ url('/tim-capstone/sidang-ta/add-jadwal-process') }}" method="post" autocomplete="off">
                     {{ csrf_field() }}
                     <input type="hidden" name="id_mahasiswa" value="{{ $mahasiswa->id_mahasiswa }}">
                     <input type="hidden" name="id_kelompok_mhs" value="{{ $mahasiswa->id }}">
@@ -310,8 +310,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/sidang-ta/add-dosen-penguji') }}" method="get" autocomplete="off"
-                        id="dosbingForm">
+                    <form action="{{ url('/tim-capstone/sidang-ta/add-dosen-penguji') }}" method="get"
+                        autocomplete="off" id="dosbingForm">
                         <input type="hidden" name="id_mahasiswa" value="{{ $mahasiswa->id_mahasiswa }}">
                         <select class="form-select" name="status_dosen" required id="statusSelect">
                             <option value="" disabled selected>-- Pilih Posisi--</option>

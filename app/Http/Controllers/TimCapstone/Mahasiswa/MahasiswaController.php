@@ -90,11 +90,11 @@ class MahasiswaController extends BaseController
         if ($insert_mahasiswa) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/mahasiswa/add')->withInput();
+            return redirect('/tim-capstone/mahasiswa/add')->withInput();
         }
     }
 
@@ -120,7 +120,7 @@ class MahasiswaController extends BaseController
        if (empty($mahasiswa)) {
            // flash message
            session()->flash('danger', 'Data tidak ditemukan.');
-           return redirect('/admin/mahasiswa');
+           return redirect('/tim-capstone/mahasiswa');
        }
        $rs_peminatan = MahasiswaModel::peminatanMahasiswa($user_id);
 
@@ -165,7 +165,7 @@ class MahasiswaController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         // data
@@ -220,11 +220,11 @@ class MahasiswaController extends BaseController
     if (MahasiswaModel::update($request->user_id, $params)) {
         // flash message
         session()->flash('success', 'Data berhasil disimpan.');
-        return redirect('/admin/mahasiswa');
+        return redirect('/tim-capstone/mahasiswa');
     } else {
         // flash message
         session()->flash('danger', 'Data gagal disimpan.');
-        return redirect('/admin/mahasiswa/edit/' . $request->user_id);
+        return redirect('/tim-capstone/mahasiswa/edit/' . $request->user_id);
     }
 }
 
@@ -246,16 +246,16 @@ class MahasiswaController extends BaseController
             if (MahasiswaModel::delete($user_id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/mahasiswa');
+                return redirect('/tim-capstone/mahasiswa');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/settings/contoh-halaman');
+                return redirect('/tim-capstone/mahasiswa');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/tim-capstone/mahasiswa');
         }
     }
 
@@ -280,7 +280,7 @@ class MahasiswaController extends BaseController
             // view
             return view('tim_capstone.mahasiswa.index', $data);
         } else {
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
     }
 

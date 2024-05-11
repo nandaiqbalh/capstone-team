@@ -68,7 +68,7 @@ class PengujiTAController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
         $rs_peminatan = PengujiTAModel::peminatanMahasiswa($user_id);
 
@@ -116,7 +116,7 @@ class PengujiTAController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
         } else {
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
     }
 
@@ -140,7 +140,7 @@ class PengujiTAController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.penguji-ta.index', $data);
         } else {
-            return redirect('/admin/balancing-penguji-ta');
+            return redirect('/tim-capstone/balancing-penguji-ta');
         }
     }
 }

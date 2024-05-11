@@ -18,7 +18,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <form class="form-inline" action="{{ url('/admin/penetapan-anggota/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/tim-capstone/penetapan-anggota/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -36,7 +36,7 @@
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <form class="form-inline" action="{{ url('/admin/penetapan-anggota/add') }}" method="get"
+                        <form class="form-inline" action="{{ url('/tim-capstone/penetapan-anggota/add') }}" method="get"
                             autocomplete="off">
                             <div class="row float-end">
                                 <div class="col-auto mt-1">
@@ -50,8 +50,8 @@
                                     </select>
                                 </div>
                                 <div class="col-auto mt-1">
-                                    <button class="btn btn-info ml-1" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" title="Tambah Kelompok" type="submit">
+                                    <button class="btn btn-info ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        title="Tambah Kelompok" type="submit">
                                         <i class="bx bx-plus"></i>
                                     </button>
                                 </div>
@@ -81,7 +81,7 @@
                                         <td>{{ $pendaftaran->prioritas_topik }}</td>
                                         <td>{{ $pendaftaran->prioritas_peminatan }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
+                                            <a href="{{ url('/tim-capstone/mahasiswa/detail') }}/{{ $pendaftaran->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
                                         </td>
 

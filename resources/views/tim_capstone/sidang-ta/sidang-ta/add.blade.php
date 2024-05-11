@@ -15,11 +15,11 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Periode Sidang Tugas Akhir</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/sidang-ta/add-process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/tim-capstone/sidang-ta/add-process') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field() }}
                     <div class="row">

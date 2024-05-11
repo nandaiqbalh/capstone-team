@@ -17,7 +17,8 @@
             <div class="card-body">
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/siklus/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
+                        <a href="{{ url('/tim-capstone/siklus/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                            Data</a>
                     </div>
                 </div>
 
@@ -54,9 +55,9 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            {{-- <a href="{{ url('/admin/siklus/detail') }}/{{ $siklus->id }}"
+                                            {{-- <a href="{{ url('/tim-capstone/siklus/detail') }}/{{ $siklus->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a> --}}
-                                            <a href="{{ url('/admin/siklus/edit') }}/{{ $siklus->id }}"
+                                            <a href="{{ url('/tim-capstone/siklus/edit') }}/{{ $siklus->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $siklus->id }}', '{{ $siklus->nama_siklus }}')">Hapus</button>
@@ -98,7 +99,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to the delete URL if confirmed
-                    window.location.href = "{{ url('/admin/siklus/delete-process') }}/" + siklusId;
+                    window.location.href = "{{ url('/tim-capstone/siklus/delete-process') }}/" + siklusId;
                 }
             });
         }

@@ -10,17 +10,16 @@
         <!-- notification -->
         @include('template.notification')
 
-
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Topik</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/topik') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/topik') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/topik/add-process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/tim-capstone/topik/add-process') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field() }}
                     <div class="row">

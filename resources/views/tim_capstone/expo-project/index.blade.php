@@ -19,7 +19,7 @@
 
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/expo-project/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                        <a href="{{ url('/tim-capstone/expo-project/add') }}" class="btn btn-info btn-sm float-right"> Tambah
                             Data</a>
                     </div>
                 </div>
@@ -49,9 +49,9 @@
                                         <td>{{ $pendaftaran->waktu_expo }} WIB</td>
                                         <td>{{ $pendaftaran->tanggal_selesai }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/expo-project/detail') }}/{{ $pendaftaran->id }}"
+                                            <a href="{{ url('/tim-capstone/expo-project/detail') }}/{{ $pendaftaran->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/expo-project/edit') }}/{{ $pendaftaran->id }}"
+                                            <a href="{{ url('/tim-capstone/expo-project/edit') }}/{{ $pendaftaran->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $pendaftaran->id }}', '{{ $pendaftaran->nama_siklus }}')">Hapus</button>
@@ -69,7 +69,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/expo-project/delete-process') }}/" +
+                                                            window.location.href = "{{ url('/tim-capstone/expo-project/delete-process') }}/" +
                                                                 pendaftaranId;
                                                         }
                                                     });

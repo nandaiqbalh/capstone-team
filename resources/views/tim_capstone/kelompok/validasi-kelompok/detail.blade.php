@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Validasi Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/validasi-kelompok') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/validasi-kelompok') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
@@ -24,7 +24,7 @@
                 <div class="table-responsive">
 
                     @if ($kelompok->nomor_kelompok == null)
-                        <form action="{{ url('/admin/validasi-kelompok/setujui-kelompok-process') }}" method="post"
+                        <form action="{{ url('/tim-capstone/validasi-kelompok/setujui-kelompok-process') }}" method="post"
                             autocomplete="off">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{ $kelompok->id }}">
@@ -55,15 +55,15 @@
                                                 $color = '';
 
                                                 switch ($statusKelompok) {
-                                                    case 'Menunggu Penetapan Kelompok!':
-                                                    case 'Menunggu Penetapan Dosbing!':
-                                                    case 'Menunggu Persetujuan Anggota!':
-                                                    case 'Menunggu Persetujuan Dosbing!':
-                                                    case 'Menunggu Persetujuan Penguji!':
-                                                    case 'Menunggu Persetujuan Tim Capstone!':
+                                                    case 'Menunggu Penetapan Kelompok':
+                                                    case 'Menunggu Penetapan Dosbing':
+                                                    case 'Menunggu Persetujuan Anggota':
+                                                    case 'Menunggu Persetujuan Dosbing':
+                                                    case 'Menunggu Persetujuan Penguji':
+                                                    case 'Menunggu Persetujuan Tim Capstone':
                                                         $color = '#F86F03'; // Warna Orange
                                                         break;
-                                                    case 'Kelompok Telah Disetujui!':
+                                                    case 'Kelompok Telah Disetujui':
                                                         $color = '#44B158'; // Warna Hijau
                                                         break;
                                                     default:
@@ -73,7 +73,7 @@
                                             @endphp
 
                                             <span style="color: {{ $color }};">
-                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone!' }}
+                                                {{ $statusKelompok ?? 'Belum Mendaftar Capstone' }}
                                             </span>
                                         </td>
                                     </tr>
@@ -113,7 +113,7 @@
                             </div>
                         </form>
                     @else
-                        <form action="{{ url('/admin/validasi-kelompok/edit-kelompok-process') }}" method="post"
+                        <form action="{{ url('/tim-capstone/validasi-kelompok/edit-kelompok-process') }}" method="post"
                             autocomplete="off">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{ $kelompok->id }}">
@@ -218,9 +218,9 @@
                                         <td>{{ $mahasiswa->angkatan }}</td>
                                         <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
+                                            <a href="{{ url('/tim-capstone/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/validasi-kelompok/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/validasi-kelompok/delete-mahasiswa-process') }}/{{ $mahasiswa->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $mahasiswa->user_name }} ?')">
                                                 Hapus</a>
@@ -274,9 +274,9 @@
                                                 {{ $dosbing->status_dosen }}</td>
                                         @endif
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
+                                            <a href="{{ url('/tim-capstone/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $dosbing->user_name }} ?')">
                                                 Hapus</a>
@@ -306,7 +306,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form action="{{ url('/admin/validasi-kelompok/add-mahasiswa-kelompok') }}" method="get"
+                    <form action="{{ url('/tim-capstone/validasi-kelompok/add-mahasiswa-kelompok') }}" method="get"
                         autocomplete="off">
                         <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
                         <select class="form-select" name="id_mahasiswa_nokel" required>
@@ -336,7 +336,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/penetapan-dosbing/add-dosen-kelompok') }}" method="get"
+                    <form action="{{ url('/tim-capstone/penetapan-dosbing/add-dosen-kelompok') }}" method="get"
                         autocomplete="off" id="dosbingForm">
                         <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
                         <select class="form-select" name="status_dosen" required id="statusSelect">
