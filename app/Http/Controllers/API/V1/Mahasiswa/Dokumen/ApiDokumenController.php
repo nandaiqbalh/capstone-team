@@ -106,7 +106,7 @@ class ApiDokumenController extends Controller
 
                     if ($existingFile->file_name_laporan_ta != null) {
 
-                        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui") {
+                        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui" && $existingFile->file_status_lta != "Final Laporan TA Telah Disetujui") {
                             return $this->failureResponse('Laporan TA belum disetujui kedua dosen pembimbing!');
                         }
 
@@ -216,6 +216,17 @@ class ApiDokumenController extends Controller
                     return $response = $this->failureResponse('Gagal mengunggah! C500 belum disetujui kedua dosen pembimbing!');
                 }
 
+                // Check and delete the existing file
+                $existingFile = ApiDokumenModel::fileMHS($user->user_id);
+
+                if ($existingFile->file_status_lta == "Laporan TA Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! Laporan TA telah disetujui kedua dosen pembimbing!');
+                }
+
+                if ($existingFile->file_status_lta == "Final Laporan TA Telah Disetujui") {
+                    return $response = $this->failureResponse('Gagal mengunggah! Laporan TA telah disetujui kedua dosen pembimbing!');
+                }
+
                 // Upload
                 if ($request->hasFile('laporan_ta')) {
 
@@ -228,17 +239,6 @@ class ApiDokumenController extends Controller
                         // Check if the folder exists, if not, create it
                         if (!is_dir(public_path($upload_path))) {
                             mkdir(public_path($upload_path), 0755, true);
-                        }
-
-                        // Check and delete the existing file
-                        $existingFile = ApiDokumenModel::fileMHS($user->user_id);
-
-                        if ($existingFile->file_status_lta == "Laporan TA Telah Disetujui") {
-                            return $response = $this->failureResponse('Gagal mengunggah! Laporan TA telah disetujui kedua dosen pembimbing!');
-                        }
-
-                        if ($existingFile->file_status_lta == "Final Laporan TA Telah Disetujui") {
-                            return $response = $this->failureResponse('Gagal mengunggah! Laporan TA telah disetujui kedua dosen pembimbing!');
                         }
 
                         if ($existingFile->file_name_laporan_ta) {
