@@ -49,19 +49,20 @@ class DokumenMahasiswaController extends BaseController
     public function uploadMakalahProcess(Request $request)
     {
         $request->validate([
-            'makalah' => 'required|file|mimes:pdf|max:50240', // max:10240 adalah ukuran maksimum dalam KB (misalnya 10 MB)
+            'makalah' => 'required|file|mimes:pdf|max:50240', // Mengubah validasi untuk makalah
         ]);
 
         $upload_path = '/../../file/mahasiswa/makalah';
 
         // Cek apakah file laporan_ta sudah diunggah sebelumnya
         $existingFile = DokumenMahasiswaModel::fileMHS($request->id_mahasiswa);
+
         if ($existingFile->file_name_laporan_ta == null) {
             session()->flash('danger', 'Gagal mengunggah! Lengkapi terlebih dahulu Dokumen Laporan TA');
             return redirect()->back()->withInput();
         }
 
-        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui") {
+        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui" || $existingFile->file_status_lta != "Final Laporan TA Telah Disetujui") {
             return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing');
         }
 

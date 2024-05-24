@@ -64,19 +64,16 @@
                                                             <input type="hidden" class="form-control" name="id_kel_mhs"
                                                                 value="{{ $file_mhs->id_kel_mhs }}" required>
                                                             <input type="file" class="form-control" name="laporan_ta"
-                                                                value="{{ old('laporan_ta', $file_mhs->file_name_laporan_ta) }}"
                                                                 required>
                                                         </div>
                                                         @if ($file_mhs->file_name_laporan_ta)
                                                             <input type="text" class="form-control"
                                                                 value="{{ $file_mhs->file_name_laporan_ta }}" readonly>
-                                                            <!-- <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button> -->
                                                             <button type="button"
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="confirmUpdate()">Ubah</button>
                                                             <script>
                                                                 function confirmUpdate() {
-                                                                    // Use SweetAlert
                                                                     Swal.fire({
                                                                         title: 'Apakah Anda yakin ingin mengubah file laporan TA?',
                                                                         icon: 'question',
@@ -87,7 +84,6 @@
                                                                         cancelButtonText: 'Batal'
                                                                     }).then((result) => {
                                                                         if (result.isConfirmed) {
-                                                                            // Continue with the update process
                                                                             document.querySelector('form').submit();
                                                                         }
                                                                     });
@@ -128,19 +124,16 @@
                                                             <input type="hidden" class="form-control" name="id_kel_mhs"
                                                                 value="{{ $file_mhs->id_kel_mhs }}" required>
                                                             <input type="file" class="form-control" name="makalah"
-                                                                value="{{ old('makalah', $file_mhs->file_name_makalah) }}"
                                                                 required>
                                                         </div>
                                                         @if ($file_mhs->file_name_makalah)
                                                             <input type="text" class="form-control"
                                                                 value="{{ $file_mhs->file_name_makalah }}" readonly>
-                                                            <!-- <button type="submit" class="btn btn-primary float-end m-1 btn-sm" onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button> -->
                                                             <button type="button"
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="confirmUpdate1()">Ubah</button>
                                                             <script>
                                                                 function confirmUpdate1() {
-                                                                    // Use SweetAlert
                                                                     Swal.fire({
                                                                         title: 'Apakah Anda yakin ingin mengubah file makalah?',
                                                                         icon: 'question',
@@ -151,7 +144,6 @@
                                                                         cancelButtonText: 'Batal'
                                                                     }).then((result) => {
                                                                         if (result.isConfirmed) {
-                                                                            // Continue with the update process
                                                                             document.querySelector('form').submit();
                                                                         }
                                                                     });
@@ -172,6 +164,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <br>
 
@@ -206,25 +199,25 @@
                                                                 class="btn btn-primary float-end m-1 btn-sm"
                                                                 onclick="return confirm('Apakah anda ingin mengubahnya?')">Ubah</button>
                                                             <!-- <button type="button" class="btn btn-primary float-end m-1 btn-sm" onclick="confirmUpdate()">Ubah</button>
-                                                                                                                                                                                                                                                                            <!-- <script>
-                                                                                                                                                                                                                                                                                function confirmUpdate() {
-                                                                                                                                                                                                                                                                                    // Use SweetAlert
-                                                                                                                                                                                                                                                                                    Swal.fire({
-                                                                                                                                                                                                                                                                                        title: 'Apakah Anda yakin ingin mengubah file C100?',
-                                                                                                                                                                                                                                                                                        icon: 'question',
-                                                                                                                                                                                                                                                                                        showCancelButton: true,
-                                                                                                                                                                                                                                                                                        confirmButtonColor: '#3085d6',
-                                                                                                                                                                                                                                                                                        cancelButtonColor: '#d33',
-                                                                                                                                                                                                                                                                                        confirmButtonText: 'Ya, ubah',
-                                                                                                                                                                                                                                                                                        cancelButtonText: 'Batal'
-                                                                                                                                                                                                                                                                                    }).then((result) => {
-                                                                                                                                                                                                                                                                                        if (result.isConfirmed) {
-                                                                                                                                                                                                                                                                                            // Continue with the update process
-                                                                                                                                                                                                                                                                                            document.querySelector('form').submit();
+                                                                                                                                                                                                                                                                                    <!-- <script>
+                                                                                                                                                                                                                                                                                        function confirmUpdate() {
+                                                                                                                                                                                                                                                                                            // Use SweetAlert
+                                                                                                                                                                                                                                                                                            Swal.fire({
+                                                                                                                                                                                                                                                                                                title: 'Apakah Anda yakin ingin mengubah file C100?',
+                                                                                                                                                                                                                                                                                                icon: 'question',
+                                                                                                                                                                                                                                                                                                showCancelButton: true,
+                                                                                                                                                                                                                                                                                                confirmButtonColor: '#3085d6',
+                                                                                                                                                                                                                                                                                                cancelButtonColor: '#d33',
+                                                                                                                                                                                                                                                                                                confirmButtonText: 'Ya, ubah',
+                                                                                                                                                                                                                                                                                                cancelButtonText: 'Batal'
+                                                                                                                                                                                                                                                                                            }).then((result) => {
+                                                                                                                                                                                                                                                                                                if (result.isConfirmed) {
+                                                                                                                                                                                                                                                                                                    // Continue with the update process
+                                                                                                                                                                                                                                                                                                    document.querySelector('form').submit();
+                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                            });
                                                                                                                                                                                                                                                                                         }
-                                                                                                                                                                                                                                                                                    });
-                                                                                                                                                                                                                                                                                }
-                                                                                                                                                                                                                                                                            </script> -->
+                                                                                                                                                                                                                                                                                    </script> -->
                                                             <a href="{{ url('/file/kelompok/c100') }}/{{ $file_mhs->file_name_c100 }}"
                                                                 class="btn btn-primary float-end m-1 btn-sm">Unduh</a>
                                                         @else
