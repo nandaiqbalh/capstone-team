@@ -343,7 +343,7 @@ Route::middleware(['auth', 'role:03'])->group(function () {
     Route::post('/mahasiswa/kelompok/terima-kelompok', [MahasiswaKelompokController::class, 'terimaKelompok'])->name('kelompok.accept');
     Route::post('/mahasiswa/kelompok/tolak-kelompok', [MahasiswaKelompokController::class, 'tolakKelompok'])->name('kelompok.reject');
     // mahasiswa by id
-    Route::get('/admin/mahasiswa/get-by-id/{user_id}', [MahasiswaController::class, 'getById']);
+    Route::get('/mahasiswa/kelompok/get-by-id/{user_id}', [MahasiswaKelompokController::class, 'getById']);
 
     //mahasiswaFile
     Route::get('/mahasiswa/dokumen', [DokumenMahasiswaController::class, 'index']);

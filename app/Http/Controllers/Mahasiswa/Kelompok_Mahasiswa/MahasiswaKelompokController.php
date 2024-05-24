@@ -661,4 +661,26 @@ class MahasiswaKelompokController extends BaseController
         }
     }
 
+    public function getById($user_id)
+    {
+        // Mengambil data mahasiswa berdasarkan user_id
+        $mahasiswa = MahasiswaKelompokModel::getMahasiswaById($user_id);
+
+        if ($mahasiswa) {
+            // Mengembalikan respons JSON sukses jika data ditemukan
+            return response()->json([
+                'success' => true,
+                'message' => 'Data mahasiswa ditemukan',
+                'data' => $mahasiswa,
+            ]);
+        } else {
+            // Mengembalikan respons JSON error jika data tidak ditemukan
+            return response()->json([
+                'success' => false,
+                'message' => 'Data mahasiswa tidak ditemukan',
+                'data' => null,
+            ], 404); // 404 Not Found sebagai contoh status code
+        }
+    }
+
 }
