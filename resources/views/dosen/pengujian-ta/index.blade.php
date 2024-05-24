@@ -48,6 +48,7 @@
                                 <th>Nomor Kelompok</th>
                                 <th>Posisi Dosen</th>
                                 <th>Status Saya</th>
+                                <th>Status Sidang</th>
                                 <th>Hari, tanggal</th>
                                 <th>Waktu</th>
                                 <th>Tempat</th>
@@ -77,12 +78,17 @@
                                         @else
                                             <td>-</td>
                                         @endif
+                                        <td style="color: {{ $mahasiswa->status_individu_color }}">
+                                            {{ $mahasiswa->status_individu }}</td>
                                         <td>{{ $mahasiswa->hari_sidang }}, {{ $mahasiswa->tanggal_sidang }}</td>
                                         <td>{{ $mahasiswa->waktu_sidang }} WIB - {{ $mahasiswa->waktu_selesai }} WIB
                                         <td>{{ $mahasiswa->nama_ruang }}</td>
 
                                         <td class="text-center">
-                                            @if ($mahasiswa->status_dosen == 'Penguji Setuju' || $mahasiswa->status_dosen == 'Pembimbing Setuju')
+                                            @if ($mahasiswa->is_mendaftar_sidang == 0)
+                                            @elseif($mahasiswa->status_individu == 'Gagal Sidang TA' || $mahasiswa->status_individu == 'Lulus Sidang TA')
+
+                                            @elseif ($mahasiswa->status_dosen == 'Penguji Setuju' || $mahasiswa->status_dosen == 'Pembimbing Setuju')
                                                 <a href="{{ url('/dosen/pengujian-ta/tolak') }}/{{ $mahasiswa->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $mahasiswa->user_name }}', '{{ url('/dosen/pengujian-ta/tolak') }}/{{ $mahasiswa->id_mahasiswa }}')">
