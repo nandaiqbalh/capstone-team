@@ -89,22 +89,154 @@
                                         <td class="text-center">
 
                                             @if ($pendaftaran->status_expo == 'Menunggu Persetujuan Expo')
+                                                {{-- <a href="{{ url('/tim-capstone/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-success btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                    Terima</a> --}}
                                                 <a href="{{ url('/tim-capstone/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
-                                                    class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
-                                                    Terima</a>
-                                                <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-success btn-xs m-1 terimaButton" data-id="{{ $pendaftaran->id_pendaftaran }}">
+                                                        Terima
+                                                    </a>
+                                                    
+                                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                    <script>
+                                                        // Membuat event listener untuk semua tombol dengan class "terimaButton"
+                                                        document.querySelectorAll('.terimaButton').forEach(button => {
+                                                            button.addEventListener('click', function(event) {
+                                                                event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                    
+                                                                const idPendaftaran = this.getAttribute('data-id'); // Mendapatkan ID pendaftaran dari atribut data-id
+                                                    
+                                                                Swal.fire({
+                                                                    title: 'Apakah Anda yakin?',
+                                                                    text: `Anda akan menerima pendaftaran ${idPendaftaran}`,
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#007bff',
+                                                                    cancelButtonColor: '#d33',
+                                                                    confirmButtonText: 'Ya, terima!',
+                                                                    cancelButtonText: 'Batal'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Redirect atau lakukan aksi lain di sini
+                                                                        window.location.href = "{{ url('/tim-capstone/expo-project/terima') }}/" + idPendaftaran;
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+                                                    </script>
+                                                     
+                                                {{-- <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
-                                                    Tolak</a>
+                                                    Tolak</a> --}}
+                                                <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 tolakButton" data-id="{{ $pendaftaran->id_pendaftaran }}">
+                                                        Tolak
+                                                    </a>
+                                                    
+                                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                    <script>
+                                                        // Membuat event listener untuk semua tombol dengan class "tolakButton"
+                                                        document.querySelectorAll('.tolakButton').forEach(button => {
+                                                            button.addEventListener('click', function(event) {
+                                                                event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                    
+                                                                const idPendaftaran = this.getAttribute('data-id'); // Mendapatkan ID pendaftaran dari atribut data-id
+                                                    
+                                                                Swal.fire({
+                                                                    title: 'Apakah Anda yakin?',
+                                                                    text: `Anda akan menolak pendaftaran ${idPendaftaran}`,
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Ya, tolak!',
+                                                                    cancelButtonText: 'Batal'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Redirect atau lakukan aksi lain di sini
+                                                                        window.location.href = "{{ url('/tim-capstone/expo-project/tolak') }}/" + idPendaftaran;
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+                                                    </script>
+                                                     
                                             @elseif($pendaftaran->status_expo == 'Kelompok Disetujui Expo')
-                                                <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                {{-- <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda ingin menolak {{ $pendaftaran->nomor_kelompok }} ?')">
-                                                    Tolak</a>
+                                                    Tolak</a> --}}
+                                                <a href="{{ url('/tim-capstone/expo-project/tolak') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-danger btn-xs m-1 tolakButton" data-id="{{ $pendaftaran->id_pendaftaran }}">
+                                                        Tolak
+                                                    </a>
+                                                    
+                                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                    <script>
+                                                        // Membuat event listener untuk semua tombol dengan class "tolakButton"
+                                                        document.querySelectorAll('.tolakButton').forEach(button => {
+                                                            button.addEventListener('click', function(event) {
+                                                                event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                    
+                                                                const idPendaftaran = this.getAttribute('data-id'); // Mendapatkan ID pendaftaran dari atribut data-id
+                                                    
+                                                                Swal.fire({
+                                                                    title: 'Apakah Anda yakin?',
+                                                                    text: `Anda akan menolak pendaftaran ${idPendaftaran}`,
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#d33',
+                                                                    cancelButtonColor: '#3085d6',
+                                                                    confirmButtonText: 'Ya, tolak!',
+                                                                    cancelButtonText: 'Batal'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Redirect atau lakukan aksi lain di sini
+                                                                        window.location.href = "{{ url('/tim-capstone/expo-project/tolak') }}/" + idPendaftaran;
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+                                                    </script>
+                                                     
                                             @elseif($pendaftaran->status_expo == 'Kelompok Tidak Disetujui Expo')
+                                                {{-- <a href="{{ url('/tim-capstone/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
+                                                    class="btn btn-outline-success btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
+                                                    Terima</a> --}}
                                                 <a href="{{ url('/tim-capstone/expo-project/terima') }}/{{ $pendaftaran->id_pendaftaran }}"
-                                                    class="btn btn-outline-primary btn-xs m-1 "onclick="return confirm('Apakah anda ingin menerima {{ $pendaftaran->nomor_kelompok }} ?')">
-                                                    Terima</a>
+                                                    class="btn btn-outline-success btn-xs m-1 terimaButton" data-id="{{ $pendaftaran->id_pendaftaran }}">
+                                                        Terima
+                                                    </a>
+                                                    
+                                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                    <script>
+                                                        // Membuat event listener untuk semua tombol dengan class "terimaButton"
+                                                        document.querySelectorAll('.terimaButton').forEach(button => {
+                                                            button.addEventListener('click', function(event) {
+                                                                event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                    
+                                                                const idPendaftaran = this.getAttribute('data-id'); // Mendapatkan ID pendaftaran dari atribut data-id
+                                                    
+                                                                Swal.fire({
+                                                                    title: 'Apakah Anda yakin?',
+                                                                    text: `Anda akan menerima pendaftaran ${idPendaftaran}`,
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#007bff',
+                                                                    cancelButtonColor: '#d33',
+                                                                    confirmButtonText: 'Ya, terima!',
+                                                                    cancelButtonText: 'Batal'
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Redirect atau lakukan aksi lain di sini
+                                                                        window.location.href = "{{ url('/tim-capstone/expo-project/terima') }}/" + idPendaftaran;
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+                                                    </script>
+                                                     
                                             @else
                                                 @if (
                                                     $pendaftaran->status_expo == 'Lulus Expo Project' ||
@@ -124,20 +256,152 @@
                                                     $pendaftaran->status_expo == 'Gagal Expo Project' ||
                                                     $pendaftaran->status_expo == 'Kelompok Disetujui Expo')
                                                 @if ($pendaftaran->status_kelompok == 'Lulus Expo Project')
-                                                    <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    {{-- <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
                                                         class="btn btn-outline-danger btn-xs m-1 "
                                                         onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
-                                                        Gagal</a>
+                                                        Gagal</a> --}}
+                                                    <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-danger btn-xs m-1 gagalButton" data-id="{{ $pendaftaran->nomor_kelompok }}">
+                                                            Gagal
+                                                        </a>
+                                                        
+                                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                        <script>
+                                                            // Membuat event listener untuk semua tombol dengan class "gagalButton"
+                                                            document.querySelectorAll('.gagalButton').forEach(button => {
+                                                                button.addEventListener('click', function(event) {
+                                                                    event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                        
+                                                                    const idKelompok = this.getAttribute('data-id'); // Mendapatkan ID kelompok dari atribut data-id
+                                                        
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: `Anda akan menandai kelompok ${idKelompok} sebagai tidak lulus!`,
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#d33',
+                                                                        cancelButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Ya, tandai sebagai tidak lulus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Redirect atau lakukan aksi lain di sini
+                                                                            window.location.href = "{{ url('/tim-capstone/expo-project/to-gagal') }}/" + idKelompok;
+                                                                        }
+                                                                    });
+                                                                });
+                                                            });
+                                                        </script>
+                                                         
                                                 @elseif($pendaftaran->status_kelompok == 'Gagal Expo Project')
+                                                    {{-- <a href="{{ url('/tim-capstone/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-success btn-xs m-1">Lulus</a> --}}
                                                     <a href="{{ url('/tim-capstone/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
-                                                        class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                                        class="btn btn-outline-success btn-xs m-1 lulusButton" data-id="{{ $pendaftaran->id_kelompok }}">
+                                                            Lulus
+                                                        </a>
+                                                        
+                                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                        <script>
+                                                            // Membuat event listener untuk semua tombol dengan class "lulusButton"
+                                                            document.querySelectorAll('.lulusButton').forEach(button => {
+                                                                button.addEventListener('click', function(event) {
+                                                                    event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                        
+                                                                    const idKelompok = this.getAttribute('data-id'); // Mendapatkan ID kelompok dari atribut data-id
+                                                        
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: `Anda akan menandai kelompok ${idKelompok} sebagai lulus!`,
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#28a745',
+                                                                        cancelButtonColor: '#d33',
+                                                                        confirmButtonText: 'Ya, tandai sebagai lulus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Redirect atau lakukan aksi lain di sini
+                                                                            window.location.href = "{{ url('/tim-capstone/expo-project/to-lulus') }}/" + idKelompok;
+                                                                        }
+                                                                    });
+                                                                });
+                                                            });
+                                                        </script>
+                                                         
                                                 @else
-                                                    <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                    {{-- <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
                                                         class="btn btn-outline-danger btn-xs m-1 "
                                                         onclick="return confirm('Apakah anda yakin kelompok {{ $pendaftaran->nomor_kelompok }} tidak lulus?')">
-                                                        Gagal</a>
+                                                        Gagal</a> --}}
+                                                    <a href="{{ url('/tim-capstone/expo-project/to-gagal') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-danger btn-xs m-1 gagalButton" data-id="{{ $pendaftaran->nomor_kelompok }}">
+                                                            Gagal
+                                                        </a>
+                                                        
+                                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                        <script>
+                                                            // Membuat event listener untuk semua tombol dengan class "gagalButton"
+                                                            document.querySelectorAll('.gagalButton').forEach(button => {
+                                                                button.addEventListener('click', function(event) {
+                                                                    event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                        
+                                                                    const idKelompok = this.getAttribute('data-id'); // Mendapatkan ID kelompok dari atribut data-id
+                                                        
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: `Anda akan menandai kelompok ${idKelompok} sebagai tidak lulus!`,
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#d33',
+                                                                        cancelButtonColor: '#3085d6',
+                                                                        confirmButtonText: 'Ya, tandai sebagai tidak lulus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Redirect atau lakukan aksi lain di sini
+                                                                            window.location.href = "{{ url('/tim-capstone/expo-project/to-gagal') }}/" + idKelompok;
+                                                                        }
+                                                                    });
+                                                                });
+                                                            });
+                                                        </script>
+                                                         
+                                                    {{-- <a href="{{ url('/tim-capstone/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
+                                                        class="btn btn-outline-success btn-xs m-1">Lulus</a> --}}
                                                     <a href="{{ url('/tim-capstone/expo-project/to-lulus') }}/{{ $pendaftaran->id_kelompok }}"
-                                                        class="btn btn-outline-primary btn-xs m-1">Lulus</a>
+                                                        class="btn btn-outline-success btn-xs m-1 lulusButton" data-id="{{ $pendaftaran->id_kelompok }}">
+                                                            Lulus
+                                                        </a>
+                                                        
+                                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                        <script>
+                                                            // Membuat event listener untuk semua tombol dengan class "lulusButton"
+                                                            document.querySelectorAll('.lulusButton').forEach(button => {
+                                                                button.addEventListener('click', function(event) {
+                                                                    event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                        
+                                                                    const idKelompok = this.getAttribute('data-id'); // Mendapatkan ID kelompok dari atribut data-id
+                                                        
+                                                                    Swal.fire({
+                                                                        title: 'Apakah Anda yakin?',
+                                                                        text: `Anda akan menandai kelompok ${idKelompok} sebagai lulus!`,
+                                                                        icon: 'warning',
+                                                                        showCancelButton: true,
+                                                                        confirmButtonColor: '#28a745',
+                                                                        cancelButtonColor: '#d33',
+                                                                        confirmButtonText: 'Ya, tandai sebagai lulus!',
+                                                                        cancelButtonText: 'Batal'
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            // Redirect atau lakukan aksi lain di sini
+                                                                            window.location.href = "{{ url('/tim-capstone/expo-project/to-lulus') }}/" + idKelompok;
+                                                                        }
+                                                                    });
+                                                                });
+                                                            });
+                                                        </script>
+                                                         
                                                 @endif
                                             @else
                                                 -
