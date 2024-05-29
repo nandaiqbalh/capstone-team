@@ -218,7 +218,6 @@ class ApiDokumenCapstoneController extends Controller
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
 
                             if ($uploadFile) {
-                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc200);
                                 $statusParam = [
                                     'status_kelompok' => 'Menunggu Persetujuan C200',
                                     'file_status_c200' => 'Menunggu Persetujuan C200',
@@ -228,6 +227,7 @@ class ApiDokumenCapstoneController extends Controller
                                     'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C200',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc200);
 
                             } else {
                                 return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
@@ -330,7 +330,6 @@ class ApiDokumenCapstoneController extends Controller
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
 
                             if ($uploadFile) {
-                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc300);
                                 $statusParam = [
                                     'status_kelompok' => 'Menunggu Persetujuan C300',
                                     'file_status_c300' => 'Menunggu Persetujuan C300',
@@ -340,6 +339,7 @@ class ApiDokumenCapstoneController extends Controller
                                     'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C300',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc300);
 
                             } else {
                                 return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
@@ -444,7 +444,6 @@ class ApiDokumenCapstoneController extends Controller
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
 
                             if ($uploadFile) {
-                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc400);
                                 $statusParam = [
                                     'status_kelompok' => 'Menunggu Persetujuan C400',
                                     'file_status_c400' => 'Menunggu Persetujuan C400',
@@ -454,6 +453,7 @@ class ApiDokumenCapstoneController extends Controller
                                     'status_dosen_pembimbing_2' => 'Menunggu Persetujuan C400',
                                 ];
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc400);
 
                             } else {
                                 return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
@@ -558,7 +558,6 @@ class ApiDokumenCapstoneController extends Controller
                             $uploadFile = ApiDokumenModel::uploadFileKel($id_kelompok, $params);
 
                             if ($uploadFile) {
-                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc500);
                                 $statusParam = [
                                     'status_kelompok' => 'Menunggu Persetujuan C500',
                                     'file_status_c500' => 'Menunggu Persetujuan C500',
@@ -569,6 +568,8 @@ class ApiDokumenCapstoneController extends Controller
                                 ];
 
                                 ApiDokumenModel::uploadFileKel($id_kelompok, $statusParam);
+                                return $response = $this->successResponse('Berhasil! Dokumen berhasil diunggah!', $urlc500);
+
                             } else {
                                 return $response = $this->failureResponse('Gagal! Dokumen gagal diunggah!');
                             }
