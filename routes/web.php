@@ -48,6 +48,8 @@ use App\Http\Controllers\TimCapstone\Broadcast\BroadcastController;
 use App\Http\Controllers\TimCapstone\DashboardController;
 use App\Http\Controllers\TimCapstone\Dosen\DosenController;
 use App\Http\Controllers\TimCapstone\ExpoProject\ExpoProjectController;
+use App\Http\Controllers\TimCapstone\Pengaturan\TimAccountsController;
+
 
 // mahasiswa
 use App\Http\Controllers\TimCapstone\Kelompok\KelompokValid\KelompokValidController;
@@ -139,6 +141,7 @@ Route::middleware(['auth', 'role:02'])->group(function () {
     Route::post('/tim-capstone/mahasiswa/edit-process', [MahasiswaController::class, 'editMahasiswaProcess']);
     Route::get('/tim-capstone/mahasiswa/detail/{user_id}', [MahasiswaController::class, 'detailMahasiswa']);
     Route::get('/tim-capstone/mahasiswa/search', [MahasiswaController::class, 'searchMahasiswa']);
+    Route::post('/admin/settings/accounts/import-user', [AccountsController::class, 'import']);
 
     //topik
     Route::get('/tim-capstone/topik', [TopikController::class, 'index']);
@@ -326,6 +329,18 @@ Route::middleware(['auth', 'role:02'])->group(function () {
     Route::get('/tim-capstone/jadwal-sidang-ta/filter-periode', [JadwalSidangTAController::class, 'filterPeriodeKelompok']);
     Route::get('/tim-capstone/jadwal-sidang-ta/search', [JadwalSidangTAController::class, 'search']);
 
+     // akun user
+     Route::get('/tim-capstone/pengaturan/accounts', [TimAccountsController::class, 'index']);
+     Route::get('/tim-capstone/pengaturan/accounts/add', [TimAccountsController::class, 'add']);
+     Route::post('/tim-capstone/pengaturan/accounts/add_process', [TimAccountsController::class, 'addProcess']);
+     Route::get('/tim-capstone/pengaturan/accounts/edit/{id}', [TimAccountsController::class, 'edit']);
+     Route::post('/tim-capstone/pengaturan/accounts/edit_process', [TimAccountsController::class, 'editProcess']);
+     Route::get('/tim-capstone/pengaturan/accounts/edit_password/{id}', [TimAccountsController::class, 'editPassword']);
+     Route::post('/tim-capstone/pengaturan/accounts/edit_password_process', [TimAccountsController::class, 'editPasswordProcess']);
+     Route::get('/tim-capstone/pengaturan/accounts/delete_process/{id}', [TimAccountsController::class, 'deleteProcess']);
+     Route::get('/tim-capstone/pengaturan/accounts/search', [TimAccountsController::class, 'search']);
+     Route::post('/tim-capstone/pengaturan/accounts/import-user', [TimAccountsController::class, 'import']);
+    //  Route::post('/admin/settings/accounts/import-user', [AccountsController::class, 'import']);
 });
 
 // mahasiswa

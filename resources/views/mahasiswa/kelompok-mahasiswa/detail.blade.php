@@ -754,6 +754,7 @@
                                     data-bs-target="#confirmModal" data-target-form="form3">
                                     Simpan
                                 </button>
+                                
                             </form>
 
                         </div>
@@ -871,8 +872,9 @@
                     Apakah Anda yakin data yang Anda masukkan sudah sesuai?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
                     <button type="button" class="btn btn-primary" id="confirmButton">Ya, Yakin</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+
                 </div>
             </div>
         </div>
