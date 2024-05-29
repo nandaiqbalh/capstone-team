@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Dosen\PengujianTA;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Dosen\PengujianTA\PengujianTAModel;
-use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengujianTAController extends BaseController
 {
@@ -30,6 +27,7 @@ class PengujianTAController extends BaseController
             }
 
             // Set status colors based on respective statuses
+            $pengujian_ta->status_individu_color = $this->getStatusColor($pengujian_ta->status_individu);
             $pengujian_ta->status_penguji1_color = $this->getStatusColor($pengujian_ta->status_dosen_penguji_ta1);
             $pengujian_ta->status_penguji2_color = $this->getStatusColor($pengujian_ta->status_dosen_penguji_ta2);
             // $pengujian_ta->status_pembimbing1_color = $this->getStatusColor($pengujian_ta->status_dosen_pembimbing_1);
@@ -55,76 +53,76 @@ class PengujianTAController extends BaseController
 
     public function detailPengujianTASaya($id)
     {
-       // get data with pagination
-       $mahasiswa = PengujianTAModel::getDataDetailMahasiswaSidang($id);
-       $rs_dosbing = PengujianTAModel::getAkunDosbingKelompok($mahasiswa->id_kelompok);
-       $rs_penguji_ta = PengujianTAModel::getAkunPengujiTAKelompok($id);
-       $rs_mahasiswa = PengujianTAModel::listMahasiswaSendiri($id, $mahasiswa->id_kelompok);
+        // get data with pagination
+        $mahasiswa = PengujianTAModel::getDataDetailMahasiswaSidang($id);
+        $rs_dosbing = PengujianTAModel::getAkunDosbingKelompok($mahasiswa->id_kelompok);
+        $rs_penguji_ta = PengujianTAModel::getAkunPengujiTAKelompok($id);
+        $rs_mahasiswa = PengujianTAModel::listMahasiswaSendiri($id, $mahasiswa->id_kelompok);
 
-       // get jadwal sidang
-       $jadwal_sidang = PengujianTAModel::getJadwalSidangTA($id);
-       if($jadwal_sidang != null){
-           $waktuSidang = strtotime($jadwal_sidang->waktu);
+        // get jadwal sidang
+        $jadwal_sidang = PengujianTAModel::getJadwalSidangTA($id);
+        if ($jadwal_sidang != null) {
+            $waktuSidang = strtotime($jadwal_sidang->waktu);
 
-           $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
-           $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
-           $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
-           $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
+            $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
+            $jadwal_sidang->hari_sidang = $this->convertDayToIndonesian($jadwal_sidang->hari_sidang);
+            $jadwal_sidang->tanggal_sidang = date('d-m-Y', $waktuSidang);
+            $jadwal_sidang->waktu_sidang = date('H:i:s', $waktuSidang);
 
-           $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
-           $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
+            $waktuSelesai = strtotime($jadwal_sidang->waktu_selesai);
+            $jadwal_sidang->waktu_selesai = date('H:i:s', $waktuSelesai);
 
-       }
+        }
 
-       $rs_ruang_sidang = PengujianTAModel::getRuangSidang();
+        $rs_ruang_sidang = PengujianTAModel::getRuangSidang();
 
-       foreach ($rs_dosbing as $dosbing) {
+        foreach ($rs_dosbing as $dosbing) {
 
-           if ($dosbing->user_id == $mahasiswa->id_dosen_pembimbing_1) {
-               $dosbing->jenis_dosen = 'Pembimbing 1';
-               $dosbing->status_dosen = $mahasiswa->status_dosen_pembimbing_1;
-           } else if ($dosbing->user_id == $mahasiswa->id_dosen_pembimbing_2) {
-               $dosbing->jenis_dosen = 'Pembimbing 2';
-               $dosbing->status_dosen = $mahasiswa->status_dosen_pembimbing_2;
-           }
+            if ($dosbing->user_id == $mahasiswa->id_dosen_pembimbing_1) {
+                $dosbing->jenis_dosen = 'Pembimbing 1';
+                $dosbing->status_dosen = $mahasiswa->status_dosen_pembimbing_1;
+            } else if ($dosbing->user_id == $mahasiswa->id_dosen_pembimbing_2) {
+                $dosbing->jenis_dosen = 'Pembimbing 2';
+                $dosbing->status_dosen = $mahasiswa->status_dosen_pembimbing_2;
+            }
 
-           $dosbing -> status_pembimbing1_color = $this->getStatusColor($mahasiswa->status_dosen_pembimbing_1);
-           $dosbing -> status_pembimbing2_color = $this->getStatusColor($mahasiswa->status_dosen_pembimbing_2);
+            $dosbing->status_pembimbing1_color = $this->getStatusColor($mahasiswa->status_dosen_pembimbing_1);
+            $dosbing->status_pembimbing2_color = $this->getStatusColor($mahasiswa->status_dosen_pembimbing_2);
 
-       }
+        }
 
-       foreach ($rs_penguji_ta as $penguji_ta) {
-           if ($penguji_ta->user_id == $mahasiswa->id_dosen_penguji_ta1) {
-               $penguji_ta->jenis_dosen = 'Penguji 1';
-               $penguji_ta->status_dosen = $mahasiswa->status_dosen_penguji_ta1;
-           } else if ($penguji_ta->user_id == $mahasiswa->id_dosen_penguji_ta2) {
-               $penguji_ta->jenis_dosen = 'Penguji 2';
-               $penguji_ta->status_dosen = $mahasiswa->status_dosen_penguji_ta2;
-           }
-       }
+        foreach ($rs_penguji_ta as $penguji_ta) {
+            if ($penguji_ta->user_id == $mahasiswa->id_dosen_penguji_ta1) {
+                $penguji_ta->jenis_dosen = 'Penguji 1';
+                $penguji_ta->status_dosen = $mahasiswa->status_dosen_penguji_ta1;
+            } else if ($penguji_ta->user_id == $mahasiswa->id_dosen_penguji_ta2) {
+                $penguji_ta->jenis_dosen = 'Penguji 2';
+                $penguji_ta->status_dosen = $mahasiswa->status_dosen_penguji_ta2;
+            }
+        }
 
-       // check
-       if (empty($mahasiswa)) {
-           // flash message
-           session()->flash('danger', 'Data tidak ditemukan.');
-           return redirect('/tim-capstone/pengujian-ta');
-       }
+        // check
+        if (empty($mahasiswa)) {
+            // flash message
+            session()->flash('danger', 'Data tidak ditemukan.');
+            return redirect('/tim-capstone/pengujian-ta');
+        }
 
-       $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
-       $mahasiswa -> status_dokumen_color = $this->getStatusColor($mahasiswa->file_status_c100);
-       $mahasiswa -> status_sidang_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
+        $mahasiswa->status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
+        $mahasiswa->status_dokumen_color = $this->getStatusColor($mahasiswa->file_status_c100);
+        $mahasiswa->status_sidang_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
 
-       $mahasiswa -> status_penguji1_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta1);
-       $mahasiswa -> status_penguji2_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta2);
+        $mahasiswa->status_penguji1_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta1);
+        $mahasiswa->status_penguji2_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta2);
 
-       // data
-       $data = [
-           'mahasiswa' => $mahasiswa,
-           'rs_dosbing' => $rs_dosbing,
-           'rs_mahasiswa' => $rs_mahasiswa,
-           'rs_penguji_ta' => $rs_penguji_ta,
-           'rs_ruang_sidang' => $rs_ruang_sidang,
-           'jadwal_sidang' => $jadwal_sidang,
+        // data
+        $data = [
+            'mahasiswa' => $mahasiswa,
+            'rs_dosbing' => $rs_dosbing,
+            'rs_mahasiswa' => $rs_mahasiswa,
+            'rs_penguji_ta' => $rs_penguji_ta,
+            'rs_ruang_sidang' => $rs_ruang_sidang,
+            'jadwal_sidang' => $jadwal_sidang,
 
         ];
         // view
@@ -159,8 +157,6 @@ class PengujianTAController extends BaseController
         // Get kelompok data
         $kelompok = PengujianTAModel::pengecekan_kelompok_mahasiswa($id);
 
-
-
         // Get data pendaftaran sidang TA untuk mahasiswa dalam kelompok
         $rs_anggota_kelompok = PengujianTAModel::getAnggotaKelompok($kelompok->id);
 
@@ -169,34 +165,34 @@ class PengujianTAController extends BaseController
                 $anggota_kelompok->status_tugas_akhir != "Menunggu Persetujuan Pendaftaran Sidang" &&
                 $anggota_kelompok->status_tugas_akhir != "Pendaftaran Sidang Tidak Disetujui") {
 
-                    // Get data pendaftaran sidang TA untuk mahasiswa saat ini
-                    $rs_periodeSekarang = PengujianTAModel::getDataPendaftaranSidangTA($id);
-                    $rs_periodeLalu = PengujianTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
+                // Get data pendaftaran sidang TA untuk mahasiswa saat ini
+                $rs_periodeSekarang = PengujianTAModel::getDataPendaftaranSidangTA($id);
+                $rs_periodeLalu = PengujianTAModel::getDataPendaftaranSidangTA($anggota_kelompok->id_mahasiswa);
 
-                    foreach ($rs_periodeLalu as $periodeLalu) {
-                        foreach ($rs_periodeSekarang as $periodeSekarang) {
-                            // Process update based on periode
-                            if ($periodeSekarang->id_periode == $periodeLalu->id_periode) {
-                                // Update status for each mahasiswa in kelompok
-                                if (PengujianTAModel::updateKelompokMhs($anggota_kelompok->id_mahasiswa, $params)) {
-                                    $pengujian_ta_updated = PengujianTAModel::getDataById($id);
+                foreach ($rs_periodeLalu as $periodeLalu) {
+                    foreach ($rs_periodeSekarang as $periodeSekarang) {
+                        // Process update based on periode
+                        if ($periodeSekarang->id_periode == $periodeLalu->id_periode) {
+                            // Update status for each mahasiswa in kelompok
+                            if (PengujianTAModel::updateKelompokMhs($anggota_kelompok->id_mahasiswa, $params)) {
+                                $pengujian_ta_updated = PengujianTAModel::getDataById($id);
 
-                                    // Check updated status for pengujian TA
-                                    if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Tidak Setuju" &&
-                                        $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Tidak Setuju") {
-                                        $paramsUpdated = ['status_tugas_akhir' => 'Penguji Tidak Setuju'];
-                                    } else {
-                                        $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji'];
-                                    }
-
-                                    // Update status kelompok based on updated parameters
-                                    PengujianTAModel::updateKelompokMhs($anggota_kelompok->id_mahasiswa, $paramsUpdated);
+                                // Check updated status for pengujian TA
+                                if ($pengujian_ta_updated->status_dosen_penguji_ta1 == "Penguji Tidak Setuju" &&
+                                    $pengujian_ta_updated->status_dosen_penguji_ta2 == "Penguji Tidak Setuju") {
+                                    $paramsUpdated = ['status_tugas_akhir' => 'Penguji Tidak Setuju'];
+                                } else {
+                                    $paramsUpdated = ['status_tugas_akhir' => 'Menunggu Persetujuan Penguji'];
                                 }
+
+                                // Update status kelompok based on updated parameters
+                                PengujianTAModel::updateKelompokMhs($anggota_kelompok->id_mahasiswa, $paramsUpdated);
                             }
-                            // Flash message for success
-                            session()->flash('success', 'Data berhasil disimpan.');
                         }
+                        // Flash message for success
+                        session()->flash('success', 'Data berhasil disimpan.');
                     }
+                }
 
             }
         }
@@ -245,7 +241,7 @@ class PengujianTAController extends BaseController
 
                 foreach ($rs_periodeLalu as $periodeLalu) {
                     foreach ($rs_periodeSekarang as $periodeSekarang) {
-                         // Check if the periode matches between current mahasiswa and member mahasiswa
+                        // Check if the periode matches between current mahasiswa and member mahasiswa
                         if ($periodeSekarang->id_periode == $periodeLalu->id_periode) {
                             $paramsUpdated = [];
 
@@ -298,7 +294,6 @@ class PengujianTAController extends BaseController
         return redirect('/dosen/pengujian-ta');
     }
 
-
     public function detailMahasiswa($user_id)
     {
 
@@ -316,11 +311,11 @@ class PengujianTAController extends BaseController
         foreach ($rs_peminatan as $key => $peminatan) {
             if ($peminatan->id == $mahasiswa->id_peminatan_individu1) {
                 $peminatan->prioritas = "Prioritas 1";
-            } else if($peminatan->id == $mahasiswa->id_peminatan_individu2) {
+            } else if ($peminatan->id == $mahasiswa->id_peminatan_individu2) {
                 $peminatan->prioritas = "Prioritas 2";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu3) {
+            } else if ($peminatan->id == $mahasiswa->id_peminatan_individu3) {
                 $peminatan->prioritas = "Prioritas 3";
-            }else if($peminatan->id == $mahasiswa->id_peminatan_individu4) {
+            } else if ($peminatan->id == $mahasiswa->id_peminatan_individu4) {
                 $peminatan->prioritas = "Prioritas 4";
             } else {
                 $peminatan->prioritas = "Belum memilih";
@@ -331,14 +326,12 @@ class PengujianTAController extends BaseController
         // data
         $data = [
             'mahasiswa' => $mahasiswa,
-            'rs_peminatan'=>$rs_peminatan
+            'rs_peminatan' => $rs_peminatan,
         ];
 
         // view
         return view('dosen.pengujian-ta.detail-mahasiswa', $data);
     }
-
-
 
     public function search(Request $request)
     {
@@ -353,27 +346,26 @@ class PengujianTAController extends BaseController
             foreach ($rs_pengujian_ta as $pengujian_ta) {
                 if ($pengujian_ta->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $pengujian_ta->jenis_dosen = 'Pembimbing 2';
-                    $pengujian_ta -> status_dosen = $pengujian_ta ->status_dosen_pembimbing_2;
+                    $pengujian_ta->status_dosen = $pengujian_ta->status_dosen_pembimbing_2;
 
                 } else if ($pengujian_ta->id_dosen_penguji_ta1 == Auth::user()->user_id) {
                     $pengujian_ta->jenis_dosen = 'Penguji 1';
-                    $pengujian_ta -> status_dosen = $pengujian_ta ->status_dosen_penguji_ta1;
+                    $pengujian_ta->status_dosen = $pengujian_ta->status_dosen_penguji_ta1;
 
                 } else if ($pengujian_ta->id_dosen_penguji_ta2 == Auth::user()->user_id) {
                     $pengujian_ta->jenis_dosen = 'Penguji 2';
-                    $pengujian_ta -> status_dosen = $pengujian_ta ->status_dosen_penguji_ta2;
+                    $pengujian_ta->status_dosen = $pengujian_ta->status_dosen_penguji_ta2;
 
                 } else {
                     $pengujian_ta->jenis_dosen = 'Belum Diplot';
                     $pengujian_ta->status_dosen = 'Belum Diplot';
                 }
-                $pengujian_ta -> status_penguji1_color = $this->getStatusColor($pengujian_ta->status_dosen_penguji_ta1);
-                $pengujian_ta -> status_penguji2_color = $this->getStatusColor($pengujian_ta->status_dosen_penguji_ta2);
-                $pengujian_ta -> status_pembimbing1_color = $this->getStatusColor($pengujian_ta->status_dosen_pembimbing_1);
-                $pengujian_ta -> status_pembimbing2_color = $this->getStatusColor($pengujian_ta->status_dosen_pembimbing_2);
+                $pengujian_ta->status_penguji1_color = $this->getStatusColor($pengujian_ta->status_dosen_penguji_ta1);
+                $pengujian_ta->status_penguji2_color = $this->getStatusColor($pengujian_ta->status_dosen_penguji_ta2);
+                $pengujian_ta->status_pembimbing1_color = $this->getStatusColor($pengujian_ta->status_dosen_pembimbing_1);
+                $pengujian_ta->status_pembimbing2_color = $this->getStatusColor($pengujian_ta->status_dosen_pembimbing_2);
 
             }
-
 
             foreach ($rs_pengujian_ta as $pengujian_ta) {
                 if ($pengujian_ta != null) {
