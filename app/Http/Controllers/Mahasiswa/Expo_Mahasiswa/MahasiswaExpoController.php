@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Mahasiswa\Expo_Mahasiswa;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\Mahasiswa\Expo_Mahasiswa\MahasiswaExpoModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class MahasiswaExpoController extends BaseController
 {
@@ -29,14 +27,18 @@ class MahasiswaExpoController extends BaseController
 
         if ($kelompok != null) {
             $akun_mahasiswa = MahasiswaExpoModel::getAkunByID(Auth::user()->user_id);
-            $siklusSudahPunyaKelompok = MahasiswaExpoModel::checkApakahSiklusMasihAktif($akun_mahasiswa ->id_siklus);
+            $siklusSudahPunyaKelompok = MahasiswaExpoModel::checkApakahSiklusMasihAktif($akun_mahasiswa->id_siklus);
             $id_kelompok = MahasiswaExpoModel::idKelompok(Auth::user()->user_id);
             // get data expo
-            $kelompok -> status_expo_color = $this->getStatusColor($kelompok->status_expo);
+            $kelompok->status_expo_color = $this->getStatusColor($kelompok->status_expo);
 
             $showButton = true;
 
-            if ($kelompok -> status_expo == "Gagal Expo Project") {
+            if ($kelompok->status_expo == "Gagal Expo Project") {
+                $showButton = true;
+                $rs_expo = MahasiswaExpoModel::getDataExpo();
+
+            } else if ($kelompok->status_expo == "Kelompok Tidak Disetujui Expo") {
                 $showButton = true;
                 $rs_expo = MahasiswaExpoModel::getDataExpo();
 
@@ -45,7 +47,7 @@ class MahasiswaExpoController extends BaseController
                     $rs_expo = MahasiswaExpoModel::getExpoById($cekExpo->id_expo);
                     $latest_expo = MahasiswaExpoModel::getLatestExpo();
 
-                    if ($rs_expo ->id == $latest_expo ->id && $rs_expo -> tanggal_selesai > now() ) {
+                    if ($rs_expo->id == $latest_expo->id && $rs_expo->tanggal_selesai > now()) {
                         $showButton = true;
                     } else {
                         $showButton = false;
@@ -54,7 +56,6 @@ class MahasiswaExpoController extends BaseController
                     $rs_expo = MahasiswaExpoModel::getDataExpo();
                 }
             }
-
 
             if ($rs_expo != null) {
                 $waktuExpo = strtotime($rs_expo->waktu);
@@ -80,18 +81,16 @@ class MahasiswaExpoController extends BaseController
                 'showButton' => $showButton,
                 'rs_expo' => $rs_expo,
                 'kelompok' => $kelompok,
-                'kelengkapan'=>$kelengkapanExpo,
+                'kelengkapan' => $kelengkapanExpo,
                 'siklus_sudah_punya_kelompok' => $siklusSudahPunyaKelompok,
             ];
-        } else{
+        } else {
             $data = [
 
                 'kelompok' => $kelompok,
 
             ];
         }
-
-
 
         // view
         return view('mahasiswa.expo-mahasiswa.detail', $data);
@@ -111,7 +110,7 @@ class MahasiswaExpoController extends BaseController
         }
 
         // Validasi berkas Capstone (file_name_c500)
-        if ($kelompok->file_status_c100 != "C100 Telah Disetujui" && $kelompok->file_status_c100 != "Final C100 Telah Disetujui" ) {
+        if ($kelompok->file_status_c100 != "C100 Telah Disetujui" && $kelompok->file_status_c100 != "Final C100 Telah Disetujui") {
             return redirect()->back()->with('danger', 'Dokumen C100 belum disetujui kedua dosen pembimbing');
         }
 
@@ -187,7 +186,7 @@ class MahasiswaExpoController extends BaseController
 
             $kelompokMHSParams = [
                 'judul_ta_mhs' => $judulTaMhs,
-                'status_individu' => "Menunggu Persetujuan Expo"
+                'status_individu' => "Menunggu Persetujuan Expo",
             ];
             $statusDaftar = MahasiswaExpoModel::updateKelompokMHS($request->user()->user_id, $kelompokMHSParams);
 

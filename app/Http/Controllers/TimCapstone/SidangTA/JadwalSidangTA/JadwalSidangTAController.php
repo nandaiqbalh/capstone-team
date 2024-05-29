@@ -135,6 +135,8 @@ class JadwalSidangTAController extends BaseController
             $paramKelompokMhs = [
                 'status_tugas_akhir' => 'Lulus Sidang TA',
                 'status_individu' => 'Lulus Sidang TA',
+                'status_dosen_penguji_ta1' => 'Penguji Setuju',
+                'status_dosen_penguji_ta2' => 'Penguji Setuju',
                 'is_selesai' => 1,
             ];
 

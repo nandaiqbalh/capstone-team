@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\TimCapstone\SidangProposal\JadwalSidangProposal;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 use App\Http\Controllers\TimCapstone\BaseController;
 use App\Models\TimCapstone\SidangProposal\JadwalSidangProposal\JadwalSidangProposalModel;
-use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Http\Request;
 
 class JadwalSidangProposalController extends BaseController
 {
@@ -32,11 +28,10 @@ class JadwalSidangProposalController extends BaseController
                 $waktuSelesai = strtotime($sidang_proposal->waktu_selesai);
                 $sidang_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
             }
-            $sidang_proposal -> status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
-            $sidang_proposal -> status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
+            $sidang_proposal->status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
+            $sidang_proposal->status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
 
         }
-
 
         // data
         $data = [
@@ -61,7 +56,7 @@ class JadwalSidangProposalController extends BaseController
 
         // get jadwal sidang
         $jadwal_sidang = JadwalSidangProposalModel::getJadwalSidangProposal($id);
-        if($jadwal_sidang != null){
+        if ($jadwal_sidang != null) {
             $waktuSidang = strtotime($jadwal_sidang->waktu);
 
             $jadwal_sidang->hari_sidang = strftime('%A', $waktuSidang);
@@ -110,14 +105,14 @@ class JadwalSidangProposalController extends BaseController
             return redirect('/tim-capstone/kelompok');
         }
 
-        $kelompok -> status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
-        $kelompok -> status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
-        $kelompok -> status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
+        $kelompok->status_kelompok_color = $this->getStatusColor($kelompok->status_kelompok);
+        $kelompok->status_dokumen_color = $this->getStatusColor($kelompok->file_status_c100);
+        $kelompok->status_sidang_color = $this->getStatusColor($kelompok->status_sidang_proposal);
 
-        $kelompok -> status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
-        $kelompok -> status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
-        $kelompok -> status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
-        $kelompok -> status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
+        $kelompok->status_penguji1_color = $this->getStatusColor($kelompok->status_dosen_penguji_1);
+        $kelompok->status_penguji2_color = $this->getStatusColor($kelompok->status_dosen_penguji_2);
+        $kelompok->status_pembimbing1_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_1);
+        $kelompok->status_pembimbing2_color = $this->getStatusColor($kelompok->status_dosen_pembimbing_2);
 
         // data
         $data = [
@@ -147,10 +142,12 @@ class JadwalSidangProposalController extends BaseController
             $paramKelompok = [
                 'status_sidang_proposal' => 'Lulus Sidang Proposal',
                 'status_kelompok' => 'Lulus Sidang Proposal',
+                'status_dosen_penguji_1' => 'Penguji Setuju',
+                'status_dosen_penguji_2' => 'Penguji Setuju',
                 'is_sidang_proposal' => 1,
             ];
 
-            JadwalSidangProposalModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+            JadwalSidangProposalModel::updateKelompok($dataKelompok->id, $paramKelompok);
 
             session()->flash('success', 'Data berhasil diperbaharui');
             return redirect('/tim-capstone/jadwal-sidang-proposal');
@@ -173,9 +170,11 @@ class JadwalSidangProposalController extends BaseController
             $paramKelompok = [
                 'status_sidang_proposal' => 'Gagal Sidang Proposal',
                 'status_kelompok' => 'Gagal Sidang Proposal',
+                'status_dosen_penguji_1' => null,
+                'status_dosen_penguji_2' => null,
             ];
 
-            JadwalSidangProposalModel::updateKelompok($dataKelompok -> id, $paramKelompok);
+            JadwalSidangProposalModel::updateKelompok($dataKelompok->id, $paramKelompok);
 
             session()->flash('success', 'Data berhasil diperbaharui');
             return redirect('/tim-capstone/jadwal-sidang-proposal');
@@ -204,7 +203,7 @@ class JadwalSidangProposalController extends BaseController
                 'status_dosen_penguji_2' => null,
             ];
 
-            JadwalSidangProposalModel::updateKelompok($delete -> id_kelompok, $paramKelompok);
+            JadwalSidangProposalModel::updateKelompok($delete->id_kelompok, $paramKelompok);
             // process
             if (JadwalSidangProposalModel::deleteJadwalSidangProposal($id)) {
                 // flash message
@@ -245,13 +244,13 @@ class JadwalSidangProposalController extends BaseController
                     $waktuSelesai = strtotime($sidang_proposal->waktu_selesai);
                     $sidang_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
                 }
-                $sidang_proposal -> status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
-                $sidang_proposal -> status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
+                $sidang_proposal->status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
+                $sidang_proposal->status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
 
             }
 
             // data
-            $data = ['rs_sidang' => $rs_sidang, 'rs_siklus' => $rs_siklus,  'nama' => $nama];
+            $data = ['rs_sidang' => $rs_sidang, 'rs_siklus' => $rs_siklus, 'nama' => $nama];
             // view
             return view('tim_capstone.sidang-proposal.jadwal-sidang-proposal.index', $data);
         } else {
@@ -270,7 +269,6 @@ class JadwalSidangProposalController extends BaseController
             $rs_siklus = JadwalSidangProposalModel::getSiklusAktif();
             $siklus = JadwalSidangProposalModel::getSiklusById($id_siklus);
 
-
             foreach ($rs_sidang as $sidang_proposal) {
                 if ($sidang_proposal != null) {
                     $waktuSidang = strtotime($sidang_proposal->waktu);
@@ -283,8 +281,8 @@ class JadwalSidangProposalController extends BaseController
                     $waktuSelesai = strtotime($sidang_proposal->waktu_selesai);
                     $sidang_proposal->waktu_selesai = date('H:i:s', $waktuSelesai);
                 }
-                $sidang_proposal -> status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
-                $sidang_proposal -> status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
+                $sidang_proposal->status_sidang_color = $this->getStatusColor($sidang_proposal->status_sidang_proposal);
+                $sidang_proposal->status_c100_color = $this->getStatusColor($sidang_proposal->file_status_c100);
 
             }
 
@@ -302,5 +300,3 @@ class JadwalSidangProposalController extends BaseController
         }
     }
 }
-
-

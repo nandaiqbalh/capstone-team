@@ -47,7 +47,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
-                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                    return $response = $this->failureResponse('Gagal upload! Kelompok Anda sudah lulus Expo Project!');
                 }
                 // get siklus kelompok
                 $siklus = ApiDokumenModel::getSiklusKelompok($existingFile->id_siklus);
@@ -176,11 +176,11 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
-                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                    return $response = $this->failureResponse('Gagal upload! Kelompok Anda sudah lulus Expo Project!');
                 }
 
                 if ($existingFile->file_status_c100 != "Final C100 Telah Disetujui") {
-                    return $response = $this->failureResponse('Gagal mengunggah! C100 belum disetujui kedua dosen pembimbing!');
+                    return $response = $this->failureResponse('Gagal mengunggah! Final C100 belum disetujui kedua dosen pembimbing!');
                 }
 
                 if ($existingFile->file_status_c200 == "C200 Telah Disetujui") {
@@ -288,7 +288,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
-                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                    return $response = $this->failureResponse('Gagal upload! Kelompok Anda sudah lulus Expo Project!');
                 }
 
                 if ($existingFile->file_status_c200 != "C200 Telah Disetujui") {
@@ -401,7 +401,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
-                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                    return $response = $this->failureResponse('Gagal upload! Kelompok Anda sudah lulus Expo Project!');
                 }
 
                 if ($existingFile->file_status_c300 != "C300 Telah Disetujui") {
@@ -515,7 +515,7 @@ class ApiDokumenCapstoneController extends Controller
                 $existingFile = ApiDokumenModel::getKelompokFile($id_kelompok);
 
                 if ($existingFile->is_lulus_expo == 1) {
-                    return $response = $this->failureResponse('Kelompok Anda sudah lulus Expo Project!');
+                    return $response = $this->failureResponse('Gagal upload! Kelompok Anda sudah lulus Expo Project!');
                 }
 
                 if ($existingFile->file_status_c400 != "C400 Telah Disetujui") {

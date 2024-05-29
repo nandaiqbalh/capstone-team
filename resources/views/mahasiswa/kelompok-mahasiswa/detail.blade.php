@@ -621,9 +621,9 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label>Jenis Kelamin<span class="text-danger">*</span></label>
-                                                <input class="form-control" name="jenis_kelamin2"
-                                                    placeholder="Pilih jenis kelamin"
-                                                    value="{{ old('jenis_kelamin', $getAkun->jenis_kelamin) }}" readonly>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Contoh: Perempuan" readonly name="jenis_kelamin2"
+                                                    value="{{ old('jenis_kelamin2') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -705,9 +705,9 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label>Jenis Kelamin<span class="text-danger">*</span></label>
-                                                <input class="form-control" name="jenis_kelamin3"
-                                                    placeholder="Pilih jenis kelamin"
-                                                    value="{{ old('jenis_kelamin', $getAkun->jenis_kelamin) }}" readonly>
+                                                <input type="text" class="form-control"
+                                                    placeholder="Contoh: Perempuan" readonly name="jenis_kelamin3"
+                                                    value="{{ old('jenis_kelamin3') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -817,7 +817,7 @@
                         // Mengisi nilai dari input lainnya berdasarkan data yang diterima dari AJAX response
                         $('input[name="nim2"]').val(response.data.nomor_induk);
                         $('input[name="angkatan2"]').val(response.data.angkatan);
-                        $('select[name="jenis_kelamin2"]').val(response.data.jenis_kelamin);
+                        $('input[name="jenis_kelamin2"]').val(response.data.jenis_kelamin);
                         $('input[name="no_telp2"]').val(response.data.no_telp);
                         $('input[name="email2"]').val(response.data.user_email);
 
@@ -846,7 +846,7 @@
                         // Mengisi nilai dari input lainnya berdasarkan data yang diterima dari AJAX response
                         $('input[name="nim3"]').val(response.data.nomor_induk);
                         $('input[name="angkatan3"]').val(response.data.angkatan);
-                        $('select[name="jenis_kelamin3"]').val(response.data.jenis_kelamin);
+                        $('input[name="jenis_kelamin3"]').val(response.data.jenis_kelamin);
                         $('input[name="no_telp3"]').val(response.data.no_telp);
                         $('input[name="email3"]').val(response.data.user_email);
 

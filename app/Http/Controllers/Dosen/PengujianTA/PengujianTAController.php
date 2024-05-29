@@ -21,6 +21,9 @@ class PengujianTAController extends BaseController
             } elseif ($pengujian_ta->id_dosen_penguji_ta2 == Auth::user()->user_id) {
                 $pengujian_ta->jenis_dosen = 'Penguji 2';
                 $pengujian_ta->status_dosen = $pengujian_ta->status_dosen_penguji_ta2;
+            } elseif ($pengujian_ta->id_dosen_pembimbing_1 == Auth::user()->user_id) {
+                $pengujian_ta->jenis_dosen = 'Pembimbing 1';
+                $pengujian_ta->status_dosen = $pengujian_ta->status_dosen_pembimbing_1;
             } else {
                 $pengujian_ta->jenis_dosen = 'Belum Diplot';
                 $pengujian_ta->status_dosen = 'Belum Diplot';

@@ -62,7 +62,7 @@ class DokumenMahasiswaController extends BaseController
             return redirect()->back()->withInput();
         }
 
-        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui" || $existingFile->file_status_lta != "Final Laporan TA Telah Disetujui") {
+        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui" && $existingFile->file_status_lta != "Final Laporan TA Telah Disetujui") {
             return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing');
         }
 
@@ -250,7 +250,7 @@ class DokumenMahasiswaController extends BaseController
             $new_file_name = 'c100-' . Str::slug($existingFile->nomor_kelompok, '-') . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
             if ($existingFile->is_lulus_expo == 1) {
-                session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+                session()->flash('danger', 'Gagal upload! Kelompok Anda sudah lulus Expo Project');
                 return redirect()->back()->withInput();
             }
 
@@ -349,12 +349,12 @@ class DokumenMahasiswaController extends BaseController
         }
 
         if ($existingFile->is_lulus_expo == 1) {
-            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+            session()->flash('danger', 'Gagal upload! Kelompok Anda sudah lulus Expo Project');
             return redirect()->back()->withInput();
         }
 
         if ($existingFile->file_status_c100 != "Final C100 Telah Disetujui") {
-            session()->flash('danger', 'Gagal mengunggah! C100 belum disetujui kedua dosen pembimbing!');
+            session()->flash('danger', 'Gagal mengunggah! Final C100 belum disetujui kedua dosen pembimbing!');
             return redirect()->back()->withInput();
         }
 
@@ -438,7 +438,7 @@ class DokumenMahasiswaController extends BaseController
         }
 
         if ($existingFile->is_lulus_expo == 1) {
-            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+            session()->flash('danger', 'Gagal upload! Kelompok Anda sudah lulus Expo Project');
             return redirect()->back()->withInput();
         }
 
@@ -526,7 +526,7 @@ class DokumenMahasiswaController extends BaseController
         }
 
         if ($existingFile->is_lulus_expo == 1) {
-            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+            session()->flash('danger', 'Gagal upload! Kelompok Anda sudah lulus Expo Project');
             return redirect()->back()->withInput();
         }
 
@@ -615,7 +615,7 @@ class DokumenMahasiswaController extends BaseController
         }
 
         if ($existingFile->is_lulus_expo == 1) {
-            session()->flash('danger', 'Kelompok Anda sudah lulus Expo Project');
+            session()->flash('danger', 'Gagal upload! Kelompok Anda sudah lulus Expo Project');
             return redirect()->back()->withInput();
         }
 
