@@ -14,12 +14,12 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Akun User</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/settings/accounts') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/pengaturan/accounts') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
 
-            <form action="{{ url('/admin/settings/accounts/import-user') }}" method="post" autocomplete="off"
+            <form action="{{ url('/tim-capstone/pengaturan/accounts/import-user') }}" method="post" autocomplete="off"
                 enctype="multipart/form-data">
 
                 <div class="card-body">
@@ -49,7 +49,7 @@
                 <h5 class="mb-0">Tambah Akun User</h5>
 
             </div>
-            <form action="{{ url('/admin/settings/accounts/add_process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/tim-capstone/pengaturan/accounts/add_process') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field() }}
                     <div class="row">

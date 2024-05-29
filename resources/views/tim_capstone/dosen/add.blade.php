@@ -51,6 +51,20 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                        <div class="mb-3">
+                            <label>Jenis Kelamin<span class="text-danger">*</span></label>
+                            <select class="form-select" name="jenis_kelamin" required>
+                                <option value="" disabled selected>-- Pilih Jenis Kelamin --</option>
+                                <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>
+                                    Laki-laki
+                                </option>
+                                <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                                    Perempuan
+                                </option>
+                            </select>
+                        </div>
+                    </div>
                     </div>
 
                     <br>

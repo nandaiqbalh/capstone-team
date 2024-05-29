@@ -18,21 +18,18 @@
                 <div class="card  h-100">
                     <div class="card-body text-center">
                         <a href="#" class="btn-img-preview  mt-2 "
-                            data-img="{{ asset($account->user_img_path . $account->user_img_name) }}" data-bs-toggle="modal"
-                            data-bs-target="#modal-preview">
+                            data-img="{{ asset($account->user_img_path . $account->user_img_name) }}"
+                            data-bs-toggle="modal">
                             {{-- <img src="{{ asset($account->user_img_path.$account->user_img_name) }}" class="rounded-circle img-fluid" style="width: 60%;"> --}}
-                            <a href="#" class="btn-img-preview  mt-2"
-                                data-img="{{ asset($account->user_img_path . $account->user_img_name) }}"
-                                data-bs-toggle="modal" data-bs-target="#modal-preview">
-                                @if (!empty($account->user_img_name))
-                                    <img src="{{ asset($account->user_img_path . $account->user_img_name) }}"
-                                        class="rounded-circle img-fluid" style="width: 60%;">
-                                @else
-                                    <!-- Gambar default jika user_img_name kosong atau tidak ada -->
-                                    <img src="{{ asset('img/default.jpg') }}" class="rounded-circle img-fluid"
-                                        style="width: 60%;">
-                                @endif
-                            </a>
+                            @if (!empty($account->user_img_name))
+                                <img src="{{ asset($account->user_img_path . $account->user_img_name) }}"
+                                    class="rounded-circle img-fluid" style="width: 60%;">
+                            @else
+                                <!-- Gambar default jika user_img_name kosong atau tidak ada -->
+                                <img src="{{ asset('img/default.jpg') }}" class="rounded-circle img-fluid"
+                                    style="width: 60%;">
+                            @endif
+                            
                         </a>
                         <br><br><br>
                         <input type="file" class="form-control" id="user_img" name="user_img">
