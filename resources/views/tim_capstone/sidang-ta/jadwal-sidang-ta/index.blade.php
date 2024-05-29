@@ -105,15 +105,7 @@
                                         <td class="text-center">
 
                                             @if ($sidang_ta->status_tugas_akhir == 'Lulus Sidang TA')
-                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
-                                                    class="btn btn-outline-danger btn-xs m-1 "
-                                                    onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_ta->user_name }} tidak lulus?')">
-                                                    Gagal</a>
                                             @elseif($sidang_ta->status_tugas_akhir == 'Gagal Sidang TA')
-                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
-                                                    class="btn btn-outline-success btn-xs m-1">Lulus</a>
-                                                <a href="{{ url('/tim-capstone/sidang-ta/jadwalkan-sidang-ta') }}/{{ $sidang_ta->id_mahasiswa }}/{{ $sidang_ta->id_periode }}"
-                                                    class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                             @else
                                                 <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "

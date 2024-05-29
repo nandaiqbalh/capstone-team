@@ -81,8 +81,6 @@
                                                     @if (
                                                         $kelompok->file_status_c100_dosbing1 == 'C100 Telah Disetujui' ||
                                                             $kelompok->file_status_c100_dosbing1 == 'Final C100 Telah Disetujui')
-                                                        <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
-                                                            class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                     @elseif(
                                                         $kelompok->file_status_c100_dosbing1 == 'Menunggu Persetujuan C100' ||
                                                             $kelompok->file_status_c100_dosbing1 == 'Menunggu Persetujuan Final C100')
@@ -109,8 +107,6 @@
                                                     @if (
                                                         $kelompok->file_status_c100_dosbing2 == 'C100 Telah Disetujui' ||
                                                             $kelompok->file_status_c100_dosbing2 == 'Final C100 Telah Disetujui')
-                                                        <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
-                                                            class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                     @elseif(
                                                         $kelompok->file_status_c100_dosbing2 == 'Menunggu Persetujuan C100' ||
                                                             $kelompok->file_status_c100_dosbing2 == 'Menunggu Persetujuan Final C100')
@@ -130,10 +126,10 @@
                                                             onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/persetujuan-c100/terima') }}/{{ $kelompok->id }}')">
                                                             Terima</a>
                                                     @else
-                                                        <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
-                                                            class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                                     @endif
                                                 @endif
+                                                <a href="{{ url('/dosen/kelompok-bimbingan/detail') }}/{{ $kelompok->id }}"
+                                                    class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                             @endif
 
                                         </td>
