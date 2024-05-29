@@ -41,6 +41,11 @@ class ApiBroadcastController extends Controller
 
                 // Menambahkan postDate ke objek broadcast
                 $broadcast->postDate = $postDate;
+
+                // Convert HTML in keterangan to plain text with original formatting
+                if (isset($broadcast->keterangan)) {
+                    $broadcast->keterangan = $this->convertHtmlToOriginalText($broadcast->keterangan);
+                }
             }
 
             $this->addImageUrlToBroadcasts($rs_broadcast);
@@ -58,8 +63,6 @@ class ApiBroadcastController extends Controller
     public function broadcastHome()
     {
         try {
-            $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
-
             $rs_broadcast = ApiBroadcastModel::getDataWithHomePagination();
 
             foreach ($rs_broadcast as $broadcast) {
@@ -90,8 +93,12 @@ class ApiBroadcastController extends Controller
 
                 // Menambahkan postDate ke objek broadcast
                 $broadcast->postDate = $postDate;
-            }
 
+                // Convert HTML in keterangan to plain text with original formatting
+                if (isset($broadcast->keterangan)) {
+                    $broadcast->keterangan = $this->convertHtmlToOriginalText($broadcast->keterangan);
+                }
+            }
 
             $this->addImageUrlToBroadcasts($rs_broadcast);
 
@@ -114,6 +121,11 @@ class ApiBroadcastController extends Controller
             if (!empty($broadcast)) {
                 $broadcast->broadcast_image_url = $this->getBroadcastImageUrl($broadcast);
 
+                // Convert HTML in keterangan to plain text with original formatting
+                if (isset($broadcast->keterangan)) {
+                    $broadcast->keterangan = $this->convertHtmlToOriginalText($broadcast->keterangan);
+                }
+
                 $response = $this->successResponse('Berhasil mendapatkan data.', ['broadcast' => $broadcast]);
             } else {
                 $response = $this->failureResponse('Mohon periksa kembali koneksi Internet Anda!');
@@ -125,6 +137,32 @@ class ApiBroadcastController extends Controller
 
             return response()->json($response);
         }
+    }
+
+    private function convertHtmlToOriginalText($html)
+    {
+        $replacements = [
+            // Bold tags
+            '/<b>(.*?)<\/b>/' => '$1',
+            '/<strong>(.*?)<\/strong>/' => '$1',
+            // Italic tags
+            '/<i>(.*?)<\/i>/' => '$1',
+            '/<em>(.*?)<\/em>/' => '$1',
+            // Underline tags
+            '/<u>(.*?)<\/u>/' => '__$1__',
+            // Line breaks
+            '/<br\s*\/?>/' => "\n",
+            // Paragraph tags
+            '/<p>(.*?)<\/p>/' => "\n$1\n",
+            // Remove other tags but keep the content
+            '/<[^>]+>/' => '',
+        ];
+
+        foreach ($replacements as $pattern => $replacement) {
+            $html = preg_replace($pattern, $replacement, $html);
+        }
+
+        return $html;
     }
 
     private function addImageUrlToBroadcasts(&$broadcasts)
