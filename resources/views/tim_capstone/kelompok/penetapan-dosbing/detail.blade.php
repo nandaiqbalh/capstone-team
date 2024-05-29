@@ -147,10 +147,36 @@
                                         <td class="text-center">
                                             <a href="{{ url('/tim-capstone/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/tim-capstone/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
+                                            {{-- <a href="{{ url('/tim-capstone/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $dosbing->user_name }} ?')">
-                                                Hapus</a>
+                                                Hapus</a> --}}
+                                            <a href="{{ url('/tim-capstone/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
+                                                class="btn btn-outline-danger btn-xs m-1" id="hapusButton">
+                                                Hapus
+                                            </a>
+                                            
+                                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                            <script>
+                                                document.getElementById('hapusButton').addEventListener('click', function(event) {
+                                                    event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                    Swal.fire({
+                                                        title: 'Apakah Anda yakin?',
+                                                        text: "Anda akan menghapus {{ $dosbing->user_name }}!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonColor: '#d33',
+                                                        cancelButtonColor: '#3085d6',
+                                                        confirmButtonText: 'Ya, hapus!',
+                                                        cancelButtonText: 'Batal'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            // Redirect atau lakukan aksi lain di sini
+                                                            window.location.href = "{{ url('/tim-capstone/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}";
+                                                        }
+                                                    });
+                                                });
+                                            </script>
                                         </td>
                                     </tr>
                                 @endforeach

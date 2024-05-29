@@ -57,7 +57,7 @@
             @endif
         @endforeach
 
-        @if ($role_id == '01')
+        @if ($role_id == '01' || $role_id == '02')
             <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">PENGATURAN</span>
             </li>

@@ -23,17 +23,16 @@ class PersetujuanC200Model extends BaseModel
         return DB::table('kelompok as a')
             ->select('a.*', 'b.nama as nama_topik')
             ->join('topik as b', 'a.id_topik', 'b.id')
-            ->whereNotNull('a.file_status_c200')
-            ->whereNotNull('a.file_name_c200')
+            ->where('a.file_status_c200', '!=', null)
+            ->where('a.file_name_c200', '!=', null)
             ->where(function ($query) use ($userId) {
                 $query->where('a.id_dosen_pembimbing_1', $userId)
-                      ->orWhere('a.id_dosen_pembimbing_2', $userId);
+                    ->orWhere('a.id_dosen_pembimbing_2', $userId);
             })
             ->orderByDesc('a.id')
             ->orderBy('a.is_selesai') // Urutkan berdasarkan kelompok.is_selesai dari rendah ke tinggi
             ->paginate(20);
     }
-
 
     // get search
     public static function getDataSearch($no_kel)
@@ -52,15 +51,15 @@ class PersetujuanC200Model extends BaseModel
     {
         return DB::table('kelompok as a')
             ->select('a.*', 'b.nama as nama_topik')
-            ->join('topik as b','a.id_topik', 'b.id')
+            ->join('topik as b', 'a.id_topik', 'b.id')
             ->where('a.id', $id)->first();
     }
 
     public static function getDataMahasiswaById($user_id)
     {
         return DB::table('app_user as a')
-            ->leftJoin('kelompok_mhs as b' ,'a.user_id', 'b.id_mahasiswa')
-            ->leftJoin('siklus as c','b.id_siklus','c.id')
+            ->leftJoin('kelompok_mhs as b', 'a.user_id', 'b.id_mahasiswa')
+            ->leftJoin('siklus as c', 'b.id_siklus', 'c.id')
             ->where('user_id', $user_id)->first();
     }
 
@@ -74,7 +73,7 @@ class PersetujuanC200Model extends BaseModel
     {
         return DB::table('kelompok_mhs as a')
             ->select('b.*', 'a.*')
-            ->join('app_user as b','a.id_mahasiswa', 'b.user_id')
+            ->join('app_user as b', 'a.id_mahasiswa', 'b.user_id')
             ->where('a.id_kelompok', $id_kelompok)
             ->get();
     }

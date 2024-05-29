@@ -107,12 +107,66 @@
                                             @if ($sidang_ta->status_tugas_akhir == 'Lulus Sidang TA')
                                             @elseif($sidang_ta->status_tugas_akhir == 'Gagal Sidang TA')
                                             @else
-                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                {{-- <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                     class="btn btn-outline-danger btn-xs m-1 "
                                                     onclick="return confirm('Apakah anda yakin kelompok {{ $sidang_ta->user_name }} tidak lulus?')">
-                                                    Gagal</a>
+                                                    Gagal</a> --}}
+                                                <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                    class="btn btn-outline-danger btn-xs m-1" id="gagalButton">
+                                                    Gagal
+                                                </a>
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                <script>
+                                                    document.getElementById('gagalButton').addEventListener('click', function(event) {
+                                                        event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                        Swal.fire({
+                                                            title: 'Apakah Anda yakin?',
+                                                            text: "Anda yakin {{ $sidang_ta->user_name }} tidak lulus!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#d33',
+                                                            cancelButtonColor: '#3085d6',
+                                                            confirmButtonText: 'Ya, tidak lulus!',
+                                                            cancelButtonText: 'Batal'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Redirect atau lakukan aksi lain di sini
+                                                                window.location.href = "{{ url('/tim-capstone/jadwal-sidang-ta/to-gagal') }}/{{ $sidang_ta->id_mahasiswa }}";
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+
+                                                {{-- <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
+                                                    class="btn btn-outline-success btn-xs m-1">Lulus</a> --}}
                                                 <a href="{{ url('/tim-capstone/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}"
-                                                    class="btn btn-outline-success btn-xs m-1">Lulus</a>
+                                                    class="btn btn-outline-success btn-xs m-1" id="lulusButton">
+                                                    Lulus
+                                                </a>
+                                                
+                                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                                <script>
+                                                    document.getElementById('lulusButton').addEventListener('click', function(event) {
+                                                        event.preventDefault(); // Menghentikan aksi default dari tombol href
+                                                        Swal.fire({
+                                                            title: 'Apakah Anda yakin?',
+                                                            text: "Anda yakin {{ $sidang_ta->user_name }} lulus!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#28a745',
+                                                            cancelButtonColor: '#3085d6',
+                                                            confirmButtonText: 'Ya, lulus!',
+                                                            cancelButtonText: 'Batal'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                // Redirect atau lakukan aksi lain di sini
+                                                                window.location.href = "{{ url('/tim-capstone/jadwal-sidang-ta/to-lulus') }}/{{ $sidang_ta->id_mahasiswa }}";
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                                    
+                                                    
                                             @endif
                                             <a href="{{ url('/tim-capstone/jadwal-sidang-ta/detail') }}/{{ $sidang_ta->id_mahasiswa }}"
                                                 class="btn btn-outline-secondary btn-xs m-1">Detail</a>

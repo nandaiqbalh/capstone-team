@@ -1,19 +1,19 @@
 @extends('tim_capstone.base.app')
 
 @section('title')
-    Broadcast
+    Pengumuman
 @endsection
 
 @section('content')
 
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Broadcast</h5>
+        <h5 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Admin /</span> Pengumuman</h5>
         <!-- notification -->
         @include('template.notification')
 
         <!-- Bordered Table -->
         <div class="card">
-            <h5 class="card-header">Data Broadcast</h5>
+            <h5 class="card-header">Data Pengumuman</h5>
 
             <div class="card-body">
                 <div class="row justify-content-end mb-2">
@@ -31,7 +31,7 @@
                         <thead class="thead-light">
                             <tr class="text-center">
                                 <th width="5%">No</th>
-                                <th>Judul Broadcast</th>
+                                <th>Judul Pengumuman</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th width="18%">Tindakan</th>

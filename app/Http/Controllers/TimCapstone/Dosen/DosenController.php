@@ -153,6 +153,7 @@ class DosenController extends BaseController
             "nomor_induk" => $request->nip,
             'role_id' =>  $request->role_id,
             'user_password' => Hash::make('dosen12345'),
+            "jenis_kelamin" => $request->jenis_kelamin,
             // "alamat" => $request->alamat,
             'created_by'   => Auth::user()->user_id,
             'created_date'  => date('Y-m-d H:i:s')
