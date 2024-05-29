@@ -103,12 +103,13 @@ class JadwalSidangTAController extends BaseController
        if (empty($mahasiswa)) {
            // flash message
            session()->flash('danger', 'Data tidak ditemukan.');
-           return redirect('/admin/pengujian-ta');
+           return redirect('/tim-capstone/pengujian-ta');
        }
 
        $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
        $mahasiswa -> status_dokumen_color = $this->getStatusColor($mahasiswa->file_status_c100);
        $mahasiswa -> status_sidang_color = $this->getStatusColor($mahasiswa->status_tugas_akhir);
+       $mahasiswa -> status_lta_color = $this->getStatusColor($mahasiswa->file_status_lta);
 
        $mahasiswa -> status_penguji1_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta1);
        $mahasiswa -> status_penguji2_color = $this->getStatusColor($mahasiswa->status_dosen_penguji_ta2);
@@ -137,20 +138,20 @@ class JadwalSidangTAController extends BaseController
         if ($dataMahasiswa != null) {
 
             $paramKelompokMhs = [
-                'status_tugas_akhir' => 'Lulus Sidang TA!',
-                'status_individu' => 'Lulus Sidang TA!',
+                'status_tugas_akhir' => 'Lulus Sidang TA',
+                'status_individu' => 'Lulus Sidang TA',
                 'is_selesai' => 1,
             ];
 
             JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
-            session()->flash('success', 'Data berhasil diperbaharui!');
-            return redirect('/admin/jadwal-sidang-ta');
+            session()->flash('success', 'Data berhasil diperbaharui');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
 
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 
@@ -163,19 +164,26 @@ class JadwalSidangTAController extends BaseController
         if ($dataMahasiswa != null) {
 
             $paramKelompokMhs = [
-                'status_tugas_akhir' => 'Gagal Sidang TA!',
-                'status_individu' => 'Gagal Sidang TA!',
+                'status_tugas_akhir' => 'Gagal Sidang TA',
+                'status_individu' => 'Gagal Sidang TA',
+                'is_mendaftar_sidang' => '0',
             ];
 
-            JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
 
-            session()->flash('success', 'Data berhasil diperbaharui!');
-            return redirect('/admin/jadwal-sidang-ta');
+            $update = JadwalSidangTAModel::updateKelompokMhs($dataMahasiswa -> id_mahasiswa, $paramKelompokMhs);
+
+            if ($update) {
+                session()->flash('success', 'Data berhasil diperbaharui');
+                return redirect('/tim-capstone/jadwal-sidang-ta');
+            } else {
+                session()->flash('danger', 'Data tidak ditemukan.');
+                return redirect('/tim-capstone/jadwal-sidang-ta');
+            }
 
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 
@@ -212,7 +220,7 @@ class JadwalSidangTAController extends BaseController
             // view
             return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
         } else {
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 
@@ -225,6 +233,7 @@ class JadwalSidangTAController extends BaseController
         if ($request->action == 'filter') {
             $rs_sidang = JadwalSidangTAModel::filterPeriodeKelompok($id_periode);
             $rs_periode = JadwalSidangTAModel::getPeriode();
+            $periode = JadwalSidangTAModel::getPeriodeById($id_periode);
 
             foreach ($rs_sidang as $sidang_ta) {
                 if ($sidang_ta != null) {
@@ -247,11 +256,12 @@ class JadwalSidangTAController extends BaseController
             $data = [
                 'rs_sidang' => $rs_sidang,
                 'rs_periode' => $rs_periode,
+                'periode' => $periode,
             ];
             // view
             return view('tim_capstone.sidang-ta.jadwal-sidang-ta.index', $data);
         } else {
-            return redirect('/admin/jadwal-sidang-ta');
+            return redirect('/tim-capstone/jadwal-sidang-ta');
         }
     }
 

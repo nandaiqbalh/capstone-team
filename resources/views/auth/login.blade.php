@@ -24,7 +24,6 @@
         <meta property="og:image" content="{{ asset('favicon.png') }}">
         <meta property="og:image:secure_url" content="{{ asset('favicon.png') }}">
         <meta http-equiv="refresh" content="120">
-        <link href="{{ asset('fav icon.png') }}" rel="icon">
         <link href="{{ asset('favicon.png') }}" rel="icon">
         <link
             href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"

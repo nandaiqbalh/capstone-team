@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Mahasiswa</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/sidang-ta') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -59,6 +59,17 @@
                                     <td>-</td>
                                 @else
                                     <td>{{ $mahasiswa->nomor_kelompok }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Status Laporan TA</td>
+                                <td>:</td>
+
+                                @if ($mahasiswa->file_status_lta == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $mahasiswa->status_lta_color }}">
+                                        {{ $mahasiswa->file_status_lta }}</td>
                                 @endif
                             </tr>
                             <tr>

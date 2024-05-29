@@ -26,7 +26,8 @@ class PengujianTAModel extends BaseModel
         ->leftJoin('app_user as u', 'a.id_mahasiswa', '=', 'u.user_id') // Join dengan tabel app_user
         ->where(function ($query) {
             $query->where('a.id_dosen_penguji_ta1', Auth::user()->user_id)
-                  ->orWhere('a.id_dosen_penguji_ta2', Auth::user()->user_id);
+                ->orWhere('a.id_dosen_penguji_ta2', Auth::user()->user_id)
+                  ->orWhere('d.id_dosen_pembimbing_1', Auth::user()->user_id);
         })
         ->orderBy('a.is_selesai', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
         ->orderBy('d.waktu')

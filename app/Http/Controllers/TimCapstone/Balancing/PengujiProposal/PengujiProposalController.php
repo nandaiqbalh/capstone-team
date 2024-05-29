@@ -33,19 +33,21 @@ class PengujiProposalController extends BaseController
         $id_siklus = $request->id_siklus;
 
         // new search or reset
-        if ($request->action == 'search') {
+        if ($request->action == 'filter') {
             $dt_dosen = PengujiProposalModel::getDataBalancingPengujiProposalFilterSiklus($id_siklus);
             $rs_siklus = PengujiProposalModel::getSiklusAktif();
+            $siklus = PengujiProposalModel::getSiklusById($id_siklus);
 
             // data
             $data = [
                 'dt_dosen' => $dt_dosen,
                 'rs_siklus' => $rs_siklus,
+                'siklus' => $siklus,
             ];
             // view
             return view('tim_capstone.dosen.balancing.penguji-proposal.index', $data);
         } else {
-            return redirect('/admin/balancing-penguji-proposal');
+            return redirect('/tim-capstone/balancing-penguji-proposal');
         }
     }
 
@@ -93,7 +95,7 @@ class PengujiProposalController extends BaseController
             // view
             return view('tim_capstone.dosen.balancing.penguji-proposal.index', $data);
         } else {
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
     }
 

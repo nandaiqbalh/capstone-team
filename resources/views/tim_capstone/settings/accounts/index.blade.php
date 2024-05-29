@@ -15,6 +15,19 @@
         <div class="card">
             <h5 class="card-header">Data Akun User</h5>
 
+            @if (session('failedRows'))
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <h6>Daftar Pengguna Gagal Diimpor:</h6>
+                        <ul>
+                            @foreach (session('failedRows') as $username)
+                                <li>{{ $username }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
@@ -39,7 +52,8 @@
 
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/settings/accounts/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                        <a href="{{ url('/admin/settings/accounts/add') }}" class="btn btn-info btn-sm float-right">
+                            Tambah
                             Data</a>
                     </div>
                 </div>

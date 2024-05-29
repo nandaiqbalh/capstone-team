@@ -15,12 +15,12 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penetapan-anggota') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/penetapan-anggota') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
-                <form action="{{ url('/admin/penetapan-anggota/add-process') }}" method="post" autocomplete="off">
+                <form action="{{ url('/tim-capstone/penetapan-anggota/add-process') }}" method="post" autocomplete="off">
                     {{ csrf_field() }}
                     <input type="hidden" name="id_siklus" value="{{ $rs_siklus->id }}">
 

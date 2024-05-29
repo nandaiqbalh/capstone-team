@@ -18,7 +18,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/balancing-dosbing-kelompok/search') }}"
+                        <form class="form-inline" action="{{ url('/tim-capstone/balancing-dosbing-kelompok/search') }}"
                             method="get" autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -38,23 +38,27 @@
                 </div>
                 <br>
                 <div class="row">
-                    <form action="{{ url('/admin/balancing-dosbing-kelompok/filter-siklus') }}" method="get"
+                    <form action="{{ url('/tim-capstone/balancing-dosbing-kelompok/filter-siklus') }}" method="get"
                         autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
                                     <select class="form-select select-2" name="id_siklus" required>
-                                        <option value="" disabled selected>-- Filter Berdasarkan Siklus --</option>
-                                        @foreach ($rs_siklus as $siklus)
-                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
+                                        <option value="" disabled selected> -- Filter Berdasarkan Siklus -- </option>
+                                        @foreach ($rs_siklus as $s)
+                                            <option value="{{ $s->id }}"
+                                                {{ isset($siklus) && $siklus->id == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_siklus }}
+                                            </option>
                                         @endforeach
                                     </select>
+
                                 </div>
                             </div>
                             <div class="col-md-4"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <button type="submit" class="btn btn-primary float-end" name="action"
-                                    value="search">Terapkan Filter</button>
+                                    value="filter">Terapkan Filter</button>
                             </div>
                         </div>
                     </form>
@@ -81,7 +85,7 @@
                                         <td>{{ $dosen->jumlah_kelompok_aktif_dibimbing }} kelompok</td>
                                         <td>{{ $dosen->jumlah_kelompok_tidak_aktif_dibimbing }} kelompok</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-dosbing-kelompok/detail') }}/{{ $dosen->user_id }}"
+                                            <a href="{{ url('/tim-capstone/balancing-dosbing-kelompok/detail') }}/{{ $dosen->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
 
                                         </td>

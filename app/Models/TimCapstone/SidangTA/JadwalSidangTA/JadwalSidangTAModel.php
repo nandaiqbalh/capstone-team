@@ -16,13 +16,14 @@ class JadwalSidangTAModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('jadwal_sidang_ta as a')
-            ->select('a.*', 'dp1.user_name as nama_dosen_penguji_1', 'dp2.user_name as nama_dosen_penguji_2', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
+            ->select('a.*', 'dp1.user_name as nama_dosen_penguji_1', 'dospem1.user_name as nama_dosen_pembimbing_1',  'dp2.user_name as nama_dosen_penguji_2', 'p.nama_periode', 'b.status_tugas_akhir', 'b.file_status_lta','c.nomor_kelompok', 'd.id as id_ruang', 'd.nama_ruang', 'u.user_name')
             ->join('ruang_sidangs as d', 'd.id', 'a.id_ruangan')
             ->join('kelompok as c','a.id_kelompok','c.id')
             ->join('kelompok_mhs as b','a.id_mahasiswa','b.id_mahasiswa')
             ->join('app_user as u','a.id_mahasiswa','u.user_id')
             ->leftjoin('app_user as dp1', 'a.id_dosen_penguji_ta1', 'dp1.user_id')
             ->leftjoin('app_user as dp2', 'a.id_dosen_penguji_ta2', 'dp2.user_id')
+            ->leftjoin('app_user as dospem1', 'a.id_dosen_pembimbing_1', 'dospem1.user_id')
             ->join('jadwal_periode_sidang_ta as p','a.id_periode','p.id')
             ->orderBy('b.is_selesai', 'asc') // Urutkan berdasarkan is_sidang_proposal dari 0 ke 1
             ->orderByRaw("CASE WHEN a.waktu >= NOW() THEN 0 ELSE 1 END, a.waktu ASC")
@@ -41,6 +42,14 @@ class JadwalSidangTAModel extends BaseModel
         return DB::table('jadwal_periode_sidang_ta')
             ->get();
     }
+
+    public static function getPeriodeById($id_periode)
+    {
+        return DB::table('jadwal_periode_sidang_ta')
+            ->where('id', $id_periode)
+            ->first();
+    }
+
     public static function getKelompok()
     {
         return DB::table('kelompok as a')

@@ -55,17 +55,28 @@ class MahasiswaTugasAkhirController extends BaseController
 
             $showButton = true;
 
-            if ($statusPendaftaran != null) {
-                $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
-                $latest_sidang = MahasiswaTugasAkhirModel::getLatestPeriode();
-
-                if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
-                    $showButton = true;
-                } else {
-                    $showButton = false;
-                }
-            } else {
+            if ($data_mahasiswa -> status_tugas_akhir == "Gagal Sidang TA") {
+                $showButton = true;
                 $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+
+                $jadwal_sidang = null;
+            } else {
+                if ($statusPendaftaran != null) {
+                    $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeSidangById($statusPendaftaran->id_periode);
+                    $latest_sidang = MahasiswaTugasAkhirModel::getLatestPeriode();
+
+                    if ($periodeAvailable ->id == $latest_sidang ->id && $periodeAvailable -> tanggal_selesai > now() ) {
+                        if ($data_mahasiswa-> status_tugas_akhir == "Lulus Sidang TA") {
+                            $showButton = false;
+                        } else {
+                            $showButton = true;
+                        }
+                    } else {
+                        $showButton = false;
+                    }
+                } else {
+                    $periodeAvailable = MahasiswaTugasAkhirModel::getPeriodeAvailable();
+                }
             }
 
             if ($jadwal_sidang == null ) {
@@ -162,8 +173,8 @@ class MahasiswaTugasAkhirController extends BaseController
 
          $kelompok = MahasiswaTugasAkhirModel::pengecekan_kelompok_mahasiswa(Auth::user()-> user_id);
 
-         if ($kelompok->status_expo != "Lulus Expo Project!") {
-             return redirect()->back()->with('danger', 'Anda harus lulus expo terlebih dahulu!');
+         if ($kelompok->status_expo != "Lulus Expo Project") {
+             return redirect()->back()->with('danger', 'Anda harus lulus expo terlebih dahulu');
          }
 
          // Cek apakah laporan TA sudah diunggah
@@ -176,19 +187,21 @@ class MahasiswaTugasAkhirController extends BaseController
             return redirect()->back()->with('danger', 'Lengkapi terlebih dahulu makalah TA sebelum mendaftar sidang Tugas Akhir.');
         }
 
-        if ($existingFile->file_status_lta != "Laporan TA Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing!');
+        $statusesAllowed = ["Laporan TA Telah Disetujui", "Final Laporan TA Telah Disetujui"];
+
+        if (!in_array($existingFile->file_status_lta, $statusesAllowed)) {
+            return redirect()->back()->with('danger', 'Laporan TA belum disetujui kedua dosen pembimbing');
         }
 
-        if ($existingFile->file_status_mta != "Makalah TA Telah Disetujui!") {
-            return redirect()->back()->with('danger', 'Makalah TA belum disetujui kedua dosen pembimbing!');
+        if ($existingFile->file_status_mta != "Makalah TA Telah Disetujui") {
+            return redirect()->back()->with('danger', 'Makalah TA belum disetujui kedua dosen pembimbing');
         }
 
          // Registration parameters
          $registrationParams = [
              'id_mahasiswa' => $user->user_id,
              'id_periode' => $periodeAvailable->id,
-             'status' => 'Menunggu Persetujuan Berkas TA!',
+             'status' => 'Menunggu Persetujuan Pendaftaran Sidang',
              'created_by' => $user->user_id,
              'created_date' => now(), // Gunakan fungsi helper Laravel untuk tanggal dan waktu saat ini
          ];
@@ -203,17 +216,17 @@ class MahasiswaTugasAkhirController extends BaseController
                  'link_upload' => $validatedData['link_upload'],
                  'judul_ta_mhs' => $validatedData['judul_ta_mhs'],
                  'is_mendaftar_sidang' => '1',
-                 'status_individu' => 'Menunggu Persetujuan Berkas TA!',
-                 'status_tugas_akhir' => 'Menunggu Persetujuan Berkas TA!',
+                 'status_individu' => 'Menunggu Persetujuan Pendaftaran Sidang',
+                 'status_tugas_akhir' => 'Menunggu Persetujuan Pendaftaran Sidang',
              ];
 
              if (MahasiswaTugasAkhirModel::updateKelompokMHS($user->user_id, $berkasParams)) {
-                 return redirect()->back()->with('success', 'Berhasil mendaftarkan sidang Tugas Akhir!');
+                 return redirect()->back()->with('success', 'Berhasil mendaftarkan sidang Tugas Akhir');
              } else {
-                 return redirect()->back()->with('danger', 'Gagal memperbarui data pendaftaran!');
+                 return redirect()->back()->with('danger', 'Gagal memperbarui data pendaftaran');
              }
          } else {
-             return redirect()->back()->with('danger', 'Gagal mendaftarkan sidang Tugas Akhir!');
+             return redirect()->back()->with('danger', 'Gagal mendaftarkan sidang Tugas Akhir');
          }
      }
 }

@@ -52,22 +52,43 @@ class PersetujuanC100Controller extends BaseController
         $jenis_dosen = ""; // Move the declaration outside the loop
 
         foreach ($rs_persetujuan_100 as $persetujuan_c100) {
+
+            $isKelompokSidang = PersetujuanC100Model::isKelompokSidang($persetujuan_c100 ->id);
             if ($persetujuan_c100->id == $id) {
                 if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 1';
-                    $params = [
-                        'status_dosen_pembimbing_1' => 'C100 Tidak Disetujui Dosbing 1!',
-                        'file_status_c100_dosbing1' => 'C100 Tidak Disetujui Dosbing 1!',
-                        'file_status_c100' => 'C100 Tidak Disetujui Dosbing 1!',
-                    ];
+
+                    if ($isKelompokSidang != null) {
+                        $params = [
+                            'status_dosen_pembimbing_1' => 'Final C100 Tidak Disetujui Dosbing 1',
+                            'file_status_c100_dosbing1' => 'Final C100 Tidak Disetujui Dosbing 1',
+                            'file_status_c100' => 'Final C100 Tidak Disetujui Dosbing 1',
+                        ];
+                    } else {
+                        $params = [
+                            'status_dosen_pembimbing_1' => 'C100 Tidak Disetujui Dosbing 1',
+                            'file_status_c100_dosbing1' => 'C100 Tidak Disetujui Dosbing 1',
+                            'file_status_c100' => 'C100 Tidak Disetujui Dosbing 1',
+                        ];
+                    }
+
                     break;
                 } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
                     $jenis_dosen = 'Pembimbing 2';
-                    $params = [
-                        'status_dosen_pembimbing_2' => 'C100 Tidak Disetujui Dosbing 2!',
-                        'file_status_c100_dosbing2' => 'C100 Tidak Disetujui Dosbing 2!',
-                        'file_status_c100' => 'C100 Tidak Disetujui Dosbing 2!',
-                    ];
+                    if ($isKelompokSidang != null) {
+                        $params = [
+                            'status_dosen_pembimbing_2' => 'Final C100 Tidak Disetujui Dosbing 2',
+                            'file_status_c100_dosbing2' => 'Final C100 Tidak Disetujui Dosbing 2',
+                            'file_status_c100' => 'Final C100 Tidak Disetujui Dosbing 2',
+                        ];
+                    } else {
+                        $params = [
+                            'status_dosen_pembimbing_2' => 'C100 Tidak Disetujui Dosbing 2',
+                            'file_status_c100_dosbing2' => 'C100 Tidak Disetujui Dosbing 2',
+                            'file_status_c100' => 'C100 Tidak Disetujui Dosbing 2',
+                        ];
+                    }
+
                     break;
                 }
             }
@@ -86,33 +107,68 @@ class PersetujuanC100Controller extends BaseController
             $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
             if ($persetujuan_c100_updated->id == $id) {
-                if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Tidak Disetujui Dosbing 1!" &&
-                     $persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Tidak Disetujui Dosbing 2!") {
+
+                // ketika sesudah sidang
+
+                if ($isKelompokSidang != null) {
+                    if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "Final C100 Tidak Disetujui Dosbing 1" &&
+                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "Final C100 Tidak Disetujui Dosbing 2") {
+
+                    $paramsUpdated = [
+                        'status_kelompok' => 'Final C100 Tidak Disetujui',
+                    ];
+                    // Update status kelompok
+                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "Final C100 Tidak Disetujui Dosbing 1" ) {
 
                         $paramsUpdated = [
-                            'status_kelompok' => 'C100 Tidak Disetujui!',
+                            'status_kelompok' => 'Final C100 Tidak Disetujui Dosbing 1',
                         ];
                         // Update status kelompok
                         PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-                } else if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Tidak Disetujui Dosbing 1!" ) {
-
+                } else if ($persetujuan_c100_updated->file_status_c100_dosbing2 == "Final C100 Tidak Disetujui Dosbing 2" ) {
                         $paramsUpdated = [
-                            'status_kelompok' => 'C100 Tidak Disetujui Dosbing 1!',
-                        ];
-                        // Update status kelompok
-                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-                } else if ($persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Tidak Disetujui Dosbing 2!" ) {
-                        $paramsUpdated = [
-                            'status_kelompok' => 'C100 Tidak Disetujui Dosbing 2!',
+                            'status_kelompok' => 'Final C100 Tidak Disetujui Dosbing 2',
                         ];
                         // Update status kelompok
                         PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 } else {
                         $paramsUpdated = [
-                            'status_kelompok' => 'Menunggu Persetujuan Penguji!',
+                            'status_kelompok' => 'Menunggu Persetujuan Final C100',
                         ];
                         PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
                 }
+            } else {
+                // ketika sebelum sidang
+                if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Tidak Disetujui Dosbing 1" &&
+                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Tidak Disetujui Dosbing 2") {
+
+                    $paramsUpdated = [
+                        'status_kelompok' => 'C100 Tidak Disetujui',
+                    ];
+                    // Update status kelompok
+                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Tidak Disetujui Dosbing 1" ) {
+
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C100 Tidak Disetujui Dosbing 1',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                } else if ($persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Tidak Disetujui Dosbing 2" ) {
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C100 Tidak Disetujui Dosbing 2',
+                        ];
+                        // Update status kelompok
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                } else {
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Menunggu Persetujuan Final C100',
+                        ];
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                }
+            }
+
             }
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
@@ -131,18 +187,36 @@ class PersetujuanC100Controller extends BaseController
         $params = [];
 
         foreach ($rs_persetujuan_100 as $persetujuan_c100) {
+            $isKelompokSidang = PersetujuanC100Model::isKelompokSidang($persetujuan_c100 ->id);
+
             if ($persetujuan_c100->id == $id) {
                 if ($persetujuan_c100->id_dosen_pembimbing_1 == Auth::user()->user_id) {
-                    $params = [
-                        'status_dosen_pembimbing_1' => 'C100 Telah Disetujui!',
-                        'file_status_c100_dosbing1' => 'C100 Telah Disetujui!'
-                    ];
+                    if ($isKelompokSidang != null) {
+                        $params = [
+                            'status_dosen_pembimbing_1' => 'Final C100 Telah Disetujui',
+                            'file_status_c100_dosbing1' => 'Final C100 Telah Disetujui'
+                        ];
+                    } else {
+                        $params = [
+                            'status_dosen_pembimbing_1' => 'C100 Telah Disetujui',
+                            'file_status_c100_dosbing1' => 'C100 Telah Disetujui'
+                        ];
+                    }
+
                     break;
                 } else if ($persetujuan_c100->id_dosen_pembimbing_2 == Auth::user()->user_id) {
-                    $params = [
-                        'status_dosen_pembimbing_2' => 'C100 Telah Disetujui!',
-                        'file_status_c100_dosbing2' => 'C100 Telah Disetujui!'
-                    ];
+
+                    if ($isKelompokSidang != null) {
+                        $params = [
+                            'status_dosen_pembimbing_2' => 'Final C100 Telah Disetujui',
+                            'file_status_c100_dosbing2' => 'Final C100 Telah Disetujui'
+                        ];
+                    } else {
+                        $params = [
+                            'status_dosen_pembimbing_2' => 'C100 Telah Disetujui',
+                            'file_status_c100_dosbing2' => 'C100 Telah Disetujui'
+                        ];
+                    }
 
                     break;
                 }
@@ -161,49 +235,96 @@ class PersetujuanC100Controller extends BaseController
             $persetujuan_c100_updated = PersetujuanC100Model::getDataById($id);
 
             if ($persetujuan_c100_updated->id == $id) {
-                if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Telah Disetujui!" &&
-                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Telah Disetujui!" ) {
+
+                if ($isKelompokSidang != null) {
+
+                    // ketika sudah sidang
+                    if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "Final C100 Telah Disetujui" &&
+                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "Final C100 Telah Disetujui" ) {
 
                         if ($persetujuan_c100_updated->status_sidang_proposal != null) {
                             $paramsUpdated = [
-                                'status_kelompok' => 'C100 Telah Disetujui!',
-                                'file_status_c100'=> "C100 Telah Disetujui!",
+                                'status_kelompok' => 'Final C100 Telah Disetujui',
+                                'file_status_c100'=> "Final C100 Telah Disetujui",
                             ];
                         } else{
                             $paramsUpdated = [
-                                'status_kelompok' => 'C100 Telah Disetujui!',
-                                'status_sidang_proposal'=> "Menunggu Dijadwalkan Sidang!",
-                                'file_status_c100'=> "C100 Telah Disetujui!",
+                                'status_kelompok' => 'Final C100 Telah Disetujui',
+                                'status_sidang_proposal'=> "Menunggu Dijadwalkan Sidang",
+                                'file_status_c100'=> "Final C100 Telah Disetujui",
                             ];
                         }
-
-
                     // Update status kelompok
-                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Telah Disetujui!"){
-                    $paramsUpdated = [
-                        'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 2!',
-                        'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 2!",
-                    ];
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    } elseif($persetujuan_c100_updated->file_status_c100_dosbing1 == "Final C100 Telah Disetujui"){
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Final C100 Menunggu Persetujuan Dosbing 2',
+                            'file_status_c100'=> "Final C100 Menunggu Persetujuan Dosbing 2",
+                        ];
 
-                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
-                } elseif($persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Telah Disetujui!"){
-                    $paramsUpdated = [
-                        'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 1!',
-                        'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 1!",
-                    ];
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    } elseif($persetujuan_c100_updated->file_status_c100_dosbing2 == "Final C100 Telah Disetujui"){
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Final C100 Menunggu Persetujuan Dosbing 1',
+                            'file_status_c100'=> "Final C100 Menunggu Persetujuan Dosbing 1",
+                        ];
 
-                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    } else {
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Menunggu Persetujuan Final C100',
+                            'file_status_c100'=> "Menunggu Persetujuan Final C100",
+                        ];
+
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+
+                    }
+
                 } else {
-                    $paramsUpdated = [
-                        'status_kelompok' => 'Menunggu Persetujuan C100!',
-                        'file_status_c100'=> "Menunggu Persetujuan C100!",
-                    ];
+                    // ketika belum sidang
 
-                    PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    if ($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Telah Disetujui" &&
+                    $persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Telah Disetujui" ) {
+
+                        if ($persetujuan_c100_updated->status_sidang_proposal != null) {
+                            $paramsUpdated = [
+                                'status_kelompok' => 'C100 Telah Disetujui',
+                                'file_status_c100'=> "C100 Telah Disetujui",
+                            ];
+                        } else{
+                            $paramsUpdated = [
+                                'status_kelompok' => 'C100 Telah Disetujui',
+                                'status_sidang_proposal'=> "Menunggu Dijadwalkan Sidang",
+                                'file_status_c100'=> "C100 Telah Disetujui",
+                            ];
+                        }
+                        // Update status kelompok
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    } elseif($persetujuan_c100_updated->file_status_c100_dosbing1 == "C100 Telah Disetujui"){
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 2',
+                            'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 2",
+                        ];
+
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    } elseif($persetujuan_c100_updated->file_status_c100_dosbing2 == "C100 Telah Disetujui"){
+                        $paramsUpdated = [
+                            'status_kelompok' => 'C100 Menunggu Persetujuan Dosbing 1',
+                            'file_status_c100'=> "C100 Menunggu Persetujuan Dosbing 1",
+                        ];
+
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+                    } else {
+                        $paramsUpdated = [
+                            'status_kelompok' => 'Menunggu Persetujuan C100',
+                            'file_status_c100'=> "Menunggu Persetujuan C100",
+                        ];
+
+                        PersetujuanC100Model::updateKelompok($id, $paramsUpdated);
+
+                    }
 
                 }
-
             }
 
 

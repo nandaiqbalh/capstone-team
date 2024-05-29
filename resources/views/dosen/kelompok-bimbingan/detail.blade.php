@@ -60,7 +60,26 @@
                                         {{ $kelompok->status_kelompok }}</td>
                                 @endif
                             </tr>
-
+                            <tr>
+                                <td>Status Sidang Proposal</td>
+                                <td>:</td>
+                                @if ($kelompok->status_sidang_proposal == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_sempro_color }}">
+                                        {{ $kelompok->status_sidang_proposal }}</td>
+                                @endif
+                            </tr>
+                            <tr>
+                                <td>Status Expo Project</td>
+                                <td>:</td>
+                                @if ($kelompok->status_expo == null)
+                                    <td>-</td>
+                                @else
+                                    <td style="color: {{ $kelompok->status_expo_color }}">
+                                        {{ $kelompok->status_expo }}</td>
+                                @endif
+                            </tr>
                             <tr>
                                 <td>Judul Capstone</td>
                                 <td>:</td>

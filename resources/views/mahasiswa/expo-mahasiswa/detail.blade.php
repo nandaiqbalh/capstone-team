@@ -60,7 +60,7 @@
                                             <td>Status</td>
                                             <td>:</td>
                                             <td style="color: {{ $kelompok->status_expo_color }}">
-                                                {{ $kelompok->status_expo ?: 'Belum Mendaftar Expo Project!' }}</td>
+                                                {{ $kelompok->status_expo ?: 'Belum Mendaftar Expo Project' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Siklus</td>

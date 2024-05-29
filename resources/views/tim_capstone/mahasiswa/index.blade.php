@@ -18,12 +18,13 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/mahasiswa/search') }}" method="get"
+                        <form class="form-inline" action="{{ url('/tim-capstone/mahasiswa/search') }}" method="get"
                             autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
-                                    <input class="form-control mr-sm-2" type="search" name="nama"
-                                        value="{{ !empty($nama) ? $nama : '' }}" placeholder="Nama" minlength="1" required>
+                                    <input class="form-control mr-sm-2" type="search" name="user_name"
+                                        value="{{ !empty($user_name) ? $user_name : '' }}" placeholder="Nama" minlength="1"
+                                        required>
                                 </div>
                                 <div class="col-auto mt-1">
                                     <button class="btn btn-outline-secondary ml-1" type="submit" name="action"
@@ -39,7 +40,8 @@
                 <br>
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/mahasiswa/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
+                        <a href="{{ url('/tim-capstone/mahasiswa/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                            Data</a>
                     </div>
                 </div>
 
@@ -63,9 +65,9 @@
                                         <td>{{ $mahasiswa->nomor_induk }}</td>
                                         <td>{{ $mahasiswa->role_name }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
+                                            <a href="{{ url('/tim-capstone/mahasiswa/detail') }}/{{ $mahasiswa->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/mahasiswa/edit') }}/{{ $mahasiswa->user_id }}"
+                                            <a href="{{ url('/tim-capstone/mahasiswa/edit') }}/{{ $mahasiswa->user_id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $mahasiswa->user_id }}', '{{ $mahasiswa->user_name }}')">Hapus</button>
@@ -108,7 +110,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redirect to the delete URL if confirmed
-                    window.location.href = "{{ url('/admin/mahasiswa/delete-process') }}/" + userId;
+                    window.location.href = "{{ url('/tim-capstone/mahasiswa/delete-process') }}/" + userId;
                 }
             });
         }

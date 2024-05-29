@@ -139,4 +139,10 @@ class ExpoProjectModel extends BaseModel
         return DB::table('kelompok as a')
             ->where('a.id', $id)->first();
     }
+
+    public static function deleteKelompokPendaftarExpo($id_kelompok)
+    {
+        return DB::table('pendaftaran_expo')->where('id_kelompok', $id_kelompok)->delete();
+    }
+
 }

@@ -15,15 +15,15 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Siklus</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/siklus') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/siklus') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/siklus/add-process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/tim-capstone/siklus/add-process') }}" method="post" autocomplete="off">
                 <div class="card-body">
                     {{ csrf_field() }}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Nama Siklus<span class="text-danger">*</span></label>
                                 <select class="form-select" name="nama_siklus" required>
@@ -34,14 +34,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Kode Siklus<span class="text-danger">*</span></label>
                                 <input placeholder="Contoh: S2T24" type="text" class="form-control" name="kode_siklus"
                                     id="kode_siklus_input" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Status <span class="text-danger">*</span></label>
                                 <select class="form-select" name="status" required>
@@ -52,25 +52,28 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
-                                <input placeholder="Atur waktu" id="pendaftaran_mulai" type="text" class="form-control"
-                                    name="pendaftaran_mulai" required>
+                                <input style="background-color: transparent;" placeholder="Atur waktu"
+                                    id="pendaftaran_mulai" type="text" class="form-control" name="pendaftaran_mulai"
+                                    required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Pendaftaran Selesai<span class="text-danger">*</span></label>
-                                <input placeholder="Atur waktu" id="pendaftaran_selesai" type="text" class="form-control"
-                                    name="pendaftaran_selesai" required>
+                                <input style="background-color: transparent;" placeholder="Atur waktu"
+                                    id="pendaftaran_selesai" type="text" class="form-control" name="pendaftaran_selesai"
+                                    required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Batas Submit C100<span class="text-danger">*</span></label>
-                                <input placeholder="Atur waktu" id="batas_submit_c100" type="text" class="form-control"
-                                    name="batas_submit_c100" required>
+                                <input style="background-color: transparent;" placeholder="Atur waktu"
+                                    id="batas_submit_c100" type="text" class="form-control" name="batas_submit_c100"
+                                    required>
                             </div>
                         </div>
                     </div>

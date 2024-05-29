@@ -206,7 +206,6 @@ class MahasiswaTugasAkhirModel extends BaseModel
       {
           return DB::table('kelompok_mhs as a')
               ->select('a.*')
-              ->join('siklus as b','a.id_siklus','b.id')
               ->where('a.id_mahasiswa',Auth::user()->user_id)
               ->first();
       }

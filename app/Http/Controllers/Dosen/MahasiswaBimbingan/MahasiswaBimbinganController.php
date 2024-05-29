@@ -55,7 +55,7 @@ class MahasiswaBimbinganController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
         $rs_peminatan = MahasiswaBimbinganModel::peminatanMahasiswa($user_id);
 
@@ -125,7 +125,7 @@ class MahasiswaBimbinganController extends BaseController
         $status = $request->status;
 
         // new search or reset
-        if ($request->action == 'search') {
+        if ($request->action == 'filter') {
             // get data with pagination
             $rs_bimbingan_saya = MahasiswaBimbinganModel::getMahasiswaBimbinganStatus($status);
             foreach ($rs_bimbingan_saya as $bimbingan) {

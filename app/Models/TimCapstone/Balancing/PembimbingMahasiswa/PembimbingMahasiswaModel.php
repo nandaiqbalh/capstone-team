@@ -109,4 +109,11 @@ class PembimbingMahasiswaModel extends BaseModel
             ->where('a.user_id', $user_id)
             ->first();
     }
+
+    public static function getSiklusById($id_siklus)
+    {
+        return DB::table('siklus')
+        ->where('id', $id_siklus)
+        ->first();
+    }
 }

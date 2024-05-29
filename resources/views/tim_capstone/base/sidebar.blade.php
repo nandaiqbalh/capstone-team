@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo mt-2" style="justify-content:center;">
-        <a href="{{ url('/') }}" class="app-brand-link mt-4">
+        <a href="#" class="app-brand-link mt-4">
             <div class="row">
                 <div class="col-12 mb-3" style="text-align: center">
                     <img src="{{ asset('img/logo.png') }}" alt="logo" class="img-fluid " style="max-width: 25%;">

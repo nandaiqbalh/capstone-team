@@ -17,7 +17,8 @@
             <div class="card-body">
                 <div class="row justify-content-end mb-2">
                     <div class="col-auto ">
-                        <a href="{{ url('/admin/ruangan/add') }}" class="btn btn-info btn-sm float-right"> Tambah Data</a>
+                        <a href="{{ url('/tim-capstone/ruangan/add') }}" class="btn btn-info btn-sm float-right"> Tambah
+                            Data</a>
                     </div>
                 </div>
 
@@ -39,7 +40,7 @@
                                         <td>{{ $ruangan->nama_ruang }}</td>
                                         <td>{{ $ruangan->kode_ruang }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/ruangan/edit') }}/{{ $ruangan->id }}"
+                                            <a href="{{ url('/tim-capstone/ruangan/edit') }}/{{ $ruangan->id }}"
                                                 class="btn btn-outline-warning btn-xs m-1 "> Ubah</a>
                                             <button class="btn btn-outline-danger btn-xs m-1"
                                                 onclick="confirmDelete('{{ $ruangan->id }}', '{{ $ruangan->nama_ruang }}')">Hapus</button>
@@ -57,7 +58,7 @@
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
                                                             // Redirect to the delete URL if confirmed
-                                                            window.location.href = "{{ url('/admin/ruangan/delete-process') }}/" + topikId;
+                                                            window.location.href = "{{ url('/tim-capstone/ruangan/delete-process') }}/" + topikId;
                                                         }
                                                     });
                                                 }

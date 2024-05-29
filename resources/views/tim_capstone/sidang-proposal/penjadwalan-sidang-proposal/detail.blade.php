@@ -15,8 +15,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penjadwalan-sidang-proposal') }}" class="btn btn-danger btn-sm float-right"><i
-                            class="fas fa-chevron-left"></i> Kembali</a>
+                    <a href="{{ url('/tim-capstone/penjadwalan-sidang-proposal') }}"
+                        class="btn btn-danger btn-sm float-right"><i class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">
@@ -176,7 +176,7 @@
                                             <td>-</td>
                                         @endif
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/penjadwalan-sidang-proposal/delete-dosen-penguji') }}/{{ $penguji_proposal->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $penguji_proposal->user_name }} ?')">
                                                 Hapus</a>
@@ -196,7 +196,7 @@
                 <br>
                 <h6 class="mb-0">Penjadwalan Sidang Proposal</h6>
                 <hr>
-                <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
+                <form action="{{ url('/tim-capstone/penjadwalan-sidang-proposal/add-jadwal-process') }}" method="post"
                     autocomplete="off">
                     {{ csrf_field() }}
                     <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
@@ -214,7 +214,8 @@
                                     <input placeholder="Atur waktu" id="waktu" type="text" class="form-control"
                                         name="waktu" required>
                                 @else
-                                    <input value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
+                                    <input style="background-color: transparent;"
+                                        value="{{ $jadwal_sidang->waktu ? $jadwal_sidang->waktu : '' }}"
                                         placeholder="Atur waktu" id="waktu" type="text" class="form-control"
                                         name="waktu" required>
                                 @endif
@@ -228,7 +229,8 @@
                                     <input placeholder="Atur waktu" id="waktu_selesai" type="text" class="form-control"
                                         name="waktu_selesai" required>
                                 @else
-                                    <input value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
+                                    <input style="background-color: transparent;"
+                                        value="{{ $jadwal_sidang->waktu_selesai ? $jadwal_sidang->waktu_selesai : '' }}"
                                         placeholder="Atur waktu" id="waktu_selesai" type="date" class="form-control"
                                         name="waktu_selesai" required>
                                 @endif
@@ -365,8 +367,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-dosen-penguji') }}" method="get"
-                        autocomplete="off" id="dosbingForm">
+                    <form action="{{ url('/tim-capstone/penjadwalan-sidang-proposal/add-dosen-penguji') }}"
+                        method="get" autocomplete="off" id="dosbingForm">
                         <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
                         <select class="form-select" name="status_dosen" required id="statusSelect">
                             <option value="" disabled selected>-- Pilih Posisi--</option>

@@ -163,11 +163,11 @@ class DosenController extends BaseController
         if ($insert_dosen) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/dosen/add')->withInput();
+            return redirect('/tim-capstone/dosen/add')->withInput();
         }
     }
 
@@ -187,7 +187,7 @@ class DosenController extends BaseController
         if (empty($dosen)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
 
         // data
@@ -207,7 +207,7 @@ class DosenController extends BaseController
         if (empty($dosen)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
 
         // data
@@ -224,7 +224,6 @@ class DosenController extends BaseController
         $rules = [
             'nama' => 'required',
             "nip" => 'required' ,
-            // "alamat" => 'required',
         ];
         $this->validate($request, $rules);
 
@@ -233,7 +232,7 @@ class DosenController extends BaseController
             'user_name' => $request->nama,
             "nomor_induk" => $request->nip,
             'role_id' =>  $request->role,
-            // "alamat" => $request->alamat,
+            "user_email" => $request->user_email,
             'modified_by'   => Auth::user()->user_id,
             'modified_date'  => date('Y-m-d H:i:s')
         ];
@@ -243,11 +242,11 @@ class DosenController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/dosen/edit/' . $request->user_id);
+            return redirect('/tim-capstone/dosen/edit/' . $request->user_id);
         }
     }
 
@@ -262,16 +261,16 @@ class DosenController extends BaseController
             if (DosenModel::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/dosen');
+                return redirect('/tim-capstone/dosen');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/dosen');
+                return redirect('/tim-capstone/dosen');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/settings/contoh-halaman');
+            return redirect('/tim-capstone/dosen');
         }
     }
 
@@ -290,7 +289,7 @@ class DosenController extends BaseController
             // view
             return view('tim_capstone.dosen.index', $data);
         } else {
-            return redirect('/admin/dosen');
+            return redirect('/tim-capstone/dosen');
         }
     }
 }

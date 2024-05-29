@@ -44,19 +44,20 @@
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
-                                    <select class="form-select" name="status" id="status" required>
+                                    <select class="form-select select-2" name="status" required>
                                         <option value="" disabled selected>-- Filter Status --</option>
-                                        <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Belum Lulus
-                                            Capstone</option>
-                                        <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Sudah Lulus
-                                            Capstone</option>
+                                        <option value="0" {{ isset($status) && $status == '0' ? 'selected' : '' }}>
+                                            Belum Lulus</option>
+                                        <option value="1" {{ isset($status) && $status == '1' ? 'selected' : '' }}>
+                                            Sudah Lulus</option>
                                     </select>
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3"><!-- Menyesuaikan dengan lebar yang diinginkan -->
                                     <button type="submit" class="btn btn-primary float-end" name="action"
-                                        value="search">Terapkan Filter</button>
+                                        value="filter">Terapkan Filter</button>
                                 </div>
 
                             </div>
@@ -105,18 +106,18 @@
                                         </td>
 
                                         <td class="text-center">
-                                            @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui!')
-                                            @elseif ($kelompok->status_dosen == 'Dosbing Setuju!' || $kelompok->status_dosen == 'Dosbing Diplot Tim Capstone!')
+                                            @if ($kelompok->status_kelompok == 'Kelompok Telah Disetujui')
+                                            @elseif ($kelompok->status_dosen == 'Dosbing Setuju' || $kelompok->status_dosen == 'Dosbing Diplot Tim Capstone')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-danger btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/tolak') }}/{{ $kelompok->id }}')">
                                                     Tolak</a>
-                                            @elseif($kelompok->status_dosen == 'Dosbing Tidak Setuju!')
+                                            @elseif($kelompok->status_dosen == 'Dosbing Tidak Setuju')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
                                                     Terima</a>
-                                            @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing!')
+                                            @elseif($kelompok->status_dosen == 'Menunggu Persetujuan Dosbing')
                                                 <a href="{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-success btn-xs m-1"
                                                     onclick="event.preventDefault(); swalConfirm('{{ $kelompok->nomor_kelompok }}', '{{ url('/dosen/kelompok-bimbingan/terima') }}/{{ $kelompok->id }}')">
@@ -140,7 +141,7 @@
                                                     showCancelButton: true,
                                                     confirmButtonColor: '#3085d6',
                                                     cancelButtonColor: '#d33',
-                                                    confirmButtonText: 'Ya, Lanjutkan!',
+                                                    confirmButtonText: 'Ya, Lanjutkan',
                                                     cancelButtonText: 'Batal'
                                                 }).then((result) => {
                                                     if (result.isConfirmed) {

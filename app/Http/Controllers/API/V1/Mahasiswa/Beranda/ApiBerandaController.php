@@ -24,10 +24,10 @@ class ApiBerandaController extends Controller
 
                     // sidang proposal
                     $rsSidang = ApiBerandaModel::sidangProposalByKelompok($kelompok->id);
-                    if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal!") {
-                        $sidang_proposal = "Lulus Sidang Proposal!";
+                    if ($kelompok -> status_sidang_proposal == "Lulus Sidang Proposal") {
+                        $sidang_proposal = "Lulus Sidang Proposal";
                     } else if($kelompok -> status_sidang_proposal == null){
-                        $sidang_proposal = "Belum ada jadwal sidang!";
+                        $sidang_proposal = "Belum ada jadwal sidang";
                     } else if ($rsSidang != null) {
                         $waktuSidang = strtotime($rsSidang->waktu);
 
@@ -49,10 +49,10 @@ class ApiBerandaController extends Controller
                     }
 
                     // expo
-                    if ($kelompok -> status_expo == "Lulus Expo Project!") {
-                        $expo = "Lulus Expo Project!";
+                    if ($kelompok -> status_expo == "Lulus Expo Project") {
+                        $expo = "Lulus Expo Project";
                     } else if($kelompok -> status_expo == null){
-                        $expo = "Belum mendaftar Expo!";
+                        $expo = "Belum mendaftar Expo";
                     } else {
                         $expo = $kelompok -> status_expo;
                     }
@@ -62,8 +62,8 @@ class ApiBerandaController extends Controller
                     $kelompok_mhs = ApiBerandaModel::checkKelompokMhs($user->user_id);
                     $sidang_ta = ApiBerandaModel::sidangTugasAkhirByMahasiswa($user->user_id);
 
-                    if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA!") {
-                        $sidang_ta = "Lulus Sidang TA!";
+                    if ($kelompok_mhs -> status_tugas_akhir == "Lulus Sidang TA") {
+                        $sidang_ta = "Lulus Sidang TA";
                     } else if ($sidang_ta != null) {
                         $waktuSidang = strtotime($sidang_ta->waktu);
 
@@ -85,10 +85,10 @@ class ApiBerandaController extends Controller
                         if ($kelompok_mhs->status_tugas_akhir != null) {
                             $sidang_ta = $kelompok_mhs->status_tugas_akhir;
                         } else {
-                            if ($kelompok -> status_expo == "Lulus Expo Project!") {
-                                $sidang_ta = "Belum menyelesaikan capstone!";
+                            if ($kelompok -> status_expo == "Lulus Expo Project") {
+                                $sidang_ta = "Belum menyelesaikan capstone";
                             } else {
-                                $sidang_ta = "Belum Mendaftar Sidang TA!";
+                                $sidang_ta = "Belum Mendaftar Sidang TA";
                             }
                         }
                     }
@@ -105,17 +105,17 @@ class ApiBerandaController extends Controller
 
                     if ($kelompok != null && $kelompok -> nomor_kelompok == null) {
                         $data = [
-                            'sidang_proposal' => "Kelompok Anda belum valid!",
-                            'expo' => "Kelompok Anda belum valid!",
-                            'sidang_ta' => "Anda belum menyelesaikan capstone!"
+                            'sidang_proposal' => "Kelompok Anda belum valid",
+                            'expo' => "Kelompok Anda belum valid",
+                            'sidang_ta' => "Anda belum menyelesaikan capstone"
                         ];
 
                         $response = $this->successResponse('Berhasil!', $data);
                     } else {
                         $data = [
-                            'sidang_proposal' => "Anda belum mendaftar capstone!",
-                            'expo' => "Anda belum mendaftar capstone!",
-                            'sidang_ta' => "Anda belum menyelesaikan capstone!"
+                            'sidang_proposal' => "Anda belum mendaftar capstone",
+                            'expo' => "Anda belum mendaftar capstone",
+                            'sidang_ta' => "Anda belum menyelesaikan capstone"
                         ];
                         $response = $this->successResponse('Berhasil!', $data);
                     }

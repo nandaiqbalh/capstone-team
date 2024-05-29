@@ -64,6 +64,25 @@ class PersetujuanC100Model extends BaseModel
             ->where('user_id', $user_id)->first();
     }
 
+    public static function isKelompokSidang($id_kelompok)
+{
+    $jadwal_sidang = DB::table('jadwal_sidang_proposal as a')
+                        ->select('a.*')
+                        ->join('kelompok as b', 'a.id_kelompok', 'b.id')
+                        ->where('b.id', $id_kelompok)
+                        ->first();
+
+    if ($jadwal_sidang) {
+        // Jika waktu pada tabel telah lewat waktu sekarang
+        return now()->gt($jadwal_sidang->waktu);
+    }
+
+    // Jika tidak ada jadwal sidang ditemukan untuk kelompok tersebut
+    return false;
+}
+
+
+
     public static function peminatanMahasiswa()
     {
         return DB::table('peminatan')

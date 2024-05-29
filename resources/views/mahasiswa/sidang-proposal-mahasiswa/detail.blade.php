@@ -55,7 +55,7 @@
                         <br>
                         <h6>Belum ada jadwal sidang!</h6>
                     @else
-                        @if ($akun_mahasiswa->status_individu == 'Didaftarkan!')
+                        @if ($akun_mahasiswa->status_individu == 'Didaftarkan')
 
                             <div>
                                 <script>

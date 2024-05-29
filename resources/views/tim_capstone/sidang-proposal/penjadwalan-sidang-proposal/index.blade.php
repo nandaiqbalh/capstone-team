@@ -17,7 +17,7 @@
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ url('/admin/penjadwalan-sidang-proposal/search') }}"
+                        <form class="form-inline" action="{{ url('/tim-capstone/penjadwalan-sidang-proposal/search') }}"
                             method="get" autocomplete="off">
                             <div class="row">
                                 <div class="col-auto mt-1">
@@ -37,17 +37,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form action="{{ url('/admin/penjadwalan-sidang-proposal/filter-siklus') }}" method="get"
+                    <form action="{{ url('/tim-capstone/penjadwalan-sidang-proposal/filter-siklus') }}" method="get"
                         autocomplete="off">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
                                     <select class="form-select select-2" name="id_siklus" required>
-                                        <option value="" disabled selected>-- Filter Berdasarkan Siklus --
-                                        </option>
-                                        @foreach ($rs_siklus as $siklus)
-                                            <option value="{{ $siklus->id }}">{{ $siklus->nama_siklus }} </option>
+                                        <option value="" disabled selected> -- Filter Berdasarkan Siklus -- </option>
+                                        @foreach ($rs_siklus as $s)
+                                            <option value="{{ $s->id }}"
+                                                {{ isset($siklus) && $siklus->id == $s->id ? 'selected' : '' }}>
+                                                {{ $s->nama_siklus }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -97,20 +99,20 @@
                                         </td>
 
                                         @if (
-                                            $kelompok->status_sidang_proposal == 'Menunggu Dijadwalkan Sidang!' ||
-                                                $kelompok->status_sidang_proposal == 'Penguji Proposal Ditetapkan!')
+                                            $kelompok->status_sidang_proposal == 'Menunggu Dijadwalkan Sidang' ||
+                                                $kelompok->status_sidang_proposal == 'Penguji Proposal Ditetapkan')
                                             <td class="text-center">
-                                                <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/tim-capstone/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-primary btn-xs m-1 ">Jadwalkan Sidang</a>
                                             </td>
-                                        @elseif($kelompok->status_sidang_proposal == 'Dijadwalkan Sidang Proposal!')
+                                        @elseif($kelompok->status_sidang_proposal == 'Dijadwalkan Sidang Proposal')
                                             <td class="text-center">
-                                                <a href="{{ url('/admin/jadwal-sidang-proposal/detail') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/tim-capstone/jadwal-sidang-proposal/detail') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-secondary btn-xs m-1 ">Detail</a>
                                             </td>
                                         @else
                                             <td class="text-center">
-                                                <a href="{{ url('/admin/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
+                                                <a href="{{ url('/tim-capstone/penjadwalan-sidang-proposal/jadwalkan-sidang-proposal') }}/{{ $kelompok->id }}"
                                                     class="btn btn-outline-warning btn-xs m-1 ">Ubah</a>
                                             </td>
                                         @endif

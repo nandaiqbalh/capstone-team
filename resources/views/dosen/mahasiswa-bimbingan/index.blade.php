@@ -45,17 +45,20 @@
                         <div class="row">
                             <div class="col-md-8"> <!-- Menyesuaikan dengan lebar yang diinginkan -->
                                 <div class="mb-3">
-                                    <select class="form-select" name="status" id="status" required>
+                                    <select class="form-select select-2" name="status" required>
                                         <option value="" disabled selected>-- Filter Status --</option>
-                                        <option value="0">Belum Lulus Sidang TA</option>
-                                        <option value="1">Sudah Lulus Sidang TA</option>
+                                        <option value="0" {{ isset($status) && $status == '0' ? 'selected' : '' }}>
+                                            Belum Lulus</option>
+                                        <option value="1" {{ isset($status) && $status == '1' ? 'selected' : '' }}>
+                                            Sudah Lulus</option>
                                     </select>
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3"><!-- Menyesuaikan dengan lebar yang diinginkan -->
                                     <button type="submit" class="btn btn-primary float-end" name="action"
-                                        value="search">Terapkan Filter</button>
+                                        value="filter">Terapkan Filter</button>
                                 </div>
 
                             </div>
@@ -70,6 +73,7 @@
                             <tr class="text-center">
                                 <th width="5%">No</th>
                                 <th>Nama Mahasiswa</th>
+                                <th>Nomor Kelompok</th>
                                 <th>Status Mahasiswa</th>
                                 <th>Siklus Pendaftaran</th>
                                 <th>Posisi Pembimbing</th>
@@ -83,6 +87,7 @@
                                     <tr>
                                         <td class="text-center">{{ $index + $rs_bimbingan_saya->firstItem() }}.</td>
                                         <td>{{ $mahasiswa->user_name }}</td>
+                                        <td>{{ $mahasiswa->nomor_kelompok }}</td>
                                         <td style="color: {{ $mahasiswa->status_color }}">{{ $mahasiswa->status_individu }}
                                         </td>
                                         <td>{{ $mahasiswa->nama_siklus }}</td>

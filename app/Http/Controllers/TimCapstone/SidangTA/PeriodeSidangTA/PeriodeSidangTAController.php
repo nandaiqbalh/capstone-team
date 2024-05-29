@@ -69,18 +69,18 @@ class PeriodeSidangTAController extends BaseController
 
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/periode-sidang-ta');
+            return redirect('/tim-capstone/periode-sidang-ta');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/siklus/periode-sidang-ta/add')->withInput();
+            return redirect('/tim-capstone/siklus/periode-sidang-ta/add')->withInput();
         }
     }
 
     public function terimaMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Menunggu Penjadwalan Sidang TA!'];
+        $params = ['status' => 'Menunggu Penjadwalan Sidang TA'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = PeriodeSidangTAModel::getDataMahasiswa($id);
@@ -89,8 +89,8 @@ class PeriodeSidangTAController extends BaseController
             // Process
             if (PeriodeSidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA!",
-                    'status_individu' => "Menunggu Penjadwalan Sidang TA!"];
+                    'status_tugas_akhir' => "Menunggu Penjadwalan Sidang TA",
+                    'status_individu' => "Menunggu Penjadwalan Sidang TA"];
                 if (PeriodeSidangTAModel::updateKelompokMhs($id, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -115,7 +115,7 @@ class PeriodeSidangTAController extends BaseController
     public function tolakMahasiswa($id)
     {
         // Params
-        $params = ['status' => 'Berkas TA Tidak Disetujui!'];
+        $params = ['status' => 'Pendaftaran Sidang Tidak Disetujui'];
 
         // Get data pendaftaran
         $dataPendaftarSidangTA = PeriodeSidangTAModel::getDataMahasiswa($id);
@@ -124,8 +124,8 @@ class PeriodeSidangTAController extends BaseController
             // Process
             if (PeriodeSidangTAModel::updatePendaftaranSidangTA($id, $params)) {
                 $paramKelompok = [
-                    'status_tugas_akhir' => "Berkas TA Tidak Disetujui!",
-                    'status_individu' => "Berkas TA Tidak Disetujui!"];
+                    'status_tugas_akhir' => "Pendaftaran Sidang Tidak Disetujui",
+                    'status_individu' => "Pendaftaran Sidang Tidak Disetujui"];
                 if (PeriodeSidangTAModel::updateKelompokMhs($id, $paramKelompok)) {
                     // Flash message for success
                     session()->flash('success', 'Data berhasil disimpan.');
@@ -162,7 +162,7 @@ class PeriodeSidangTAController extends BaseController
         if (empty($periode_sidang_ta)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/periode-sidang-ta');
+            return redirect('/tim-capstone/periode-sidang-ta');
         }
 
         // data
@@ -202,11 +202,11 @@ class PeriodeSidangTAController extends BaseController
         if (PeriodeSidangTAModel::update($request->id, $params)) {
             // flash message
             session()->flash('success', 'Data berhasil disimpan.');
-            return redirect('/admin/periode-sidang-ta');
+            return redirect('/tim-capstone/periode-sidang-ta');
         } else {
             // flash message
             session()->flash('danger', 'Data gagal disimpan.');
-            return redirect('/admin/periode-sidang-ta' . $request->id);
+            return redirect('/tim-capstone/periode-sidang-ta' . $request->id);
         }
     }
 
@@ -227,16 +227,16 @@ class PeriodeSidangTAController extends BaseController
             if (PeriodeSidangTAModel::delete($id)) {
                 // flash message
                 session()->flash('success', 'Data berhasil dihapus.');
-                return redirect('/admin/periode-sidang-ta');
+                return redirect('/tim-capstone/periode-sidang-ta');
             } else {
                 // flash message
                 session()->flash('danger', 'Data gagal dihapus.');
-                return redirect('/admin/periode-sidang-ta');
+                return redirect('/tim-capstone/periode-sidang-ta');
             }
         } else {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/periode-sidang-ta');
+            return redirect('/tim-capstone/periode-sidang-ta');
         }
     }
 
@@ -248,8 +248,8 @@ class PeriodeSidangTAController extends BaseController
         // Check
         if (empty($sidang_ta)) {
             // Flash message
-            session()->flash('danger', 'Belum ada mahasiswa yang mendaftar!');
-            return redirect('/admin/periode-sidang-ta');
+            session()->flash('danger', 'Belum ada mahasiswa yang mendaftar');
+            return redirect('/tim-capstone/periode-sidang-ta');
         }
 
         $rs_pendaftar_sidangta = PeriodeSidangTAModel::getPendaftarSidangTA($id);
@@ -331,7 +331,7 @@ class PeriodeSidangTAController extends BaseController
         if (empty($mahasiswa)) {
             // flash message
             session()->flash('danger', 'Data tidak ditemukan.');
-            return redirect('/admin/mahasiswa');
+            return redirect('/tim-capstone/mahasiswa');
         }
 
         $mahasiswa -> status_kelompok_color = $this->getStatusColor($mahasiswa->status_kelompok);
@@ -367,23 +367,6 @@ class PeriodeSidangTAController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
-    {
-        // data request
-        $nama_periode = $request->nama_periode;
-
-        // new search or reset
-        if ($request->action == 'search') {
-            // get data with pagination
-            $rs_ch =PeriodeSidangTAMOdel::getDataSearch($nama);
-            // data
-            $data = ['rs_ch' => $rs_ch, 'nama_periode' => $nama_periode];
-            // view
-            return view('tim_capstone.settings.contoh-halaman.index', $data);
-        } else {
-            return redirect('/admin/settings/contoh-halaman');
-        }
-    }
 
     public function addDosenKelompok(Request $request)
     {
@@ -398,16 +381,16 @@ class PeriodeSidangTAController extends BaseController
             if ($kelompok_mhs->id_dosen_penguji_ta1 == null && $kelompok_mhs->id_dosen_penguji_ta2 != $request->id_dosen) {
                 $params = [
                     'id_dosen_penguji_ta1' => $request->id_dosen,
-                    'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji',
                 ];
 
                 if ($request->id_dosen == $kelompok -> id_dosen_pembimbing_1 || $request->id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing!');
+                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing');
                     return back();
                 }
 
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -418,15 +401,15 @@ class PeriodeSidangTAController extends BaseController
             if ($kelompok_mhs->id_dosen_penguji_ta2 == null && $kelompok_mhs->id_dosen_penguji_ta1 != $request->id_dosen) {
                 $params = [
                     'id_dosen_penguji_ta2' => $request->id_dosen,
-                    'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji!',
+                    'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji',
                 ];
 
                 if ($request->id_dosen == $kelompok -> id_dosen_pembimbing_1 || $request->id_dosen == $kelompok -> id_dosen_pembimbing_2) {
-                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing!');
+                    session()->flash('danger', 'Dosen penguji tidak boleh sama dengan dosen pembimbing');
                     return back();
                 }
             } else {
-                session()->flash('danger', 'Posisi/dosen sudah terisi!');
+                session()->flash('danger', 'Posisi/dosen sudah terisi');
                 return back();
             }
         }
@@ -439,7 +422,7 @@ class PeriodeSidangTAController extends BaseController
 
             if ($kelompok_mhs_updated->id_dosen_penguji_ta1 != null && $kelompok_mhs_updated->id_dosen_penguji_ta2 != null) {
                 $paramsStatusKelompok = [
-                    'status_tugas_akhir' => "Menunggu Persetujuan Penguji!",
+                    'status_tugas_akhir' => "Menunggu Persetujuan Penguji",
                 ];
 
                 PeriodeSidangTAModel::updateKelompokMhs($id_mahasiswa, $paramsStatusKelompok);
@@ -552,13 +535,13 @@ class PeriodeSidangTAController extends BaseController
 
         // Update status kelompok
         $paramsStatusKelompok = [
-            'status_sidang_proposal' => 'Menunggu Persetujuan Penguji!',
-            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Pembimbing!',
-            'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji!',
-            'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji!'
+            'status_sidang_proposal' => 'Menunggu Persetujuan Penguji',
+            'status_dosen_pembimbing_2' => 'Menunggu Persetujuan Pembimbing',
+            'status_dosen_penguji_ta1' => 'Menunggu Persetujuan Penguji',
+            'status_dosen_penguji_ta2' => 'Menunggu Persetujuan Penguji'
         ];
         PeriodeSidangTAModel::updateKelompok($request->id_kelompok, $paramsStatusKelompok);
 
-        return redirect('/admin/periode-sidang-ta');
+        return redirect('/tim-capstone/periode-sidang-ta');
     }
 }

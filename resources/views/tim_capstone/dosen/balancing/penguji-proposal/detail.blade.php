@@ -45,7 +45,7 @@
                                         @endif
 
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/kelompok-valid/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/kelompok-valid/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1"> Detail</a>
                                         </td>
 

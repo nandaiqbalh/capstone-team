@@ -10,14 +10,13 @@
         <!-- notification -->
         @include('template.notification')
 
-
         <!-- Bordered Table -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Dosen</h5>
                 <small class="text-muted float-end">
-                     <a href="{{ url('/admin/dosen') }}" class="btn btn-danger btn-sm float-right"><i
-                                class="fas fa-chevron-left fa-sm"></i> Kembali</a>
+                    <a href="{{ url('/tim-capstone/dosen') }}" class="btn btn-danger btn-sm float-right"><i
+                            class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
             <div class="card-body">

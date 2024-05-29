@@ -11,7 +11,7 @@ class TopikModel extends BaseModel
     public static function getData()
     {
         return DB::table('topik')
-        ->get();
+            ->get();
 
     }
 
@@ -19,7 +19,7 @@ class TopikModel extends BaseModel
     public static function getDataWithPagination()
     {
         return DB::table('topik')
-        ->paginate(20);
+            ->paginate(20);
 
     }
 

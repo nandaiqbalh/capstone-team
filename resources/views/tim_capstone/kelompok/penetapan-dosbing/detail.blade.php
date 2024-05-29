@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Penetapan Dosbing</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/penetapan-dosbing') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/penetapan-dosbing') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -75,7 +75,7 @@
                     </form>
                 </div>
                 <hr>
-                
+
                 <h6>List Mahasiswa</h6>
                 <div class="table-responsive text-nowrap">
                     <table class="table table-bordered">
@@ -145,9 +145,9 @@
                                                 {{ $dosbing->status_dosen }}</td>
                                         @endif
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
+                                            <a href="{{ url('/tim-capstone/balancing-dosbing-kelompok/detail') }}/{{ $dosbing->user_id }}"
                                                 class="btn btn-outline-secondary btn-xs m-1 "> Detail</a>
-                                            <a href="{{ url('/admin/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/validasi-kelompok/delete-dosen-process') }}/{{ $dosbing->user_id }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-danger btn-xs m-1 "
                                                 onclick="return confirm('Apakah anda ingin menghapus {{ $dosbing->user_name }} ?')">
                                                 Hapus</a>
@@ -177,7 +177,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/penetapan-dosbing/add-dosen-kelompok') }}" method="get"
+                    <form action="{{ url('/tim-capstone/penetapan-dosbing/add-dosen-kelompok') }}" method="get"
                         autocomplete="off" id="dosbingForm">
                         <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
                         <select class="form-select" name="status_dosen" required id="statusSelect">

@@ -18,11 +18,11 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tambah Broadcast</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/broadcast') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/broadcast') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/broadcast/add-process') }}" method="post" autocomplete="off"
+            <form action="{{ url('/tim-capstone/broadcast/add-process') }}" method="post" autocomplete="off"
                 enctype="multipart/form-data">
                 <div class="card-body">
                     {{ csrf_field() }}

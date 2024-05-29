@@ -38,7 +38,7 @@
                                         <td style="color: {{ $kelompok->status_dosbing2_color }}">
                                             {{ $kelompok->status_dosen_pembimbing_2 }}</td>
                                         <td class="text-center">
-                                            <a href="{{ url('/admin/penetapan-dosbing/detail') }}/{{ $kelompok->id }}"
+                                            <a href="{{ url('/tim-capstone/penetapan-dosbing/detail') }}/{{ $kelompok->id }}"
                                                 class="btn btn-outline-primary btn-xs m-1 "> Tetapkan Dosen Pembimbing</a>
                                         </td>
                                     </tr>

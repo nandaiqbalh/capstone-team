@@ -15,7 +15,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detail Data Kelompok</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/jadwal-sidang-proposal') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/jadwal-sidang-proposal') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left"></i> Kembali</a>
                 </small>
             </div>
@@ -267,7 +267,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/admin/penjadwalan-sidang-proposal/add-dosen-penguji') }}" method="get"
+                    <form action="{{ url('/tim-capstone/penjadwalan-sidang-proposal/add-dosen-penguji') }}" method="get"
                         autocomplete="off" id="dosbingForm">
                         <input type="hidden" name="id_kelompok" value="{{ $kelompok->id }}">
                         <select class="form-select" name="status_dosen" required id="statusSelect">

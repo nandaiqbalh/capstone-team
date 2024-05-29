@@ -3,33 +3,45 @@
 namespace App\Imports;
 
 use App\Models\User;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use App\Models\Superadmin\Settings\Accounts;
+
 class UsersImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+    protected $failedRows;
+
+    public function __construct(&$failedRows)
+    {
+        $this->failedRows = &$failedRows;
+    }
+
     public function model(array $row)
     {
         // Validate the nomor_induk field for uniqueness against existing database records
         $validator = Validator::make($row, [
-            'nomor_induk' => 'required|unique:app_user,nomor_induk', // Assuming 'nomor_induk' is the column name for nomor_induk in database table
+            'nomor_induk' => [
+                'required',
+                Rule::unique('app_user')->where(function ($query) use ($row) {
+                    return $query->where('nomor_induk', $row['nomor_induk']);
+                }),
+            ],
             'role_id' => 'required',
-            'user_name' => 'required|string|max:255',
-            'user_password' => 'required|string|min:6',
-            'angkatan' => 'required|min:4',
+            'user_name' => 'required',
+            'user_password' => 'required',
+            'angkatan' => 'required_if:role_id,03',
             'jenis_kelamin' => 'required',
         ]);
 
         // Check if validation fails
         if ($validator->fails()) {
+            // Collect usernames of failed rows
+            $this->failedRows[] = $row['user_name'];
+
             // Handle validation errors (you can log errors or skip the row)
             return null; // Returning null will skip saving this row
         }
@@ -47,12 +59,12 @@ class UsersImport implements ToModel, WithHeadingRow
         // Create a new User instance
         $user = new User([
             'user_id' => $user_id,
-            'role_id' => $row['role'],
-            'user_name' => $row['nama'],
-            'user_password' => Hash::make($row['password']),
+            'role_id' => $row['role_id'],
+            'user_name' => $row['user_name'],
+            'user_password' => Hash::make($row['user_password']),
             'nomor_induk' => $row['nomor_induk'],
-            'angkatan' => $row['angkatan'],
-            'jenis_kelamin' => $row['kelamin'],
+            'angkatan' => $row['angkatan'] ?? null,
+            'jenis_kelamin' => $row['jenis_kelamin'],
             'created_by' => Auth::user()->user_id,
             'created_date' => now()
         ]);

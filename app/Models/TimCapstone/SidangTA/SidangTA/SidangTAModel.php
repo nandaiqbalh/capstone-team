@@ -317,20 +317,24 @@ class SidangTAModel extends BaseModel
     }
 
 
-    public static function checkOverlapPembimbing1($waktuMulai, $waktuSelesai, $dosenPembimbing1Id)
+    public static function checkOverlapPembimbing1($waktuMulai, $waktuSelesai, $dosenPembimbing1Id, $currentIdKelompok)
     {
         return DB::table('jadwal_sidang_ta')
             ->where(function ($query) use ($dosenPembimbing1Id) {
                 $query->where('id_dosen_penguji_ta1', $dosenPembimbing1Id)
-                    ->orWhere('id_dosen_penguji_ta2', $dosenPembimbing1Id);
+                    ->orWhere('id_dosen_penguji_ta2', $dosenPembimbing1Id)
+                    ->orWhere('id_dosen_pembimbing_1', $dosenPembimbing1Id);
             })
-            ->where(function ($query) use ($waktuMulai, $waktuSelesai) {
-                $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
-                    ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
-                    ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
-                        $query->where('waktu', '<', $waktuMulai)
-                            ->where('waktu_selesai', '>', $waktuSelesai);
-                    });
+            ->where(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
+                $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {
+                    $query->whereBetween('waktu', [$waktuMulai, $waktuSelesai])
+                          ->orWhereBetween('waktu_selesai', [$waktuMulai, $waktuSelesai])
+                          ->orWhere(function ($query) use ($waktuMulai, $waktuSelesai) {
+                              $query->where('waktu', '<', $waktuMulai)
+                                    ->where('waktu_selesai', '>', $waktuSelesai);
+                          });
+                })
+                ->where('id_kelompok', '<>', $currentIdKelompok); // Exclude records with the same kelompok id
             })
             ->first();
     }
@@ -340,7 +344,8 @@ class SidangTAModel extends BaseModel
         return DB::table('jadwal_sidang_ta')
             ->where(function ($query) use ($dosenPenguji1Id) {
                 $query->where('id_dosen_penguji_ta1', $dosenPenguji1Id)
-                    ->orWhere('id_dosen_penguji_ta2', $dosenPenguji1Id);
+                    ->orWhere('id_dosen_penguji_ta2', $dosenPenguji1Id)
+                    ->orWhere('id_dosen_pembimbing_1', $dosenPenguji1Id);
             })
             ->where(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
                 $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {
@@ -362,7 +367,8 @@ class SidangTAModel extends BaseModel
     return DB::table('jadwal_sidang_ta')
         ->where(function ($query) use ($dosenPenguji2Id) {
             $query->where('id_dosen_penguji_ta1', $dosenPenguji2Id)
-                ->orWhere('id_dosen_penguji_ta2', $dosenPenguji2Id);
+                ->orWhere('id_dosen_penguji_ta2', $dosenPenguji2Id)
+                ->orWhere('id_dosen_pembimbing_1', $dosenPenguji2Id);
         })
         ->where(function ($query) use ($waktuMulai, $waktuSelesai, $currentIdKelompok) {
             $query->where(function ($query) use ($waktuMulai, $waktuSelesai) {

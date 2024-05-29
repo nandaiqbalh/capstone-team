@@ -15,11 +15,11 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Ubah Expo Project</h5>
                 <small class="text-muted float-end">
-                    <a href="{{ url('/admin/expo-project') }}" class="btn btn-danger btn-sm float-right"><i
+                    <a href="{{ url('/tim-capstone/expo-project') }}" class="btn btn-danger btn-sm float-right"><i
                             class="fas fa-chevron-left fa-sm"></i> Kembali</a>
                 </small>
             </div>
-            <form action="{{ url('/admin/expo-project/edit-process') }}" method="post" autocomplete="off">
+            <form action="{{ url('/tim-capstone/expo-project/edit-process') }}" method="post" autocomplete="off">
                 {{ csrf_field() }}
                 <input type="hidden" name="id" value="{{ $expo->id }}">
 
@@ -58,8 +58,9 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Waktu<span class="text-danger">*</span></label>
-                                <input value="{{ $expo->waktu }}" placeholder="Atur waktu" id="waktu" type="text"
-                                    class="form-control" name="waktu" required>
+                                <input style="background-color: transparent;" value="{{ $expo->waktu }}"
+                                    placeholder="Atur waktu" id="waktu" type="text" class="form-control"
+                                    name="waktu" required>
                             </div>
                         </div>
 
@@ -68,15 +69,17 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Pendaftaran Mulai<span class="text-danger">*</span></label>
-                                <input value="{{ $expo->tanggal_mulai }}" placeholder="Atur waktu" id="tanggal_mulai"
-                                    type="text" class="form-control" name="tanggal_mulai" required>
+                                <input style="background-color: transparent;" value="{{ $expo->tanggal_mulai }}"
+                                    placeholder="Atur waktu" id="tanggal_mulai" type="text" class="form-control"
+                                    name="tanggal_mulai" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label>Pendaftaran Selesai<span class="text-danger">*</span></label>
-                                <input value="{{ $expo->tanggal_selesai }}" placeholder="Atur waktu" id="tanggal_selesai"
-                                    type="text" class="form-control" name="tanggal_selesai" required>
+                                <input style="background-color: transparent;" value="{{ $expo->tanggal_selesai }}"
+                                    placeholder="Atur waktu" id="tanggal_selesai" type="text" class="form-control"
+                                    name="tanggal_selesai" required>
                             </div>
                         </div>
 
