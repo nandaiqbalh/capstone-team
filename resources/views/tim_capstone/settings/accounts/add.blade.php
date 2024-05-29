@@ -26,10 +26,9 @@
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="mb-6">
-
                             <input type="file" class="form-control" name="user_file" value="" required>
                         </div>
-
+                        <small class="form-text text-muted">File harus berupa file Excel (xls, xlsx).</small>
                     </div>
 
                 </div>
