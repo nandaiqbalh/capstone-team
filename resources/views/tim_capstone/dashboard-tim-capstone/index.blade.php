@@ -165,7 +165,7 @@
                                     <button type="submit" name="action" value="filter"
                                         style="color: #44B158; background-color: transparent; border: none; cursor: pointer;">
                                         <b>{{ $kelompok_sidang_proposal->total_kelompok_sidang ?? 0 }}</b>
-                                        Sudang Sidang </button>
+                                        Sudah Sidang </button>
                                 </form>
 
                             </div>
