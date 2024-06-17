@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\Api\V1\Mahasiswa\Dokumen;
 
-use Tests\TestCase;
-use App\Models\Api\Mahasiswa\Dokumen\ApiDokumenModel;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\UploadedFile;
-use Mockery;
 use Illuminate\Support\Facades\Storage;
+use Mockery;
+use Tests\TestCase;
 
 class ApiDokumenControllerTest extends TestCase
 {
@@ -57,7 +54,7 @@ class ApiDokumenControllerTest extends TestCase
         // Memastikan respons adalah kegagalan dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
             ->assertJson([
-                'status' => 'Token is Invalid'
+                'status' => 'Token is Invalid',
             ]);
     }
 
@@ -70,7 +67,7 @@ class ApiDokumenControllerTest extends TestCase
         // Memastikan respons adalah kegagalan dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
             ->assertJson([
-                'status' => 'Authorization Token not found'
+                'status' => 'Authorization Token not found',
             ]);
     }
 
@@ -79,7 +76,7 @@ class ApiDokumenControllerTest extends TestCase
     {
         // Melakukan login untuk mendapatkan token
         $loginPayload = [
-            'nomor_induk' => '21120120130053',
+            'nomor_induk' => '21120119130103',
             'password' => 'mahasiswa123',
         ];
 
@@ -96,7 +93,7 @@ class ApiDokumenControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'success' => false,
-                'status' => 'Anda belum mendaftar capstone!'
+                'status' => 'Anda belum mendaftar capstone!',
             ]);
     }
 
@@ -121,7 +118,7 @@ class ApiDokumenControllerTest extends TestCase
         // Memastikan respons adalah kegagalan dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'status'
+                'status',
             ]);
     }
 
@@ -148,35 +145,35 @@ class ApiDokumenControllerTest extends TestCase
     }
 
 /** @test */
-public function test_it_returns_success_response_when_uploading_makalah()
-{
-    // Mock ApiDokumenModel::getById() to return a valid user
-    $mock = Mockery::mock('ApiDokumenModel');
-    $mock->shouldReceive('getById')
-        ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
+    public function test_it_returns_success_response_when_uploading_makalah()
+    {
+        // Mock ApiDokumenModel::getById() to return a valid user
+        $mock = Mockery::mock('ApiDokumenModel');
+        $mock->shouldReceive('getById')
+            ->andReturn((object) ['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
-    // Mock ApiDokumenModel::fileMHS() to return a valid file
-    $mock->shouldReceive('fileMHS')
-        ->andReturn((object)[
-            'file_name_makalah' => null,
-            'file_path_makalah' => null,
-        ]);
+        // Mock ApiDokumenModel::fileMHS() to return a valid file
+        $mock->shouldReceive('fileMHS')
+            ->andReturn((object) [
+                'file_name_makalah' => null,
+                'file_path_makalah' => null,
+            ]);
 
-    // Mock the file to be uploaded
-    Storage::fake('public');
-    $file = UploadedFile::fake()->create('makalah.pdf', 1024); // Create a fake PDF file with 1 KB size
+        // Mock the file to be uploaded
+        Storage::fake('public');
+        $file = UploadedFile::fake()->create('makalah.pdf', 1024); // Create a fake PDF file with 1 KB size
 
-    // Mengirimkan permintaan API untuk mengunggah makalah
-    $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-        ->post('/api/v1/mahasiswa/dokumen/upload-makalah-process', ['makalah' => $file]);
+        // Mengirimkan permintaan API untuk mengunggah makalah
+        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
+            ->post('/api/v1/mahasiswa/dokumen/upload-makalah-process', ['makalah' => $file]);
 
-    // Memastikan respons adalah sukses dan memiliki struktur JSON yang diharapkan
-    $response->assertStatus(200)
-        ->assertJsonStructure([
-            'success',
-            'status',
-            'data',
-        ]);
+        // Memastikan respons adalah sukses dan memiliki struktur JSON yang diharapkan
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'status',
+                'data',
+            ]);
     }
 
     /** @test */
@@ -215,7 +212,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Memastikan respons adalah kegagalan dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
             ->assertJson([
-                'status' => 'Authorization Token not found'
+                'status' => 'Authorization Token not found',
             ]);
     }
 
@@ -225,7 +222,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
+            ->andReturn((object) ['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah makalah dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -260,19 +257,18 @@ public function test_it_returns_success_response_when_uploading_makalah()
         $response->assertStatus(404);
     }
 
-
-        /** @test */
+    /** @test */
     public function test_it_returns_success_response_when_uploading_laporan_ta()
     {
         // Mock ApiDokumenModel::getById() to return a valid user
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
+            ->andReturn((object) ['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "1"]);
 
         // Mock ApiDokumenModel::fileMHS() to return a valid file
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('fileMHS')
-            ->andReturn((object)[
+            ->andReturn((object) [
                 'file_name_laporan_ta' => null,
                 'file_path_laporan_ta' => null,
             ]);
@@ -330,7 +326,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Memastikan respons adalah kegagalan dan memiliki struktur JSON yang diharapkan
         $response->assertStatus(200)
             ->assertJson([
-                'status' => 'Authorization Token not found'
+                'status' => 'Authorization Token not found',
             ]);
     }
 
@@ -340,7 +336,7 @@ public function test_it_returns_success_response_when_uploading_makalah()
         // Mock ApiDokumenModel::getById() to return a user with inactive status
         $mock = Mockery::mock('ApiDokumenModel');
         $mock->shouldReceive('getById')
-            ->andReturn((object)['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
+            ->andReturn((object) ['user_id' => 1, 'user_name' => 'Test User', 'user_active' => "0"]);
 
         // Mengirimkan permintaan API untuk mengunggah laporan TA dengan pengguna tidak aktif
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])

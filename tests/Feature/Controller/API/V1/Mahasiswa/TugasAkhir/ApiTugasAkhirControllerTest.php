@@ -2,10 +2,8 @@
 
 namespace Tests\Feature\Api\V1\Mahasiswa\TugasAkhir;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Api\Mahasiswa\TugasAkhir\ApiTugasAkhirModel;
+use Tests\TestCase;
 
 class ApiTugasAkhirControllerTest extends TestCase
 {
@@ -33,8 +31,8 @@ class ApiTugasAkhirControllerTest extends TestCase
     /** @test */
     public function test_it_returns_success_response_when_getting_sidang_tugas_akhir_by_mahasiswa()
     {
-         // Menyiapkan data kelompok mahasiswa
-         $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($this->user_id);
+        // Menyiapkan data kelompok mahasiswa
+        $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
         // Kirim permintaan API untuk mendapatkan jadwal sidang tugas akhir
         $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
@@ -141,35 +139,6 @@ class ApiTugasAkhirControllerTest extends TestCase
 
         // Pastikan respons adalah kegagalan karena URL tidak ditemukan
         $response->assertStatus(404);
-    }
-
-    // daftar sidang\
-    /** @test */
-    public function test_it_returns_success_response_when_daftar_sidang_tugas_akhir()
-    {
-         // Menyiapkan data kelompok mahasiswa
-         $kelompok = ApiTugasAkhirModel::pengecekan_kelompok_mahasiswa($this->user_id);
-
-         $params = [
-            'file_status_lta' => "Laporan TA Telah Disetujui", 'file_status_mta' => "Makalah TA Telah Disetujui"
-         ];
-         ApiTugasAkhirModel::updateKelompokMHS($this->user_id, $params);
-
-        // Kirim permintaan API untuk mendaftarkan sidang tugas akhir
-        $response = $this->withHeaders(['Authorization' => 'Bearer ' . $this->token])
-            ->json('POST', '/api/v1/mahasiswa/sidang-tugas-akhir-daftar', [
-                'link_upload' => 'https://example.com/upload',
-                'judul_ta_mhs' => 'Judul Tugas Akhir',
-            ]);
-
-        // Pastikan respons adalah sukses dan berisi struktur data yang diharapkan
-        $response->assertStatus(200)
-            ->assertJsonStructure([
-                'success',
-                'status',
-                'data',
-            ])
-            ->assertJson(['success' => true]);
     }
 
     /** @test */

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models\Api\Mahasiswa\Expo;
 
-use Tests\TestCase;
 use App\Models\Api\Mahasiswa\Expo\ApiExpoModel;
+use Tests\TestCase;
 
 class ApiExpoModelTest extends TestCase
 {
@@ -84,32 +84,32 @@ class ApiExpoModelTest extends TestCase
         $this->assertTrue($result !== false);
     }
 
-     /** @test */
-     public function test_it_can_do_pengecekan_kelompok_mahasiswa()
-     {
-         // Panggil method pengecekan_kelompok_mahasiswa dari ApiExpoModel
-         $data = ApiExpoModel::pengecekan_kelompok_mahasiswa($this->user_id);
+    /** @test */
+    public function test_it_can_do_pengecekan_kelompok_mahasiswa()
+    {
+        // Panggil method pengecekan_kelompok_mahasiswa dari ApiExpoModel
+        $data = ApiExpoModel::pengecekan_kelompok_mahasiswa($this->user_id);
 
-         // Pastikan data tidak kosong
-         $this->assertNotEmpty($data);
+        // Pastikan data tidak kosong
+        $this->assertNotEmpty($data);
 
-         // Pastikan data adalah instance dari objek
-         $this->assertIsObject($data);
-     }
+        // Pastikan data adalah instance dari objek
+        $this->assertIsObject($data);
+    }
 
-     /** @test */
-     public function test_it_can_update_kelompok_by_id()
-     {
-         // Parameter untuk update data
-         $id_kelompok = 40; // Ganti dengan ID kelompok yang valid
-         $params = [
-             'judul_capstone' => 'Judul Example Testing', // Ganti dengan data yang valid
-         ];
+    /** @test */
+    public function test_it_can_update_kelompok_by_id()
+    {
+        // Parameter untuk update data
+        $id_kelompok = 40; // Ganti dengan ID kelompok yang valid
+        $params = [
+            'judul_capstone' => 'Judul Example Testing', // Ganti dengan data yang valid
+        ];
 
-         // Panggil method updateKelompokById dari ApiExpoModel
-         $result = ApiExpoModel::updateKelompokById($id_kelompok, $params);
+        // Panggil method updateKelompokById dari ApiExpoModel
+        $result = ApiExpoModel::updateKelompokById($id_kelompok, $params);
 
-         // Pastikan hasilnya adalah true atau tidak false
-         $this->assertTrue($result !== false);
-     }
+        // Pastikan hasilnya adalah true atau tidak false
+        $this->assertTrue($result !== false);
+    }
 }
